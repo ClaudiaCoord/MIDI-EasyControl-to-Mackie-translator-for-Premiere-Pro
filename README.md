@@ -23,7 +23,7 @@ Support any Control Surfaces as WORLDE, Pyle Audio PMIDIPD30, Fegoo manufacture 
 - Compatible with Win7/XP/Vista/10/11 and Mac OS X. Drive free and hot-plug supported.  
 - Edited by the WORLDE software Editor.  
 
-## bout dependencies
+## About dependencies
 
 The application uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site,  
 and install [loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html)  
