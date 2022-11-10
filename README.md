@@ -16,10 +16,10 @@ Support any Control Surfaces as WORLDE, Pyle Audio PMIDIPD30, Fegoo manufacture 
 
 - 9 assignable control knobs.  
 - 9 assignable control sliders.  
-- ~~11 assignable buttons.~~ 19 assignable buttons.
-- ~~6 transport buttons assignable to controllers.~~ All buttons is assignable to controllers.  
+- ~~11 assignable buttons.~~ __19__ assignable buttons.
+- ~~6 transport buttons assignable to controllers.~~ __All buttons__ is assignable to controllers.  
 - 4 banks for different settings.
-- +'JOG' rotary working.
+- +__JOG__ rotary working.
 - USB interface, adaptable to USB 2.0 - FULL SPEED. Power suppliedby USB.  
 - Compatible with Win7/XP/Vista/10/11 and Mac OS X. Drive free and hot-plug supported.  
 - Edited by the WORLDE software Editor.  
