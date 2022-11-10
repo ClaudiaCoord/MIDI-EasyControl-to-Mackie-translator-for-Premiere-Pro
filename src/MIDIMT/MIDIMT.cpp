@@ -17,7 +17,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #define MAX_LOADSTRING 100
 UINT const WMAPP_SHELLICON = WM_APP + 101;
-const wchar_t wikiUrl[] = L"https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki";
+const wchar_t wikiUrl[] = L"https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU";
 const wchar_t gitUrl[] = L"https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases";
 const wchar_t webUrl[] = L"https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/";
 
@@ -74,6 +74,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MIDIMT));
+
+	try {
+		if (dlgs->IsOnAutoRun())
+			dlgs->Start();
+	}
+	catch (...) {}
 
 	while (GetMessage(&msg, nullptr, 0, 0)) {
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
