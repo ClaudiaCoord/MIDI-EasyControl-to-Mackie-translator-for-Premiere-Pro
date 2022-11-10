@@ -1,7 +1,7 @@
 
 # EASYCONTROL Documentation
 
-The code uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site and install https://www.tobias-erichsen.de/software/loopmidi.html or https://www.tobias-erichsen.de/software/rtpmidi.html, they include the drivers necessary for operation. loopMIDI is a useful application in itself, allowing you to experiment with MIDI hardware.  
+The code uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site and install [tobias-erichsen.de/loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [tobias-erichsen.de/rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html), they include the drivers necessary for operation. loopMIDI is a useful application in itself, allowing you to experiment with MIDI hardware.  
 Support any Control Surfaces as Wordle, Pyle Audio PMIDIPD30, Fegoo manufacture and other.  
 See [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki) for more details.  
 
