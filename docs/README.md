@@ -18,8 +18,14 @@ See [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator
 - [Mackie HUI RX](Mackie/HUIREFRX.txt)
 
 
+<<<<<<< HEAD
 ###EASYCONTROL 9 - usb midi controller features
 
+=======
+###EASYCONTROL 9 - usb midi controller
+
+Features:
+>>>>>>> f054d6535a0a832bc6f77e2a45ff3f9e628283c4
 - 9 assignable control knobs.
 - 9 assignable control sliders.
 - 11 assignable buttons.
