@@ -7,7 +7,7 @@
 MIDI-MT x64/x86 (Windows >=10) EasyControl-MIDI Command Translator to MIDI-Mackie for using Control Surface in Adobe Premiere Pro.  
 Support any Control Surfaces as __WORDLE__, __Pyle Audio PMIDIPD30__, __Fegoo__ manufacture and other.  
 
-![MIDI EasyControl 9 MIDI-MT](docs/Images/web-logo.png)  
+![MIDI EasyControl 9 MIDI-MT](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Images/web-logo.png)  
 
 More details about MIDI-MT settings are described in the __wiki__ [EN](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN) | [RU](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)  
 Premiere Pro [MIDI settings](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN-Settings-Premiere-Pro)  
