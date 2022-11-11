@@ -7,6 +7,7 @@ See [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator
 
 - [License](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/LicenseRu.pdf)  
 - [Readme](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/ReadmeRu.pdf)  
+- Manual [EN](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Manual-En.pdf) | [RU](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Manual-Ru.pdf)  
 - [WORLDE USB EASYCONTROL USERS MANUAL](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/WORLDE_USB_EASYCONTROL_USERS_MANUAL.pdf)  
 - [MidiController config](Dist/MidiController.cnf)  
 - [EasyControl used setup settings](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Dist/MIDIMT.Ctrl_data)  

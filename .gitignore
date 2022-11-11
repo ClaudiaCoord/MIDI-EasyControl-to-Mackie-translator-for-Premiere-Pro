@@ -44,6 +44,8 @@ src/MIDIMT*-cache/*
 src/EasyControl9/lib/teVirtualMIDI/*
 docs/*.bak
 docs/*.rtf
+docs/Manual-Ru.md
+docs/Manual-En.md
 docs/Mackie/__no_public/*
 docs/Images/*.psp
 docs/Images/*.bmp
