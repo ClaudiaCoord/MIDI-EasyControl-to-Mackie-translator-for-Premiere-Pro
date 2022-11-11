@@ -1,8 +1,0 @@
-navbar:
-  title: "Team-9 Packge Information"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Functions"
-      href: about.html
-name: "Team-9 Packge Information"
