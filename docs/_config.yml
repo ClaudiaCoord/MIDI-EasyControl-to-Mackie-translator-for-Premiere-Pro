@@ -3,9 +3,11 @@ plugins:
 - jekyll-remote-theme
 page:
     name: WEBROOT.md
-    
+
+name: WEBROOT.md
 title: [EasyControl MIDI Control Surfaces && Adobe Premiere Pro]
 description: [EasyControl-MIDI command translator to MIDI-Mackie working with Control Surfaces in Adobe Premiere Pro]
+show_downloads: [true]
 
 github:
     zip_url: https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/MIDIMT_x64.msi
