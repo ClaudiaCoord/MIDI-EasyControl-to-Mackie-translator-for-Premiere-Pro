@@ -31,7 +31,7 @@ The application uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02,
 and install [loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html)  
 These distributions include the drivers necessary for operation.  
 The loopMIDI application itself is useful, allowing you to experiment with connecting and switching MIDI equipment.  
-More details about MIDI-MT settings are described in the [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki)  
+More details about MIDI-MT settings are described in the __wiki__ [EN](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN) | [RU](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)  
 
 ## License MIT
 
