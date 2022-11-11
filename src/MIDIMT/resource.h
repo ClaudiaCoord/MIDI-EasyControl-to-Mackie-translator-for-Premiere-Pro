@@ -20,12 +20,12 @@
 #define IDS_INFO3                       114
 #define IDR_TRAY_MENU                   115
 #define IDB_BITMAP1                     116
-#define IDI_ICON1                       134
-#define IDI_ICON2                       135
-#define IDI_ICON3                       136
-#define IDI_ICON4                       137
-#define IDI_ICON5                       138
-#define IDI_ICON6                       139
+#define IDB_ICON1                       141
+#define IDB_ICON2                       142
+#define IDB_ICON3                       143
+#define IDB_ICON4                       144
+#define IDB_ICON5                       145
+#define IDB_ICON6                       146
 #define IDC_LOG                         1009
 #define IDC_RADIO1                      1010
 #define IDC_RADIO2                      1011
@@ -78,7 +78,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        141
+#define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32778
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           110

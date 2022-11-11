@@ -8,7 +8,7 @@
 
 #include "MIDIMT.h"
 
-static const uint16_t iconsId[] = { IDI_ICON1, IDI_ICON2, IDI_ICON3, 0, IDI_ICON4, IDI_ICON5, 0, IDI_ICON6 };
+static const uint16_t iconsId[] = { IDB_ICON1, IDB_ICON2, IDB_ICON3, 0, IDB_ICON4, IDB_ICON5, 0, IDB_ICON6 };
 
 TrayMenu::TrayMenu(HINSTANCE hinst) {
 	try {
@@ -17,7 +17,7 @@ TrayMenu::TrayMenu(HINSTANCE hinst) {
 				icons.push_back(new ICONDATA());
 				continue;
 			}
-			HICON hi = (HICON)LoadImage(hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
+			HBITMAP hi = (HBITMAP)LoadImage(hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
 			if (hi != nullptr)
 				icons.push_back(new ICONDATA(hi));
 		}
@@ -45,7 +45,7 @@ void TrayMenu::SetItem(HMENU hm, uint32_t id, bool b, bool isstatus) {
 	}
 	ICONDATA* data = icons.at(id);
 	if ((data == nullptr) || (data->icon == nullptr)) return;
-	(void) SetMenuItemBitmaps(hm, id, MF_BITMAP | MF_BYPOSITION, data->info.hbmColor, data->info.hbmColor);
+	(void) SetMenuItemBitmaps(hm, id, MF_BITMAP | MF_BYPOSITION, data->icon, data->icon);
 }
 void TrayMenu::EndDialog() {
 	Dispose();

@@ -134,6 +134,23 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 	}
 	catch (...) {}
 }
+void DialogStart::AutoStart() {
+	try {
+		if (!IsOnAutoRun()) return;
+		if (!IsTMidiEnable()) {
+			if (!OpenTMidiController(static_cast<f_Fn_status>(DialogStart::InfoCb)))
+				return;
+			if (!IsTMidiConfig() || !IsTMidiAutoStart())
+				return;
+		}
+		if (!IsTMidiStarted())
+			TMidiStart();
+	}
+	catch (const std::exception& ex) {
+		DialogStart::InfoCb(std::string(ex.what()));
+	}
+	catch (...) {}
+}
 void DialogStart::Start() {
 	if (!IsTMidiStarted())
 		TMidiStart();

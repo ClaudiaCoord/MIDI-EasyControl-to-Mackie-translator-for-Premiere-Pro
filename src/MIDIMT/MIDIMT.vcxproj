@@ -548,12 +548,17 @@
     <ResourceCompile Include="MIDIMT.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="icon\ico0.bmp" />
     <Image Include="icon\ico0.ico" />
     <Image Include="icon\ico1.bmp" />
     <Image Include="icon\ico1.ico" />
+    <Image Include="icon\ico2.bmp" />
     <Image Include="icon\ico2.ico" />
+    <Image Include="icon\ico3.bmp" />
     <Image Include="icon\ico3.ico" />
+    <Image Include="icon\ico4.bmp" />
     <Image Include="icon\ico4.ico" />
+    <Image Include="icon\ico5.bmp" />
     <Image Include="icon\ico5.ico" />
     <Image Include="MIDIMTlogo.bmp" />
     <Image Include="MIDIMTsmall.ico" />

@@ -105,5 +105,20 @@
     <Image Include="icon\ico1.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="icon\ico0.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\ico2.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\ico3.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\ico4.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\ico5.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

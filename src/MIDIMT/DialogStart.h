@@ -48,6 +48,7 @@ public:
 	void ChangeOnProxy();
 
 	void ConfigSave();
+	void AutoStart();
 	void Start();
 	void Stop();
 	bool IsStart();

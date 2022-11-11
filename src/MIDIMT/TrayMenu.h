@@ -9,18 +9,14 @@
 #pragma once
 
 struct ICONDATA {
-	HICON icon;
-	ICONINFO info{};
+	HBITMAP icon;
 	ICONDATA() : icon(nullptr) {}
-	ICONDATA(HICON hi) : icon(hi) {
-		if (!GetIconInfo(hi, &info))
-			Reset();
-	}
+	ICONDATA(HBITMAP hi) : icon(hi) {}
 	void Reset() {
-		if (icon != nullptr)
-			::DestroyIcon(icon);
+		HBITMAP i = icon;
 		icon = nullptr;
-		info = ICONINFO();
+		if (i != nullptr)
+			::DeleteObject(i);
 	}
 };
 

@@ -75,11 +75,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MSG msg;
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MIDIMT));
 
-	try {
-		if (dlgs->IsOnAutoRun())
-			dlgs->Start();
-	}
-	catch (...) {}
+	dlgs->AutoStart();
 
 	while (GetMessage(&msg, nullptr, 0, 0)) {
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
