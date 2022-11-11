@@ -15,3 +15,17 @@ show_downloads: true
 github:
     zip_url: "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/MIDIMT_x64.msi"
     another_url: "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/MIDIMT_x86.msi"
+navbar:
+
+  title: "Team-9 Packge Information"
+
+  left:
+
+    - text: "Home"
+
+      href: index.html
+
+    - text: "Functions"
+
+      href: about.html
+
