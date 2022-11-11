@@ -1,9 +1,12 @@
 remote_theme: pages-themes/slate@v0.2.0
 plugins:
+- jekyll-feed
+
+- jekyll-sitemap
 - jekyll-remote-theme
 page:
     name: WEBROOT
-
+rss: rss
 name: WEBROOT
 title: [EasyControl MIDI Control Surfaces && Adobe Premiere Pro]
 description: [EasyControl-MIDI command translator to MIDI-Mackie working with Control Surfaces in Adobe Premiere Pro]
