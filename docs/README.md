@@ -41,9 +41,15 @@ The loopMIDI application itself is useful, allowing you to experiment with conne
 - Manual [EN](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Manual-En.pdf) | [RU](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Manual-Ru.pdf)  
 - [WORLDE USB EASYCONTROL USERS MANUAL](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/WORLDE_USB_EASYCONTROL_USERS_MANUAL.pdf)  
 - [MidiController config](Dist/MidiController.cnf)  
+
+# EASYCONTROL Utilites
+
 - [EasyControl used setup settings](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Dist/MIDIMT.Ctrl_data)  
 - [EasyControl configurator binary](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Dist/EasyControl.zip)  
 - [loopMIDI Setup (1.0.16.27)](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Dist/loopMIDISetup_1_0_16_27.zip)  
+
+# EASYCONTROL Mackie protocol
+
 - [Mackie Control MIDI Map](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Mackie/MackieControlMIDIMap.pdf)  
 - [Mackie HUI ZONES](Mackie/HUIZONES.txt)  
 - [Mackie HUI TX](Mackie/HUIREFTX.txt)  
