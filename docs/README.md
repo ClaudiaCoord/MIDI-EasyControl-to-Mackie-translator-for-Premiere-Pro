@@ -1,9 +1,34 @@
+# MIDI EasyControl 9 - Mackie translator for Adobe Premiere Pro
+
+MIDI-MT x64/x86 (Windows >=10) EasyControl-MIDI Command Translator to MIDI-Mackie for using Control Surface in Adobe Premiere Pro.  
+Support any Control Surfaces as __WORDLE__, __Pyle Audio PMIDIPD30__, __Fegoo__ manufacture and other.  
+
+![MIDI EasyControl 9 MIDI-MT](docs/Images/web-logo.png)  
+
+More details about MIDI-MT settings are described in the __wiki__ [EN](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN) | [RU](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)  
+Premiere Pro [MIDI settings](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN-Settings-Premiere-Pro)  
+
+### EASYCONTROL 9 - usb midi controller features
+
+- 9 assignable control knobs.  
+- 9 assignable control sliders.  
+- ~~11 assignable buttons.~~ __19__ assignable buttons.
+- ~~6 transport buttons assignable to controllers.~~ __All buttons__ is assignable to controllers.  
+- +__ALL__ buttons have double functions! Quick and Long press.
+- 4 banks for different settings.
+- +__JOG__ rotary working.
+- USB interface, adaptable to USB 2.0 - FULL SPEED. Power suppliedby USB.  
+- Compatible with Win7/XP/Vista/10/11 and Mac OS X. Drive free and hot-plug supported.  
+- Edited by the WORLDE software Editor.  
+
+## About dependencies
+
+The application uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site,  
+and install [loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html)  
+These distributions include the drivers necessary for operation.  
+The loopMIDI application itself is useful, allowing you to experiment with connecting and switching MIDI equipment.  
 
 # EASYCONTROL Documentation
-
-The code uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site and install [tobias-erichsen.de/loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [tobias-erichsen.de/rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html), they include the drivers necessary for operation. loopMIDI is a useful application in itself, allowing you to experiment with MIDI hardware.  
-Support any Control Surfaces as Wordle, Pyle Audio PMIDIPD30, Fegoo manufacture and other.  
-See [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki) for more details.  
 
 - [License](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/LicenseRu.pdf)  
 - [Readme](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/ReadmeRu.pdf)  
@@ -18,12 +43,8 @@ See [wiki](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator
 - [Mackie HUI TX](Mackie/HUIREFTX.txt)  
 - [Mackie HUI RX](Mackie/HUIREFRX.txt)  
 
-### EASYCONTROL 9 - usb midi controller features
-- 9 assignable control knobs.  
-- 9 assignable control sliders.  
-- 11 assignable buttons.  
-- 6 transport buttons assignable to controllers.  
-- 4 banks for different settings.  
-- USB interface, adaptable to USB 2.0 - FULL SPEED. Power suppliedby USB.  
-- Compatible with Win7/XP/Vista and Mac OS X. Drive free and hot-plug supported.  
-- Edited by the WORLDE software Editor.  
+
+## License MIT
+
+- NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!  
+- [License PDF](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/docs/LicenseRu.pdf)  
