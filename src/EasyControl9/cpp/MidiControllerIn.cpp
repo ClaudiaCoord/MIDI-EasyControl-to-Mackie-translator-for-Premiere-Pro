@@ -181,12 +181,12 @@ void MidiControllerIn::RunCallbackEvent(uint8_t scene, uint8_t id, uint8_t v, ui
 				default: break;
 				}
 			}
-			else if (unit->type == KNOB) {
+			else if ((unit->type == KNOB) || (unit->type == KNOBINVERT)) {
 #				if __DEBUG
 				std::cout << "*KNOB-IN " << (int)unit->value.value << ", " << (int)v << ", " << t << std::endl;
 #				endif
 				if (unit->value.value == v) break;
-				unit->value.lvalue = (v > unit->value.value);
+				unit->value.lvalue = (unit->type == KNOBINVERT) ? (v > unit->value.value) : (v < unit->value.value);
 			}
 			unit->value.value = v;
 			unit->value.time = t;

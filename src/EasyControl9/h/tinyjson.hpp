@@ -21,10 +21,7 @@ namespace tiny {
 
 #pragma warning( push )
 #pragma warning( disable : 4267 4018 )
-	/**
-	* 无类型，解析时确认
-	*
-	*/
+
 	class Value
 	{
 	public:
@@ -79,7 +76,7 @@ namespace tiny {
 		}
 
 	private:
-		std::string value_;
+		std::string value_{};
 		bool nokey_;
 	};
 
@@ -105,7 +102,7 @@ namespace tiny {
         template<>
         inline void Value::Set(bool v) {
                 std::ostringstream oss;
-                std::string val = v == true ? "true" : "false";
+                std::string val = v == true ? "\"true\"" : "\"false\"";
                 if (nokey_) {
                         oss << val;
                 }
@@ -115,10 +112,6 @@ namespace tiny {
                 value_ = oss.str();
         }
 
-	/**
-	* 此模板类处理json键对应的值是一个嵌套对象或者数组的情况
-	* 
-	*/
 	template<typename T>
 	class ValueArray : public T
 	{
@@ -137,11 +130,6 @@ namespace tiny {
 		std::vector<std::string> vo_;
 	};
 
-	/**
-	* 解析json字符串保存为键值的顺序存储，解析是按一层一层的进行
-	* 解析时把json看做是对象'{}' 与 数组'[]' 的组合
-	*
-	*/
 	class ParseJson
 	{
 	public:
@@ -205,7 +193,6 @@ namespace tiny {
 		return true;
 	}
 
-	// 解析为 key-value 调用一次解析一个层次
 	inline bool ParseJson::ParseObj(std::string json) {
 		auto LastValidChar = [&](int index)->char{
 			for (int i = index-1; i >= 0; --i){
@@ -350,10 +337,6 @@ namespace tiny {
 		return objstr;
 	}
 
-	/**
-	* 对外接口类
-	*
-	*/
 	class TinyJson;
 	typedef ValueArray<TinyJson> xarray;
 	typedef ValueArray<TinyJson> xobject;

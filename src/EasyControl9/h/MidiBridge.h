@@ -56,7 +56,6 @@ public:
     void SetCallbackInMonitor(f_Fn_monitor f);
     void RemoveCallbackStatus(f_Fn_status f);
     void SetAutoStart(bool b);
-    void SetProxy(bool b);
     void SetInMonitor(bool b);
     void SetOutManualPort(bool b);
 
@@ -71,6 +70,9 @@ public:
     bool IsInConnect();
     bool IsOutConnect();
     bool IsOutManualPort();
+
+    uint32_t GetProxyCount();
+    void SetProxyCount(uint32_t i);
 
     std::string InDeviceName();
     std::string OutDeviceName();

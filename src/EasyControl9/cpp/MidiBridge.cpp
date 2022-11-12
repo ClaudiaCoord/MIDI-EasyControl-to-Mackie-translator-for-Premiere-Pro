@@ -38,7 +38,7 @@ void MidiBridge::Initializer1(bool isstart) {
 
 	LogCallback(LogString() << MidiBridge::LogTag << LogString::LogAutoStart);
 
-	isProxy = config_ptr.get()->proxy;
+	isProxy = config_ptr.get()->proxy > 0U;
 
 	if ((ctrl_in_ptr != nullptr) && (ctrl_in_ptr))
 		ctrl_in_ptr.get()->Start();
@@ -220,9 +220,6 @@ void MidiBridge::SetCallbackProxy(f_Fn_proxy f) {
 	if ((ctrl_in_ptr != nullptr) && (ctrl_in_ptr))
 		ctrl_in_ptr.get()->SetCallbackProxy(f);
 }
-void MidiBridge::SetProxy(bool b) {
-	isProxy = b;
-}
 void MidiBridge::SetAutoStart(bool b) {
 	isAutoStart = b;
 }
@@ -310,6 +307,16 @@ std::vector<std::string> MidiBridge::InDeviceList() {
 }
 std::shared_ptr<MidiDevice> MidiBridge::GetConfig() {
 	return config_ptr;
+}
+
+uint32_t MidiBridge::GetProxyCount() {
+	if ((ctrl_proxy_ptr != nullptr) && (ctrl_proxy_ptr))
+		return ctrl_proxy_ptr.get()->GetProxyCount();
+	return 0;
+}
+void MidiBridge::SetProxyCount(uint32_t i) {
+	if ((ctrl_proxy_ptr != nullptr) && (ctrl_proxy_ptr))
+		ctrl_proxy_ptr.get()->SetProxyCount(i);
 }
 
 bool MidiBridge::SendToPort(MidiUnit* unit) {

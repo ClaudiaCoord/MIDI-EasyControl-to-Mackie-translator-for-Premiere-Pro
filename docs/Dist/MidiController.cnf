@@ -3,7 +3,7 @@
 	"config":"MidiController",
 	"autostart":"true",
 	"manualport":"false",
-	"proxy":"true",
+	"proxy":0,
 	"btninterval":50,
 	"btnlonginterval":500,
 	"units":[

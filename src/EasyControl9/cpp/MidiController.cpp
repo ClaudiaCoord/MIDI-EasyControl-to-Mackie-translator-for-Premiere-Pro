@@ -81,9 +81,6 @@ FLAG_EXPORT bool FLAG_API TMidiSetButtonOnLongInterval(uint32_t msec) {
 FLAG_EXPORT void FLAG_API TMidiSetAutoStart(bool b) {
     ISPTRGOOD(ctrl_bridge_ptr, ctrl_bridge_ptr->SetAutoStart(b));
 }
-FLAG_EXPORT void FLAG_API TMidiSetProxy(bool b) {
-    ISPTRGOOD(ctrl_bridge_ptr, ctrl_bridge_ptr->SetProxy(b));
-}
 FLAG_EXPORT void FLAG_API TMidiSetOutManualPort(bool b) {
     ISPTRGOOD(ctrl_bridge_ptr, ctrl_bridge_ptr->SetOutManualPort(b));
 }
@@ -208,7 +205,13 @@ FLAG_EXPORT std::string FLAG_API TMidiOutDeviceName() {
     ISPTRGOOD(ctrl_bridge_ptr, return ctrl_bridge_ptr.get()->OutDeviceName());
     return "";
 }
-
+FLAG_EXPORT void  FLAG_API TMidiSetProxyCount(uint32_t i) {
+    ISPTRGOOD(ctrl_bridge_ptr, ctrl_bridge_ptr.get()->SetProxyCount(i));
+}
+FLAG_EXPORT uint32_t  FLAG_API TMidiGetProxyCount() {
+    ISPTRGOOD(ctrl_bridge_ptr, return ctrl_bridge_ptr.get()->GetProxyCount());
+    return 0U;
+}
 
 #ifdef _USRDLL
 extern "C"

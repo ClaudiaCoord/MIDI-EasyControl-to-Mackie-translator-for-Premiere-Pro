@@ -46,7 +46,6 @@ FLAG_EXPORT bool FLAG_API TMidiSetButtonOnLongInterval(uint32_t msec);
 FLAG_EXPORT bool FLAG_API TMidiSetCallbackStatus(f_Fn_status f);
 FLAG_EXPORT bool FLAG_API TMidiSetCallbackProxy(f_Fn_proxy f);
 FLAG_EXPORT void FLAG_API TMidiRemoveCallbackStatus(f_Fn_status f);
-FLAG_EXPORT void FLAG_API TMidiSetProxy(bool b);
 FLAG_EXPORT void FLAG_API TMidiSetAutoStart(bool b);
 FLAG_EXPORT void FLAG_API TMidiSetInMonitor(bool b);
 FLAG_EXPORT void FLAG_API TMidiSetCallbackInMonitor(f_Fn_monitor f);
@@ -57,6 +56,9 @@ FLAG_EXPORT bool FLAG_API IsTMidiEnable();
 FLAG_EXPORT bool FLAG_API IsTMidiConfig();
 FLAG_EXPORT bool FLAG_API IsTMidiProxy();
 FLAG_EXPORT bool FLAG_API IsTMidiAutoStart();
+
+FLAG_EXPORT void  FLAG_API TMidiSetProxyCount(uint32_t i);
+FLAG_EXPORT uint32_t  FLAG_API TMidiGetProxyCount();
 
 FLAG_EXPORT bool FLAG_API IsTMidiInEnable();
 FLAG_EXPORT bool FLAG_API IsTMidiOutEnable();

@@ -26,9 +26,14 @@ MidiControllerProxy::~MidiControllerProxy() {
 	catch (...) {}
 }
 void MidiControllerProxy::Dispose() {
-	if ((vmdevice_ptr != nullptr) && (vmdevice_ptr)) {
-		vmdevice_ptr.get()->Stop();
-		vmdevice_ptr.reset();
+	if (vmdevices_ptr.size() > 0) {
+		for (auto& ptr : vmdevices_ptr) {
+			if ((ptr != nullptr) && (ptr)) {
+				ptr.get()->Stop();
+				ptr.reset();
+			}
+		}
+		vmdevices_ptr.clear();
 	}
 	isEnable = false;
 }
@@ -37,40 +42,63 @@ void MidiControllerProxy::Stop() {
 }
 bool MidiControllerProxy::Start() {
 
-	if (!config_ptr || config_ptr.get()->name.empty()) return false;
-	std::string deviceName = Utils::BuildOutDeviceName(config_ptr.get()->name, "-Proxy-Out");
+	if (!config_ptr || config_ptr.get()->name.empty() || config_ptr.get()->proxy == 0U) return false;
+	Dispose();
 
-	if (vmdevice_ptr == nullptr)
-		vmdevice_ptr = std::make_unique<VirtualMidi>(__status, deviceName);
-	else if (!vmdevice_ptr)
-		vmdevice_ptr.reset(new VirtualMidi(__status, deviceName));
-	else {
-		isEnable = vmdevice_ptr.get()->IsEnable();
-		return isEnable;
+	uint32_t count = config_ptr.get()->proxy;
+	for (uint32_t i = 0U; i < count; i++) {
+		try {
+			std::string devn = Utils::BuildOutDeviceName(config_ptr.get()->name, "-Proxy-Out-" + std::to_string(i + 1));
+			std::shared_ptr<VirtualMidi> vmidi = std::make_unique<VirtualMidi>(__status, devn);
+			if (!vmidi.get()->Start()) {
+				LogCallback(LogString() << LogTag << "[" << devn.c_str() << "] " << LogString::LogNotConnect << "!");
+				continue;
+			}
+			isEnable = vmidi.get()->IsEnable();
+			if (isEnable)
+				vmdevices_ptr.push_back(vmidi);
+		}
+		catch (const std::exception& ex) {
+			LogCallback(LogString() << LogTag << ex.what());
+		}
+		catch (...) {}
 	}
-
-	if (!vmdevice_ptr.get()->Start()) {
-		LogCallback(LogString() << LogTag << "[" << deviceName.c_str() << "] " << LogString::LogNotConnect << "!");
-		return false;
-	}
-	isEnable = vmdevice_ptr.get()->IsEnable();
+	isEnable = (vmdevices_ptr.size() > 0U);
 	return isEnable;
 }
 
+void MidiControllerProxy::SetProxyCount(uint32_t i) {
+	config_ptr.get()->proxy = i;
+}
+uint32_t MidiControllerProxy::GetProxyCount() {
+	if (vmdevices_ptr.size() > 0)
+		return static_cast<uint32_t>(vmdevices_ptr.size());
+	return config_ptr.get()->proxy;
+}
 
 bool MidiControllerProxy::IsEnable() {
 	return isEnable;
 }
-std::string MidiControllerProxy::DeviceName() {
-	if ((vmdevice_ptr != nullptr) && (vmdevice_ptr))
-		return vmdevice_ptr.get()->DeviceName();
+std::string MidiControllerProxy::DeviceName(uint32_t i) {
+	do {
+		if (vmdevices_ptr.size() == 0)
+			break;
+		auto vmidi = vmdevices_ptr.at(i);
+		if (vmidi)
+			return vmidi.get()->DeviceName();
+	} while (0);
 	return "";
 }
 void MidiControllerProxy::SendToPort(DWORD d) {
 	if (MidiControllerProxy::ctrl == nullptr) return;
-	if ((ctrl->vmdevice_ptr != nullptr) && (ctrl->vmdevice_ptr)) {
+	if (ctrl->vmdevices_ptr.size() > 0) {
 		Mackie::MIDIDATA m{}; m.send = d;
-		(void) ctrl->vmdevice_ptr.get()->SendToPort(m);
+
+		for (auto& ptr : ctrl->vmdevices_ptr) {
+			if (ptr) {
+				(void)ptr.get()->SendToPort(m);
+			}
+		}
 	}
 }
 

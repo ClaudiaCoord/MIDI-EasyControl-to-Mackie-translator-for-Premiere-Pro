@@ -14,6 +14,7 @@ enum MidiUnitType : uint8_t {
     KNOB,
     BTN,
     BTNTOGGLE,
+    KNOBINVERT,
     UNITNONE = 255
 };
 
@@ -55,9 +56,9 @@ public:
 struct FLAG_EXPORT MidiDevice {
     std::string name;
     std::string config;
-    bool proxy;
     bool autostart;
     bool manualport;
+    uint32_t proxy;
     uint32_t btninterval;
     uint32_t btnlonginterval;
     MidiUnit *units;

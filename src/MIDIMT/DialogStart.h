@@ -17,7 +17,8 @@ class DialogStart
 	static void InfoCb(const std::string s);
 
 	void Dispose();
-	void BuildComboBox(const std::string s);
+	void BuildDeviceComboBox(const std::string s);
+	void BuildProxyComboBox(const uint32_t n);
 	void SetRegistryBool(bool b, const wchar_t* label);
 	bool GetRegistryBool(const wchar_t* label);
 	void SetRegistryRun();

@@ -53,12 +53,27 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 
 		bool isStarted = false,
 			 isConfig = false,
-			 isProxy = false,
 			 isLog = IsOnLog();
+
+		uint32_t proxyCount = 0U;
+		std::shared_ptr<MidiDevice> devc = nullptr;
 
 		if (isLog && !__log.is_open())
 			__log = std::ofstream("MIDIMT.log");
-		
+
+		isConfig = IsTMidiConfig();
+		if (isConfig) {
+			try {
+				devc = TMidiGetConfig();
+				proxyCount = devc.get()->proxy;
+			}
+			catch (const std::exception& ex) {
+				DialogStart::InfoCb(ex.what());
+				isConfig = false;
+			}
+			catch (...) { isConfig = false; }
+		}
+
 		CheckDlgButton(__hwndDlg, IDC_WRITELOG_CHECK, CHECKBTN(isLog));
 		CheckDlgButton(__hwndDlg, IDC_AUTOBOOT_CHECK, CHECKBTN(IsOnAutoRun()));
 		
@@ -72,7 +87,6 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 			return;
 		}
 
-		isConfig = IsTMidiConfig();
 		if (isConfig) {
 			const std::string s = TMidiInDeviceName();
 			if (!s.empty()) {
@@ -81,8 +95,17 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 				SetDlgItemText(__hwndDlg, IDC_MIDI_MACKIE_OUT, wss.str().c_str());
 				wss.str(L"");
 				wss << std::wstring(s.begin(), s.end()) << DialogStart::outProxy;
+				if (proxyCount > 0) {
+					wss << L"-(";
+					for (uint32_t i = 0, z = proxyCount - 1; i < proxyCount; i++) {
+						wss << static_cast<uint32_t>(i + 1U);
+						if (i < z)
+							wss << L",";
+					}
+					wss << L")";
+				}
 				SetDlgItemText(__hwndDlg, IDC_MIDI_PROXY_OUT, wss.str().c_str());
-				BuildComboBox(s);
+				BuildDeviceComboBox(s);
 			}
 		}
 
@@ -90,7 +113,6 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 		if (isStarted) {
 			EnableWindow(GetDlgItem(__hwndDlg, IDC_GO_START), false);
 		}
-		isProxy = IsTMidiProxy();
 
 		CheckRadioButton(__hwndDlg, IDC_RADIO1, IDC_RADIO2, CHECKRADIO(isStarted, IDC_RADIO1, IDC_RADIO2));
 		CheckDlgButton(__hwndDlg, IDC_CHECK1, CHECKBTN(IsTMidiEnable()));
@@ -105,18 +127,16 @@ void DialogStart::InitDialog(HWND hwndDlg) {
 		CheckDlgButton(__hwndDlg, IDC_CHECK8, CHECKBTN(IsTMidiOutConnect()));
 		CheckDlgButton(__hwndDlg, IDC_CHECK9, CHECKBTN(IsTMidiOutManualPort()));
 
-		CheckDlgButton(__hwndDlg, IDC_CHECK10, CHECKBTN(isProxy));
-		CheckDlgButton(__hwndDlg, IDC_CHECK11, CHECKBTN(isProxy));
-		CheckDlgButton(__hwndDlg, IDC_CHECK12, CHECKBTN(isProxy));
+		CheckDlgButton(__hwndDlg, IDC_CHECK12, CHECKBTN(IsTMidiProxy()));
+		BuildProxyComboBox(proxyCount);
 
 		{
 			uint32_t ival = 50,
 					 lval = 500;
 			if (isConfig) {
 				try {
-					std::shared_ptr<MidiDevice> dev = TMidiGetConfig();
-					ival = dev.get()->btninterval;
-					lval = dev.get()->btnlonginterval;
+					ival = devc.get()->btninterval;
+					lval = devc.get()->btnlonginterval;
 				}
 				catch (const std::exception& ex) {
 					DialogStart::InfoCb(ex.what());
@@ -152,8 +172,26 @@ void DialogStart::AutoStart() {
 	catch (...) {}
 }
 void DialogStart::Start() {
-	if (!IsTMidiStarted())
-		TMidiStart();
+	if (!IsTMidiStarted()) {
+		if (TMidiStart()) {
+			if (__hwndDlg == nullptr) return;
+			try {
+				HWND hwcb;
+				if ((hwcb = GetDlgItem(__hwndDlg, IDC_PROXY_COMBO)) != nullptr)
+					ComboBox_Enable(hwcb, false);
+				if ((hwcb = GetDlgItem(__hwndDlg, IDC_CHECK6)) != nullptr)
+					Button_Enable(hwcb, false);
+				if ((hwcb = GetDlgItem(__hwndDlg, IDC_CHECK9)) != nullptr)
+					Button_Enable(hwcb, false);
+			}
+			catch (const std::runtime_error& ex) {
+				DialogStart::InfoCb(std::string(ex.what()));
+			}
+			catch (const std::exception& ex) {
+				DialogStart::InfoCb(std::string(ex.what()));
+			}
+		}
+	}
 }
 void DialogStart::Stop() {
 	Dispose();
@@ -181,7 +219,6 @@ void DialogStart::ConfigSave() {
 		if (dev.get()->config.empty()) {
 			dev.get()->config = CONFIG_NAME;
 		}
-		dev.get()->proxy = (IsDlgButtonChecked(__hwndDlg, IDC_CHECK12) == BST_CHECKED);
 		dev.get()->autostart = (IsDlgButtonChecked(__hwndDlg, IDC_CHECK3) == BST_CHECKED);
 		dev.get()->manualport = (IsDlgButtonChecked(__hwndDlg, IDC_CHECK9) == BST_CHECKED);
 
@@ -191,6 +228,17 @@ void DialogStart::ConfigSave() {
 			ComboBox_GetText(hwcb, devname, MAX_PATH);
 			const std::wstring w(devname);
 			dev.get()->name = std::string(w.begin(), w.end());
+		}
+
+		hwcb = GetDlgItem(__hwndDlg, IDC_PROXY_COMBO);
+		if (hwcb != nullptr) {
+			if (IsDlgButtonChecked(__hwndDlg, IDC_CHECK12) != BST_CHECKED)
+				dev.get()->proxy = 0U;
+			else {
+				WCHAR devname[MAX_PATH];
+				ComboBox_GetText(hwcb, devname, MAX_PATH);
+				dev.get()->proxy = std::stoul(devname);
+			}
 		}
 
 		DWORD pos = GetSliderValue(hwnd, IDC_SLIDER_INT);
@@ -324,10 +372,18 @@ void DialogStart::ChangeOnProxy() {
 	try {
 		HWND hwnd = __hwndDlg;
 		if (!IsTMidiConfig() || (hwnd == nullptr)) return;
-
 		std::shared_ptr<MidiDevice> dev = TMidiGetConfig();
-		dev.get()->proxy = (IsDlgButtonChecked(__hwndDlg, IDC_CHECK12) == BST_CHECKED);
-		TMidiSetProxy(dev.get()->proxy);
+
+		bool b = false;
+		HWND hwcb = GetDlgItem(__hwndDlg, IDC_PROXY_COMBO);
+		if (hwcb != nullptr) {
+			uint32_t n = ::SendMessage(hwcb, CB_GETCURSEL, 0, 0);
+			b = n > 0U;
+			TMidiSetProxyCount(n);
+		} else {
+			TMidiSetProxyCount(0U);
+		}
+		CheckDlgButton(__hwndDlg, IDC_CHECK12, CHECKBTN(b));
 	}
 	catch (const std::exception& ex) {
 		DialogStart::InfoCb(std::string(ex.what()));
@@ -363,7 +419,7 @@ void DialogStart::ChangeOnAutoStart() {
 	catch (...) {}
 }
 
-void DialogStart::BuildComboBox(const std::string s) {
+void DialogStart::BuildDeviceComboBox(const std::string s) {
 	try {
 		HWND hwcb = GetDlgItem(__hwndDlg, IDC_DEVICE_COMBO);
 		if (hwcb == nullptr) return;
@@ -381,6 +437,22 @@ void DialogStart::BuildComboBox(const std::string s) {
 		DialogStart::InfoCb(std::string(ex.what()));
 	}
 	catch (const std::exception & ex) {
+		DialogStart::InfoCb(std::string(ex.what()));
+	}
+}
+void DialogStart::BuildProxyComboBox(const uint32_t n) {
+	try {
+		HWND hwcb = GetDlgItem(__hwndDlg, IDC_PROXY_COMBO);
+		if (hwcb == nullptr) return;
+
+		for (uint32_t i = 0, z = (n > 5) ? (n + 1) : 5; i < z; i++)
+			ComboBox_AddString(hwcb, std::to_wstring(i).c_str());
+		ComboBox_SelectString(hwcb, 0, std::to_wstring(n).c_str());
+	}
+	catch (const std::runtime_error& ex) {
+		DialogStart::InfoCb(std::string(ex.what()));
+	}
+	catch (const std::exception& ex) {
 		DialogStart::InfoCb(std::string(ex.what()));
 	}
 }

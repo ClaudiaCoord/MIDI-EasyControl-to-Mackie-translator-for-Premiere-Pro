@@ -15,11 +15,10 @@ private:
     const char * LogTag = "MIDI proxy port ";
     bool isEnable = false;
 
-    LPVM_MIDI_PORT __midi_port = nullptr;
+    std::vector<std::shared_ptr<VirtualMidi>> vmdevices_ptr{};
+    std::shared_ptr<MidiDevice> config_ptr = nullptr;
     StatusDelegate& __status;
 
-    std::shared_ptr<MidiDevice> config_ptr = nullptr;
-    std::shared_ptr <VirtualMidi> vmdevice_ptr = nullptr;
     static MidiControllerProxy *ctrl;
 
     void LogCallback(std::string s);
@@ -34,7 +33,9 @@ public:
     void Stop();
     void Dispose();
     bool IsEnable();
-    std::string DeviceName();
+    void SetProxyCount(uint32_t i);
+    uint32_t GetProxyCount();
+    std::string DeviceName(uint32_t i);
     static void SendToPort(DWORD d);
 
 };

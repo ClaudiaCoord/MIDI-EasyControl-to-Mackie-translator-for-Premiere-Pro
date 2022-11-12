@@ -58,7 +58,7 @@ bool JsonConfig::Read(MidiDevice& md, string filepath)
 		if (md.config.empty())
 			md.config = Utils::ConvertCofigName(filepath);
 
-		md.proxy = rjson.Get<bool>(FIELD_PROXY, false);
+		md.proxy = rjson.Get<uint32_t>(FIELD_PROXY, 0U);
 		md.autostart = rjson.Get<bool>(FIELD_ASTART, false);
 		md.manualport = rjson.Get<bool>(FIELD_MPORT, false);
 		md.btninterval = rjson.Get<uint32_t>(FIELD_BTNINTERVAL, 100U);
@@ -102,11 +102,11 @@ bool JsonConfig::Write(MidiDevice* md, string filepath)
 		TinyJson ajson;
 		wjson[FIELD_NAME].Set(md->name.c_str());
 		wjson[FIELD_CONF].Set(md->config.c_str());
-		wjson[FIELD_MPORT].Set(md->manualport);
-		wjson[FIELD_PROXY].Set(md->proxy);
-		wjson[FIELD_ASTART].Set(md->autostart);
-		wjson[FIELD_BTNINTERVAL].Set(md->btninterval);
-		wjson[FIELD_BTNLONGINTERVAL].Set(md->btnlonginterval);
+		wjson[FIELD_MPORT].Set<bool>(md->manualport);
+		wjson[FIELD_ASTART].Set<bool>(md->autostart);
+		wjson[FIELD_PROXY].Set<uint32_t>(md->proxy);
+		wjson[FIELD_BTNINTERVAL].Set<uint32_t>(md->btninterval);
+		wjson[FIELD_BTNLONGINTERVAL].Set<uint32_t>(md->btnlonginterval);
 
 		for (size_t i = 0; i < md->Count(); i++) {
 			MidiUnit unit = md->units[i];

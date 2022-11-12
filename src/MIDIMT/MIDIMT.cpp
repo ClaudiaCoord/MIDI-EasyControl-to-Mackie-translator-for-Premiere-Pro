@@ -248,6 +248,11 @@ INT_PTR CALLBACK StartDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
+		case IDC_PROXY_COMBO: {
+			if (HIWORD(wParam) == CBN_SELENDOK) /* CBN_SELCHANGE */
+				dlgs->ChangeOnProxy();
+			break;
+		}
 		case IDC_WRITELOG_CHECK: {
 			dlgs->ChangeOnLog();
 			return true;
@@ -278,10 +283,6 @@ INT_PTR CALLBACK StartDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 		}
 		case IDC_CHECK9: {
 			dlgs->ChangeOnManualPort();
-			break;
-		}
-		case IDC_CHECK12: {
-			dlgs->ChangeOnProxy();
 			break;
 		}
 		case IDCANCEL: {
