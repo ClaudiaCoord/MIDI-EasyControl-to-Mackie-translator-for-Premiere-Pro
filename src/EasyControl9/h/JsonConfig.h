@@ -24,5 +24,6 @@ public:
 	bool Read(MidiDevice& md, std::string filepath);
 	bool Write(MidiDevice *md, std::string filepath);
 	void Print(MidiDevice *md);
+	std::wstring Dump(MidiDevice* md);
 };
 

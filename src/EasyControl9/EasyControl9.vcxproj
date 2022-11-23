@@ -188,6 +188,7 @@
     <ClInclude Include="h\JsonConfig.h" />
     <ClInclude Include="h\LogString.h" />
     <ClInclude Include="h\Mackie.h" />
+    <ClInclude Include="h\MackieHelper.h" />
     <ClInclude Include="h\MidiBridge.h" />
     <ClInclude Include="h\MidiController.h" />
     <ClInclude Include="h\MidiControllerIn.h" />

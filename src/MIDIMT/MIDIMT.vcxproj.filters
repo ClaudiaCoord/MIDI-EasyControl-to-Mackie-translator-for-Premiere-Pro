@@ -48,6 +48,15 @@
     <ClInclude Include="TrayMenu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="DialogSetup.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="IconData.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ListEdit.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MIDIMT.cpp">
@@ -68,6 +77,15 @@
     <ClCompile Include="TrayMenu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="DialogSetup.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="IconData.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ListEdit.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MIDIMT.rc">
@@ -82,24 +100,6 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="MIDIMTlogo.bmp">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico0.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico1.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico2.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico3.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico4.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\ico5.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="icon\ico1.bmp">
@@ -118,6 +118,42 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="icon\ico5.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\bitmap2.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\ico6.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon7.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon8.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon9.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon1.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icons1.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icons2.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icons3.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon01.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon02.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icon\icon03.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

@@ -153,3 +153,26 @@ void JsonConfig::Print(MidiDevice* md)
 		cout << FIELD_LONGTARGET << "=" << static_cast<int>(unit.longtarget) << endl;
 	}
 }
+std::wstring JsonConfig::Dump(MidiDevice* md) {
+	std::wstringstream ss{};
+	if ((md == nullptr) || md->name.empty())
+		return L"";
+
+	ss << L"\t" << FIELD_NAME << L"=" << std::wstring(md->name.begin(), md->name.end()).c_str() << endl;
+	ss << L"\t" << FIELD_CONF << L"=" << std::wstring(md->config.begin(), md->config.end()).c_str() << endl;
+	ss << L"\t" << FIELD_ASTART << L"=" << md->autostart << endl;
+	ss << L"\t" << FIELD_MPORT << L"=" << md->manualport << endl;
+	ss << L"\t" << FIELD_PROXY << L"=" << md->proxy << endl;
+	ss << L"\t" << FIELD_BTNINTERVAL << L"=" << md->btninterval << endl;
+	ss << L"\t" << FIELD_BTNLONGINTERVAL << L"=" << md->btnlonginterval << endl;
+
+	for (size_t i = 0; i < md->Count(); i++) {
+		MidiUnit unit = md->units[i];
+		ss << L"\t" << FIELD_ID << L"=" << static_cast<int>(unit.id) << ", ";
+		ss << FIELD_SCENE << L"=" << static_cast<int>(unit.scene) << ", ";
+		ss << FIELD_TYPE << L"=" << static_cast<int>(unit.type) << ", ";
+		ss << FIELD_TARGET << L"=" << static_cast<int>(unit.target) << ", ";
+		ss << FIELD_LONGTARGET << L"=" << static_cast<int>(unit.longtarget) << endl;
+	}
+	return ss.str().c_str();
+}

@@ -27,6 +27,7 @@ void DialogMonitor::Dispose() {
 
 void DialogMonitor::InitDialog(HWND hwndDlg) {
 	__hwndDlg = hwndDlg;
+	DialogMonitor::ctrl = this;
 	try {
 		if (!IsTMidiStarted()) {
 			EnableWindow(GetDlgItem(__hwndDlg, IDC_MONITOR_STOP), false);

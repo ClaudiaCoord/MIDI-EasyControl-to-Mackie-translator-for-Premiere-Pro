@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <array>
 #include <functional>
 #include <iostream>
 #include <fstream>
@@ -23,8 +24,11 @@
 #include <system_error>
 #include "resource.h"
 #include "MidiControllerAPI.h"
-#include "DialogStart.h"
 #include "RegistryAPI.h"
+#include "ListEdit.h"
+#include "IconData.h"
 #include "TrayMenu.h"
 #include "TrayNotify.h"
+#include "DialogStart.h"
 #include "DialogMonitor.h"
+#include "DialogSetup.h"

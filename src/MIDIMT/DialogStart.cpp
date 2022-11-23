@@ -17,6 +17,7 @@ static const wchar_t regRoot[] = L"SOFTWARE\\CC\\MIDIMT";
 static const wchar_t regRun[] = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 static const wchar_t regLogger[] = L"Logger";
 static const wchar_t regAutorun[] = L"Autorun";
+static const wchar_t regConfigName[] = L"ConfigName";
 static const wchar_t regRunId[] = L"MIDIMT";
 
 const wchar_t * DialogStart::outMackie = L"-Mackie-Out";
@@ -46,11 +47,11 @@ void DialogStart::EndDialog() {
 	__hwndDlg = nullptr;
 }
 void DialogStart::InitDialog(HWND hwndDlg) {
+	DialogStart::ctrl = this;
+	__hwndDlg = hwndDlg;
+	if (__hwndDlg == nullptr) return;
 
 	try {
-		__hwndDlg = hwndDlg;
-		if (__hwndDlg == nullptr) return;
-
 		bool isStarted = false,
 			 isConfig = false,
 			 isLog = IsOnLog();
@@ -377,7 +378,7 @@ void DialogStart::ChangeOnProxy() {
 		bool b = false;
 		HWND hwcb = GetDlgItem(__hwndDlg, IDC_PROXY_COMBO);
 		if (hwcb != nullptr) {
-			uint32_t n = ::SendMessage(hwcb, CB_GETCURSEL, 0, 0);
+			uint32_t n = static_cast<uint32_t>(::SendMessage(hwcb, CB_GETCURSEL, 0, 0));
 			b = n > 0U;
 			TMidiSetProxyCount(n);
 		} else {

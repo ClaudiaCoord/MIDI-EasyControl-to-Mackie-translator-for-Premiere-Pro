@@ -18,6 +18,7 @@
 #endif
 
 #include "h\Mackie.h"
+#include "h\MackieHelper.h"
 #include "h\MidiData.h"
 
 typedef void (*f_Fn_event)(MidiUnit*);

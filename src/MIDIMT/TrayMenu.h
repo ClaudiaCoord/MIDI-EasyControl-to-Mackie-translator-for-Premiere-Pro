@@ -8,26 +8,16 @@
 
 #pragma once
 
-struct ICONDATA {
-	HBITMAP icon;
-	ICONDATA() : icon(nullptr) {}
-	ICONDATA(HBITMAP hi) : icon(hi) {}
-	void Reset() {
-		HBITMAP i = icon;
-		icon = nullptr;
-		if (i != nullptr)
-			::DeleteObject(i);
-	}
-};
-
 class TrayMenu
 {
+	HINSTANCE __hinst;
 	std::vector<ICONDATA*> icons{};
 	void Dispose();
 	void SetItem(HMENU hm, uint32_t id, bool b, bool isstatus);
 public:
 	TrayMenu(HINSTANCE hinst);
 	~TrayMenu();
+	void InitElements();
 	void EndDialog();
 	void Show(HINSTANCE hinst, HWND hwnd, const POINT p);
 };

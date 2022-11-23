@@ -8,21 +8,11 @@
 
 #include "MIDIMT.h"
 
-static const uint16_t iconsId[] = { IDB_ICON1, IDB_ICON2, IDB_ICON3, 0, IDB_ICON4, IDB_ICON5, 0, IDB_ICON6 };
+static const uint16_t iconsId[] = { IDB_ICON1, IDB_ICON2, IDB_ICON3, IDB_ICON4, 0, IDB_ICON5, IDB_ICON6, 0, IDB_ICON7 };
 
 TrayMenu::TrayMenu(HINSTANCE hinst) {
-	try {
-		for (size_t i = 0; i < std::size(iconsId); i++) {
-			if (iconsId[i] == 0U) {
-				icons.push_back(new ICONDATA());
-				continue;
-			}
-			HBITMAP hi = (HBITMAP)LoadImage(hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
-			if (hi != nullptr)
-				icons.push_back(new ICONDATA(hi));
-		}
-	}
-	catch (...) {}
+	__hinst = hinst;
+	InitElements();
 }
 TrayMenu::~TrayMenu() {
 	Dispose();
@@ -38,14 +28,29 @@ void TrayMenu::Dispose() {
 	}
 	catch (...) {}
 }
+void TrayMenu::InitElements() {
+	try {
+		if (icons.size() > 0) Dispose();
+		for (size_t i = 0; i < std::size(iconsId); i++) {
+			if (iconsId[i] == 0U) {
+				icons.push_back(new ICONDATA());
+				continue;
+			}
+			HBITMAP hi = (HBITMAP)LoadImage(__hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
+			if (hi != nullptr)
+				icons.push_back(new ICONDATA(hi));
+		}
+	}
+	catch (...) {}
+}
 void TrayMenu::SetItem(HMENU hm, uint32_t id, bool b, bool isstatus) {
 	if (isstatus) {
 		(void) CheckMenuItem(hm, id, (b ? MF_CHECKED : MF_UNCHECKED) | MF_BYPOSITION);
 		(void) EnableMenuItem(hm, id, (b ? MF_GRAYED : MF_ENABLED) | MF_BYPOSITION);
 	}
 	ICONDATA* data = icons.at(id);
-	if ((data == nullptr) || (data->icon == nullptr)) return;
-	(void) SetMenuItemBitmaps(hm, id, MF_BITMAP | MF_BYPOSITION, data->icon, data->icon);
+	if ((data == nullptr) || (data->Get() == nullptr)) return;
+	(void) SetMenuItemBitmaps(hm, id, MF_BITMAP | MF_BYPOSITION, data->Get(), data->Get());
 }
 void TrayMenu::EndDialog() {
 	Dispose();
@@ -56,6 +61,8 @@ void TrayMenu::Show(HINSTANCE hinst, HWND hwnd, const POINT p) {
 		if (hmain) {
 			HMENU hmenu = GetSubMenu(hmain, 0);
 			if (hmenu) {
+				if (icons.size() == 0) InitElements();
+
 				uint32_t uFlags = TPM_RIGHTBUTTON;
 				if (GetSystemMetrics(SM_MENUDROPALIGNMENT) != 0) uFlags |= TPM_RIGHTALIGN;
 				else uFlags |= TPM_LEFTALIGN;

@@ -1,6 +1,6 @@
 ﻿/*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	(c) CC 2022, MIT
+	(c) CC 2023, MIT
 
 	See README.md for more details.
 	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!
@@ -26,6 +26,7 @@ WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 std::unique_ptr<DialogStart> dlgs;
+std::unique_ptr<DialogSetup> dlgn;
 std::unique_ptr<DialogMonitor> dlgm;
 std::unique_ptr<TrayNotify> tray;
 std::unique_ptr<TrayMenu> menu;
@@ -34,9 +35,9 @@ ATOM                RegisterMainClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    AboutDialogProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    StartDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK    MonitorDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam);
-
+INT_PTR CALLBACK    SetupDialogProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    StartDialogProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    MonitorDialogProc(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -47,7 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	INITCOMMONCONTROLSEX ctrl{};
-	ctrl.dwICC = ICC_USEREX_CLASSES | ICC_STANDARD_CLASSES | ICC_LINK_CLASS | ICC_HOTKEY_CLASS | ICC_BAR_CLASSES | ICC_ANIMATE_CLASS;
+	ctrl.dwICC = ICC_USEREX_CLASSES | ICC_STANDARD_CLASSES | ICC_LINK_CLASS | ICC_HOTKEY_CLASS | ICC_BAR_CLASSES | ICC_ANIMATE_CLASS | ICC_LISTVIEW_CLASSES | ICC_HOTKEY_CLASS;
 	ctrl.dwSize = sizeof(ctrl);
 	InitCommonControlsEx(&ctrl);
 
@@ -68,8 +69,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	if (!InitInstance(hInstance, nCmdShow))
 		return FALSE;
 
-	dlgs = std::make_unique<DialogStart>(hInstance);
 	menu = std::make_unique<TrayMenu>(hInstance);
+	dlgs = std::make_unique<DialogStart>(hInstance);
+	dlgn = std::make_unique<DialogSetup>(hInstance);
 	dlgm = std::make_unique<DialogMonitor>();
 
 	MSG msg;
@@ -148,6 +150,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_FORMABOUT), hwnd, AboutDialogProc);
 			return true;
 		}
+		case IDM_GO_SETUP: {
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_FORMSETUP), hwnd, SetupDialogProc);
+			return true;
+		}
 		case IDM_GO_STOP: {
 			dlgs->Stop();
 			return true;
@@ -194,7 +200,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return false;
 }
-
 INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
@@ -205,11 +210,11 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	}
 	case WM_COMMAND: {
 		switch (LOWORD(wParam)) {
-		case IDOK3: {
+		case IDC_OK3: {
 			ShellExecute(0, 0, wikiUrl, 0, 0, SW_SHOW);
 			break;
 		}
-		case IDOK2: {
+		case IDC_OK2: {
 			ShellExecute(0, 0, gitUrl, 0, 0, SW_SHOW);
 			break;
 		}
@@ -225,7 +230,6 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	}
 	return (INT_PTR)FALSE;
 }
-
 INT_PTR CALLBACK StartDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message)
 	{
@@ -294,7 +298,6 @@ INT_PTR CALLBACK StartDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 	}
 	return false;
 }
-
 INT_PTR CALLBACK MonitorDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message)
 	{
@@ -322,6 +325,46 @@ INT_PTR CALLBACK MonitorDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			EndDialog(hwndDlg, wParam);
 			return true;
 		}
+		}
+	}
+	return false;
+}
+INT_PTR CALLBACK SetupDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+		case WM_INITDIALOG: {
+			dlgn->InitDialog(hwndDlg);
+			return true;
+		}
+		case WM_NOTIFY: {
+			LPNMHDR lpmh = (LPNMHDR)lParam;
+			switch (lpmh->idFrom) {
+				case IDC_SETUP_LIST: {
+					switch (lpmh->code) {
+						case (UINT)LVN_BEGINLABELEDIT: { return true; }
+						case (UINT)LVN_ENDLABELEDIT:   { return dlgn->ListViewEdit(lpmh); }
+						case (UINT)NM_DBLCLK: { return dlgn->ListViewDbClick(lpmh); }
+						case (UINT)NM_CLICK:  { return dlgn->ListViewClick(lpmh); }
+						case (UINT)NM_RCLICK: { return dlgn->ListViewMenu(lpmh); }
+						case (UINT)LVN_COLUMNCLICK: { return dlgn->ListViewSort(lpmh); }
+						default: break;
+					}
+					break;
+				}
+			}
+			break;
+		}
+		case WM_COMMAND: {
+			switch (LOWORD(wParam)) {
+				case IDC_SETUP_SAVE: { return dlgn->ButtonSave(); }
+				case IDC_SETUP_CODE: { return dlgn->ButtonMonitor(); }
+				case IDM_LV_NEW:
+				case IDM_LV_COPY:
+				case IDM_LV_PASTE:
+				case IDM_LV_DELETE: { return dlgn->ListViewMenu(LOWORD(wParam)); }
+				case IDCANCEL: { dlgn->EndDialog(); EndDialog(hwndDlg, wParam); return true; }
+				default: break;
+			}
+			break;
 		}
 	}
 	return false;

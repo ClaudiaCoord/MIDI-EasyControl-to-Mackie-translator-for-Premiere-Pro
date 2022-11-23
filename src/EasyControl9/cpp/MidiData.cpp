@@ -12,7 +12,7 @@
 MidiUnitValue::MidiUnitValue() : value(255), time(0), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
 MidiUnitValue::MidiUnitValue(uint8_t v, uint32_t t) { value = v; time = t; lvalue = false; type = Mackie::ClickType::ClickUnknown; }
 MidiUnit::MidiUnit() : scene(255), id(255), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
-MidiDevice::MidiDevice() : name(""), autostart(false), btninterval(100U), btnlonginterval(1500U), count(1) { units = new MidiUnit[1]{}; }
+MidiDevice::MidiDevice() : name(""), autostart(false), manualport(false), proxy(0), btninterval(100U), btnlonginterval(1500U), count(1) { units = new MidiUnit[1]{}; }
 MidiDevice::~MidiDevice() { if (units != nullptr) delete[] units; }
 size_t MidiDevice::Count() { return count; }
 void MidiDevice::Init(size_t c) {

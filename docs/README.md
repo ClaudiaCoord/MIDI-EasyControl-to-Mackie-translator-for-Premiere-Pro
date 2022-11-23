@@ -3,8 +3,8 @@
 [![WIKI EN](https://img.shields.io/badge/wiki-EN-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN)
 [![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
-[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.2.1/MIDIMT_x64.msi)
-[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.2.1/MIDIMT_x86.msi)  
+[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.3.1/MIDIMT_x64.msi)
+[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.3.1/MIDIMT_x86.msi)  
 
 MIDI-MT x64/x86 (Windows >=10) EasyControl-MIDI Command Translator to MIDI-Mackie for using Control Surface in Adobe Premiere Pro.  
 Support any Control Surfaces as __WORDLE__, __Pyle Audio PMIDIPD30__, __Fegoo__ manufacture and other.  
