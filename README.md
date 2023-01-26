@@ -1,4 +1,3 @@
-[![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 [![GitHub license](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/blob/master/LICENSE)
 [![WIKI EN](https://img.shields.io/badge/wiki-EN-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN)
 [![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)
@@ -9,12 +8,24 @@
 
 # MIDI EasyControl 9 - Mackie translator for Adobe Premiere Pro
 
-MIDI-MT x64/x86 (Windows >=10) EasyControl-MIDI Command Translator to MIDI-Mackie for using Control Surface in Adobe Premiere Pro.  
-Support any Control Surfaces as WORLDE, Pyle Audio PMIDIPD30, Fegoo manufacture and other.  
+MIDI-MT x64/x86 (Windows >=10) EasyControl-MIDI Command Translator to MIDI-Mackie for using Control Surface in Adobe Premiere Pro. Support any Control Surfaces as WORLDE, Pyle Audio PMIDIPD30, Fegoo manufacture and other.  
 
 ![MIDI EasyControl 9 MIDI-MT](docs/Images/web-logo.png)  
 
+Additionally, it is possible to manage __audio sessions__ of running applications.  
+Especially relevant, using the built-in mixer to control sound in __Windows 11__ , where the usual sound controls have been removed, and access to existing ones is associated with a long journey through the settings menu.  
+__wiki__ [About audio mixer settings](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN-Mixer)  
+<details>
+	<summary> Applications audio sessions </summary>
+	Control can occur both from a MIDI keyboard and from the built-in sound control panel. 
+	To control audio sessions from a MIDI keyboard, there is no need to call up the panel.  
+	The panel is only needed to adjust the sound with the mouse, or to visualize the status of ongoing audio sessions.  
+	
+</details>
+
 ## EASYCONTROL 9 - usb midi controller features
+
+![MIDI EasyControl 9 Device](docs/Images/web-present.png)  
 
 - 9 assignable control knobs.  
 - 9 assignable control sliders.  
@@ -39,3 +50,4 @@ More details about MIDI-MT settings are described in the __wiki__ [EN](https://g
 
 - NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!  
 - [License PDF](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/docs/LicenseRu.pdf)  
+
