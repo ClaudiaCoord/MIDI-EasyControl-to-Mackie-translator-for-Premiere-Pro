@@ -1,0 +1,1085 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MIDIMT              ICON                    "ico\\MIDIMT.ico"
+
+IDI_SMALL               ICON                    "ico\\MIDIMTsmall.ico"
+
+IDI_ICON_FOLDER         ICON                    "ico\\AkarFolder.ico"
+
+IDI_ICON_RUNAPP         ICON                    "ico\\AkarFolderplus.ico"
+
+IDI_ICON_REMOVE         ICON                    "ico\\AkarCirclex.ico"
+
+IDI_ICON_SOUNDON        ICON                    "ico\\AkarSoundon.ico"
+
+IDI_ICON_SOUNDOFF       ICON                    "ico\\AkarSoundoff.ico"
+
+IDI_ICON_SETUP1         ICON                    "ico\\AkarDots.ico"
+
+IDI_ICON_SETUP2         ICON                    "ico\\AkarFile.ico"
+
+IDI_ICON_SETUP3         ICON                    "ico\\AkarSliderHorizontal.ico"
+
+IDI_ICON_MENUH_LIGHT    ICON                    "ico\\AkarMenuLight.ico"
+
+IDI_ICON_MENUH_DARK     ICON                    "ico\\AkarMenuDark.ico"
+
+IDI_ICON_INFO           ICON                    "ico\\AkarInfo.ico"
+
+IDI_ICON_LV1            ICON                    "ico\\LV1.ico"
+
+IDI_ICON_LV2            ICON                    "ico\\LV2.ico"
+
+IDI_ICON_LV3            ICON                    "ico\\LV3.ico"
+
+IDI_ICON_LV4            ICON                    "ico\\LV4.ico"
+
+IDI_ICON_LV5            ICON                    "ico\\LV5.ico"
+
+IDI_ICON_LV6            ICON                    "ico\\LV6.ico"
+
+IDI_MMENU_I0            ICON                    "ico\\AkarMenuNone.ico"
+
+IDI_MMENU_I1            ICON                    "ico\\AkarMenuNotify.ico"
+
+IDI_MMENU_I2            ICON                    "ico\\AkarMenuMixer.ico"
+
+IDI_MMENU_I3            ICON                    "ico\\AkarMenuMonitor.ico"
+
+IDI_MMENU_I4            ICON                    "ico\\AkarMenuMidiSetup.ico"
+
+IDI_MMENU_I6            ICON                    "ico\\AkarMenuPlay.ico"
+
+IDI_MMENU_I7            ICON                    "ico\\AkarMenuStop.ico"
+
+IDI_MMENU_I9            ICON                    "ico\\AkarMenuExit.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU
+BEGIN
+    POPUP "MIDI Mackie транслятор"
+    BEGIN
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Информация",                 IDM_GO_INFO
+        MENUITEM "&Аудио микшер",               IDM_GO_MIXER
+        MENUITEM "&Монитор",                    IDM_GO_MONITOR
+        MENUITEM "&Настройка",                  IDM_GO_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Ст&арт",                      IDM_GO_START
+        MENUITEM "Ст&оп",                       IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Вы&ход",                      IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Расположение.."
+        BEGIN
+            MENUITEM "Вертикально слева",	IDM_VERT_LEFT
+            MENUITEM "Вертикально справа",	IDM_VERT_RIGHT
+            MENUITEM "Горизонтально вверху",	IDM_HOR_TOP
+            MENUITEM "Горизонтально внизу",	IDM_HOR_BOTTOM
+        END
+        POPUP "Тема.."
+        BEGIN
+            MENUITEM "Метро",			IDM_METRO
+            MENUITEM "Светлая",			IDM_LIGHT
+            MENUITEM "Тёмная",			IDM_DARK
+            MENUITEM "Рэтро",			IDM_RETRO
+            MENUITEM "Современный",		IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Настраеваямая",		IDM_CUSTOM
+            MENUITEM "Настройка темы",		IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Запомнить позицию",		IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Закрыть",			IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Новая запись",                IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Копировать",                  IDM_LV_COPY
+        MENUITEM "Вставить",                    IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Удалить",                     IDM_LV_DELETE
+        POPUP "Установить как.."
+        BEGIN
+            MENUITEM "Контроль относиться к аудио микшеру",		IDM_LV_SET_MIXER
+            MENUITEM "Контроль относиться к мультимедиа кнопкам",	IDM_LV_SET_MMKEY
+            MENUITEM "Контроль относиться к умному дому",		IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "Неназначенный",		IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Читать MIDI код..",           IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Регуляторы .."
+        BEGIN
+            MENUITEM "Полосковый регулятор",        IDM_COL3_SLIDER
+            MENUITEM "Полосковый регулятор с инверсией", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Круговый регулятор",          IDM_COL3_FADER
+            MENUITEM "Круговый регулятор с инверсией", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Энкодер",                     IDM_COL3_KNOB
+            MENUITEM "Энкодер с инверсией",         IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Неназначенный",               IDM_COL3_NONE
+        END
+        POPUP "Кнопки .."
+        BEGIN
+            MENUITEM "Кнопка",                      IDM_COL3_BTN
+            MENUITEM "Кнопка переключать, с индикацией", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Неназначенный",               IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Регулятороы ..",              IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Кнопки ..",                   IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU
+BEGIN
+    POPUP "COL3 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Управление звуком .."
+        BEGIN
+            MENUITEM "Mute (мастер)",               IDM_COL4_MAM
+            MENUITEM "Solo (мастер)",               IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Mute .."
+            BEGIN
+                MENUITEM "канал 1",                     IDM_COL4_B21
+                MENUITEM "канал 2",                     IDM_COL4_B22
+                MENUITEM "канал 3",                     IDM_COL4_B23
+                MENUITEM "канал 4",                     IDM_COL4_B24
+                MENUITEM "канал 5",                     IDM_COL4_B25
+                MENUITEM "канал 6",                     IDM_COL4_B26
+                MENUITEM "канал 7",                     IDM_COL4_B27
+                MENUITEM "канал 8",                     IDM_COL4_B28
+                MENUITEM "канал 9",                     IDM_COL4_B29
+            END
+            POPUP "Solo .."
+            BEGIN
+                MENUITEM "канал 1",                     IDM_COL4_B11
+                MENUITEM "канал 2",                     IDM_COL4_B12
+                MENUITEM "канал 3",                     IDM_COL4_B13
+                MENUITEM "канал 4",                     IDM_COL4_B14
+                MENUITEM "канал 5",                     IDM_COL4_B15
+                MENUITEM "канал 6",                     IDM_COL4_B16
+                MENUITEM "канал 7",                     IDM_COL4_B17
+                MENUITEM "канал 8",                     IDM_COL4_B18
+                MENUITEM "канал 9",                     IDM_COL4_B19
+            END
+        END
+        POPUP "Мультимедиа кнопки .."
+        BEGIN
+            MENUITEM "Играть/Пауза",                IDM_COL4_SYS_Play
+            MENUITEM "Стоп",                        IDM_COL4_SYS_Stop
+            MENUITEM "Предыдущий",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Следующий",                   IDM_COL4_SYS_Forward
+            MENUITEM "Запись",                      IDM_COL4_SYS_Record
+            MENUITEM "Вверх  (джойстик)",           IDM_COL4_SYS_Up
+            MENUITEM "Вниз   (джойстик)",           IDM_COL4_SYS_Down
+            MENUITEM "Вправо (джойстик)",           IDM_COL4_SYS_Right
+            MENUITEM "Влево  (джойстик)",           IDM_COL4_SYS_Left
+            MENUITEM "Увеличение масштаба",         IDM_COL4_SYS_Zoom
+            MENUITEM "Скрабирование",               IDM_COL4_SYS_Scrub
+        END
+        POPUP "Функции 'Premiere Pro' .."
+        BEGIN
+            POPUP "Функции стандартной кнопки .."
+            BEGIN
+                MENUITEM "Функция 1",                   IDM_COL4_FUN11
+                MENUITEM "Функция 2",                   IDM_COL4_FUN12
+                MENUITEM "Функция 3",                   IDM_COL4_FUN13
+                MENUITEM "Функция 4",                   IDM_COL4_FUN14
+                MENUITEM "Функция 5",                   IDM_COL4_FUN15
+                MENUITEM "Функция 6",                   IDM_COL4_FUN16
+                MENUITEM "Функция 7",                   IDM_COL4_FUN17
+                MENUITEM "Функция 8",                   IDM_COL4_FUN18
+            END
+            POPUP "Функции кнопки 'в одно касание' .."
+            BEGIN
+                MENUITEM "Функция 1",                   IDM_COL4_FUN21
+                MENUITEM "Функция 2",                   IDM_COL4_FUN22
+                MENUITEM "Функция 3",                   IDM_COL4_FUN23
+                MENUITEM "Функция 4",                   IDM_COL4_FUN24
+                MENUITEM "Функция 5",                   IDM_COL4_FUN25
+                MENUITEM "Функция 6",                   IDM_COL4_FUN26
+                MENUITEM "Функция 7",                   IDM_COL4_FUN27
+                MENUITEM "Функция 8",                   IDM_COL4_FUN28
+            END
+        END
+        POPUP "Кнопки в системе 'Умный дом' .."
+        BEGIN
+                MENUITEM "вкл/выкл  1",                 IDM_COL4_B11
+                MENUITEM "вкл/выкл  2",                 IDM_COL4_B12
+                MENUITEM "вкл/выкл  3",                 IDM_COL4_B13
+                MENUITEM "вкл/выкл  4",                 IDM_COL4_B14
+                MENUITEM "вкл/выкл  5",                 IDM_COL4_B15
+                MENUITEM "вкл/выкл  6",                 IDM_COL4_B16
+                MENUITEM "вкл/выкл  7",                 IDM_COL4_B17
+                MENUITEM "вкл/выкл  8",                 IDM_COL4_B18
+                MENUITEM "вкл/выкл  9",                 IDM_COL4_B19
+                MENUITEM "вкл/выкл 10",                 IDM_COL4_B21
+                MENUITEM "вкл/выкл 11",                 IDM_COL4_B22
+                MENUITEM "вкл/выкл 12",                 IDM_COL4_B23
+                MENUITEM "вкл/выкл 13",                 IDM_COL4_B24
+                MENUITEM "вкл/выкл 14",                 IDM_COL4_B25
+                MENUITEM "вкл/выкл 15",                 IDM_COL4_B26
+                MENUITEM "вкл/выкл 16",                 IDM_COL4_B27
+                MENUITEM "вкл/выкл 17",                 IDM_COL4_B28
+                MENUITEM "вкл/выкл 18",                 IDM_COL4_B29
+                MENUITEM "вкл/выкл 19",                 IDM_COL4_B31
+                MENUITEM "вкл/выкл 20",                 IDM_COL4_B32
+                MENUITEM "вкл/выкл 21",                 IDM_COL4_B33
+                MENUITEM "вкл/выкл 22",                 IDM_COL4_B34
+                MENUITEM "вкл/выкл 23",                 IDM_COL4_B35
+                MENUITEM "вкл/выкл 24",                 IDM_COL4_B36
+                MENUITEM "вкл/выкл 25",                 IDM_COL4_B37
+                MENUITEM "вкл/выкл 26",                 IDM_COL4_B38
+                MENUITEM "вкл/выкл 27",                 IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Энкодер (покадровый просмотр)", IDM_COL4_JOG
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Управление звуком .."
+        BEGIN
+            MENUITEM "Громкость (мастер)",          IDM_COL4_MAV
+            MENUITEM "Баланс (мастер)",             IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Громкость .."
+            BEGIN
+                MENUITEM "канал 1",                 IDM_COL4_AV1
+                MENUITEM "канал 2",                 IDM_COL4_AV2
+                MENUITEM "канал 3",                 IDM_COL4_AV3
+                MENUITEM "канал 4",                 IDM_COL4_AV4
+                MENUITEM "канал 5",                 IDM_COL4_AV5
+                MENUITEM "канал 6",                 IDM_COL4_AV6
+                MENUITEM "канал 7",                 IDM_COL4_AV7
+                MENUITEM "канал 8",                 IDM_COL4_AV8
+                MENUITEM "канал 9",                 IDM_COL4_XV9
+            END
+            POPUP "Баланс .."
+            BEGIN
+                MENUITEM "канал 1",                 IDM_COL4_AP1
+                MENUITEM "канал 2",                 IDM_COL4_AP2
+                MENUITEM "канал 3",                 IDM_COL4_AP3
+                MENUITEM "канал 4",                 IDM_COL4_AP4
+                MENUITEM "канал 5",                 IDM_COL4_AP5
+                MENUITEM "канал 6",                 IDM_COL4_AP6
+                MENUITEM "канал 7",                 IDM_COL4_AP7
+                MENUITEM "канал 8",                 IDM_COL4_AP8
+                MENUITEM "канал 9",                 IDM_COL4_XP9
+            END
+        END
+        POPUP "Регуляторы в системе 'Умный дом' .."
+        BEGIN
+                MENUITEM "уровень  1",              IDM_COL4_AV1
+                MENUITEM "уровень  2",              IDM_COL4_AV2
+                MENUITEM "уровень  3",              IDM_COL4_AV3
+                MENUITEM "уровень  4",              IDM_COL4_AV4
+                MENUITEM "уровень  5",              IDM_COL4_AV5
+                MENUITEM "уровень  6",              IDM_COL4_AV6
+                MENUITEM "уровень  7",              IDM_COL4_AV7
+                MENUITEM "уровень  8",              IDM_COL4_AV8
+                MENUITEM "уровень  9",              IDM_COL4_XV9
+                MENUITEM "уровень 10",              IDM_COL4_AP1
+                MENUITEM "уровень 11",              IDM_COL4_AP2
+                MENUITEM "уровень 12",              IDM_COL4_AP3
+                MENUITEM "уровень 13",              IDM_COL4_AP4
+                MENUITEM "уровень 14",              IDM_COL4_AP5
+                MENUITEM "уровень 15",              IDM_COL4_AP6
+                MENUITEM "уровень 16",              IDM_COL4_AP7
+                MENUITEM "уровень 17",              IDM_COL4_AP8
+                MENUITEM "уровень 18",              IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU
+BEGIN
+    POPUP "COL5 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "Громкость (мастер)",          IDM_COL4_MAV
+        MENUITEM "Энкодер (JOG)",               IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Громкость .."
+        BEGIN
+            MENUITEM "канал  1",                    IDM_COL4_AV1
+            MENUITEM "канал  2",                    IDM_COL4_AV2
+            MENUITEM "канал  3",                    IDM_COL4_AV3
+            MENUITEM "канал  4",                    IDM_COL4_AV4
+            MENUITEM "канал  5",                    IDM_COL4_AV5
+            MENUITEM "канал  6",                    IDM_COL4_AV6
+            MENUITEM "канал  7",                    IDM_COL4_AV7
+            MENUITEM "канал  8",                    IDM_COL4_AV8
+            MENUITEM "канал  9",                    IDM_COL4_XV9
+            MENUITEM "канал 10",                    IDM_COL4_AP1
+            MENUITEM "канал 11",                    IDM_COL4_AP2
+            MENUITEM "канал 12",                    IDM_COL4_AP3
+            MENUITEM "канал 13",                    IDM_COL4_AP4
+            MENUITEM "канал 14",                    IDM_COL4_AP5
+            MENUITEM "канал 15",                    IDM_COL4_AP6
+            MENUITEM "канал 16",                    IDM_COL4_AP7
+            MENUITEM "канал 17",                    IDM_COL4_AP8
+            MENUITEM "канал 18",                    IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU
+BEGIN
+    POPUP "COL4 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Mute (мастер)",               IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Mute .."
+        BEGIN
+            MENUITEM "канал 1",                 IDM_COL4_B21
+            MENUITEM "канал 2",                 IDM_COL4_B22
+            MENUITEM "канал 3",                 IDM_COL4_B23
+            MENUITEM "канал 4",                 IDM_COL4_B24
+            MENUITEM "канал 5",                 IDM_COL4_B25
+            MENUITEM "канал 6",                 IDM_COL4_B26
+            MENUITEM "канал 7",                 IDM_COL4_B27
+            MENUITEM "канал 8",                 IDM_COL4_B28
+            MENUITEM "канал 9",                 IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Играть/Пауза",                IDM_COL4_SYS_Play
+        MENUITEM "Стоп",                        IDM_COL4_SYS_Stop
+        MENUITEM "Предыдущий",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Следующий",                   IDM_COL4_SYS_Forward
+        MENUITEM "Запись",                      IDM_COL4_SYS_Record
+        MENUITEM "Вверх  (джойстик)",           IDM_COL4_SYS_Up
+        MENUITEM "Вниз   (джойстик)",           IDM_COL4_SYS_Down
+        MENUITEM "Вправо (джойстик)",           IDM_COL4_SYS_Right
+        MENUITEM "Влево  (джойстик)",           IDM_COL4_SYS_Left
+        MENUITEM "Увеличение масштаба",         IDM_COL4_SYS_Zoom
+        MENUITEM "Скрабирование",               IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Неназначенный",               IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "уровень  1",                    IDM_COL4_AV1
+        MENUITEM "уровень  2",                    IDM_COL4_AV2
+        MENUITEM "уровень  3",                    IDM_COL4_AV3
+        MENUITEM "уровень  4",                    IDM_COL4_AV4
+        MENUITEM "уровень  5",                    IDM_COL4_AV5
+        MENUITEM "уровень  6",                    IDM_COL4_AV6
+        MENUITEM "уровень  7",                    IDM_COL4_AV7
+        MENUITEM "уровень  8",                    IDM_COL4_AV8
+        MENUITEM "уровень  9",                    IDM_COL4_XV9
+        MENUITEM "уровень 10",                    IDM_COL4_AP1
+        MENUITEM "уровень 11",                    IDM_COL4_AP2
+        MENUITEM "уровень 12",                    IDM_COL4_AP3
+        MENUITEM "уровень 13",                    IDM_COL4_AP4
+        MENUITEM "уровень 14",                    IDM_COL4_AP5
+        MENUITEM "уровень 15",                    IDM_COL4_AP6
+        MENUITEM "уровень 16",                    IDM_COL4_AP7
+        MENUITEM "уровень 17",                    IDM_COL4_AP8
+        MENUITEM "уровень 18",                    IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Неназначенный",                 IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+    MENUITEM "вкл/выкл  1",                     IDM_COL4_B11
+    MENUITEM "вкл/выкл  2",                     IDM_COL4_B12
+    MENUITEM "вкл/выкл  3",                     IDM_COL4_B13
+    MENUITEM "вкл/выкл  4",                     IDM_COL4_B14
+    MENUITEM "вкл/выкл  5",                     IDM_COL4_B15
+    MENUITEM "вкл/выкл  6",                     IDM_COL4_B16
+    MENUITEM "вкл/выкл  7",                     IDM_COL4_B17
+    MENUITEM "вкл/выкл  8",                     IDM_COL4_B18
+    MENUITEM "вкл/выкл  9",                     IDM_COL4_B19
+    MENUITEM "вкл/выкл 10",                     IDM_COL4_B21
+    MENUITEM "вкл/выкл 11",                     IDM_COL4_B22
+    MENUITEM "вкл/выкл 12",                     IDM_COL4_B23
+    MENUITEM "вкл/выкл 13",                     IDM_COL4_B24
+    MENUITEM "вкл/выкл 14",                     IDM_COL4_B25
+    MENUITEM "вкл/выкл 15",                     IDM_COL4_B26
+    MENUITEM "вкл/выкл 16",                     IDM_COL4_B27
+    MENUITEM "вкл/выкл 17",                     IDM_COL4_B28
+    MENUITEM "вкл/выкл 18",                     IDM_COL4_B29
+    MENUITEM "вкл/выкл 19",                     IDM_COL4_B31
+    MENUITEM "вкл/выкл 20",                     IDM_COL4_B32
+    MENUITEM "вкл/выкл 21",                     IDM_COL4_B33
+    MENUITEM "вкл/выкл 22",                     IDM_COL4_B34
+    MENUITEM "вкл/выкл 23",                     IDM_COL4_B35
+    MENUITEM "вкл/выкл 24",                     IDM_COL4_B36
+    MENUITEM "вкл/выкл 25",                     IDM_COL4_B37
+    MENUITEM "вкл/выкл 26",                     IDM_COL4_B38
+    MENUITEM "вкл/выкл 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Неназначенный",                   IDM_COL4_NONE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "Обновления",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Помощь",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Закрыть",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&Программа настройки MIDI панели",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Закрыть",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Рекомендуемая раскладка MIDI панели управления. Файл с настройками этой раскладки находиться в папке 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 394
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Запуск MIDI транслятора"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI устройства",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI Бридж",IDC_STATIC,11,73,326,79
+    CONTROL         "Запущен",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Остановлен",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Конфигурация",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI контролы",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "Интервал между нажатиями",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "Интервал как долгое нажатие",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "Запуск",IDC_STATIC,11,156,135,134
+    CONTROL         "Старт при загрузке системы",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Авто старт при запуске",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Авто старт этой конфигурации",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Записывать лог",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Предпочитаемый язык:",IDC_STATIC,23,223,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,236,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Использовать правую кнопку мыши для вызова микшера",IDC_MIXER_RIGHT_CLICK,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,260,117,16
+    GROUPBOX        "Настройки MIDI",IDC_STATIC,151,156,97,64
+    CONTROL         "Драйвер:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG фильтр сцены",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Порт не создается",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI Прокси",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "количество портов",IDC_STATIC,260,183,66,8
+    CONTROL         "Включено",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Настройки Микшера Звука",IDC_STATIC,152,224,184,66
+    CONTROL         "Включено",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "Замена значений громкости без проверки",IDC_MIXER_FAST_VALUE,
+                    "Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Устанавливать сохранённые уровни громкости при старте",IDC_MIXER_OLD_VALUE,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Включить MM клавиши",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Сохранить &настройки",IDC_DIALOG_SAVE,11,292,91,14,BS_FLAT
+    PUSHBUTTON      "&Старт",IDC_GO_START,107,292,229,14,BS_FLAT
+    EDITTEXT        IDC_LOG,11,310,325,77,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Конфигурация",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Умный Дом",IDC_STATIC,343,73,199,262
+    CONTROL         "Включено",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT сервер",IDC_STATIC,350,102,186,44
+    CONTROL         "IP адрес:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Безопасность",IDC_STATIC,350,149,186,106
+    CONTROL         "логин:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "пароль:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "ключ PSK:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS включено",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "самоподписанный",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA сертификат",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "Опции",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT топик префикс: (необязательно)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "уровень логирования MQTT сессий:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Закрыть",IDCANCEL,344,340,200,14,BS_FLAT
+    PUSHBUTTON      "Обновления",IDC_GO_URL,344,356,200,14,BS_FLAT
+    PUSHBUTTON      "&О программе...",IDC_GO_ABOUT,344,373,200,14,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Монитор MIDI команд"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Монитор команд",IDC_STATIC,9,4,285,54
+    LTEXT           "Монитор MIDI команд поможет вам определить как настроен контроллер. Для начала тестирования нажмите кнопку 'Старт'. Используя различные элементы управления на своем кортроллере, вы будете получать сообщения о сцене, номере и текущем значении.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Ст&оп",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Ст&арт",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Закрыть",IDCANCEL,105,241,192,14,BS_FLAT
+    PUSHBUTTON      "Очи&стить",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 711, 249
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Настройка управления MIDI"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Настройка MIDI контролов",IDC_STATIC,7,4,215,224
+    CTEXT           "0",IDC_SETUP_COUNT,200,5,15,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,17,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,228,4,258,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,238,17,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&Читать MIDI код",IDC_SETUP_CODE,275,17,183,19,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_INFO,458,17,19,19,BS_ICON | BS_FLAT
+    GROUPBOX        "Информация",IDC_STATIC,227,44,259,167
+    LTEXT           "Контрол:",IDC_STATIC,240,64,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,64,28,10,WS_EX_RIGHT
+    LTEXT           "Сцена:",IDC_STATIC,240,76,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,76,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,76,28,10,WS_EX_RIGHT
+    LTEXT           "Тип контрола:",IDC_STATIC,240,88,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,88,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,88,28,10,WS_EX_RIGHT
+    LTEXT           "Назначение:",IDC_STATIC,240,100,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,100,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,100,28,10,WS_EX_RIGHT
+    LTEXT           "Назначение (долгий клик):",IDC_STATIC,240,112,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,112,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,112,28,10,WS_EX_RIGHT
+    LTEXT           "Регулируемые микшером приложения:",IDC_STATIC,240,124,144,10
+    LISTBOX         IDC_SETUP_APPLIST,240,136,215,48,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,240,190,155,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,403,188,53,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,132,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,150,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,168,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Сохранить",IDC_DIALOG_SAVE,228,214,80,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Закрыть",IDCANCEL,310,214,176,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,232,480,13
+    GROUPBOX        "Подсказки",IDC_STATIC,493,4,209,241
+    LISTBOX         IDC_SETUP_HELPLIST,501,35,193,203,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Все",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,18,27,10
+    CONTROL         "Кнопки",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,18,41,10
+    CONTROL         "Слайдеры",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,18,51,10
+    CONTROL         "Мультимедиа",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,632,18,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Настройка пользовательской темы"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Цвета вашей темы",IDC_STATIC,9,8,188,107
+    CONTROL         "Цвет текста",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Цвет фона",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Цвет рамки",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "Базовая тема",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Метро",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Светлая",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Тёмная",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "Рэтро",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Современный",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 305
+        BOTTOMMARGIN, 170
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
+ PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "CompanyName", "CC"
+            VALUE "FileDescription", VER_EXE_DESC
+            VALUE "FileVersion", VER_TXT
+            VALUE "InternalName", "MIDIMT.exe"
+            VALUE "LegalCopyright", VER_COPYRIGHT
+            VALUE "OriginalFilename", "MIDIMT.exe"
+            VALUE "ProductName", VER_DLL_NAME
+            VALUE "ProductVersion", VER_TXT
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_KNOB_METRO_ENABLED  PNG                    "sprites\\metro-enabled.png"
+
+IDB_KNOB_METRO_DISABLED PNG                    "sprites\\metro-disabled.png"
+
+IDB_KNOB_DARK_ENABLED   PNG                    "sprites\\dark-enabled.png"
+
+IDB_KNOB_DARK_DISABLED  PNG                    "sprites\\dark-disabled.png"
+
+IDB_KNOB_LIGHT_ENABLED  PNG                    "sprites\\light-enabled.png"
+
+IDB_KNOB_LIGHT_DISABLED PNG                    "sprites\\light-disabled.png"
+
+IDB_KNOB_MODERN_ENABLED  PNG                   "sprites\\modern-enabled.png"
+
+IDB_KNOB_MODERN_DISABLED PNG                   "sprites\\modern-disabled.png"
+
+IDB_KNOB_RETRO_ENABLED  PNG                    "sprites\\retro-enabled.png"
+
+IDB_KNOB_RETRO_DISABLED PNG                    "sprites\\retro-disabled.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"ico\\AboutLogo.bmp"
+IDB_BMP_ASSIGN	BITMAP				"ico\\AboutEctrl9Assign.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Аудио Микшер -> MIDI-Mackie транслятор"
+    IDS_MIXER               "&Микшер"
+    IDS_SETTINGS            "&Настройки"
+    IDS_START               "Ст&арт"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STOP                "Ст&оп"
+    IDS_EXIT                "Вы&ход"
+    IDS_SETUP_MSG1          "Конфигурация загружена из драйвера"
+    IDS_SETUP_MSG2          "Конфигурация загружена из файла"
+    IDS_SETUP_MSG3          "Конфигурация создана заново и требует заполнения"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT Конфигурация"
+    IDS_CONFIG_EXE_FILTER   "Исполняемые файлы"
+    IDS_MQTT_CA_FILTER      "CA сертификат"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI транслятор не запущен."
+    IDS_INFO2               "MIDI транслятор работает:"
+    IDS_INFO3               "Входное устройство:"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INFO4               "Выходной Mackie/Premier порт:"
+    IDS_INFO5               "Выходной Proxy порт:"
+    IDS_INFO6               "Аудио микшер запущен."
+    IDS_INFO7               "Управление мультимедиа клавишами запущено."
+    IDS_INFO8               "Аудиомикшер не запущен, проверьте настройки, должен быть включен запуск аудиопанели."
+    IDS_INFO9               "Неверный идентификатор события. Пожалуйста, перезапустите это приложение."
+    IDS_INF1O               "Не удалось переключается на поток пользовательского интерфейса, запуск аудиопанели прерван."
+    IDS_INF11               "MIDIMT - Аудио микшер не запущен:"
+    IDS_INF12               "MIDIMT - Невозможно закончить операцию:"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DLG_MSG1            "MIDI Mackie выход"
+    IDS_DLG_MSG2            "MIDI Proxy выход"
+    IDS_DLG_MSG3            "Версия MIDI Virtual драйвера:"
+    IDS_DLG_MSG4            "Установленный MIDI Virtual драйвер не найден! Необходимо установить пакет Virtual Loop MIDI для запуска транслятора"
+    IDS_DLG_MSG5            "При запуске будут созданы Proxy MIDI порты: "
+    IDS_DLG_MSG6            "MIDI Proxy порты отключены."
+    IDS_DLG_MSG7            "Выбранный язык будет активным после перезапуска окна - "
+    IDS_DLG_MSG8            "Входное MIDI устройство назначено на "
+    IDS_DLG_MSG9            "Пожалуйста, отредактируйте конфигурацию перед запуском."
+    IDS_DLG_MSG10           "Версия установленного Virtual MIDI драйвера: "
+    IDS_DLG_MSG11           "Выбранная конфигурация не поддерживает авто старт."
+    IDS_DLG_MSG12           "Пожалуйста, перед запуском монитора, запустите MIDI бридж из меню, вызвав 'Старт'."
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV                   "громкость звука (основной)"
+    IDM_COL4_MAP                   "звуковой баланс (основной)"
+    IDM_COL4_MAM                   "отключение звука (основной)"
+    IDM_COL4_MAS                   "аудио соло (основной)"
+    IDM_COL4_JOG                   "JOG (перемотка видеокадра)"
+    IDM_COL4_AV1                   "громкость звука (канал 1)"
+    IDM_COL4_AV2                   "громкость звука (канал 2)"
+    IDM_COL4_AV3                   "громкость звука (канал 3)"
+    IDM_COL4_AV4                   "громкость звука (канал 4)"
+    IDM_COL4_AV5                   "громкость звука (канал 5)"
+    IDM_COL4_AV6                   "громкость звука (канал 6)"
+    IDM_COL4_AV7                   "громкость звука (канал 7)"
+    IDM_COL4_AV8                   "громкость звука (канал 8)"
+    IDM_COL4_XV9                   "громкость звука (канал 9)"
+    IDM_COL4_AP1                   "звуковой баланс (канал 1)"
+    IDM_COL4_AP2                   "звуковой баланс (канал 2)"
+    IDM_COL4_AP3                   "звуковой баланс (канал 3)"
+    IDM_COL4_AP4                   "звуковой баланс (канал 4)"
+    IDM_COL4_AP5                   "звуковой баланс (канал 5)"
+    IDM_COL4_AP6                   "звуковой баланс (канал 6)"
+    IDM_COL4_AP7                   "звуковой баланс (канал 7)"
+    IDM_COL4_AP8                   "звуковой баланс (канал 8)"
+    IDM_COL4_XP9                   "звуковой баланс (канал 9)"
+    IDM_COL4_B11                   "аудио соло (канал 1)"
+    IDM_COL4_B12                   "аудио соло (канал 2)"
+    IDM_COL4_B13                   "аудио соло (канал 3)"
+    IDM_COL4_B14                   "аудио соло (канал 4)"
+    IDM_COL4_B15                   "аудио соло (канал 5)"
+    IDM_COL4_B16                   "аудио соло (канал 6)"
+    IDM_COL4_B17                   "аудио соло (канал 7)"
+    IDM_COL4_B18                   "аудио соло (канал 8)"
+    IDM_COL4_B19                   "аудио соло (канал 9)"
+    IDM_COL4_B21                   "отключение звука (канал 1)"
+    IDM_COL4_B22                   "отключение звука (канал 2)"
+    IDM_COL4_B23                   "отключение звука (канал 3)"
+    IDM_COL4_B24                   "отключение звука (канал 4)"
+    IDM_COL4_B25                   "отключение звука (канал 5)"
+    IDM_COL4_B26                   "отключение звука (канал 6)"
+    IDM_COL4_B27                   "отключение звука (канал 7)"
+    IDM_COL4_B28                   "отключение звука (канал 8)"
+    IDM_COL4_B29                   "отключение звука (канал 9)"
+    IDM_COL4_B31                   "выбор звука (канал 1)"
+    IDM_COL4_B32                   "выбор звука (канал 2)"
+    IDM_COL4_B33                   "выбор звука (канал 3)"
+    IDM_COL4_B34                   "выбор звука (канал 4)"
+    IDM_COL4_B35                   "выбор звука (канал 5)"
+    IDM_COL4_B36                   "выбор звука (канал 6)"
+    IDM_COL4_B37                   "выбор звука (канал 7)"
+    IDM_COL4_B38                   "выбор звука (канал 8)"
+    IDM_COL4_B39                   "выбор звука (канал 9)"
+    IDM_COL4_FUN11                 "функция F1 (стандартный режим)"
+    IDM_COL4_FUN12                 "функция F2 (стандартный режим)"
+    IDM_COL4_FUN13                 "функция F3 (стандартный режим)"
+    IDM_COL4_FUN14                 "функция F4 (стандартный режим)"
+    IDM_COL4_FUN15                 "функция F5 (стандартный режим)"
+    IDM_COL4_FUN16                 "функция F6 (стандартный режим)"
+    IDM_COL4_FUN17                 "функция F7 (стандартный режим)"
+    IDM_COL4_FUN18                 "функция F8 (стандартный режим)"
+    IDM_COL4_FUN21                 "функция F1 (удерживаемый режим)"
+    IDM_COL4_FUN22                 "функция F2 (удерживаемый режим)"
+    IDM_COL4_FUN23                 "функция F3 (удерживаемый режим)"
+    IDM_COL4_FUN24                 "функция F4 (удерживаемый режим)"
+    IDM_COL4_FUN25                 "функция F5 (удерживаемый режим)"
+    IDM_COL4_FUN26                 "функция F6 (удерживаемый режим)"
+    IDM_COL4_FUN27                 "функция F7 (удерживаемый режим)"
+    IDM_COL4_FUN28                 "функция F8 (удерживаемый режим)"
+    IDM_COL4_SYS_Rewind            "Перемотка назад (проигрыватель)"
+    IDM_COL4_SYS_Forward           "Перемотка вперед (проигрыватель)"
+    IDM_COL4_SYS_Stop              "Стоп (проигрыватель)"
+    IDM_COL4_SYS_Play              "Играть (проигрыватель)"
+    IDM_COL4_SYS_Record            "Запись (проигрыватель)"
+    IDM_COL4_SYS_Up                "Вверх (джойстик)"
+    IDM_COL4_SYS_Down              "Вниз (джойстик)"
+    IDM_COL4_SYS_Left              "Влево (джойстик)"
+    IDM_COL4_SYS_Right             "Вправо (джойстик)"
+    IDM_COL4_SYS_Zoom              "Увеличение"
+    IDM_COL4_SYS_Scrub             "Скраб"
+    IDM_COL4_VOLUMEMIX             "Мультимедийные клавиши"
+    IDM_COL4_MEDIAKEY              "Управление микшером"
+    IDM_COL4_MQTTKEY               "Управление умным домом"
+    IDM_COL4_NONE                  "действие не определено"
+    IDM_COL4_MQTT_AV1		"уровень  1"
+    IDM_COL4_MQTT_AV2		"уровень  2"
+    IDM_COL4_MQTT_AV3		"уровень  3"
+    IDM_COL4_MQTT_AV4		"уровень  4"
+    IDM_COL4_MQTT_AV5		"уровень  5"
+    IDM_COL4_MQTT_AV6		"уровень  6"
+    IDM_COL4_MQTT_AV7		"уровень  7"
+    IDM_COL4_MQTT_AV8		"уровень  8"
+    IDM_COL4_MQTT_XV9		"уровень  9"
+    IDM_COL4_MQTT_AP1		"уровень 10"
+    IDM_COL4_MQTT_AP2		"уровень 11"
+    IDM_COL4_MQTT_AP3		"уровень 12"
+    IDM_COL4_MQTT_AP4		"уровень 13"
+    IDM_COL4_MQTT_AP5		"уровень 14"
+    IDM_COL4_MQTT_AP6		"уровень 15"
+    IDM_COL4_MQTT_AP7		"уровень 16"
+    IDM_COL4_MQTT_AP8		"уровень 17"
+    IDM_COL4_MQTT_XP9		"уровень 18"
+    IDM_COL4_MQTT_B11		"вкл/выкл  1"
+    IDM_COL4_MQTT_B12		"вкл/выкл  2"
+    IDM_COL4_MQTT_B13		"вкл/выкл  3"
+    IDM_COL4_MQTT_B14		"вкл/выкл  4"
+    IDM_COL4_MQTT_B15		"вкл/выкл  5"
+    IDM_COL4_MQTT_B16		"вкл/выкл  6"
+    IDM_COL4_MQTT_B17		"вкл/выкл  7"
+    IDM_COL4_MQTT_B18		"вкл/выкл  8"
+    IDM_COL4_MQTT_B19		"вкл/выкл  9"
+    IDM_COL4_MQTT_B21		"вкл/выкл 10"
+    IDM_COL4_MQTT_B22		"вкл/выкл 11"
+    IDM_COL4_MQTT_B23		"вкл/выкл 12"
+    IDM_COL4_MQTT_B24		"вкл/выкл 13"
+    IDM_COL4_MQTT_B25		"вкл/выкл 14"
+    IDM_COL4_MQTT_B26		"вкл/выкл 15"
+    IDM_COL4_MQTT_B27		"вкл/выкл 16"
+    IDM_COL4_MQTT_B28		"вкл/выкл 17"
+    IDM_COL4_MQTT_B29		"вкл/выкл 18"
+    IDM_COL4_MQTT_B31		"вкл/выкл 19"
+    IDM_COL4_MQTT_B32		"вкл/выкл 20"
+    IDM_COL4_MQTT_B33		"вкл/выкл 21"
+    IDM_COL4_MQTT_B34		"вкл/выкл 22"
+    IDM_COL4_MQTT_B35		"вкл/выкл 23"
+    IDM_COL4_MQTT_B36		"вкл/выкл 24"
+    IDM_COL4_MQTT_B37		"вкл/выкл 25"
+    IDM_COL4_MQTT_B38		"вкл/выкл 26"
+    IDM_COL4_MQTT_B39		"вкл/выкл 27"
+    IDM_COL4_MQTT_NONE		"Не назначено"
+    IDM_MQTT_LOG_NONE		"лог не ведется"
+    IDM_MQTT_LOG_INFO		"информация"
+    IDM_MQTT_LOG_NOTICE		"уведомления"
+    IDM_MQTT_LOG_WARNING	"предупреждения"
+    IDM_MQTT_LOG_ERR		"только ошибки"
+    IDM_MQTT_LOG_DEBUG		"все сообщения"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
