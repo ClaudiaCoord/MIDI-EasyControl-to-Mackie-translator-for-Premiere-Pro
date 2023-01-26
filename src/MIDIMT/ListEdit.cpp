@@ -16,7 +16,6 @@ typedef struct tag_listviewedithdr {
 	bool IsEscape;
 	WNDPROC defProc;
 } LISTVIEWEDITHDR;
-
 class LISTVIEWSORT {
 	int  column;
 	bool ascending[5]{};
@@ -33,7 +32,6 @@ public:
 			ascending[col] = !ascending[col];
 	}
 };
-
 class LISTVIEWPASTE {
 	int  item, column;
 	std::array<uint32_t, 5> val;
@@ -126,7 +124,7 @@ void ListEdit::ListViewInit(HWND h) {
 				break;
 			}
 			default: {
-				lvc.cx = 78;
+				lvc.cx = 82;
 				lvc.fmt = LVCFMT_LEFT;
 				break;
 			}}
@@ -350,7 +348,7 @@ bool ListEdit::ListViewEditLabel(int item, int column)
 	else
 		dwAlign = ES_CENTER;
 
-	TCHAR txt[260]{};
+	wchar_t txt[260]{};
 	ListView_GetItemText(__hwndLv, item, column, txt, 260);
 	std::wstring ws(txt);
 	HWND edit = CreateWindow(

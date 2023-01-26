@@ -24,8 +24,9 @@ class DialogSetup
 	static DialogSetup* ctrl;
 	ConfigStatus ConfigDevice = ConfigStatus::None;
 
+	void Clear();
 	void Dispose();
-	void InitElements();
+	void InitListView();
 	static void ErrorCb(const std::string&);
 	static void ErrorCb(const std::wstring&);
 	static void MonitorCb(uint8_t scene, uint8_t id, uint8_t v, uint32_t t);

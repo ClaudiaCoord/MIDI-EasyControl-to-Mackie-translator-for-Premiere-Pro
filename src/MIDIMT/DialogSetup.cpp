@@ -20,23 +20,28 @@ static const uint16_t idn[] = { IDC_SETUP_NUMBER, IDC_SETUP_SCENEN, IDC_SETUP_TY
 DialogSetup::DialogSetup(HINSTANCE hinst) {
 	DialogSetup::ctrl = this;
 	__hinst = hinst;
-	InitElements();
+	try {
+		if (icons.size() > 0) {
+			for (ICONDATA* data : icons) {
+				if (data == nullptr) continue;
+				data->Reset();
+				delete data;
+			}
+			icons.clear();
+		}
+		for (size_t i = 0; i < std::size(iconsId); i++) {
+			HBITMAP hi = (HBITMAP)LoadImage(__hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
+			if (hi != nullptr)
+				icons.push_back(new ICONDATA(hi));
+		}
+	}
+	catch (...) {}
 }
 DialogSetup::~DialogSetup() {
 	Dispose();
 }
-void DialogSetup::Dispose() {
+void DialogSetup::Clear() {
 	try {
-		for (ICONDATA* data : icons) {
-			if (data == nullptr) continue;
-			data->Reset();
-			delete data;
-		}
-		icons.clear();
-	} catch (...) {}
-
-	try {
-		DialogSetup::ctrl = nullptr;
 		ConfigDevice = ConfigStatus::None;
 		__hwndDlg = nullptr;
 		if (__dev != nullptr) {
@@ -47,6 +52,29 @@ void DialogSetup::Dispose() {
 			__lv.reset();
 			__lv = nullptr;
 		}
+	}
+	catch (...) {}
+}
+void DialogSetup::Dispose() {
+	DialogSetup::ctrl = nullptr;
+	Clear();
+	try {
+		for (ICONDATA* data : icons) {
+			if (data == nullptr) continue;
+			data->Reset();
+			delete data;
+		}
+		icons.clear();
+	} catch (...) {}
+}
+void DialogSetup::InitListView() {
+	try {
+		if (__lv != nullptr)
+			__lv.reset();
+		__lv = std::make_unique<ListEdit>(__hinst);
+		__lv.get()->ListViewErrorCb(
+			[](std::wstring ws) { DialogSetup::ErrorCb(ws); }
+		);
 	}
 	catch (...) {}
 }
@@ -61,11 +89,10 @@ void DialogSetup::EndDialog() {
 		DialogSetup::ErrorCb(std::string(ex.what()));
 	}
 	catch (...) {}
-	Dispose();
+	Clear();
 }
 void DialogSetup::InitDialog(HWND hwndDlg) {
 	__hwndDlg = hwndDlg;
-	DialogSetup::ctrl = this;
 
 	try {
 		ConfigDevice = IsTMidiConfig() ? ConfigStatus::LoadDevice : ConfigStatus::None;
@@ -87,7 +114,7 @@ void DialogSetup::InitDialog(HWND hwndDlg) {
 		if ((hwcl = GetDlgItem(__hwndDlg, IDC_SETUP_LIST)) == nullptr)
 			return;
 
-		InitElements();
+		InitListView();
 		__lv.get()->ListViewInit(hwcl);
 
 		if (ConfigDevice != ConfigStatus::None) {
@@ -245,31 +272,6 @@ bool DialogSetup::ButtonMonitor() {
 	return true;
 }
 
-void DialogSetup::InitElements() {
-	try {
-		if (__lv != nullptr)
-			__lv.reset();
-		__lv = std::make_unique<ListEdit>(__hinst);
-		__lv.get()->ListViewErrorCb(
-			[](std::wstring ws) { DialogSetup::ErrorCb(ws); }
-		);
-	} catch (...) {}
-	try {
-		if (icons.size() > 0) {
-			for (ICONDATA* data : icons) {
-				if (data == nullptr) continue;
-				data->Reset();
-				delete data;
-			}
-			icons.clear();
-		}
-		for (size_t i = 0; i < std::size(iconsId); i++) {
-			HBITMAP hi = (HBITMAP)LoadImage(__hinst, MAKEINTRESOURCE(iconsId[i]), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT | LR_DEFAULTSIZE);
-			if (hi != nullptr)
-				icons.push_back(new ICONDATA(hi));
-		}
-	} catch (...) {}
-}
 void DialogSetup::ErrorCb(const std::string &s) {
 	if (DialogSetup::ctrl == nullptr) return;
 	HWND hwnd = DialogSetup::ctrl->__hwndDlg;
