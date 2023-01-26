@@ -13,148 +13,253 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы ресурсов\ICONS">
+      <UniqueIdentifier>{c2925589-af05-49e8-98fa-827b9d43ae72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\LVICON">
+      <UniqueIdentifier>{5eee8cf9-3c48-4f2c-9609-a17bda4a6f05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\MENUICON">
+      <UniqueIdentifier>{1b2e07a0-7685-4d71-8622-0653f4588120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="h\DialogStart.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="h\TrayNotify.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="MIDIMT.h">
+    <ClInclude Include="h\DialogMonitor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\EasyControl9\MidiControllerAPI.h">
+    <ClInclude Include="h\TrayMenu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DialogStart.h">
+    <ClInclude Include="h\DialogConfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\EasyControl9\h\JsonConfig.h">
+    <ClInclude Include="h\ListEdit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="RegistryAPI.h">
+    <ClInclude Include="rc\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="h\MIDIMT.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TrayNotify.h">
+    <ClInclude Include="h\CbEvent.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DialogMonitor.h">
+    <ClInclude Include="h\LangInterface.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TrayMenu.h">
+    <ClInclude Include="h\GuiUtils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DialogSetup.h">
+    <ClInclude Include="h\DialogAbout.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IconData.h">
+    <ClInclude Include="h\ext\lodepng.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ListEdit.h">
+    <ClInclude Include="h\mixer\AudioMixerPanel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mixer\AudioMixerPanels.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mixer\Sprite.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mixer\Sprites.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mixer\DialogThemeColors.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MIDIMT.cpp">
+    <ClCompile Include="cpp\MIDIMT.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DialogStart.cpp">
+    <ClCompile Include="cpp\DialogStart.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="RegistryAPI.cpp">
+    <ClCompile Include="cpp\TrayNotify.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TrayNotify.cpp">
+    <ClCompile Include="cpp\DialogMonitor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DialogMonitor.cpp">
+    <ClCompile Include="cpp\TrayMenu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TrayMenu.cpp">
+    <ClCompile Include="cpp\DialogConfig.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DialogSetup.cpp">
+    <ClCompile Include="cpp\ListEdit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="IconData.cpp">
+    <ClCompile Include="cpp\CbEvent.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ListEdit.cpp">
+    <ClCompile Include="cpp\LangInterface.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\GuiUtils.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\DialogAbout.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\ext\lodepng.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mixer\AudioMixerPanel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mixer\AudioMixerPanels.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mixer\Sprite.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mixer\Sprites.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mixer\DialogThemeColors.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MIDIMT.rc">
+    <ResourceCompile Include="rc\MIDIMT.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="MIDIMTsmall.ico">
+    <Image Include="rc\ico\AboutLogo.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="MIDIMT.ico">
+    <Image Include="rc\ico\MIDIMT.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="MIDIMTlogo.bmp">
+    <Image Include="rc\ico\MIDIMTsmall.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico1.bmp">
+    <Image Include="rc\ico\AkarCirclex.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarDots.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarFile.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarFolder.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarFolderplus.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarSliderHorizontal.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarSoundoff.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarSoundon.ico">
+      <Filter>Файлы ресурсов\ICONS</Filter>
+    </Image>
+    <Image Include="rc\ico\LV1.ico">
+      <Filter>Файлы ресурсов\LVICON</Filter>
+    </Image>
+    <Image Include="rc\ico\LV2.ico">
+      <Filter>Файлы ресурсов\LVICON</Filter>
+    </Image>
+    <Image Include="rc\ico\LV3.ico">
+      <Filter>Файлы ресурсов\LVICON</Filter>
+    </Image>
+    <Image Include="rc\ico\LV4.ico">
+      <Filter>Файлы ресурсов\LVICON</Filter>
+    </Image>
+    <Image Include="rc\ico\LV5.ico">
+      <Filter>Файлы ресурсов\LVICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuExit.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuMidiSetup.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuMixer.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuMonitor.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuNone.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuNotify.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuPlay.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuStop.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuDark.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="rc\ico\AkarMenuLight.ico">
+      <Filter>Файлы ресурсов\MENUICON</Filter>
+    </Image>
+    <Image Include="ico\AkarMenuExit.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico0.bmp">
+    <Image Include="ico\AkarMenuMidiSetup.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico2.bmp">
+    <Image Include="ico\AkarMenuMixer.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico3.bmp">
+    <Image Include="ico\AkarMenuMonitor.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico4.bmp">
+    <Image Include="ico\AkarMenuNone.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico5.bmp">
+    <Image Include="ico\AkarMenuNotify.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\bitmap2.bmp">
+    <Image Include="ico\AkarMenuPlay.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\ico6.bmp">
+    <Image Include="ico\AkarMenuStop.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icon7.bmp">
+    <Image Include="rc\sprites\metro-enabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icon8.bmp">
+    <Image Include="rc\sprites\metro-disabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icon9.bmp">
+    <Image Include="rc\sprites\dark-enabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icon1.ico">
+    <Image Include="rc\sprites\dark-disabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icons1.ico">
+    <Image Include="rc\sprites\light-enabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icons2.ico">
+    <Image Include="rc\sprites\light-disabled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="icon\icons3.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\icon01.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\icon02.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="icon\icon03.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
   </ItemGroup>
 </Project>
