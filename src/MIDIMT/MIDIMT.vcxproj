@@ -70,7 +70,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{cd3e2202-b792-4fd9-b9b1-313224a46d76}</ProjectGuid>
-    <RootNamespace>MIDIMT</RootNamespace>
+    <RootNamespace>Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -242,16 +242,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(LibrariesArchitecture)\</OutDir>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(LibrariesArchitecture)\</OutDir>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(LibrariesArchitecture)\</OutDir>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(LibrariesArchitecture)\</OutDir>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <PublicIncludeDirectories>
+    </PublicIncludeDirectories>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -405,9 +415,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -444,8 +455,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -482,9 +494,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -521,8 +534,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -536,55 +550,108 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\EasyControl9\h\JsonConfig.h" />
-    <ClInclude Include="..\EasyControl9\MidiControllerAPI.h" />
-    <ClInclude Include="DialogMonitor.h" />
-    <ClInclude Include="DialogSetup.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="IconData.h" />
-    <ClInclude Include="ListEdit.h" />
-    <ClInclude Include="MIDIMT.h" />
-    <ClInclude Include="DialogStart.h" />
-    <ClInclude Include="TrayMenu.h" />
-    <ClInclude Include="TrayNotify.h" />
-    <ClInclude Include="RegistryAPI.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="h\DialogAbout.h" />
+    <ClInclude Include="h\ext\lodepng.h" />
+    <ClInclude Include="h\CbEvent.h" />
+    <ClInclude Include="h\GuiUtils.h" />
+    <ClInclude Include="h\LangInterface.h" />
+    <ClInclude Include="h\MIDIMT.h" />
+    <ClInclude Include="h\DialogMonitor.h" />
+    <ClInclude Include="h\DialogConfig.h" />
+    <ClInclude Include="h\ListEdit.h" />
+    <ClInclude Include="h\DialogStart.h" />
+    <ClInclude Include="h\mixer\AudioMixerPanel.h" />
+    <ClInclude Include="h\mixer\AudioMixerPanels.h" />
+    <ClInclude Include="h\mixer\DialogThemeColors.h" />
+    <ClInclude Include="h\mixer\Sprite.h" />
+    <ClInclude Include="h\mixer\Sprites.h" />
+    <ClInclude Include="h\TrayMenu.h" />
+    <ClInclude Include="h\TrayNotify.h" />
+    <ClInclude Include="rc\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DialogMonitor.cpp" />
-    <ClCompile Include="DialogSetup.cpp" />
-    <ClCompile Include="IconData.cpp" />
-    <ClCompile Include="ListEdit.cpp" />
-    <ClCompile Include="MIDIMT.cpp" />
-    <ClCompile Include="DialogStart.cpp" />
-    <ClCompile Include="TrayMenu.cpp" />
-    <ClCompile Include="TrayNotify.cpp" />
-    <ClCompile Include="RegistryAPI.cpp" />
+    <ClCompile Include="cpp\CbEvent.cpp" />
+    <ClCompile Include="cpp\DialogAbout.cpp" />
+    <ClCompile Include="cpp\ext\lodepng.cpp" />
+    <ClCompile Include="cpp\GuiUtils.cpp" />
+    <ClCompile Include="cpp\LangInterface.cpp" />
+    <ClCompile Include="cpp\MIDIMT.cpp" />
+    <ClCompile Include="cpp\DialogMonitor.cpp" />
+    <ClCompile Include="cpp\DialogConfig.cpp" />
+    <ClCompile Include="cpp\ListEdit.cpp" />
+    <ClCompile Include="cpp\DialogStart.cpp" />
+    <ClCompile Include="cpp\mixer\AudioMixerPanel.cpp" />
+    <ClCompile Include="cpp\mixer\AudioMixerPanels.cpp" />
+    <ClCompile Include="cpp\mixer\DialogThemeColors.cpp" />
+    <ClCompile Include="cpp\mixer\Sprite.cpp" />
+    <ClCompile Include="cpp\mixer\Sprites.cpp" />
+    <ClCompile Include="cpp\TrayMenu.cpp" />
+    <ClCompile Include="cpp\TrayNotify.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MIDIMT.rc" />
+    <ResourceCompile Include="rc\MIDIMT.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon\bitmap2.bmp" />
-    <Image Include="icon\ico0.bmp" />
-    <Image Include="icon\ico1.bmp" />
-    <Image Include="icon\ico2.bmp" />
-    <Image Include="icon\ico3.bmp" />
-    <Image Include="icon\ico4.bmp" />
-    <Image Include="icon\ico5.bmp" />
-    <Image Include="icon\ico6.bmp" />
-    <Image Include="icon\icon7.bmp" />
-    <Image Include="icon\icon8.bmp" />
-    <Image Include="icon\icon9.bmp" />
-    <Image Include="MIDIMTlogo.bmp" />
-    <Image Include="MIDIMTsmall.ico" />
-    <Image Include="MIDIMT.ico" />
+    <Image Include="ico\AkarMenuExit.ico" />
+    <Image Include="ico\AkarMenuMidiSetup.ico" />
+    <Image Include="ico\AkarMenuMixer.ico" />
+    <Image Include="ico\AkarMenuMonitor.ico" />
+    <Image Include="ico\AkarMenuNone.ico" />
+    <Image Include="ico\AkarMenuNotify.ico" />
+    <Image Include="ico\AkarMenuPlay.ico" />
+    <Image Include="ico\AkarMenuStop.ico" />
+    <Image Include="rc\ico\AkarCirclex.ico" />
+    <Image Include="rc\ico\AkarDots.ico" />
+    <Image Include="rc\ico\AkarFile.ico" />
+    <Image Include="rc\ico\AkarFolder.ico" />
+    <Image Include="rc\ico\AkarFolderplus.ico" />
+    <Image Include="rc\ico\AkarMenuDark.ico" />
+    <Image Include="rc\ico\AkarMenuLight.ico" />
+    <Image Include="rc\ico\AkarSliderHorizontal.ico" />
+    <Image Include="rc\ico\AkarSoundoff.ico" />
+    <Image Include="rc\ico\AkarSoundon.ico" />
+    <Image Include="rc\ico\LV1.ico" />
+    <Image Include="rc\ico\LV2.ico" />
+    <Image Include="rc\ico\LV3.ico" />
+    <Image Include="rc\ico\LV4.ico" />
+    <Image Include="rc\ico\LV5.ico" />
+    <Image Include="rc\ico\AboutLogo.bmp" />
+    <Image Include="rc\ico\AkarMenuNone.ico" />
+    <Image Include="rc\ico\AkarMenuMixer.ico" />
+    <Image Include="rc\ico\AkarMenuNotify.ico" />
+    <Image Include="rc\ico\AkarMenuMonitor.ico" />
+    <Image Include="rc\ico\AkarMenuMidiSetup.ico" />
+    <Image Include="rc\ico\AkarMenuPlay.ico" />
+    <Image Include="rc\ico\AkarMenuStop.ico" />
+    <Image Include="rc\ico\AkarMenuExit.ico" />
+    <Image Include="rc\ico\MIDIMTsmall.ico" />
+    <Image Include="rc\ico\MIDIMT.ico" />
+    <Image Include="rc\sprites\dark-disabled.png" />
+    <Image Include="rc\sprites\dark-enabled.png" />
+    <Image Include="rc\sprites\light-disabled.png" />
+    <Image Include="rc\sprites\light-enabled.png" />
+    <Image Include="rc\sprites\metro-disabled.png" />
+    <Image Include="rc\sprites\metro-enabled.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyControl9\EasyControl9.vcxproj">
-      <Project>{06c1b55c-7307-4c8d-adb5-dbd5bc46fdf2}</Project>
+    <ProjectReference Include="..\EASYCTRL9\EASYCTRL9.vcxproj">
+      <Project>{382d330f-cb2b-4189-81fe-ea7754ea41f2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\MEDIAKEYS\MEDIAKEYS.vcxproj">
+      <Project>{4c0cc943-4aeb-48b3-a433-a8bb864f41b0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MIDIMTDLL\MIDIMTLIB.vcxproj">
+      <Project>{93f0fdf9-7136-45ce-b098-541379d35070}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MIDIMTMIX\MIDIMTMIX.vcxproj">
+      <Project>{c9f700c2-155f-458a-b29e-3e8ffccdfe87}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SMARTHOME\SMARTHOME.vcxproj">
+      <Project>{4c0cc943-4aeb-48b3-a433-a8cc864f42b1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
