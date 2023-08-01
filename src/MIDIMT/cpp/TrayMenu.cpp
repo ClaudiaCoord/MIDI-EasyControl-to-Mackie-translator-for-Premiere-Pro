@@ -54,7 +54,7 @@ namespace Common {
 		void TrayMenu::Show(HWND hwnd, const POINT p) {
 			try {
 				if (icons__.IsEmpty())
-					throw new runtime_werror(L"bad menu count!");
+					throw_common_error(L"bad menu count!");
 
 				HMENU hm = LangInterface::Get().GetMenu(MAKEINTRESOURCEW(IDR_TRAY_MENU));
 				if (hm) {

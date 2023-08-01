@@ -86,6 +86,7 @@ namespace Common {
 		LangInterface::LangInterface() : main_hinst__(nullptr), lang_hinst__(nullptr), dll__(nullptr), hwndmain__(nullptr) {
 		}
 		LangInterface::~LangInterface() {
+			common_error_code::Get().set_default_error_cb();
 			Dispose();
 		}
 		LangInterface& LangInterface::Get() {
@@ -115,7 +116,7 @@ namespace Common {
 						const LANGIDBASE& lb = get_lang();
 						if (lb.id == 0) {
 							if (!first_run)
-								Common::to_log::Get() << default_lang_msg1__;
+								to_log::Get() << default_lang_msg1__;
 							break;
 						}
 
@@ -129,13 +130,13 @@ namespace Common {
 									HMODULE dll = get_dll(f.path().wstring().c_str());
 									if (dll__ == dll) {
 										if (!first_run)
-											Common::to_log::Get() << default_lang_msg2__;
+											to_log::Get() << default_lang_msg2__;
 										break;
 									}
 									Dispose();
 									lang_hinst__ = dll__ = dll;
 									if (!first_run)
-										Common::to_log::Get() << (log_string() << default_lang_msg3__ << lb.name);
+										to_log::Get() << (log_string() << default_lang_msg3__ << lb.name);
 									break;
 								}
 							}
@@ -150,6 +151,18 @@ namespace Common {
 
 				str_class__ = GetString(IDC_MIDIMT);
 				str_title__ = GetString(IDS_APP_TITLE);
+
+				common_error_code::Get().set_string_error_cb(
+					[=](uint32_t i) -> std::wstring {
+						try {
+							uint32_t id = (i + static_cast<uint32_t>(common_error_id::err_BASE));
+							const std::wstring s = this->GetString(id);
+							return s.empty() ? common_error_code::get_local_error(i) : s;
+						} catch (...) {}
+						return L"";
+					}
+				);
+
 			} catch (...) {
 				if (!first_run)
 					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -170,7 +183,7 @@ namespace Common {
 		void		   LangInterface::SelectLanguage(std::wstring s) {
 			try {
 				const LANGIDBASE& lb = find_lang(s);
-				Common::common_config::Get().Registry.SetLanguageId(lb.id);
+				common_config::Get().Registry.SetLanguageId(lb.id);
 				Init();
 			}
 			catch (...) {

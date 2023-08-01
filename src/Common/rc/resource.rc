@@ -1,5 +1,6 @@
 
 #include "resource_midimt.h"
+#include "resource_error_id.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////

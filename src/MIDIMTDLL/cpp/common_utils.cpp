@@ -23,14 +23,10 @@ namespace Common {
     constexpr std::wstring_view default_seh_error__ = L"SEH runtime error: "sv;
     constexpr std::wstring_view default_found_seh_error__ = L"SEH exception execution detected";
     constexpr std::wstring_view default_runtime_error__ = L"unknown runtime error"sv;
-    constexpr std::wstring_view default_prefix_error__ = L": "sv;
     constexpr std::wstring_view default_code_error__ = L"error code: "sv;
     constexpr wchar_t default_no__[] = L"no";
     constexpr wchar_t default_yes__[] = L"yes";
 
-    const std::wstring_view Utils::DefaulPrefixError() {
-        return default_prefix_error__;
-    }
     const std::wstring_view Utils::DefaulRuntimeError() {
         return default_runtime_error__;
     }
@@ -46,33 +42,35 @@ namespace Common {
         try {
             std::rethrow_exception(ptr);
         }
-        catch (winreg::RegException& e) {
+        catch (const seh_exception& e) {
+            log_string ls;
+            ls << default_seh_error__ << std::to_wstring(e.error());
+            we = ls.str();
+        }
+        catch (const common_error& e) {
+            if ((e.code() == 0) && (e.message().empty())) return;
+            to_log::Get() << e.what();
+            return;
+        }
+        catch (const winreg::RegException& e) {
             log_string ls;
             std::error_code c = e.code();
             ls << Utils::CHARS_to_string(e.what()) << L", " << default_code_error__ << c.value();
             we = ls.str();
-        }
-        catch (seh_exception& e) {
-            std::wstringstream ws;
-            ws << default_seh_error__ << std::to_wstring(e.error());
-            we = ws.str();
-        }
-        catch (runtime_werror& e) {
-            we = e.error();
-        }
-        catch (std::future_error& e) {
+        } 
+        catch (const std::future_error& e) {
             we = Utils::to_string(e);
         }
-        catch (std::filesystem::filesystem_error& e) {
+        catch (const std::filesystem::filesystem_error& e) {
             we = Utils::to_string(e);
         }
-        catch (std::runtime_error& e) {
+        catch (const std::runtime_error& e) {
             we = Utils::to_string(e);
         }
-        catch (std::bad_exception& e) {
+        catch (const std::bad_exception& e) {
             we = Utils::to_string(e);
         }
-        catch (std::exception& e) {
+        catch (const std::exception& e) {
             we = Utils::to_string(e);
         }
         catch (...) {
@@ -81,9 +79,15 @@ namespace Common {
         if (we.empty()) return;
         try {
             log_string ls;
-            ls << f << default_prefix_error__ << we;
-            Common::to_log::Get().tolog(ls.str());
-        } catch (...) {}
+            ls.to_log_method(f.c_str());
+            ls << we;
+            to_log::Get() << ls.str();
+        } catch (...) {
+            log_string ls;
+            ls.to_log_method(__FUNCTIONW__, f.c_str());
+            ls << default_runtime_error__;
+            to_log::Get() << ls.str();
+        }
     }
     static void build_MMRESULT_(const MMRESULT& r, wchar_t wc[], const DWORD sz) {
         __try {
@@ -133,7 +137,7 @@ namespace Common {
 
                 std::vector<wchar_t> v(wsz + 1);
                 ::MultiByteToWideChar(CODE_PAGE_, CONV_FLAGS_, c, -1, &v[0], (int)wsz);
-                return std::wstring(v.begin(), v.end());
+                return std::wstring(v.begin(), (v.begin() + wsz));
 
             } while (0);
         } catch (...) {}
@@ -263,16 +267,19 @@ namespace Common {
         return build_Chars_(err.what());
     }
     std::wstring Utils::to_string(const std::error_code& err) {
-        std::wstringstream wss{};
-        wss << default_code_error__ << err.value();
-        if (!err.message().empty()) wss << L", " << Utils::to_string(err.message());
-        return wss.str();
+        std::wstringstream ws{};
+        ws << default_code_error__ << err.value();
+        if (!err.message().empty()) ws << L", " << Utils::to_string(err.message());
+        return ws.str();
     }
     std::wstring Utils::to_string(const std::future_error& err) {
         return build_Chars_(err.what());
     }
     std::wstring Utils::to_string(const std::filesystem::filesystem_error& err) {
         return build_Chars_(err.what());
+    }
+    std::wstring Utils::to_string(char8_t const* s, std::size_t z) {
+        return std::wstring(s, s + z);
     }
     std::wstring Utils::to_string(std::nullptr_t) {
         return L"(null)";
@@ -321,11 +328,17 @@ namespace Common {
             if (!ptr) return;
             exception_(std::move(ptr), f);
         }
-        catch (std::bad_exception& e) {
-            Common::to_log::Get() << (log_string() << __FUNCTIONW__ << default_prefix_error__ << Utils::to_string(e.what()));
+        catch (const std::bad_exception& e) {
+            log_string ls;
+            ls.to_log_method(__FUNCTIONW__, f.c_str());
+            ls << Utils::to_string(e.what());
+            to_log::Get() << ls.str();
         }
         catch (...) {
-            Common::to_log::Get() << (log_string() << __FUNCTIONW__ << default_prefix_error__ << Utils::DefaulRuntimeError());
+            log_string ls;
+            ls.to_log_method(__FUNCTIONW__, f.c_str());
+            ls << Utils::DefaulRuntimeError();
+            to_log::Get() << ls.str();
         }
     }
 }

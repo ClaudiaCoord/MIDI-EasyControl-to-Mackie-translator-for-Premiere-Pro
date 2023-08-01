@@ -31,10 +31,10 @@ namespace Common {
 		void Sprites::load(uint32_t ide, uint32_t idd) {
 			sprites_enabled.load(ide);
 			if (!sprites_enabled || (sprites_enabled.size() != 31))
-				throw runtime_werror(L"wrong count in sprites enabled");
+				throw_common_error(L"wrong count in sprites enabled");
 			sprites_disabled.load(idd);
 			if (!sprites_disabled || (sprites_disabled.size() != 31))
-				throw runtime_werror(L"wrong count in sprites disabled");
+				throw_common_error(L"wrong count in sprites disabled");
 		}
 	}
 }

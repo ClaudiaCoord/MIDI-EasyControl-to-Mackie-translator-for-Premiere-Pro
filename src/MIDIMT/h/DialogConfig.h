@@ -36,8 +36,8 @@ namespace Common {
 			GuiImageStateButton<HICON> btn_mute__;
 			ConfigStatus ConfigDevice = ConfigStatus::None;
 
-			void Clear();
-			void Dispose();
+			void clear_();
+			void dispose_();
 			void InitListView();
 
 			void HelpCategoryAddTarget(HWND, uint32_t, const std::wstring_view);
@@ -66,10 +66,11 @@ namespace Common {
 			void ChangeOnBtnMute();
 			void ChangeOnSlider();
 
-			void EventLog();
-			void EventMonitor();
+			void EventLog(CbEventData*);
+			void EventMonitor(CbEventData*);
 
 			void ButtonSave();
+			void ButtonExport();
 			void ButtonMonitor();
 
 			void InitDialog(HWND);

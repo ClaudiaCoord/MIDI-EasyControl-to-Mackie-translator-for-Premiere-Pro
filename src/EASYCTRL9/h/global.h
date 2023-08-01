@@ -17,9 +17,6 @@
 
 #define FLAG_EXPORT __declspec(dllexport)
 
-#pragma warning( push )
-#pragma warning( disable : 4251 )
-
 class bridge_out_event;
 class bridge_in_event;
 
@@ -34,4 +31,3 @@ class bridge_in_event;
 #include "h\MidiControllerProxy.h"
 #include "h\MidiBridge.h"
 
-#pragma warning( pop )

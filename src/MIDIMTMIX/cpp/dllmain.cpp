@@ -11,6 +11,7 @@
 */
 
 #include "CommonApi.h"
+#pragma comment(lib, "Rpcrt4.lib")
 #pragma comment(lib, "MIDIMTLIB.lib")
 
 #ifdef __cplusplus

@@ -261,5 +261,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

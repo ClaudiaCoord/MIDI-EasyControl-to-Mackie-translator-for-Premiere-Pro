@@ -23,7 +23,8 @@ namespace Common
 	static const wchar_t regAutorun[] = L"Autorun";
 	static const wchar_t regLangId[] = L"LangId";
 	static const wchar_t regMixerFastValue[] = L"MixerFastValue";
-	static const wchar_t regSetAudioLevelOldvalue[] = L"SetAudioLevelOldvalue";
+	static const wchar_t regMixerSetAudioLevelOldvalue[] = L"MixerSetAudioLevelOldvalue";
+	static const wchar_t regMixerDupAppRemove[] = L"MixerDupAppRemove";
 	static const wchar_t regConfigName[] = L"ConfigName";
 	static const wchar_t regMixerEnable[] = L"MixerEnable";
 	static const wchar_t regMMKeyEnable[] = L"MMKeyEnable";
@@ -36,6 +37,11 @@ namespace Common
 	static const wchar_t regUiCustomThemeColorTxt[] = L"UiCustomThemeColorTxt";
 	static const wchar_t regUiTheme[] = L"UiTheme";
 	static const wchar_t regUiPlace[] = L"UiPlace";
+	static const wchar_t regUiAnimation[] = L"UiAnimation";
+	static const wchar_t regUiShowAppPath[] = L"UiShowAppPath";
+	static const wchar_t regUiShowMidiKeyBind[] = L"UiShowMidiKeyBind";
+	static const wchar_t regUiShowAudioPeakMeter[] = L"UiShowAudioPeakMeter";
+
 	static const wchar_t regDisplayX[] = L"DisplayX";
 	static const wchar_t regDisplayY[] = L"DisplayY";
 	static const wchar_t regDisplayWidth[] = L"DisplayWidth";
@@ -195,7 +201,6 @@ namespace Common
 	bool		 registry::GetSmartHomeEnable() {
 		return getnumber_<bool>(regSmartHomeEnable, false);
 	}
-	//bool GetSmartHomeEnable()
 	bool		 registry::GetMixerRightClick() {
 		return getnumber_<bool>(regMixerRightClick, false);
 	}
@@ -203,13 +208,28 @@ namespace Common
 		return getnumber_<bool>(regMixerFastValue, false);
 	}
 	bool		 registry::GetMixerSetOldLevelValue() {
-		return getnumber_<bool>(regSetAudioLevelOldvalue, true);
+		return getnumber_<bool>(regMixerSetAudioLevelOldvalue, true);
+	}
+	bool		 registry::GetMixerDupAppRemove() {
+		return getnumber_<bool>(regMixerDupAppRemove, false);
 	}
 	std::wstring registry::GetConfPath() {
 		return getstring_(HKEY_CURRENT_USER, regRoot, regConfigName);
 	}
 	int 		 registry::GetLanguageId() {
 		return getnumber_<int>(regLangId, 0);
+	}
+	bool 		 registry::GetUiShowAppPath() {
+		return getnumber_<bool>(regUiShowAppPath, false);
+	}
+	bool		 registry::GetUiShowMidiKeyBind() {
+		return getnumber_<bool>(regUiShowMidiKeyBind, false);
+	}
+	bool		 registry::GetUiShowAudioPeakMeter() {
+		return getnumber_<bool>(regUiShowAudioPeakMeter, false);
+	}
+	bool 		 registry::GetUiAnimation() {
+		return getnumber_<bool>(regUiAnimation, true);
 	}
 	ui_themes::ThemeId registry::GetUiTheme() {
 		return static_cast<ui_themes::ThemeId>(getnumber_<int>(regUiTheme, 0));
@@ -258,7 +278,10 @@ namespace Common
 		setnumber_(b, regMixerFastValue);
 	}
 	void		 registry::SetMixerSetOldLevelValue(bool b) {
-		setnumber_(b, regSetAudioLevelOldvalue);
+		setnumber_(b, regMixerSetAudioLevelOldvalue);
+	}
+	void		 registry::SetMixerDupAppRemove(bool b) {
+		setnumber_(b, regMixerDupAppRemove);
 	}
 	void		 registry::SetSysAutoStart(bool b) {
 		if (b) {
@@ -278,6 +301,18 @@ namespace Common
 	}
 	void		 registry::SetLanguageId(int id) {
 		setnumber_(id, regLangId);
+	}
+	void		 registry::SetUiShowAppPath(bool b) {
+		setnumber_(b, regUiShowAppPath);
+	}
+	void		 registry::SetUiShowMidiKeyBind(bool b) {
+		setnumber_(b, regUiShowMidiKeyBind);
+	}
+	void		 registry::SetUiShowAudioPeakMeter(bool b) {
+		setnumber_(b, regUiShowAudioPeakMeter);
+	}
+	void 		 registry::SetUiAnimation(bool b) {
+		setnumber_(b, regUiAnimation);
 	}
 	void		 registry::SetUiTheme(ui_themes::ThemeId t) {
 		setnumber_(static_cast<int>(t), regUiTheme);

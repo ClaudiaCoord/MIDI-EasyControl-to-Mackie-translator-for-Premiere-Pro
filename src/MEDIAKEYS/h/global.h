@@ -17,9 +17,5 @@
 
 #define FLAG_EXPORT __declspec(dllexport)
 
-#pragma warning( push )
-#pragma warning( disable : 4251 )
-
 #include "MMKBridge.h"
 
-#pragma warning( pop )

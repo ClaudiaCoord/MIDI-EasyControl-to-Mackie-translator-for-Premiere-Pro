@@ -144,6 +144,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -172,6 +173,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -243,24 +245,24 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -415,10 +417,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -455,9 +458,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -494,10 +498,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -534,9 +539,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -652,6 +658,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

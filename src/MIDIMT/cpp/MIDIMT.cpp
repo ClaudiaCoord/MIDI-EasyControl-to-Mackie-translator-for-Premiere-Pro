@@ -22,8 +22,11 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "MEDIAKEYS.lib")
 #pragma comment(lib, "EASYCTRL9.lib")
 #pragma comment(lib, "SMARTHOME.lib")
+#pragma comment(lib, "Gdiplus.lib")
 
 UINT const WMAPP_SHELLICON = WM_APP + 101;
+Gdiplus::GdiplusStartupInput gdiplusStartupInput{};
+ULONG_PTR					 gdiplusToken{};
 
 std::unique_ptr<Common::MIDIMT::DialogStart> dlgs;
 std::unique_ptr<Common::MIDIMT::DialogConfig> dlgc;
@@ -42,6 +45,8 @@ INT_PTR CALLBACK    ConfigDialogProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    StartDialogProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    MonitorDialogProc(HWND, UINT, WPARAM, LPARAM);
 
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -51,16 +56,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	INITCOMMONCONTROLSEX ctrl{};
-	ctrl.dwICC = ICC_USEREX_CLASSES | ICC_STANDARD_CLASSES | ICC_LINK_CLASS | ICC_HOTKEY_CLASS | ICC_BAR_CLASSES | ICC_ANIMATE_CLASS | ICC_LISTVIEW_CLASSES | ICC_HOTKEY_CLASS;
+	ctrl.dwICC = ICC_USEREX_CLASSES |
+				 ICC_STANDARD_CLASSES |
+				 ICC_LINK_CLASS |
+				 ICC_BAR_CLASSES |
+				 ICC_UPDOWN_CLASS |
+				 ICC_HOTKEY_CLASS |
+				 ICC_ANIMATE_CLASS |
+				 ICC_LISTVIEW_CLASSES |
+				 ICC_INTERNET_CLASSES |
+				 ICC_NATIVEFNTCTL_CLASS |
+				 ICC_PAGESCROLLER_CLASS;
 	ctrl.dwSize = sizeof(ctrl);
 	InitCommonControlsEx(&ctrl);
+	(void) Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, 0);
 
 	Common::MIDIMT::LangInterface& lang = Common::MIDIMT::LangInterface::Get();
 	lang.SetMainHinstance(hInstance);
 
 	do {
 		HWND hwnd = FindWindow(lang.GetMainClass().c_str(), lang.GetMainTitle().c_str());
-		if (hwnd == NULL) break;
+		if (hwnd == nullptr) break;
 		PostMessage(hwnd, (UINT)WM_COMMAND, (WPARAM)IDM_GO_ABOUT, (LPARAM)0);
 		return 0;
 	} while (0);
@@ -69,7 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	trayn = std::make_unique<Common::MIDIMT::TrayNotify>();
 
 	if (!InitInstance(nCmdShow)) return 0;
-	if (::CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) != S_OK) return 0;
+	if (::CoInitializeEx(0, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) != S_OK) return 0;
 
 	Common::to_log::Get().filelog();
 	Common::worker_background::Get().start();
@@ -101,6 +117,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 	try {
 		::CoUninitialize();
+		Gdiplus::GdiplusShutdown(gdiplusToken);
 	}
 	catch (...) {
 		Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -160,8 +177,7 @@ bool showMenu(HWND hwnd, WPARAM w) {
 	return true;
 }
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l)
-{
+LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
 		case WM_COMMAND: {
 			switch (LOWORD(w)) {
@@ -396,10 +412,6 @@ INT_PTR CALLBACK StartDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					dlgs->ChangeOnMmkeyEnable();
 					break;
 				}
-				case IDC_MQTT_ENABLE: {
-					dlgs->ChangeOnSmartHouseEnable();
-					break;
-				}
 				case IDC_MIXER_ENABLE: {
 					dlgs->ChangeOnMixerEnable();
 					break;
@@ -414,6 +426,14 @@ INT_PTR CALLBACK StartDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 				}
 				case IDC_MIXER_OLD_VALUE: {
 					dlgs->ChangeOnMixeroldvalue();
+					break;
+				}
+				case IDC_MIXER_DUPLICATE: {
+					dlgs->ChangeOnMixerDupAppRemove();
+					break;
+				}
+				case IDC_MQTT_ENABLE: {
+					dlgs->ChangeOnSmartHouseEnable();
 					break;
 				}
 				case IDC_MQTT_ISSSL: {
@@ -465,11 +485,11 @@ INT_PTR CALLBACK StartDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					break;
 				}
 				case IDC_IEVENT_LOG: {
-					dlgs->EventLog();
+					dlgs->EventLog(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDC_IEVENT_MONITOR: {
-					dlgs->EventMonitor();
+					dlgs->EventMonitor(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDCANCEL: {
@@ -505,11 +525,11 @@ INT_PTR CALLBACK MonitorDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					break;
 				}
 				case IDC_IEVENT_LOG: {
-					dlgm->EventLog();
+					dlgm->EventLog(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDC_IEVENT_MONITOR: {
-					dlgm->EventMonitor();
+					dlgm->EventMonitor(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDCANCEL: {
@@ -583,6 +603,10 @@ INT_PTR CALLBACK ConfigDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					dlgc->ButtonSave();
 					break;
 				}
+				case IDC_DIALOG_EXPORT: {
+					dlgc->ButtonExport();
+					break;
+				}
 				case IDC_SETUP_CODE: {
 					dlgc->ButtonMonitor();
 					break;
@@ -640,11 +664,11 @@ INT_PTR CALLBACK ConfigDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					break;
 				}
 				case IDC_IEVENT_LOG: {
-					dlgc->EventLog();
+					dlgc->EventLog(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDC_IEVENT_MONITOR: {
-					dlgc->EventMonitor();
+					dlgc->EventMonitor(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
 				}
 				case IDCANCEL: {

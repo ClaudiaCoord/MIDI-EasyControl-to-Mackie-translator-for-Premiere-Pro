@@ -16,9 +16,10 @@ using namespace std::placeholders;
 namespace Common {
     namespace MIDI {
 
-        static const wchar_t* unsupport_code = L"unsupported implementation in code, method not overridden: ";
-        inline void unsupported_code(std::wstring s) {
-            throw runtime_werror(log_string() << unsupport_code << s);
+        inline void unsupported_code(const std::wstring s) {
+            throw_common_error(
+                log_string().to_log_fomat(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_IMPLEMENTED), s)
+            );
         }
 
         MidiControllerBase::MidiControllerBase() : isenable__(false), isconnect__(false), this_type__(ClassTypes::ClassNone) {
@@ -113,13 +114,21 @@ namespace Common {
             {
                 case MOM_OPEN:
                 case MIM_OPEN: {
-                    Common::to_log::Get() << (log_string() << mcb->DeviceName() << " - was opened (system)");
+                    to_log::Get() << log_string().to_log_fomat(
+                        __FUNCTIONW__,
+                        common_error_code::Get().get_error(common_error_id::err_DEVICE_OPEN),
+                        mcb->DeviceName(), L"(system)"
+                    );
                     mcb->isconnect__ = true;
                     break;
                 }
                 case MOM_CLOSE:
                 case MIM_CLOSE: {
-                    Common::to_log::Get() << (log_string() << mcb->DeviceName() << " - was closed (system)");
+                    to_log::Get() << log_string().to_log_fomat(
+                        __FUNCTIONW__,
+                        common_error_code::Get().get_error(common_error_id::err_DEVICE_CLOSE),
+                        mcb->DeviceName(), L"(system)"
+                    );
                     mcb->isconnect__ = false;
                     break;
                 }
@@ -128,7 +137,11 @@ namespace Common {
                     break;
                 }
                 case MOM_DONE: {
-                    Common::to_log::Get() << (log_string() << mcb->DeviceName() << " - was done (system)");
+                    to_log::Get() << log_string().to_log_fomat(
+                        __FUNCTIONW__,
+                        common_error_code::Get().get_error(common_error_id::err_DEVICE_DONE),
+                        mcb->DeviceName()
+                    );
                     break;
                 }
                 case MIM_ERROR:

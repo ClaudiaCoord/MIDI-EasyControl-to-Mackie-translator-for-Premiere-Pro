@@ -15,6 +15,10 @@
 namespace Common {
 	namespace MIDIMT {
 
+		#if defined(_DEBUG)
+		/* #define _DEBUG_AUDIOMIXERPANELS 1 */
+		#endif
+
 		using namespace std::placeholders;
 		using namespace std::string_view_literals;
 
@@ -32,10 +36,13 @@ namespace Common {
 
 		TransportItem::TransportItem(MIXER::AudioSessionItemChange i) : item(i) {
 		}
-		TransportDeleter::TransportDeleter(TransportItem* t) : tr(t) {
+		TransportDeleter TransportItem::GetDeleter() {
+			return TransportDeleter(this);
+		}
+		TransportDeleter::TransportDeleter(TransportItem* t) : ti(t) {
 		}
 		TransportDeleter::~TransportDeleter() {
-			if (tr != nullptr) delete tr;
+			if (ti != nullptr) delete ti;
 		}
 
 		POINT&	BuildPoint::Build(HWND hwnd, LPARAM lparam) {
@@ -80,17 +87,23 @@ namespace Common {
 		}
 
 		AudioMixerPanels::AudioMixerPanels(TrayNotify* tn) : trayn(tn) {
-			inituitheme();
-			inituiele();
+			inituitheme_();
+			inituiele_(common_config::Get().UiThemes.GetPlaceId());
 			event_id__ = Utils::random_hash(this);
 			event_cb__ = std::bind(
-				static_cast<void(AudioMixerPanels::*)(MIXER::AudioSessionItemChange)>(&AudioMixerPanels::eventmixercb),
+				static_cast<void(AudioMixerPanels::*)(MIXER::AudioSessionItemChange)>(&AudioMixerPanels::eventmixercb_),
 				this, _1
 			);
 			dlgt = std::make_unique<DialogThemeColors>();
+
+			ti__.cbSize = sizeof(ti__);
+			ti__.uFlags = TTF_TRANSPARENT | TTF_SUBCLASS | TTF_CENTERTIP;
+			ti__.uId = 0;
+			ti__.hinst = 0;
+			ti__.lpszText = 0;
 		}
 		AudioMixerPanels::~AudioMixerPanels() {
-			dispose();
+			dispose_();
 		}
 		PanelData& AudioMixerPanels::GetPanel() {
 			return std::ref(ctrl__[AudioMixerPanel::ITEMID::PANEL_ID]);
@@ -102,16 +115,16 @@ namespace Common {
 			return dlgt.get();
 		}
 
-		void	AudioMixerPanels::dispose() {
+		void	AudioMixerPanels::dispose_() {
 			Close();
 			icon__.Release();
 			sprites__.clear();
 		}
-		RECT	AudioMixerPanels::panelposition() {
+		RECT	AudioMixerPanels::panelposition_(const ui_themes::ThemePlace place) {
 			RECT r = bp__.Build(), rr{};
 			bp__.Save(r);
 
-			switch (common_config::Get().UiThemes.GetPlaceId()) {
+			switch (place) {
 				case ui_themes::ThemePlace::VerticalLeft: {
 					rr.top = panel_width;
 					rr.bottom = r.bottom;
@@ -139,10 +152,17 @@ namespace Common {
 			}
 			return rr;
 		}
-		POINT	AudioMixerPanels::menuposition() {
+		int32_t AudioMixerPanels::panelbeginsize_(bool b) {
+			RECT r = ctrl__[AudioMixerPanel::ITEMID::ICON_ID].GetSize();
+			return PLACESIZE(b, r) + 2;
+		}
+		int32_t AudioMixerPanels::panelbeginsize_(common_config& cnf, RECT& r) {
+			return PLACESIZE(cnf.UiThemes.IsPlaceVertical(), r) + 2;
+		}
+		POINT	AudioMixerPanels::menuposition_(const ui_themes::ThemePlace place) {
 			POINT p{};
 			RECT r = bp__.Build();
-			switch (common_config::Get().UiThemes.GetPlaceId()) {
+			switch (place) {
 				case ui_themes::ThemePlace::VerticalLeft: {
 					p.x = ((r.left + panel_width + menu_width) >= r.top) ?
 						(r.left - panel_width - menu_width + 2) :
@@ -182,19 +202,23 @@ namespace Common {
 			}
 			return p;
 		}
-		void	AudioMixerPanels::inituiele() {
+		void	AudioMixerPanels::inituiele_(const ui_themes::ThemePlace place) {
 
-			RECT p = panelposition();
+			RECT p = panelposition_(place);
 			ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].Set(
-				WS_POPUP | WS_BORDER | WS_VISIBLE | WS_CLIPSIBLINGS | BS_FLAT | SS_NOTIFY,
+				WS_POPUP | WS_BORDER | WS_CLIPSIBLINGS | BS_FLAT | SS_NOTIFY,
 				p.left, p.right, p.top, p.bottom
 			);
 			ctrl__[AudioMixerPanel::ITEMID::ICON_ID].Set(
 				WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_FLAT | WS_TABSTOP | SS_NOTIFY | SS_ICON,
 				4, 4, 24, 24
 			);
+			ctrl__[AudioMixerPanel::ITEMID::BALLOON_ID].Set(
+				WS_POPUP | TTS_NOPREFIX | TTS_BALLOON,
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT
+			);
 		}
-		void	AudioMixerPanels::inituitheme() {
+		void	AudioMixerPanels::inituitheme_() {
 			try {
 				bool isblack = false;
 				uint32_t ide, idd;
@@ -227,26 +251,41 @@ namespace Common {
 			} catch (...) {}
 
 		}
-		void	AudioMixerPanels::buildmenu() {
+		void	AudioMixerPanels::buildmenu_() {
 			try {
 				HMENU hmain = LangInterface::Get().GetMenu(MAKEINTRESOURCEW(IDR_MIXER_CTRL_MENU));
 				if (hmain) {
 					HMENU hm = ::GetSubMenu(hmain, 0);
 					if (hm) {
 
-						POINT p = menuposition();
+						common_config& cnf = common_config::Get();
+						const ui_themes::ThemePlace place = cnf.UiThemes.GetPlaceId();
+						POINT p = menuposition_(place);
 						uint32_t uFlags = TPM_RIGHTBUTTON;
 						if (::GetSystemMetrics(SM_MENUDROPALIGNMENT) != 0) uFlags |= TPM_RIGHTALIGN;
 						else uFlags |= TPM_LEFTALIGN;
 
-						common_config& cnf = common_config::Get();
 						uint32_t uitheme = static_cast<uint32_t>(cnf.UiThemes.GetThemeId()) + IDM_THEME_BASE;
-						uint32_t uiplace = static_cast<uint32_t>(cnf.UiThemes.GetPlaceId()) + IDM_PLACE_BASE;
+						uint32_t uiplace = static_cast<uint32_t>(place) + IDM_PLACE_BASE;
 
+						std::forward_list<uint32_t> list { uitheme, uiplace };
+						if (cnf.Registry.GetUiShowAppPath())
+							list.emplace_front(IDM_APP_PATH);
+						if (cnf.Registry.GetUiShowMidiKeyBind())
+							list.emplace_front(IDM_MIDI_BIND);
+						if (cnf.Registry.GetUiShowAudioPeakMeter())
+							list.emplace_front(IDM_PEAK_METER);
+
+						for (auto u : list) {
+							::CheckMenuItem(hm, u, MF_CHECKED | MF_BYCOMMAND);
+						}
 						::EnableMenuItem(hm, uitheme, MF_GRAYED | MF_BYCOMMAND);
 						::EnableMenuItem(hm, uiplace, MF_GRAYED | MF_BYCOMMAND);
-						::CheckMenuItem(hm, uitheme, MF_CHECKED | MF_BYCOMMAND);
-						::CheckMenuItem(hm, uiplace, MF_CHECKED | MF_BYCOMMAND);
+
+						if (cnf.Registry.GetUiAnimation())
+							::CheckMenuItem(hm, IDM_ANIMATION, MF_CHECKED | MF_BYCOMMAND);
+						if (cnf.Registry.GetUiShowAppPath())
+							::CheckMenuItem(hm, IDM_APP_PATH, MF_CHECKED | MF_BYCOMMAND);
 
 						::TrackPopupMenuEx(hm,
 							uFlags,
@@ -259,10 +298,41 @@ namespace Common {
 				}
 			} catch (...) {}
 		}
+		void	AudioMixerPanels::setballoon_(HWND hwnd) {
+			try {
+				HWND hwnb;
+				if ((hwnd == nullptr) || ((hwnb = ctrl__[AudioMixerPanel::ITEMID::BALLOON_ID].GetHWND()) == nullptr)) return;
+				ti__.hwnd = hwnd;
+				(void) ::SendMessageW(hwnb, TTM_DELTOOLW, (WPARAM)0, (LPARAM)&ti__);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void	AudioMixerPanels::setballoon_(ToolTipData data) {
+			try {
+				do {
+					if (!data.IsValid()) break;
+					HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::BALLOON_ID].GetHWND();
+					if (!hwnd) break;
+
+					ti__.hwnd = data.hwnd;
+					ti__.rect = data.rect;
+					ti__.lpszText = data.title.data();
+
+					if (!::SendMessageW(hwnd, TTM_ADDTOOL, (WPARAM)0, (LPARAM)&ti__)) break;
+					if (!::SendMessageW(hwnd, TTM_ADJUSTRECT, (WPARAM)TRUE, (LPARAM)&ti__.rect)) break;
+					(void) ::SendMessageW(hwnd, TTM_UPDATETIPTEXTW, (WPARAM)0, (LPARAM)&ti__);
+					if (::SendMessageW(hwnd, TTM_SETMAXTIPWIDTH, (WPARAM)0, (LPARAM)200) != 200) break;
+
+				} while (0);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 
 		/* DATA EVENT */
 
-		void	AudioMixerPanels::eventmixercb(MIXER::AudioSessionItemChange item) {
+		void	AudioMixerPanels::eventmixercb_(MIXER::AudioSessionItemChange item) {
 			HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
 			if (hwnd == nullptr) return;
 
@@ -271,44 +341,52 @@ namespace Common {
 				MAKEWPARAM(IDC_IEVENT_DATA, 0),
 				(LPARAM) new TransportItem(std::move(item)));
 		}
-		void	AudioMixerPanels::eventmixercb(TransportItem* titem) {
+		void	AudioMixerPanels::eventmixercb_(TransportItem* titem) {
 			if (titem == nullptr) return;
 
-			TransportDeleter t(titem);
-			#if defined(_DEBUG)
-			::OutputDebugStringW(t.tr->item.ToString().str().c_str());
+			TransportDeleter t = titem->GetDeleter();
+			#if defined(_DEBUG_AUDIOMIXERPANELS)
+			::OutputDebugStringW(t.ti->item.to_string().str().c_str());
 			#endif
 
 			try {
-				if (t.tr->item.GetAction() == MIXER::OnChangeType::OnChangeNone) return;
+				if (t.ti->item.GetAction() == MIXER::OnChangeType::OnChangeNone) return;
 
 				MIXER::OnChangeType dst = MIXER::OnChangeType::OnChangeNew;
-				RECT pr{};
 				size_t back;
+				bool isv = false;
 
 				/* stage 1 */
 				for (back = 0U; back < panels__.size(); back++) {
 					auto& panel = panels__[back];
-					if (panel->GetAudioItem().IsKeyFound(t.tr->item.Data)) {
-						switch (t.tr->item.GetAction()) {
-							case MIXER::OnChangeType::OnChangeUpdateData:
-							case MIXER::OnChangeType::OnChangeNew: {
-								panel->UpdateCtrlData(t.tr->item);
-								return;
-							}
+					bool b = (isduplicateappremoved__) ?
+						(panel->GetAudioItem().Item.IsEqualsApp(t.ti->item.Item.App.get<std::size_t>())) :
+						(panel->GetAudioItem().Item.IsEqualsGuid(t.ti->item.Item.App.Guid));
+
+					if (b) {
+						switch (t.ti->item.GetAction()) {
+							case MIXER::OnChangeType::OnChangeNew:
 							case MIXER::OnChangeType::OnChangeUpdatePan:
 							case MIXER::OnChangeType::OnChangeUpdateMute:
-							case MIXER::OnChangeType::OnChangeUpdateVolume: {
-								panel->UpdateCtrlValue(t.tr->item);
+							case MIXER::OnChangeType::OnChangeUpdateData:
+							case MIXER::OnChangeType::OnChangeUpdateVolume:
+							case MIXER::OnChangeType::OnChangeUpdateAllValues: {
+								panel->UpdateItem(t.ti->item);
 								return;
 							}
 							case MIXER::OnChangeType::OnChangeRemove: {
 								dst = MIXER::OnChangeType::OnChangeRemove;
-								pr = panel->GetSize();
-								position__ -= pr.bottom;
+								isv = common_config::Get().UiThemes.IsPlaceVertical();
+								RECT r = panel->GetSize();
+								int32_t sz = panelbeginsize_(isv);
+
+								position__ -= PLACESIZE(isv, r);
+								if (position__ < sz) position__ = sz;
+
 								try {
 									auto dpanel = panels__[back];
 									panels__.erase(panels__.begin() + back);
+									setballoon_(dpanel->GetHWND(AudioMixerPanel::ITEMID::TEXT_ID));
 									dpanel->Close();
 									delete dpanel;
 								} catch (...) {
@@ -326,56 +404,62 @@ namespace Common {
 				if (dst == MIXER::OnChangeType::OnChangeRemove) {
 					for (size_t fwd = back; fwd < panels__.size(); fwd++) {
 						auto& panel = panels__[fwd];
-						RECT nr = panel->GetSize();
-						panel->SetSize(pr);
-						std::swap(nr, pr);
+						if (!panel->SetPositionUp(isv, fwd == back)) break;
 					}
-					RECT r{};
-					HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
-					::GetClientRect(hwnd, &r);
-					::InvalidateRect(hwnd, &r, true);
 				}
-				else if ((dst == MIXER::OnChangeType::OnChangeNew) && (t.tr->item.GetAction() != MIXER::OnChangeType::OnChangeRemove))
-					add(std::move(t.tr->item));
+				else if ((dst == MIXER::OnChangeType::OnChangeNew) && (t.ti->item.GetAction() != MIXER::OnChangeType::OnChangeRemove))
+					add_(std::move(t.ti->item));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		bool	AudioMixerPanels::add(MIXER::AudioSessionItemChange item) {
+		bool	AudioMixerPanels::add_(MIXER::AudioSessionItemChange item) {
 			try {
-				if (!::IsGUIThread(true)) {
-					std::wstring ws = LangInterface::Get().GetString(IDS_INF1O);
-					throw runtime_werror(std::move(ws));
-				}
+				if (!::IsGUIThread(true))
+					throw_common_error(LangInterface::Get().GetString(IDS_INF1O));
 
+				common_config& cnf = common_config::Get();
+				const bool isv = cnf.UiThemes.IsPlaceVertical();
+				const bool animele = cnf.Registry.GetUiAnimation();
 				HINSTANCE hi = LangInterface::Get().GetMainHinstance();
 				AudioMixerPanel* panel = new AudioMixerPanel(hi, std::ref(sprites__));
-				if (panel->Open(hi, ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND(), std::move(item), Theme, startid__, position__) == nullptr) {
+				if (panel->Open(hi, ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND(), std::move(item), Theme, startid__, position__, isv, animele, isduplicateappremoved__.load()) == nullptr) {
 					delete panel;
 					return false;
 				}
 				panels__.push_back(panel);
+				if (cnf.Registry.GetUiShowAppPath())
+					setballoon_(panel->GetBalloonData());
+				if (cnf.Registry.GetUiShowMidiKeyBind())
+					panel->ShowMidiKeyBind(true);
+				if (panel->IsMaster() && cnf.Registry.GetUiShowAudioPeakMeter())
+					panel->ShowPeakMeter(true);
 				return true;
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-				}
-				return false;
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return false;
 		}
 
 		void	AudioMixerPanels::CallMenu() {
-			buildmenu();
+			buildmenu_();
 		}
 		void	AudioMixerPanels::Close() {
 			try {
 				MIXER::AudioSessionMixer::Get().event_remove(event_id__);
 				std::vector<AudioMixerPanel*> panels = panels__;
 				panels__.clear();
-				for (auto& a : panels)
-					if (a != nullptr) delete a;
+				for (int32_t i = static_cast<long>(panels.size() - 1); 0 <= i; i--) {
+					auto& a = panels[i];
+					if (a != nullptr) {
+						a->Close();
+						delete a;
+					}
+				}
 
 				for (size_t i = 0; i < _countof(ctrl__); i++)
-					ctrl__[i].Close();
+					ctrl__[i].Close(AW_BLEND);
 
 				startid__ = 50000;
 				position__ = 0;
@@ -389,7 +473,7 @@ namespace Common {
 					LangInterface& lang = LangInterface::Get();
 					std::wstring ws = lang.GetString(IDS_INFO9);
 					trayn->Warning(lang.GetString(IDS_INF12), ws);
-					throw new runtime_werror(std::move(ws));
+					throw_common_error(std::move(ws));
 				}
 
 				common_config& cnf = common_config::Get();
@@ -397,30 +481,39 @@ namespace Common {
 					LangInterface& lang = LangInterface::Get();
 					std::wstring ws = lang.GetString(IDS_INFO8);
 					trayn->Warning(lang.GetString(IDS_INF11), ws);
-					throw new runtime_werror(std::move(ws));
+					throw_common_error(std::move(ws));
 				}
 
-				inituitheme();
-				inituiele();
+				inituitheme_();
+				inituiele_(cnf.UiThemes.GetPlaceId());
 
 				HWND hwnd;
 				HINSTANCE hi = LangInterface::Get().GetMainHinstance();
 				PanelData& pd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID],
-						 & pi = ctrl__[AudioMixerPanel::ITEMID::ICON_ID];
-				pd.Init(hi, 0, startid__++, 0, (SUBCLASSPROC)AudioMixerPanels::EventPANEL_ID, this);
+						 & pm = ctrl__[AudioMixerPanel::ITEMID::ICON_ID],
+						 & pb = ctrl__[AudioMixerPanel::ITEMID::BALLOON_ID];
+
+				pd.Init(hi, 0, startid__++, 0, (SUBCLASSPROC)AudioMixerPanels::EventPANEL_ID, cnf.Registry.GetUiAnimation(), this);
 				if ((hwnd = pd.GetHWND()) == nullptr) return false;
 
-				pi.Init(hi, hwnd, startid__++, 0, (SUBCLASSPROC)AudioMixerPanels::EventICON_ID, this);
-				pi.SetData(icon__.GetIcon());
-				RECT r = pi.GetSize();
-				position__ = cnf.UiThemes.IsPlaceVertical() ? (r.bottom + r.right) : (r.bottom + r.left);
+				pm.Init(hi, hwnd, startid__++, 0, (SUBCLASSPROC)AudioMixerPanels::EventICON_ID, false, this);
+				pm.SetData(icon__.GetIcon());
+				RECT r = pm.GetSize();
+
+				pb.Init(hi, startid__++);
+
+				position__ = panelbeginsize_(cnf, r);
 				MIXER::AudioSessionMixer::Get().event_add(event_cb__, event_id__);
 				dlgt->SetHWNDParent(hwnd);
+				pd.Show(AW_BLEND);
+
 				LangInterface& lang = LangInterface::Get();
 				(void) ::SendMessageW(hwnd, WM_SETICON, ICON_SMALL,
 					reinterpret_cast<LPARAM>(lang.GetIcon48x48(MAKEINTRESOURCEW(IDI_ICON_SOUNDON))));
 				(void) ::SendMessageW(hwnd, WM_SETICON, ICON_BIG,
 					reinterpret_cast<LPARAM>(lang.GetIcon256x256(MAKEINTRESOURCEW(IDI_ICON_SOUNDON))));
+
+				isduplicateappremoved__ = cnf.Registry.GetMixerDupAppRemove();
 				isopen__ = true;
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -443,6 +536,77 @@ namespace Common {
 		void	AudioMixerPanels::SwitchUiPlace(ui_themes::ThemePlace place) {
 			common_config::Get().UiThemes.SetPlace(place);
 			Open();
+		}
+		void	AudioMixerPanels::SwitchAnimation() {
+			try {
+				common_config& cnf = common_config::Get();
+				bool val = !cnf.Registry.GetUiAnimation();
+				for (auto& a : panels__)
+					if (a != nullptr) a->ShowAnimation(val);
+
+				ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].SetAnimation(val);
+				cnf.Registry.SetUiAnimation(val);
+			} catch (...) {}
+		}
+		void	AudioMixerPanels::SwitchShowAppPath() {
+			try {
+				common_config& cnf = common_config::Get();
+				const bool b = !cnf.Registry.GetUiShowAppPath();
+				cnf.Registry.SetUiShowAppPath(b);
+				for (auto& a : panels__) {
+					if (a != nullptr) {
+						if (b)
+							setballoon_(a->GetBalloonData());
+						else
+							setballoon_(a->GetHWND(AudioMixerPanel::ITEMID::TEXT_ID));
+					}
+				}
+			} catch (...) {}
+		}
+		void	AudioMixerPanels::SwitchPeakMeter() {
+			try {
+				common_config& cnf = common_config::Get();
+				const bool b = !cnf.Registry.GetUiShowAudioPeakMeter();
+				cnf.Registry.SetUiShowAudioPeakMeter(b);
+				for (auto& a : panels__) {
+					if (a != nullptr) {
+						if (a->IsMaster()) {
+							a->ShowPeakMeter(b);
+							break;
+						}
+					}
+				}
+			} catch (...) {}
+		}
+		void	AudioMixerPanels::SwitchVisableStatus(bool b) {
+			try {
+				worker_background::Get().to_async(
+					std::async(std::launch::async, [=](const bool state) {
+						try {
+							for (auto& a : panels__) {
+								if (a != nullptr) {
+									if (a->IsMaster()) {
+										a->SetVisableStatus(state);
+										break;
+									}
+								}
+							}
+						} catch (...) {
+							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+						}
+					}, b)
+				);
+			} catch (...) {}
+		}
+		void	AudioMixerPanels::SwitchMidiBind() {
+			try {
+				common_config& cnf = common_config::Get();
+				const bool b = !cnf.Registry.GetUiShowMidiKeyBind();
+				cnf.Registry.SetUiShowMidiKeyBind(b);
+				for (auto& a : panels__) {
+					if (a != nullptr) a->ShowMidiKeyBind(b);
+				}
+			} catch (...) {}
 		}
 		bool	AudioMixerPanels::IsOpen() const {
 			return isopen__.load();
@@ -534,6 +698,7 @@ namespace Common {
 					if ((aps = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
 					return reinterpret_cast<LRESULT>(aps->Theme.GetBackgroundBrush());
 				}
+				case WM_PRINTCLIENT:
 				case WM_ERASEBKGND: {
 					if ((aps = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
 
@@ -546,6 +711,51 @@ namespace Common {
 					if ((aps = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
 					aps->CallMenu();
 					break;
+				}
+				case WM_SETFOCUS:
+				case WM_CHILDACTIVATE: {
+					if ((aps = getProcClass(data)) != nullptr)
+						aps->SwitchVisableStatus(true);
+					return ::DefSubclassProc(hwnd, m, w, l);
+				}
+				case WM_DISPLAYCHANGE: {
+					if ((aps = getProcClass(data)) != nullptr)
+						aps->SwitchVisableStatus(::IsWindowVisible(hwnd));
+					return ::DefSubclassProc(hwnd, m, w, l);
+				}
+				case WM_ACTIVATE: {
+					if ((aps = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
+					switch (LOWORD(w)) {
+						case WA_ACTIVE:
+						case WA_CLICKACTIVE: {
+							aps->SwitchVisableStatus(true);
+							break;
+						}
+						case WA_INACTIVE: {
+							aps->SwitchVisableStatus(::IsWindowVisible(hwnd));
+							break;
+						}
+						default: break;
+					}
+					return ::DefSubclassProc(hwnd, m, w, l);
+				}
+				case WM_SHOWWINDOW: {
+					if ((aps = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
+					switch (l) {
+						case 0:
+						case SW_OTHERUNZOOM:
+						case SW_PARENTOPENING: {
+							aps->SwitchVisableStatus(::IsWindowVisible(hwnd));
+							break;
+						}
+						case SW_OTHERZOOM:
+						case SW_PARENTCLOSING: {
+							aps->SwitchVisableStatus(::IsWindowVisible(hwnd));
+							break;
+						}
+						default: break;
+					}
+					return ::DefSubclassProc(hwnd, m, w, l);
 				}
 				case WM_COMMAND: {
 					int32_t cmd = LOWORD(w);
@@ -595,15 +805,31 @@ namespace Common {
 							break;
 						}
 						case IDC_IEVENT_DATA: {
-							aps->eventmixercb(reinterpret_cast<TransportItem*>(l));
-							break;
-						}
-						case IDM_CLOSE: {
-							aps->Close();
+							aps->eventmixercb_(reinterpret_cast<TransportItem*>(l));
 							break;
 						}
 						case IDM_SAVE_POS: {
 							aps->GetBuildPoint().Save();
+							break;
+						}
+						case IDM_ANIMATION: {
+							aps->SwitchAnimation();
+							break;
+						}
+						case IDM_APP_PATH: {
+							aps->SwitchShowAppPath();
+							break;
+						}
+						case IDM_MIDI_BIND: {
+							aps->SwitchMidiBind();
+							break;
+						}
+						case IDM_PEAK_METER: {
+							aps->SwitchPeakMeter();
+							break;
+						}
+						case IDM_CLOSE: {
+							aps->Close();
 							break;
 						}
 						default: return ::DefSubclassProc(hwnd, m, w, l);

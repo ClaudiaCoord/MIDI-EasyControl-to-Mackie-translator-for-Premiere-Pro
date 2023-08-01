@@ -15,19 +15,6 @@
 namespace Common {
 	namespace MIDI {
 
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view strError0 = L"["sv;
-		constexpr std::wstring_view strError1 = L"configuration name not specified, abort"sv;
-		constexpr std::wstring_view strError2 = L"devices not connected, abort"sv;
-		constexpr std::wstring_view strError3 = L": warning, inconsistency in the number of devices in the final list, system/list: ["sv;
-		constexpr std::wstring_view strError4 = L": Cannot open MIDI device, abort: "sv;
-		constexpr std::wstring_view strError5 = L": Cannot start MIDI device, abort: "sv;
-		constexpr std::wstring_view strError6 = L"device not connected, abort: "sv;
-		constexpr std::wstring_view strError7 = L"device found: "sv;
-		constexpr std::wstring_view strError8 = L"device open: "sv;
-		constexpr std::wstring_view strError9 = L"] was closed (system)"sv;
-
 		static MidiControllerIn ctrl_midicontrollerin__;
 
 		MidiControllerIn::MidiControllerIn() : midi_in_handle__(nullptr) {
@@ -60,7 +47,11 @@ namespace Common {
 						},
 						LogTag
 					);
-					Common::to_log::Get() << (log_string() << LogTag << strError0 << active_device__ << strError9);
+					to_log::Get() << log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_DEVICE_CLOSE),
+						active_device__
+					);
 				}
 			}
 			catch (...) {
@@ -77,16 +68,18 @@ namespace Common {
 				if (isenable__ || isconnect__) Dispose();
 
 				if ((!cnf) || (cnf.get()->name.empty()))
-					throw runtime_werror((log_string() << LogTag << strError1));
+					throw_common_error(common_error_id::err_NOT_CONFIG);
 
 				uint32_t devcount = UINT_MAX;
 				if (!BuildDeviceList(devcount))
-					throw runtime_werror((log_string() << LogTag << strError2));
+					throw_common_error(common_error_id::err_NOT_DEVICES);
 
 				if (devcount != device_list__.size())
-					Common::to_log::Get()
-						<< (log_string() << LogTag << strError3
-						<< devcount << L"/" << device_list__.size() << L"]");
+					to_log::Get() << log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_COUNT_DEVICES),
+						devcount, device_list__.size()
+					);
 
 				active_device__ = cnf->name;
 				uint32_t devid = UINT_MAX;
@@ -100,8 +93,16 @@ namespace Common {
 				}
 				isenable__ = (devid < device_list__.size());
 				if (!isenable__)
-					throw runtime_werror(log_string() << LogTag << strError6 << active_device__);
-				Common::to_log::Get() << (log_string() << LogTag << strError7 << device_list__.at(devid) << L"/" << devid);
+					throw_common_error(log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_DEVICE_NOT_CONNECT),
+						active_device__, devid)
+					);
+				to_log::Get() << log_string().to_log_fomat(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_DEVICE_FOUND),
+					device_list__.at(devid), devid
+				);
 
 				isenable__ = midi_utils::Check_MMRESULT(
 					[&]() -> MMRESULT {
@@ -115,7 +116,11 @@ namespace Common {
 					LogTag
 				);
 				if (!isenable__)
-					throw runtime_werror(log_string() << LogTag << strError4 << active_device__ << L"/" << devid);
+					throw_common_error(log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_OPEN_MIDI_DEVICE),
+						active_device__, devid)
+					);
 
 				isenable__ = midi_utils::Check_MMRESULT(
 					[&]() -> MMRESULT {
@@ -125,9 +130,17 @@ namespace Common {
 				);
 				if (!isenable__) {
 					Dispose();
-					throw runtime_werror(log_string() << LogTag << strError5 << active_device__ << L"/" << devid);
+					throw_common_error(log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_START_MIDI_DEVICE),
+						active_device__, devid)
+					);
 				}
-				Common::to_log::Get() << (log_string() << LogTag << strError8 << device_list__.at(devid).c_str() << L"/" << devid);
+				to_log::Get() << log_string().to_log_fomat(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_DEVICE_OPEN),
+					device_list__.at(devid), devid
+				);
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

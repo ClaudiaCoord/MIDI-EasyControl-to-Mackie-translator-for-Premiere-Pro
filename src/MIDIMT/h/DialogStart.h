@@ -21,7 +21,8 @@ namespace Common {
 			handle_ptr<HWND> hwnd__;
 			CbEvent mcb__;
 
-			void Dispose();
+			void dispose_();
+			void clear_();
 			void BuildLangComboBox();
 			void BuildDeviceComboBox(const std::wstring);
 			void BuildProxyComboBox(const uint32_t);
@@ -50,6 +51,7 @@ namespace Common {
 			void ChangeOnMixerfastvalue();
 			void ChangeOnMixeroldvalue();
 			void ChangeOnMixerRightClick();
+			void ChangeOnMixerDupAppRemove();
 			void ChangeOnConfigFileOpen();
 			void ChangeOnManualPort();
 			void ChangeOnSliders();
@@ -71,8 +73,8 @@ namespace Common {
 			void ChangeOnSmartHouseCa();
 			void ChangeOnSmartHousePrefix();
 
-			void EventLog();
-			void EventMonitor();
+			void EventLog(CbEventData*);
+			void EventMonitor(CbEventData*);
 
 			void ConfigSave();
 			void AutoStart();

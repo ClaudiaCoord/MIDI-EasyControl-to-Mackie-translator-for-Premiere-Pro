@@ -24,6 +24,9 @@ namespace Common {
 
     typedef std::pair<uint32_t, std::function<void(const std::wstring&)>> logBaseType;
        
+    FLAG_EXPORT std::wstring operator"" _logw(const char8_t* s, std::size_t z);
+    FLAG_EXPORT std::string operator"" _logs(const char8_t* s, std::size_t);
+
     class FLAG_EXPORT log_string
     {
     private:
@@ -33,18 +36,37 @@ namespace Common {
 
         void reset();
         void reset_buffer();
-        std::wstring str();
+        std::wstring str() const;
         const wchar_t* c_str();
 
         operator std::wstring() const;
 
+        template<typename T>
+        log_string& to_log_string(const wchar_t* m, const T s) {
+            (void) to_log_method(m);
+            ss__ << s;
+            return *this;
+        }
+
+        template<typename... Args>
+        log_string& to_log_fomat(const wchar_t* m, const std::wstring s, Args&&... args) {
+            (void) to_log_method(m);
+            ss__ << std::vformat(std::wstring_view(s), std::make_wformat_args(args...));
+            return *this;
+        }
+
+        log_string& to_log_method(const std::wstring);
+        log_string& to_log_method(const wchar_t*);
+        log_string& to_log_method(const wchar_t*, int);
+        log_string& to_log_method(const wchar_t*, const wchar_t*);
+
         template<typename T1>
-        constexpr  log_string& operator<< (T1 arg) noexcept {
+        constexpr  log_string& operator<< (T1 arg) {
             ss__ << arg;
             return *this;
         }
         template<> log_string& operator<< (std::nullptr_t);
-        template<> log_string& operator<< (runtime_werror);
+        template<> log_string& operator<< (common_error);
         template<> log_string& operator<< (std::wstringstream);
         template<> log_string& operator<< (Common::MIDI::ClassTypes);
         template<> log_string& operator<< (Common::MIDI::MidiUnitType);
@@ -56,16 +78,47 @@ namespace Common {
         template<> log_string& operator<< (std::filesystem::filesystem_error);
         template<> log_string& operator<< (std::string);
         template<> log_string& operator<< (std::wstring);
+        template<> log_string& operator<< (log_string);
         template<> log_string& operator<< (GUID);
         template<> log_string& operator<< (uint8_t);
         template<> log_string& operator<< (uint16_t);
         template<> log_string& operator<< (uint32_t);
+
+        template<typename... Args>
+        static inline std::wstring format(const std::wstring s, Args&&... args) {
+            return std::vformat(std::wstring_view(s), std::make_wformat_args(args...));
+        }
+
+        static bool is_string_empty(const std::wstring&);
+        static bool is_string_empty(const std::wstring_view&);
+        static bool is_string_empty(const std::wstringstream&);
+        static bool is_string_empty(log_string&);
     };
+
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::nullptr_t);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (common_error);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::wstringstream);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (Common::MIDI::ClassTypes);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (Common::MIDI::MidiUnitType);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (Common::MIDI::MidiUnitScene);
+
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::exception);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::runtime_error);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::error_code);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::future_error);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::filesystem::filesystem_error);
+
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::string);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (std::wstring);
+
+    extern template FLAG_EXPORT log_string& log_string::operator<< (GUID);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (uint8_t);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (uint16_t);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (uint32_t);
 
     class to_log
     {
     private:
-        std::atomic<bool> isdispose = false;
         common_event<logFnType> event__;
         std::wofstream filelog__;
         logFnType filelog_fun__;
@@ -92,7 +145,6 @@ namespace Common {
 
         FLAG_EXPORT static to_log & Get();
 
-        FLAG_EXPORT to_log& operator<< (runtime_werror&);
         FLAG_EXPORT to_log& operator<< (std::wstringstream&);
         FLAG_EXPORT to_log& operator<< (LPWSTR);
         FLAG_EXPORT to_log& operator<< (const wchar_t[]);
@@ -103,6 +155,8 @@ namespace Common {
             pushlog_(arg);
             return *this;
         }
+        template<> FLAG_EXPORT to_log& operator<< (const log_string&);
+        template<> FLAG_EXPORT to_log& operator<< (const common_error&);
         template<> FLAG_EXPORT to_log& operator<< (const std::exception&);
         template<> FLAG_EXPORT to_log& operator<< (const std::runtime_error&);
         template<> FLAG_EXPORT to_log& operator<< (const std::future_error&);
@@ -117,16 +171,27 @@ namespace Common {
         constexpr void tolog(const T1& arg) noexcept {
             pushlog_(Utils::to_string(arg));
         }
+
         template<typename... Args>
         constexpr void operator() (Args&&... args) noexcept {
             pushlog_(log_string() << args...);
         }
+
         template<typename T1>
         to_log& operator+=(T1& arg) {
             pushlog_(Utils::to_string(arg));
             return *this;
         }
     };
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::exception&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::runtime_error&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::future_error&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::error_code&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::filesystem::filesystem_error&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::string&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::wstring&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const std::wstring_view&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const GUID&);
 
     class log_auto {
     private:

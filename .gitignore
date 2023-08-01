@@ -32,6 +32,9 @@
 *.app
 
 *.aip
+*.evb
+*.pdb
+*.cmd
 .vs/*
 Win32/*
 SetupFiles/*
@@ -40,7 +43,6 @@ Debug/*
 x64/*
 x86/*
 x32/*
-*.pdb
 
 src/MIDIMT*-cache/*
 src/EASYCTRL9/lib/teVirtualMIDI/*

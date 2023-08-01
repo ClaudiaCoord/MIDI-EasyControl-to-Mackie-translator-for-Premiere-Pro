@@ -130,309 +130,313 @@ namespace Common {
 		constexpr std::wstring_view TypeClickSlider = L"ClickSlider"sv;
 		constexpr std::wstring_view TypeClickNONE = L"|none|"sv;
 
-		std::wstring_view getClickType(Common::MIDI::Mackie::ClickType t) {
+		std::wstring_view getClickType(Mackie::ClickType t) {
 			switch (t) {
-				case Common::MIDI::Mackie::ClickType::ClickOnce: return TypeClickOnce;
-				case Common::MIDI::Mackie::ClickType::ClickLong: return TypeClickLong;
-				case Common::MIDI::Mackie::ClickType::ClickTrigger: return TypeClickTrigger;
-				case Common::MIDI::Mackie::ClickType::ClickSlider: return TypeClickSlider;
-				case Common::MIDI::Mackie::ClickType::ClickUnknown:
+				using enum Mackie::ClickType;
+				case ClickOnce: return TypeClickOnce;
+				case ClickLong: return TypeClickLong;
+				case ClickTrigger: return TypeClickTrigger;
+				case ClickSlider: return TypeClickSlider;
+				case ClickUnknown:
 				default: return TypeClickNONE;
 			}
 		}
-		std::wstring_view MackieHelper::GetClickType(Common::MIDI::Mackie::ClickType& t) {
+		std::wstring_view MackieHelper::GetClickType(Mackie::ClickType& t) {
 			return getClickType(t);
 		}
 		std::wstring_view MackieHelper::GetClickType(uint8_t& u) {
-			return getClickType(static_cast<Common::MIDI::Mackie::ClickType>(u));
+			return getClickType(static_cast<Mackie::ClickType>(u));
 		}
 		std::wstring_view MackieHelper::GetClickType(uint32_t u) {
-			return getClickType(static_cast<Common::MIDI::Mackie::ClickType>(u));
+			return getClickType(static_cast<Mackie::ClickType>(u));
 		}
 
-		int32_t MackieHelper::GetSmartHomeTargetID(Common::MIDI::Mackie::Target& t) {
+		int32_t MackieHelper::GetSmartHomeTargetID(Mackie::Target& t) {
 			switch (t) {
-				case Mackie::Target::AV1: return IDM_COL4_MQTT_AV1;
-				case Mackie::Target::AV2: return IDM_COL4_MQTT_AV2;
-				case Mackie::Target::AV3: return IDM_COL4_MQTT_AV3;
-				case Mackie::Target::AV4: return IDM_COL4_MQTT_AV4;
-				case Mackie::Target::AV5: return IDM_COL4_MQTT_AV5;
-				case Mackie::Target::AV6: return IDM_COL4_MQTT_AV6;
-				case Mackie::Target::AV7: return IDM_COL4_MQTT_AV7;
-				case Mackie::Target::AV8: return IDM_COL4_MQTT_AV8;
-				case Mackie::Target::XV9: return IDM_COL4_MQTT_XV9;
+				using enum Mackie::Target;
+				case AV1: return IDM_COL4_MQTT_AV1;
+				case AV2: return IDM_COL4_MQTT_AV2;
+				case AV3: return IDM_COL4_MQTT_AV3;
+				case AV4: return IDM_COL4_MQTT_AV4;
+				case AV5: return IDM_COL4_MQTT_AV5;
+				case AV6: return IDM_COL4_MQTT_AV6;
+				case AV7: return IDM_COL4_MQTT_AV7;
+				case AV8: return IDM_COL4_MQTT_AV8;
+				case XV9: return IDM_COL4_MQTT_XV9;
 
-				case Mackie::Target::AP1: return IDM_COL4_MQTT_AP1;
-				case Mackie::Target::AP2: return IDM_COL4_MQTT_AP2;
-				case Mackie::Target::AP3: return IDM_COL4_MQTT_AP3;
-				case Mackie::Target::AP4: return IDM_COL4_MQTT_AP4;
-				case Mackie::Target::AP5: return IDM_COL4_MQTT_AP5;
-				case Mackie::Target::AP6: return IDM_COL4_MQTT_AP6;
-				case Mackie::Target::AP7: return IDM_COL4_MQTT_AP7;
-				case Mackie::Target::AP8: return IDM_COL4_MQTT_AP8;
-				case Mackie::Target::XP9: return IDM_COL4_MQTT_XP9;
+				case AP1: return IDM_COL4_MQTT_AP1;
+				case AP2: return IDM_COL4_MQTT_AP2;
+				case AP3: return IDM_COL4_MQTT_AP3;
+				case AP4: return IDM_COL4_MQTT_AP4;
+				case AP5: return IDM_COL4_MQTT_AP5;
+				case AP6: return IDM_COL4_MQTT_AP6;
+				case AP7: return IDM_COL4_MQTT_AP7;
+				case AP8: return IDM_COL4_MQTT_AP8;
+				case XP9: return IDM_COL4_MQTT_XP9;
 
-				case Mackie::Target::B11: return IDM_COL4_MQTT_B11;
-				case Mackie::Target::B12: return IDM_COL4_MQTT_B12;
-				case Mackie::Target::B13: return IDM_COL4_MQTT_B13;
-				case Mackie::Target::B14: return IDM_COL4_MQTT_B14;
-				case Mackie::Target::B15: return IDM_COL4_MQTT_B15;
-				case Mackie::Target::B16: return IDM_COL4_MQTT_B16;
-				case Mackie::Target::B17: return IDM_COL4_MQTT_B17;
-				case Mackie::Target::B18: return IDM_COL4_MQTT_B18;
-				case Mackie::Target::B19: return IDM_COL4_MQTT_B19;
+				case B11: return IDM_COL4_MQTT_B11;
+				case B12: return IDM_COL4_MQTT_B12;
+				case B13: return IDM_COL4_MQTT_B13;
+				case B14: return IDM_COL4_MQTT_B14;
+				case B15: return IDM_COL4_MQTT_B15;
+				case B16: return IDM_COL4_MQTT_B16;
+				case B17: return IDM_COL4_MQTT_B17;
+				case B18: return IDM_COL4_MQTT_B18;
+				case B19: return IDM_COL4_MQTT_B19;
 
-				case Mackie::Target::B21: return IDM_COL4_MQTT_B21;
-				case Mackie::Target::B22: return IDM_COL4_MQTT_B22;
-				case Mackie::Target::B23: return IDM_COL4_MQTT_B23;
-				case Mackie::Target::B24: return IDM_COL4_MQTT_B24;
-				case Mackie::Target::B25: return IDM_COL4_MQTT_B25;
-				case Mackie::Target::B26: return IDM_COL4_MQTT_B26;
-				case Mackie::Target::B27: return IDM_COL4_MQTT_B27;
-				case Mackie::Target::B28: return IDM_COL4_MQTT_B28;
-				case Mackie::Target::B29: return IDM_COL4_MQTT_B29;
+				case B21: return IDM_COL4_MQTT_B21;
+				case B22: return IDM_COL4_MQTT_B22;
+				case B23: return IDM_COL4_MQTT_B23;
+				case B24: return IDM_COL4_MQTT_B24;
+				case B25: return IDM_COL4_MQTT_B25;
+				case B26: return IDM_COL4_MQTT_B26;
+				case B27: return IDM_COL4_MQTT_B27;
+				case B28: return IDM_COL4_MQTT_B28;
+				case B29: return IDM_COL4_MQTT_B29;
 
-				case Mackie::Target::B31: return IDM_COL4_MQTT_B31;
-				case Mackie::Target::B32: return IDM_COL4_MQTT_B32;
-				case Mackie::Target::B33: return IDM_COL4_MQTT_B33;
-				case Mackie::Target::B34: return IDM_COL4_MQTT_B34;
-				case Mackie::Target::B35: return IDM_COL4_MQTT_B35;
-				case Mackie::Target::B36: return IDM_COL4_MQTT_B36;
-				case Mackie::Target::B37: return IDM_COL4_MQTT_B37;
-				case Mackie::Target::B38: return IDM_COL4_MQTT_B38;
-				case Mackie::Target::B39: return IDM_COL4_MQTT_B39;
+				case B31: return IDM_COL4_MQTT_B31;
+				case B32: return IDM_COL4_MQTT_B32;
+				case B33: return IDM_COL4_MQTT_B33;
+				case B34: return IDM_COL4_MQTT_B34;
+				case B35: return IDM_COL4_MQTT_B35;
+				case B36: return IDM_COL4_MQTT_B36;
+				case B37: return IDM_COL4_MQTT_B37;
+				case B38: return IDM_COL4_MQTT_B38;
+				case B39: return IDM_COL4_MQTT_B39;
 				default: break;
 			}
 			return IDM_COL4_MQTT_NONE;
 		}
-		int32_t MackieHelper::GetTargetID(Common::MIDI::Mackie::Target& t) {
+		int32_t MackieHelper::GetTargetID(Mackie::Target& t) {
 			switch (t) {
-				case Mackie::Target::MAV: return IDM_COL4_MAV;
-				case Mackie::Target::MAP: return IDM_COL4_MAP;
-				case Mackie::Target::MAM: return IDM_COL4_MAM;
-				case Mackie::Target::MAS: return IDM_COL4_MAS;
-				case Mackie::Target::JOG: return IDM_COL4_JOG;
+				using enum Mackie::Target;
+				case MAV: return IDM_COL4_MAV;
+				case MAP: return IDM_COL4_MAP;
+				case MAM: return IDM_COL4_MAM;
+				case MAS: return IDM_COL4_MAS;
+				case JOG: return IDM_COL4_JOG;
 
-				case Mackie::Target::AV1: return IDM_COL4_AV1;
-				case Mackie::Target::AV2: return IDM_COL4_AV2;
-				case Mackie::Target::AV3: return IDM_COL4_AV3;
-				case Mackie::Target::AV4: return IDM_COL4_AV4;
-				case Mackie::Target::AV5: return IDM_COL4_AV5;
-				case Mackie::Target::AV6: return IDM_COL4_AV6;
-				case Mackie::Target::AV7: return IDM_COL4_AV7;
-				case Mackie::Target::AV8: return IDM_COL4_AV8;
-				case Mackie::Target::XV9: return IDM_COL4_XV9;
+				case AV1: return IDM_COL4_AV1;
+				case AV2: return IDM_COL4_AV2;
+				case AV3: return IDM_COL4_AV3;
+				case AV4: return IDM_COL4_AV4;
+				case AV5: return IDM_COL4_AV5;
+				case AV6: return IDM_COL4_AV6;
+				case AV7: return IDM_COL4_AV7;
+				case AV8: return IDM_COL4_AV8;
+				case XV9: return IDM_COL4_XV9;
 
-				case Mackie::Target::AP1: return IDM_COL4_AP1;
-				case Mackie::Target::AP2: return IDM_COL4_AP2;
-				case Mackie::Target::AP3: return IDM_COL4_AP3;
-				case Mackie::Target::AP4: return IDM_COL4_AP4;
-				case Mackie::Target::AP5: return IDM_COL4_AP5;
-				case Mackie::Target::AP6: return IDM_COL4_AP6;
-				case Mackie::Target::AP7: return IDM_COL4_AP7;
-				case Mackie::Target::AP8: return IDM_COL4_AP8;
-				case Mackie::Target::XP9: return IDM_COL4_XP9;
+				case AP1: return IDM_COL4_AP1;
+				case AP2: return IDM_COL4_AP2;
+				case AP3: return IDM_COL4_AP3;
+				case AP4: return IDM_COL4_AP4;
+				case AP5: return IDM_COL4_AP5;
+				case AP6: return IDM_COL4_AP6;
+				case AP7: return IDM_COL4_AP7;
+				case AP8: return IDM_COL4_AP8;
+				case XP9: return IDM_COL4_XP9;
 
-				case Mackie::Target::B11: return IDM_COL4_B11;
-				case Mackie::Target::B12: return IDM_COL4_B12;
-				case Mackie::Target::B13: return IDM_COL4_B13;
-				case Mackie::Target::B14: return IDM_COL4_B14;
-				case Mackie::Target::B15: return IDM_COL4_B15;
-				case Mackie::Target::B16: return IDM_COL4_B16;
-				case Mackie::Target::B17: return IDM_COL4_B17;
-				case Mackie::Target::B18: return IDM_COL4_B18;
-				case Mackie::Target::B19: return IDM_COL4_B19;
+				case B11: return IDM_COL4_B11;
+				case B12: return IDM_COL4_B12;
+				case B13: return IDM_COL4_B13;
+				case B14: return IDM_COL4_B14;
+				case B15: return IDM_COL4_B15;
+				case B16: return IDM_COL4_B16;
+				case B17: return IDM_COL4_B17;
+				case B18: return IDM_COL4_B18;
+				case B19: return IDM_COL4_B19;
 
-				case Mackie::Target::B21: return IDM_COL4_B21;
-				case Mackie::Target::B22: return IDM_COL4_B22;
-				case Mackie::Target::B23: return IDM_COL4_B23;
-				case Mackie::Target::B24: return IDM_COL4_B24;
-				case Mackie::Target::B25: return IDM_COL4_B25;
-				case Mackie::Target::B26: return IDM_COL4_B26;
-				case Mackie::Target::B27: return IDM_COL4_B27;
-				case Mackie::Target::B28: return IDM_COL4_B28;
-				case Mackie::Target::B29: return IDM_COL4_B29;
+				case B21: return IDM_COL4_B21;
+				case B22: return IDM_COL4_B22;
+				case B23: return IDM_COL4_B23;
+				case B24: return IDM_COL4_B24;
+				case B25: return IDM_COL4_B25;
+				case B26: return IDM_COL4_B26;
+				case B27: return IDM_COL4_B27;
+				case B28: return IDM_COL4_B28;
+				case B29: return IDM_COL4_B29;
 
-				case Mackie::Target::B31: return IDM_COL4_B31;
-				case Mackie::Target::B32: return IDM_COL4_B32;
-				case Mackie::Target::B33: return IDM_COL4_B33;
-				case Mackie::Target::B34: return IDM_COL4_B34;
-				case Mackie::Target::B35: return IDM_COL4_B35;
-				case Mackie::Target::B36: return IDM_COL4_B36;
-				case Mackie::Target::B37: return IDM_COL4_B37;
-				case Mackie::Target::B38: return IDM_COL4_B38;
-				case Mackie::Target::B39: return IDM_COL4_B39;
+				case B31: return IDM_COL4_B31;
+				case B32: return IDM_COL4_B32;
+				case B33: return IDM_COL4_B33;
+				case B34: return IDM_COL4_B34;
+				case B35: return IDM_COL4_B35;
+				case B36: return IDM_COL4_B36;
+				case B37: return IDM_COL4_B37;
+				case B38: return IDM_COL4_B38;
+				case B39: return IDM_COL4_B39;
 
-				case Mackie::Target::FUN11: return IDM_COL4_FUN11;
-				case Mackie::Target::FUN12: return IDM_COL4_FUN12;
-				case Mackie::Target::FUN13: return IDM_COL4_FUN13;
-				case Mackie::Target::FUN14: return IDM_COL4_FUN14;
-				case Mackie::Target::FUN15: return IDM_COL4_FUN15;
-				case Mackie::Target::FUN16: return IDM_COL4_FUN16;
-				case Mackie::Target::FUN17: return IDM_COL4_FUN17;
-				case Mackie::Target::FUN18: return IDM_COL4_FUN18;
+				case FUN11: return IDM_COL4_FUN11;
+				case FUN12: return IDM_COL4_FUN12;
+				case FUN13: return IDM_COL4_FUN13;
+				case FUN14: return IDM_COL4_FUN14;
+				case FUN15: return IDM_COL4_FUN15;
+				case FUN16: return IDM_COL4_FUN16;
+				case FUN17: return IDM_COL4_FUN17;
+				case FUN18: return IDM_COL4_FUN18;
 
-				case Mackie::Target::FUN21: return IDM_COL4_FUN21;
-				case Mackie::Target::FUN22: return IDM_COL4_FUN22;
-				case Mackie::Target::FUN23: return IDM_COL4_FUN23;
-				case Mackie::Target::FUN24: return IDM_COL4_FUN24;
-				case Mackie::Target::FUN25: return IDM_COL4_FUN25;
-				case Mackie::Target::FUN26: return IDM_COL4_FUN26;
-				case Mackie::Target::FUN27: return IDM_COL4_FUN27;
-				case Mackie::Target::FUN28: return IDM_COL4_FUN28;
+				case FUN21: return IDM_COL4_FUN21;
+				case FUN22: return IDM_COL4_FUN22;
+				case FUN23: return IDM_COL4_FUN23;
+				case FUN24: return IDM_COL4_FUN24;
+				case FUN25: return IDM_COL4_FUN25;
+				case FUN26: return IDM_COL4_FUN26;
+				case FUN27: return IDM_COL4_FUN27;
+				case FUN28: return IDM_COL4_FUN28;
 
-				case Mackie::Target::SYS_Rewind:	return IDM_COL4_SYS_Rewind;
-				case Mackie::Target::SYS_Forward:	return IDM_COL4_SYS_Forward;
-				case Mackie::Target::SYS_Stop:		return IDM_COL4_SYS_Stop;
-				case Mackie::Target::SYS_Play:		return IDM_COL4_SYS_Play;
-				case Mackie::Target::SYS_Record:	return IDM_COL4_SYS_Record;
-				case Mackie::Target::SYS_Up:		return IDM_COL4_SYS_Up;
-				case Mackie::Target::SYS_Down:		return IDM_COL4_SYS_Down;
-				case Mackie::Target::SYS_Left:		return IDM_COL4_SYS_Left;
-				case Mackie::Target::SYS_Right:		return IDM_COL4_SYS_Right;
-				case Mackie::Target::SYS_Zoom:		return IDM_COL4_SYS_Zoom;
-				case Mackie::Target::SYS_Scrub:		return IDM_COL4_SYS_Scrub;
+				case SYS_Rewind:	return IDM_COL4_SYS_Rewind;
+				case SYS_Forward:	return IDM_COL4_SYS_Forward;
+				case SYS_Stop:		return IDM_COL4_SYS_Stop;
+				case SYS_Play:		return IDM_COL4_SYS_Play;
+				case SYS_Record:	return IDM_COL4_SYS_Record;
+				case SYS_Up:		return IDM_COL4_SYS_Up;
+				case SYS_Down:		return IDM_COL4_SYS_Down;
+				case SYS_Left:		return IDM_COL4_SYS_Left;
+				case SYS_Right:		return IDM_COL4_SYS_Right;
+				case SYS_Zoom:		return IDM_COL4_SYS_Zoom;
+				case SYS_Scrub:		return IDM_COL4_SYS_Scrub;
 
-				case Mackie::Target::MQTTKEY:		return IDM_COL4_MQTTKEY;
-				case Mackie::Target::MEDIAKEY:		return IDM_COL4_MEDIAKEY;
-				case Mackie::Target::VOLUMEMIX:		return IDM_COL4_VOLUMEMIX;
+				case MQTTKEY:		return IDM_COL4_MQTTKEY;
+				case MEDIAKEY:		return IDM_COL4_MEDIAKEY;
+				case VOLUMEMIX:		return IDM_COL4_VOLUMEMIX;
 				default: break;
 			}
 			return IDM_COL4_NONE;
 		}
 
-		std::wstring_view getTarget(Common::MIDI::Mackie::Target t) {
+		std::wstring_view getTarget(Mackie::Target t) {
 			switch (t) {
-				case Mackie::Target::MAV: return TargetMAV;
-				case Mackie::Target::MAP: return TargetMAP;
-				case Mackie::Target::MAM: return TargetMAM;
-				case Mackie::Target::MAS: return TargetMAS;
-				case Mackie::Target::JOG: return TargetJOG;
+				using enum Mackie::Target;
+				case MAV: return TargetMAV;
+				case MAP: return TargetMAP;
+				case MAM: return TargetMAM;
+				case MAS: return TargetMAS;
+				case JOG: return TargetJOG;
 
-				case Mackie::Target::AV1: return TargetAV1;
-				case Mackie::Target::AV2: return TargetAV2;
-				case Mackie::Target::AV3: return TargetAV3;
-				case Mackie::Target::AV4: return TargetAV4;
-				case Mackie::Target::AV5: return TargetAV5;
-				case Mackie::Target::AV6: return TargetAV6;
-				case Mackie::Target::AV7: return TargetAV7;
-				case Mackie::Target::AV8: return TargetAV8;
-				case Mackie::Target::XV9: return TargetXV9;
+				case AV1: return TargetAV1;
+				case AV2: return TargetAV2;
+				case AV3: return TargetAV3;
+				case AV4: return TargetAV4;
+				case AV5: return TargetAV5;
+				case AV6: return TargetAV6;
+				case AV7: return TargetAV7;
+				case AV8: return TargetAV8;
+				case XV9: return TargetXV9;
 
-				case Mackie::Target::AP1: return TargetAP1;
-				case Mackie::Target::AP2: return TargetAP2;
-				case Mackie::Target::AP3: return TargetAP3;
-				case Mackie::Target::AP4: return TargetAP4;
-				case Mackie::Target::AP5: return TargetAP5;
-				case Mackie::Target::AP6: return TargetAP6;
-				case Mackie::Target::AP7: return TargetAP7;
-				case Mackie::Target::AP8: return TargetAP8;
-				case Mackie::Target::XP9: return TargetXP9;
+				case AP1: return TargetAP1;
+				case AP2: return TargetAP2;
+				case AP3: return TargetAP3;
+				case AP4: return TargetAP4;
+				case AP5: return TargetAP5;
+				case AP6: return TargetAP6;
+				case AP7: return TargetAP7;
+				case AP8: return TargetAP8;
+				case XP9: return TargetXP9;
 
-				case Mackie::Target::B11: return TargetB11;
-				case Mackie::Target::B12: return TargetB12;
-				case Mackie::Target::B13: return TargetB13;
-				case Mackie::Target::B14: return TargetB14;
-				case Mackie::Target::B15: return TargetB15;
-				case Mackie::Target::B16: return TargetB16;
-				case Mackie::Target::B17: return TargetB17;
-				case Mackie::Target::B18: return TargetB18;
-				case Mackie::Target::B19: return TargetB19;
+				case B11: return TargetB11;
+				case B12: return TargetB12;
+				case B13: return TargetB13;
+				case B14: return TargetB14;
+				case B15: return TargetB15;
+				case B16: return TargetB16;
+				case B17: return TargetB17;
+				case B18: return TargetB18;
+				case B19: return TargetB19;
 
-				case Mackie::Target::B21: return TargetB21;
-				case Mackie::Target::B22: return TargetB22;
-				case Mackie::Target::B23: return TargetB23;
-				case Mackie::Target::B24: return TargetB24;
-				case Mackie::Target::B25: return TargetB25;
-				case Mackie::Target::B26: return TargetB26;
-				case Mackie::Target::B27: return TargetB27;
-				case Mackie::Target::B28: return TargetB28;
-				case Mackie::Target::B29: return TargetB29;
+				case B21: return TargetB21;
+				case B22: return TargetB22;
+				case B23: return TargetB23;
+				case B24: return TargetB24;
+				case B25: return TargetB25;
+				case B26: return TargetB26;
+				case B27: return TargetB27;
+				case B28: return TargetB28;
+				case B29: return TargetB29;
 
-				case Mackie::Target::B31: return TargetB31;
-				case Mackie::Target::B32: return TargetB32;
-				case Mackie::Target::B33: return TargetB33;
-				case Mackie::Target::B34: return TargetB34;
-				case Mackie::Target::B35: return TargetB35;
-				case Mackie::Target::B36: return TargetB36;
-				case Mackie::Target::B37: return TargetB37;
-				case Mackie::Target::B38: return TargetB38;
-				case Mackie::Target::B39: return TargetB39;
+				case B31: return TargetB31;
+				case B32: return TargetB32;
+				case B33: return TargetB33;
+				case B34: return TargetB34;
+				case B35: return TargetB35;
+				case B36: return TargetB36;
+				case B37: return TargetB37;
+				case B38: return TargetB38;
+				case B39: return TargetB39;
 
-				case Mackie::Target::FUN11: return TargetFUN11;
-				case Mackie::Target::FUN12: return TargetFUN12;
-				case Mackie::Target::FUN13: return TargetFUN13;
-				case Mackie::Target::FUN14: return TargetFUN14;
-				case Mackie::Target::FUN15: return TargetFUN15;
-				case Mackie::Target::FUN16: return TargetFUN16;
-				case Mackie::Target::FUN17: return TargetFUN17;
-				case Mackie::Target::FUN18: return TargetFUN18;
+				case FUN11: return TargetFUN11;
+				case FUN12: return TargetFUN12;
+				case FUN13: return TargetFUN13;
+				case FUN14: return TargetFUN14;
+				case FUN15: return TargetFUN15;
+				case FUN16: return TargetFUN16;
+				case FUN17: return TargetFUN17;
+				case FUN18: return TargetFUN18;
 
-				case Mackie::Target::FUN21: return TargetFUN21;
-				case Mackie::Target::FUN22: return TargetFUN22;
-				case Mackie::Target::FUN23: return TargetFUN23;
-				case Mackie::Target::FUN24: return TargetFUN24;
-				case Mackie::Target::FUN25: return TargetFUN25;
-				case Mackie::Target::FUN26: return TargetFUN26;
-				case Mackie::Target::FUN27: return TargetFUN27;
-				case Mackie::Target::FUN28: return TargetFUN28;
+				case FUN21: return TargetFUN21;
+				case FUN22: return TargetFUN22;
+				case FUN23: return TargetFUN23;
+				case FUN24: return TargetFUN24;
+				case FUN25: return TargetFUN25;
+				case FUN26: return TargetFUN26;
+				case FUN27: return TargetFUN27;
+				case FUN28: return TargetFUN28;
 
-				case Mackie::Target::SYS_Rewind: return TargetRewind;
-				case Mackie::Target::SYS_Forward: return TargetForward;
-				case Mackie::Target::SYS_Stop: return TargetStop;
-				case Mackie::Target::SYS_Play: return TargetPlay;
-				case Mackie::Target::SYS_Record: return TargetRecord;
-				case Mackie::Target::SYS_Up: return TargetUp;
-				case Mackie::Target::SYS_Down: return TargetDown;
-				case Mackie::Target::SYS_Left: return TargetLeft;
-				case Mackie::Target::SYS_Right: return TargetRight;
-				case Mackie::Target::SYS_Zoom: return TargetZoom;
-				case Mackie::Target::SYS_Scrub: return TargetScrub;
+				case SYS_Rewind: return TargetRewind;
+				case SYS_Forward: return TargetForward;
+				case SYS_Stop: return TargetStop;
+				case SYS_Play: return TargetPlay;
+				case SYS_Record: return TargetRecord;
+				case SYS_Up: return TargetUp;
+				case SYS_Down: return TargetDown;
+				case SYS_Left: return TargetLeft;
+				case SYS_Right: return TargetRight;
+				case SYS_Zoom: return TargetZoom;
+				case SYS_Scrub: return TargetScrub;
 
-				case Mackie::Target::MQTTKEY: return TargetMqttKey;
-				case Mackie::Target::MEDIAKEY: return TargetMediaKey;
-				case Mackie::Target::VOLUMEMIX: return TargetMixer;
+				case MQTTKEY: return TargetMqttKey;
+				case MEDIAKEY: return TargetMediaKey;
+				case VOLUMEMIX: return TargetMixer;
 				default: break;
 			}
 			return TargetNONE;
 		}
-		std::wstring_view MackieHelper::GetTarget(Common::MIDI::Mackie::Target& t) {
+		std::wstring_view MackieHelper::GetTarget(Mackie::Target& t) {
 			return getTarget(t);
 		}
 		std::wstring_view MackieHelper::GetTarget(uint8_t& u) {
-			return getTarget(static_cast<Common::MIDI::Mackie::Target>(u));
+			return getTarget(static_cast<Mackie::Target>(u));
 		}
 		std::wstring_view MackieHelper::GetTarget(uint32_t u) {
-			return getTarget(static_cast<Common::MIDI::Mackie::Target>(u));
+			return getTarget(static_cast<Mackie::Target>(u));
 		}
 
-		std::wstring_view getTranslateMMKey(Common::MIDI::Mackie::Target t) {
+		std::wstring_view getTranslateMMKey(Mackie::Target t) {
 			switch (t) {
-
-				case Mackie::Target::SYS_Rewind: return TargetMMKRewind;
-				case Mackie::Target::SYS_Forward: return TargetMMKForward;
-				case Mackie::Target::SYS_Stop: return TargetMMKStop;
-				case Mackie::Target::SYS_Play: return TargetMMKPlay;
-				case Mackie::Target::SYS_Record: return TargetMMKRecord;
-				case Mackie::Target::SYS_Up: return TargetMMKUp;
-				case Mackie::Target::SYS_Down: return TargetMMKDown;
-				case Mackie::Target::SYS_Left: return TargetMMKLeft;
-				case Mackie::Target::SYS_Right: return TargetMMKRight;
-				case Mackie::Target::SYS_Zoom: return TargetMMKZoom;
-				case Mackie::Target::SYS_Scrub: return TargetMMKScrub;
+				using enum Mackie::Target;
+				case SYS_Rewind: return TargetMMKRewind;
+				case SYS_Forward: return TargetMMKForward;
+				case SYS_Stop: return TargetMMKStop;
+				case SYS_Play: return TargetMMKPlay;
+				case SYS_Record: return TargetMMKRecord;
+				case SYS_Up: return TargetMMKUp;
+				case SYS_Down: return TargetMMKDown;
+				case SYS_Left: return TargetMMKLeft;
+				case SYS_Right: return TargetMMKRight;
+				case SYS_Zoom: return TargetMMKZoom;
+				case SYS_Scrub: return TargetMMKScrub;
 
 				default: break;
 			}
 			return TargetNONE;
 		}
-		std::wstring_view MackieHelper::GetTranslateMMKey(Common::MIDI::Mackie::Target& t) {
-			return getTranslateMMKey(static_cast<Common::MIDI::Mackie::Target>(t));
+		std::wstring_view MackieHelper::GetTranslateMMKey(Mackie::Target& t) {
+			return getTranslateMMKey(static_cast<Mackie::Target>(t));
 		}
 		std::wstring_view MackieHelper::GetTranslateMMKey(uint8_t& u) {
-			return getTranslateMMKey(static_cast<Common::MIDI::Mackie::Target>(u));
+			return getTranslateMMKey(static_cast<Mackie::Target>(u));
 		}
 		std::wstring_view MackieHelper::GetTranslateMMKey(uint32_t u) {
-			return getTranslateMMKey(static_cast<Common::MIDI::Mackie::Target>(u));
+			return getTranslateMMKey(static_cast<Mackie::Target>(u));
 		}
 	}
 }
