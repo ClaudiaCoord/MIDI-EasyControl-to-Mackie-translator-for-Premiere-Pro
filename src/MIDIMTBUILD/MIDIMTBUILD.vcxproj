@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_MIDIMTBUILD32;BUILDROOT=R"($(SolutionDir))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_MIDIMTBUILD32;BUILDROOT=R"($(SolutionDir))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_MIDIMTBUILD64;BUILDROOT=R"($(SolutionDir))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -166,7 +166,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_MIDIMTBUILD64;BUILDROOT=R"($(SolutionDir))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -182,6 +182,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MIDIMTBUILD.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Common\rc\ribbon\RibbonDialogConfig.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UICC.exe $(MSBuildProjectDirectory)\..\Common\rc\ribbon\RibbonDialogConfig.xml $(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml /header:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h /res:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc /name:CONFIG_EDITOR</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UICC.exe $(MSBuildProjectDirectory)\..\Common\rc\ribbon\RibbonDialogConfig.xml $(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml /header:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h /res:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc /name:CONFIG_EDITOR</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UICC.exe $(MSBuildProjectDirectory)\..\Common\rc\ribbon\RibbonDialogConfig.xml $(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml /header:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h /res:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc /name:CONFIG_EDITOR</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UICC.exe $(MSBuildProjectDirectory)\..\Common\rc\ribbon\RibbonDialogConfig.xml $(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml /header:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h /res:$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc /name:CONFIG_EDITOR</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).bml;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).h;$(MSBuildProjectDirectory)\..\Common\rc\ribbon\%(Filename).rc</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

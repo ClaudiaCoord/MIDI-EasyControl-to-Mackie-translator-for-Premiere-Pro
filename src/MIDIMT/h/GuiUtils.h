@@ -71,6 +71,10 @@ namespace Common {
 			static bool CheckControlEnable(HWND, int);
 			static void IcondataButtonEnabled(HWND, ICONDATA<HICON>*, bool = true);
 			static void SaveConfigEnabled(HWND);
+			static void ShowHelpPage(uint32_t, uint32_t);
+			static void ShowHelpPage(uint32_t, HELPINFO*);
+
+			static std::wstring GetDragAndDrop(HDROP);
 			static std::wstring GetBlank(uint32_t);
 			static std::wstring GetControlText(HWND, int);
 		};

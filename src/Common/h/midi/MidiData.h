@@ -41,6 +41,9 @@ namespace Common {
             MixerUnit();
             void Copy(MidiUnit&);
             void Copy(MixerUnit&);
+            void ToNull(bool = false);
+            bool EqualsOR(MixerUnit&);
+            bool EqualsAND(MixerUnit&);
             std::wstring Dump();
         };
 
@@ -83,6 +86,8 @@ namespace Common {
 #       pragma warning( push )
 #       pragma warning( disable : 4251 )
         class FLAG_EXPORT MidiDevice {
+        private:
+            void copysettings__(MidiDevice*);
         public:
             std::wstring name;
             std::wstring config;
@@ -104,6 +109,11 @@ namespace Common {
             void Add(MidiUnit);
             void Clear();
             std::wstring Dump();
+
+            template <class T1>
+            void CopySettings(T1& ptr) {
+                copysettings__(ptr.get());
+            }
         };
 #       pragma warning( pop )
 

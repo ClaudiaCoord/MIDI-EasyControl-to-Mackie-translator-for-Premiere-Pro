@@ -3,17 +3,21 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>--conf=E:\__BuildSource\__SVN__\EasyControl-Mackie\EasyControl-Mackie-src\docs\Dist\MidiController.cnf</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>--conf=E:\__BuildSource\__SVN__\EasyControl-Mackie\EasyControl-Mackie-src\docs\Dist\MidiController.cnf</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>--conf=E:\__BuildSource\__SVN__\EasyControl-Mackie\EasyControl-Mackie-src\docs\Dist\MidiController.cnf</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>--conf=E:\__BuildSource\__SVN__\EasyControl-Mackie\EasyControl-Mackie-src\docs\Dist\MidiController.cnf</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

@@ -16,36 +16,38 @@
 
 #define FLAG_EXPORT __declspec(dllimport)
 
-#pragma warning( push )
-#pragma warning( disable : 4251 )
-
 namespace Common {
     namespace MIXER {
+        class AudioSessionUnit;
+        class AudioSessionItem;
         class AudioSessionList;
         class AudioSessionMixer;
-        class AudioSessionItem;
         class AudioSessionEvents;
-        class AudioSessionEventsBuilder;
         class AudioSessionEventsNotify;
-        class FLAG_EXPORT AudioVolumeValue;
+        class AudioSessionEventsBuilder;
+        class FLAG_EXPORT AudioSessionItemId;
+        class FLAG_EXPORT AudioSessionItemApp;
+        class FLAG_EXPORT AudioSessionItemValue;
+        class FLAG_EXPORT AudioSessionItemBase;
+        class FLAG_EXPORT AudioSessionItemChange;
     }
 }
 
 struct IAudioSessionControl;
 struct IAudioEndpointVolume;
 struct IAudioSessionManager2;
-template class FLAG_EXPORT::std::basic_string<wchar_t>;
-template class FLAG_EXPORT::std::allocator<Common::MIXER::AudioSessionItem>;
-template class FLAG_EXPORT::std::vector<Common::MIXER::AudioSessionItem*>;
+struct IAudioMeterInformation;
 
 #include "h\global_enum.h"
-#include "h\AudioVolumeValue.h"
-#include "h\AudioSessionItemChange.h"
-#include "h\AudioSessionItemMidi.h"
-#include "h\AudioSessionItem.h"
+#include "h\item\AudioSessionItemId.h"
+#include "h\item\AudioSessionItemApp.h"
+#include "h\item\AudioSessionItemValue.h"
+#include "h\item\AudioSessionItemBase.h"
+#include "h\item\AudioSessionItemChange.h"
+#include "h\item\AudioSessionItem.h"
+#include "h\AudioSessionMixerVolume.h"
 #include "h\AudioSessionMixer.h"
-
-#pragma warning( pop )
+#include "h\AudioSessionHelper.h"
 
 #undef FLAG_EXPORT
 

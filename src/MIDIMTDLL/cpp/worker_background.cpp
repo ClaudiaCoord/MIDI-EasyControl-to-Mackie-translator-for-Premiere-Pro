@@ -22,11 +22,14 @@ namespace Common {
 	static std::shared_ptr<locker_awaiter> lock__ = std::make_shared<Common::locker_awaiter>();
 	static worker_background worker_background__;
 
+	#if defined(__SANITIZE_ADDRESS__)
+	__declspec(no_sanitize_address)
+	#endif
 	static void repack_() {
 		try {
 			while (!asyncreq__.empty()) {
-				std::future<void>& f = asyncreq__.front();
 				try {
+					std::future<void>& f = asyncreq__.front();
 					if (f.valid()) {
 						if (f.wait_for(std::chrono::milliseconds(200)) != std::future_status::ready) {
 							try { (void)f.get(); } catch (...) {}
@@ -64,7 +67,6 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-
 	void     worker_background::start() {
 		try {
 			if (t__.IsActive())
@@ -74,11 +76,9 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-
 	void     worker_background::stop() {
 		t__.Stop();
 	}
-
 	void     worker_background::clear() {
 		try {
 			if (t__.IsActive())
@@ -90,7 +90,6 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-
 	void     worker_background::set_interval(uint32_t sec) {
 		interval__ = sec;
 	}
@@ -107,7 +106,6 @@ namespace Common {
 		}
 		return 0U;
 	}
-	
 	void     worker_background::remove(uint32_t id) {
 		try {
 			list__.remove_if([=](pairWorkerCb& p) { return p.first == id; });
@@ -115,7 +113,6 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-
 	void     worker_background::to_async(callFutureCb cb) {
 		try {
 			asyncreq__.push(std::move(cb));

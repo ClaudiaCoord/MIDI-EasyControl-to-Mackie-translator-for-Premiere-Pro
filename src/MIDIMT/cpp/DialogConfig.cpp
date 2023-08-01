@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	(c) CC 2023, MIT
+	(c) CC 2022-2023, MIT
 
 	See README.md for more details.
 	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!
@@ -21,7 +21,7 @@ namespace Common {
 
 		constexpr std::wstring_view TargetAll = L"All"sv;
 		constexpr std::wstring_view TargetInt = L"Internal"sv;
-		constexpr std::wstring_view TargetPP = L"Premiere Pro"sv;
+		constexpr std::wstring_view TargetPP  = L"Premiere Pro"sv;
 		constexpr std::wstring_view TargetMMK = L"Multimedia Key"sv;
 
 		static void HelperAdd(HWND hwnd, uint32_t idx, std::wstring s) {
@@ -31,32 +31,8 @@ namespace Common {
 
 		DialogConfig::DialogConfig() {
 			try {
-				mcb__.LogNotify = [=]() {
-					if (hwnd__)
-						PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_LOG, 0), 0);
-				};
-				mcb__.MonitorNotify = [=]() {
-					if (hwnd__)
-						PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_MONITOR, 0), 0);
-				};
-				mcb__.MonitorData = [=](MIDI::Mackie::MIDIDATA& m, DWORD& t) -> bool {
-					if (!hwnd__) return false;
-					try {
-						HWND hwnd = hwnd__.get();
-						ListMixerContainer* cont = new ListMixerContainer(m, t);
-						Common::MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
-
-						if (lv__->ListViewInsertItem(cont))
-							Gui::SaveConfigEnabled(hwnd);
-						if (common_config::Get().Local.IsMidiBridgeRun())
-							Gui::SetControlEnable(hwnd, IDC_SETUP_CODE);
-					}
-					catch (...) {
-						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-					}
-					return true;
-				};
-				mcb__.IsLogOneLine = mcb__.IsMonitorOneLine = true;
+				mcb__.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
+				mcb__.HwndCb = [=]() { return hwnd__.get(); };
 
 				uint16_t status_icos[]{ IDI_ICON_SETUP1, IDI_ICON_SETUP2, IDI_ICON_SETUP3 };
 				img_status__.Init(status_icos, std::size(status_icos), true);
@@ -81,19 +57,26 @@ namespace Common {
 			}
 		}
 		DialogConfig::~DialogConfig() {
-			Dispose();
+			dispose_();
 		}
-
-		const bool DialogConfig::IsRunOnce() {
-			return !hwnd__;
-		}
-		void DialogConfig::SetFocus() {
-			if (hwnd__) (void) ::SetFocus(hwnd__.get());
-		}
-
-		void DialogConfig::Clear() {
+		void DialogConfig::dispose_() {
+			clear_();
 			try {
+				tb__.reset();
+				btn_mute__.Release();
+				btn_info__.Release();
+				btn_runapp__.Release();
+				btn_remove__.Release();
+				btn_folder__.Release();
+				img_status__.Release();
+				mcb__.Clear();
+			} catch (...) {}
+		}
+		void DialogConfig::clear_() {
+			try {
+				to_log::Get().unregistred(mcb__.GetCbLog());
 				ConfigDevice = ConfigStatus::None;
+				confpath__ = std::wstring();
 				if (hwnd__)
 					(void) ::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 				hwnd__.reset();
@@ -109,17 +92,14 @@ namespace Common {
 				img_status__.Reset();
 			} catch (...) {}
 		}
-		void DialogConfig::Dispose() {
-			Clear();
-			try {
-				btn_mute__.Release();
-				btn_info__.Release();
-				btn_runapp__.Release();
-				btn_remove__.Release();
-				btn_folder__.Release();
-				img_status__.Release();
-			} catch (...) {}
+
+		const bool DialogConfig::IsRunOnce() {
+			return !hwnd__;
 		}
+		void DialogConfig::SetFocus() {
+			if (hwnd__) (void) ::SetFocus(hwnd__.get());
+		}
+
 		void DialogConfig::InitListView() {
 			try {
 				if (lv__)
@@ -131,25 +111,43 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		void DialogConfig::EndDialog() {
+		void DialogConfig::InitDialog(HWND hwnd, COPYDATASTRUCT* data) {
 			try {
-				to_log::Get().unregistred(mcb__.GetCbLog());
-				Clear();
-			}
-			catch (...) {
-				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-			}
-		}
-		void DialogConfig::InitDialog(HWND hwnd) {
-			try {
-				mcb__.Clear();
 				to_log::Get().registred(mcb__.GetCbLog());
 				common_config& cnf = common_config::Get();
+				std::shared_ptr<MIDI::MidiDevice> dev;
+				confpath__ = std::wstring();
 
-				ConfigDevice = !cnf.IsConfigEmpty() ? (cnf.Local.IsMidiBridgeRun() ? ConfigStatus::LoadDevice : ConfigStatus::LoadFile) :
-														(!cnf.IsConfig() ? ConfigStatus::None : ConfigStatus::LoadFile);
-				if (ConfigDevice == ConfigStatus::None) {
-					ConfigDevice = cnf.Load() ? ((cnf.Local.IsMidiBridgeRun()) ? ConfigStatus::LoadDevice : ConfigStatus::LoadFile) : ConfigStatus::None;
+				tb__.reset(new RToolBarDialogConfig(hwnd, L"CONFIG_EDITOR_RIBBON"));
+
+				if (data) {
+					if ((data->dwData == CheckRun::Get().GetMsgId()) && (data->cbData > 0)) {
+						wchar_t* cnfs = reinterpret_cast<wchar_t*>(data->lpData);
+						if (cnfs) confpath__ = std::wstring(cnfs, cnfs + (data->cbData - 1));
+						else	  confpath__ = std::wstring();
+					}
+					if (data->lpData)
+						if (data->lpData) delete [] data->lpData;
+					delete data;
+				}
+
+				bool externalconfig = !confpath__.empty() && std::filesystem::exists(confpath__);
+
+				if (externalconfig) {
+					ConfigDevice = ConfigStatus::LoadFile;
+					dev = std::make_shared<MIDI::MidiDevice>();
+					try {
+						MIDI::json_config json{};
+						json.Read(dev, confpath__);
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+				} else {
+					ConfigDevice = !cnf.IsConfigEmpty() ? (cnf.Local.IsMidiBridgeRun() ? ConfigStatus::LoadDevice : ConfigStatus::LoadFile) :
+						(!cnf.IsConfig() ? ConfigStatus::None : ConfigStatus::LoadFile);
+					if (ConfigDevice == ConfigStatus::None)
+						ConfigDevice = cnf.Load() ? ((cnf.Local.IsMidiBridgeRun()) ? ConfigStatus::LoadDevice : ConfigStatus::LoadFile) : ConfigStatus::None;
+					dev = (ConfigDevice == ConfigStatus::None) ? std::make_shared<MIDI::MidiDevice>() : cnf.GetConfig();
 				}
 
 				HWND hwcl;
@@ -161,12 +159,12 @@ namespace Common {
 				lv__->ListViewInit(hwcl);
 
 				if (ConfigDevice != ConfigStatus::None) {
-					lv__->ListViewLoad(cnf.GetConfig());
-					SetDlgItemText(hwnd, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
+					lv__->ListViewLoad(dev);
+					::SetDlgItemTextW(hwnd, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
 				}
 
-				if (cnf.Local.IsMidiBridgeRun())
-					Gui::SetControlEnable(hwnd, IDC_SETUP_CODE);
+				tb__->SetEditorNotify(cnf.Local.IsMidiBridgeRun() ? EditorNotify::ReadMidiEnable : EditorNotify::ReadMidiDisable);
+				tb__->SetEditorNotify(EditorNotify::ItemEmpty);
 
 				try {
 
@@ -178,9 +176,16 @@ namespace Common {
 					img_status__.Init(hwnd, IDC_SETUP_ICON);
 
 					if (ConfigDevice != 0) img_status__.SetStatus(ConfigDevice);
-					mcb__.AddToLog(LangInterface::Get().GetString(
-						(ConfigDevice == 0) ? IDS_SETUP_MSG3 : ((ConfigDevice == 1) ? IDS_SETUP_MSG2 : IDS_SETUP_MSG1)
-					));
+					if (externalconfig)
+						mcb__.AddToLog(log_string::format(L"{0}: {1}",
+							LangInterface::Get().GetString(IDS_SETUP_MSG2),
+							confpath__.c_str()
+						));
+					else
+						mcb__.AddToLog(LangInterface::Get().GetString(
+							(ConfigDevice == ConfigStatus::None) ? IDS_SETUP_MSG3 :
+								((ConfigDevice == ConfigStatus::LoadFile) ? IDS_SETUP_MSG2 : IDS_SETUP_MSG1)
+						));
 
 				} catch (...) {
 					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -193,13 +198,41 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void DialogConfig::EndDialog() {
+			if (!hwnd__) return;
+			tb__.reset();
+			clear_();
+		}
 
-		void DialogConfig::HelpCategoryAddTarget(HWND hwnd, uint32_t idx, const std::wstring_view target) {
+		void DialogConfig::OpenDragAndDrop(std::wstring s) {
+			if (s.empty() || !hwnd__ || !lv__) return;
+			try {
+
+				confpath__ = s;
+				std::shared_ptr<MIDI::MidiDevice> dev = std::make_shared<MIDI::MidiDevice>();
+				MIDI::json_config json{};
+				json.Read(dev, confpath__);
+
+				lv__->ListViewLoad(dev);
+				::SetDlgItemTextW(hwnd__, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
+				mcb__.AddToLog(log_string::format(L"{0}: {1}",
+					LangInterface::Get().GetString(IDS_SETUP_MSG2),
+					confpath__.c_str()
+				));
+				img_status__.SetStatus(ConfigStatus::LoadFile);
+				tb__->AddRecent(confpath__);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void DialogConfig::helpcategory_addtarget_(HWND hwnd, uint32_t idx, const std::wstring_view target) {
 			log_string ls;
 			ls << idx << Gui::GetBlank(idx) << L" - [" << target << L"] " << MIDI::MackieHelper::GetTarget(idx).data();
 			HelperAdd(hwnd, idx, ls.str());
 		}
-		void DialogConfig::HelpCategoryAddMMKey(HWND hwnd, uint32_t idx) {
+		void DialogConfig::helpcategory_addmmkey_(HWND hwnd, uint32_t idx) {
 			log_string ls;
 			ls << idx << Gui::GetBlank(idx) << L" - [" << TargetMMK << L"] " << MIDI::MackieHelper::GetTranslateMMKey(idx).data();
 			HelperAdd(hwnd, idx, ls.str());
@@ -218,34 +251,34 @@ namespace Common {
 				for (uint32_t i = 0, n = 0; i <= static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); i++) {
 					if ((k == IDC_SETUP_RADIO2) || (k == IDC_SETUP_RADIO1)) {
 						if (((i >= 32) && (i <= 40)) || (i == 2) || (i == 3)) {
-							HelpCategoryAddTarget(hwcl, i, TargetAll);
+							helpcategory_addtarget_(hwcl, i, TargetAll);
 							continue;
 						}
 						else if (((i >= 23) && (i <= 31)) || ((i >= 41) && (i <= 49)) || (i >= 50) && (i <= 65)) {
-							HelpCategoryAddTarget(hwcl, i, TargetPP);
+							helpcategory_addtarget_(hwcl, i, TargetPP);
 							continue;
 						}
 					}
 					if ((k == IDC_SETUP_RADIO3) || (k == IDC_SETUP_RADIO1)) {
 						if (((i >= 5) && (i <= 22)) || (i == 0) || (i == 1)) {
-							HelpCategoryAddTarget(hwcl, i, TargetAll);
+							helpcategory_addtarget_(hwcl, i, TargetAll);
 							continue;
 						}
 					}
 					if ((k == IDC_SETUP_RADIO4) || (k == IDC_SETUP_RADIO1)) {
 						if ((i >= 66) && (i <= 76)) {
-							HelpCategoryAddTarget(hwcl, i, TargetPP);
-							HelpCategoryAddMMKey(hwcl, i);
+							helpcategory_addtarget_(hwcl, i, TargetPP);
+							helpcategory_addmmkey_(hwcl, i);
 							continue;
 						}
 					}
 					if ((k == IDC_SETUP_RADIO1) && ((i >= 252) && (i <= 254))) {
 						if ((i >= 50) && (i <= 65))
-							HelpCategoryAddTarget(hwcl, i, TargetPP);
+							helpcategory_addtarget_(hwcl, i, TargetPP);
 						else if ((i >= 252) && (i <= 254))
-							HelpCategoryAddTarget(hwcl, i, TargetInt);
+							helpcategory_addtarget_(hwcl, i, TargetInt);
 						else
-							HelpCategoryAddTarget(hwcl, i, TargetAll);
+							helpcategory_addtarget_(hwcl, i, TargetAll);
 					}
 				}
 			}
@@ -259,9 +292,9 @@ namespace Common {
 				(void) lv__->ListViewSort(lpmh);
 		}
 		void DialogConfig::ListViewMenu(LPNMHDR lpmh) {
-			if ((lpmh != nullptr) && (lv__)) {
+			if ((lpmh != nullptr) && lv__ && hwnd__) {
 				(void)lv__->ListViewMenu(lpmh);
-				if (hwnd__) Gui::SaveConfigEnabled(hwnd__.get());
+				if (hwnd__) ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 			}
 		}
 		void DialogConfig::ListViewMenu(uint32_t id) {
@@ -275,19 +308,19 @@ namespace Common {
 						case IDM_LV_NEW:
 						case IDM_LV_PASTE:
 						case IDM_LV_DELETE: {
-							Gui::SaveConfigEnabled(hwnd);
+							ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 							SetDlgItemText(hwnd, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
 							break;
 						}
 						case IDM_LV_SET_MQTT:
 						case IDM_LV_SET_MMKEY:
 						case IDM_LV_SET_MIXER: {
-							Gui::SaveConfigEnabled(hwnd);
+							ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 							break;
 						}
 						case IDM_LV_READ_MIDI_CODE: {
-							ButtonMonitor();
-							Gui::SaveConfigEnabled(hwnd);
+							ToolBarMonitor();
+							ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 							break;
 						}
 						default: break;
@@ -303,8 +336,7 @@ namespace Common {
 			
 			try {
 				bool b = lv__->ListViewSetItem(lpmh);
-				if (b)
-					Gui::SaveConfigEnabled(hwnd);
+				if (b) ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -322,6 +354,7 @@ namespace Common {
 					return;
 
 				LangInterface& lang = LangInterface::Get();
+				ToolBarEditorNotify(EditorNotify::SelectedEnable);
 
 				for (size_t i = 1; i < lv__->ListViewColumns(); i++) {
 					std::wstring ws{}, wn{};
@@ -357,7 +390,7 @@ namespace Common {
 									break;
 								}
 								default:{
-									ws = LangInterface::Get().GetString(MIDI::MackieHelper::GetTargetID(last__->unit.longtarget));
+									ws = lang.GetString(MIDI::MackieHelper::GetTargetID(last__->unit.longtarget));
 									break;
 								}
 							}
@@ -390,8 +423,8 @@ namespace Common {
 					switch (last__->unit.type) {
 						case MIDI::MidiUnitType::BTN:
 						case MIDI::MidiUnitType::BTNTOGGLE: {
-							SetVolumeSlider(hwnd, -1);
-							SetMuteImage(last__->unit.value.lvalue);
+							set_volumeslider_(hwnd, -1);
+							set_muteimage_(last__->unit.value.lvalue);
 							break;
 						}
 						case MIDI::MidiUnitType::FADER:
@@ -400,13 +433,13 @@ namespace Common {
 						case MIDI::MidiUnitType::SLIDERINVERT:
 						case MIDI::MidiUnitType::KNOB:
 						case MIDI::MidiUnitType::KNOBINVERT: {
-							SetVolumeSlider(hwnd, last__->unit.value.value);
-							SetMuteImage(-1);
+							set_volumeslider_(hwnd, last__->unit.value.value);
+							set_muteimage_(-1);
 							break;
 						}
 						default: {
-							SetVolumeSlider(hwnd, -1);
-							SetMuteImage(-1);
+							set_volumeslider_(hwnd, -1);
+							set_muteimage_(-1);
 							break;
 						}
 					}
@@ -414,8 +447,8 @@ namespace Common {
 					(void) ::EnableWindow(hwcl, false);
 
 
-					SetVolumeSlider(hwnd, -1);
-					SetMuteImage(-1);
+					set_volumeslider_(hwnd, -1);
+					set_muteimage_(-1);
 
 					btn_runapp__.SetEnable(false);
 					btn_folder__.SetEnable(false);
@@ -430,48 +463,353 @@ namespace Common {
 			if ((lpmh != nullptr) && (lv__))
 				(void) lv__->ListViewEdit(lpmh);
 		}
-
-		void DialogConfig::ButtonSave() {
-			if (!hwnd__ || !lv__) return;
-			HWND hwnd = hwnd__.get();
-
+		void DialogConfig::ListViewFilter(LPNMHDR lpmh) {
+			if ((lpmh == nullptr) || !hwnd__ || !lv__) return;
 			try {
-				common_config& cnf = common_config::Get();
-				bool b = lv__->ListViewGetList(cnf.Get().GetConfig());
-				if (!b) return;
-
-				Gui::SetControlEnable(hwnd, IDC_DIALOG_SAVE, false);
-				::SetDlgItemTextW(hwnd, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
-				(void) cnf.Save();
-			}
-			catch (...) {
-				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-			}
-		}
-		void DialogConfig::ButtonMonitor() {
-			try {
-				if (!hwnd__) return;
-				HWND hwnd = hwnd__.get();
-
-				if (!Gui::CheckControlEnable(hwnd, IDC_SETUP_CODE)) return;
-				if (!Common::common_config::Get().Local.IsMidiBridgeRun()) return;
-				Gui::SetControlEnable(hwnd, IDC_SETUP_CODE, false);
-				Common::MIDI::MidiBridge::Get().SetCallbackOut(std::ref(mcb__));
+				switch (lpmh->code) {
+					case HDN_FILTERCHANGE: {
+						if (!tb__->IsFilterAutoCommitCheck() || (!reinterpret_cast<LPNMHEADERW>(lpmh))) return;
+						break;
+					}
+					case HDN_FILTERBTNCLICK: {
+						if (!reinterpret_cast<LPNMHDFILTERBTNCLICK>(lpmh)) return;
+						break;
+					}
+				}
+				print_itemscount_(lv__->ListViewFilter(tb__->IsFilterTypeCheck()));
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
 
-		void DialogConfig::EventLog() {
+		/// 
+
+		void DialogConfig::ToolBarSetMode() {
+			if (tb__) tb__->SetMode();
+		}
+		void DialogConfig::ToolBarEditDigitMode() {
+			if (!hwnd__ || !tb__) return;
 			try {
-				if (hwnd__) mcb__.LogLoop(hwnd__.get(), IDC_LOG);
+				tb__->SetEditorNotify(EditorNotify::EditDigits);
+				lv__->EditAsDigit = tb__->IsEditDigitCheck();
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarFilterEmbed() {
+			if (!hwnd__ || !tb__) return;
+			try {
+				tb__->SetEditorNotify(EditorNotify::FilterEmbed);
+				lv__->ListViewFilterEmbed(tb__->IsFilterEmbedCheck());
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarFilterType(uint32_t id) {
+			if (!hwnd__ || !tb__) return;
+			try {
+				EditorNotify evn;
+				switch (id) {
+					case IDM_LV_FILTER_TYPEOR:  evn = EditorNotify::FilterSetOr; break;
+					case IDM_LV_FILTER_TYPEAND: evn = EditorNotify::FilterSetAnd; break;
+					default: return;
+				}
+				tb__->SetEditorNotify(evn);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarFilterAutoCommit() {
+			if (!hwnd__ || !tb__) return;
+			try {
+				tb__->SetEditorNotify(EditorNotify::AutoCommit);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarSort(uint32_t id) {
+			if (!lv__) return;
+			try {
+				bool asc;
+				uint32_t col;
+
+				switch (id) {
+					case IDM_LV_SORTUP_KEY: { col = 1; asc = true; break; }
+					case IDM_LV_SORTUP_SCENE: { col = 2; asc = true; break; }
+					case IDM_LV_SORTUP_TARGET: { col = 4; asc = true; break; }
+					case IDM_LV_SORTUP_TARGETLONG: { col = 5; asc = true; break; }
+					case IDM_LV_SORTDOWN_KEY: { col = 1; asc = false; break; }
+					case IDM_LV_SORTDOWN_SCENE: { col = 2; asc = false; break; }
+					case IDM_LV_SORTDOWN_TARGET: { col = 4; asc = false; break; }
+					case IDM_LV_SORTDOWN_TARGETLONG: { col = 5; asc = false; break; }
+					default: return;
+				}
+				(void)lv__->ListViewSort(col, asc);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarRecentOpen(uint32_t id) {
+			if (!id || !hwnd__) return;
+			try {
+				std::wstring s = tb__->GetRecent(id);
+				if (s.empty() || !std::filesystem::exists(s)) return;
+				load_file_(s);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarImport() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				PWSTR pws = nullptr;
+				IShellItem* item = nullptr;
+				IFileOpenDialog* ptr = nullptr;
+
+				try {
+					std::wstring filter = LangInterface::Get().GetString(IDS_START_EXT_FILTER);
+					COMDLG_FILTERSPEC extfilter[] = {
+						{ filter.c_str(), L"*.cnf"}
+					};
+					do {
+						HRESULT h = CoCreateInstance(
+							CLSID_FileOpenDialog,
+							NULL, CLSCTX_ALL,
+							IID_IFileOpenDialog,
+							reinterpret_cast<void**>(&ptr));
+
+						if (h != S_OK) break;
+
+						#pragma warning( push )
+						#pragma warning( disable : 4267 )
+						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
+						#pragma warning( pop )
+
+						if (h != S_OK) break;
+						h = ptr->Show(hwnd);
+						if (h != S_OK) break;
+						h = ptr->GetResult(&item);
+						if (h != S_OK) break;
+						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
+						if (h != S_OK) break;
+
+						std::wstring s = Utils::to_string(pws);
+						if (s.empty() || !std::filesystem::exists(s)) break;
+						load_file_(s);
+					} while (0);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				if (item != nullptr) item->Release();
+				if (ptr != nullptr) ptr->Release();
+				if (pws != nullptr) CoTaskMemFree(pws);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarSave() {
+			if (!hwnd__ || !lv__) return;
+			HWND hwnd = hwnd__.get();
+
+			try {
+				common_config& cnf = common_config::Get();
+				LangInterface& lang = LangInterface::Get();
+				bool mainsave = !confpath__.empty() &&
+					(::MessageBoxW(0,
+						log_string::format(lang.GetString(IDS_DLG_MSG14), confpath__).c_str(),
+						lang.GetString(IDS_START_EXT_FILTER).c_str(),
+						MB_YESNO | MB_ICONQUESTION) == IDYES);
+
+				if (!mainsave) {
+					if (!lv__->ListViewGetList(cnf.Get().GetConfig())) return;
+					(void) cnf.Save();
+				} else {
+					std::shared_ptr<MIDI::MidiDevice> dev = std::make_shared<MIDI::MidiDevice>();
+					MIDI::json_config json{};
+					json.Read(dev, confpath__);
+					if (!lv__->ListViewGetList(dev)) return;
+					json.Write(dev, confpath__, false);
+				}
+				ToolBarEditorNotify(EditorNotify::EditChangeDisable);
+				::SetDlgItemTextW(hwnd, IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
+			}
+			catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarExport() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				PWSTR pws = nullptr;
+				IShellItem* item = nullptr;
+				IFileSaveDialog* ptr = nullptr;
+
+				try {
+					std::wstring filter = LangInterface::Get().GetString(IDS_START_EXT_FILTER);
+					COMDLG_FILTERSPEC extfilter[] = {
+						{ filter.c_str(), L"*.cnf"}
+					};
+					do {
+						HRESULT h = CoCreateInstance(
+							CLSID_FileSaveDialog,
+							NULL, CLSCTX_ALL,
+							IID_IFileSaveDialog,
+							reinterpret_cast<void**>(&ptr));
+
+						if (h != S_OK) break;
+
+						#pragma warning( push )
+						#pragma warning( disable : 4267 )
+						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
+						#pragma warning( pop )
+
+						if (h != S_OK) break;
+						h = ptr->Show(hwnd);
+						if (h != S_OK) break;
+						h = ptr->GetResult(&item);
+						if (h != S_OK) break;
+						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
+						if (h != S_OK) break;
+
+						std::shared_ptr<MIDI::MidiDevice> dev = std::make_shared<MIDI::MidiDevice>();
+						dev->CopySettings(common_config::Get().GetConfig());
+						if (!lv__->ListViewGetList(dev)) break;
+
+						MIDI::json_config json{};
+						std::wstring confpath = Utils::to_string(pws);
+						json.Write(dev, confpath, false);
+						tb__->AddRecent(confpath);
+
+					} while (0);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				if (item != nullptr) item->Release();
+				if (ptr != nullptr) ptr->Release();
+				if (pws != nullptr) CoTaskMemFree(pws);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarMonitor() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				if (!common_config::Get().Local.IsMidiBridgeRun()) return;
+				if (tb__->IsReadMidiCheck())
+					MIDI::MidiBridge::Get().SetCallbackOut(std::ref(mcb__));
+				else
+					MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void DialogConfig::ToolBarFilters(uint32_t id) {
+			if (!hwnd__ || !lv__) return;
+			HWND hwnd = hwnd__.get();
+
+			try {
+				LONG count = MAKELONG(-1, 0);
+
+				switch (id) {
+					case IDM_LV_FILTER_ON: {
+						MIDI::MixerUnit mu = tb__->GetFilters();
+						count = lv__->ListViewFilter(mu, static_cast<bool>(mu.id));
+						break;
+					}
+					case IDM_LV_FILTER_OFF: {
+						MIDI::MixerUnit mu{};
+						mu.ToNull(tb__->IsFilterTypeCheck());
+						count = lv__->ListViewFilter(mu, static_cast<bool>(mu.id));
+						break;
+					}
+					case IDM_LV_FILTER_SET: {
+						MIDI::MixerUnit mu{};
+						mu.ToNull(tb__->IsFilterTypeCheck());
+						mu.target = mu.longtarget = MIDI::Mackie::Target::NOTARGET;
+						tb__->SetFilters(mu);
+						return;
+					}
+					case IDM_LV_FILTER_CLEAR: {
+						MIDI::MixerUnit mu{};
+						mu.ToNull(true);
+						lv__->ListViewFiltersReset();
+						tb__->SetFilters(mu);
+						uint16_t cnt = lv__->ListViewCount();
+						count = MAKELONG(cnt, cnt);
+						break;
+					}
+					case IDM_LV_FILTER_MQTT:
+					case IDM_LV_FILTER_MMKEY:
+					case IDM_LV_FILTER_MIXER: {
+						MIDI::MixerUnit mu = tb__->GetFilters();
+						switch (id) {
+							case IDM_LV_FILTER_MQTT:	mu.target = MIDI::Mackie::Target::MQTTKEY; break;
+							case IDM_LV_FILTER_MMKEY:	mu.target = MIDI::Mackie::Target::MEDIAKEY; break;
+							case IDM_LV_FILTER_MIXER:	mu.target = MIDI::Mackie::Target::VOLUMEMIX; break;
+							default: return;
+						}
+						tb__->SetFilters(mu);
+						count = lv__->ListViewFilter(mu, static_cast<bool>(mu.id));
+						break;
+					}
+					default: return;
+				}
+				if (LOWORD(count) != -1) print_itemscount_(count);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::ToolBarEditorNotify(EditorNotify id) {
+			if (!hwnd__) return;
+			try {
+				tb__->SetEditorNotify(id);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		///
+
+		void DialogConfig::EventLog(CbEventData* data) {
+			try {
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd__) return;
+				CbEvent::ToLog(GetDlgItem(hwnd__.get(), IDC_LOG), d.GetData(), true);
 			} catch (...) {}
 		}
-		void DialogConfig::EventMonitor() {
+		void DialogConfig::EventMonitor(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.MonitorLoop(hwnd__.get(), IDC_LOG);
-			} catch (...) {}
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				CbEvent::ToMonitor(GetDlgItem(hwnd, IDC_LOG), d.GetData(), true);
+				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
+
+				ListMixerContainer* cont = new ListMixerContainer(p.second, p.first);
+				MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
+				tb__->IsReadMidiCheck(false);
+
+				if (lv__->ListViewInsertItem(cont) != -1) ToolBarEditorNotify(EditorNotify::EditChangeEnable);
+				tb__->SetEditorNotify(common_config::Get().Local.IsMidiBridgeRun() ? EditorNotify::ReadMidiEnable : EditorNotify::ReadMidiDisable);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
+
+		/// 
 
 		void DialogConfig::ChangeOnAppBox() {
 			if (!hwnd__) return;
@@ -527,8 +865,8 @@ namespace Common {
 							if (last__)
 								last__->unit.appvolume.push_back(app);
 
-							Gui::SaveConfigEnabled(hwnd);
 							btn_remove__.SetEnable();
+							ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 						}
 					} while (0);
 				}
@@ -554,15 +892,15 @@ namespace Common {
 				MIXER::AudioSessionMixer& mix = MIXER::AudioSessionMixer::Get();
 				std::vector<MIXER::AudioSessionItem*>& list = mix.GetSessionList();
 				for (auto& a : list) {
-					std::wstring app = a->GetName();
+					std::wstring app = a->Item.GetName();
 					if (!app.empty()) {
 						(void) ::SendMessageW(hwcl, LB_ADDSTRING, 0, (LPARAM)app.c_str());
 						if (last__)
 							last__->unit.appvolume.push_back(app);
 					}
 				}
-				Gui::SaveConfigEnabled(hwnd);
 				btn_remove__.SetEnable();
+				ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -592,8 +930,8 @@ namespace Common {
 
 				(void) ListBox_DeleteString(hwcl, idx);
 				if (ListBox_GetCount(hwcl) <= 0) {
-					Gui::SaveConfigEnabled(hwnd);
 					btn_remove__.SetEnable();
+					ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 				} else {
 					btn_remove__.SetEnable(false);
 				}
@@ -609,8 +947,8 @@ namespace Common {
 			try {
 				last__->unit.value.lvalue = !last__->unit.value.lvalue;
 				last__->unit.value.value = last__->unit.value.lvalue ? 127 : 0;
-				SetMuteImage(last__->unit.value.lvalue);
-				Gui::SaveConfigEnabled(hwnd);
+				set_muteimage_(last__->unit.value.lvalue);
+				ToolBarEditorNotify(EditorNotify::EditChangeEnable);
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -624,16 +962,20 @@ namespace Common {
 				HWND hwcl = GetDlgItem(hwnd, IDC_SLIDER_VOLUME);
 				if (hwcl == nullptr) return;
 				last__->unit.value.value = static_cast<uint8_t>(SendMessageW(hwcl, TBM_GETPOS, 0, 0));
-				Gui::SaveConfigEnabled(hwnd);
-				if (common_config::Get().Local.IsAudioMixerRun())
-					MIXER::AudioSessionMixer::Get().SetVolume(last__->unit.key, last__->unit.value.value);
+				ToolBarEditorNotify(EditorNotify::EditChangeEnable);
+
+				if (common_config::Get().Local.IsAudioMixerRun()) {
+					uint32_t key = static_cast<uint32_t>(last__->unit.key);
+					MIXER::AudioSessionMixer::Get().Volume.ByMidiId.SetVolume(key, last__->unit.value.value);
+				}
+					
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
 
-		void DialogConfig::SetVolumeSlider(HWND hwnd, int32_t pos) {
+		void DialogConfig::set_volumeslider_(HWND hwnd, int32_t pos) {
 			try {
 				HWND hwcl = GetDlgItem(hwnd, IDC_SLIDER_VOLUME);
 				if (hwcl == nullptr) return;
@@ -646,12 +988,48 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		void DialogConfig::SetMuteImage(int32_t val) {
+		void DialogConfig::set_muteimage_(int32_t val) {
 			try {
 				btn_mute__.SetEnable(val >= 0);
 				btn_mute__.SetStatus((val == -1) ? 0 : ((val > 0) ? 1 : 2));
 			}
 			catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void DialogConfig::load_file_(std::wstring s) {
+			try {
+				std::shared_ptr<MIDI::MidiDevice> dev = std::make_shared<MIDI::MidiDevice>();
+				MIDI::json_config json{};
+				json.Read(dev, s);
+
+				mcb__.AddToLog(log_string::format(L"{0}: {1}",
+					LangInterface::Get().GetString(IDS_SETUP_MSG2),
+					s.c_str()
+				));
+				ConfigDevice = ConfigStatus::LoadFile;
+				img_status__.SetStatus(ConfigDevice);
+
+				lv__->ListViewLoad(dev);
+				::SetDlgItemTextW(hwnd__.get(), IDC_SETUP_COUNT, std::to_wstring(lv__->ListViewCount()).c_str());
+				confpath__ = s;
+				tb__->AddRecent(s);
+				ToolBarEditorNotify(EditorNotify::EditChangeEnable);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogConfig::print_itemscount_(LONG count) {
+			if (!hwnd__) return;
+			try {
+				if (LOWORD(count) != -1) {
+					log_string ls;
+					ls << LOWORD(count) << L"/" << HIWORD(count);
+					::SetDlgItemTextW(hwnd__, IDC_SETUP_COUNT, ls.str().c_str());
+				}
+			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}

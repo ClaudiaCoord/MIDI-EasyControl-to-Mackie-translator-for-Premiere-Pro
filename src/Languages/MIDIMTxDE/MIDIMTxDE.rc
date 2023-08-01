@@ -1,0 +1,1060 @@
+﻿﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "RibbonDialogConfig.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_GERMAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI-Mackie-Übersetzer"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&Information", IDM_GO_INFO
+        MENUITEM "&Audiomischer", IDM_GO_MIXER
+        MENUITEM "&Monitor", IDM_GO_MONITOR
+        MENUITEM "&Einstellung", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Start", IDM_GO_START
+        MENUITEM "Stoppen", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Ausfahrt", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Standort.."
+        BEGIN
+            MENUITEM "Vertikal links", IDM_VERT_LEFT
+            MENUITEM "Vertikal rechts", IDM_VERT_RIGHT
+            MENUITEM "Horizontale Oberseite", IDM_HOR_TOP
+            MENUITEM "Horizontal unten", IDM_HOR_BOTTOM
+        END
+        POPUP "Thema.."
+        BEGIN
+            MENUITEM "Metro", IDM_METRO
+            MENUITEM "Licht", IDM_LIGHT
+            MENUITEM "Dunkel", IDM_DARK
+            MENUITEM "Retro", IDM_RETRO
+            MENUITEM "Modern", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "TuningMay", IDM_CUSTOM
+            MENUITEM "Theme-Anpassung", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Animation", IDM_ANIMATION
+        MENUITEM "&App-Pfad", IDM_APP_PATH
+        MENUITEM "Binden von &MIDI-Steuerelementen", IDM_MIDI_BIND
+        MENUITEM "Peak- und Lautstärkemesser", IDM_PEAK_METER
+        MENUITEM "Position merken", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Schließen", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Neuer Eintrag", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Kopieren", IDM_LV_COPY
+        MENUITEM "Einfügen", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Löschen", IDM_LV_DELETE
+        POPUP "Festlegen als.."
+        BEGIN
+            MENUITEM "Steuerung siehe Audiomischer", IDM_LV_SET_MIXER
+            MENUITEM "Steuerelemente im Zusammenhang mit Multimedia-Tasten", IDM_LV_SET_MMKEY
+            MENUITEM "Steuern Sie das Smart Home", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "Nicht zugewiesen", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "MIDI-Code lesen.", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Aufsichtsbehörden..."
+        BEGIN
+            MENUITEM "Streifenregler", IDM_COL3_SLIDER
+            MENUITEM "Streifen-invertierter Regler", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Drehschieber", IDM_COL3_FADER
+            MENUITEM "Drehknopf mit Inversion", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Encoder", IDM_COL3_KNOB
+            MENUITEM "Encoder mit Invertierung", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Nicht zugewiesen", IDM_COL3_NONE
+        END
+        POPUP "Tasten.."
+        BEGIN
+            MENUITEM "Taste", IDM_COL3_BTN
+            MENUITEM "Schaltknopf, mit Anzeige", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Nicht zugewiesen", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Aufsichtsbehörden...", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Tasten..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "Steuerung siehe Audiomischer", IDM_COL4_VOLUMEMIX
+        MENUITEM "Steuerelemente im Zusammenhang mit Multimedia-Tasten", IDM_COL4_MEDIAKEY
+        MENUITEM "Steuern Sie das Smart Home", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Tonsteuerung..."
+        BEGIN
+            MENUITEM "Still (Meister)", IDM_COL4_MAM
+            MENUITEM "Solo (Meister)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Lautlos.."
+            BEGIN
+                MENUITEM "Kanal 1", IDM_COL4_B21
+                MENUITEM "Kanal 2", IDM_COL4_B22
+                MENUITEM "Kanal 3", IDM_COL4_B23
+                MENUITEM "Kanal 4", IDM_COL4_B24
+                MENUITEM "Kanal 5", IDM_COL4_B25
+                MENUITEM "Kanal 6", IDM_COL4_B26
+                MENUITEM "Kanal 7", IDM_COL4_B27
+                MENUITEM "Kanal 8", IDM_COL4_B28
+                MENUITEM "Kanal 9", IDM_COL4_B29
+            END
+            POPUP "Solo.."
+            BEGIN
+                MENUITEM "Kanal 1", IDM_COL4_B11
+                MENUITEM "Kanal 2", IDM_COL4_B12
+                MENUITEM "Kanal 3", IDM_COL4_B13
+                MENUITEM "Kanal 4", IDM_COL4_B14
+                MENUITEM "Kanal 5", IDM_COL4_B15
+                MENUITEM "Kanal 6", IDM_COL4_B16
+                MENUITEM "Kanal 7", IDM_COL4_B17
+                MENUITEM "Kanal 8", IDM_COL4_B18
+                MENUITEM "Kanal 9", IDM_COL4_B19
+            END
+        END
+        POPUP "Multimedia-Tasten."
+        BEGIN
+            MENUITEM "Spielpause", IDM_COL4_SYS_Play
+            MENUITEM "Stoppen", IDM_COL4_SYS_Stop
+            MENUITEM "Vorherige", IDM_COL4_SYS_Rewind
+            MENUITEM "Nächste", IDM_COL4_SYS_Forward
+            MENUITEM "Aufzeichnung", IDM_COL4_SYS_Record
+            MENUITEM "Oben (Joystick)", IDM_COL4_SYS_Up
+            MENUITEM "Unten (Joystick)", IDM_COL4_SYS_Down
+            MENUITEM "Rechts (Joystick)", IDM_COL4_SYS_Right
+            MENUITEM "Links (Joystick)", IDM_COL4_SYS_Left
+            MENUITEM "Hineinzoomen", IDM_COL4_SYS_Zoom
+            MENUITEM "schrubben", IDM_COL4_SYS_Scrub
+        END
+        POPUP "Premiere Pro-Funktionen..."
+        BEGIN
+            POPUP "Funktionen der Standardtaste..."
+            BEGIN
+                MENUITEM "Funktion 1", IDM_COL4_FUN11
+                MENUITEM "Funktion 2", IDM_COL4_FUN12
+                MENUITEM "Funktion 3", IDM_COL4_FUN13
+                MENUITEM "Merkmal 4", IDM_COL4_FUN14
+                MENUITEM "Merkmal 5", IDM_COL4_FUN15
+                MENUITEM "Funktion 6", IDM_COL4_FUN16
+                MENUITEM "Merkmal 7", IDM_COL4_FUN17
+                MENUITEM "Funktion 8", IDM_COL4_FUN18
+            END
+            POPUP "One-Touch-Tastenfunktionen..."
+            BEGIN
+                MENUITEM "Funktion 1", IDM_COL4_FUN21
+                MENUITEM "Funktion 2", IDM_COL4_FUN22
+                MENUITEM "Funktion 3", IDM_COL4_FUN23
+                MENUITEM "Merkmal 4", IDM_COL4_FUN24
+                MENUITEM "Merkmal 5", IDM_COL4_FUN25
+                MENUITEM "Funktion 6", IDM_COL4_FUN26
+                MENUITEM "Merkmal 7", IDM_COL4_FUN27
+                MENUITEM "Funktion 8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Tasten im Smart Home System."
+        BEGIN
+            MENUITEM "Ein/Aus 1", IDM_COL4_B11
+            MENUITEM "ein/aus 2", IDM_COL4_B12
+            MENUITEM "ein/aus 3", IDM_COL4_B13
+            MENUITEM "ein/aus 4", IDM_COL4_B14
+            MENUITEM "ein/aus 5", IDM_COL4_B15
+            MENUITEM "ein/aus 6", IDM_COL4_B16
+            MENUITEM "ein/aus 7", IDM_COL4_B17
+            MENUITEM "ein/aus 8", IDM_COL4_B18
+            MENUITEM "ein/aus 9", IDM_COL4_B19
+            MENUITEM "ein/aus 10", IDM_COL4_B21
+            MENUITEM "ein/aus 11", IDM_COL4_B22
+            MENUITEM "ein/aus 12", IDM_COL4_B23
+            MENUITEM "ein/aus 13", IDM_COL4_B24
+            MENUITEM "ein/aus 14", IDM_COL4_B25
+            MENUITEM "ein/aus 15", IDM_COL4_B26
+            MENUITEM "ein/aus 16", IDM_COL4_B27
+            MENUITEM "ein/aus 17", IDM_COL4_B28
+            MENUITEM "ein/aus 18", IDM_COL4_B29
+            MENUITEM "ein/aus 19", IDM_COL4_B31
+            MENUITEM "ein/aus 20", IDM_COL4_B32
+            MENUITEM "ein/aus 21", IDM_COL4_B33
+            MENUITEM "ein/aus 22", IDM_COL4_B34
+            MENUITEM "ein/aus 23", IDM_COL4_B35
+            MENUITEM "ein/aus 24", IDM_COL4_B36
+            MENUITEM "ein/aus 25", IDM_COL4_B37
+            MENUITEM "ein/aus 26", IDM_COL4_B38
+            MENUITEM "ein/aus 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Steuerung siehe Audiomischer", IDM_COL4_VOLUMEMIX
+        MENUITEM "Steuerelemente im Zusammenhang mit Multimedia-Tasten", IDM_COL4_MEDIAKEY
+        MENUITEM "Steuern Sie das Smart Home", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Encoder (Frame für Frame)", IDM_COL4_JOG
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Tonsteuerung..."
+        BEGIN
+            MENUITEM "Lautstärke (Master)", IDM_COL4_MAV
+            MENUITEM "Balance (Meister)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Volumen.."
+            BEGIN
+                MENUITEM "Kanal 1", IDM_COL4_AV1
+                MENUITEM "Kanal 2", IDM_COL4_AV2
+                MENUITEM "Kanal 3", IDM_COL4_AV3
+                MENUITEM "Kanal 4", IDM_COL4_AV4
+                MENUITEM "Kanal 5", IDM_COL4_AV5
+                MENUITEM "Kanal 6", IDM_COL4_AV6
+                MENUITEM "Kanal 7", IDM_COL4_AV7
+                MENUITEM "Kanal 8", IDM_COL4_AV8
+                MENUITEM "Kanal 9", IDM_COL4_XV9
+            END
+            POPUP "Gleichgewicht.."
+            BEGIN
+                MENUITEM "Kanal 1", IDM_COL4_AP1
+                MENUITEM "Kanal 2", IDM_COL4_AP2
+                MENUITEM "Kanal 3", IDM_COL4_AP3
+                MENUITEM "Kanal 4", IDM_COL4_AP4
+                MENUITEM "Kanal 5", IDM_COL4_AP5
+                MENUITEM "Kanal 6", IDM_COL4_AP6
+                MENUITEM "Kanal 7", IDM_COL4_AP7
+                MENUITEM "Kanal 8", IDM_COL4_AP8
+                MENUITEM "Kanal 9", IDM_COL4_XP9
+            END
+        END
+        POPUP "Regler im „Smart Home“-System."
+        BEGIN
+            MENUITEM "Level 1", IDM_COL4_AV1
+            MENUITEM "Level 2", IDM_COL4_AV2
+            MENUITEM "Stufe 3", IDM_COL4_AV3
+            MENUITEM "Level 4", IDM_COL4_AV4
+            MENUITEM "Level 5", IDM_COL4_AV5
+            MENUITEM "Stufe 6", IDM_COL4_AV6
+            MENUITEM "Stufe 7", IDM_COL4_AV7
+            MENUITEM "Stufe 8", IDM_COL4_AV8
+            MENUITEM "Stufe 9", IDM_COL4_XV9
+            MENUITEM "Stufe 10", IDM_COL4_AP1
+            MENUITEM "Stufe 11", IDM_COL4_AP2
+            MENUITEM "Stufe 12", IDM_COL4_AP3
+            MENUITEM "Stufe 13", IDM_COL4_AP4
+            MENUITEM "Stufe 14", IDM_COL4_AP5
+            MENUITEM "Stufe 15", IDM_COL4_AP6
+            MENUITEM "Stufe 16", IDM_COL4_AP7
+            MENUITEM "Stufe 17", IDM_COL4_AP8
+            MENUITEM "Stufe 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Steuerung siehe Audiomischer", IDM_COL4_VOLUMEMIX
+        MENUITEM "Steuerelemente im Zusammenhang mit Multimedia-Tasten", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "Lautstärke (Master)", IDM_COL4_MAV
+        MENUITEM "Encoder (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Volumen.."
+        BEGIN
+            MENUITEM "Kanal 1", IDM_COL4_AV1
+            MENUITEM "Kanal 2", IDM_COL4_AV2
+            MENUITEM "Kanal 3", IDM_COL4_AV3
+            MENUITEM "Kanal 4", IDM_COL4_AV4
+            MENUITEM "Kanal 5", IDM_COL4_AV5
+            MENUITEM "Kanal 6", IDM_COL4_AV6
+            MENUITEM "Kanal 7", IDM_COL4_AV7
+            MENUITEM "Kanal 8", IDM_COL4_AV8
+            MENUITEM "Kanal 9", IDM_COL4_XV9
+            MENUITEM "Kanal 10", IDM_COL4_AP1
+            MENUITEM "Kanal 11", IDM_COL4_AP2
+            MENUITEM "Kanal 12", IDM_COL4_AP3
+            MENUITEM "Kanal 13", IDM_COL4_AP4
+            MENUITEM "Kanal 14", IDM_COL4_AP5
+            MENUITEM "Kanal 15", IDM_COL4_AP6
+            MENUITEM "Kanal 16", IDM_COL4_AP7
+            MENUITEM "Kanal 17", IDM_COL4_AP8
+            MENUITEM "Kanal 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Stumm (Master)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Lautlos.."
+        BEGIN
+            MENUITEM "Kanal 1", IDM_COL4_B21
+            MENUITEM "Kanal 2", IDM_COL4_B22
+            MENUITEM "Kanal 3", IDM_COL4_B23
+            MENUITEM "Kanal 4", IDM_COL4_B24
+            MENUITEM "Kanal 5", IDM_COL4_B25
+            MENUITEM "Kanal 6", IDM_COL4_B26
+            MENUITEM "Kanal 7", IDM_COL4_B27
+            MENUITEM "Kanal 8", IDM_COL4_B28
+            MENUITEM "Kanal 9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Spielpause", IDM_COL4_SYS_Play
+        MENUITEM "Stoppen", IDM_COL4_SYS_Stop
+        MENUITEM "Vorherige", IDM_COL4_SYS_Rewind
+        MENUITEM "Nächste", IDM_COL4_SYS_Forward
+        MENUITEM "Aufzeichnung", IDM_COL4_SYS_Record
+        MENUITEM "Oben (Joystick)", IDM_COL4_SYS_Up
+        MENUITEM "Unten (Joystick)", IDM_COL4_SYS_Down
+        MENUITEM "Rechts (Joystick)", IDM_COL4_SYS_Right
+        MENUITEM "Links (Joystick)", IDM_COL4_SYS_Left
+        MENUITEM "Hineinzoomen", IDM_COL4_SYS_Zoom
+        MENUITEM "schrubben", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "Level 1", IDM_COL4_AV1
+        MENUITEM "Level 2", IDM_COL4_AV2
+        MENUITEM "Stufe 3", IDM_COL4_AV3
+        MENUITEM "Level 4", IDM_COL4_AV4
+        MENUITEM "Level 5", IDM_COL4_AV5
+        MENUITEM "Stufe 6", IDM_COL4_AV6
+        MENUITEM "Stufe 7", IDM_COL4_AV7
+        MENUITEM "Stufe 8", IDM_COL4_AV8
+        MENUITEM "Stufe 9", IDM_COL4_XV9
+        MENUITEM "Stufe 10", IDM_COL4_AP1
+        MENUITEM "Stufe 11", IDM_COL4_AP2
+        MENUITEM "Stufe 12", IDM_COL4_AP3
+        MENUITEM "Stufe 13", IDM_COL4_AP4
+        MENUITEM "Stufe 14", IDM_COL4_AP5
+        MENUITEM "Stufe 15", IDM_COL4_AP6
+        MENUITEM "Stufe 16", IDM_COL4_AP7
+        MENUITEM "Stufe 17", IDM_COL4_AP8
+        MENUITEM "Stufe 18", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "Ein/Aus 1", IDM_COL4_B11
+        MENUITEM "ein/aus 2", IDM_COL4_B12
+        MENUITEM "ein/aus 3", IDM_COL4_B13
+        MENUITEM "ein/aus 4", IDM_COL4_B14
+        MENUITEM "ein/aus 5", IDM_COL4_B15
+        MENUITEM "ein/aus 6", IDM_COL4_B16
+        MENUITEM "ein/aus 7", IDM_COL4_B17
+        MENUITEM "ein/aus 8", IDM_COL4_B18
+        MENUITEM "ein/aus 9", IDM_COL4_B19
+        MENUITEM "ein/aus 10", IDM_COL4_B21
+        MENUITEM "ein/aus 11", IDM_COL4_B22
+        MENUITEM "ein/aus 12", IDM_COL4_B23
+        MENUITEM "ein/aus 13", IDM_COL4_B24
+        MENUITEM "ein/aus 14", IDM_COL4_B25
+        MENUITEM "ein/aus 15", IDM_COL4_B26
+        MENUITEM "ein/aus 16", IDM_COL4_B27
+        MENUITEM "ein/aus 17", IDM_COL4_B28
+        MENUITEM "ein/aus 18", IDM_COL4_B29
+        MENUITEM "ein/aus 19", IDM_COL4_B31
+        MENUITEM "ein/aus 20", IDM_COL4_B32
+        MENUITEM "ein/aus 21", IDM_COL4_B33
+        MENUITEM "ein/aus 22", IDM_COL4_B34
+        MENUITEM "ein/aus 23", IDM_COL4_B35
+        MENUITEM "ein/aus 24", IDM_COL4_B36
+        MENUITEM "ein/aus 25", IDM_COL4_B37
+        MENUITEM "ein/aus 26", IDM_COL4_B38
+        MENUITEM "ein/aus 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "Nicht zugewiesen", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "Aktualisierung",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Helfen",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Schließen",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&MIDI-Panel-Setup",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Schließen",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Empfohlenes Layout des MIDI-Bedienfelds. Die Datei mit den Einstellungen für dieses Layout befindet sich im Ordner „docs/MIDIMT.Ctrl_data“.",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "Starten des MIDI-Übersetzers"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI-Geräte",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI-Brücke",IDC_STATIC,11,73,326,79
+    CONTROL         "gestartet",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Gestoppt",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Aufbau",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI-Steuerung",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "Intervall zwischen Klicks",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "Intervall so lange drücken",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "Start",IDC_STATIC,11,156,135,148
+    CONTROL         "Beginnen Sie beim Systemstart",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Automatischer Start beim Start",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Diese Konfiguration automatisch starten",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Schreiben Sie ein Protokoll",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Bevorzugte Sprache:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Mit der rechten Maustaste rufen Sie den Mixer auf",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI-Einstellungen",IDC_STATIC,151,156,97,64
+    CONTROL         "Treiber:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG-Szenenfilter",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Port nicht erstellt",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI-Proxy",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Anzahl der Ports",IDC_STATIC,260,183,66,8
+    CONTROL         "Inbegriffen",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Audio-Mixer-Einstellungen",IDC_STATIC,152,224,184,80
+    CONTROL         "Inbegriffen",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "Volumenwerte ohne Prüfung ersetzen",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Bewerbungen nach Namen zusammenführen, eine separate Anpassung ist nicht möglich",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Stellen Sie beim Start gespeicherte Lautstärkepegel ein",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "MM-Tasten aktivieren",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Einstellungen speichern",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Start",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Aufbau",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Intelligentes Haus",IDC_STATIC,343,73,199,262
+    CONTROL         "Inbegriffen",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT-Server",IDC_STATIC,350,102,186,44
+    CONTROL         "IP Adresse:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Hafen:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Sicherheit",IDC_STATIC,350,149,186,106
+    CONTROL         "Anmeldung:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Passwort:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK-Schlüssel:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS aktiviert",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "selbstsigniert",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA-Zertifikat",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "Optionen",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT-Themenpräfix: (optional)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Protokollierungsstufe von MQTT-Sitzungen:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Schließen",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "Aktualisierung",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&Über das Programm..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI-Befehlsmonitor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Befehlsmonitor",IDC_STATIC,9,4,285,54
+    LTEXT           "Mithilfe des MIDI-Befehlsmonitors können Sie feststellen, wie der Controller eingerichtet ist. Um mit dem Testen zu beginnen, klicken Sie auf die Schaltfläche „Start“. Über die verschiedenen Bedienelemente Ihres Controllers erhalten Sie Meldungen zu Szene, Nummer und aktuellem Wert.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Stoppen",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Start",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Schließen",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "Sauber und steil",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "MIDI-Steuerungseinstellung"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
+    GROUPBOX        "MIDI-Steuerung einrichten",IDC_STATIC,7,97,215,224
+    RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
+    GROUPBOX        "Information",IDC_STATIC,227,97,259,224
+    LTEXT           "Kontrolle:",IDC_STATIC,241,157,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
+    LTEXT           "Szene:",IDC_STATIC,241,169,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
+    LTEXT           "Steuerungstyp:",IDC_STATIC,241,181,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
+    LTEXT           "Zweck:",IDC_STATIC,241,193,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
+    LTEXT           "Zweck (langer Klick):",IDC_STATIC,241,205,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
+    LTEXT           "Mischerverstellbare Anwendungen:",IDC_STATIC,241,217,144,10
+    LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Schließen",IDCANCEL,609,324,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
+    GROUPBOX        "Hinweise",IDC_STATIC,493,97,209,224
+    LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Alle",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "Tasten",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "Schieberegler",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "Multimedia",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Ein benutzerdefiniertes Theme einrichten"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Ihre Themenfarben",IDC_STATIC,9,8,188,107
+    CONTROL         "Textfarbe",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Hintergrundfarbe",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Rahmenfarbe",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "Basisthema",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Metro",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Licht",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Dunkel",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "Retro",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Modern",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audiomixer -> MIDI Mackie Translator"
+    IDS_MIXER               "&Rührgerät"
+    IDS_SETTINGS            "&Einstellungen"
+    IDS_START               "Start"
+    IDS_STOP                "Stoppen"
+    IDS_EXIT                "Ausfahrt"
+    IDS_SETUP_MSG1          "Konfiguration vom Treiber geladen"
+    IDS_SETUP_MSG2          "Konfiguration aus Datei geladen"
+    IDS_SETUP_MSG3          "Die Konfiguration wird neu erstellt und muss ausgefüllt werden"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT-Konfiguration"
+    IDS_CONFIG_EXE_FILTER   "Ausführbare Dateien"
+    IDS_MQTT_CA_FILTER      "CA-Zertifikat"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "Der MIDI-Übersetzer läuft nicht."
+    IDS_INFO2               "MIDI-Übersetzer funktioniert:"
+    IDS_INFO3               "Eingabegerät:"
+    IDS_INFO4               "Mackie/Premier-Ausgangsport:"
+    IDS_INFO5               "Ausgabe-Proxy-Port:"
+    IDS_INFO6               "Der Audiomixer läuft."
+    IDS_INFO7               "Multimedia-Tastensteuerung läuft, überprüfen Sie die Einstellungen."
+    IDS_INFO8               "Der Audiomixer läuft nicht, überprüfen Sie die Einstellungen, der Start des Audiopanels muss aktiviert sein."
+    IDS_INFO9               "Ungültige Ereignis-ID. Bitte starten Sie diese Anwendung neu."
+    IDS_INF1O               "Der Wechsel zum UI-Thread ist fehlgeschlagen, der Start des Audio-Panels wurde abgebrochen."
+    IDS_INF11               "MIDIMT – Audiomixer läuft nicht:"
+    IDS_INF12               "MIDIMT – Vorgang konnte nicht abgeschlossen werden:"
+    IDS_INF13               "Die Smart Home-Geräteverwaltung wurde gestartet."
+    IDS_DLG_MSG1            "MIDI-Mackie-Ausgang"
+    IDS_DLG_MSG2            "MIDI-Proxy-Ausgabe"
+    IDS_DLG_MSG3            "Version des virtuellen MIDI-Treibers:"
+    IDS_DLG_MSG4            "Installierter MIDI Virtual-Treiber nicht gefunden! Sie müssen das Virtual Loop MIDI-Paket installieren, um den Übersetzer auszuführen"
+    IDS_DLG_MSG5            "Beim Start werden Proxy-MIDI-Ports erstellt:"
+    IDS_DLG_MSG6            "MIDI-Proxy-Ports sind deaktiviert."
+    IDS_DLG_MSG7            "Die ausgewählte Sprache ist nach dem Neustart des Fensters aktiv -"
+    IDS_DLG_MSG8            "MIDI-Eingabegerät, dem zugewiesen ist"
+    IDS_DLG_MSG9            "Bitte bearbeiten Sie die Konfiguration, bevor Sie beginnen."
+    IDS_DLG_MSG10           "Version des installierten Virtual MIDI-Treibers:"
+    IDS_DLG_MSG11           "Die ausgewählte Konfiguration unterstützt keinen automatischen Start."
+    IDS_DLG_MSG12           "Bitte starten Sie vor dem Starten des Monitors die MIDI-Bridge aus dem Menü, indem Sie „Start“ aufrufen."
+    IDS_DLG_MSG13           "Beim Start wurde die Konfigurationsdatei angegeben: „{0}“. Als Konfiguration für nachfolgende Läufe festlegen?"
+    IDS_DLG_MSG14           "Beim Öffnen des Editors wurde die Konfigurationsdatei angegeben: „{0}“. Unter demselben Namen speichern?"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "Audiolautstärke (Haupt)"
+    IDM_COL4_MAP            "Klangbalance (Grundkenntnisse)"
+    IDM_COL4_MAM            "stumm (einfach)"
+    IDM_COL4_MAS            "Audio Solo (Haupt)"
+    IDM_COL4_JOG            "JOG (Videobild zurückspulen)"
+    IDM_COL4_AV1            "Lautstärke (Kanal 1)"
+    IDM_COL4_AV2            "Lautstärke (Kanal 2)"
+    IDM_COL4_AV3            "Lautstärke (Kanal 3)"
+    IDM_COL4_AV4            "Lautstärke (Kanal 4)"
+    IDM_COL4_AV5            "Lautstärke (Kanal 5)"
+    IDM_COL4_AV6            "Lautstärke (Kanal 6)"
+    IDM_COL4_AV7            "Lautstärke (Kanal 7)"
+    IDM_COL4_AV8            "Lautstärke (Kanal 8)"
+    IDM_COL4_XV9            "Lautstärke (Kanal 9)"
+    IDM_COL4_AP1            "Klangbalance (Kanal 1)"
+    IDM_COL4_AP2            "Klangbalance (Kanal 2)"
+    IDM_COL4_AP3            "Klangbalance (Kanal 3)"
+    IDM_COL4_AP4            "Klangbalance (Kanal 4)"
+    IDM_COL4_AP5            "Klangbalance (Kanal 5)"
+    IDM_COL4_AP6            "Klangbalance (Kanal 6)"
+    IDM_COL4_AP7            "Klangbalance (Kanal 7)"
+    IDM_COL4_AP8            "Klangbalance (Kanal 8)"
+    IDM_COL4_XP9            "Klangbalance (Kanal 9)"
+    IDM_COL4_B11            "Audio Solo (Kanal 1)"
+    IDM_COL4_B12            "Audio Solo (Kanal 2)"
+    IDM_COL4_B13            "Audio Solo (Kanal 3)"
+    IDM_COL4_B14            "Audio Solo (Kanal 4)"
+    IDM_COL4_B15            "Audio Solo (Kanal 5)"
+    IDM_COL4_B16            "Audio Solo (Kanal 6)"
+    IDM_COL4_B17            "Audio Solo (Kanal 7)"
+    IDM_COL4_B18            "Audio Solo (Kanal 8)"
+    IDM_COL4_B19            "Audio Solo (Kanal 9)"
+    IDM_COL4_B21            "stumm (Kanal 1)"
+    IDM_COL4_B22            "stumm (Kanal 2)"
+    IDM_COL4_B23            "stumm (Kanal 3)"
+    IDM_COL4_B24            "stumm (Kanal 4)"
+    IDM_COL4_B25            "stumm (Kanal 5)"
+    IDM_COL4_B26            "stumm (Kanal 6)"
+    IDM_COL4_B27            "stumm (Kanal 7)"
+    IDM_COL4_B28            "stumm (Kanal 8)"
+    IDM_COL4_B29            "stumm (Kanal 9)"
+    IDM_COL4_B31            "Tonauswahl (Kanal 1)"
+    IDM_COL4_B32            "Tonauswahl (Kanal 2)"
+    IDM_COL4_B33            "Tonauswahl (Kanal 3)"
+    IDM_COL4_B34            "Tonauswahl (Kanal 4)"
+    IDM_COL4_B35            "Tonauswahl (Kanal 5)"
+    IDM_COL4_B36            "Tonauswahl (Kanal 6)"
+    IDM_COL4_B37            "Tonauswahl (Kanal 7)"
+    IDM_COL4_B38            "Tonauswahl (Kanal 8)"
+    IDM_COL4_B39            "Tonauswahl (Kanal 9)"
+    IDM_COL4_FUN11          "Funktion F1 (Standardmodus)"
+    IDM_COL4_FUN12          "Funktion F2 (Standardmodus)"
+    IDM_COL4_FUN13          "Funktion F3 (Standardmodus)"
+    IDM_COL4_FUN14          "Funktion F4 (Standardmodus)"
+    IDM_COL4_FUN15          "Funktion F5 (Standardmodus)"
+    IDM_COL4_FUN16          "Funktion F6 (Standardmodus)"
+    IDM_COL4_FUN17          "Funktion F7 (Standardmodus)"
+    IDM_COL4_FUN18          "Funktion F8 (Standardmodus)"
+    IDM_COL4_FUN21          "F1-Funktion (Haltemodus)"
+    IDM_COL4_FUN22          "F2-Funktion (Haltemodus)"
+    IDM_COL4_FUN23          "F3-Funktion (Haltemodus)"
+    IDM_COL4_FUN24          "F4-Funktion (Haltemodus)"
+    IDM_COL4_FUN25          "F5-Funktion (Haltemodus)"
+    IDM_COL4_FUN26          "F6-Funktion (Haltemodus)"
+    IDM_COL4_FUN27          "F7-Funktion (Haltemodus)"
+    IDM_COL4_FUN28          "F8-Funktion (Haltemodus)"
+    IDM_COL4_SYS_Rewind     "Zurückspulen (Spieler)"
+    IDM_COL4_SYS_Forward    "Schneller Vorlauf (Spieler)"
+    IDM_COL4_SYS_Stop       "Stopp (Spieler)"
+    IDM_COL4_SYS_Play       "Spielen (Spieler)"
+    IDM_COL4_SYS_Record     "Aufnahme (Player)"
+    IDM_COL4_SYS_Up         "Oben (Joystick)"
+    IDM_COL4_SYS_Down       "Unten (Joystick)"
+    IDM_COL4_SYS_Left       "Links (Joystick)"
+    IDM_COL4_SYS_Right      "Rechts (Joystick)"
+    IDM_COL4_SYS_Zoom       "Zunahme"
+    IDM_COL4_SYS_Scrub      "Schrubben"
+    IDM_COL4_VOLUMEMIX      "Mixersteuerung"
+    IDM_COL4_MEDIAKEY       "Multimedia-Tasten"
+    IDM_COL4_MQTTKEY        "Smart Home-Management"
+    IDM_COL4_NONE           "Aktion ist nicht definiert"
+    IDM_COL4_MQTT_AV1       "Level 1"
+    IDM_COL4_MQTT_AV2       "Level 2"
+    IDM_COL4_MQTT_AV3       "Stufe 3"
+    IDM_COL4_MQTT_AV4       "Level 4"
+    IDM_COL4_MQTT_AV5       "Level 5"
+    IDM_COL4_MQTT_AV6       "Stufe 6"
+    IDM_COL4_MQTT_AV7       "Stufe 7"
+    IDM_COL4_MQTT_AV8       "Stufe 8"
+    IDM_COL4_MQTT_XV9       "Stufe 9"
+    IDM_COL4_MQTT_AP1       "Stufe 10"
+    IDM_COL4_MQTT_AP2       "Stufe 11"
+    IDM_COL4_MQTT_AP3       "Stufe 12"
+    IDM_COL4_MQTT_AP4       "Stufe 13"
+    IDM_COL4_MQTT_AP5       "Stufe 14"
+    IDM_COL4_MQTT_AP6       "Stufe 15"
+    IDM_COL4_MQTT_AP7       "Stufe 16"
+    IDM_COL4_MQTT_AP8       "Stufe 17"
+    IDM_COL4_MQTT_XP9       "Stufe 18"
+    IDM_COL4_MQTT_B11       "Ein/Aus 1"
+    IDM_COL4_MQTT_B12       "ein/aus 2"
+    IDM_COL4_MQTT_B13       "ein/aus 3"
+    IDM_COL4_MQTT_B14       "ein/aus 4"
+    IDM_COL4_MQTT_B15       "ein/aus 5"
+    IDM_COL4_MQTT_B16       "ein/aus 6"
+    IDM_COL4_MQTT_B17       "ein/aus 7"
+    IDM_COL4_MQTT_B18       "ein/aus 8"
+    IDM_COL4_MQTT_B19       "ein/aus 9"
+    IDM_COL4_MQTT_B21       "ein/aus 10"
+    IDM_COL4_MQTT_B22       "ein/aus 11"
+    IDM_COL4_MQTT_B23       "ein/aus 12"
+    IDM_COL4_MQTT_B24       "ein/aus 13"
+    IDM_COL4_MQTT_B25       "ein/aus 14"
+    IDM_COL4_MQTT_B26       "ein/aus 15"
+    IDM_COL4_MQTT_B27       "ein/aus 16"
+    IDM_COL4_MQTT_B28       "ein/aus 17"
+    IDM_COL4_MQTT_B29       "ein/aus 18"
+    IDM_COL4_MQTT_B31       "ein/aus 19"
+    IDM_COL4_MQTT_B32       "ein/aus 20"
+    IDM_COL4_MQTT_B33       "ein/aus 21"
+    IDM_COL4_MQTT_B34       "ein/aus 22"
+    IDM_COL4_MQTT_B35       "ein/aus 23"
+    IDM_COL4_MQTT_B36       "ein/aus 24"
+    IDM_COL4_MQTT_B37       "ein/aus 25"
+    IDM_COL4_MQTT_B38       "ein/aus 26"
+    IDM_COL4_MQTT_B39       "ein/aus 27"
+    IDM_COL4_MQTT_NONE      "Nicht zugeordnet"
+    IDM_MQTT_LOG_NONE       "Das Protokoll wird nicht geführt"
+    IDM_MQTT_LOG_INFO       "Information"
+    IDM_MQTT_LOG_NOTICE     "Benachrichtigungen"
+    IDM_MQTT_LOG_WARNING    "Warnungen"
+    IDM_MQTT_LOG_ERR        "nur Fehler"
+    IDM_MQTT_LOG_DEBUG      "alle Nachrichten"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Dieser Fehler ist nicht definiert"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Der Schreibzugriff auf die Konfigurationsdatei wurde verweigert, „{0}“"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfigurationsdatei fehlt oder Zugriff verweigert, „{0}“"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Die Konfigurationsdatei ist leer, „{0}“."
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Der MIDI-Gerätename ist in der Konfiguration nicht festgelegt."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "In dieser Konfiguration sind keine MIDI-Tasten konfiguriert."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Achtung, in dieser Konfiguration sind keine MIDI-Tasten konfiguriert! Die geschriebene Konfiguration wird nicht funktionieren."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Die Co*Initialize-Initialisierung ist fehlgeschlagen."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create – Instanziierung fehlgeschlagen."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Das Standard-Audiogerät konnte nicht abgerufen werden."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Der Audio Session Manager ist abgestürzt."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Audio-Peak-Meter ist nicht verfügbar."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Audio Session Mixer läuft, es stehen {0} laufende Programme zur Drosselung beim Start zur Verfügung."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Audio Session Mixer konnte nicht gestartet werden. Fehlerdetails sollten in der Protokolldatei enthalten sein."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Der Audio-Session-Mixer wurde gestoppt."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Der Audio Session Mixer wurde nicht ordnungsgemäß gestoppt. Fehlerdetails sollten in der Protokolldatei enthalten sein."
+    IDS_ERRORID_NO_INIT     "Initialisieren Sie, bevor Sie dies aufrufen."
+    IDS_ERRORID_SESSION_LIST
+                            "Die Liste der Audiositzungen konnte nicht abgerufen werden."
+    IDS_ERRORID_LISTISNULL  "Die Liste der Audiositzungen ist leer!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Audiositzung wird deaktiviert, Grund = „{0}“"
+    IDS_ERRORID_SESSIONCREATED
+                            "Audiositzung erstellt, Name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Audiositzung „{0}“ – Ungültiger Registrierungsstatus „{1}“: {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Der vom Rückruf festgelegte Wert ist ein ungültiger Selektor."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Das Setzen eines Callbacks ist erst nach erfolgreichem Start der MIDI-Bridge möglich."
+    IDS_ERRORID_CONFIG_FAIL "Das Laden der Konfiguration ist fehlgeschlagen, die Datei wurde nicht gefunden und konnte nicht gestartet werden."
+    IDS_ERRORID_CONFIG_LOAD "Konfiguration geladen.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Die Konfiguration ist bereits geladen."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Die Konfiguration ist leer."
+    IDS_ERRORID_CONFIG_NEW  "Neue Konfigurationsversion erkannt."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Nicht unterstützte Implementierung im Code, Methode nicht überschrieben: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Es wurde kein Konfigurationsname angegeben. Der Vorgang kann nicht fortgesetzt werden."
+    IDS_ERRORID_NOT_DEVICES "Keine Geräte angeschlossen, kann nicht fortfahren."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Achtung, Diskrepanz zwischen der Anzahl der Geräte in der endgültigen Liste, system/list = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "MIDI-Gerät kann nicht geöffnet werden, kann nicht fortfahren, ID = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "MIDI-Gerät kann nicht gestartet werden, kann nicht fortfahren, ID = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Gerät nicht verbunden, Abbruch, ID = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Gerät {0} gefunden, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Gerät {0} geöffnet, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Gerät {0} geschlossen (System)"
+    IDS_ERRORID_DEVICE_DONE "Gerät {0} bereit (System)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Der Name für das aktive Gerät ist nicht angegeben, Fortsetzung ist nicht möglich, ID = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy-Ports sind in der Konfiguration nicht festgelegt, MIDI-Proxy ist deaktiviert."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Treiberversion [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problem mit der Treiberversion [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Gerät {0} hat einen ungültigen Wert gesendet = {1}"
+    IDS_ERRORID_MMKEY_START "Der Medienschlüsselverwaltungsdienst wird ausgeführt."
+    IDS_ERRORID_MMKEY_STOP  "Der Medienschlüsselverwaltungsdienst wurde gestoppt."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "Die MQTT-Konfiguration ist leer, kann nicht fortgesetzt werden."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Fehler beim Erstellen des MQTT-Clients, abgebrochen."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT-Client erfolgreich erstellt, fortfahren."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Mit MQTT-Server verbunden:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Verbindung zum MQTT-Server konnte nicht hergestellt werden:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Vom MQTT-Server getrennt:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA-Zertifikatdatei existiert nicht, Pfad = „{0}“"
+    IDS_ERRORID_MQTT_START  "Der Smart Home Control Service läuft."
+    IDS_ERRORID_MQTT_STOP   "Der Smart Home-Steuerungsdienst wurde gestoppt."
+    IDS_ERRORID_PANEL_INDEX "Audiomixer-Bedienfeld – kann nicht fortgesetzt werden, die Indexeinträge sind falsch."
+    IDS_ERRORID_PANEL_INIT  "Audiomixer-Bedienfeld – Fortsetzung nicht möglich, Initialisierungsfehler."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Das Fenster des Audiomixer-Panels stimmt nicht mit dem Status überein, es ist nicht möglich, mit dem nächsten Vorgang fortzufahren."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Das Audiomixer-Bedienfeld wird nicht in einem UI-Thread aufgerufen und es können keine Änderungen vorgenommen werden."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Das Audiomixer-Panel hat ein ungültiges Element erkannt und die Erstellung des Panel-Fensters wurde abgebrochen."
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\midi">
+      <UniqueIdentifier>{10c82658-7ca8-4380-9889-a41c51d7f4ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\midi">
+      <UniqueIdentifier>{7378f404-5ee7-4eda-9cc6-3807af9c6b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\globals">
+      <UniqueIdentifier>{3a665af4-17a8-4d80-bd3a-940ad2b957dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -21,52 +30,28 @@
     <ClInclude Include="..\Common\h\locker_awaiter.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="MIDIMTApi.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\global.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\runtime_werror.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\Timer.h">
+    <ClInclude Include="..\Common\h\common_timer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\tiny_json.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\midi\JsonConfig.h">
+    <ClInclude Include="..\Common\h\midi\json_config.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\midi\MidiData.h">
+    <ClInclude Include="..\Common\h\json_recent.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\log_string.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\midi\Mackie.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\h\common_utils.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\midi\MackieHelper.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\midi\MidiInstance.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\rc\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\seh_exception.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\midi\MidiHelper.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\midi\Midi.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\worker_background.h">
@@ -84,9 +69,6 @@
     <ClInclude Include="..\Common\h\common_event.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\CommonApi.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\h\ui_themes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -96,6 +78,42 @@
     <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\common_error.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\common_error_id.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\common_error_string.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\Mackie.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\MackieHelper.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\MidiData.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\Midi.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\MidiHelper.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\midi\MidiInstance.h">
+      <Filter>Файлы заголовков\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="h\global.h">
+      <Filter>Файлы заголовков\globals</Filter>
+    </ClInclude>
+    <ClInclude Include="MIDIMTApi.h">
+      <Filter>Файлы заголовков\globals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\CommonApi.h">
+      <Filter>Файлы заголовков\globals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -104,10 +122,7 @@
     <ClCompile Include="cpp\locker_awaiter.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\runtime_werror.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\Timer.cpp">
+    <ClCompile Include="cpp\common_timer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\dllmain.cpp">
@@ -116,10 +131,10 @@
     <ClCompile Include="cpp\tiny_json.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi\JsonConfig.cpp">
+    <ClCompile Include="cpp\midi\json_config.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi\MidiData.cpp">
+    <ClCompile Include="cpp\json_recent.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\mqtt\BrokerConfig.cpp">
@@ -128,22 +143,10 @@
     <ClCompile Include="cpp\log_string.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi\Mackie.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\common_utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi\MackieHelper.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\midi\MidiInstance.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\seh_exception.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\midi\MidiHelper.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\worker_background.cpp">
@@ -158,6 +161,24 @@
     <ClCompile Include="cpp\ui_themes.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="cpp\common_error.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\midi\Mackie.cpp">
+      <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\midi\MackieHelper.cpp">
+      <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\midi\MidiData.cpp">
+      <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\midi\MidiHelper.cpp">
+      <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\midi\MidiInstance.cpp">
+      <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\rc\resource.rc">
@@ -166,5 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

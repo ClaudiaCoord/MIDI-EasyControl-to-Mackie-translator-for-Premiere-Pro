@@ -23,6 +23,17 @@ namespace Common {
         constexpr std::wstring_view EXCEPT_CB1 = L" - call function pointer \"CbOut1\" not valid! = "sv;
         constexpr std::wstring_view EXCEPT_CB2 = L" - call function pointer \"CbOut2\" not valid! = "sv;
         
+        static void to_log__(const wchar_t* f, const char* s, const std::wstring_view& v, MidiInstance& mi) {
+            try {
+                log_string ls;
+                ls.to_log_method(f);
+                ls << mi.GetType() << v.data() << mi.GetId();
+                if (s != nullptr)
+                    ls << Utils::to_string(s);
+                to_log::Get() << ls.str();
+            } catch (...) {}
+        }
+
         bridge_out_event::bridge_out_event(std::shared_ptr<MidiDevice>& cnf) : cnf__(cnf) {
         }
         void bridge_out_event::SetConfig(std::shared_ptr<MidiDevice>& cnf) {
@@ -62,8 +73,8 @@ namespace Common {
                     MidiInstance& mi = std::ref(pair.second);
 
                     #if defined(DEBUG_BRIDGE_OUT)
-                    Common::to_log::Get() << (log_string() << L"\t\t(CallCbOut) = " << (unsigned long)a.GetId() << L" [" << a.GetType() << L"],");
-                    Common::to_log::Get() << L"\t\t\t\t" << m.Dump();
+                    to_log::Get() << (log_string() << L"\t\t(CallCbOut) = " << (unsigned long)a.GetId() << L" [" << a.GetType() << L"],");
+                    to_log::Get() << L"\t\t\t\t" << m.Dump();
                     #endif
 
                     if (unitref.isbegin()) {
@@ -76,7 +87,7 @@ namespace Common {
                                     mi.GetCbOut1()(m, t);
                                 }
                                 catch (std::bad_function_call& e) {
-                                    Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB1 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                    to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB1, mi);
                                 }
                                 break;
                             }
@@ -88,7 +99,7 @@ namespace Common {
                                     mi.GetCbOut2()(unitref.get(), t);
                                 }
                                 catch (std::bad_function_call& e) {
-                                    Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB2 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                    to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                 }
                                 break;
                             }
@@ -104,7 +115,7 @@ namespace Common {
                                 mi.GetCbOut1()(m, t);
                             }
                             catch (std::bad_function_call& e) {
-                                Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB1 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB1, mi);
                             }
                             break;
                         }
@@ -146,7 +157,7 @@ namespace Common {
                                         mi.GetCbOut2()(u, t);
                                     }
                                     catch (std::bad_function_call& e) {
-                                        Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB2 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                     }
                                     break;
                                 }
@@ -162,7 +173,7 @@ namespace Common {
                                     #endif
 
                                     #if defined(DEBUG_BRIDGE_OUT)
-                                    Common::to_log::Get() << (log_string() << L"\t\t(ClassMqttKey) = " << u.Dump());
+                                    to_log::Get() << (log_string() << L"\t\t(ClassMqttKey) = " << u.Dump());
                                     #endif
 
                                     unitref.begin();
@@ -192,7 +203,7 @@ namespace Common {
                                     try {
                                         mi.GetCbOut2()(u, t);
                                     } catch (std::bad_function_call& e) {
-                                        Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB2 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                     }
                                     break;
                                 }
@@ -208,7 +219,7 @@ namespace Common {
                                     #endif
 
                                     #if defined(DEBUG_BRIDGE_OUT)
-                                    Common::to_log::Get() << (log_string() << L"\t\t(ClassMediaKey) = " << u.Dump());
+                                    to_log::Get() << (log_string() << L"\t\t(ClassMediaKey) = " << u.Dump());
                                     #endif
 
                                     unitref.begin();
@@ -225,7 +236,7 @@ namespace Common {
                                         mi.GetCbOut2()(u, t);
                                     }
                                     catch (std::bad_function_call& e) {
-                                        Common::to_log::Get() << (log_string() << __FUNCTIONW__ << L" [" << mi.GetType() << EXCEPT_CB2 << mi.GetId() << L" : " << e.what());
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                     }
                                     break;
                                 }
@@ -346,7 +357,7 @@ namespace Common {
                                         mi.GetCbOut2()(u, t);
                                     }
                                     catch (std::bad_function_call& e) {
-                                        Common::to_log::Get() << (log_string() << __FUNCTIONW__ << Utils::DefaulPrefixError() << mi.GetType() << EXCEPT_CB2 << mi.GetId() << Utils::DefaulPrefixError() << e.what());
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                     }
                                 }
                             }

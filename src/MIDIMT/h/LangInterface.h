@@ -17,6 +17,7 @@ namespace Common {
 
 		class LangInterface {
 		private:
+			LANGID id__;
 			HINSTANCE main_hinst__;
 			HINSTANCE lang_hinst__;
 			HMODULE dll__;
@@ -39,6 +40,7 @@ namespace Common {
 
 			void SetMainHinstance(HINSTANCE);
 			HINSTANCE GetMainHinstance();
+			HINSTANCE GetLangHinstance();
 
 			void SetMainHwnd(HWND);
 			HWND GetMainHwnd();
@@ -57,8 +59,9 @@ namespace Common {
 			HICON   GetIcon256x256(LPWSTR);
 			HBITMAP GetImageIcon(LPWSTR);
 			HACCEL  GetAccelerators(LPWSTR);
-			std::wstring GetString(uint32_t);
+			std::wstring GetLangId();
 
+			std::wstring GetString(uint32_t);
 			std::wstring& GetMainClass();
 			std::wstring& GetMainTitle();
 		};

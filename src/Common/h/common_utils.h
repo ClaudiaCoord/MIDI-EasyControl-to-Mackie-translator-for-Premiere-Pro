@@ -17,7 +17,6 @@ namespace Common {
     class FLAG_EXPORT Utils {
 
     public:
-        static const std::wstring_view DefaulPrefixError();
         static const std::wstring_view DefaulRuntimeError();
         static const std::wstring_view DefaulSehErrorFound();
 
@@ -46,6 +45,7 @@ namespace Common {
         static std::wstring to_string(const std::error_code&);
         static std::wstring to_string(const std::future_error&);
         static std::wstring to_string(const std::filesystem::filesystem_error&);
+        static std::wstring to_string(const char8_t*, std::size_t);
         static std::wstring to_string(std::nullptr_t);
         static std::wstring to_string(unsigned int&);
         static std::wstring to_string(Common::MIDI::ClassTypes);

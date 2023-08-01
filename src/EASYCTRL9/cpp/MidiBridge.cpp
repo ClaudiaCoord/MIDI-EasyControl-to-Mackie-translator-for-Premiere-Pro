@@ -17,13 +17,6 @@ namespace Common {
         
         using namespace std::string_view_literals;
         
-        constexpr std::wstring_view SET_CB_THROW = L": setting a callback is only possible after a successful launch of the MIDI bridge."sv;
-        constexpr std::wstring_view CONFIG_FAIL  = L": configuration fail, file not found, not start.."sv;
-        constexpr std::wstring_view CONFIG_LOAD  = L": configuration loaded.."sv;
-        constexpr std::wstring_view CONFIG_LOADA = L": configuration already loaded.."sv;
-        constexpr std::wstring_view CONFIG_EMPTY = L": configuration empty.."sv;
-        constexpr std::wstring_view CONFIG_NEW   = L": new configuration version detected.."sv;
-
         MidiBridge MidiBridge::ctrlmidibridge__;
 
         MidiBridge::MidiBridge() : isenable__(false), isproxy__(false) {
@@ -73,26 +66,26 @@ namespace Common {
                 Common::to_log& log_ = Common::to_log::Get();
                 Common::common_config& cconf = Common::common_config::Get();
                 if (!cconf.IsNewConfig()) {
-                    log_ << (log_string() << __FUNCTIONW__ << CONFIG_NEW);
+                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_NEW));
                     if (cconf.IsConfig()) {
                         if (cconf.IsConfigEmpty()) {
-                            log_ << (log_string() << __FUNCTIONW__ << CONFIG_EMPTY);
+                            to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY));
                             return false;
                         }
-                        log_ << (log_string() << __FUNCTIONW__ << CONFIG_LOADA);
+                        to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_LOADA));
                         return start_();
                     }
                 }
 
                 if (loader_(cconf, cnfpath)) {
                     if (cconf.IsConfigEmpty()) {
-                        log_ << (log_string() << __FUNCTIONW__ << CONFIG_EMPTY);
+                        to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY));
                         return false;
                     }
-                    log_ << (log_string() << __FUNCTIONW__ << CONFIG_LOAD);
+                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_LOAD));
                     return start_();
                 } else {
-                    log_ << (log_string() << __FUNCTIONW__ << CONFIG_FAIL);
+                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_FAIL));
                 }
             } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
             return false;
@@ -159,17 +152,16 @@ namespace Common {
 
         void MidiBridge::SetCallbackIn(MidiControllerBase& mcb) {
             if (in_event__ && isenable__) in_event__->add(mcb);
-            else throw runtime_werror((log_string() << __FUNCTIONW__ << SET_CB_THROW));
+            else throw_common_error(common_error_id::err_SET_CB_WARNING);
         }
-
         void MidiBridge::SetCallbackOut(MidiControllerBase& mcb) {
             if (out_event__ && isenable__) out_event__->add(mcb);
-            else throw runtime_werror((log_string() << __FUNCTIONW__ << SET_CB_THROW));
+            else throw_common_error(common_error_id::err_SET_CB_WARNING);
 
         }
         void MidiBridge::SetCallbackOut(MidiInstance& mi) {
             if (out_event__ && isenable__) out_event__->add(mi);
-            else throw runtime_werror((log_string() << __FUNCTIONW__ << SET_CB_THROW));
+            else throw_common_error(common_error_id::err_SET_CB_WARNING);
         }
         void MidiBridge::RemoveCallbackOut(uint32_t id) {
             if (out_event__ && isenable__) out_event__->remove(id);

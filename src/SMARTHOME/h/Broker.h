@@ -28,9 +28,9 @@ namespace Common {
 			BrokerConfig<std::string> config__;
 
 			void dispose_();
-			std::string get_target_topic_(MIDI::Mackie::Target);
-			std::string get_target_ttitle_(MIDI::Mackie::Target);
-			std::string build_topic_(std::string, const std::string_view&);
+			std::u8string get_target_topic_(MIDI::Mackie::Target);
+			std::u8string get_target_ttitle_(MIDI::Mackie::Target);
+			std::string build_topic_(std::u8string, const std::u8string_view&);
 		public:
 			
 			Broker();
@@ -40,12 +40,19 @@ namespace Common {
 			bool init(BrokerConfig<std::wstring>&);
 			void release();
 			void reset();
+
 			template <typename T>
-			void send(T, MIDI::Mackie::Target);
+			FLAG_EXPORT void send(T, MIDI::Mackie::Target);
 
 			void settitle(std::vector<MIDI::Mackie::Target>&);
 			std::wstring GetHost();
 			int32_t GetLogLevel();
 		};
+
+		extern template FLAG_EXPORT void Broker::send<bool>(bool, MIDI::Mackie::Target);
+		extern template FLAG_EXPORT void Broker::send<uint32_t>(uint32_t, MIDI::Mackie::Target);
+		extern template FLAG_EXPORT void Broker::send<std::string>(std::string, MIDI::Mackie::Target);
+		extern template FLAG_EXPORT void Broker::send<std::u8string>(std::u8string, MIDI::Mackie::Target);
+
 	}
 }

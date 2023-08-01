@@ -23,7 +23,7 @@ namespace Common {
         ~seh_exception();
         seh_exception(seh_exception&);
         seh_exception(uint32_t);
-        uint32_t error();
+        const uint32_t error() const;
     };
     FLAG_EXPORT void seh_exception_catch(uint32_t, _EXCEPTION_POINTERS*);
 }

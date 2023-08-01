@@ -28,6 +28,7 @@ namespace Common {
 			handle_ptr<HWND> hwnd__;
 			handle_ptr<ListMixerContainer*> last__;
 			std::unique_ptr<ListEdit> lv__;
+			std::unique_ptr<RToolBarDialogConfig> tb__;
 			GuiImageStateButton<HICON> img_status__;
 			GuiImageStateButton<HICON> btn_folder__;
 			GuiImageStateButton<HICON> btn_runapp__;
@@ -35,15 +36,18 @@ namespace Common {
 			GuiImageStateButton<HICON> btn_info__;
 			GuiImageStateButton<HICON> btn_mute__;
 			ConfigStatus ConfigDevice = ConfigStatus::None;
+			std::wstring confpath__;
 
-			void Clear();
-			void Dispose();
+			void clear_();
+			void dispose_();
 			void InitListView();
 
-			void HelpCategoryAddTarget(HWND, uint32_t, const std::wstring_view);
-			void HelpCategoryAddMMKey(HWND, uint32_t);
-			void SetVolumeSlider(HWND, int32_t);
-			void SetMuteImage(int32_t);
+			void helpcategory_addtarget_(HWND, uint32_t, const std::wstring_view);
+			void helpcategory_addmmkey_(HWND, uint32_t);
+			void set_volumeslider_(HWND, int32_t);
+			void set_muteimage_(int32_t);
+			void load_file_(std::wstring);
+			void print_itemscount_(LONG);
 
 		public:
 
@@ -58,6 +62,21 @@ namespace Common {
 			void ListViewEdit(LPNMHDR);
 			void ListViewClick(LPNMHDR);
 			void ListViewDbClick(LPNMHDR);
+			void ListViewFilter(LPNMHDR);
+
+			void ToolBarSort(uint32_t);
+			void ToolBarRecentOpen(uint32_t);
+			void ToolBarEditDigitMode();
+			void ToolBarFilterEmbed();
+			void ToolBarFilterType(uint32_t);
+			void ToolBarSetMode();
+			void ToolBarSave();
+			void ToolBarImport();
+			void ToolBarExport();
+			void ToolBarMonitor();
+			void ToolBarFilters(uint32_t);
+			void ToolBarFilterAutoCommit();
+			void ToolBarEditorNotify(EditorNotify);
 
 			void ChangeOnAppBox();
 			void ChangeOnBtnAppFolder();
@@ -66,14 +85,12 @@ namespace Common {
 			void ChangeOnBtnMute();
 			void ChangeOnSlider();
 
-			void EventLog();
-			void EventMonitor();
+			void EventLog(CbEventData*);
+			void EventMonitor(CbEventData*);
 
-			void ButtonSave();
-			void ButtonMonitor();
-
-			void InitDialog(HWND);
+			void InitDialog(HWND, COPYDATASTRUCT* = nullptr);
 			void EndDialog();
+			void OpenDragAndDrop(std::wstring);
 			void HelpCategorySelected(uint32_t);
 		};
 

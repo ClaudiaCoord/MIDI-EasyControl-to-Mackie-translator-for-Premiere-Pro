@@ -16,10 +16,5 @@
 
 #define FLAG_EXPORT __declspec(dllexport)
 
-#pragma warning( push )
-#pragma warning( disable : 4251 )
-
 #include "Broker.h"
 #include "SmartHome.h"
-
-#pragma warning( pop )

@@ -13,21 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Item">
+      <UniqueIdentifier>{89704685-1b5c-4f25-9eac-ba3fd4429f95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Events">
+      <UniqueIdentifier>{cb2a6544-884d-4ef9-a419-5d295474c41f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Item">
+      <UniqueIdentifier>{157da0d7-042a-4f9c-b693-cd1445b1f1f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Events">
+      <UniqueIdentifier>{567aedfe-c855-4d84-a8c0-8da7cda75419}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\AudioSessionEvents.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioSessionItem.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\AudioSessionList.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioSessionEventsNotify.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioVolumeValue.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\dllmain.cpp">
@@ -36,36 +36,48 @@
     <ClCompile Include="cpp\AudioSessionMixer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\AudioSessionEventsBuilder.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioSessionItemMidi.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioEndPointEvents.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AudioSessionItemChange.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\AudioSessionHelper.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\events\AudioEndPointEvents.cpp">
+      <Filter>Исходные файлы\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\events\AudioSessionEvents.cpp">
+      <Filter>Исходные файлы\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\events\AudioSessionEventsBuilder.cpp">
+      <Filter>Исходные файлы\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\events\AudioSessionEventsNotify.cpp">
+      <Filter>Исходные файлы\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItem.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItemApp.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItemChange.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItemId.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItemValue.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\item\AudioSessionItemBase.cpp">
+      <Filter>Исходные файлы\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AudioSessionUnit.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AudioSessionMixerVolume.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="h\AudioSessionEvents.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioSessionItem.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="h\AudioSessionList.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioSessionEventsNotify.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioVolumeValue.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\global.h">
@@ -77,28 +89,49 @@
     <ClInclude Include="h\AudioSessionMixer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\AudioSessionErrors.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioSessionEventsBuilder.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\MIDIMTDLL\MIDIMTApi.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\global_enum.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\AudioSessionItemMidi.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioEndPointEvents.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\AudioSessionItemChange.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="h\AudioSessionHelper.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\events\AudioEndPointEvents.h">
+      <Filter>Файлы заголовков\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="h\events\AudioSessionEvents.h">
+      <Filter>Файлы заголовков\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="h\events\AudioSessionEventsBuilder.h">
+      <Filter>Файлы заголовков\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="h\events\AudioSessionEventsNotify.h">
+      <Filter>Файлы заголовков\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItem.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItemApp.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItemChange.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItemId.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItemValue.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\item\AudioSessionItemBase.h">
+      <Filter>Файлы заголовков\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="h\AudioSessionUnit.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\AudioSessionMixerVolume.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -109,5 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

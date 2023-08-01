@@ -1,0 +1,1060 @@
+﻿﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "RibbonDialogConfig.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_SLOVAK, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie prekladač"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&Informácie", IDM_GO_INFO
+        MENUITEM "&Zmiešavač zvuku", IDM_GO_MIXER
+        MENUITEM "&Monitorovať", IDM_GO_MONITOR
+        MENUITEM "&Nastavenie", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Štart", IDM_GO_START
+        MENUITEM "Stop", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "VÝCHOD", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Poloha.."
+        BEGIN
+            MENUITEM "Vertikálne vľavo", IDM_VERT_LEFT
+            MENUITEM "Vertikálne vpravo", IDM_VERT_RIGHT
+            MENUITEM "Vodorovne na vrchu", IDM_HOR_TOP
+            MENUITEM "Vodorovne dole", IDM_HOR_BOTTOM
+        END
+        POPUP "Predmet.."
+        BEGIN
+            MENUITEM "Metro", IDM_METRO
+            MENUITEM "Svetlo", IDM_LIGHT
+            MENUITEM "Tmavý", IDM_DARK
+            MENUITEM "Retro", IDM_RETRO
+            MENUITEM "Moderné", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Nastavenie", IDM_CUSTOM
+            MENUITEM "Nastavenie témy", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Animácia", IDM_ANIMATION
+        MENUITEM "&Cesta aplikácie", IDM_APP_PATH
+        MENUITEM "Väzba & MIDI ovládacie prvky", IDM_MIDI_BIND
+        MENUITEM "Merač maximálneho a hlasitosti", IDM_PEAK_METER
+        MENUITEM "Zapamätajte si polohu", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Zavrieť", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Nový vstup", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Kopírovať", IDM_LV_COPY
+        MENUITEM "Vložiť", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Odstrániť", IDM_LV_DELETE
+        POPUP "Inštalovať ako.."
+        BEGIN
+            MENUITEM "Ovládanie sa vzťahuje na zvukový mixér", IDM_LV_SET_MIXER
+            MENUITEM "Ovládacie prvky sa vzťahujú na multimediálne tlačidlá", IDM_LV_SET_MMKEY
+            MENUITEM "Ovládanie sa týka inteligentného domu", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "Nepriradený", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Prečítajte si MIDI kód..", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Regulátory.."
+        BEGIN
+            MENUITEM "Pásový regulátor", IDM_COL3_SLIDER
+            MENUITEM "Pásový regulátor s inverziou", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Kruhový regulátor", IDM_COL3_FADER
+            MENUITEM "Kruhový regulátor s inverziou", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "kódovač", IDM_COL3_KNOB
+            MENUITEM "Kodér s inverziou", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Nepriradený", IDM_COL3_NONE
+        END
+        POPUP "Tlačidlá.."
+        BEGIN
+            MENUITEM "Tlačidlo", IDM_COL3_BTN
+            MENUITEM "Spínacie tlačidlo s indikáciou", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Nepriradený", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Regulátory..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Tlačidlá..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "Ovládanie sa vzťahuje na zvukový mixér", IDM_COL4_VOLUMEMIX
+        MENUITEM "Ovládacie prvky sa vzťahujú na multimediálne tlačidlá", IDM_COL4_MEDIAKEY
+        MENUITEM "Ovládanie sa týka inteligentného domu", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ovládanie zvuku..."
+        BEGIN
+            MENUITEM "Tichý (majster)", IDM_COL4_MAM
+            MENUITEM "sólo (majster)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Bez zvuku.."
+            BEGIN
+                MENUITEM "kanál 1", IDM_COL4_B21
+                MENUITEM "kanál 2", IDM_COL4_B22
+                MENUITEM "kanál 3", IDM_COL4_B23
+                MENUITEM "kanál 4", IDM_COL4_B24
+                MENUITEM "kanál 5", IDM_COL4_B25
+                MENUITEM "kanál 6", IDM_COL4_B26
+                MENUITEM "kanál 7", IDM_COL4_B27
+                MENUITEM "kanál 8", IDM_COL4_B28
+                MENUITEM "kanál 9", IDM_COL4_B29
+            END
+            POPUP "sólo.."
+            BEGIN
+                MENUITEM "kanál 1", IDM_COL4_B11
+                MENUITEM "kanál 2", IDM_COL4_B12
+                MENUITEM "kanál 3", IDM_COL4_B13
+                MENUITEM "kanál 4", IDM_COL4_B14
+                MENUITEM "kanál 5", IDM_COL4_B15
+                MENUITEM "kanál 6", IDM_COL4_B16
+                MENUITEM "kanál 7", IDM_COL4_B17
+                MENUITEM "kanál 8", IDM_COL4_B18
+                MENUITEM "kanál 9", IDM_COL4_B19
+            END
+        END
+        POPUP "Multimediálne tlačidlá.."
+        BEGIN
+            MENUITEM "Prehrať/Pozastaviť", IDM_COL4_SYS_Play
+            MENUITEM "Stop", IDM_COL4_SYS_Stop
+            MENUITEM "Predchádzajúce", IDM_COL4_SYS_Rewind
+            MENUITEM "Ďalšie", IDM_COL4_SYS_Forward
+            MENUITEM "Záznam", IDM_COL4_SYS_Record
+            MENUITEM "Hore (joystick)", IDM_COL4_SYS_Up
+            MENUITEM "Dole (joystick)", IDM_COL4_SYS_Down
+            MENUITEM "Vpravo (joystick)", IDM_COL4_SYS_Right
+            MENUITEM "Vľavo (joystick)", IDM_COL4_SYS_Left
+            MENUITEM "Priblížiť", IDM_COL4_SYS_Zoom
+            MENUITEM "Drhnutie", IDM_COL4_SYS_Scrub
+        END
+        POPUP "Funkcie Premiere Pro..."
+        BEGIN
+            POPUP "Funkcie štandardného tlačidla..."
+            BEGIN
+                MENUITEM "Funkcia 1", IDM_COL4_FUN11
+                MENUITEM "Funkcia 2", IDM_COL4_FUN12
+                MENUITEM "Funkcia 3", IDM_COL4_FUN13
+                MENUITEM "Funkcia 4", IDM_COL4_FUN14
+                MENUITEM "Funkcia 5", IDM_COL4_FUN15
+                MENUITEM "Funkcia 6", IDM_COL4_FUN16
+                MENUITEM "Funkcia 7", IDM_COL4_FUN17
+                MENUITEM "Funkcia 8", IDM_COL4_FUN18
+            END
+            POPUP "Funkcie jedného dotykového tlačidla..."
+            BEGIN
+                MENUITEM "Funkcia 1", IDM_COL4_FUN21
+                MENUITEM "Funkcia 2", IDM_COL4_FUN22
+                MENUITEM "Funkcia 3", IDM_COL4_FUN23
+                MENUITEM "Funkcia 4", IDM_COL4_FUN24
+                MENUITEM "Funkcia 5", IDM_COL4_FUN25
+                MENUITEM "Funkcia 6", IDM_COL4_FUN26
+                MENUITEM "Funkcia 7", IDM_COL4_FUN27
+                MENUITEM "Funkcia 8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Tlačidlá v systéme Smart Home.."
+        BEGIN
+            MENUITEM "zapnutie/vypnutie 1", IDM_COL4_B11
+            MENUITEM "zapnutie/vypnutie 2", IDM_COL4_B12
+            MENUITEM "zapnutie/vypnutie 3", IDM_COL4_B13
+            MENUITEM "zapnutie/vypnutie 4", IDM_COL4_B14
+            MENUITEM "zapnutie/vypnutie 5", IDM_COL4_B15
+            MENUITEM "zapnutie/vypnutie 6", IDM_COL4_B16
+            MENUITEM "zapnutie/vypnutie 7", IDM_COL4_B17
+            MENUITEM "zapnutie/vypnutie 8", IDM_COL4_B18
+            MENUITEM "zapnutie/vypnutie 9", IDM_COL4_B19
+            MENUITEM "zapnutie/vypnutie 10", IDM_COL4_B21
+            MENUITEM "zapnutie/vypnutie 11", IDM_COL4_B22
+            MENUITEM "zapnutie/vypnutie 12", IDM_COL4_B23
+            MENUITEM "zapnutie/vypnutie 13", IDM_COL4_B24
+            MENUITEM "zapnutie/vypnutie 14", IDM_COL4_B25
+            MENUITEM "zapnutie/vypnutie 15", IDM_COL4_B26
+            MENUITEM "zapnutie/vypnutie 16", IDM_COL4_B27
+            MENUITEM "zapnutie/vypnutie 17", IDM_COL4_B28
+            MENUITEM "zapnutie/vypnutie 18", IDM_COL4_B29
+            MENUITEM "zapnutie/vypnutie 19", IDM_COL4_B31
+            MENUITEM "zapnutie/vypnutie 20", IDM_COL4_B32
+            MENUITEM "zapnutie/vypnutie 21", IDM_COL4_B33
+            MENUITEM "zapnutie/vypnutie 22", IDM_COL4_B34
+            MENUITEM "zapnutie/vypnutie 23", IDM_COL4_B35
+            MENUITEM "zapnutie/vypnutie 24", IDM_COL4_B36
+            MENUITEM "zapnutie/vypnutie 25", IDM_COL4_B37
+            MENUITEM "zapnutie/vypnutie 26", IDM_COL4_B38
+            MENUITEM "zapnutie/vypnutie 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Ovládanie sa vzťahuje na zvukový mixér", IDM_COL4_VOLUMEMIX
+        MENUITEM "Ovládacie prvky sa vzťahujú na multimediálne tlačidlá", IDM_COL4_MEDIAKEY
+        MENUITEM "Ovládanie sa týka inteligentného domu", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Kódovač (prezeranie snímok po snímke)", IDM_COL4_JOG
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ovládanie zvuku..."
+        BEGIN
+            MENUITEM "Hlasitosť (hlavná)", IDM_COL4_MAV
+            MENUITEM "Zostatok (hlavný)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Objem.."
+            BEGIN
+                MENUITEM "kanál 1", IDM_COL4_AV1
+                MENUITEM "kanál 2", IDM_COL4_AV2
+                MENUITEM "kanál 3", IDM_COL4_AV3
+                MENUITEM "kanál 4", IDM_COL4_AV4
+                MENUITEM "kanál 5", IDM_COL4_AV5
+                MENUITEM "kanál 6", IDM_COL4_AV6
+                MENUITEM "kanál 7", IDM_COL4_AV7
+                MENUITEM "kanál 8", IDM_COL4_AV8
+                MENUITEM "kanál 9", IDM_COL4_XV9
+            END
+            POPUP "Zostatok.."
+            BEGIN
+                MENUITEM "kanál 1", IDM_COL4_AP1
+                MENUITEM "kanál 2", IDM_COL4_AP2
+                MENUITEM "kanál 3", IDM_COL4_AP3
+                MENUITEM "kanál 4", IDM_COL4_AP4
+                MENUITEM "kanál 5", IDM_COL4_AP5
+                MENUITEM "kanál 6", IDM_COL4_AP6
+                MENUITEM "kanál 7", IDM_COL4_AP7
+                MENUITEM "kanál 8", IDM_COL4_AP8
+                MENUITEM "kanál 9", IDM_COL4_XP9
+            END
+        END
+        POPUP "Regulátory v systéme „Smart Home“..."
+        BEGIN
+            MENUITEM "úroveň 1", IDM_COL4_AV1
+            MENUITEM "úroveň 2", IDM_COL4_AV2
+            MENUITEM "úroveň 3", IDM_COL4_AV3
+            MENUITEM "úroveň 4", IDM_COL4_AV4
+            MENUITEM "úroveň 5", IDM_COL4_AV5
+            MENUITEM "úroveň 6", IDM_COL4_AV6
+            MENUITEM "úroveň 7", IDM_COL4_AV7
+            MENUITEM "úroveň 8", IDM_COL4_AV8
+            MENUITEM "úroveň 9", IDM_COL4_XV9
+            MENUITEM "úroveň 10", IDM_COL4_AP1
+            MENUITEM "úroveň 11", IDM_COL4_AP2
+            MENUITEM "úroveň 12", IDM_COL4_AP3
+            MENUITEM "úroveň 13", IDM_COL4_AP4
+            MENUITEM "úroveň 14", IDM_COL4_AP5
+            MENUITEM "úroveň 15", IDM_COL4_AP6
+            MENUITEM "úroveň 16", IDM_COL4_AP7
+            MENUITEM "úroveň 17", IDM_COL4_AP8
+            MENUITEM "úroveň 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Ovládanie sa vzťahuje na zvukový mixér", IDM_COL4_VOLUMEMIX
+        MENUITEM "Ovládacie prvky sa vzťahujú na multimediálne tlačidlá", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "Hlasitosť (hlavná)", IDM_COL4_MAV
+        MENUITEM "Kódovač (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Objem.."
+        BEGIN
+            MENUITEM "kanál 1", IDM_COL4_AV1
+            MENUITEM "kanál 2", IDM_COL4_AV2
+            MENUITEM "kanál 3", IDM_COL4_AV3
+            MENUITEM "kanál 4", IDM_COL4_AV4
+            MENUITEM "kanál 5", IDM_COL4_AV5
+            MENUITEM "kanál 6", IDM_COL4_AV6
+            MENUITEM "kanál 7", IDM_COL4_AV7
+            MENUITEM "kanál 8", IDM_COL4_AV8
+            MENUITEM "kanál 9", IDM_COL4_XV9
+            MENUITEM "kanál 10", IDM_COL4_AP1
+            MENUITEM "kanál 11", IDM_COL4_AP2
+            MENUITEM "kanál 12", IDM_COL4_AP3
+            MENUITEM "kanál 13", IDM_COL4_AP4
+            MENUITEM "kanál 14", IDM_COL4_AP5
+            MENUITEM "kanál 15", IDM_COL4_AP6
+            MENUITEM "kanál 16", IDM_COL4_AP7
+            MENUITEM "kanál 17", IDM_COL4_AP8
+            MENUITEM "kanál 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Stlmiť (hlavný)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Bez zvuku.."
+        BEGIN
+            MENUITEM "kanál 1", IDM_COL4_B21
+            MENUITEM "kanál 2", IDM_COL4_B22
+            MENUITEM "kanál 3", IDM_COL4_B23
+            MENUITEM "kanál 4", IDM_COL4_B24
+            MENUITEM "kanál 5", IDM_COL4_B25
+            MENUITEM "kanál 6", IDM_COL4_B26
+            MENUITEM "kanál 7", IDM_COL4_B27
+            MENUITEM "kanál 8", IDM_COL4_B28
+            MENUITEM "kanál 9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Prehrať/Pozastaviť", IDM_COL4_SYS_Play
+        MENUITEM "Stop", IDM_COL4_SYS_Stop
+        MENUITEM "Predchádzajúce", IDM_COL4_SYS_Rewind
+        MENUITEM "Ďalšie", IDM_COL4_SYS_Forward
+        MENUITEM "Záznam", IDM_COL4_SYS_Record
+        MENUITEM "Hore (joystick)", IDM_COL4_SYS_Up
+        MENUITEM "Dole (joystick)", IDM_COL4_SYS_Down
+        MENUITEM "Vpravo (joystick)", IDM_COL4_SYS_Right
+        MENUITEM "Vľavo (joystick)", IDM_COL4_SYS_Left
+        MENUITEM "Priblížiť", IDM_COL4_SYS_Zoom
+        MENUITEM "Drhnutie", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "úroveň 1", IDM_COL4_AV1
+        MENUITEM "úroveň 2", IDM_COL4_AV2
+        MENUITEM "úroveň 3", IDM_COL4_AV3
+        MENUITEM "úroveň 4", IDM_COL4_AV4
+        MENUITEM "úroveň 5", IDM_COL4_AV5
+        MENUITEM "úroveň 6", IDM_COL4_AV6
+        MENUITEM "úroveň 7", IDM_COL4_AV7
+        MENUITEM "úroveň 8", IDM_COL4_AV8
+        MENUITEM "úroveň 9", IDM_COL4_XV9
+        MENUITEM "úroveň 10", IDM_COL4_AP1
+        MENUITEM "úroveň 11", IDM_COL4_AP2
+        MENUITEM "úroveň 12", IDM_COL4_AP3
+        MENUITEM "úroveň 13", IDM_COL4_AP4
+        MENUITEM "úroveň 14", IDM_COL4_AP5
+        MENUITEM "úroveň 15", IDM_COL4_AP6
+        MENUITEM "úroveň 16", IDM_COL4_AP7
+        MENUITEM "úroveň 17", IDM_COL4_AP8
+        MENUITEM "úroveň 18", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "zapnutie/vypnutie 1", IDM_COL4_B11
+        MENUITEM "zapnutie/vypnutie 2", IDM_COL4_B12
+        MENUITEM "zapnutie/vypnutie 3", IDM_COL4_B13
+        MENUITEM "zapnutie/vypnutie 4", IDM_COL4_B14
+        MENUITEM "zapnutie/vypnutie 5", IDM_COL4_B15
+        MENUITEM "zapnutie/vypnutie 6", IDM_COL4_B16
+        MENUITEM "zapnutie/vypnutie 7", IDM_COL4_B17
+        MENUITEM "zapnutie/vypnutie 8", IDM_COL4_B18
+        MENUITEM "zapnutie/vypnutie 9", IDM_COL4_B19
+        MENUITEM "zapnutie/vypnutie 10", IDM_COL4_B21
+        MENUITEM "zapnutie/vypnutie 11", IDM_COL4_B22
+        MENUITEM "zapnutie/vypnutie 12", IDM_COL4_B23
+        MENUITEM "zapnutie/vypnutie 13", IDM_COL4_B24
+        MENUITEM "zapnutie/vypnutie 14", IDM_COL4_B25
+        MENUITEM "zapnutie/vypnutie 15", IDM_COL4_B26
+        MENUITEM "zapnutie/vypnutie 16", IDM_COL4_B27
+        MENUITEM "zapnutie/vypnutie 17", IDM_COL4_B28
+        MENUITEM "zapnutie/vypnutie 18", IDM_COL4_B29
+        MENUITEM "zapnutie/vypnutie 19", IDM_COL4_B31
+        MENUITEM "zapnutie/vypnutie 20", IDM_COL4_B32
+        MENUITEM "zapnutie/vypnutie 21", IDM_COL4_B33
+        MENUITEM "zapnutie/vypnutie 22", IDM_COL4_B34
+        MENUITEM "zapnutie/vypnutie 23", IDM_COL4_B35
+        MENUITEM "zapnutie/vypnutie 24", IDM_COL4_B36
+        MENUITEM "zapnutie/vypnutie 25", IDM_COL4_B37
+        MENUITEM "zapnutie/vypnutie 26", IDM_COL4_B38
+        MENUITEM "zapnutie/vypnutie 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "Nepriradený", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "Aktualizácie",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Pomoc",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Zavrieť",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "& program nastavenia panelu MIDI",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Zavrieť",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Odporúčané rozloženie ovládacieho panela MIDI. Súbor s nastaveniami pre toto rozloženie sa nachádza v priečinku 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "Spustenie MIDI prekladača"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI zariadenia",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI mostík",IDC_STATIC,11,73,326,79
+    CONTROL         "Spustený",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Zastavené",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Konfigurácia",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI ovládacie prvky",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "Interval medzi kliknutiami",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "Interval ako dlhé stlačenie",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "Spustiť",IDC_STATIC,11,156,135,148
+    CONTROL         "Začnite pri zavádzaní systému",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Automatický štart pri štarte",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Automatické spustenie tejto konfigurácie",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Napíšte denník",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Uprednostňovaný jazyk:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Pomocou pravého tlačidla myši vyvolajte mixér",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "Nastavenia MIDI",IDC_STATIC,151,156,97,64
+    CONTROL         "vodič:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "Filter scény JOG",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Port nie je vytvorený",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI Proxy",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "počet portov",IDC_STATIC,260,183,66,8
+    CONTROL         "Zahrnuté",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Nastavenia zvukového mixéra",IDC_STATIC,152,224,184,80
+    CONTROL         "Zahrnuté",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "Nahradenie hodnôt objemu bez kontroly",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Kombinujte aplikácie podľa názvu, samostatné úpravy nie sú možné",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Nastavte uložené úrovne hlasitosti pri spustení",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "Povoliť kľúče MM",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Uložiť nastavenia",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Štart",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Konfigurácia",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Inteligentný dom",IDC_STATIC,343,73,199,262
+    CONTROL         "Zahrnuté",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "server MQTT",IDC_STATIC,350,102,186,44
+    CONTROL         "IP adresa:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "port:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Bezpečnosť",IDC_STATIC,350,149,186,106
+    CONTROL         "Prihlásiť sa:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "heslo:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK kľúč:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS povolené",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "vlastnoručne podpísaný",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "certifikát CA",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "možnosti",IDC_STATIC,350,258,186,71
+    CONTROL         "Predpona témy MQTT: (voliteľné)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Úroveň protokolovania relácie MQTT:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Zavrieť",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "Aktualizácie",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&O programe..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI príkazový monitor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Príkazový monitor",IDC_STATIC,9,4,285,54
+    LTEXT           "MIDI Command Monitor vám pomôže určiť, ako je nakonfigurovaný kontrolér. Ak chcete spustiť testovanie, kliknite na tlačidlo „Štart“. Pomocou rôznych ovládacích prvkov na ovládači budete dostávať správy o scéne, čísle a aktuálnej hodnote.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Stop",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Štart",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Zavrieť",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "Očistite",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "Nastavenie ovládania MIDI"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
+    GROUPBOX        "Nastavenie MIDI ovládačov",IDC_STATIC,7,97,215,224
+    RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
+    GROUPBOX        "Informácie",IDC_STATIC,227,97,259,224
+    LTEXT           "ovládanie:",IDC_STATIC,241,157,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
+    LTEXT           "scéna:",IDC_STATIC,241,169,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
+    LTEXT           "Typ ovládania:",IDC_STATIC,241,181,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
+    LTEXT           "Účel:",IDC_STATIC,241,193,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
+    LTEXT           "Účel (dlhé kliknutie):",IDC_STATIC,241,205,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
+    LTEXT           "Aplikácie riadené mixérom:",IDC_STATIC,241,217,144,10
+    LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Zavrieť",IDCANCEL,609,324,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
+    GROUPBOX        "Tipy",IDC_STATIC,493,97,209,224
+    LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Všetky",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "Tlačidlá",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "Posúvače",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "Multimédiá",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Nastavenie vlastnej témy"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Farby vašej témy",IDC_STATIC,9,8,188,107
+    CONTROL         "Farba textu",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Farba pozadia",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Farba rámu",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "Základná téma",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Metro",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Svetlo",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Tmavý",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "Retro",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Moderné",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "Jednoduché ovládanie MIDI -> Mixér zvuku -> Prekladač MIDI-Mackie"
+    IDS_MIXER               "&Mixér"
+    IDS_SETTINGS            "&Nastavenie"
+    IDS_START               "Štart"
+    IDS_STOP                "Stop"
+    IDS_EXIT                "VÝCHOD"
+    IDS_SETUP_MSG1          "Konfigurácia načítaná z ovládača"
+    IDS_SETUP_MSG2          "Konfigurácia načítaná zo súboru"
+    IDS_SETUP_MSG3          "Konfigurácia bola vytvorená nanovo a vyžaduje vyplnenie"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "Konfigurácia MIDI-MT"
+    IDS_CONFIG_EXE_FILTER   "Spustiteľné súbory"
+    IDS_MQTT_CA_FILTER      "certifikát CA"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI translator nie je spustený."
+    IDS_INFO2               "MIDI prekladač funguje:"
+    IDS_INFO3               "Vstupné zariadenie:"
+    IDS_INFO4               "Výstupný port Mackie/Premier:"
+    IDS_INFO5               "Výstupný port proxy:"
+    IDS_INFO6               "Zvukový mixér je spustený."
+    IDS_INFO7               "Ovládanie multimediálneho kľúča je spustené, skontrolujte nastavenia."
+    IDS_INFO8               "Zvukový mixér nie je spustený, skontrolujte nastavenia, musí byť povolené spustenie zvukového panelu."
+    IDS_INFO9               "Neplatné ID udalosti. Reštartujte túto aplikáciu."
+    IDS_INF1O               "Nepodarilo sa prepnúť na vlákno používateľského rozhrania, spustenie zvukového panela bolo prerušené."
+    IDS_INF11               "MIDIMT - Zvukový mixér nie je spustený:"
+    IDS_INF12               "MIDIMT - Nedá sa dokončiť operácia:"
+    IDS_INF13               "Správa zariadení Smart Home sa začala."
+    IDS_DLG_MSG1            "MIDI výstup Mackie"
+    IDS_DLG_MSG2            "MIDI Proxy výstup"
+    IDS_DLG_MSG3            "Verzia virtuálneho ovládača MIDI:"
+    IDS_DLG_MSG4            "Nainštalovaný virtuálny ovládač MIDI sa nenašiel! Ak chcete spustiť prekladač, musíte nainštalovať balík Virtual Loop MIDI"
+    IDS_DLG_MSG5            "Pri spustení sa vytvoria proxy MIDI porty:"
+    IDS_DLG_MSG6            "Porty MIDI Proxy sú vypnuté."
+    IDS_DLG_MSG7            "Zvolený jazyk bude aktívny po reštarte okna -"
+    IDS_DLG_MSG8            "MIDI vstupné zariadenie priradené k"
+    IDS_DLG_MSG9            "Pred spustením upravte konfiguráciu."
+    IDS_DLG_MSG10           "Verzia nainštalovaného virtuálneho MIDI ovládača:"
+    IDS_DLG_MSG11           "Vybraná konfigurácia nepodporuje automatické spustenie."
+    IDS_DLG_MSG12           "Pred spustením monitora spustite MIDI bridge z ponuky zavolaním „Štart“."
+    IDS_DLG_MSG13           "Pri spustení bol zadaný konfiguračný súbor: '{0}'. Nastaviť ho ako konfiguráciu pre nasledujúce spustenia?"
+    IDS_DLG_MSG14           "Pri otváraní editora bol zadaný konfiguračný súbor: '{0}'. Uložiť to pod rovnakým názvom?"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "hlasitosť zvuku (hlavná)"
+    IDM_COL4_MAP            "vyváženie zvuku (základné)"
+    IDM_COL4_MAM            "stlmiť (hlavný)"
+    IDM_COL4_MAS            "audio sólo (hlavné)"
+    IDM_COL4_JOG            "JOG (pretočenie snímky videa dozadu)"
+    IDM_COL4_AV1            "hlasitosť zvuku (kanál 1)"
+    IDM_COL4_AV2            "hlasitosť zvuku (kanál 2)"
+    IDM_COL4_AV3            "hlasitosť zvuku (kanál 3)"
+    IDM_COL4_AV4            "hlasitosť zvuku (kanál 4)"
+    IDM_COL4_AV5            "hlasitosť zvuku (kanál 5)"
+    IDM_COL4_AV6            "hlasitosť zvuku (kanál 6)"
+    IDM_COL4_AV7            "hlasitosť zvuku (kanál 7)"
+    IDM_COL4_AV8            "hlasitosť zvuku (kanál 8)"
+    IDM_COL4_XV9            "hlasitosť zvuku (kanál 9)"
+    IDM_COL4_AP1            "vyváženie zvuku (kanál 1)"
+    IDM_COL4_AP2            "vyváženie zvuku (kanál 2)"
+    IDM_COL4_AP3            "vyváženie zvuku (kanál 3)"
+    IDM_COL4_AP4            "vyváženie zvuku (kanál 4)"
+    IDM_COL4_AP5            "vyváženie zvuku (kanál 5)"
+    IDM_COL4_AP6            "vyváženie zvuku (kanál 6)"
+    IDM_COL4_AP7            "vyváženie zvuku (kanál 7)"
+    IDM_COL4_AP8            "vyváženie zvuku (kanál 8)"
+    IDM_COL4_XP9            "vyváženie zvuku (kanál 9)"
+    IDM_COL4_B11            "audio sólo (kanál 1)"
+    IDM_COL4_B12            "audio sólo (kanál 2)"
+    IDM_COL4_B13            "audio sólo (kanál 3)"
+    IDM_COL4_B14            "audio sólo (kanál 4)"
+    IDM_COL4_B15            "audio sólo (kanál 5)"
+    IDM_COL4_B16            "audio sólo (kanál 6)"
+    IDM_COL4_B17            "audio sólo (kanál 7)"
+    IDM_COL4_B18            "audio sólo (kanál 8)"
+    IDM_COL4_B19            "audio sólo (kanál 9)"
+    IDM_COL4_B21            "stlmiť (kanál 1)"
+    IDM_COL4_B22            "stlmiť (kanál 2)"
+    IDM_COL4_B23            "stlmiť (kanál 3)"
+    IDM_COL4_B24            "stlmiť (kanál 4)"
+    IDM_COL4_B25            "stlmiť (kanál 5)"
+    IDM_COL4_B26            "stlmiť (kanál 6)"
+    IDM_COL4_B27            "stlmiť (kanál 7)"
+    IDM_COL4_B28            "stlmiť (kanál 8)"
+    IDM_COL4_B29            "stlmiť (kanál 9)"
+    IDM_COL4_B31            "výber zvuku (kanál 1)"
+    IDM_COL4_B32            "výber zvuku (kanál 2)"
+    IDM_COL4_B33            "výber zvuku (kanál 3)"
+    IDM_COL4_B34            "výber zvuku (kanál 4)"
+    IDM_COL4_B35            "výber zvuku (kanál 5)"
+    IDM_COL4_B36            "výber zvuku (kanál 6)"
+    IDM_COL4_B37            "výber zvuku (kanál 7)"
+    IDM_COL4_B38            "výber zvuku (kanál 8)"
+    IDM_COL4_B39            "výber zvuku (kanál 9)"
+    IDM_COL4_FUN11          "funkcia F1 (štandardný režim)"
+    IDM_COL4_FUN12          "funkcia F2 (štandardný režim)"
+    IDM_COL4_FUN13          "funkcia F3 (štandardný režim)"
+    IDM_COL4_FUN14          "funkcia F4 (štandardný režim)"
+    IDM_COL4_FUN15          "funkcia F5 (štandardný režim)"
+    IDM_COL4_FUN16          "funkcia F6 (štandardný režim)"
+    IDM_COL4_FUN17          "funkcia F7 (štandardný režim)"
+    IDM_COL4_FUN18          "funkcia F8 (štandardný režim)"
+    IDM_COL4_FUN21          "funkcia F1 (režim pozastavenia)"
+    IDM_COL4_FUN22          "funkcia F2 (režim pozastavenia)"
+    IDM_COL4_FUN23          "funkcia F3 (režim pozastavenia)"
+    IDM_COL4_FUN24          "funkcia F4 (režim pozastavenia)"
+    IDM_COL4_FUN25          "funkcia F5 (režim pozastavenia)"
+    IDM_COL4_FUN26          "funkcia F6 (režim pozastavenia)"
+    IDM_COL4_FUN27          "funkcia F7 (režim pozastavenia)"
+    IDM_COL4_FUN28          "funkcia F8 (režim pozastavenia)"
+    IDM_COL4_SYS_Rewind     "Pretočiť späť (hráč)"
+    IDM_COL4_SYS_Forward    "Rýchly posun dopredu (hráč)"
+    IDM_COL4_SYS_Stop       "Zastaviť (hráč)"
+    IDM_COL4_SYS_Play       "Hrať (hráč)"
+    IDM_COL4_SYS_Record     "Nahrávanie (prehrávač)"
+    IDM_COL4_SYS_Up         "Hore (joystick)"
+    IDM_COL4_SYS_Down       "Dole (joystick)"
+    IDM_COL4_SYS_Left       "Vľavo (joystick)"
+    IDM_COL4_SYS_Right      "Vpravo (joystick)"
+    IDM_COL4_SYS_Zoom       "Zvýšiť"
+    IDM_COL4_SYS_Scrub      "Drhnúť"
+    IDM_COL4_VOLUMEMIX      "Ovládanie mixéra"
+    IDM_COL4_MEDIAKEY       "Multimediálne klávesy"
+    IDM_COL4_MQTTKEY        "Správa inteligentnej domácnosti"
+    IDM_COL4_NONE           "akcia nie je definovaná"
+    IDM_COL4_MQTT_AV1       "úroveň 1"
+    IDM_COL4_MQTT_AV2       "úroveň 2"
+    IDM_COL4_MQTT_AV3       "úroveň 3"
+    IDM_COL4_MQTT_AV4       "úroveň 4"
+    IDM_COL4_MQTT_AV5       "úroveň 5"
+    IDM_COL4_MQTT_AV6       "úroveň 6"
+    IDM_COL4_MQTT_AV7       "úroveň 7"
+    IDM_COL4_MQTT_AV8       "úroveň 8"
+    IDM_COL4_MQTT_XV9       "úroveň 9"
+    IDM_COL4_MQTT_AP1       "úroveň 10"
+    IDM_COL4_MQTT_AP2       "úroveň 11"
+    IDM_COL4_MQTT_AP3       "úroveň 12"
+    IDM_COL4_MQTT_AP4       "úroveň 13"
+    IDM_COL4_MQTT_AP5       "úroveň 14"
+    IDM_COL4_MQTT_AP6       "úroveň 15"
+    IDM_COL4_MQTT_AP7       "úroveň 16"
+    IDM_COL4_MQTT_AP8       "úroveň 17"
+    IDM_COL4_MQTT_XP9       "úroveň 18"
+    IDM_COL4_MQTT_B11       "zapnutie/vypnutie 1"
+    IDM_COL4_MQTT_B12       "zapnutie/vypnutie 2"
+    IDM_COL4_MQTT_B13       "zapnutie/vypnutie 3"
+    IDM_COL4_MQTT_B14       "zapnutie/vypnutie 4"
+    IDM_COL4_MQTT_B15       "zapnutie/vypnutie 5"
+    IDM_COL4_MQTT_B16       "zapnutie/vypnutie 6"
+    IDM_COL4_MQTT_B17       "zapnutie/vypnutie 7"
+    IDM_COL4_MQTT_B18       "zapnutie/vypnutie 8"
+    IDM_COL4_MQTT_B19       "zapnutie/vypnutie 9"
+    IDM_COL4_MQTT_B21       "zapnutie/vypnutie 10"
+    IDM_COL4_MQTT_B22       "zapnutie/vypnutie 11"
+    IDM_COL4_MQTT_B23       "zapnutie/vypnutie 12"
+    IDM_COL4_MQTT_B24       "zapnutie/vypnutie 13"
+    IDM_COL4_MQTT_B25       "zapnutie/vypnutie 14"
+    IDM_COL4_MQTT_B26       "zapnutie/vypnutie 15"
+    IDM_COL4_MQTT_B27       "zapnutie/vypnutie 16"
+    IDM_COL4_MQTT_B28       "zapnutie/vypnutie 17"
+    IDM_COL4_MQTT_B29       "zapnutie/vypnutie 18"
+    IDM_COL4_MQTT_B31       "zapnutie/vypnutie 19"
+    IDM_COL4_MQTT_B32       "zapnutie/vypnutie 20"
+    IDM_COL4_MQTT_B33       "zapnutie/vypnutie 21"
+    IDM_COL4_MQTT_B34       "zapnutie/vypnutie 22"
+    IDM_COL4_MQTT_B35       "zapnutie/vypnutie 23"
+    IDM_COL4_MQTT_B36       "zapnutie/vypnutie 24"
+    IDM_COL4_MQTT_B37       "zapnutie/vypnutie 25"
+    IDM_COL4_MQTT_B38       "zapnutie/vypnutie 26"
+    IDM_COL4_MQTT_B39       "zapnutie/vypnutie 27"
+    IDM_COL4_MQTT_NONE      "Nepridelené"
+    IDM_MQTT_LOG_NONE       "nie je vedený žiadny denník"
+    IDM_MQTT_LOG_INFO       "informácie"
+    IDM_MQTT_LOG_NOTICE     "upozornenia"
+    IDM_MQTT_LOG_WARNING    "upozornenia"
+    IDM_MQTT_LOG_ERR        "iba chyby"
+    IDM_MQTT_LOG_DEBUG      "všetky správy"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Táto chyba nie je definovaná"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Prístup na zápis do konfiguračného súboru je odmietnutý, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfiguračný súbor chýba alebo bol prístup odmietnutý, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfiguračný súbor je prázdny, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Názov zariadenia MIDI nie je nakonfigurovaný."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "V tejto konfigurácii nie sú nakonfigurované žiadne MIDI klávesy."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Pozor, táto konfigurácia nemá nakonfigurované MIDI klávesy! zaznamenaná konfigurácia nebude fungovať."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Inicializácia Co*Initialize zlyhala."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create – nepodarilo sa vytvoriť inštanciu."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Nepodarilo sa získať predvolené zvukové zariadenie."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Správca zvukových relácií zlyhal."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Merač zvukových špičiek nie je k dispozícii."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Mixér zvukových relácií je spustený, v čase spustenia je k dispozícii {0} spustených programov na reguláciu."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Mixér zvukových relácií sa nepodarilo spustiť, podrobnosti o chybe by mali byť v súbore denníka."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Mixér zvukových relácií sa zastavil."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Audio Session Mixer nebol správne zastavený, podrobnosti o chybe by mali byť v súbore denníka."
+    IDS_ERRORID_NO_INIT     "Inicializujte pred volaním tohto.."
+    IDS_ERRORID_SESSION_LIST
+                            "Nepodarilo sa získať zoznam zvukových relácií."
+    IDS_ERRORID_LISTISNULL  "Zoznam zvukových relácií je prázdny!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Vypnutie zvukovej relácie, dôvod='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Zvuková relácia bola vytvorená, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Zvuková relácia '{0}' - Neplatný stav registrácie '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Hodnota, ktorá sa nastavuje zo spätného volania, je neplatný selektor."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Nastavenie spätného volania je možné až po úspešnom spustení MIDI mosta."
+    IDS_ERRORID_CONFIG_FAIL "Načítanie konfigurácie zlyhalo, súbor sa nenašiel, spustenie nie je možné."
+    IDS_ERRORID_CONFIG_LOAD "Konfigurácia načítaná.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Konfigurácia už bola načítaná.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfigurácia je prázdna.."
+    IDS_ERRORID_CONFIG_NEW  "Zistila sa nová verzia konfigurácie.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Nepodporovaná implementácia v kóde, metóda nebola prepísaná: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Názov konfigurácie nie je zadaný a nemožno v ňom pokračovať."
+    IDS_ERRORID_NOT_DEVICES "Zariadenia nie sú pripojené a nemôžu pokračovať."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Pozor, nesúlad v počte zariadení v konečnom zozname, systém/zoznam = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Nie je možné otvoriť zariadenie MIDI, nemožno pokračovať, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Nie je možné spustiť zariadenie MIDI, nemôže pokračovať, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Zariadenie nie je pripojené, prerušiť, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Nájdené zariadenie {0}, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Zariadenie {0} otvorené, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Zariadenie {0} zatvorené (systém)"
+    IDS_ERRORID_DEVICE_DONE "Zariadenie {0} pripravené (systém)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Názov aktívneho zariadenia nie je zadaný, pokračovanie nie je možné, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy porty nie sú špecifikované v konfigurácii, MIDI proxy je vypnutá."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Verzia ovládača [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problém s verziou ovládača [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Zariadenie {0} odoslalo neplatnú hodnotu = {1}"
+    IDS_ERRORID_MMKEY_START "Služba Media Key Management je spustená."
+    IDS_ERRORID_MMKEY_STOP  "Služba Media Key Management bola zastavená."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "Konfigurácia MQTT je prázdna a nemôže pokračovať."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Chyba pri vytváraní klienta MQTT, ruší sa."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "Klient MMQTT bol úspešne vytvorený, pokračujte..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Pripojené k serveru MQTT:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Nepodarilo sa pripojiť k serveru MQTT:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Odpojené od servera MQTT:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "Súbor certifikátu CA neexistuje, cesta = '{0}'"
+    IDS_ERRORID_MQTT_START  "Bola spustená služba ovládania Smart Home."
+    IDS_ERRORID_MQTT_STOP   "Služba ovládania Smart Home bola zastavená."
+    IDS_ERRORID_PANEL_INDEX "Panel Audio Mixer – Nedá sa pokračovať, položky indexu sú nesprávne."
+    IDS_ERRORID_PANEL_INIT  "Panel zvukového mixéra – nemôže pokračovať, chyba inicializácie."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Okno panela zvukového mixéra nemá správny stav a v ďalšej operácii nie je možné pokračovať."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Panel zvukového mixéra sa nevyvoláva vo vlákne používateľského rozhrania a nie je možné vykonávať zmeny."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Panel audio mixpultu zistil neplatný prvok a vytvorenie okna panelu bolo prerušené."
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

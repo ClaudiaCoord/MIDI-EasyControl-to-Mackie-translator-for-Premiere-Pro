@@ -33,21 +33,26 @@ namespace Common {
 		}
 
 		DialogMonitor::DialogMonitor() {
-			mcb__.LogNotify = [=]() {
-				if (hwnd__)
-					PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_LOG, 0), 0);
-			};
-			mcb__.MonitorNotify = [=]() {
-				if (hwnd__)
-					PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_MONITOR, 0), 0);
-			};
-			mcb__.IsLogOneLine = true;
-			mcb__.IsMonitorOneLine = false;
+			mcb__.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
+			mcb__.HwndCb = [=]() { return hwnd__.get(); };
 		}
 		DialogMonitor::~DialogMonitor() {
-			Dispose();
+			dispose_();
 		}
-		
+		void DialogMonitor::dispose_() {
+			clear_();
+			mcb__.Clear();
+		}
+		void DialogMonitor::clear_() {
+			try {
+				if (!hwnd__) return;
+				(void) ::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
+				hwnd__.reset();
+				to_log::Get().unregistred(mcb__.GetCbLog());
+				MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
+			} catch (...) {}
+		}
+
 		const bool DialogMonitor::IsRunOnce() {
 			return !hwnd__;
 		}
@@ -55,25 +60,20 @@ namespace Common {
 			if (hwnd__) (void) ::SetFocus(hwnd__.get());
 		}
 
-		void DialogMonitor::Dispose() {
+		void DialogMonitor::EventLog(CbEventData* data) {
 			try {
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
 				if (!hwnd__) return;
-				(void) ::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-				hwnd__.reset();
-				to_log::Get().unregistred(mcb__.GetCbLog());
-				MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
-				mcb__.Clear();
+				CbEvent::ToLog(GetDlgItem(hwnd__.get(), IDC_LOG), d.GetData(), true);
 			} catch (...) {}
 		}
-
-		void DialogMonitor::EventLog() {
+		void DialogMonitor::EventMonitor(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.LogLoop(hwnd__.get(), IDC_LOG);
-			} catch (...) {}
-		}
-		void DialogMonitor::EventMonitor() {
-			try {
-				if (hwnd__) mcb__.MonitorLoop(hwnd__.get(), IDC_MONITOR);
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd__) return;
+				CbEvent::ToMonitor(GetDlgItem(hwnd__.get(), IDC_MONITOR), d.GetData(), false);
 			} catch (...) {}
 		}
 
@@ -91,7 +91,8 @@ namespace Common {
 			}
 		}
 		void DialogMonitor::EndDialog() {
-			Dispose();
+			if (!hwnd__) return;
+			clear_();
 		}
 
 		void DialogMonitor::Start() {
@@ -119,7 +120,6 @@ namespace Common {
 			HWND hwnd = hwnd__.get();
 
 			try {
-				mcb__.Clear();
 				::SetDlgItemTextW(hwnd, IDC_MONITOR, L"");
 			}
 			catch (...) {

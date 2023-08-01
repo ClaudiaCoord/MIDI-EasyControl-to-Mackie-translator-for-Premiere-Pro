@@ -16,10 +16,6 @@ namespace Common {
 	namespace MQTT {
 
 		using namespace std::placeholders;
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view strStartOk = L": The Smart-Home control service is running."sv;
-		constexpr std::wstring_view strStopOk = L": The Smart-Home control service has stopped."sv;
 
 		static SmartHome smarthome__;
 
@@ -40,7 +36,10 @@ namespace Common {
 				auto& config = cnf.GetConfig();
 				if (broker__->init(config->mqttconf)) {
 					cnf.Local.IsSmartHomeRun(true);
-					to_log::Get() << (log_string() << __FUNCTIONW__ << strStartOk);
+					to_log::Get() << log_string().to_log_string(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_MQTT_START)
+					);
 				}
 				return broker__->isrunning();
 			}
@@ -53,7 +52,10 @@ namespace Common {
 			try {
 				broker__->release();
 				common_config::Get().Local.IsSmartHomeRun(false);
-				to_log::Get() << (log_string() << __FUNCTIONW__ << strStopOk);
+				to_log::Get() << log_string().to_log_string(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_MQTT_STOP)
+				);
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

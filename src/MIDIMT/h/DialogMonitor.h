@@ -20,7 +20,8 @@ namespace Common {
 			handle_ptr<HWND> hwnd__;
 			CbEvent mcb__;
 
-			void Dispose();
+			void dispose_();
+			void clear_();
 
 		public:
 
@@ -29,8 +30,8 @@ namespace Common {
 			const bool IsRunOnce();
 			void SetFocus();
 
-			void EventLog();
-			void EventMonitor();
+			void EventLog(CbEventData*);
+			void EventMonitor(CbEventData*);
 
 			void InitDialog(HWND);
 			void EndDialog();

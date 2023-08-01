@@ -32,6 +32,10 @@
 *.app
 
 *.aip
+*.evb
+*.iss
+*.pdb
+*.cmd
 .vs/*
 Win32/*
 SetupFiles/*
@@ -40,10 +44,11 @@ Debug/*
 x64/*
 x86/*
 x32/*
-*.pdb
 
 src/MIDIMT*-cache/*
 src/EASYCTRL9/lib/teVirtualMIDI/*
+src/MIDIMTLauncher/rc/msi/*
+src/MIDIMTLauncher/cpp/MIDIMT-Launcher.cpp
 docs/*.bak
 docs/*.rtf
 docs/Releases/*
@@ -69,3 +74,7 @@ src/Common/rc/*.APS
 src/Common/rc/*.aps
 
 /docs/Images/_OLD
+/src/Common/rc/ribbon/*.h
+/src/Common/rc/ribbon/*.rc
+/src/Common/rc/ribbon/*.bml
+/src/Common/rc/ribbon/ico/notused

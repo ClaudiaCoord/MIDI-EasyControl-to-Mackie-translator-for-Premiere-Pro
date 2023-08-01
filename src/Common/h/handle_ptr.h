@@ -14,6 +14,34 @@
 
 namespace Common {
 
+	template<typename T1>
+	class local_ptr_deleter {
+	public:
+		T1 data;
+
+		local_ptr_deleter(T1 d) : data(d) {}
+		~local_ptr_deleter() {
+			try { if (data) ::LocalFree(data); } catch (...) {}
+		}
+		const bool empty() const {
+			return (data == nullptr);
+		}
+	};
+
+	template<typename T1>
+	class class_ptr_deleter {
+	public:
+		T1 data;
+
+		class_ptr_deleter(T1 d) : data(d) {}
+		~class_ptr_deleter() {
+			if (data != nullptr) delete data;
+		}
+		const bool empty() const {
+			return (data == nullptr);
+		}
+	};
+
 	template <typename T1>
 	struct default_empty_deleter {
 		void operator()(T1 h) {}
@@ -22,6 +50,12 @@ namespace Common {
 	struct default_class_deleter {
 		void operator()(T1* h) {
 			if (h != nullptr) delete h;
+		}
+	};
+	template <typename T1>
+	struct default_hwnd_deleter {
+		void operator()(T1 h) {
+			if (h != nullptr) ::DestroyWindow(h);
 		}
 	};
 	template <typename T1>
@@ -41,7 +75,7 @@ namespace Common {
 		handle_ptr() : h__(nullptr) {
 		}
 		~handle_ptr() {
-			h__ = nullptr;
+			reset();
 		}
 		operator bool() const {
 			return h__ != nullptr;
@@ -59,7 +93,7 @@ namespace Common {
 			return h__;
 		}
 		void reset(T1 h = nullptr) {
-			T2 d; d(h__);
+			T2 d{}; d(h__);
 			h__ = h;
 		}
 		T1 release() {

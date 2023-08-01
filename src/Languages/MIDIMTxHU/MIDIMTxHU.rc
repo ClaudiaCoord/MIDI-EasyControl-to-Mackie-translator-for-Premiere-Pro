@@ -1,0 +1,1060 @@
+﻿﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "RibbonDialogConfig.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie fordító"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&Információ", IDM_GO_INFO
+        MENUITEM "&audiokeverő", IDM_GO_MIXER
+        MENUITEM "&Monitor", IDM_GO_MONITOR
+        MENUITEM "&Beállítás", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Rajt", IDM_GO_START
+        MENUITEM "Állj meg", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Kijárat", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Elhelyezkedés.."
+        BEGIN
+            MENUITEM "Függőleges bal", IDM_VERT_LEFT
+            MENUITEM "Függőleges jobb", IDM_VERT_RIGHT
+            MENUITEM "Vízszintes felső", IDM_HOR_TOP
+            MENUITEM "Vízszintesen alul", IDM_HOR_BOTTOM
+        END
+        POPUP "Tantárgy.."
+        BEGIN
+            MENUITEM "Metró", IDM_METRO
+            MENUITEM "Fény", IDM_LIGHT
+            MENUITEM "Sötét", IDM_DARK
+            MENUITEM "retro", IDM_RETRO
+            MENUITEM "Modern", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Tuning május", IDM_CUSTOM
+            MENUITEM "Téma testreszabása", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Élénkség", IDM_ANIMATION
+        MENUITEM "&Alkalmazás elérési útja", IDM_APP_PATH
+        MENUITEM "&MIDI vezérlők kötése", IDM_MIDI_BIND
+        MENUITEM "Csúcs és hangerő mérő", IDM_PEAK_METER
+        MENUITEM "Emlékezz pozícióra", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Bezárás", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Új bejegyzés", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Másolat", IDM_LV_COPY
+        MENUITEM "Beszúrás", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Töröl", IDM_LV_DELETE
+        POPUP "Beállítva.."
+        BEGIN
+            MENUITEM "A vezérlés lásd az audiokeverőt", IDM_LV_SET_MIXER
+            MENUITEM "A multimédiás gombokhoz kapcsolódó kezelőszervek", IDM_LV_SET_MMKEY
+            MENUITEM "Kontroll kezelés intelligens otthon", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Olvassa el a MIDI kódot.", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Szabályozók.."
+        BEGIN
+            MENUITEM "Szalagszabályzó", IDM_COL3_SLIDER
+            MENUITEM "Strip fordított szabályozó", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Forgó csúszka", IDM_COL3_FADER
+            MENUITEM "Forgó gomb inverzióval", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Kódoló", IDM_COL3_KNOB
+            MENUITEM "Kódoló inverzióval", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_COL3_NONE
+        END
+        POPUP "Gombok.."
+        BEGIN
+            MENUITEM "Gomb", IDM_COL3_BTN
+            MENUITEM "Kapcsoló gomb, jelzéssel", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Szabályozók..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Gombok..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés lásd az audiokeverőt", IDM_COL4_VOLUMEMIX
+        MENUITEM "A multimédiás gombokhoz kapcsolódó kezelőszervek", IDM_COL4_MEDIAKEY
+        MENUITEM "Kontroll kezelés intelligens otthon", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Hangvezérlés..."
+        BEGIN
+            MENUITEM "Csendes (mester)", IDM_COL4_MAM
+            MENUITEM "Egyedül (mester)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Hangtalan.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_B21
+                MENUITEM "2. csatorna", IDM_COL4_B22
+                MENUITEM "3. csatorna", IDM_COL4_B23
+                MENUITEM "4. csatorna", IDM_COL4_B24
+                MENUITEM "5. csatorna", IDM_COL4_B25
+                MENUITEM "6. csatorna", IDM_COL4_B26
+                MENUITEM "7. csatorna", IDM_COL4_B27
+                MENUITEM "8. csatorna", IDM_COL4_B28
+                MENUITEM "9. csatorna", IDM_COL4_B29
+            END
+            POPUP "Szóló.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_B11
+                MENUITEM "2. csatorna", IDM_COL4_B12
+                MENUITEM "3. csatorna", IDM_COL4_B13
+                MENUITEM "4. csatorna", IDM_COL4_B14
+                MENUITEM "5. csatorna", IDM_COL4_B15
+                MENUITEM "6. csatorna", IDM_COL4_B16
+                MENUITEM "7. csatorna", IDM_COL4_B17
+                MENUITEM "8. csatorna", IDM_COL4_B18
+                MENUITEM "9. csatorna", IDM_COL4_B19
+            END
+        END
+        POPUP "Multimédiás gombok.."
+        BEGIN
+            MENUITEM "Lejátszás/Szünet", IDM_COL4_SYS_Play
+            MENUITEM "Állj meg", IDM_COL4_SYS_Stop
+            MENUITEM "Előző", IDM_COL4_SYS_Rewind
+            MENUITEM "Következő", IDM_COL4_SYS_Forward
+            MENUITEM "Felvétel", IDM_COL4_SYS_Record
+            MENUITEM "Fel (joystick)", IDM_COL4_SYS_Up
+            MENUITEM "Le (joystick)", IDM_COL4_SYS_Down
+            MENUITEM "Jobbra (joystick)", IDM_COL4_SYS_Right
+            MENUITEM "Bal (joystick)", IDM_COL4_SYS_Left
+            MENUITEM "Nagyítás", IDM_COL4_SYS_Zoom
+            MENUITEM "súrolás", IDM_COL4_SYS_Scrub
+        END
+        POPUP "A Premiere Pro szolgáltatásai..."
+        BEGIN
+            POPUP "A standard gomb funkciói..."
+            BEGIN
+                MENUITEM "1. jellemző", IDM_COL4_FUN11
+                MENUITEM "2. funkció", IDM_COL4_FUN12
+                MENUITEM "3. funkció", IDM_COL4_FUN13
+                MENUITEM "4. funkció", IDM_COL4_FUN14
+                MENUITEM "5. funkció", IDM_COL4_FUN15
+                MENUITEM "6. funkció", IDM_COL4_FUN16
+                MENUITEM "7. funkció", IDM_COL4_FUN17
+                MENUITEM "8. funkció", IDM_COL4_FUN18
+            END
+            POPUP "Egyérintéses gomb funkciók..."
+            BEGIN
+                MENUITEM "1. jellemző", IDM_COL4_FUN21
+                MENUITEM "2. funkció", IDM_COL4_FUN22
+                MENUITEM "3. funkció", IDM_COL4_FUN23
+                MENUITEM "4. funkció", IDM_COL4_FUN24
+                MENUITEM "5. funkció", IDM_COL4_FUN25
+                MENUITEM "6. funkció", IDM_COL4_FUN26
+                MENUITEM "7. funkció", IDM_COL4_FUN27
+                MENUITEM "8. funkció", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Gombok a Smart Home rendszerben..."
+        BEGIN
+            MENUITEM "be/ki 1", IDM_COL4_B11
+            MENUITEM "be/ki 2", IDM_COL4_B12
+            MENUITEM "be/ki 3", IDM_COL4_B13
+            MENUITEM "be/ki 4", IDM_COL4_B14
+            MENUITEM "be/ki 5", IDM_COL4_B15
+            MENUITEM "be/ki 6", IDM_COL4_B16
+            MENUITEM "be/ki 7", IDM_COL4_B17
+            MENUITEM "be/ki 8", IDM_COL4_B18
+            MENUITEM "be/ki 9", IDM_COL4_B19
+            MENUITEM "be/ki 10", IDM_COL4_B21
+            MENUITEM "be/ki 11", IDM_COL4_B22
+            MENUITEM "be/ki 12", IDM_COL4_B23
+            MENUITEM "be/ki 13", IDM_COL4_B24
+            MENUITEM "be/ki 14", IDM_COL4_B25
+            MENUITEM "be/ki 15", IDM_COL4_B26
+            MENUITEM "be/ki 16", IDM_COL4_B27
+            MENUITEM "be/ki 17", IDM_COL4_B28
+            MENUITEM "be/ki 18", IDM_COL4_B29
+            MENUITEM "be/ki 19", IDM_COL4_B31
+            MENUITEM "be/ki 20", IDM_COL4_B32
+            MENUITEM "be/ki 21", IDM_COL4_B33
+            MENUITEM "be/ki 22", IDM_COL4_B34
+            MENUITEM "be/ki 23", IDM_COL4_B35
+            MENUITEM "be/ki 24", IDM_COL4_B36
+            MENUITEM "be/ki 25", IDM_COL4_B37
+            MENUITEM "be/ki 26", IDM_COL4_B38
+            MENUITEM "be/ki 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés lásd az audiokeverőt", IDM_COL4_VOLUMEMIX
+        MENUITEM "A multimédiás gombokhoz kapcsolódó kezelőszervek", IDM_COL4_MEDIAKEY
+        MENUITEM "Kontroll kezelés intelligens otthon", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Kódoló (kockáról kockára)", IDM_COL4_JOG
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Hangvezérlés..."
+        BEGIN
+            MENUITEM "kötet (mester)", IDM_COL4_MAV
+            MENUITEM "Egyenleg (mester)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Hangerő.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_AV1
+                MENUITEM "2. csatorna", IDM_COL4_AV2
+                MENUITEM "3. csatorna", IDM_COL4_AV3
+                MENUITEM "4. csatorna", IDM_COL4_AV4
+                MENUITEM "5. csatorna", IDM_COL4_AV5
+                MENUITEM "6. csatorna", IDM_COL4_AV6
+                MENUITEM "7. csatorna", IDM_COL4_AV7
+                MENUITEM "8. csatorna", IDM_COL4_AV8
+                MENUITEM "9. csatorna", IDM_COL4_XV9
+            END
+            POPUP "Egyensúly.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_AP1
+                MENUITEM "2. csatorna", IDM_COL4_AP2
+                MENUITEM "3. csatorna", IDM_COL4_AP3
+                MENUITEM "4. csatorna", IDM_COL4_AP4
+                MENUITEM "5. csatorna", IDM_COL4_AP5
+                MENUITEM "6. csatorna", IDM_COL4_AP6
+                MENUITEM "7. csatorna", IDM_COL4_AP7
+                MENUITEM "8. csatorna", IDM_COL4_AP8
+                MENUITEM "9. csatorna", IDM_COL4_XP9
+            END
+        END
+        POPUP "Szabályozók az „okos otthon” rendszerben..."
+        BEGIN
+            MENUITEM "1. szint", IDM_COL4_AV1
+            MENUITEM "2. szint", IDM_COL4_AV2
+            MENUITEM "3. szint", IDM_COL4_AV3
+            MENUITEM "4. szint", IDM_COL4_AV4
+            MENUITEM "5. szint", IDM_COL4_AV5
+            MENUITEM "6. szint", IDM_COL4_AV6
+            MENUITEM "7. szint", IDM_COL4_AV7
+            MENUITEM "8. szint", IDM_COL4_AV8
+            MENUITEM "9. szint", IDM_COL4_XV9
+            MENUITEM "10. szint", IDM_COL4_AP1
+            MENUITEM "11. szint", IDM_COL4_AP2
+            MENUITEM "12. szint", IDM_COL4_AP3
+            MENUITEM "13. szint", IDM_COL4_AP4
+            MENUITEM "14. szint", IDM_COL4_AP5
+            MENUITEM "15. szint", IDM_COL4_AP6
+            MENUITEM "16. szint", IDM_COL4_AP7
+            MENUITEM "17. szint", IDM_COL4_AP8
+            MENUITEM "18. szint", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés lásd az audiokeverőt", IDM_COL4_VOLUMEMIX
+        MENUITEM "A multimédiás gombokhoz kapcsolódó kezelőszervek", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "kötet (mester)", IDM_COL4_MAV
+        MENUITEM "Kódoló (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Hangerő.."
+        BEGIN
+            MENUITEM "csatorna 1", IDM_COL4_AV1
+            MENUITEM "2. csatorna", IDM_COL4_AV2
+            MENUITEM "3. csatorna", IDM_COL4_AV3
+            MENUITEM "4. csatorna", IDM_COL4_AV4
+            MENUITEM "5. csatorna", IDM_COL4_AV5
+            MENUITEM "6. csatorna", IDM_COL4_AV6
+            MENUITEM "7. csatorna", IDM_COL4_AV7
+            MENUITEM "8. csatorna", IDM_COL4_AV8
+            MENUITEM "9. csatorna", IDM_COL4_XV9
+            MENUITEM "10. csatorna", IDM_COL4_AP1
+            MENUITEM "11. csatorna", IDM_COL4_AP2
+            MENUITEM "12. csatorna", IDM_COL4_AP3
+            MENUITEM "csatorna 13", IDM_COL4_AP4
+            MENUITEM "csatorna 14", IDM_COL4_AP5
+            MENUITEM "15. csatorna", IDM_COL4_AP6
+            MENUITEM "16-os csatorna", IDM_COL4_AP7
+            MENUITEM "17-es csatorna", IDM_COL4_AP8
+            MENUITEM "18-as csatorna", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Némítás (mester)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Hangtalan.."
+        BEGIN
+            MENUITEM "csatorna 1", IDM_COL4_B21
+            MENUITEM "2. csatorna", IDM_COL4_B22
+            MENUITEM "3. csatorna", IDM_COL4_B23
+            MENUITEM "4. csatorna", IDM_COL4_B24
+            MENUITEM "5. csatorna", IDM_COL4_B25
+            MENUITEM "6. csatorna", IDM_COL4_B26
+            MENUITEM "7. csatorna", IDM_COL4_B27
+            MENUITEM "8. csatorna", IDM_COL4_B28
+            MENUITEM "9. csatorna", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Lejátszás/Szünet", IDM_COL4_SYS_Play
+        MENUITEM "Állj meg", IDM_COL4_SYS_Stop
+        MENUITEM "Előző", IDM_COL4_SYS_Rewind
+        MENUITEM "Következő", IDM_COL4_SYS_Forward
+        MENUITEM "Felvétel", IDM_COL4_SYS_Record
+        MENUITEM "Fel (joystick)", IDM_COL4_SYS_Up
+        MENUITEM "Le (joystick)", IDM_COL4_SYS_Down
+        MENUITEM "Jobbra (joystick)", IDM_COL4_SYS_Right
+        MENUITEM "Bal (joystick)", IDM_COL4_SYS_Left
+        MENUITEM "Nagyítás", IDM_COL4_SYS_Zoom
+        MENUITEM "súrolás", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "1. szint", IDM_COL4_AV1
+        MENUITEM "2. szint", IDM_COL4_AV2
+        MENUITEM "3. szint", IDM_COL4_AV3
+        MENUITEM "4. szint", IDM_COL4_AV4
+        MENUITEM "5. szint", IDM_COL4_AV5
+        MENUITEM "6. szint", IDM_COL4_AV6
+        MENUITEM "7. szint", IDM_COL4_AV7
+        MENUITEM "8. szint", IDM_COL4_AV8
+        MENUITEM "9. szint", IDM_COL4_XV9
+        MENUITEM "10. szint", IDM_COL4_AP1
+        MENUITEM "11. szint", IDM_COL4_AP2
+        MENUITEM "12. szint", IDM_COL4_AP3
+        MENUITEM "13. szint", IDM_COL4_AP4
+        MENUITEM "14. szint", IDM_COL4_AP5
+        MENUITEM "15. szint", IDM_COL4_AP6
+        MENUITEM "16. szint", IDM_COL4_AP7
+        MENUITEM "17. szint", IDM_COL4_AP8
+        MENUITEM "18. szint", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "be/ki 1", IDM_COL4_B11
+        MENUITEM "be/ki 2", IDM_COL4_B12
+        MENUITEM "be/ki 3", IDM_COL4_B13
+        MENUITEM "be/ki 4", IDM_COL4_B14
+        MENUITEM "be/ki 5", IDM_COL4_B15
+        MENUITEM "be/ki 6", IDM_COL4_B16
+        MENUITEM "be/ki 7", IDM_COL4_B17
+        MENUITEM "be/ki 8", IDM_COL4_B18
+        MENUITEM "be/ki 9", IDM_COL4_B19
+        MENUITEM "be/ki 10", IDM_COL4_B21
+        MENUITEM "be/ki 11", IDM_COL4_B22
+        MENUITEM "be/ki 12", IDM_COL4_B23
+        MENUITEM "be/ki 13", IDM_COL4_B24
+        MENUITEM "be/ki 14", IDM_COL4_B25
+        MENUITEM "be/ki 15", IDM_COL4_B26
+        MENUITEM "be/ki 16", IDM_COL4_B27
+        MENUITEM "be/ki 17", IDM_COL4_B28
+        MENUITEM "be/ki 18", IDM_COL4_B29
+        MENUITEM "be/ki 19", IDM_COL4_B31
+        MENUITEM "be/ki 20", IDM_COL4_B32
+        MENUITEM "be/ki 21", IDM_COL4_B33
+        MENUITEM "be/ki 22", IDM_COL4_B34
+        MENUITEM "be/ki 23", IDM_COL4_B35
+        MENUITEM "be/ki 24", IDM_COL4_B36
+        MENUITEM "be/ki 25", IDM_COL4_B37
+        MENUITEM "be/ki 26", IDM_COL4_B38
+        MENUITEM "be/ki 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "Frissítések",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Segítség",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Bezárás",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&MIDI panel beállítása",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Bezárás",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Javasolt MIDI vezérlőpanel elrendezés. Az elrendezés beállításait tartalmazó fájl a 'docs/MIDIMT.Ctrl_data' mappában található.",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "A MIDI Translator elindítása"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI eszközök",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI híd",IDC_STATIC,11,73,326,79
+    CONTROL         "elindított",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Megállt",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Konfiguráció",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI vezérlők",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "Kattintások közötti intervallum",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "Intervallum hosszan lenyomva",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "dob",IDC_STATIC,11,156,135,148
+    CONTROL         "Indítsa el a rendszerindításkor",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Automatikus indítás indításkor",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Automatikusan indítsa el ezt a konfigurációt",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Írj egy naplót",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Előnyben részesített nyelv:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Használja a jobb egérgombot a keverő hívásához",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI beállítások",IDC_STATIC,151,156,97,64
+    CONTROL         "Sofőr:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG jelenetszűrő",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Port nincs létrehozva",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI proxy",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "portok száma",IDC_STATIC,260,183,66,8
+    CONTROL         "Beleértve",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Hangkeverő beállításai",IDC_STATIC,152,224,184,80
+    CONTROL         "Beleértve",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "A hangerőértékek cseréje ellenőrzés nélkül",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Alkalmazások egyesítése név szerint, külön beállítás nem lehetséges",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Állítsa be a mentett hangerőszinteket indításkor",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "MM kulcsok engedélyezése",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Beállítások mentése",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Rajt",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Konfiguráció",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Okos Ház",IDC_STATIC,343,73,199,262
+    CONTROL         "Beleértve",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT szerver",IDC_STATIC,350,102,186,44
+    CONTROL         "IP-cím:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "kikötő:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Biztonság",IDC_STATIC,350,149,186,106
+    CONTROL         "Belépés:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Jelszó:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK kulcs:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS engedélyezve",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "önaláírva",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA tanúsítvány",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "Lehetőségek",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT téma előtagja: (nem kötelező)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "MQTT munkamenetek naplózási szintje:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Bezárás",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "Frissítések",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&A programról..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI parancs monitor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Command Monitor",IDC_STATIC,9,4,285,54
+    LTEXT           "A MIDI parancsfigyelő segít meghatározni a vezérlő beállítását. A tesztelés megkezdéséhez kattintson a 'Start' gombra. A vezérlő különböző vezérlőivel üzeneteket kap a jelenetről, a számról és az aktuális értékről.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Állj meg",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Rajt",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Bezárás",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "Clean&Steep",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "MIDI vezérlés beállítása"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
+    GROUPBOX        "MIDI vezérlők beállítása",IDC_STATIC,7,97,215,224
+    RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
+    GROUPBOX        "Információ",IDC_STATIC,227,97,259,224
+    LTEXT           "Ellenőrzés:",IDC_STATIC,241,157,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
+    LTEXT           "Színhely:",IDC_STATIC,241,169,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
+    LTEXT           "Vezérlés típusa:",IDC_STATIC,241,181,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
+    LTEXT           "Célja:",IDC_STATIC,241,193,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
+    LTEXT           "Cél (hosszú kattintás):",IDC_STATIC,241,205,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
+    LTEXT           "Mixerrel állítható alkalmazások:",IDC_STATIC,241,217,144,10
+    LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Bezárás",IDCANCEL,609,324,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
+    GROUPBOX        "Tippek",IDC_STATIC,493,97,209,224
+    LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Minden",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "Gombok",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "Csúszkák",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "Multimédia",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Egyéni téma beállítása"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "A téma színei",IDC_STATIC,9,8,188,107
+    CONTROL         "Szöveg szín",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Háttérszín",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "keret színe",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "Alap téma",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Metró",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Fény",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Sötét",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "retro",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Modern",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI Mackie Translator"
+    IDS_MIXER               "&Keverő"
+    IDS_SETTINGS            "&Beállítások"
+    IDS_START               "Rajt"
+    IDS_STOP                "Állj meg"
+    IDS_EXIT                "Kijárat"
+    IDS_SETUP_MSG1          "A konfiguráció betöltve az illesztőprogramból"
+    IDS_SETUP_MSG2          "A konfiguráció fájlból betöltve"
+    IDS_SETUP_MSG3          "A konfiguráció újonnan jött létre, és ki kell tölteni"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT konfiguráció"
+    IDS_CONFIG_EXE_FILTER   "Futtatható fájlok"
+    IDS_MQTT_CA_FILTER      "CA tanúsítvány"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "A MIDI fordító nem fut."
+    IDS_INFO2               "A MIDI fordító működik:"
+    IDS_INFO3               "Beviteli eszköz:"
+    IDS_INFO4               "Mackie/Premier kimeneti port:"
+    IDS_INFO5               "Kimeneti proxy port:"
+    IDS_INFO6               "Az audiokeverő fut."
+    IDS_INFO7               "A multimédiás gombvezérlés fut, ellenőrizze a beállításokat."
+    IDS_INFO8               "A hangkeverő nem fut, ellenőrizze a beállításokat, az audio panel indítását engedélyezni kell."
+    IDS_INFO9               "Érvénytelen eseményazonosító. Kérjük, indítsa újra ezt az alkalmazást."
+    IDS_INF1O               "Nem sikerült váltani a felhasználói felületre, az audiopanel indítása megszakadt."
+    IDS_INF11               "MIDIMT - Az audiokeverő nem fut:"
+    IDS_INF12               "MIDIMT – A művelet nem hajtható végre:"
+    IDS_INF13               "Az intelligens otthon eszközkezelése elindult."
+    IDS_DLG_MSG1            "MIDI Mackie kimenet"
+    IDS_DLG_MSG2            "MIDI proxy kimenet"
+    IDS_DLG_MSG3            "MIDI virtuális illesztőprogram verziója:"
+    IDS_DLG_MSG4            "A telepített MIDI Virtual driver nem található! A fordító futtatásához telepítenie kell a Virtual Loop MIDI csomagot"
+    IDS_DLG_MSG5            "Indításkor a proxy MIDI portok jönnek létre:"
+    IDS_DLG_MSG6            "A MIDI proxy portok le vannak tiltva."
+    IDS_DLG_MSG7            "A kiválasztott nyelv az ablak újraindítása után lesz aktív -"
+    IDS_DLG_MSG8            "MIDI bemeneti eszköz hozzárendelve"
+    IDS_DLG_MSG9            "Mielőtt elkezdené, módosítsa a konfigurációt."
+    IDS_DLG_MSG10           "A telepített Virtual MIDI illesztőprogram verziója:"
+    IDS_DLG_MSG11           "A kiválasztott konfiguráció nem támogatja az automatikus indítást."
+    IDS_DLG_MSG12           "Kérjük, mielőtt elindítaná a monitort, indítsa el a MIDI-hidat a menüből a 'Start' hívásával."
+    IDS_DLG_MSG13           "Indításkor a konfigurációs fájl megadva volt: '{0}'. Beállítja konfigurációként a következő futtatásokhoz?"
+    IDS_DLG_MSG14           "A szerkesztő megnyitásakor a konfigurációs fájl megadva: '{0}'. Elmenti ugyanazzal a névvel?"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "hangerő (fő)"
+    IDM_COL4_MAP            "hangegyensúly (alap)"
+    IDM_COL4_MAM            "néma (alap)"
+    IDM_COL4_MAS            "audio szóló (fő)"
+    IDM_COL4_JOG            "JOG (videokocka visszatekerése)"
+    IDM_COL4_AV1            "hangerő (1. csatorna)"
+    IDM_COL4_AV2            "hangerő (2. csatorna)"
+    IDM_COL4_AV3            "hangerő (3-as csatorna)"
+    IDM_COL4_AV4            "hangerő (4-es csatorna)"
+    IDM_COL4_AV5            "hangerő (5-ös csatorna)"
+    IDM_COL4_AV6            "hangerő (6-os csatorna)"
+    IDM_COL4_AV7            "hangerő (7-es csatorna)"
+    IDM_COL4_AV8            "hangerő (8-as csatorna)"
+    IDM_COL4_XV9            "hangerő (9-es csatorna)"
+    IDM_COL4_AP1            "hangegyensúly (1. csatorna)"
+    IDM_COL4_AP2            "hangegyensúly (2. csatorna)"
+    IDM_COL4_AP3            "hangegyensúly (3. csatorna)"
+    IDM_COL4_AP4            "hangegyensúly (4-es csatorna)"
+    IDM_COL4_AP5            "hangegyensúly (5-ös csatorna)"
+    IDM_COL4_AP6            "hangegyensúly (6-os csatorna)"
+    IDM_COL4_AP7            "hangegyensúly (7-es csatorna)"
+    IDM_COL4_AP8            "hangegyensúly (8-as csatorna)"
+    IDM_COL4_XP9            "hangegyensúly (9-es csatorna)"
+    IDM_COL4_B11            "audio szóló (1. csatorna)"
+    IDM_COL4_B12            "audio szóló (2. csatorna)"
+    IDM_COL4_B13            "audio szóló (3. csatorna)"
+    IDM_COL4_B14            "audio szóló (4. csatorna)"
+    IDM_COL4_B15            "audio szóló (5-ös csatorna)"
+    IDM_COL4_B16            "audio szóló (6-os csatorna)"
+    IDM_COL4_B17            "audio szóló (7-es csatorna)"
+    IDM_COL4_B18            "audio szóló (8-as csatorna)"
+    IDM_COL4_B19            "audio szóló (9-es csatorna)"
+    IDM_COL4_B21            "némítás (1. csatorna)"
+    IDM_COL4_B22            "némítás (2. csatorna)"
+    IDM_COL4_B23            "némítás (3. csatorna)"
+    IDM_COL4_B24            "némítás (4. csatorna)"
+    IDM_COL4_B25            "némítás (5-ös csatorna)"
+    IDM_COL4_B26            "némítás (6-os csatorna)"
+    IDM_COL4_B27            "némítás (7-es csatorna)"
+    IDM_COL4_B28            "némítás (8-as csatorna)"
+    IDM_COL4_B29            "némítás (9-es csatorna)"
+    IDM_COL4_B31            "hangválasztás (1. csatorna)"
+    IDM_COL4_B32            "hangválasztás (2. csatorna)"
+    IDM_COL4_B33            "hangválasztás (3. csatorna)"
+    IDM_COL4_B34            "hangválasztás (4-es csatorna)"
+    IDM_COL4_B35            "hangválasztás (5-ös csatorna)"
+    IDM_COL4_B36            "hangválasztás (6-os csatorna)"
+    IDM_COL4_B37            "hangválasztás (7-es csatorna)"
+    IDM_COL4_B38            "hangválasztás (8-as csatorna)"
+    IDM_COL4_B39            "hangválasztás (9-es csatorna)"
+    IDM_COL4_FUN11          "F1 funkció (normál mód)"
+    IDM_COL4_FUN12          "F2 funkció (normál mód)"
+    IDM_COL4_FUN13          "F3 funkció (normál mód)"
+    IDM_COL4_FUN14          "F4 funkció (normál mód)"
+    IDM_COL4_FUN15          "F5 funkció (normál mód)"
+    IDM_COL4_FUN16          "F6 funkció (normál mód)"
+    IDM_COL4_FUN17          "F7 funkció (normál mód)"
+    IDM_COL4_FUN18          "F8 funkció (normál mód)"
+    IDM_COL4_FUN21          "F1 funkció (tartási mód)"
+    IDM_COL4_FUN22          "F2 funkció (tartási mód)"
+    IDM_COL4_FUN23          "F3 funkció (tartási mód)"
+    IDM_COL4_FUN24          "F4 funkció (tartási mód)"
+    IDM_COL4_FUN25          "F5 funkció (tartási mód)"
+    IDM_COL4_FUN26          "F6 funkció (tartási mód)"
+    IDM_COL4_FUN27          "F7 funkció (tartási mód)"
+    IDM_COL4_FUN28          "F8 funkció (tartási mód)"
+    IDM_COL4_SYS_Rewind     "Visszatekerés (lejátszó)"
+    IDM_COL4_SYS_Forward    "Gyors előretekerés (játékos)"
+    IDM_COL4_SYS_Stop       "Stop (lejátszó)"
+    IDM_COL4_SYS_Play       "Játssz (játékos)"
+    IDM_COL4_SYS_Record     "Felvétel (lejátszó)"
+    IDM_COL4_SYS_Up         "Fel (joystick)"
+    IDM_COL4_SYS_Down       "Le (joystick)"
+    IDM_COL4_SYS_Left       "Bal (joystick)"
+    IDM_COL4_SYS_Right      "Jobbra (joystick)"
+    IDM_COL4_SYS_Zoom       "Növekedés"
+    IDM_COL4_SYS_Scrub      "Bozót"
+    IDM_COL4_VOLUMEMIX      "Keverő vezérlés"
+    IDM_COL4_MEDIAKEY       "Multimédiás gombok"
+    IDM_COL4_MQTTKEY        "Intelligens otthonkezelés"
+    IDM_COL4_NONE           "a művelet nincs meghatározva"
+    IDM_COL4_MQTT_AV1       "1. szint"
+    IDM_COL4_MQTT_AV2       "2. szint"
+    IDM_COL4_MQTT_AV3       "3. szint"
+    IDM_COL4_MQTT_AV4       "4. szint"
+    IDM_COL4_MQTT_AV5       "5. szint"
+    IDM_COL4_MQTT_AV6       "6. szint"
+    IDM_COL4_MQTT_AV7       "7. szint"
+    IDM_COL4_MQTT_AV8       "8. szint"
+    IDM_COL4_MQTT_XV9       "9. szint"
+    IDM_COL4_MQTT_AP1       "10. szint"
+    IDM_COL4_MQTT_AP2       "11. szint"
+    IDM_COL4_MQTT_AP3       "12. szint"
+    IDM_COL4_MQTT_AP4       "13. szint"
+    IDM_COL4_MQTT_AP5       "14. szint"
+    IDM_COL4_MQTT_AP6       "15. szint"
+    IDM_COL4_MQTT_AP7       "16. szint"
+    IDM_COL4_MQTT_AP8       "17. szint"
+    IDM_COL4_MQTT_XP9       "18. szint"
+    IDM_COL4_MQTT_B11       "be/ki 1"
+    IDM_COL4_MQTT_B12       "be/ki 2"
+    IDM_COL4_MQTT_B13       "be/ki 3"
+    IDM_COL4_MQTT_B14       "be/ki 4"
+    IDM_COL4_MQTT_B15       "be/ki 5"
+    IDM_COL4_MQTT_B16       "be/ki 6"
+    IDM_COL4_MQTT_B17       "be/ki 7"
+    IDM_COL4_MQTT_B18       "be/ki 8"
+    IDM_COL4_MQTT_B19       "be/ki 9"
+    IDM_COL4_MQTT_B21       "be/ki 10"
+    IDM_COL4_MQTT_B22       "be/ki 11"
+    IDM_COL4_MQTT_B23       "be/ki 12"
+    IDM_COL4_MQTT_B24       "be/ki 13"
+    IDM_COL4_MQTT_B25       "be/ki 14"
+    IDM_COL4_MQTT_B26       "be/ki 15"
+    IDM_COL4_MQTT_B27       "be/ki 16"
+    IDM_COL4_MQTT_B28       "be/ki 17"
+    IDM_COL4_MQTT_B29       "be/ki 18"
+    IDM_COL4_MQTT_B31       "be/ki 19"
+    IDM_COL4_MQTT_B32       "be/ki 20"
+    IDM_COL4_MQTT_B33       "be/ki 21"
+    IDM_COL4_MQTT_B34       "be/ki 22"
+    IDM_COL4_MQTT_B35       "be/ki 23"
+    IDM_COL4_MQTT_B36       "be/ki 24"
+    IDM_COL4_MQTT_B37       "be/ki 25"
+    IDM_COL4_MQTT_B38       "be/ki 26"
+    IDM_COL4_MQTT_B39       "be/ki 27"
+    IDM_COL4_MQTT_NONE      "Nem kijelölt"
+    IDM_MQTT_LOG_NONE       "naplót nem vezetnek"
+    IDM_MQTT_LOG_INFO       "információ"
+    IDM_MQTT_LOG_NOTICE     "értesítéseket"
+    IDM_MQTT_LOG_WARNING    "figyelmeztetések"
+    IDM_MQTT_LOG_ERR        "csak hibákat"
+    IDM_MQTT_LOG_DEBUG      "minden üzenet"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Ez a hiba nincs meghatározva"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "A konfigurációs fájlhoz való írási hozzáférés megtagadva, „{0}”"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "A konfigurációs fájl hiányzik, vagy a hozzáférés megtagadva, „{0}”"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "A konfigurációs fájl üres, „{0}”"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "A MIDI-eszköz neve nincs beállítva a konfigurációban."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "Ebben a konfigurációban nincsenek MIDI-kulcsok konfigurálva."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Figyelem, ebben a konfigurációban nincsenek MIDI-billentyűk konfigurálva! az írott konfiguráció nem fog működni."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "A Co*inicializálás inicializálása nem sikerült."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create – Nem sikerült a példányosítás."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Nem sikerült lekérni az alapértelmezett audioeszközt."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Az Audio Session Manager összeomlott."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Hangcsúcs-mérő nem érhető el."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Az Audio Session Mixer fut, {0} futó program áll rendelkezésre az indításkor történő szabályozáshoz."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Az Audio Session Mixer elindítása nem sikerült, a hiba részleteinek a naplófájlban kell szerepelniük."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Az audio munkamenet-keverő leállt."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Az Audio Session Mixer nem lett megfelelően leállítva, a hiba részleteinek a naplófájlban kell szerepelniük."
+    IDS_ERRORID_NO_INIT     "Inicializálja, mielőtt felhívná."
+    IDS_ERRORID_SESSION_LIST
+                            "Nem sikerült lekérni az audiomunkamenetek listáját."
+    IDS_ERRORID_LISTISNULL  "Az audio munkamenetek listája üres!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Audiomunkamenet letiltása, oka='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Audiomunkamenet létrehozva, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Hangmunkamenet „{0}” – Érvénytelen regisztrációs állapot „{1}”: {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "A visszahívásból beállított érték érvénytelen választó."
+    IDS_ERRORID_SET_CB_WARNING
+                            "A visszahívás beállítása csak a MIDI-híd sikeres elindítása után lehetséges."
+    IDS_ERRORID_CONFIG_FAIL "A konfiguráció betöltése nem sikerült, a fájl nem található, nem lehet elindítani."
+    IDS_ERRORID_CONFIG_LOAD "Konfiguráció betöltve.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "A konfiguráció már be van töltve.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "A konfiguráció üres."
+    IDS_ERRORID_CONFIG_NEW  "Új konfigurációs verzió észlelve.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Nem támogatott implementáció a kódban, a metódus nincs felülírva: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Nincs megadva konfigurációnév, nem lehet folytatni."
+    IDS_ERRORID_NOT_DEVICES "Nincsenek csatlakoztatott eszközök, nem lehet folytatni."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Figyelem, eltérés a végső listán szereplő eszközök száma között, rendszer/lista = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "A MIDI-eszközt nem lehet megnyitni, nem lehet folytatni, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Nem sikerült elindítani a MIDI-eszközt, nem lehet folytatni, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Az eszköz nincs csatlakoztatva, megszakítás, azonosító = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "A(z) {0} eszköz megtalálható, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Az eszköz {0} nyitva, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "A(z) {0} eszköz zárva (rendszer)"
+    IDS_ERRORID_DEVICE_DONE "A(z) {0} eszköz készen áll (rendszer)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Az aktív eszköznév nincs beállítva, nem lehet folytatni, azonosító = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "A proxy portok nincsenek beállítva a konfigurációban, a MIDI proxy le van tiltva."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Illesztőprogram verziója [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Probléma az illesztőprogram-verzióval [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "A(z) {0} eszköz érvénytelen értéket küldött = {1}"
+    IDS_ERRORID_MMKEY_START "A médiakulcs-kezelési szolgáltatás fut."
+    IDS_ERRORID_MMKEY_STOP  "A médiakulcs-kezelési szolgáltatás leállt."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "Az MQTT konfiguráció üres, nem lehet folytatni."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Hiba az MQTT kliens létrehozásakor, megszakítva."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "Az MMQTT kliens sikeresen létrehozva, folytassa..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Csatlakozva az MQTT szerverhez:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Nem sikerült csatlakozni az MQTT szerverhez:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Leválasztva az MQTT szerverről:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA tanúsítványfájl nem létezik, elérési út = '{0}'"
+    IDS_ERRORID_MQTT_START  "A Smart Home Control Service fut."
+    IDS_ERRORID_MQTT_STOP   "Az okosotthon vezérlési szolgáltatás leállt."
+    IDS_ERRORID_PANEL_INDEX "Hangkeverő panel – nem folytatható, az indexbejegyzések helytelenek."
+    IDS_ERRORID_PANEL_INIT  "Hangkeverő panel – nem lehet folytatni, inicializálási hiba."
+    IDS_ERRORID_PANEL_ENABLE
+                            "A hangkeverő panel ablaka nem egyezik az állapottal, nem lehet folytatni a következő műveletet."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "A hangkeverő panelt nem hívják meg a felhasználói felületen, és nem hajthatók végre módosítások."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "A hangkeverő panel érvénytelen elemet észlelt, és a panelablak létrehozása megszakadt."
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

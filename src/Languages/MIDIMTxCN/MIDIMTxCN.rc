@@ -1,0 +1,1060 @@
+﻿﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "RibbonDialogConfig.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_CHINESE, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI 麦基翻译器"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "＆信息", IDM_GO_INFO
+        MENUITEM "&音频混音器", IDM_GO_MIXER
+        MENUITEM "＆监视器", IDM_GO_MONITOR
+        MENUITEM "＆环境", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "开始", IDM_GO_START
+        MENUITEM "停止", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "出口", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "地点.."
+        BEGIN
+            MENUITEM "垂直向左", IDM_VERT_LEFT
+            MENUITEM "垂直右", IDM_VERT_RIGHT
+            MENUITEM "横顶", IDM_HOR_TOP
+            MENUITEM "水平位于底部", IDM_HOR_BOTTOM
+        END
+        POPUP "主题.."
+        BEGIN
+            MENUITEM "地铁", IDM_METRO
+            MENUITEM "光", IDM_LIGHT
+            MENUITEM "黑暗的", IDM_DARK
+            MENUITEM "复古的", IDM_RETRO
+            MENUITEM "现代的", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "调音五月", IDM_CUSTOM
+            MENUITEM "主题定制", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "＆动画片", IDM_ANIMATION
+        MENUITEM "应用路径(&A)", IDM_APP_PATH
+        MENUITEM "绑定和MIDI控制", IDM_MIDI_BIND
+        MENUITEM "峰值和响度计", IDM_PEAK_METER
+        MENUITEM "记住位置", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "＆关闭", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "新条目", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "复制", IDM_LV_COPY
+        MENUITEM "插入", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "删除", IDM_LV_DELETE
+        POPUP "设置.."
+        BEGIN
+            MENUITEM "控制参考混音器", IDM_LV_SET_MIXER
+            MENUITEM "与多媒体按钮相关的控件", IDM_LV_SET_MMKEY
+            MENUITEM "控制对待智能家居", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "未分配", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "读取 MIDI 代码..", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "监管机构.."
+        BEGIN
+            MENUITEM "条带调节器", IDM_COL3_SLIDER
+            MENUITEM "条形倒置调节器", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "旋转滑块", IDM_COL3_FADER
+            MENUITEM "带反转的旋钮", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "编码器", IDM_COL3_KNOB
+            MENUITEM "带反转的编码器", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "未分配", IDM_COL3_NONE
+        END
+        POPUP "纽扣.."
+        BEGIN
+            MENUITEM "按钮", IDM_COL3_BTN
+            MENUITEM "开关按钮，带指示", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "未分配", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "未分配", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "监管机构..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "纽扣..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "控制参考混音器", IDM_COL4_VOLUMEMIX
+        MENUITEM "与多媒体按钮相关的控件", IDM_COL4_MEDIAKEY
+        MENUITEM "控制对待智能家居", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "未分配", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "声音控制..."
+        BEGIN
+            MENUITEM "沉默（大师）", IDM_COL4_MAM
+            MENUITEM "独奏（大师）", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "无声无息.."
+            BEGIN
+                MENUITEM "频道1", IDM_COL4_B21
+                MENUITEM "频道2", IDM_COL4_B22
+                MENUITEM "频道3", IDM_COL4_B23
+                MENUITEM "频道4", IDM_COL4_B24
+                MENUITEM "频道5", IDM_COL4_B25
+                MENUITEM "频道6", IDM_COL4_B26
+                MENUITEM "7频道", IDM_COL4_B27
+                MENUITEM "频道8", IDM_COL4_B28
+                MENUITEM "频道 9", IDM_COL4_B29
+            END
+            POPUP "独奏.."
+            BEGIN
+                MENUITEM "频道1", IDM_COL4_B11
+                MENUITEM "频道2", IDM_COL4_B12
+                MENUITEM "频道3", IDM_COL4_B13
+                MENUITEM "频道4", IDM_COL4_B14
+                MENUITEM "频道5", IDM_COL4_B15
+                MENUITEM "频道6", IDM_COL4_B16
+                MENUITEM "7频道", IDM_COL4_B17
+                MENUITEM "频道8", IDM_COL4_B18
+                MENUITEM "频道 9", IDM_COL4_B19
+            END
+        END
+        POPUP "多媒体按钮.."
+        BEGIN
+            MENUITEM "播放/暂停", IDM_COL4_SYS_Play
+            MENUITEM "停止", IDM_COL4_SYS_Stop
+            MENUITEM "以前的", IDM_COL4_SYS_Rewind
+            MENUITEM "下一个", IDM_COL4_SYS_Forward
+            MENUITEM "记录", IDM_COL4_SYS_Record
+            MENUITEM "向上（操纵杆）", IDM_COL4_SYS_Up
+            MENUITEM "向下（操纵杆）", IDM_COL4_SYS_Down
+            MENUITEM "右（操纵杆）", IDM_COL4_SYS_Right
+            MENUITEM "左（操纵杆）", IDM_COL4_SYS_Left
+            MENUITEM "放大", IDM_COL4_SYS_Zoom
+            MENUITEM "擦洗", IDM_COL4_SYS_Scrub
+        END
+        POPUP "Premiere Pro 功能..."
+        BEGIN
+            POPUP "标准按钮的功能..."
+            BEGIN
+                MENUITEM "功能1", IDM_COL4_FUN11
+                MENUITEM "功能2", IDM_COL4_FUN12
+                MENUITEM "功能3", IDM_COL4_FUN13
+                MENUITEM "特点4", IDM_COL4_FUN14
+                MENUITEM "特点5", IDM_COL4_FUN15
+                MENUITEM "功能6", IDM_COL4_FUN16
+                MENUITEM "特点7", IDM_COL4_FUN17
+                MENUITEM "功能8", IDM_COL4_FUN18
+            END
+            POPUP "一键式按钮功能..."
+            BEGIN
+                MENUITEM "功能1", IDM_COL4_FUN21
+                MENUITEM "功能2", IDM_COL4_FUN22
+                MENUITEM "功能3", IDM_COL4_FUN23
+                MENUITEM "特点4", IDM_COL4_FUN24
+                MENUITEM "特点5", IDM_COL4_FUN25
+                MENUITEM "功能6", IDM_COL4_FUN26
+                MENUITEM "特点7", IDM_COL4_FUN27
+                MENUITEM "功能8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "智能家居系统中的按钮.."
+        BEGIN
+            MENUITEM "开/关 1", IDM_COL4_B11
+            MENUITEM "开/关 2", IDM_COL4_B12
+            MENUITEM "开/关 3", IDM_COL4_B13
+            MENUITEM "开/关 4", IDM_COL4_B14
+            MENUITEM "开/关 5", IDM_COL4_B15
+            MENUITEM "开/关 6", IDM_COL4_B16
+            MENUITEM "开/关 7", IDM_COL4_B17
+            MENUITEM "开/关 8", IDM_COL4_B18
+            MENUITEM "开/关 9", IDM_COL4_B19
+            MENUITEM "开/关 10", IDM_COL4_B21
+            MENUITEM "开/关 11", IDM_COL4_B22
+            MENUITEM "开/关 12", IDM_COL4_B23
+            MENUITEM "开/关 13", IDM_COL4_B24
+            MENUITEM "开/关 14", IDM_COL4_B25
+            MENUITEM "开/关 15", IDM_COL4_B26
+            MENUITEM "开/关 16", IDM_COL4_B27
+            MENUITEM "开/关 17", IDM_COL4_B28
+            MENUITEM "开/关 18", IDM_COL4_B29
+            MENUITEM "开/关 19", IDM_COL4_B31
+            MENUITEM "开/关 20", IDM_COL4_B32
+            MENUITEM "开/关 21", IDM_COL4_B33
+            MENUITEM "开/关 22", IDM_COL4_B34
+            MENUITEM "开/关 23", IDM_COL4_B35
+            MENUITEM "开/关 24", IDM_COL4_B36
+            MENUITEM "开/关 25", IDM_COL4_B37
+            MENUITEM "开/关 26", IDM_COL4_B38
+            MENUITEM "开/关 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "控制参考混音器", IDM_COL4_VOLUMEMIX
+        MENUITEM "与多媒体按钮相关的控件", IDM_COL4_MEDIAKEY
+        MENUITEM "控制对待智能家居", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "编码器（逐帧）", IDM_COL4_JOG
+        MENUITEM "未分配", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "声音控制..."
+        BEGIN
+            MENUITEM "音量（主）", IDM_COL4_MAV
+            MENUITEM "平衡（主）", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "体积.."
+            BEGIN
+                MENUITEM "频道1", IDM_COL4_AV1
+                MENUITEM "频道2", IDM_COL4_AV2
+                MENUITEM "频道3", IDM_COL4_AV3
+                MENUITEM "频道4", IDM_COL4_AV4
+                MENUITEM "频道5", IDM_COL4_AV5
+                MENUITEM "频道6", IDM_COL4_AV6
+                MENUITEM "7频道", IDM_COL4_AV7
+                MENUITEM "频道8", IDM_COL4_AV8
+                MENUITEM "频道 9", IDM_COL4_XV9
+            END
+            POPUP "平衡.."
+            BEGIN
+                MENUITEM "频道1", IDM_COL4_AP1
+                MENUITEM "频道2", IDM_COL4_AP2
+                MENUITEM "频道3", IDM_COL4_AP3
+                MENUITEM "频道4", IDM_COL4_AP4
+                MENUITEM "频道5", IDM_COL4_AP5
+                MENUITEM "频道6", IDM_COL4_AP6
+                MENUITEM "7频道", IDM_COL4_AP7
+                MENUITEM "频道8", IDM_COL4_AP8
+                MENUITEM "频道 9", IDM_COL4_XP9
+            END
+        END
+        POPUP "“智能家居”系统中的调节器.."
+        BEGIN
+            MENUITEM "1级", IDM_COL4_AV1
+            MENUITEM "2级", IDM_COL4_AV2
+            MENUITEM "3级", IDM_COL4_AV3
+            MENUITEM "4级", IDM_COL4_AV4
+            MENUITEM "5级", IDM_COL4_AV5
+            MENUITEM "6级", IDM_COL4_AV6
+            MENUITEM "7级", IDM_COL4_AV7
+            MENUITEM "8级", IDM_COL4_AV8
+            MENUITEM "9级", IDM_COL4_XV9
+            MENUITEM "10级", IDM_COL4_AP1
+            MENUITEM "11级", IDM_COL4_AP2
+            MENUITEM "12级", IDM_COL4_AP3
+            MENUITEM "13级", IDM_COL4_AP4
+            MENUITEM "14级", IDM_COL4_AP5
+            MENUITEM "15级", IDM_COL4_AP6
+            MENUITEM "16级", IDM_COL4_AP7
+            MENUITEM "17级", IDM_COL4_AP8
+            MENUITEM "18级", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "控制参考混音器", IDM_COL4_VOLUMEMIX
+        MENUITEM "与多媒体按钮相关的控件", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "音量（主）", IDM_COL4_MAV
+        MENUITEM "编码器（点动）", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "体积.."
+        BEGIN
+            MENUITEM "频道1", IDM_COL4_AV1
+            MENUITEM "频道2", IDM_COL4_AV2
+            MENUITEM "频道3", IDM_COL4_AV3
+            MENUITEM "频道4", IDM_COL4_AV4
+            MENUITEM "频道5", IDM_COL4_AV5
+            MENUITEM "频道6", IDM_COL4_AV6
+            MENUITEM "频道7", IDM_COL4_AV7
+            MENUITEM "频道8", IDM_COL4_AV8
+            MENUITEM "频道 9", IDM_COL4_XV9
+            MENUITEM "频道10", IDM_COL4_AP1
+            MENUITEM "11频道", IDM_COL4_AP2
+            MENUITEM "12频道", IDM_COL4_AP3
+            MENUITEM "13频道", IDM_COL4_AP4
+            MENUITEM "14频道", IDM_COL4_AP5
+            MENUITEM "频道 15", IDM_COL4_AP6
+            MENUITEM "16频道", IDM_COL4_AP7
+            MENUITEM "17频道", IDM_COL4_AP8
+            MENUITEM "18频道", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "未分配", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "静音（主）", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "无声无息.."
+        BEGIN
+            MENUITEM "频道1", IDM_COL4_B21
+            MENUITEM "频道2", IDM_COL4_B22
+            MENUITEM "频道3", IDM_COL4_B23
+            MENUITEM "频道4", IDM_COL4_B24
+            MENUITEM "频道5", IDM_COL4_B25
+            MENUITEM "频道6", IDM_COL4_B26
+            MENUITEM "7频道", IDM_COL4_B27
+            MENUITEM "频道8", IDM_COL4_B28
+            MENUITEM "频道 9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "未分配", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "播放/暂停", IDM_COL4_SYS_Play
+        MENUITEM "停止", IDM_COL4_SYS_Stop
+        MENUITEM "以前的", IDM_COL4_SYS_Rewind
+        MENUITEM "下一个", IDM_COL4_SYS_Forward
+        MENUITEM "记录", IDM_COL4_SYS_Record
+        MENUITEM "向上（操纵杆）", IDM_COL4_SYS_Up
+        MENUITEM "向下（操纵杆）", IDM_COL4_SYS_Down
+        MENUITEM "右（操纵杆）", IDM_COL4_SYS_Right
+        MENUITEM "左（操纵杆）", IDM_COL4_SYS_Left
+        MENUITEM "放大", IDM_COL4_SYS_Zoom
+        MENUITEM "擦洗", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "未分配", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "1级", IDM_COL4_AV1
+        MENUITEM "2级", IDM_COL4_AV2
+        MENUITEM "3级", IDM_COL4_AV3
+        MENUITEM "4级", IDM_COL4_AV4
+        MENUITEM "5级", IDM_COL4_AV5
+        MENUITEM "6级", IDM_COL4_AV6
+        MENUITEM "7级", IDM_COL4_AV7
+        MENUITEM "8级", IDM_COL4_AV8
+        MENUITEM "9级", IDM_COL4_XV9
+        MENUITEM "10级", IDM_COL4_AP1
+        MENUITEM "11级", IDM_COL4_AP2
+        MENUITEM "12级", IDM_COL4_AP3
+        MENUITEM "13级", IDM_COL4_AP4
+        MENUITEM "14级", IDM_COL4_AP5
+        MENUITEM "15级", IDM_COL4_AP6
+        MENUITEM "16级", IDM_COL4_AP7
+        MENUITEM "17级", IDM_COL4_AP8
+        MENUITEM "18级", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "未分配", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "开/关 1", IDM_COL4_B11
+        MENUITEM "开/关 2", IDM_COL4_B12
+        MENUITEM "开/关 3", IDM_COL4_B13
+        MENUITEM "开/关 4", IDM_COL4_B14
+        MENUITEM "开/关 5", IDM_COL4_B15
+        MENUITEM "开/关 6", IDM_COL4_B16
+        MENUITEM "开/关 7", IDM_COL4_B17
+        MENUITEM "开/关 8", IDM_COL4_B18
+        MENUITEM "开/关 9", IDM_COL4_B19
+        MENUITEM "开/关 10", IDM_COL4_B21
+        MENUITEM "开/关 11", IDM_COL4_B22
+        MENUITEM "开/关 12", IDM_COL4_B23
+        MENUITEM "开/关 13", IDM_COL4_B24
+        MENUITEM "开/关 14", IDM_COL4_B25
+        MENUITEM "开/关 15", IDM_COL4_B26
+        MENUITEM "开/关 16", IDM_COL4_B27
+        MENUITEM "开/关 17", IDM_COL4_B28
+        MENUITEM "开/关 18", IDM_COL4_B29
+        MENUITEM "开/关 19", IDM_COL4_B31
+        MENUITEM "开/关 20", IDM_COL4_B32
+        MENUITEM "开/关 21", IDM_COL4_B33
+        MENUITEM "开/关 22", IDM_COL4_B34
+        MENUITEM "开/关 23", IDM_COL4_B35
+        MENUITEM "开/关 24", IDM_COL4_B36
+        MENUITEM "开/关 25", IDM_COL4_B37
+        MENUITEM "开/关 26", IDM_COL4_B38
+        MENUITEM "开/关 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "未分配", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "更新",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "帮助",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "＆关闭",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "MIDI 面板设置(&M)",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "＆关闭",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "推荐的 MIDI 控制面板布局。包含此布局设置的文件位于文件夹“docs/MIDIMT.Ctrl_data”中",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "启动 MIDI 转换器"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI 设备",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI 桥",IDC_STATIC,11,73,326,79
+    CONTROL         "推出",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "已停止",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "配置",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI 控制",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "单击之间的间隔",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "长按间隔",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "发射",IDC_STATIC,11,156,135,148
+    CONTROL         "在系统启动时启动",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "开机时自动启动",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "自动启动此配置",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "写日志",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "首选语言：",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "使用鼠标右键调用混音器",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI 设置",IDC_STATIC,151,156,97,64
+    CONTROL         "司机：",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG场景滤镜",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "端口未创建",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI 代理",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "端口数量",IDC_STATIC,260,183,66,8
+    CONTROL         "包括",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "音频混合器设置",IDC_STATIC,152,224,184,80
+    CONTROL         "包括",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "不检查就替换音量值",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "按名称合并应用程序，无法单独调整",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "设置启动时保存的音量级别",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "启用 MM 键",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "保存设置",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "＆开始",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "配置",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "智能家居",IDC_STATIC,343,73,199,262
+    CONTROL         "包括",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT服务器",IDC_STATIC,350,102,186,44
+    CONTROL         "IP地址：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "港口：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "安全",IDC_STATIC,350,149,186,106
+    CONTROL         "登录：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "密码：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK 密钥：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "启用 SSL/TLS",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "自签名",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA证书",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "选项",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT 主题前缀：（可选）",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "MQTT 会话的日志记录级别：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "＆关闭",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "更新",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&关于该计划..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI命令监视器"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "命令监视器",IDC_STATIC,9,4,285,54
+    LTEXT           "MIDI 命令监视器将帮助您确定控制器的设置方式。要开始测试，请单击“开始”按钮。使用控制器上的各种控件，您将收到有关场景、编号和当前值的消息。",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "停止",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "开始",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "＆关闭",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "干净&陡峭",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "MIDI 控制设置"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
+    GROUPBOX        "设置 MIDI 控制",IDC_STATIC,7,97,215,224
+    RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
+    GROUPBOX        "信息",IDC_STATIC,227,97,259,224
+    LTEXT           "控制：",IDC_STATIC,241,157,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
+    LTEXT           "场景：",IDC_STATIC,241,169,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
+    LTEXT           "控制类型：",IDC_STATIC,241,181,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
+    LTEXT           "目的：",IDC_STATIC,241,193,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
+    LTEXT           "目的（长按）：",IDC_STATIC,241,205,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
+    LTEXT           "混合器可调应用：",IDC_STATIC,241,217,144,10
+    LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "＆关闭",IDCANCEL,609,324,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
+    GROUPBOX        "提示",IDC_STATIC,493,97,209,224
+    LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "全部",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "纽扣",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "滑块",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "多媒体",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "设置自定义主题"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "你的主题颜色",IDC_STATIC,9,8,188,107
+    CONTROL         "文字颜色",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "背景颜色",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "镜框颜色",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "基础主题",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "地铁",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "光",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "黑暗的",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "复古的",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "现代的",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI 轻松控制 -> 音频混合器 -> MIDI Mackie 转换器"
+    IDS_MIXER               "＆混合器"
+    IDS_SETTINGS            "设置(&S)"
+    IDS_START               "开始"
+    IDS_STOP                "停止"
+    IDS_EXIT                "出口"
+    IDS_SETUP_MSG1          "从驱动程序加载配置"
+    IDS_SETUP_MSG2          "从文件加载配置"
+    IDS_SETUP_MSG3          "配置是新建的，需要填写"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT 配置"
+    IDS_CONFIG_EXE_FILTER   "可执行文件"
+    IDS_MQTT_CA_FILTER      "CA证书"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI 转换器未运行。"
+    IDS_INFO2               "MIDI 转换器的工作原理："
+    IDS_INFO3               "输入设备："
+    IDS_INFO4               "Mackie/Premier 输出端口："
+    IDS_INFO5               "输出代理端口："
+    IDS_INFO6               "音频混合器正在运行。"
+    IDS_INFO7               "多媒体按键控制正在运行，检查设置。"
+    IDS_INFO8               "音频混合器未运行，请检查设置，必须启用音频面板的启动。"
+    IDS_INFO9               "事件 ID 无效。请重新启动此应用程序。"
+    IDS_INF1O               "无法切换到 UI 线程，音频面板启动中止。"
+    IDS_INF11               "MIDIMT - 音频混合器未运行："
+    IDS_INF12               "MIDIMT - 无法完成操作："
+    IDS_INF13               "智能家居设备管理已启动。"
+    IDS_DLG_MSG1            "MIDI 麦基输出"
+    IDS_DLG_MSG2            "MIDI 代理输出"
+    IDS_DLG_MSG3            "MIDI 虚拟驱动版本："
+    IDS_DLG_MSG4            "未找到已安装的 MIDI 虚拟驱动程序！您需要安装 Virtual Loop MIDI 包才能运行转换器"
+    IDS_DLG_MSG5            "启动时，将创建代理 MIDI 端口："
+    IDS_DLG_MSG6            "MIDI 代理端口已禁用。"
+    IDS_DLG_MSG7            "窗口重新启动后，所选语言将生效 -"
+    IDS_DLG_MSG8            "MIDI 输入设备分配给"
+    IDS_DLG_MSG9            "请在开始之前编辑配置。"
+    IDS_DLG_MSG10           "已安装的虚拟 MIDI 驱动程序版本："
+    IDS_DLG_MSG11           "所选配置不支持自动启动。"
+    IDS_DLG_MSG12           "请在启动显示器之前，通过调用“开始”从菜单启动 MIDI 桥。"
+    IDS_DLG_MSG13           "启动时，指定了配置文件：“{0}”。将其设置为后续运行的配置？"
+    IDS_DLG_MSG14           "打开编辑器时，指定了配置文件：“{0}”。用相同的名称保存吗？"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "音量（主音量）"
+    IDM_COL4_MAP            "声音平衡（基本）"
+    IDM_COL4_MAM            "静音（基本）"
+    IDM_COL4_MAS            "音频独奏（主要）"
+    IDM_COL4_JOG            "JOG（视频帧快退）"
+    IDM_COL4_AV1            "音量（通道 1）"
+    IDM_COL4_AV2            "音量（通道 2）"
+    IDM_COL4_AV3            "音量（通道 3）"
+    IDM_COL4_AV4            "音量（通道 4）"
+    IDM_COL4_AV5            "音量（通道 5）"
+    IDM_COL4_AV6            "音量（通道 6）"
+    IDM_COL4_AV7            "音量（通道 7）"
+    IDM_COL4_AV8            "音量（通道 8）"
+    IDM_COL4_XV9            "音量（通道 9）"
+    IDM_COL4_AP1            "声音平衡（通道 1）"
+    IDM_COL4_AP2            "声音平衡（通道 2）"
+    IDM_COL4_AP3            "声音平衡（通道 3）"
+    IDM_COL4_AP4            "声音平衡（通道 4）"
+    IDM_COL4_AP5            "声音平衡（通道 5）"
+    IDM_COL4_AP6            "声音平衡（通道 6）"
+    IDM_COL4_AP7            "声音平衡（通道 7）"
+    IDM_COL4_AP8            "声音平衡（通道 8）"
+    IDM_COL4_XP9            "声音平衡（通道 9）"
+    IDM_COL4_B11            "音频独奏（通道 1）"
+    IDM_COL4_B12            "音频独奏（通道 2）"
+    IDM_COL4_B13            "音频独奏（通道 3）"
+    IDM_COL4_B14            "音频独奏（通道 4）"
+    IDM_COL4_B15            "音频独奏（通道 5）"
+    IDM_COL4_B16            "音频独奏（通道 6）"
+    IDM_COL4_B17            "音频独奏（通道 7）"
+    IDM_COL4_B18            "音频独奏（通道 8）"
+    IDM_COL4_B19            "音频独奏（通道 9）"
+    IDM_COL4_B21            "静音（通道 1）"
+    IDM_COL4_B22            "静音（通道 2）"
+    IDM_COL4_B23            "静音（通道 3）"
+    IDM_COL4_B24            "静音（通道 4）"
+    IDM_COL4_B25            "静音（通道 5）"
+    IDM_COL4_B26            "静音（通道 6）"
+    IDM_COL4_B27            "静音（通道 7）"
+    IDM_COL4_B28            "静音（通道 8）"
+    IDM_COL4_B29            "静音（通道 9）"
+    IDM_COL4_B31            "声音选择（通道1）"
+    IDM_COL4_B32            "声音选择（通道2）"
+    IDM_COL4_B33            "声音选择（通道3）"
+    IDM_COL4_B34            "声音选择（通道 4）"
+    IDM_COL4_B35            "声音选择（通道 5）"
+    IDM_COL4_B36            "声音选择（通道 6）"
+    IDM_COL4_B37            "声音选择（通道 7）"
+    IDM_COL4_B38            "声音选择（通道8）"
+    IDM_COL4_B39            "声音选择（通道 9）"
+    IDM_COL4_FUN11          "功能F1（标准模式）"
+    IDM_COL4_FUN12          "功能F2（标准模式）"
+    IDM_COL4_FUN13          "功能F3（标准模式）"
+    IDM_COL4_FUN14          "功能F4（标准模式）"
+    IDM_COL4_FUN15          "功能F5（标准模式）"
+    IDM_COL4_FUN16          "功能F6（标准模式）"
+    IDM_COL4_FUN17          "功能F7（标准模式）"
+    IDM_COL4_FUN18          "功能F8（标准模式）"
+    IDM_COL4_FUN21          "F1功能（保持模式）"
+    IDM_COL4_FUN22          "F2功能（保持模式）"
+    IDM_COL4_FUN23          "F3功能（保持模式）"
+    IDM_COL4_FUN24          "F4功能（保持模式）"
+    IDM_COL4_FUN25          "F5功能（保持模式）"
+    IDM_COL4_FUN26          "F6功能（保持模式）"
+    IDM_COL4_FUN27          "F7功能（保持模式）"
+    IDM_COL4_FUN28          "F8功能（保持模式）"
+    IDM_COL4_SYS_Rewind     "倒带（播放器）"
+    IDM_COL4_SYS_Forward    "快进（玩家）"
+    IDM_COL4_SYS_Stop       "停止（玩家）"
+    IDM_COL4_SYS_Play       "玩（玩家）"
+    IDM_COL4_SYS_Record     "录音（播放器）"
+    IDM_COL4_SYS_Up         "向上（操纵杆）"
+    IDM_COL4_SYS_Down       "向下（操纵杆）"
+    IDM_COL4_SYS_Left       "左（操纵杆）"
+    IDM_COL4_SYS_Right      "右（操纵杆）"
+    IDM_COL4_SYS_Zoom       "增加"
+    IDM_COL4_SYS_Scrub      "擦洗"
+    IDM_COL4_VOLUMEMIX      "混音器控制"
+    IDM_COL4_MEDIAKEY       "多媒体键"
+    IDM_COL4_MQTTKEY        "智能家居管理"
+    IDM_COL4_NONE           "动作未定义"
+    IDM_COL4_MQTT_AV1       "1级"
+    IDM_COL4_MQTT_AV2       "2级"
+    IDM_COL4_MQTT_AV3       "3级"
+    IDM_COL4_MQTT_AV4       "4级"
+    IDM_COL4_MQTT_AV5       "5级"
+    IDM_COL4_MQTT_AV6       "6级"
+    IDM_COL4_MQTT_AV7       "7级"
+    IDM_COL4_MQTT_AV8       "8级"
+    IDM_COL4_MQTT_XV9       "9级"
+    IDM_COL4_MQTT_AP1       "10级"
+    IDM_COL4_MQTT_AP2       "11级"
+    IDM_COL4_MQTT_AP3       "12级"
+    IDM_COL4_MQTT_AP4       "13级"
+    IDM_COL4_MQTT_AP5       "14级"
+    IDM_COL4_MQTT_AP6       "15级"
+    IDM_COL4_MQTT_AP7       "16级"
+    IDM_COL4_MQTT_AP8       "17级"
+    IDM_COL4_MQTT_XP9       "18级"
+    IDM_COL4_MQTT_B11       "开/关 1"
+    IDM_COL4_MQTT_B12       "开/关 2"
+    IDM_COL4_MQTT_B13       "开/关 3"
+    IDM_COL4_MQTT_B14       "开/关 4"
+    IDM_COL4_MQTT_B15       "开/关 5"
+    IDM_COL4_MQTT_B16       "开/关 6"
+    IDM_COL4_MQTT_B17       "开/关 7"
+    IDM_COL4_MQTT_B18       "开/关 8"
+    IDM_COL4_MQTT_B19       "开/关 9"
+    IDM_COL4_MQTT_B21       "开/关 10"
+    IDM_COL4_MQTT_B22       "开/关 11"
+    IDM_COL4_MQTT_B23       "开/关 12"
+    IDM_COL4_MQTT_B24       "开/关 13"
+    IDM_COL4_MQTT_B25       "开/关 14"
+    IDM_COL4_MQTT_B26       "开/关 15"
+    IDM_COL4_MQTT_B27       "开/关 16"
+    IDM_COL4_MQTT_B28       "开/关 17"
+    IDM_COL4_MQTT_B29       "开/关 18"
+    IDM_COL4_MQTT_B31       "开/关 19"
+    IDM_COL4_MQTT_B32       "开/关 20"
+    IDM_COL4_MQTT_B33       "开/关 21"
+    IDM_COL4_MQTT_B34       "开/关 22"
+    IDM_COL4_MQTT_B35       "开/关 23"
+    IDM_COL4_MQTT_B36       "开/关 24"
+    IDM_COL4_MQTT_B37       "开/关 25"
+    IDM_COL4_MQTT_B38       "开/关 26"
+    IDM_COL4_MQTT_B39       "开/关 27"
+    IDM_COL4_MQTT_NONE      "未分配"
+    IDM_MQTT_LOG_NONE       "日志不保留"
+    IDM_MQTT_LOG_INFO       "信息"
+    IDM_MQTT_LOG_NOTICE     "通知"
+    IDM_MQTT_LOG_WARNING    "警告"
+    IDM_MQTT_LOG_ERR        "只有错误"
+    IDM_MQTT_LOG_DEBUG      "所有消息"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "这个错误没有定义"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "对配置文件的写访问被拒绝，“{0}”"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "配置文件丢失或访问被拒绝，“{0}”"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "配置文件为空，“{0}”"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "配置中未设置 MIDI 设备名称。"
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "此配置中没有配置 MIDI 键。"
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "注意，此配置中没有配置 MIDI 键！写入的配置将不起作用。"
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize 初始化失败。"
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - 实例化失败。"
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "无法获取默认音频设备。"
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "音频会话管理器崩溃了。"
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "音频峰值计不可用。"
+    IDS_ERRORID_MIXER_STARTOK
+                            "音频会话混合器正在运行，有 {0} 个正在运行的程序可在启动时进行限制。"
+    IDS_ERRORID_MIXER_STARTERROR
+                            "无法启动音频会话混合器，错误详细信息应位于日志文件中。"
+    IDS_ERRORID_MIXER_STOPOK
+                            "音频会话混合器已停止。"
+    IDS_ERRORID_MIXER_STOPERROR
+                            "音频会话混合器未正确停止，错误详细信息应在日志文件中。"
+    IDS_ERRORID_NO_INIT     "调用此之前先初始化.."
+    IDS_ERRORID_SESSION_LIST
+                            "无法获取音频会话列表。"
+    IDS_ERRORID_LISTISNULL  "音频会话列表为空！"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "正在禁用音频会话，原因=“{0}”"
+    IDS_ERRORID_SESSIONCREATED
+                            "音频会话已创建，名称=“{0}”"
+    IDS_ERRORID_ITEM_SC_AE  "音频会话“{0}”- 无效注册状态“{1}”：{2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "从回调中设置的值是无效的选择器。"
+    IDS_ERRORID_SET_CB_WARNING
+                            "仅在 MIDI 桥成功启动后才能设置回调。"
+    IDS_ERRORID_CONFIG_FAIL "配置加载失败，找不到文件，无法启动.."
+    IDS_ERRORID_CONFIG_LOAD "配置已加载.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "配置已经加载.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "配置为空。"
+    IDS_ERRORID_CONFIG_NEW  "检测到新的配置版本.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "代码中的实现不受支持，方法未覆盖：{0}"
+    IDS_ERRORID_NOT_CONFIG  "未指定配置名称，无法继续。"
+    IDS_ERRORID_NOT_DEVICES "没有连接设备，无法继续。"
+    IDS_ERRORID_COUNT_DEVICES
+                            "注意，最终列表中的设备数量存在差异，系统/列表 = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "无法打开 MIDI 设备，无法继续，id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "无法启动 MIDI 设备，无法继续，id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "设备未连接，中止，id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "已找到设备 {0}，{1}"
+    IDS_ERRORID_DEVICE_OPEN "设备 {0} 打开，{1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "设备 {0} 已关闭（系统）"
+    IDS_ERRORID_DEVICE_DONE "设备 {0} 就绪（系统）"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "活动设备名称未设置，无法继续，id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "配置中未设置代理端口，MIDI 代理已禁用。"
+    IDS_ERRORID_DRIVER_VER_OK
+                            "驱动程序版本 [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "驱动程序版本 [{0}] 存在问题"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "设备 {0} 发送了无效值 = {1}"
+    IDS_ERRORID_MMKEY_START "媒体密钥管理服务正在运行。"
+    IDS_ERRORID_MMKEY_STOP  "媒体密钥管理服务已停止。"
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT 配置为空，无法继续。"
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "创建 MQTT 客户端时出错，已取消。"
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT客户端创建成功，继续.."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "连接到 MQTT 服务器："
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "无法连接到 MQTT 服务器："
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "与 MQTT 服务器断开连接："
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA 证书文件不存在，路径 =“{0}”"
+    IDS_ERRORID_MQTT_START  "智能家居控制服务正在运行。"
+    IDS_ERRORID_MQTT_STOP   "智能家居控制服务已停止。"
+    IDS_ERRORID_PANEL_INDEX "音频混合器面板 - 无法继续，索引条目不正确。"
+    IDS_ERRORID_PANEL_INIT  "音频混合器面板 - 无法继续，初始化错误。"
+    IDS_ERRORID_PANEL_ENABLE
+                            "混音器面板窗口与状态不匹配，无法继续下一步操作。"
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "音频混合器面板不会在 UI 线程上调用，并且无法进行更改。"
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "音频混合器面板检测到无效元素，并且面板窗口的创建被中止。"
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

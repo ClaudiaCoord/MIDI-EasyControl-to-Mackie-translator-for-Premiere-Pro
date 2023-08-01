@@ -125,7 +125,7 @@ namespace Common {
 			bool b = false;
 			auto a = new Common::MIDI::MidiDevice();
 			auto f = std::async(std::launch::async, [=](Common::MIDI::MidiDevice* md_, std::wstring& cnf_) -> bool {
-				Common::MIDI::JsonConfig js;
+				Common::MIDI::json_config js;
 				return js.Read(md_, cnf_);
 				}, a, std::ref(cnfpath));
 
@@ -154,7 +154,7 @@ namespace Common {
 
 			bool b = false;
 			auto f = std::async(std::launch::async, [=]() -> bool {
-				Common::MIDI::JsonConfig js;
+				Common::MIDI::json_config js;
 				return js.Write(config_ptr__, cnfpath);
 				});
 

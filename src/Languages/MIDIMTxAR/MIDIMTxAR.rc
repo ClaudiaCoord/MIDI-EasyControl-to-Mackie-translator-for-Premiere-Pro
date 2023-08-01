@@ -1,0 +1,1060 @@
+﻿﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "RibbonDialogConfig.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_ARMENIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie թարգմանիչ"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&Տեղեկություն", IDM_GO_INFO
+        MENUITEM "&աուդիո խառնիչ", IDM_GO_MIXER
+        MENUITEM "&Մոնիտոր", IDM_GO_MONITOR
+        MENUITEM "&Կարգավորում", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Սկսել", IDM_GO_START
+        MENUITEM "Դադարեցրեք", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Ելք", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Գտնվելու վայրը.."
+        BEGIN
+            MENUITEM "Ուղղահայաց ձախ", IDM_VERT_LEFT
+            MENUITEM "Ուղղահայաց աջ", IDM_VERT_RIGHT
+            MENUITEM "Հորիզոնական վերև", IDM_HOR_TOP
+            MENUITEM "Հորիզոնական ներքևում", IDM_HOR_BOTTOM
+        END
+        POPUP "Առարկա.."
+        BEGIN
+            MENUITEM "Մետրո", IDM_METRO
+            MENUITEM "Լույս", IDM_LIGHT
+            MENUITEM "Մութ", IDM_DARK
+            MENUITEM "ռետրո", IDM_RETRO
+            MENUITEM "Ժամանակակից", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Tuning Մայիս", IDM_CUSTOM
+            MENUITEM "Թեմայի հարմարեցում", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Շարժապատկերներ", IDM_ANIMATION
+        MENUITEM "&Հավելվածի ուղին", IDM_APP_PATH
+        MENUITEM "Պարտադիր &MIDI հսկիչներ", IDM_MIDI_BIND
+        MENUITEM "Բարձրության և բարձրության չափիչ", IDM_PEAK_METER
+        MENUITEM "Հիշեք դիրքը", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Փակել", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Նոր մուտք", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Պատճենել", IDM_LV_COPY
+        MENUITEM "Ներդիր", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Ջնջել", IDM_LV_DELETE
+        POPUP "Սահմանվում է.."
+        BEGIN
+            MENUITEM "Վերահսկիչը վերաբերում է աուդիո խառնիչին", IDM_LV_SET_MIXER
+            MENUITEM "Մուլտիմեդիա կոճակների հետ կապված կառավարումներ", IDM_LV_SET_MMKEY
+            MENUITEM "Վերահսկել խելացի տունը", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "Չնշանակված", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Կարդացեք MIDI կոդը..", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Կարգավորող..."
+        BEGIN
+            MENUITEM "Շերտի կարգավորիչ", IDM_COL3_SLIDER
+            MENUITEM "Շերտավոր շրջված կարգավորիչ", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Պտտվող սահիչ", IDM_COL3_FADER
+            MENUITEM "Պտտվող գլխիկ՝ շրջադարձով", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "կոդավորիչ", IDM_COL3_KNOB
+            MENUITEM "Կոդավորիչ ինվերսիայով", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Չնշանակված", IDM_COL3_NONE
+        END
+        POPUP "Կոճակներ.."
+        BEGIN
+            MENUITEM "Կոճակ", IDM_COL3_BTN
+            MENUITEM "Անջատիչ կոճակ, ցուցումով", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Չնշանակված", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Կարգավորող...", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Կոճակներ..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "Վերահսկիչը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
+        MENUITEM "Մուլտիմեդիա կոճակների հետ կապված կառավարումներ", IDM_COL4_MEDIAKEY
+        MENUITEM "Վերահսկել խելացի տունը", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ձայնային կառավարում..."
+        BEGIN
+            MENUITEM "Լուռ (վարպետ)", IDM_COL4_MAM
+            MENUITEM "Սոլո (վարպետ)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Անձայն.."
+            BEGIN
+                MENUITEM "ալիք 1", IDM_COL4_B21
+                MENUITEM "ալիք 2", IDM_COL4_B22
+                MENUITEM "ալիք 3", IDM_COL4_B23
+                MENUITEM "ալիք 4", IDM_COL4_B24
+                MENUITEM "ալիք 5", IDM_COL4_B25
+                MENUITEM "ալիք 6", IDM_COL4_B26
+                MENUITEM "ալիք 7", IDM_COL4_B27
+                MENUITEM "ալիք 8", IDM_COL4_B28
+                MENUITEM "ալիք 9", IDM_COL4_B29
+            END
+            POPUP "Մենակ.."
+            BEGIN
+                MENUITEM "ալիք 1", IDM_COL4_B11
+                MENUITEM "ալիք 2", IDM_COL4_B12
+                MENUITEM "ալիք 3", IDM_COL4_B13
+                MENUITEM "ալիք 4", IDM_COL4_B14
+                MENUITEM "ալիք 5", IDM_COL4_B15
+                MENUITEM "ալիք 6", IDM_COL4_B16
+                MENUITEM "ալիք 7", IDM_COL4_B17
+                MENUITEM "ալիք 8", IDM_COL4_B18
+                MENUITEM "ալիք 9", IDM_COL4_B19
+            END
+        END
+        POPUP "Մուլտիմեդիա կոճակներ.."
+        BEGIN
+            MENUITEM "Նվագարկել/Դադար", IDM_COL4_SYS_Play
+            MENUITEM "Դադարեցրեք", IDM_COL4_SYS_Stop
+            MENUITEM "Նախորդ", IDM_COL4_SYS_Rewind
+            MENUITEM "Հաջորդը", IDM_COL4_SYS_Forward
+            MENUITEM "Ձայնագրությունը", IDM_COL4_SYS_Record
+            MENUITEM "Վերև (ջոյստիկ)", IDM_COL4_SYS_Up
+            MENUITEM "Ներքև (ջոյսթիկ)", IDM_COL4_SYS_Down
+            MENUITEM "Աջ (ջոյսթիկ)", IDM_COL4_SYS_Right
+            MENUITEM "Ձախ (ջոյստիկ)", IDM_COL4_SYS_Left
+            MENUITEM "Խոշորացնել. մոտեցնել", IDM_COL4_SYS_Zoom
+            MENUITEM "մաքրում", IDM_COL4_SYS_Scrub
+        END
+        POPUP "Premiere Pro-ի առանձնահատկությունները..."
+        BEGIN
+            POPUP "Ստանդարտ կոճակի գործառույթները..."
+            BEGIN
+                MENUITEM "Գործառույթ 1", IDM_COL4_FUN11
+                MENUITEM "Գործառույթ 2", IDM_COL4_FUN12
+                MENUITEM "Գործառույթ 3", IDM_COL4_FUN13
+                MENUITEM "Առանձնահատկություն 4", IDM_COL4_FUN14
+                MENUITEM "Առանձնահատկություն 5", IDM_COL4_FUN15
+                MENUITEM "Գործառույթ 6", IDM_COL4_FUN16
+                MENUITEM "Առանձնահատկություն 7", IDM_COL4_FUN17
+                MENUITEM "Գործառույթ 8", IDM_COL4_FUN18
+            END
+            POPUP "Մեկ հպումով կոճակի գործառույթներ..."
+            BEGIN
+                MENUITEM "Գործառույթ 1", IDM_COL4_FUN21
+                MENUITEM "Գործառույթ 2", IDM_COL4_FUN22
+                MENUITEM "Գործառույթ 3", IDM_COL4_FUN23
+                MENUITEM "Առանձնահատկություն 4", IDM_COL4_FUN24
+                MENUITEM "Առանձնահատկություն 5", IDM_COL4_FUN25
+                MENUITEM "Գործառույթ 6", IDM_COL4_FUN26
+                MENUITEM "Առանձնահատկություն 7", IDM_COL4_FUN27
+                MENUITEM "Գործառույթ 8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Կոճակներ Smart Home համակարգում.."
+        BEGIN
+            MENUITEM "միացնել/անջատել 1", IDM_COL4_B11
+            MENUITEM "միացնել/անջատել 2", IDM_COL4_B12
+            MENUITEM "միացնել/անջատել 3", IDM_COL4_B13
+            MENUITEM "միացնել/անջատել 4", IDM_COL4_B14
+            MENUITEM "միացնել/անջատել 5", IDM_COL4_B15
+            MENUITEM "միացնել/անջատել 6", IDM_COL4_B16
+            MENUITEM "միացնել/անջատել 7", IDM_COL4_B17
+            MENUITEM "միացնել/անջատել 8", IDM_COL4_B18
+            MENUITEM "միացնել/անջատել 9", IDM_COL4_B19
+            MENUITEM "միացնել/անջատել 10", IDM_COL4_B21
+            MENUITEM "միացնել/անջատել 11", IDM_COL4_B22
+            MENUITEM "միացնել/անջատել 12", IDM_COL4_B23
+            MENUITEM "միացնել/անջատել 13", IDM_COL4_B24
+            MENUITEM "միացնել/անջատել 14", IDM_COL4_B25
+            MENUITEM "միացնել/անջատել 15", IDM_COL4_B26
+            MENUITEM "միացնել/անջատել 16", IDM_COL4_B27
+            MENUITEM "միացնել/անջատել 17", IDM_COL4_B28
+            MENUITEM "միացնել/անջատել 18", IDM_COL4_B29
+            MENUITEM "միացնել/անջատել 19", IDM_COL4_B31
+            MENUITEM "միացնել/անջատել 20", IDM_COL4_B32
+            MENUITEM "միացնել/անջատել 21", IDM_COL4_B33
+            MENUITEM "միացնել/անջատել 22", IDM_COL4_B34
+            MENUITEM "միացնել/անջատել 23", IDM_COL4_B35
+            MENUITEM "միացնել/անջատել 24", IDM_COL4_B36
+            MENUITEM "միացնել/անջատել 25", IDM_COL4_B37
+            MENUITEM "միացնել/անջատել 26", IDM_COL4_B38
+            MENUITEM "միացնել/անջատել 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Վերահսկիչը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
+        MENUITEM "Մուլտիմեդիա կոճակների հետ կապված կառավարումներ", IDM_COL4_MEDIAKEY
+        MENUITEM "Վերահսկել խելացի տունը", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Կոդավորիչ (կադր առ կադր)", IDM_COL4_JOG
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ձայնային կառավարում..."
+        BEGIN
+            MENUITEM "Ծավալ (գլխավոր)", IDM_COL4_MAV
+            MENUITEM "Մնացորդ (վարպետ)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Ծավալը.."
+            BEGIN
+                MENUITEM "ալիք 1", IDM_COL4_AV1
+                MENUITEM "ալիք 2", IDM_COL4_AV2
+                MENUITEM "ալիք 3", IDM_COL4_AV3
+                MENUITEM "ալիք 4", IDM_COL4_AV4
+                MENUITEM "ալիք 5", IDM_COL4_AV5
+                MENUITEM "ալիք 6", IDM_COL4_AV6
+                MENUITEM "ալիք 7", IDM_COL4_AV7
+                MENUITEM "ալիք 8", IDM_COL4_AV8
+                MENUITEM "ալիք 9", IDM_COL4_XV9
+            END
+            POPUP "Մնացորդ.."
+            BEGIN
+                MENUITEM "ալիք 1", IDM_COL4_AP1
+                MENUITEM "ալիք 2", IDM_COL4_AP2
+                MENUITEM "ալիք 3", IDM_COL4_AP3
+                MENUITEM "ալիք 4", IDM_COL4_AP4
+                MENUITEM "ալիք 5", IDM_COL4_AP5
+                MENUITEM "ալիք 6", IDM_COL4_AP6
+                MENUITEM "ալիք 7", IDM_COL4_AP7
+                MENUITEM "ալիք 8", IDM_COL4_AP8
+                MENUITEM "ալիք 9", IDM_COL4_XP9
+            END
+        END
+        POPUP "Կարգավորիչներ «Խելացի տուն» համակարգում..."
+        BEGIN
+            MENUITEM "մակարդակ 1", IDM_COL4_AV1
+            MENUITEM "մակարդակ 2", IDM_COL4_AV2
+            MENUITEM "մակարդակ 3", IDM_COL4_AV3
+            MENUITEM "մակարդակ 4", IDM_COL4_AV4
+            MENUITEM "մակարդակ 5", IDM_COL4_AV5
+            MENUITEM "մակարդակ 6", IDM_COL4_AV6
+            MENUITEM "մակարդակ 7", IDM_COL4_AV7
+            MENUITEM "մակարդակ 8", IDM_COL4_AV8
+            MENUITEM "մակարդակ 9", IDM_COL4_XV9
+            MENUITEM "մակարդակ 10", IDM_COL4_AP1
+            MENUITEM "մակարդակ 11", IDM_COL4_AP2
+            MENUITEM "մակարդակ 12", IDM_COL4_AP3
+            MENUITEM "մակարդակ 13", IDM_COL4_AP4
+            MENUITEM "մակարդակ 14", IDM_COL4_AP5
+            MENUITEM "մակարդակ 15", IDM_COL4_AP6
+            MENUITEM "մակարդակ 16", IDM_COL4_AP7
+            MENUITEM "մակարդակ 17", IDM_COL4_AP8
+            MENUITEM "մակարդակ 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Վերահսկիչը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
+        MENUITEM "Մուլտիմեդիա կոճակների հետ կապված կառավարումներ", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "Ծավալ (գլխավոր)", IDM_COL4_MAV
+        MENUITEM "Կոդավորիչ (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Ծավալը.."
+        BEGIN
+            MENUITEM "ալիք 1", IDM_COL4_AV1
+            MENUITEM "ալիք 2", IDM_COL4_AV2
+            MENUITEM "ալիք 3", IDM_COL4_AV3
+            MENUITEM "ալիք 4", IDM_COL4_AV4
+            MENUITEM "ալիք 5", IDM_COL4_AV5
+            MENUITEM "ալիք 6", IDM_COL4_AV6
+            MENUITEM "ալիք 7", IDM_COL4_AV7
+            MENUITEM "ալիք 8", IDM_COL4_AV8
+            MENUITEM "ալիք 9", IDM_COL4_XV9
+            MENUITEM "ալիք 10", IDM_COL4_AP1
+            MENUITEM "ալիք 11", IDM_COL4_AP2
+            MENUITEM "ալիք 12", IDM_COL4_AP3
+            MENUITEM "ալիք 13", IDM_COL4_AP4
+            MENUITEM "ալիք 14", IDM_COL4_AP5
+            MENUITEM "ալիք 15", IDM_COL4_AP6
+            MENUITEM "ալիք 16", IDM_COL4_AP7
+            MENUITEM "ալիք 17", IDM_COL4_AP8
+            MENUITEM "ալիք 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Խլացնել (վարպետ)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Անձայն.."
+        BEGIN
+            MENUITEM "ալիք 1", IDM_COL4_B21
+            MENUITEM "ալիք 2", IDM_COL4_B22
+            MENUITEM "ալիք 3", IDM_COL4_B23
+            MENUITEM "ալիք 4", IDM_COL4_B24
+            MENUITEM "ալիք 5", IDM_COL4_B25
+            MENUITEM "ալիք 6", IDM_COL4_B26
+            MENUITEM "ալիք 7", IDM_COL4_B27
+            MENUITEM "ալիք 8", IDM_COL4_B28
+            MENUITEM "ալիք 9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Նվագարկել/Դադար", IDM_COL4_SYS_Play
+        MENUITEM "Դադարեցրեք", IDM_COL4_SYS_Stop
+        MENUITEM "Նախորդ", IDM_COL4_SYS_Rewind
+        MENUITEM "Հաջորդը", IDM_COL4_SYS_Forward
+        MENUITEM "Ձայնագրությունը", IDM_COL4_SYS_Record
+        MENUITEM "Վերև (ջոյստիկ)", IDM_COL4_SYS_Up
+        MENUITEM "Ներքև (ջոյսթիկ)", IDM_COL4_SYS_Down
+        MENUITEM "Աջ (ջոյսթիկ)", IDM_COL4_SYS_Right
+        MENUITEM "Ձախ (ջոյստիկ)", IDM_COL4_SYS_Left
+        MENUITEM "Խոշորացնել. մոտեցնել", IDM_COL4_SYS_Zoom
+        MENUITEM "մաքրում", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "մակարդակ 1", IDM_COL4_AV1
+        MENUITEM "մակարդակ 2", IDM_COL4_AV2
+        MENUITEM "մակարդակ 3", IDM_COL4_AV3
+        MENUITEM "մակարդակ 4", IDM_COL4_AV4
+        MENUITEM "մակարդակ 5", IDM_COL4_AV5
+        MENUITEM "մակարդակ 6", IDM_COL4_AV6
+        MENUITEM "մակարդակ 7", IDM_COL4_AV7
+        MENUITEM "մակարդակ 8", IDM_COL4_AV8
+        MENUITEM "մակարդակ 9", IDM_COL4_XV9
+        MENUITEM "մակարդակ 10", IDM_COL4_AP1
+        MENUITEM "մակարդակ 11", IDM_COL4_AP2
+        MENUITEM "մակարդակ 12", IDM_COL4_AP3
+        MENUITEM "մակարդակ 13", IDM_COL4_AP4
+        MENUITEM "մակարդակ 14", IDM_COL4_AP5
+        MENUITEM "մակարդակ 15", IDM_COL4_AP6
+        MENUITEM "մակարդակ 16", IDM_COL4_AP7
+        MENUITEM "մակարդակ 17", IDM_COL4_AP8
+        MENUITEM "մակարդակ 18", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "միացնել/անջատել 1", IDM_COL4_B11
+        MENUITEM "միացնել/անջատել 2", IDM_COL4_B12
+        MENUITEM "միացնել/անջատել 3", IDM_COL4_B13
+        MENUITEM "միացնել/անջատել 4", IDM_COL4_B14
+        MENUITEM "միացնել/անջատել 5", IDM_COL4_B15
+        MENUITEM "միացնել/անջատել 6", IDM_COL4_B16
+        MENUITEM "միացնել/անջատել 7", IDM_COL4_B17
+        MENUITEM "միացնել/անջատել 8", IDM_COL4_B18
+        MENUITEM "միացնել/անջատել 9", IDM_COL4_B19
+        MENUITEM "միացնել/անջատել 10", IDM_COL4_B21
+        MENUITEM "միացնել/անջատել 11", IDM_COL4_B22
+        MENUITEM "միացնել/անջատել 12", IDM_COL4_B23
+        MENUITEM "միացնել/անջատել 13", IDM_COL4_B24
+        MENUITEM "միացնել/անջատել 14", IDM_COL4_B25
+        MENUITEM "միացնել/անջատել 15", IDM_COL4_B26
+        MENUITEM "միացնել/անջատել 16", IDM_COL4_B27
+        MENUITEM "միացնել/անջատել 17", IDM_COL4_B28
+        MENUITEM "միացնել/անջատել 18", IDM_COL4_B29
+        MENUITEM "միացնել/անջատել 19", IDM_COL4_B31
+        MENUITEM "միացնել/անջատել 20", IDM_COL4_B32
+        MENUITEM "միացնել/անջատել 21", IDM_COL4_B33
+        MENUITEM "միացնել/անջատել 22", IDM_COL4_B34
+        MENUITEM "միացնել/անջատել 23", IDM_COL4_B35
+        MENUITEM "միացնել/անջատել 24", IDM_COL4_B36
+        MENUITEM "միացնել/անջատել 25", IDM_COL4_B37
+        MENUITEM "միացնել/անջատել 26", IDM_COL4_B38
+        MENUITEM "միացնել/անջատել 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "Չնշանակված", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "Թարմացումներ",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Օգնություն",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Փակել",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&MIDI վահանակի կարգավորում",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Փակել",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Առաջարկվող MIDI կառավարման վահանակի դասավորությունը: Այս դասավորության կարգավորումներով ֆայլը գտնվում է «docs/MIDIMT.Ctrl_data» պանակում:",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "MIDI թարգմանչի գործարկում"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI սարքեր",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI կամուրջ",IDC_STATIC,11,73,326,79
+    CONTROL         "մեկնարկել է",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Դադարեցվեց",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Կոնֆիգուրացիա",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI կառավարում",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "Սեղմումների միջև ընդմիջում",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "Ընդմիջումը՝ երկար սեղմելով",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "մեկնարկը",IDC_STATIC,11,156,135,148
+    CONTROL         "Սկսեք համակարգի բեռնումից",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Ավտոմատ մեկնարկը գործարկման ժամանակ",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Ավտոմատ գործարկեք այս կազմաձևը",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Գրեք տեղեկամատյան",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Նախընտրելի լեզու:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Օգտագործեք մկնիկի աջ կոճակը խառնիչին զանգելու համար",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI-ի կարգավորումներ",IDC_STATIC,151,156,97,64
+    CONTROL         "Վարորդ:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG տեսարանի զտիչ",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Նավահանգիստը չի ստեղծվել",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI վստահված անձ",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "նավահանգիստների քանակը",IDC_STATIC,260,183,66,8
+    CONTROL         "Ներառված է",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Աուդիո խառնիչի կարգավորումներ",IDC_STATIC,152,224,184,80
+    CONTROL         "Ներառված է",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "Ծավալի արժեքների փոխարինում առանց ստուգման",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Միավորել հավելվածները անունով, առանձին կարգավորում հնարավոր չէ",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Սահմանեք պահված ձայնի մակարդակները գործարկման ժամանակ",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "Միացնել MM ստեղները",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Պահպանել &Կարգավորումները",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Սկսել",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Կոնֆիգուրացիա",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Խելացի տուն",IDC_STATIC,343,73,199,262
+    CONTROL         "Ներառված է",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT սերվեր",IDC_STATIC,350,102,186,44
+    CONTROL         "IP հասցե.",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "նավահանգիստ:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Անվտանգություն",IDC_STATIC,350,149,186,106
+    CONTROL         "մուտք:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "գաղտնաբառը:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK բանալի.",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS միացված է",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "ինքնաստորագրված",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA վկայագիր",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "Ընտրանքներ",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT թեմայի նախածանց՝ (ըստ ցանկության)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "MQTT նիստերի գրանցման մակարդակը.",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Փակել",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "Թարմացումներ",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&Ծրագրի մասին..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI հրամանի մոնիտոր"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Հրամանի մոնիտոր",IDC_STATIC,9,4,285,54
+    LTEXT           "MIDI հրամանի մոնիտորը կօգնի ձեզ որոշել, թե ինչպես է կարգավորիչը կարգավորվում: Փորձարկումը սկսելու համար սեղմեք «Սկսել» կոճակը: Օգտագործելով ձեր կարգավորիչի տարբեր կարգավորիչները, դուք կստանաք հաղորդագրություններ տեսարանի, համարի և ընթացիկ արժեքի մասին:",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Դադարեցրեք",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Սկսել",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Փակել",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "Մաքուր և զառիթափ",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "MIDI կառավարման կարգավորում"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
+    GROUPBOX        "MIDI հսկիչների կարգավորում",IDC_STATIC,7,97,215,224
+    RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
+    GROUPBOX        "Տեղեկություն",IDC_STATIC,227,97,259,224
+    LTEXT           "Վերահսկում:",IDC_STATIC,241,157,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
+    LTEXT           "Տեսարան.",IDC_STATIC,241,169,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
+    LTEXT           "Կառավարման տեսակը.",IDC_STATIC,241,181,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
+    LTEXT           "Նպատակը:",IDC_STATIC,241,193,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
+    LTEXT           "Նպատակը (երկար սեղմում).",IDC_STATIC,241,205,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
+    LTEXT           "Խառնիչով կարգավորվող հավելվածներ.",IDC_STATIC,241,217,144,10
+    LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Փակել",IDCANCEL,609,324,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
+    GROUPBOX        "Ակնարկներ",IDC_STATIC,493,97,209,224
+    LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "Բոլորը",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "Կոճակներ",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "Սլայդերներ",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "Մուլտիմեդիա",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Հատուկ թեմայի կարգավորում"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Ձեր թեմայի գույները",IDC_STATIC,9,8,188,107
+    CONTROL         "Տեքստի գույնը",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Ֆոնի գույնը",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "շրջանակի գույնը",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "Հիմնական թեմա",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Մետրո",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Լույս",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Մութ",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "ռետրո",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Ժամանակակից",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI Mackie Translator"
+    IDS_MIXER               "&Խառնիչ"
+    IDS_SETTINGS            "&Կարգավորումներ"
+    IDS_START               "Սկսել"
+    IDS_STOP                "Դադարեցրեք"
+    IDS_EXIT                "Ելք"
+    IDS_SETUP_MSG1          "Կազմաձևը բեռնված է վարորդից"
+    IDS_SETUP_MSG2          "Ֆայլից բեռնված կոնֆիգուրացիան"
+    IDS_SETUP_MSG3          "Կազմաձևը նոր է ստեղծված և պետք է լրացվի"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT կոնֆիգուրացիա"
+    IDS_CONFIG_EXE_FILTER   "Գործարկվող ֆայլեր"
+    IDS_MQTT_CA_FILTER      "CA վկայագիր"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI թարգմանիչը չի աշխատում:"
+    IDS_INFO2               "MIDI թարգմանիչն աշխատում է."
+    IDS_INFO3               "Մուտքային սարք."
+    IDS_INFO4               "Mackie/Premier ելքային նավահանգիստ."
+    IDS_INFO5               "Արդյունք պրոքսի միացք."
+    IDS_INFO6               "Աուդիո խառնիչը աշխատում է:"
+    IDS_INFO7               "Մուլտիմեդիա ստեղների կառավարումն աշխատում է, ստուգեք կարգավորումները:"
+    IDS_INFO8               "Աուդիո խառնիչը չի աշխատում, ստուգեք կարգավորումները, աուդիո վահանակի գործարկումը պետք է միացված լինի:"
+    IDS_INFO9               "Իրադարձության անվավեր ID: Խնդրում ենք վերագործարկել այս հավելվածը:"
+    IDS_INF1O               "Չհաջողվեց անցնել UI շարանը, աուդիո վահանակի գործարկումը ընդհատվեց:"
+    IDS_INF11               "MIDIMT - Աուդիո խառնիչը չի աշխատում."
+    IDS_INF12               "MIDIMT - Հնարավոր չէ ավարտել գործողությունը."
+    IDS_INF13               "Smart Home սարքի կառավարումը սկսվել է:"
+    IDS_DLG_MSG1            "MIDI Mackie ելք"
+    IDS_DLG_MSG2            "MIDI վստահված անձի ելք"
+    IDS_DLG_MSG3            "MIDI վիրտուալ վարորդի տարբերակ."
+    IDS_DLG_MSG4            "Տեղադրված MIDI վիրտուալ վարորդը չի գտնվել: Թարգմանիչը գործարկելու համար անհրաժեշտ է տեղադրել Virtual Loop MIDI փաթեթը"
+    IDS_DLG_MSG5            "Գործարկման ժամանակ պրոքսի MIDI պորտերը կստեղծվեն."
+    IDS_DLG_MSG6            "MIDI պրոքսի պորտերն անջատված են:"
+    IDS_DLG_MSG7            "Ընտրված լեզուն ակտիվ կլինի պատուհանի վերագործարկումից հետո."
+    IDS_DLG_MSG8            "MIDI մուտքագրման սարքը նշանակված է"
+    IDS_DLG_MSG9            "Խնդրում ենք խմբագրել կազմաձևը սկսելուց առաջ:"
+    IDS_DLG_MSG10           "Տեղադրված վիրտուալ MIDI վարորդի տարբերակը."
+    IDS_DLG_MSG11           "Ընտրված կոնֆիգուրացիան չի աջակցում ավտոմատ մեկնարկին:"
+    IDS_DLG_MSG12           "Խնդրում ենք, նախքան մոնիտորը միացնելը, ընտրացանկից միացրեք MIDI կամուրջը՝ զանգահարելով «Սկսել»:"
+    IDS_DLG_MSG13           "Գործարկման ժամանակ կազմաձևման ֆայլը նշվեց՝ «{0}»: Սահմանե՞լ այն որպես կոնֆիգուրացիա հետագա գործարկումների համար:"
+    IDS_DLG_MSG14           "Խմբագրիչը բացելիս նշվել է կազմաձևման ֆայլը՝ «{0}»: Պահե՞լ այն նույն անունով:"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "աուդիո ծավալը (հիմնական)"
+    IDM_COL4_MAP            "ձայնային հավասարակշռություն (հիմնական)"
+    IDM_COL4_MAM            "համր (հիմնական)"
+    IDM_COL4_MAS            "աուդիո սոլո (հիմնական)"
+    IDM_COL4_JOG            "JOG (վիդեո շրջանակի ետադարձ)"
+    IDM_COL4_AV1            "ձայնի ծավալը (ալիք 1)"
+    IDM_COL4_AV2            "ձայնի ծավալը (ալիք 2)"
+    IDM_COL4_AV3            "ձայնի ծավալը (3-րդ ալիք)"
+    IDM_COL4_AV4            "ձայնի ծավալը (ալիք 4)"
+    IDM_COL4_AV5            "ձայնի ծավալը (ալիք 5)"
+    IDM_COL4_AV6            "ձայնի ծավալը (6-րդ ալիք)"
+    IDM_COL4_AV7            "ձայնի ծավալը (7-րդ ալիք)"
+    IDM_COL4_AV8            "ձայնի ծավալը (8-րդ ալիք)"
+    IDM_COL4_XV9            "ձայնի ծավալը (9-րդ ալիք)"
+    IDM_COL4_AP1            "ձայնային հավասարակշռություն (ալիք 1)"
+    IDM_COL4_AP2            "ձայնային հավասարակշռություն (ալիք 2)"
+    IDM_COL4_AP3            "ձայնային հավասարակշռություն (ալիք 3)"
+    IDM_COL4_AP4            "ձայնային հավասարակշռություն (ալիք 4)"
+    IDM_COL4_AP5            "ձայնային հավասարակշռություն (ալիք 5)"
+    IDM_COL4_AP6            "ձայնային հավասարակշռություն (6-րդ ալիք)"
+    IDM_COL4_AP7            "ձայնային հավասարակշռություն (7-րդ ալիք)"
+    IDM_COL4_AP8            "ձայնային հավասարակշռություն (8-րդ ալիք)"
+    IDM_COL4_XP9            "ձայնային հավասարակշռություն (9-րդ ալիք)"
+    IDM_COL4_B11            "աուդիո սոլո (ալիք 1)"
+    IDM_COL4_B12            "աուդիո սոլո (ալիք 2)"
+    IDM_COL4_B13            "աուդիո սոլո (ալիք 3)"
+    IDM_COL4_B14            "աուդիո սոլո (ալիք 4)"
+    IDM_COL4_B15            "աուդիո սոլո (ալիք 5)"
+    IDM_COL4_B16            "աուդիո սոլո (6-րդ ալիք)"
+    IDM_COL4_B17            "աուդիո սոլո (7-րդ ալիք)"
+    IDM_COL4_B18            "աուդիո սոլո (8-րդ ալիք)"
+    IDM_COL4_B19            "աուդիո սոլո (9-րդ ալիք)"
+    IDM_COL4_B21            "խլացնել (ալիք 1)"
+    IDM_COL4_B22            "խլացնել (ալիք 2)"
+    IDM_COL4_B23            "խլացնել (ալիք 3)"
+    IDM_COL4_B24            "խլացնել (ալիք 4)"
+    IDM_COL4_B25            "խլացնել (ալիք 5)"
+    IDM_COL4_B26            "խլացնել (6-րդ ալիք)"
+    IDM_COL4_B27            "խլացնել (7-րդ ալիք)"
+    IDM_COL4_B28            "խլացնել (8-րդ ալիք)"
+    IDM_COL4_B29            "խլացնել (9-րդ ալիք)"
+    IDM_COL4_B31            "ձայնի ընտրություն (ալիք 1)"
+    IDM_COL4_B32            "ձայնի ընտրություն (ալիք 2)"
+    IDM_COL4_B33            "ձայնի ընտրություն (3-րդ ալիք)"
+    IDM_COL4_B34            "ձայնի ընտրություն (ալիք 4)"
+    IDM_COL4_B35            "ձայնի ընտրություն (5-րդ ալիք)"
+    IDM_COL4_B36            "ձայնի ընտրություն (6-րդ ալիք)"
+    IDM_COL4_B37            "ձայնի ընտրություն (7-րդ ալիք)"
+    IDM_COL4_B38            "ձայնի ընտրություն (8-րդ ալիք)"
+    IDM_COL4_B39            "ձայնի ընտրություն (9-րդ ալիք)"
+    IDM_COL4_FUN11          "ֆունկցիա F1 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN12          "ֆունկցիա F2 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN13          "ֆունկցիա F3 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN14          "ֆունկցիա F4 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN15          "ֆունկցիա F5 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN16          "ֆունկցիա F6 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN17          "ֆունկցիա F7 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN18          "ֆունկցիա F8 (ստանդարտ ռեժիմ)"
+    IDM_COL4_FUN21          "F1 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN22          "F2 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN23          "F3 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN24          "F4 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN25          "F5 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN26          "F6 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN27          "F7 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_FUN28          "F8 ֆունկցիա (պահման ռեժիմ)"
+    IDM_COL4_SYS_Rewind     "Վերադարձ (խաղացող)"
+    IDM_COL4_SYS_Forward    "Արագ առաջ (խաղացող)"
+    IDM_COL4_SYS_Stop       "Stop (խաղացող)"
+    IDM_COL4_SYS_Play       "Խաղալ (խաղացող)"
+    IDM_COL4_SYS_Record     "Ձայնագրում (նվագարկիչ)"
+    IDM_COL4_SYS_Up         "Վերև (ջոյսթիկ)"
+    IDM_COL4_SYS_Down       "Ներքև (ջոյսթիկ)"
+    IDM_COL4_SYS_Left       "Ձախ (ջոյստիկ)"
+    IDM_COL4_SYS_Right      "Աջ (ջոյսթիկ)"
+    IDM_COL4_SYS_Zoom       "Աճ"
+    IDM_COL4_SYS_Scrub      "Սկրաբ"
+    IDM_COL4_VOLUMEMIX      "Խառնիչի կառավարում"
+    IDM_COL4_MEDIAKEY       "Մուլտիմեդիա ստեղներ"
+    IDM_COL4_MQTTKEY        "Խելացի տան կառավարում"
+    IDM_COL4_NONE           "գործողությունը սահմանված չէ"
+    IDM_COL4_MQTT_AV1       "մակարդակ 1"
+    IDM_COL4_MQTT_AV2       "մակարդակ 2"
+    IDM_COL4_MQTT_AV3       "մակարդակ 3"
+    IDM_COL4_MQTT_AV4       "մակարդակ 4"
+    IDM_COL4_MQTT_AV5       "մակարդակ 5"
+    IDM_COL4_MQTT_AV6       "մակարդակ 6"
+    IDM_COL4_MQTT_AV7       "մակարդակ 7"
+    IDM_COL4_MQTT_AV8       "մակարդակ 8"
+    IDM_COL4_MQTT_XV9       "մակարդակ 9"
+    IDM_COL4_MQTT_AP1       "մակարդակ 10"
+    IDM_COL4_MQTT_AP2       "մակարդակ 11"
+    IDM_COL4_MQTT_AP3       "մակարդակ 12"
+    IDM_COL4_MQTT_AP4       "մակարդակ 13"
+    IDM_COL4_MQTT_AP5       "մակարդակ 14"
+    IDM_COL4_MQTT_AP6       "մակարդակ 15"
+    IDM_COL4_MQTT_AP7       "մակարդակ 16"
+    IDM_COL4_MQTT_AP8       "մակարդակ 17"
+    IDM_COL4_MQTT_XP9       "մակարդակ 18"
+    IDM_COL4_MQTT_B11       "միացնել/անջատել 1"
+    IDM_COL4_MQTT_B12       "միացնել/անջատել 2"
+    IDM_COL4_MQTT_B13       "միացնել/անջատել 3"
+    IDM_COL4_MQTT_B14       "միացնել/անջատել 4"
+    IDM_COL4_MQTT_B15       "միացնել/անջատել 5"
+    IDM_COL4_MQTT_B16       "միացնել/անջատել 6"
+    IDM_COL4_MQTT_B17       "միացնել/անջատել 7"
+    IDM_COL4_MQTT_B18       "միացնել/անջատել 8"
+    IDM_COL4_MQTT_B19       "միացնել/անջատել 9"
+    IDM_COL4_MQTT_B21       "միացնել/անջատել 10"
+    IDM_COL4_MQTT_B22       "միացնել/անջատել 11"
+    IDM_COL4_MQTT_B23       "միացնել/անջատել 12"
+    IDM_COL4_MQTT_B24       "միացնել/անջատել 13"
+    IDM_COL4_MQTT_B25       "միացնել/անջատել 14"
+    IDM_COL4_MQTT_B26       "միացնել/անջատել 15"
+    IDM_COL4_MQTT_B27       "միացնել/անջատել 16"
+    IDM_COL4_MQTT_B28       "միացնել/անջատել 17"
+    IDM_COL4_MQTT_B29       "միացնել/անջատել 18"
+    IDM_COL4_MQTT_B31       "միացնել/անջատել 19"
+    IDM_COL4_MQTT_B32       "միացնել/անջատել 20"
+    IDM_COL4_MQTT_B33       "միացնել/անջատել 21"
+    IDM_COL4_MQTT_B34       "միացնել/անջատել 22"
+    IDM_COL4_MQTT_B35       "միացնել/անջատել 23"
+    IDM_COL4_MQTT_B36       "միացնել/անջատել 24"
+    IDM_COL4_MQTT_B37       "միացնել/անջատել 25"
+    IDM_COL4_MQTT_B38       "միացնել/անջատել 26"
+    IDM_COL4_MQTT_B39       "միացնել/անջատել 27"
+    IDM_COL4_MQTT_NONE      "Նշանակված չէ"
+    IDM_MQTT_LOG_NONE       "մատյան չի պահվում"
+    IDM_MQTT_LOG_INFO       "տեղեկատվություն"
+    IDM_MQTT_LOG_NOTICE     "ծանուցումներ"
+    IDM_MQTT_LOG_WARNING    "նախազգուշացումներ"
+    IDM_MQTT_LOG_ERR        "միայն սխալներ"
+    IDM_MQTT_LOG_DEBUG      "բոլոր հաղորդագրությունները"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Այս սխալը սահմանված չէ"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Գրելու մուտքը դեպի կազմաձևման ֆայլ արգելված է, «{0}»"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Կազմաձևման ֆայլը բացակայում է կամ մուտքն արգելված է, «{0}»"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Կազմաձևման ֆայլը դատարկ է, «{0}»"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI սարքի անունը կազմաձևում սահմանված չէ:"
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "Այս կազմաձևում MIDI ստեղներ կազմաձևված չկան:"
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Ուշադրություն, այս կազմաձևում MIDI ստեղներ կազմաձևված չեն: գրավոր կոնֆիգուրացիան չի աշխատի:"
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize սկզբնավորումը ձախողվեց:"
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - Չհաջողվեց ակնարկել:"
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Չհաջողվեց ստանալ կանխադրված աուդիո սարքը:"
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager-ը խափանվել է:"
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Ձայնի պիկ հաշվիչը հասանելի չէ:"
+    IDS_ERRORID_MIXER_STARTOK
+                            "Audio Session Mixer-ը աշխատում է, կան {0} գործարկվող ծրագրեր, որոնք հասանելի են գործարկման պահին ճնշելու համար:"
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Չհաջողվեց գործարկել Audio Session Mixer-ը, սխալի մանրամասները պետք է լինեն գրանցամատյանում:"
+    IDS_ERRORID_MIXER_STOPOK
+                            "Աուդիո նիստերի խառնիչը դադարեցվել է:"
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Audio Session Mixer-ը պատշաճ կերպով չի դադարեցվել, սխալի մանրամասները պետք է լինեն գրանցամատյանում:"
+    IDS_ERRORID_NO_INIT     "Նախաձեռնեք նախքան սա զանգահարելը.."
+    IDS_ERRORID_SESSION_LIST
+                            "Չհաջողվեց ստանալ աուդիո նիստերի ցանկը:"
+    IDS_ERRORID_LISTISNULL  "Աուդիո նիստերի ցանկը դատարկ է:"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Անջատում աուդիո սեսիան, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Ստեղծվել է աուդիո նիստ, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Ձայնային նստաշրջան «{0}» - գրանցման անվավեր վիճակ «{1}»՝ {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Հետկանչից սահմանված արժեքը անվավեր ընտրիչ է:"
+    IDS_ERRORID_SET_CB_WARNING
+                            "Հետ կանչի կարգավորումը հնարավոր է միայն MIDI կամրջի հաջող մեկնարկից հետո:"
+    IDS_ERRORID_CONFIG_FAIL "Կազմաձևի բեռնումը ձախողվեց, ֆայլը չի ​​գտնվել, հնարավոր չէ սկսել:"
+    IDS_ERRORID_CONFIG_LOAD "Կազմաձևը բեռնված է.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Կազմաձևն արդեն բեռնված է.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Կազմաձևը դատարկ է:"
+    IDS_ERRORID_CONFIG_NEW  "Հայտնաբերվել է կազմաձևման նոր տարբերակ..."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Կոդում չաջակցվող իրականացում, մեթոդը չվերագրված է՝ {0}"
+    IDS_ERRORID_NOT_CONFIG  "Կազմաձևման անուն նշված չէ, չի կարող շարունակվել:"
+    IDS_ERRORID_NOT_DEVICES "Միացված սարքեր չկան, հնարավոր չէ շարունակել:"
+    IDS_ERRORID_COUNT_DEVICES
+                            "Ուշադրություն, վերջնական ցանկում սարքերի քանակի անհամապատասխանություն, համակարգ/ցուցակ = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Հնարավոր չէ բացել MIDI սարքը, չի կարող շարունակվել, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Չհաջողվեց գործարկել MIDI սարքը, չի կարող շարունակվել, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Սարքը միացված չէ, ընդհատել, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Գտնվել է {0} սարքը, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Սարքը {0} բաց է, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Սարքը {0} փակ է (համակարգ)"
+    IDS_ERRORID_DEVICE_DONE "Սարքը {0} պատրաստ է (համակարգ)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Ակտիվ սարքի անունը սահմանված չէ, չի կարող շարունակվել, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Պրոքսիի նավահանգիստները կազմաձևման մեջ սահմանված չեն, MIDI վստահված անձը անջատված է:"
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Վարորդի տարբերակը [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Խնդիր վարորդի տարբերակի հետ [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Սարքը {0} ուղարկեց անվավեր արժեք = {1}"
+    IDS_ERRORID_MMKEY_START "Գործում է մուլտիմեդիա բանալիների կառավարման ծառայությունը:"
+    IDS_ERRORID_MMKEY_STOP  "Լրատվամիջոցների բանալիների կառավարման ծառայությունը դադարեցրել է աշխատանքը։"
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT կոնֆիգուրացիան դատարկ է, չի կարող շարունակվել:"
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "MQTT հաճախորդ ստեղծելու սխալ առաջացավ, չեղարկվեց:"
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT հաճախորդը հաջողությամբ ստեղծվեց, շարունակեք:"
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Միացված է MQTT սերվերին."
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Չհաջողվեց միանալ MQTT սերվերին."
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Անջատված է MQTT սերվերից."
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA վկայագրի ֆայլը գոյություն չունի, ուղի = '{0}'"
+    IDS_ERRORID_MQTT_START  "Խելացի տան կառավարման ծառայությունը գործում է:"
+    IDS_ERRORID_MQTT_STOP   "Smart Home-ի կառավարման ծառայությունը դադարեցվել է։"
+    IDS_ERRORID_PANEL_INDEX "Աուդիո խառնիչի վահանակ - չի կարող շարունակվել, ինդեքսի գրառումները սխալ են:"
+    IDS_ERRORID_PANEL_INIT  "Աուդիո խառնիչի վահանակ - հնարավոր չէ շարունակել, սկզբնավորման սխալ:"
+    IDS_ERRORID_PANEL_ENABLE
+                            "Աուդիո խառնիչի վահանակի պատուհանը չի համապատասխանում կարգավիճակին, հնարավոր չէ շարունակել հաջորդ գործողությունը:"
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Աուդիո խառնիչի վահանակը չի կանչվում միջերեսի շղթայի վրա և հնարավոր չէ փոփոխություններ կատարել:"
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Աուդիո խառնիչի վահանակը անվավեր տարր է հայտնաբերել, և վահանակի պատուհանի ստեղծումը ընդհատվել է:"
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

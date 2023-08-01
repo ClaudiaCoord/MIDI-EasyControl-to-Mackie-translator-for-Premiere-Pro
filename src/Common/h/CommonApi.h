@@ -35,10 +35,14 @@
 #include <thread>
 #include <forward_list>
 #include <utility>
+#include <format>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include <atlbase.h>
 #include <atlstr.h>
+
+#include <objidl.h>
+#include <gdiplus.h>
 
 typedef std::function<void(const std::wstring&)> logFnType;
 

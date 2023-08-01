@@ -54,6 +54,7 @@ namespace Common {
 
 		registry Registry;
 		common_config_local Local;
+		json_recent RecentConfig;
 		ui_themes UiThemes;
 
 		common_config();

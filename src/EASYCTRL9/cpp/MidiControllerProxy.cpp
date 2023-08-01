@@ -15,13 +15,6 @@
 namespace Common {
 	namespace MIDI {
 
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view strError0 = L"["sv;
-		constexpr std::wstring_view strError1 = L"configuration name not specified, abort"sv;
-		constexpr std::wstring_view strError2 = L"not proxy ports in configuration, abort"sv;
-		constexpr std::wstring_view strError3 = L"] not connected, abort!"sv;
-
 		static MidiControllerProxy ctrl_midicontrollerproxy__;
 
 		MidiControllerProxy::MidiControllerProxy() {
@@ -39,10 +32,10 @@ namespace Common {
 			if (isenable__) Dispose();
 
 			if ((!cnf) || (cnf.get()->name.empty()))
-				throw runtime_werror(log_string() << LogTag << strError1);
+				throw_common_error(common_error_id::err_NOT_CONFIG);
 
 			if (cnf.get()->proxy == 0U)
-				throw runtime_werror(log_string() << LogTag << strError2);
+				throw_common_error(common_error_id::err_NOT_CONFIG_PROXY);
 			
 			(void) ::GetLastError();
 			vmdev_ptr__.clear();
@@ -54,7 +47,11 @@ namespace Common {
 					std::wstring dev = Utils::device_out_name(cnf.get()->name, MidiHelper::GetSuffixProxyOut() + std::to_wstring(i + 1));
 					std::shared_ptr<MidiControllerVirtual> vmidi = std::make_unique<MidiControllerVirtual>(dev);
 					if (!vmidi.get()->Start()) {
-						Common::to_log::Get() << (log_string() << LogTag << strError0 << dev.c_str() << strError3);
+						to_log::Get() << log_string().to_log_fomat(
+							__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_DEVICE_NOT_CONNECT),
+							dev, i
+						);
 						continue;
 					}
 					if (vmidi.get()->IsEnable()) {

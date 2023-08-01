@@ -26,17 +26,25 @@
 #include <windowsx.h>
 #include <shellapi.h>
 #include <commctrl.h>
+#include <Shlobj.h>
+#include <Shlobj_core.h>
+#include <objbase.h>
+#include <initguid.h>
+#include <uiribbon.h>
+#include <uiribbonpropertyhelpers.h>
 
 #include <queue>
 
 #include "ext\lodepng.h"
 #include "handle_ptr.h"
 #include "CbEvent.h"
+#include "CheckRun.h"
 #include "LangInterface.h"
 #include "GuiUtils.h"
 #include "ListEdit.h"
 #include "TrayMenu.h"
 #include "TrayNotify.h"
+#include "RToolBarBase.h"
 
 #include "mixer\Sprite.h"
 #include "mixer\Sprites.h"
@@ -46,6 +54,7 @@
 
 #include "DialogStart.h"
 #include "DialogMonitor.h"
+#include "RToolBarDialogConfig.h"
 #include "DialogConfig.h"
 #include "DialogAbout.h"
 

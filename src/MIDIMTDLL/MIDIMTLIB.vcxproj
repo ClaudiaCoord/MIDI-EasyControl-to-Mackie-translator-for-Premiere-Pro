@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -44,6 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -106,11 +108,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,11 +134,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,11 +157,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,12 +180,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DebugInformationFormat>None</DebugInformationFormat>
       <OmitFramePointers>false</OmitFramePointers>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -193,24 +199,27 @@
   <ItemGroup>
     <ClInclude Include="..\Common\h\CommonApi.h" />
     <ClInclude Include="..\Common\h\common_config.h" />
+    <ClInclude Include="..\Common\h\common_error.h" />
+    <ClInclude Include="..\Common\h\common_error_id.h" />
+    <ClInclude Include="..\Common\h\common_error_string.h" />
     <ClInclude Include="..\Common\h\common_event.h" />
     <ClInclude Include="..\Common\h\common_utils.h" />
     <ClInclude Include="..\Common\h\handle_ptr.h" />
     <ClInclude Include="..\Common\h\locker_auto.h" />
     <ClInclude Include="..\Common\h\locker_awaiter.h" />
     <ClInclude Include="..\Common\h\log_string.h" />
+    <ClInclude Include="..\Common\h\json_recent.h" />
     <ClInclude Include="..\Common\h\midi\Midi.h" />
     <ClInclude Include="..\Common\h\midi\MidiHelper.h" />
     <ClInclude Include="..\Common\h\midi\MidiInstance.h" />
-    <ClInclude Include="..\Common\h\midi\JsonConfig.h" />
+    <ClInclude Include="..\Common\h\midi\json_config.h" />
     <ClInclude Include="..\Common\h\midi\Mackie.h" />
     <ClInclude Include="..\Common\h\midi\MackieHelper.h" />
     <ClInclude Include="..\Common\h\midi\MidiData.h" />
     <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h" />
     <ClInclude Include="..\Common\h\registry.h" />
-    <ClInclude Include="..\Common\h\runtime_werror.h" />
     <ClInclude Include="..\Common\h\seh_exception.h" />
-    <ClInclude Include="..\Common\h\Timer.h" />
+    <ClInclude Include="..\Common\h\common_timer.h" />
     <ClInclude Include="..\Common\h\tiny_json.h" />
     <ClInclude Include="..\Common\h\ui_themes.h" />
     <ClInclude Include="..\Common\h\worker_background.h" />
@@ -221,11 +230,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\common_config.cpp" />
+    <ClCompile Include="cpp\common_error.cpp" />
     <ClCompile Include="cpp\common_utils.cpp" />
     <ClCompile Include="cpp\locker_auto.cpp" />
     <ClCompile Include="cpp\locker_awaiter.cpp" />
     <ClCompile Include="cpp\log_string.cpp" />
-    <ClCompile Include="cpp\midi\JsonConfig.cpp" />
+    <ClCompile Include="cpp\json_recent.cpp" />
+    <ClCompile Include="cpp\midi\json_config.cpp" />
     <ClCompile Include="cpp\midi\Mackie.cpp" />
     <ClCompile Include="cpp\midi\MackieHelper.cpp" />
     <ClCompile Include="cpp\midi\MidiData.cpp" />
@@ -233,9 +244,8 @@
     <ClCompile Include="cpp\midi\MidiInstance.cpp" />
     <ClCompile Include="cpp\mqtt\BrokerConfig.cpp" />
     <ClCompile Include="cpp\registry.cpp" />
-    <ClCompile Include="cpp\runtime_werror.cpp" />
     <ClCompile Include="cpp\seh_exception.cpp" />
-    <ClCompile Include="cpp\Timer.cpp" />
+    <ClCompile Include="cpp\common_timer.cpp" />
     <ClCompile Include="cpp\dllmain.cpp" />
     <ClCompile Include="cpp\tiny_json.cpp" />
     <ClCompile Include="cpp\ui_themes.cpp" />
@@ -246,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
