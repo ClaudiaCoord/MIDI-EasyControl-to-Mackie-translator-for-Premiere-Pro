@@ -3,8 +3,8 @@
 [![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)
 [![GitHub release](https://img.shields.io/github/release/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro.svg)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/)
 [![GitHub code size](https://img.shields.io/github/languages/code-size/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro)
-[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.3.1/MIDIMT_x64.msi)
-[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.3.1/MIDIMT_x86.msi)
+[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.5.3/MIDIMT_x64.msi)
+[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.5.3/MIDIMT_x86.msi)
 
 # MIDI EasyControl 9 - MIDI-MT is High Level Application Driver for USB MIDI Control Surface
 

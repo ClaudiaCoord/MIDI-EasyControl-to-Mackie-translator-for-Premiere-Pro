@@ -62,7 +62,7 @@ namespace Common {
 					log << " (" << Utils::to_string(s) << L")";
 				if (flag != -1)
 					log << L" [" << flag << L"]";
-				to_log::Get() << log.str();
+				to_log::Get() << log.str() << L" ";
 			} catch (...) {}
 		}
 		static void on_connect__(mosquitto*, void* u, int rc, int flag, const mosquitto_property*) {
@@ -385,7 +385,7 @@ namespace Common {
 					else if (err == MOSQ_ERR_SUCCESS) {}
 					else break;
 
-					if ((err = ::mosquitto_publish_v5(mosq, &ids, topic.c_str(), v.size(), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
+					if ((err = ::mosquitto_publish_v5(mosq, &ids, topic.c_str(), static_cast<int>(v.size()), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
 					(void) ::mosquitto_loop_write(mosq, 1);
 
 				} while (0);

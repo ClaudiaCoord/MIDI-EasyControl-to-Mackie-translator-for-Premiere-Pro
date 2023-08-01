@@ -14,6 +14,25 @@
 
 namespace Common {
 
+	class FLAG_EXPORT ui_theme_peak_meter {
+	private:
+		Gdiplus::Rect r;
+		Gdiplus::Color fore;
+		Gdiplus::Color back;
+		float sangle, vangle;
+	public:
+		ui_theme_peak_meter();
+		ui_theme_peak_meter(int32_t, int32_t, int32_t, int32_t, float, float, Gdiplus::Color, Gdiplus::Color);
+
+		void	Set(int32_t, int32_t, int32_t, int32_t, float, float, Gdiplus::Color, Gdiplus::Color);
+		Gdiplus::Rect  GetRect() const;
+		Gdiplus::Color GetForegroundColor();
+		Gdiplus::Color GetBackgroundColor();
+		float	GetStartAngle() const;
+		float	GetEndAngle() const;
+		float	GetVolumeAngle(float&);
+	};
+
 	class FLAG_EXPORT ui_theme
 	{
 	private:
@@ -25,8 +44,13 @@ namespace Common {
 		COLORREF PanelBorder;
 		COLORREF Text;
 
+		Gdiplus::Color GetBackgroundGdi();
+		Gdiplus::Color GetBorderGdi();
+		Gdiplus::Color GetTextGdi();
 		HBRUSH GetBackgroundBrush();
 		HBRUSH GetBorderBrush();
+
+		ui_theme_peak_meter PeakMeter{};
 
 		ui_theme();
 		~ui_theme();
@@ -77,6 +101,7 @@ namespace Common {
 
 		void SetTheme(ThemeId);
 		void SetCustomThemeId(ThemeId);
+		void SetCustomThemePeakMeter(ThemeId);
 		void SetCustomThemeColorText(COLORREF);
 		void SetCustomThemeColorBackground(COLORREF);
 		void SetCustomThemeColorBorder(COLORREF);

@@ -15,9 +15,6 @@
 #define FLAG_EXPORT __declspec(dllexport)
 
 #pragma warning( push )
-#pragma warning( disable : 4251 )
-
-#pragma warning( push )
 #pragma warning( disable : 4275 )
 #include "runtime_werror.h"
 #pragma warning( pop )
@@ -47,6 +44,4 @@ class common_event;
 #include "ui_themes.h"
 #include "registry.h"
 #include "common_config.h"
-
-#pragma warning( pop )
 

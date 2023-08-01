@@ -16,125 +16,234 @@ namespace Common {
 	namespace MIXER {
 
 		using namespace std::placeholders;
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view strStart1Ok = L": Mixer audio sessions started, at the time of start, there are "sv;
-		constexpr std::wstring_view strStart2Ok = L" running programs available for regulation."sv;
-		constexpr std::wstring_view strStopOk = L": The audio sessions Mixer is gracefully stopped."sv;
-		constexpr std::wstring_view strStopError = L": The audio sessions mixer could not be stopped correctly, the details of the error should be in the log file."sv;
-		constexpr std::wstring_view strStartError = L": The audio sessions mixer could not be started, error details should be in the log file."sv;
 
 		AudioSessionMixer AudioSessionMixer::audiosessionmixer__;
 		const double AudioSessionMixer::GetVolumeDevider = KEY_DEVIDER;
+		AudioSessionItemTitle AudioSessionMixer::MasterControl(L"master");
 
 		/* template */
 
 		template <typename T1>
-		void					setValueFromAudioAction_(AudioAction t, T1 dev, AudioSessionItem*& item, float& v, bool m) {
-			switch (t) {
-			case AudioAction::AUDIO_VOLUME:
-			case AudioAction::AUDIO_VOLUME_INCREMENT: {
-
-				if (t == AudioAction::AUDIO_VOLUME_INCREMENT)
-					(void)item->Volume.IncrementVolume(m);
-				else
-					item->Volume.SetVolume(v);
-
-				if constexpr (std::is_same_v<T1, ISimpleAudioVolume*>)
-					dev->SetMasterVolume(item->Volume.GetVolume(), static_cast<LPCGUID>(&item->Guid));
-				else if constexpr (std::is_same_v<T1, IAudioEndpointVolume*>)
-					dev->SetMasterVolumeLevelScalar(item->Volume.GetVolume(), static_cast<LPCGUID>(&item->Guid));
-				break;
-			}
-			case AudioAction::AUDIO_MUTE: {
-				item->Volume.SetMute(m);
-				dev->SetMute(item->Volume.GetMute(), static_cast<LPCGUID>(&item->Guid));
-				break;
-			}
-			case AudioAction::AUDIO_NONE:
-			default: break;
+		void					setValueFromAudioAction_(T1 dev, AudioSessionItemValue& iv, LPCGUID guid) {
+			switch (iv.get<OnChangeType>()) {
+				case OnChangeType::OnChangeUpdatePan:
+				case OnChangeType::OnChangeUpdateVolume: {
+					if constexpr (std::is_same_v<T1, ISimpleAudioVolume*>)
+						dev->SetMasterVolume(iv.get<float>(), guid);
+					else if constexpr (std::is_same_v<T1, IAudioEndpointVolume*>)
+						dev->SetMasterVolumeLevelScalar(iv.get<float>(), guid);
+					break;
+				}
+				case OnChangeType::OnChangeUpdateMute: {
+					dev->SetMute(iv.get<bool>(), guid);
+					break;
+				}
+				default: break;
 			}
 		}
-		template <typename T1>
-		std::tuple<float, bool> getValueFromAudioAction_(AudioAction t, T1 dev, AudioSessionItem*& item) {
-			switch (t) {
-			case AudioAction::AUDIO_VOLUME: {
-				float v = 0.0f;
-				if constexpr (std::is_same_v<T1, ISimpleAudioVolume*>)
-					if (dev->GetMasterVolume(&v) != S_OK) break;
-					else if constexpr (std::is_same_v<T1, IAudioEndpointVolume*>)
-						if (dev->GetMasterVolumeLevelScalar(&v) != S_OK) break;
 
-				item->Volume.SetVolume(v);
-				return std::tuple<float, bool>(v, false);
-			}
-			case AudioAction::AUDIO_MUTE: {
-				BOOL b;
-				if (dev->GetMute(&b) != S_OK) break;
-				item->Volume.SetMute(b);
-				return std::tuple<float, bool>(0.0f, b);
-			}
-			case AudioAction::AUDIO_NONE:
-			default: break;
+		template <typename T1>
+		std::tuple<float, bool> getValueFromAudioAction_(AudioAction t, T1 dev, AudioSessionItemValue& iv) {
+			switch (t) {
+				case AudioAction::AUDIO_VOLUME: {
+					float v = 0.0f;
+					if constexpr (std::is_same_v<T1, ISimpleAudioVolume*>) {
+						if (dev->GetMasterVolume(&v) != S_OK) break;
+					}
+					else if constexpr (std::is_same_v<T1, IAudioEndpointVolume*>) {
+						if (dev->GetMasterVolumeLevelScalar(&v) != S_OK) break;
+					}
+					iv.set(v);
+					return std::tuple<float, bool>(v, false);
+				}
+				case AudioAction::AUDIO_MUTE: {
+					BOOL b;
+					if (dev->GetMute(&b) != S_OK) break;
+					iv.set(b);
+					return std::tuple<float, bool>(0.0f, b);
+				}
+				default: break;
 			}
 			return std::tuple<float, bool>();
 		}
-		template<typename T1>
-		void					setValueFromCallBack_(T1& m, AudioSessionItem* item, AudioAction act) {
-			float v = 0.0f;
+
+		template <typename T1, typename T2>
+		void					setValueSelector_(AudioSessionItem* item, T1 type, T2 v, bool m) {
 			CComPtr<ISimpleAudioVolume> ptrav;
 
 			try {
-				[[maybe_unused]] OnChangeType typechange;
-
-				switch (m.type) {
-					case Common::MIDI::MidiUnitType::KNOB:
-					case Common::MIDI::MidiUnitType::FADER:
-					case Common::MIDI::MidiUnitType::SLIDER:
-					case Common::MIDI::MidiUnitType::KNOBINVERT:
-					case Common::MIDI::MidiUnitType::FADERINVERT:
-					case Common::MIDI::MidiUnitType::SLIDERINVERT: {
-						if ((act != AudioAction::AUDIO_VOLUME) && (act != AudioAction::AUDIO_PANORAMA)) return;
-						v = static_cast<float>(m.value.value * KEY_DEVIDER);
-						typechange = OnChangeType::OnChangeUpdateVolume;
-						break;
+				if (item == nullptr) return;
+				if constexpr (std::is_same_v<T1, MIDI::MidiUnitType>) {
+					switch (AudioSessionItemId::normalize_type(type)) {
+						case MIDI::MidiUnitType::SLIDER: {
+							if (item->Item.Volume.get<uint8_t>() == v) return;
+							item->Item.Volume.set(v);
+							break;
+						}
+						case MIDI::MidiUnitType::BTN: {
+							if (item->Item.Volume.get<bool>() == m) return;
+							item->Item.Volume.set(m);
+							break;
+						}
+						default: return;
 					}
-					case Common::MIDI::MidiUnitType::BTN:
-					case Common::MIDI::MidiUnitType::BTNTOGGLE: {
-						if (act != AudioAction::AUDIO_MUTE) return;
-						typechange = OnChangeType::OnChangeUpdateMute;
-						break;
-					}
-					default: return;
 				}
-				switch (item->GetType()) {
+				else if constexpr (std::is_same_v<T1, AudioAction>) {
+					switch (type) {
+						case AudioAction::AUDIO_VOLUME: {
+							if (item->Item.Volume.get<T2>() == v) return;
+							item->Item.Volume.set<T2>(v);
+							break;
+						}
+						case AudioAction::AUDIO_MUTE: {
+							if (item->Item.Volume.get<bool>() == m) return;
+							item->Item.Volume.set<bool>(m);
+							break;
+						}
+						case AudioAction::AUDIO_VOLUME_INCREMENT: {
+							uint8_t val = item->Item.Volume.get<uint8_t>();
+							val = m ? (val + 10) : ((val < 10) ? 0 : (val - 10));
+							val = (val > 127) ? 127 : val;
+							item->Item.Volume.set<uint8_t>(val);
+							break;
+						}
+						default: return;
+					}
+				}
+				else {
+					throw runtime_werror(L"setValueFromCallBack_: bad selector");
+				}
+				switch (item->Item.GetType()) {
 					case TypeItems::TypeSession: {
 						if (!item->IsValidSession()) break;
 						if (item->GetSession()->QueryInterface(__uuidof(ISimpleAudioVolume), (void**)&ptrav) != S_OK) break;
-						setValueFromAudioAction_(act, ptrav.p, item, v, m.value.lvalue);
+						setValueFromAudioAction_<ISimpleAudioVolume*>(ptrav.p, item->Item.Volume, static_cast<LPCGUID>(&item->Item.App.Guid));
 						break;
 					}
 					case TypeItems::TypeMaster: {
 						if (!item->IsValidEndpointVolume()) return;
-						setValueFromAudioAction_(act, item->GetEndpointVolume(), item, v, m.value.lvalue);
+						setValueFromAudioAction_<IAudioEndpointVolume*>(item->GetEndpointVolume(), item->Item.Volume, static_cast<LPCGUID>(&item->Item.App.Guid));
 						break;
 					}
 				}
-				#if defined(MIXER_EVENT_EXTENDED)
-				AudioSessionMixer::Get().event_send(item->GetSessionItemChange(typechange));
-				#endif
-
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 			if (ptrav) ptrav.Release();
 		}
+
+		template<typename T1, typename T2>
+		void AudioSessionMixer::SetToAudioSession(AudioAction t, VolumeKeyType kt, const T1 key, T2 v, bool m) {
+			try {
+				if (!isinit__ || !asList || asList->IsEmpty() || t == AudioAction::AUDIO_NONE) return;
+
+				std::vector<AudioSessionItem*> items{};
+
+				switch (kt) {
+					case VolumeKeyType::MIDI_ID_KEY:
+						if constexpr (std::is_same_v<T1, uint32_t>)
+							items = asList->GetByMidiId(key);
+						break;
+					case VolumeKeyType::APP_ID_KEY:
+						if constexpr (std::is_same_v<T1, uint32_t>)
+							items = asList->GetByAppId(key);
+						break;
+					case VolumeKeyType::APP_NAME_KEY:
+						if constexpr (std::is_same_v<T1, std::wstring>)
+							items = asList->GetByAppName(key);
+						break;
+					case VolumeKeyType::GUID_ID_KEY:
+						if constexpr (std::is_same_v<T1, GUID>) {
+							AudioSessionItem* item = asList->GetByGuid(key);
+							if (item == nullptr) break;
+							items.push_back(item);
+						}
+						break;
+					default: break;
+				}
+				if (items.empty()) return;
+				for (auto& a : items)
+					setValueSelector_(a, t, v, m);
+
+			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
+		}
+		template void AudioSessionMixer::SetToAudioSession<GUID, float>(AudioAction, VolumeKeyType, const GUID, float, bool);
+		template void AudioSessionMixer::SetToAudioSession<GUID, uint8_t>(AudioAction, VolumeKeyType, const GUID, uint8_t, bool);
+		template void AudioSessionMixer::SetToAudioSession<uint32_t, float>(AudioAction, VolumeKeyType, const uint32_t, float, bool);
+		template void AudioSessionMixer::SetToAudioSession<uint32_t, uint8_t>(AudioAction, VolumeKeyType, const uint32_t, uint8_t, bool);
+		template void AudioSessionMixer::SetToAudioSession<std::size_t, float>(AudioAction, VolumeKeyType, const std::size_t, float, bool);
+		template void AudioSessionMixer::SetToAudioSession<std::size_t, uint8_t>(AudioAction, VolumeKeyType, const std::size_t, uint8_t, bool);
+		template void AudioSessionMixer::SetToAudioSession<std::wstring, float>(AudioAction, VolumeKeyType, const std::wstring, float, bool);
+		template void AudioSessionMixer::SetToAudioSession<std::wstring, uint8_t>(AudioAction, VolumeKeyType, const std::wstring, uint8_t, bool);
+
+		template<typename T1>
+		std::tuple<float, bool> AudioSessionMixer::GetFromAudioSession(AudioAction t, VolumeKeyType kt, const T1 key) {
+			std::tuple<float, bool> tp{};
+			do {
+				if (!isinit__ || !asList || asList->IsEmpty() || t == AudioAction::AUDIO_NONE) break;
+
+				CComPtr<ISimpleAudioVolume> ptrav;
+
+				try {
+					std::vector<AudioSessionItem*> items{};
+					switch (kt) {
+						case VolumeKeyType::MIDI_ID_KEY:
+							if constexpr (std::is_same_v<T1, uint32_t>)
+								items = asList->GetByMidiId(key);
+							break;
+						case VolumeKeyType::APP_ID_KEY:
+							if constexpr (std::is_same_v<T1, uint32_t>)
+								items = asList->GetByAppId(key);
+							break;
+						case VolumeKeyType::APP_NAME_KEY:
+							if constexpr (std::is_same_v<T1, std::wstring>)
+								items = asList->GetByAppName(key);
+							break;
+						case VolumeKeyType::GUID_ID_KEY:
+							if constexpr (std::is_same_v<T1, GUID>) {
+								AudioSessionItem* i = asList->GetByGuid(key);
+								if (i == nullptr) break;
+								items.push_back(i);
+							}
+							break;
+						default: return tp;
+					}
+					if (items.empty() || (items[0] == nullptr)) break;
+					AudioSessionItem* item = items[0];
+
+					if (isfastvalue__)
+						return std::make_tuple(item->Item.Volume.get<float>(), item->Item.Volume.get<bool>());
+
+					switch (item->Item.GetType()) {
+						case TypeItems::TypeSession: {
+							if (!item->IsValidSession()) return tp;
+							if (item->GetSession()->QueryInterface(__uuidof(ISimpleAudioVolume), (void**)&ptrav) != S_OK) break;
+							tp = getValueFromAudioAction_<ISimpleAudioVolume*>(t, ptrav.p, item->Item.Volume);
+							break;
+						};
+						case TypeItems::TypeMaster: {
+							if (!item->IsValidEndpointVolume()) return tp;
+							return getValueFromAudioAction_<IAudioEndpointVolume*>(t, item->GetEndpointVolume(), item->Item.Volume);
+						}
+						default: return tp;
+					}
+				} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
+
+				if (ptrav) ptrav.Release();
+
+			} while (0);
+			return tp;
+		}
+		template std::tuple<float, bool> AudioSessionMixer::GetFromAudioSession<GUID>(AudioAction, VolumeKeyType, const GUID);
+		template std::tuple<float, bool> AudioSessionMixer::GetFromAudioSession<uint32_t>(AudioAction, VolumeKeyType, const uint32_t);
+		template std::tuple<float, bool> AudioSessionMixer::GetFromAudioSession<std::size_t>(AudioAction, VolumeKeyType, const std::size_t);
+		template std::tuple<float, bool> AudioSessionMixer::GetFromAudioSession<std::wstring>(AudioAction, VolumeKeyType, const std::wstring);
 
 		/* class */
 
 		AudioSessionMixer::AudioSessionMixer() : cbid__(0U) {
 			cpid__ = GetCurrentProcessId();
-			type__ = Common::MIDI::ClassTypes::ClassMixer;
-			out1__ = [](Common::MIDI::Mackie::MIDIDATA&, DWORD&) { return false; };
-			out2__ = std::bind(static_cast<const bool(AudioSessionMixer::*)(Common::MIDI::MidiUnit&, DWORD&)>(&AudioSessionMixer::InCallBack), this, _1, _2);
+			type__ = MIDI::ClassTypes::ClassMixer;
+			out1__ = [](MIDI::Mackie::MIDIDATA&, DWORD&) { return false; };
+			out2__ = std::bind(static_cast<const bool(AudioSessionMixer::*)(MIDI::MidiUnit&, DWORD&)>(&AudioSessionMixer::InCallBack), this, _1, _2);
 			cb_pid_by_name__ = std::bind(static_cast<uint32_t(AudioSessionMixer::*)(std::wstring&)>(&AudioSessionMixer::InternalCallItemPidByName), this, _1);
 			id__   = Utils::random_hash(this);
 		}
@@ -144,6 +253,17 @@ namespace Common {
 		}
 		callPidByName AudioSessionMixer::GetCbItemPidByName() {
 			return cb_pid_by_name__;
+		}
+		const bool AudioSessionMixer::GetMasterVolumePeak(float* f) {
+			try {
+				do {
+					if (!isinit__ || !ptrAVM) break;
+					if (ptrAVM->GetPeakValue(f) != S_OK) break;
+					return true;
+				} while (0);
+			} catch (...) {}
+			*f = 0.0f;
+			return false;
 		}
 
 		void AudioSessionMixer::init(bool iscoinitialize) {
@@ -157,7 +277,7 @@ namespace Common {
 				release();
 
 				if (iscoinitialize__) {
-					if (::CoInitializeEx(NULL, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) != S_OK)
+					if (::CoInitializeEx(0, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) != S_OK)
 						throw new runtime_werror(
 							AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_INIT_COINITIALIZE)
 						);
@@ -170,18 +290,24 @@ namespace Common {
 					throw new runtime_werror(
 						AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_INIT_DEFAULT_AE)
 					);
-				if (pDevice->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL, NULL, (VOID**)&ptrASM2) != S_OK)
+				if (pDevice->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL, 0, (VOID**)&ptrASM2) != S_OK)
 					throw new runtime_werror(
 						AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_INIT_AS_MANAGER2)
 					);
+				if (pDevice->Activate(__uuidof(IAudioMeterInformation), CLSCTX_ALL, 0, (VOID**)&ptrAVM) != S_OK)
+					throw new runtime_werror(
+						AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_INIT_AS_AUDIOMETER)
+					);
 
-				issetaudioleveloldvalue__ = common_config::Get().Registry.GetMixerSetOldLevelValue();
 				isfastvalue__ = common_config::Get().Registry.GetMixerFastValue();
+				isduplicateappremoved__ = common_config::Get().Registry.GetMixerDupAppRemove();
+				issetaudioleveloldvalue__ = common_config::Get().Registry.GetMixerSetOldLevelValue();
 
 				asList.reset(new AudioSessionList(
 					cpid__,
+					isduplicateappremoved__,
 					issetaudioleveloldvalue__,
-					std::bind(static_cast<void(AudioSessionMixer::*)(Common::MIDI::MixerUnit&, AudioSessionItem*&)>(&AudioSessionMixer::InternalCallBack), this, _1, _2)
+					std::bind(static_cast<void(AudioSessionMixer::*)(AudioSessionUnit&, AudioSessionItem*&)>(&AudioSessionMixer::InternalCallBack), this, _1, _2)
 				));
 				asCbNotify.reset(new AudioSessionEventsNotify(
 					[&](IAudioSessionControl*& p) { return AudioSessionItemBuilder(p); }
@@ -192,14 +318,14 @@ namespace Common {
 				ptrASM2->RegisterSessionNotification(asCbNotify.get());
 				int cnt = getSessionList();
 
-				cbid__ = Common::common_config::Get().add(std::bind(
-					static_cast<void(AudioSessionMixer::*)(std::shared_ptr<Common::MIDI::MidiDevice>&)>(&AudioSessionMixer::SetControlUnits), this, _1));
-				Common::common_config::Get().Local.IsAudioMixerRun(true);
-				Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStart1Ok << cnt << strStart2Ok);
+				cbid__ = common_config::Get().add(std::bind(
+					static_cast<void(AudioSessionMixer::*)(std::shared_ptr<MIDI::MidiDevice>&)>(&AudioSessionMixer::SetControlUnits), this, _1));
+				common_config::Get().Local.IsAudioMixerRun(true);
+				to_log::Get() << (log_string() << __FUNCTIONW__ << AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_MIXER_START1OK) << cnt << AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_MIXER_START2OK));
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-				Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStartError);
+				to_log::Get() << (log_string() << __FUNCTIONW__ << AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_MIXER_STARTERROR));
 				isinit__ = false;
 			}
 #			pragma warning( pop )
@@ -207,6 +333,7 @@ namespace Common {
 			if (pDevice) pDevice.Release();
 			if (pDeviceEnumerator) pDeviceEnumerator.Release();
 			if (!isinit__) {
+				if (ptrAVM) ptrAVM.Release();
 				if (ptrASM2) ptrASM2.Release();
 				if (iscoinitialize__) ::CoUninitialize();
 			}
@@ -223,21 +350,22 @@ namespace Common {
 					asList->Clear();
 					asList.reset();
 				}
-				if (ptrASM2)   ptrASM2.Release();
+				if (ptrAVM) ptrAVM.Release();
+				if (ptrASM2) ptrASM2.Release();
 				if (iscoinitialize__) ::CoUninitialize();
 				if (asCbNotify)	asCbNotify.reset();
 				if (cbid__ > 0U) {
-					Common::common_config::Get().remove(cbid__);
+					common_config::Get().remove(cbid__);
 					cbid__ = 0U;
 				}
 				onchangevalue__.clear();
-				Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStopOk);
+				to_log::Get() << (log_string() << __FUNCTIONW__ << AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_MIXER_STOPOK));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-				Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStopError);
+				to_log::Get() << (log_string() << __FUNCTIONW__ << AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_MIXER_STRSTOPERROR));
 			}
-			Common::common_config::Get().Local.IsAudioMixerRun(false);
+			common_config::Get().Local.IsAudioMixerRun(false);
 			isinit__ = false;
 		}
 
@@ -248,9 +376,15 @@ namespace Common {
 				if (isinit__)  onchangevalue__.add(fn, id);
 				if (!asList || asList->IsEmpty()) return;
 				
+				bool isfirst = true;
 				auto& list = asList->GetSessionList();
-				for (auto& a : list)
-					onchangevalue__.send(a->GetSessionItemChange(OnChangeType::OnChangeNew));
+				for (auto& a : list) {
+					onchangevalue__.send(
+						a->GetSessionItemChange(OnChangeType::OnChangeNew, isfirst)
+					);
+					isfirst = false;
+				}
+					
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -266,8 +400,8 @@ namespace Common {
 
 		/* Public */
 
-		void AudioSessionMixer::Start() {
-			init();
+		void AudioSessionMixer::Start(bool iscoinitialize) {
+			init(iscoinitialize);
 		}
 		void AudioSessionMixer::Stop() {
 			release();
@@ -278,9 +412,8 @@ namespace Common {
 		}
 		uint32_t AudioSessionMixer::InternalCallItemPidByName(std::wstring& name) {
 			try {
-				AudioSessionItem* item = asList->Get(name);
-				if (item != nullptr)
-					return item->GetPid();
+				std::vector<AudioSessionItem*> items = asList->GetByAppName(name);
+				if (!items.empty() && (items[0] != nullptr)) return items[0]->Item.GetPid();
 			} catch (...) {}
 			return 0U;
 		}
@@ -297,62 +430,41 @@ namespace Common {
 				s << L"------------------------------------------------------------------------------------" << std::endl;
 				auto& list = asList->GetSessionList();
 				for (AudioSessionItem* item : list) {
-					s << item->ToString() << std::endl;
+					s << item->to_string().str() << std::endl;
 				}
 				s << L"------------------------------------------------------------------------------------" << std::endl;
 				return s.str();
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 			return AudioSessionErrors::GetMsg(AudioSessionErrors::ERRMSG_SESSION_LIST);
 		}
-
-		void  AudioSessionMixer::SetControlUnits(std::shared_ptr<Common::MIDI::MidiDevice>& md) {
+		void  AudioSessionMixer::SetControlUnits(std::shared_ptr<MIDI::MidiDevice>& md) {
 			asList->SetControlUnits(md);
-		}
-		void  AudioSessionMixer::IncrementVolume(uint32_t key, bool b) {
-			setAudioSession(AudioAction::AUDIO_VOLUME_INCREMENT, key, 0.0f, b);
-		}
-		void  AudioSessionMixer::SetVolume(uint32_t key, uint8_t& v) {
-			uint8_t vu = (v > 127) ? 127 : v;
-			float vf = static_cast<float>(vu * KEY_DEVIDER);
-			setAudioSession(AudioAction::AUDIO_VOLUME, key, vf, false);
-		}
-		void  AudioSessionMixer::SetVolume(uint32_t key, float& v) {
-			setAudioSession(AudioAction::AUDIO_VOLUME, key, v, false);
-		}
-		void  AudioSessionMixer::SetMute(uint32_t key, bool m) {
-			setAudioSession(AudioAction::AUDIO_MUTE, key, 0.0f, m);
-		}
-		bool  AudioSessionMixer::GetMute(uint32_t key) {
-			std::tuple<float, bool> t = getAudioSession(AudioAction::AUDIO_MUTE, key);
-			return std::get<1>(t);
-		}
-		float AudioSessionMixer::GetVolume(uint32_t key) {
-			std::tuple<float, bool> t = getAudioSession(AudioAction::AUDIO_VOLUME, key);
-			return std::get<0>(t);
 		}
 
 		/* Private */
 
-		const bool AudioSessionMixer::InCallBack(Common::MIDI::MidiUnit& m, DWORD& d) {
+		const bool AudioSessionMixer::InCallBack(MIDI::MidiUnit& m, DWORD& d) {
 			if (!isinit__ || !asList) return false;
 
 			try {
-				AudioSessionItem* item = asList->GetByMidiId(m.GetMixerId());
-				if ((item == nullptr) || (item->Last >= m.value.time)) return false;
-				item->Last = m.value.time;
-
-				setValueFromCallBack_(m, item, item->MidiId.Get(m.GetMixerId()));
+				std::vector<AudioSessionItem*> items = asList->GetByMidiId(m.GetMixerId());
+				if (items.empty()) return false;
+				for (auto& a : items) {
+					if (a != nullptr) {
+						if (a->Last >= m.value.time) continue;
+						a->Last = m.value.time;
+						setValueSelector_(a, m.type, m.value.value, m.value.lvalue);
+					}
+				}
 				return true;
-
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 			return false;
 		}
-
-		void AudioSessionMixer::InternalCallBack(Common::MIDI::MixerUnit& m, AudioSessionItem*& item) {
+		void AudioSessionMixer::InternalCallBack(AudioSessionUnit& u, AudioSessionItem*& item) {
 			if (!isinit__ || !asList) return;
 
 			try {
-				setValueFromCallBack_(m, item, item->MidiId.Get(m.id));
+				setValueSelector_(item, u.GetType(), u.GetVolume(), u.GetMute());
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 		}
 
@@ -380,8 +492,6 @@ namespace Common {
 				try {
 					do {
 						if (ptrASM2->GetSessionEnumerator(&ptrse) != S_OK) return -1;
-
-						
 						if ((ptrse->GetCount(&cnt) != S_OK) || (cnt == 0)) break;
 
 						asList->Clear();
@@ -404,80 +514,6 @@ namespace Common {
 			return asList->GetSessionList();
 		}
 
-		void AudioSessionMixer::setAudioSession(AudioAction t, uint32_t key, float v, bool m) {
-			if (!isinit__ || !asList || asList->IsEmpty() || t == AudioAction::AUDIO_NONE) return;
-
-			CComPtr<ISimpleAudioVolume> ptrav;
-
-			try {
-				AudioSessionItem* item = asList->GetByMidiId(key);
-				if (item == nullptr) return;
-
-				switch (t) {
-					case AudioAction::AUDIO_VOLUME:
-						if (item->Volume.GetVolume() == v) return;
-						break;
-					case AudioAction::AUDIO_MUTE:
-						if (item->Volume.GetMute() == m) return;
-						break;
-					case AudioAction::AUDIO_VOLUME_INCREMENT:
-						break;
-					default: return;
-				}
-				switch (item->Typeitem) {
-					case TypeItems::TypeSession: {
-						if (!item->IsValidSession()) return;
-						if (item->GetSession()->QueryInterface(__uuidof(ISimpleAudioVolume), (void**)&ptrav) != S_OK) break;
-						setValueFromAudioAction_<ISimpleAudioVolume*>(t, ptrav.p, item, v, m);
-						break;
-					};
-					case TypeItems::TypeMaster: {
-						if (!item->IsValidEndpointVolume()) return;
-						setValueFromAudioAction_<IAudioEndpointVolume*>(t, item->GetEndpointVolume(), item, v, m);
-						return;
-					}
-					default: return;
-				}
-			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
-			if (ptrav) ptrav.Release();
-		}
-		std::tuple<float, bool> AudioSessionMixer::getAudioSession(AudioAction t, uint32_t key) {
-			std::tuple<float, bool> ret;
-			do {
-				if (!isinit__ || !asList || asList->IsEmpty() || t == AudioAction::AUDIO_NONE) break;
-
-				CComPtr<ISimpleAudioVolume> ptrav;
-
-				try {
-					AudioSessionItem* item = asList->GetByMidiId(key);
-					if (item == nullptr) break;
-
-					if (isfastvalue__)
-						return std::tuple<float, bool>(item->Volume.GetVolume(), item->Volume.GetMute());
-
-					switch (item->Typeitem) {
-					case TypeItems::TypeSession: {
-						if (!item->IsValidSession()) return ret;
-						if (item->GetSession()->QueryInterface(__uuidof(ISimpleAudioVolume), (void**)&ptrav) != S_OK) break;
-						ret = getValueFromAudioAction_<ISimpleAudioVolume*>(t, ptrav.p, item);
-						break;
-					};
-#				if !defined(MASTER_VOLUME_BY_SESSION)
-					case TypeItems::TypeMaster: {
-						if (!item->IsValidEndpointVolume()) return ret;
-						return getValueFromAudioAction_<IAudioEndpointVolume*>(t, item->GetEndpointVolume(), item);
-					}
-#				endif
-					default: return ret;
-					}
-				} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
-
-				if (ptrav) ptrav.Release();
-
-			} while (0);
-			return ret;
-		}
-
 		AudioSessionItem* AudioSessionMixer::AudioSessionItemBuilder(IAudioSessionControl* ptrsc) {
 
 			CComPtr<IAudioSessionControl2> ptrSc2;
@@ -495,7 +531,7 @@ namespace Common {
 
 				switch (state) {
 					case AudioSessionState::AudioSessionStateExpired: {
-						asList->Remove(guid);
+						asList->RemoveByGuid(guid);
 						return nullptr;
 					}
 					case AudioSessionState::AudioSessionStateActive:
@@ -533,29 +569,29 @@ namespace Common {
 						if (ptrSc2->GetDisplayName(&desc) != S_OK) desc = nullptr;
 
 					if (ti == TypeItems::TypeSession) {
-						std::tuple<bool, std::wstring, std::wstring> t = Common::Utils::pid_to_string(pid);
+						std::tuple<bool, std::wstring, std::wstring> t = Utils::pid_to_string(pid);
 						if (!std::get<0>(t)) break;
 
 						path = std::get<2>(t);
 						std::wstring nm = std::get<1>(t);
 						if (nm.empty()) {
 							if (!CHECK_LPWSTRING(desc)) break;
-							nm = Common::Utils::to_string(desc);
+							nm = Utils::to_string(desc);
 							LPWSTR w = desc;
 							::CoTaskMemFree(w);
 							desc = nullptr;
 						}
 						if (nm.empty()) {
-							asList->Remove(guid);
+							asList->RemoveByGuid(guid);
 							break;
 						}
-						name = Common::Utils::trim(nm);
+						name = Utils::trim(nm);
 					}
 					else if (ti == TypeItems::TypeMaster) {
-						name = std::wstring(L"master");
+						name = AudioSessionMixer::MasterControl.GetName();
 						ptrae = getMainEndpointVolume();
 					} else {
-						asList->Remove(guid);
+						asList->RemoveByGuid(guid);
 						break;
 					}
 

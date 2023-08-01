@@ -25,8 +25,8 @@ namespace Common {
 	static void repack_() {
 		try {
 			while (!asyncreq__.empty()) {
-				std::future<void>& f = asyncreq__.front();
 				try {
+					std::future<void>& f = asyncreq__.front();
 					if (f.valid()) {
 						if (f.wait_for(std::chrono::milliseconds(200)) != std::future_status::ready) {
 							try { (void)f.get(); } catch (...) {}

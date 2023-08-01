@@ -24,23 +24,29 @@ namespace Common {
 		#define NO_HWND
 
 		static const int ids_on_start[] = { IDC_GO_START, IDC_OPEN_CONFIG, IDC_DIALOG_SAVE, IDC_AUTORUN_CONFIG, IDC_PROXY_COMBO, IDC_MANUALPORT_CONFIG };
-		static const int ids_on_mixer[] = { IDC_MIXER_FAST_VALUE, IDC_MIXER_OLD_VALUE, IDC_MIXER_ENABLE };
+		static const int ids_on_mixer[] = { IDC_MIXER_FAST_VALUE, IDC_MIXER_OLD_VALUE, IDC_MIXER_DUPLICATE, IDC_MIXER_ENABLE };
 		static const int ids_on_mmkey[] = { IDC_MMKEY_ENABLE };
 		static const int ids_on_mqtt[]  = { IDC_MQTT_IPADDR, IDC_MQTT_PORT, IDC_MQTT_LOGIN, IDC_MQTT_PASS, IDC_MQTT_PSK, IDC_MQTT_ISSSL, IDC_MQTT_ISSELFSIGN, IDC_MQTT_CAOPEN, IDC_MQTT_PREFIX, IDC_MQTT_LOGLEVEL };
 
 		DialogStart::DialogStart() {
-			mcb__.LogNotify = [=]() {
-				if (hwnd__)
-					::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_LOG, 0), 0);
-			};
-			mcb__.MonitorNotify = [=]() {
-				if (hwnd__)
-					::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_MONITOR, 0), 0);
-			};
-			mcb__.IsLogOneLine = mcb__.IsMonitorOneLine = false;
+			mcb__.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
+			mcb__.HwndCb = [=]() { return hwnd__.get(); };
 		}
 		DialogStart::~DialogStart() {
-			Dispose();
+			dispose_();
+		}
+		NO_HWND void DialogStart::dispose_() {
+			Stop();
+			clear_();
+			mcb__.Clear();
+		}
+		NO_HWND void DialogStart::clear_() {
+			try {
+				if (!hwnd__) return;
+				(void) ::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
+				hwnd__.reset();
+				to_log::Get().unregistred(mcb__.GetCbLog());
+			} catch (...) {}
 		}
 
 		const bool DialogStart::IsRunOnce() {
@@ -50,15 +56,9 @@ namespace Common {
 			if (hwnd__) (void) ::SetFocus(hwnd__.get());
 		}
 
-		NO_HWND void DialogStart::Dispose() {
-			Stop();
-			mcb__.Clear();
-			hwnd__.reset();
-		}
 		void DialogStart::InitDialog(HWND hwnd) {
 			hwnd__.reset(hwnd);
 			try {
-				mcb__.Clear();
 				to_log::Get().registred(mcb__.GetCbLog());
 
 				auto& lang = LangInterface::Get();
@@ -97,6 +97,7 @@ namespace Common {
 				::CheckDlgButton(hwnd, IDC_MIXER_RIGHT_CLICK,	CHECKBTN(cnf.Registry.GetMixerRightClick()));
 				::CheckDlgButton(hwnd, IDC_MIXER_FAST_VALUE,	CHECKBTN(cnf.Registry.GetMixerFastValue()));
 				::CheckDlgButton(hwnd, IDC_MIXER_OLD_VALUE,	CHECKBTN(cnf.Registry.GetMixerSetOldLevelValue()));
+				::CheckDlgButton(hwnd, IDC_MIXER_DUPLICATE,	CHECKBTN(cnf.Registry.GetMixerDupAppRemove()));
 
 				::CheckDlgButton(hwnd, IDC_WRITE_FILELOG,		CHECKBTN(islog));
 
@@ -108,11 +109,8 @@ namespace Common {
 			}
 		}
 		void DialogStart::EndDialog() {
-			try {
-				to_log::Get().unregistred(mcb__.GetCbLog());
-				hwnd__.reset();
-				mcb__.Clear();
-			} catch (...) {}
+			if (!hwnd__) return;
+			clear_();
 		}
 
 		void DialogStart::ConfigSave() {
@@ -215,11 +213,8 @@ namespace Common {
 						return false;
 					}
 				}
-				if (!cnf.GetConfig()->autostart)
-					log << lang.GetString(IDS_DLG_MSG11);
 
 				try {
-					mcb__.Clear();
 					MIDI::MidiBridge& mb = MIDI::MidiBridge::Get();
 
 					std::wstring ws = mb.GetVirtualDriverVersion();
@@ -227,6 +222,9 @@ namespace Common {
 						log << lang.GetString(IDS_DLG_MSG4);
 						return false;
 					}
+
+					if (!cnf.GetConfig()->autostart)
+						log << lang.GetString(IDS_DLG_MSG11);
 
 					if (mb.Start(cnfname)) {
 
@@ -236,7 +234,7 @@ namespace Common {
 						
 						if (mix_enabled) {
 							MIXER::AudioSessionMixer& mix = MIXER::AudioSessionMixer::Get();
-							mix.init(false);
+							mix.Start();
 							mb.SetCallbackOut(mix);
 						}
 						if (key_enabled) {
@@ -313,14 +311,20 @@ namespace Common {
 
 		///
 
-		void DialogStart::EventLog() {
+		void DialogStart::EventLog(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.LogLoop(hwnd__.get(), IDC_LOG);
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd__) return;
+				CbEvent::ToLog(GetDlgItem(hwnd__.get(), IDC_LOG), d.GetData(), false);
 			} catch (...) {}
 		}
-		void DialogStart::EventMonitor() {
+		void DialogStart::EventMonitor(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.MonitorLoop(hwnd__.get(), IDC_LOG);
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd__) return;
+				CbEvent::ToMonitor(GetDlgItem(hwnd__.get(), IDC_LOG), d.GetData(), false);
 			} catch (...) {}
 		}
 
@@ -409,6 +413,19 @@ namespace Common {
 
 				common_config::Get().Registry.SetMixerSetOldLevelValue(
 					Gui::GetControlChecked(hwnd, IDC_MIXER_OLD_VALUE)
+				);
+			}
+			catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnMixerDupAppRemove() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				common_config::Get().Registry.SetMixerDupAppRemove(
+					Gui::GetControlChecked(hwnd, IDC_MIXER_DUPLICATE)
 				);
 			}
 			catch (...) {

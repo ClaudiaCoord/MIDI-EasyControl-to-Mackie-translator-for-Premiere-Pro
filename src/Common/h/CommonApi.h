@@ -40,6 +40,9 @@
 #include <atlbase.h>
 #include <atlstr.h>
 
+#include <objidl.h>
+#include <gdiplus.h>
+
 typedef std::function<void(const std::wstring&)> logFnType;
 
 #define EXPORT comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__)

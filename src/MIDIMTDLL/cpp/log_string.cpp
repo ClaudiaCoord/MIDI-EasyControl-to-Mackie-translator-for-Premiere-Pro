@@ -110,6 +110,11 @@ namespace Common {
 		return *this;
 	}
 	template<>
+	log_string& log_string::operator<< (log_string ls) {
+		ss__ << ls.str();
+		return *this;
+	}
+	template<>
 	log_string& log_string::operator<< (GUID g) {
 		ss__ << Utils::to_string(g);
 		return *this;
@@ -152,12 +157,10 @@ namespace Common {
 	template log_string& log_string::operator<< (uint32_t);
 
 
-	to_log::to_log() : isdispose(false) {
+	to_log::to_log() {
 		filelog_fun__ = std::bind(static_cast<void(to_log::*)(const std::wstring&)>(&to_log::logtofile), this, _1);
 	}
 	to_log::~to_log() {
-		if (isdispose) return;
-		isdispose = true;
 		closelog();
 	}
 
@@ -216,6 +219,7 @@ namespace Common {
 			if (filelog_cb_id__ > 0U) unregistred(filelog_cb_id__);
 			else					  unregistred(filelog_fun__);
 			if (filelog__.is_open()) {
+				pushlog_(L"log close.");
 				filelog__.flush();
 				filelog__.close();
 				filelog_cb_id__ = 0U;
@@ -226,6 +230,12 @@ namespace Common {
 	}
 	void to_log::logtofile(const std::wstring& s) {
 		try {
+			#if defined(_DEBUG)
+			std::wstringstream ws;
+			ws << L"* [FILE] FLOG=" << std::boolalpha << filelog__.is_open() << L", MSG = [" << s << L"]\n";
+			OutputDebugStringW(ws.str().c_str());
+			#endif
+
 			if (filelog__.is_open()) {
 				auto dat = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 				std::tm buf{};
@@ -237,6 +247,11 @@ namespace Common {
 		} catch (...) {}
 	}
 	void to_log::pushlog_(const std::wstring s) {
+		#if defined(_DEBUG)
+		std::wstringstream ws;
+		ws << L"* [PUSH] FLOG=" << std::boolalpha << filelog__.is_open() << L", MSG = [" << s << L"]\n";
+		OutputDebugStringW(ws.str().c_str());
+		#endif
 		event__.send(s);
 	}
 

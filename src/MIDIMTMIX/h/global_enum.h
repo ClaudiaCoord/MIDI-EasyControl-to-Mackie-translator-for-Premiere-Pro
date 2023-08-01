@@ -30,6 +30,7 @@ namespace Common {
 		};
 		enum class FLAG_EXPORT AudioAction : int {
 			AUDIO_NONE = 0,
+			AUDIO_ALL,
 			AUDIO_MUTE,
 			AUDIO_VOLUME,
 			AUDIO_VOLUME_INCREMENT,
@@ -46,8 +47,17 @@ namespace Common {
 			OnChangeNoCbUpdateVolume,
 			OnChangeNoCbUpdatePan,
 			OnChangeNoCbUpdateMute,
+			OnChangeNoCbUpdateAllValues,
 			OnChangeUpdateAllValues,
-			OnChangeRemove
+			OnChangeRemove,
+			OnNoChange
+		};
+		enum FLAG_EXPORT VolumeKeyType : int {
+			NONE_KEY = 0,
+			GUID_ID_KEY,
+			MIDI_ID_KEY,
+			APP_ID_KEY,
+			APP_NAME_KEY
 		};
     }
 }

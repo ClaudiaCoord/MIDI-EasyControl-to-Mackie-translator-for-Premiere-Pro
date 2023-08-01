@@ -15,66 +15,131 @@
 namespace Common {
 	namespace MIDIMT {
 
+		#if defined(_DEBUG)
+		/* #define _DEBUG_AUDIOMIXERPANEL 1 */
+		#endif
+
+		#define ID_TIMER 100001
+		static bool TIMER_lock = false,
+					PEAK_clear = false;
+
+		using namespace std::placeholders;
 		using namespace std::string_view_literals;
 
 		constexpr std::wstring_view strPanelIndex = L": Audio mixer panel - abort, index elements wrong"sv;
 		constexpr std::wstring_view strPanelInit  = L": Audio mixer panel - abort, init failed"sv;
+		constexpr std::wstring_view strPanelEnable = L": Audio mixer panel window - status mismatch, next operation cannot be continued."sv;
+		constexpr std::wstring_view strPanelNoUiThread = L": Audio mixer panel - no UI thread, abort visual changed"sv;
+		constexpr std::wstring_view strPanelNoItemValid = L": Audio mixer panel - bad Item, abort create application control box"sv;
+
+		/* ToolTipData */
+
+		ToolTipData::ToolTipData() : hwnd(nullptr) {}
+		ToolTipData::ToolTipData(HWND h, RECT& r, const std::wstring& s) : hwnd(h) {
+			rect.left = r.left;
+			rect.right = r.right;
+			rect.top = r.top;
+			rect.bottom = r.bottom;
+			title = std::wstring(s.begin(), s.end());
+		}
+		const bool ToolTipData::IsValid() {
+			return (!title.empty()) && (hwnd != nullptr);
+		}
 
 		/* PanelData */
 
-		PanelData::PanelData() : style(0U), x(0), y(0), w(0), h(0), mcapture__(false), isenable__(true) {
+		PanelData::PanelData() : style(0U), x(0), y(0), w(0), h(0), mcapture__(false), enable__(true), anime__(false) {
 		}
 		PanelData::~PanelData() {
 			dispose_();
 		}
 		void PanelData::dispose_() {
 			try {
-				HWND hwnd = hwnd__;
-				hwnd__ = nullptr;
+				HWND hwnd = hwnd__.release();
 				if (hwnd != nullptr) {
-					if (proc__ != nullptr)
-						::RemoveWindowSubclass(hwnd, proc__, id__);
+					SUBCLASSPROC proc = proc__.release();
+					if (proc != nullptr)
+						::RemoveWindowSubclass(hwnd, proc, id__);
 					::DestroyWindow(hwnd);
 				}
 			} catch (...) {}
 		}
 		void PanelData::refresh_() {
-			if ((hwnd__ != nullptr) && ::IsGUIThread(true))
-				::SetWindowPos(hwnd__, HWND_TOP, x, y, 0, 0, SWP_NOSIZE);
-			/*::InvalidateRect(hwnd__, 0, true);*/
+			if (hwnd__ && ::IsGUIThread(true))
+				::SetWindowPos(hwnd__.get(), HWND_TOP, x, y, 0, 0, SWP_NOSIZE);
 		}
 
-		void PanelData::Close() {
+		void PanelData::Close(int32_t attr) {
+			if ((attr != -1) && anime__ && hwnd__)
+				::AnimateWindow(
+					hwnd__.get(),
+					(attr == AW_BLEND) ? 300 : 200,
+					(attr) ? (AW_HIDE | attr) : (AW_HIDE | AW_CENTER)
+				);
 			dispose_();
+		}
+		void PanelData::Show(const bool anime) {
+			Show(anime ? 0 : 1);
+		}
+		void PanelData::Show(int32_t attr) {
+			if (anime__ && hwnd__) {
+				if (attr == -1) return;
+				if (attr == 1) ::ShowWindow(hwnd__.get(), SW_SHOW);
+				else ::AnimateWindow(
+						hwnd__.get(),
+						(attr == AW_BLEND) ? 300 : 150,
+						(attr) ? (AW_ACTIVATE | attr) : (AW_ACTIVATE | AW_HOR_POSITIVE)
+					 );
+			}
 		}
 		void PanelData::Set(uint32_t s_, int32_t x_, int32_t y_, int32_t w_, int32_t h_) {
 			style = s_, x = x_; y = y_; w = w_; h = h_;
 		}
-		const bool PanelData::Init(HINSTANCE hi, HWND hwnd, int32_t id, int32_t position, SUBCLASSPROC proc, void* clz) {
+		const bool PanelData::Init(HINSTANCE hi, int32_t id) {
+			try {
+				HWND wnd;
+				if ((wnd = ::CreateWindowExW(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, TOOLTIPS_CLASSW, L" ", style, x, y, w, h, 0, 0, hi, 0)) == nullptr)
+					return false;
 
-			int32_t xx = x, yy = y;
-			if (common_config::Get().UiThemes.IsPlaceVertical())
-				yy += position;
-			else
-				xx += position;
+				id__ = id;
+				hwnd__.reset(wnd);
+				return true;
+			} catch (...) {}
+			return false;
+		}
+		const bool PanelData::Init(HINSTANCE hi, HWND hwnd, int32_t id, int32_t position, SUBCLASSPROC proc, bool animele, void* clz) {
+			try {
+				int32_t xx = x, yy = y;
+				if (common_config::Get().UiThemes.IsPlaceVertical())
+					yy += position;
+				else
+					xx += position;
 
-			if ((hwnd__ = ::CreateWindowExW(WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT, L"STATIC", L" ", style, xx, yy, w, h, hwnd, 0, hi, 0)) == nullptr)
-				return false;
-			id__ = id;
-			if (proc != nullptr) {
-				proc__ = proc;
-				::SetWindowSubclass(hwnd__, proc__, id, (DWORD_PTR)clz);
-			}
-			return true;
+				if ((style & WS_VISIBLE) == 0) {
+					if (!animele) style = (style | WS_VISIBLE);
+					else anime__ = true;
+				}
+
+				HWND wnd;
+				if ((wnd = ::CreateWindowExW(WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT, L"STATIC", L" ", style, xx, yy, w, h, hwnd, 0, hi, 0)) == nullptr)
+					return false;
+
+				id__ = id;
+				hwnd__.reset(wnd);
+
+				if ((proc != nullptr) && (clz != nullptr)) {
+					proc__.reset(proc);
+					::SetWindowSubclass(hwnd__.get(), proc__.get(), id, (DWORD_PTR)clz);
+				}
+				return true;
+			} catch (...) {}
+			return false;
 		}
 		HWND PanelData::GetHWND() {
-			return hwnd__;
-		}
-		[[maybe_unused]] int32_t PanelData::GetId() {
-			return id__;
+			return hwnd__.get();
 		}
 		RECT PanelData::GetSize() {
-			RECT r;
+			RECT r{};
 			r.left = x;
 			r.right = y;
 			r.top = w;
@@ -88,11 +153,31 @@ namespace Common {
 			h = r.bottom;
 			refresh_();
 		}
+		bool PanelData::SetPosition(bool isv, bool anime) {
+			try {
+				RECT r{};
+				HWND hwnd = hwnd__.get();
+				if (!hwnd__ || !::GetWindowRect(hwnd, &r)) return false;
+				POINT p{};
+				p.x = isv ? 0 : (r.left - (r.right - r.left));
+				p.y = isv ? (r.top - (r.bottom - r.top)) : 0;
+
+				uint32_t flags = (anime && anime__) ? (SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW) : (SWP_NOSIZE | SWP_NOZORDER);
+				::SetWindowPos(hwnd, HWND_TOP, p.x, p.y, 0, 0, flags);
+				if (anime && anime__)
+					::AnimateWindow(hwnd, 150, AW_ACTIVATE | AW_VER_POSITIVE);
+				return true;
+			} catch (...) {}
+			return false;
+		}
+		void PanelData::SetAnimation(bool b) {
+			anime__ = b;
+		}
 		void PanelData::SetCapture(bool iscap) {
-			if (hwnd__ != nullptr) {
+			if (hwnd__) {
 				if (iscap) {
 					mcapture__ = true;
-					(void) ::SetCapture(hwnd__);
+					(void) ::SetCapture(hwnd__.get());
 				}
 				else if (mcapture__) {
 					mcapture__ = !::ReleaseCapture();
@@ -100,22 +185,33 @@ namespace Common {
 			}
 		}
 		void PanelData::SetEnabled(bool state) {
-			if (hwnd__ == nullptr) {
-				isenable__ = false;
+			if (!hwnd__) {
+				enable__ = false;
 				return;
 			}
-			isenable__ = state;
+			enable__ = state;
 			refresh_();
 		}
 		const bool PanelData::GetEnabled() {
-			return isenable__.load();
+			return enable__.load();
+		}
+
+		std::wstring PanelData::to_string() {
+			try {
+				std::wstringstream ws;
+				ws << L"ID:" << id__ << std::boolalpha << L", HWND:" << (bool)(hwnd__) << L", Enable:" << enable__.load()
+					<< L", Animation:" << anime__.load() << L", Mouse cap:" << mcapture__.load() << L", SubClass:" << (bool)(proc__)
+					<< L", (x:" << x << L",y:" << y << L",w:" << w << L",h:" << h << L"), style:" << style << L";\n";
+				return ws.str();
+			} catch (...) {}
+			return L"";
 		}
 
 		/* AudioMixerPanel */
 
 		AudioMixerPanel::AudioMixerPanel(HINSTANCE h, Sprites& sprites) : sprites__(sprites), Theme(common_config::Get().UiThemes.GetTheme()) {
 			ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].Set(
-				WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_FLAT,
+				WS_CHILD | WS_CLIPSIBLINGS | BS_FLAT,
 				0, 0, 84, 94
 			);
 			ctrl__[AudioMixerPanel::ITEMID::KNOB_ID].Set(
@@ -123,7 +219,7 @@ namespace Common {
 				10, 4, 64, 64
 			);
 			ctrl__[AudioMixerPanel::ITEMID::TEXT_ID].Set(
-				WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_FLAT | SS_NOPREFIX | SS_CENTER | SS_WORDELLIPSIS | SS_OWNERDRAW,
+				WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_FLAT | SS_NOPREFIX | SS_NOTIFY | SS_CENTER | SS_WORDELLIPSIS | SS_OWNERDRAW,
 				1, 70, 82, 22
 			);
 		}
@@ -131,86 +227,163 @@ namespace Common {
 			dispose_();
 		}
 
-		void AudioMixerPanel::dispose_() {
+		void AudioMixerPanel::dispose_(int32_t closeanim) {
 			try {
-				isdesposed__ = true;
+				disposed__ = true;
+				if (showpeaklevel__) {
+					HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
+					::KillTimer(hwnd, ID_TIMER);
+				}
+				Item.Item.App.set_onchangecb_defsault();
+				Item.Item.Volume.set_onchangecb_defsault();
+
 				for (size_t i = 0; i < _countof(ctrl__); i++)
-					ctrl__[i].Close();
+					ctrl__[i].Close(closeanim);
 			} catch (...) {}
 		}
 
-		void AudioMixerPanel::setknobctrl_(PanelData& panel, bool mute, bool state) {
-			if (!state) panel.SetEnabled(true);
+		void AudioMixerPanel::valuecb_volume_(bool isup, bool renew, uint8_t u) {
+			int32_t idx = Item.Item.Volume.sprite_index();
+			if (!renew && (knob_idx__.load() == idx)) return;
+			knob_idx__ = idx;
 
-			int32_t idx = knob_idx__.load();
-			HBITMAP hbmp = mute ?
-				sprites__.sprites_disabled.get(idx) :
-				sprites__.sprites_enabled.get(idx);
-			panel.SetData(hbmp);
-			if (mute) panel.SetEnabled(false);
-			else	  panel.SetEnabled(true);
+			PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+			const bool state = kpanel.GetEnabled();
+			valueknob_(kpanel, !state, state);
+
+			if (isup) {
+				if (isduplicateappremoved__) {
+					const std::size_t nameid = Item.GetAppId();
+					if (nameid == 0) return;
+					worker_background::Get().to_async(
+						std::async(std::launch::async, [=](const std::size_t i) {
+						MIXER::AudioSessionMixer::Get().Volume.ByAppId.SetVolume(i, u);
+					}, nameid));
+				} else {
+					const GUID guid = Item.GetGUID();
+					if (guid == GUID_NULL) return;
+					worker_background::Get().to_async(
+						std::async(std::launch::async, [=](const GUID g) {
+						MIXER::AudioSessionMixer::Get().Volume.ByGuid.SetVolume(g, u);
+					}, guid));
+				}
+			}
 		}
-		void AudioMixerPanel::setctrl_(bool mute, MIXER::OnChangeType type) {
-			try {
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
-				bool state = kpanel.GetEnabled();
+		void AudioMixerPanel::valuecb_mute_(bool isup, bool renew, bool m) {
+			PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+			const bool state = kpanel.GetEnabled();
 
-				switch (type) {
+			if (!renew && ((!state && m) || (state && !m))) return;
+			valueknob_(kpanel, m, state);
+
+			if (isup) {
+				if (isduplicateappremoved__) {
+					const std::size_t nameid = Item.GetAppId();
+					if (nameid == 0) return;
+					worker_background::Get().to_async(
+						std::async(std::launch::async, [=](const std::size_t i) {
+						MIXER::AudioSessionMixer::Get().Volume.ByAppId.SetMute(i, m);
+					}, nameid));
+				} else {
+					const GUID guid = Item.GetGUID();
+					if (guid == GUID_NULL) return;
+					worker_background::Get().to_async(
+						std::async(std::launch::async, [=](const GUID g) {
+						MIXER::AudioSessionMixer::Get().Volume.ByGuid.SetMute(g, m);
+					}, guid));
+				}
+			}
+		}
+		void AudioMixerPanel::valuecb_(bool isup, MIXER::OnChangeType t, uint8_t u, float f, bool m) {
+			try {
+
+				#if defined(_DEBUG_AUDIOMIXERPANEL)
+				log_string ls{};
+				ls  << L"* UpdateItem + value CB = " << Item.to_string().str()
+					<< L"\t\t{ callcb=" << std::boolalpha << isup
+					<< L", type=" << MIXER::AudioSessionHelper::OnChangeTypeHelper(t)
+					<< L", volume(u)=" << (uint32_t)u << L", volume(f)=" << f << L", mute=" << m << L" }\n\n";
+
+				::OutputDebugStringW(ls.str().c_str());
+				#endif
+
+				switch (t) {
 					case MIXER::OnChangeType::OnChangeUpdateAllValues: {
-						setknobctrl_(kpanel, mute, state);
-						break;
-					}
-					case MIXER::OnChangeType::OnChangeUpdateVolume: {
-						setknobctrl_(kpanel, !state, state);
+						valuecb_mute_(isup ? isup : Item.IsCallAudioCb(), true, m);
+						valuecb_volume_(isup ? isup : Item.IsCallAudioCb(), true, u);
 						break;
 					}
 					case MIXER::OnChangeType::OnChangeUpdateMute: {
-						if ((!state && mute) || (state && !mute)) break;
-						setknobctrl_(kpanel, mute, state);
+						valuecb_mute_(isup, false, m);
 						break;
 					}
-					default: return;
+					case MIXER::OnChangeType::OnChangeUpdateVolume: {
+						valuecb_volume_(isup, false, u);
+						break;
+					}
+					default: break;
 				}
-			} catch (...) {}
+			} catch(...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
-		void AudioMixerPanel::updateaudiosessionvalue_(bool isrenew) {
+		void AudioMixerPanel::valueknob_(PanelData& panel, bool mute, bool state) {
 			try {
-				if (!::IsGUIThread(true)) return;
 
-				int32_t kidx = static_cast<int32_t>(std::abs(30 - (Item.Volume * 30)));
-				kidx = (kidx < 0) ? 0 : ((kidx > 30) ? 30 : kidx);
-				bool mute = (Item.IsKeyFound(MIXER::AudioAction::AUDIO_MUTE) && Item.Mute);
+				if (!::IsGUIThread(true)) {
+					to_log::Get() << (log_string() << __FUNCTIONW__ << strPanelNoUiThread);
+					#if defined(_DEBUG_AUDIOMIXERPANEL)
+					::OutputDebugStringW(strPanelNoUiThread.data());
+					#endif
+					return;
+				}
 
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
-				if (!isrenew && (knob_idx__.load() == kidx) && (mute == !kpanel.GetEnabled())) return;
-				knob_idx__ = kidx;
-				setctrl_(mute, MIXER::OnChangeType::OnChangeUpdateAllValues);
+				if (!state) {
+					panel.SetEnabled(true);
+					if (!panel.GetEnabled()) {
+						to_log::Get() << (log_string() << __FUNCTIONW__ << strPanelEnable);
+						#if defined(_DEBUG_AUDIOMIXERPANEL)
+						::OutputDebugStringW(panel.to_string().c_str());
+						#endif
+						return;
+					}
+				}
 
-				if (isrenew)
-					ctrl__[AudioMixerPanel::ITEMID::TEXT_ID].SetData(Item.Name);
+				int32_t idx = knob_idx__.load();
+				HBITMAP hbmp = mute ?
+					sprites__.sprites_disabled.get(idx) :
+					sprites__.sprites_enabled.get(idx);
+				panel.SetData(hbmp);
+				if (mute) panel.SetEnabled(false);
+				else	  panel.SetEnabled(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		const bool AudioMixerPanel::setaudiosessionitem_(MIXER::AudioSessionItemChange& item) {
-			if (!item.IsValid()) return false;
-			Item.Copy(item);
-			return true;
+		void AudioMixerPanel::datacb_(std::wstring& name, std::wstring&, std::wstring&, std::wstring&, GUID&, uint32_t) {
+			try {
+				if (!name.empty())
+					ctrl__[AudioMixerPanel::ITEMID::TEXT_ID].SetData(name);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
 
 		HWND AudioMixerPanel::GetHWND(ITEMID idx) {
 			return ctrl__[static_cast<int>(idx)].GetHWND();
 		}
-		[[maybe_unused]] int32_t AudioMixerPanel::GetId(ITEMID idx) {
-			return ctrl__[static_cast<int>(idx)].GetId();
-		}
 		RECT AudioMixerPanel::GetSize(ITEMID idx) {
 			return ctrl__[static_cast<int>(idx)].GetSize();
 		}
 		void AudioMixerPanel::SetSize(RECT& r, ITEMID idx) {
-			if (!isdesposed__)
+			if (!disposed__)
 				ctrl__[static_cast<int>(idx)].SetSize(r);
+		}
+		const bool AudioMixerPanel::SetPositionUp(bool isv, bool anime) {
+			if (!disposed__)
+				return ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].SetPosition(isv, anime);
+			return false;
 		}
 		HBITMAP AudioMixerPanel::GetCurrentSprite() {
 			try {
@@ -223,90 +396,133 @@ namespace Common {
 		MIXER::AudioSessionItemChange& AudioMixerPanel::GetAudioItem() {
 			return std::ref(Item);
 		}
-
-		void AudioMixerPanel::SetCapture(ITEMID idx, bool iscap) {
-			if (!isdesposed__)
-				ctrl__[static_cast<int>(idx)].SetCapture(iscap);
-		}
-		void AudioMixerPanel::SetKnobValue(int32_t val) {
-			if (isdesposed__) return;
-			try {
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
-				if (!kpanel.GetEnabled()) return;
-
-				#pragma warning( push )
-				#pragma warning( disable : 4244 )
-				int32_t kidx = std::abs((127 - val) / 4.1); /* realy 4.2 */
-				#pragma warning( pop )
-				kidx = (kidx < 0) ? 0 : ((kidx > 30) ? 30 : kidx);
-
-				if (knob_idx__.load() == kidx) return;
-				knob_idx__ = kidx;
-				setctrl_(false, MIXER::OnChangeType::OnChangeUpdateVolume);
-
-				worker_background::Get().to_async(
-					std::async(std::launch::async, [=]() {
-						uint8_t vol = static_cast<uint8_t>((val > 127) ? 127 : ((val < 0) ? 0 : val));
-						MIXER::AudioSessionMixer::Get().SetVolume(Item.Data[0].Id, vol);
-					}
-				));
-			} catch (...) {}
-		}
-		void AudioMixerPanel::SetBtnMute() {
-			if (isdesposed__) return;
-			try {
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
-				bool mute = kpanel.GetEnabled();
-				setctrl_(mute, MIXER::OnChangeType::OnChangeUpdateMute);
-
-				if (Item.Data[2].Id > 0U)
-					worker_background::Get().to_async(
-						std::async(std::launch::async, [=]() {
-							MIXER::AudioSessionMixer::Get().SetMute(Item.Data[2].Id, mute);
-						}
-					));
-			} catch (...) {}
-		}
-		[[maybe_unused]] bool AudioMixerPanel::IsValid() {
-			return ctrl__[0].GetHWND() != nullptr;
-		}
-
-		void AudioMixerPanel::UpdateCtrlValue(MIXER::AudioSessionItemChange& item) {
-			if (isdesposed__) return;
+		ToolTipData AudioMixerPanel::GetBalloonData() {
 			try {
 				do {
-					if (!item.IsValid()) break;
-					bool notequals = true;
-					if (Item.Volume != item.Volume) {
-						Item.Volume  = item.Volume;
-						notequals    = false;
-					}
-					if (Item.Mute != item.Mute) {
-						Item.Mute  = item.Mute;
-						notequals  = false;
-					}
-					if (notequals) break;
-					updateaudiosessionvalue_();
+					HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND(),
+						 hwnt = ctrl__[AudioMixerPanel::ITEMID::TEXT_ID].GetHWND(),
+						 hwnp;
+
+					if ((hwnd == nullptr) || (hwnt == nullptr)) break;
+					if ((hwnp = ::GetAncestor(hwnd, GA_PARENT)) == nullptr) break;
+
+					RECT r{};
+					if (::GetClientRect(hwnt, &r))
+						return ToolTipData(hwnt, r, Item.Item.GetPath());
 				} while (0);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
+			return ToolTipData();
 		}
-		void AudioMixerPanel::UpdateCtrlData(MIXER::AudioSessionItemChange& item) {
-			if (isdesposed__) return;
+
+		void AudioMixerPanel::SetCapture(ITEMID idx, bool iscap) {
+			if (!disposed__)
+				ctrl__[static_cast<int32_t>(idx)].SetCapture(iscap);
+		}
+		void AudioMixerPanel::SetKnobValue(int32_t val) {
+			if (disposed__) return;
 			try {
-				if (!setaudiosessionitem_(item)) return;
-				updateaudiosessionvalue_(true);
+				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+				if (!kpanel.GetEnabled()) return;
+				Item.SetVolume(static_cast<uint8_t>(val));
+			} catch (...) {}
+		}
+		void AudioMixerPanel::SetBtnMute() {
+			if (disposed__) return;
+			try {
+				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+				Item.SetMute(kpanel.GetEnabled());
+			} catch (...) {}
+		}
+
+		void AudioMixerPanel::ShowAnimation(bool b) {
+			if (disposed__) return;
+			ctrl__[0].SetAnimation(b);
+		}
+		void AudioMixerPanel::ShowMidiKeyBind(bool b) {
+			if (disposed__) return;
+			try {
+				showmidikeybind__ = b;
+				HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
+				if (hwnd == nullptr) return;
+				::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IDC_IEVENT_CLEAR, 0), (LPARAM)0);
+			} catch (...) {}
+		}
+		void AudioMixerPanel::ShowPeakMeter(bool b) {
+			if (disposed__) return;
+			try {
+				HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
+				if (hwnd == nullptr) return;
+				
+				if (b) {
+					::SetTimer(hwnd, ID_TIMER, 200, 0);
+				} else {
+					::KillTimer(hwnd, ID_TIMER);
+					::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IDC_IEVENT_CLEAR, 0), (LPARAM)0);
+				}
+			} catch (...) {}
+		}
+
+		const std::size_t AudioMixerPanel::GetAppId() {
+			return Item.GetAppId();
+		}
+		const bool AudioMixerPanel::IsAppValid() {
+			return (ctrl__[0].GetHWND() != nullptr) && Item.IsValid();
+		}
+		const bool AudioMixerPanel::IsMaster() {
+			return (Item.Item.App.Pid == 0) && (Item.Item.App.get<std::size_t>() == MIXER::AudioSessionMixer::MasterControl.GetId());
+		}
+
+		bool AudioMixerPanel::InitItem(MIXER::AudioSessionItemChange item) {
+			try {
+				if (!item.IsValid()) return false;
+				Item.Copy(item);
+				Item.Item.App.set_onchangecb(
+					std::bind(
+						static_cast<void(AudioMixerPanel::*)(std::wstring&, std::wstring&, std::wstring&, std::wstring&, GUID&, uint32_t)>(&AudioMixerPanel::datacb_),
+						this, _1, _2, _3, _4, _5, _6
+					)
+				);
+				Item.Item.Volume.set_onchangecb(
+					std::bind(
+						static_cast<void(AudioMixerPanel::*)(bool, MIXER::OnChangeType, uint8_t, float, bool)>(&AudioMixerPanel::valuecb_),
+						this, _1, _2, _3, _4, _5
+					),
+					true
+				);
+				#if defined(_DEBUG_AUDIOMIXERPANEL)
+				log_string ls{};
+				ls << L"* InitItem = " << Item.to_string().str() << L"\n";
+				::OutputDebugStringW(ls.str().c_str());
+				#endif
+				return true;
+			} catch (...) {}
+			return false;
+		}
+		void AudioMixerPanel::UpdateItem(MIXER::AudioSessionItemChange& item) {
+			if (disposed__) return;
+			try {
+				if (!item.IsUpdateValid()) return;
+				Item.Update(item);
+
+				#if defined(_DEBUG_AUDIOMIXERPANEL)
+				log_string ls{};
+				ls << L"* UpdateItem = " << Item.to_string().str() << L"\n";
+				::OutputDebugStringW(ls.str().c_str());
+				#endif
+
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+
 		void AudioMixerPanel::Close() {
-			dispose_();
+			dispose_(0);
 		}
 		AudioMixerPanel* AudioMixerPanel::Open(
 			HINSTANCE hi, HWND h, MIXER::AudioSessionItemChange item, ui_theme& theme,
-			std::atomic<int32_t>& startid, std::atomic<int32_t>& position) {
+			std::atomic<int32_t>& startid, std::atomic<int32_t>& position, bool isvertical, bool animele, bool isdupremoved) {
 
 			try {
 				do {
@@ -314,7 +530,7 @@ namespace Common {
 
 					Theme = theme;
 					RECT r = GetSize();
-					int32_t panelsize = (r.bottom + r.right);
+					int32_t panelsize = PLACESIZE(isvertical, r);
 
 					for (size_t i = 0; i < _countof(ctrl__); i++) {
 						HWND hwnd;
@@ -328,32 +544,43 @@ namespace Common {
 							case 0: {
 								pos = position.load();
 								hwnd = h;
-								proc = (SUBCLASSPROC)AudioMixerPanel::EventPANEL_ID;
+								proc = (SUBCLASSPROC)&AudioMixerPanel::EventPANEL_ID;
 								break;
 							}
 							case 1: {
 								pos = 0;
-								hwnd = ctrl__[0].GetHWND();
-								proc = (SUBCLASSPROC)AudioMixerPanel::EventKNOB_ID;
+								hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
+								proc = (SUBCLASSPROC)&AudioMixerPanel::EventKNOB_ID;
 								break;
 							}
 							case 2: {
 								pos = 0;
-								hwnd = ctrl__[0].GetHWND();
-								proc = (SUBCLASSPROC)AudioMixerPanel::EventTEXT_ID;
+								hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
+								proc = (SUBCLASSPROC)&AudioMixerPanel::EventTEXT_ID;
 								break;
 							}
 							default: {
 								throw runtime_werror(Utils::to_string(strPanelIndex));
 							}
 						}
-						if ((hwnd == nullptr) || !p.Init(hi, hwnd, startid, pos, proc, this))
+						if ((hwnd == nullptr) || !p.Init(hi, hwnd, startid, pos, proc, animele, this))
 							throw runtime_werror(Utils::to_string(strPanelInit));
 					}
 					startid += 1;
 					position += panelsize;
-					UpdateCtrlData(std::ref(item));
+					isduplicateappremoved__ = isdupremoved;
 
+					const bool anime = item.IsEvent();
+					if (!InitItem(std::move(item))) {
+						Close();
+						to_log::Get() << (log_string() << __FUNCTIONW__ << strPanelNoItemValid);
+						#if defined(_DEBUG_AUDIOMIXERPANEL)
+						::OutputDebugStringW(strPanelNoItemValid.data());
+						::OutputDebugStringW(item.to_string().str().c_str());
+						#endif
+						return nullptr;
+					}
+					ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].Show(anime);
 					return this;
 				} while (0);
 			} catch (...) {
@@ -381,9 +608,19 @@ namespace Common {
 					::SetBkMode(hdc, TRANSPARENT);
 					::SetBkColor(hdc, ap->Theme.PanelBackground);
 					::SetTextColor(hdc, ap->Theme.Text);
+
+					if (ap->showmidikeybind__.load()) {
+						COLORREF clr = ap->Item.Item.IsEmptyId() ? RGB(250, 0, 0) : RGB(39, 141, 7);
+						HPEN pen1 = ::CreatePen(PS_SOLID, 3, clr),
+							pen2 = (HPEN)::SelectObject(hdc, pen1);
+						::Ellipse(hdc, 74, 4, 78, 8);
+						::DeleteObject(SelectObject(hdc, pen2));
+					}
+
 					::EndPaint(hwnd, &ps);
 					break;
 				}
+				case WM_PRINTCLIENT:
 				case WM_ERASEBKGND: {
 					if ((ap = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
 
@@ -399,6 +636,77 @@ namespace Common {
 				case WM_DRAWITEM: {
 					(void)AudioMixerPanel::EventTEXT_ID(hwnd, m, w, l, sc, data);
 					return ::DefSubclassProc(hwnd, m, w, l);
+				}
+				case WM_TIMER: {
+					if ((int)w == ID_TIMER) {
+
+						if (TIMER_lock) break;
+						TIMER_lock = true;
+						do {
+							try {
+								if ((ap = getProcClass(data)) == nullptr) break;
+								float f{};
+								if (!MIXER::AudioSessionMixer::Get().GetMasterVolumePeak(&f)) break;
+
+								#if defined (_DEBUG_DESIGN)
+								Gdiplus::Graphics g(GetDC(hwnd));
+								g.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+								Gdiplus::Rect r{};
+								r.X = 18;
+								r.Y = 12;
+								r.Width = 47;
+								r.Height = 45;
+								Pen pen1(Color(255, 90, 226, 62), 3);
+								//Pen pen1(Color(255, 91, 199, 72), 3);
+								Pen pen2(Color(255, 55, 164, 35), 4);
+								//Pen pen2(Color(255, 6, 83, 6), 4);
+
+								float start = 146,
+									  end   = 180;
+								g.DrawArc(&pen2, r, start, 242);
+								g.DrawArc(&pen1, r, start, end);
+								#else
+
+								const bool isnew = (f > 0.0f);
+								if (isnew || !PEAK_clear) {
+									
+									Gdiplus::Graphics g(GetDC(hwnd));
+									g.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+									Gdiplus::Rect r = ap->Theme.PeakMeter.GetRect();
+									Gdiplus::Pen penbg(ap->Theme.PeakMeter.GetBackgroundColor(), 4);
+
+									if (isnew) {
+										Gdiplus::Pen penfg(ap->Theme.PeakMeter.GetForegroundColor(), 3);
+										g.DrawArc(&penbg, r, ap->Theme.PeakMeter.GetStartAngle(), ap->Theme.PeakMeter.GetEndAngle());
+										PEAK_clear = static_cast<bool>(g.DrawArc(&penfg, r, 146, static_cast<Gdiplus::REAL>(ap->Theme.PeakMeter.GetVolumeAngle(f))));
+									}
+									else if (!PEAK_clear)
+										PEAK_clear = (g.DrawArc(&penbg, r, ap->Theme.PeakMeter.GetStartAngle(), ap->Theme.PeakMeter.GetEndAngle()) == 0);
+								}
+								#endif
+
+							} catch (...) {}
+						} while (0);
+						TIMER_lock = false;
+					}
+					break;
+				}
+				case WM_COMMAND: {
+					switch (LOWORD(w)) {
+						case IDC_IEVENT_CLEAR: {
+							try {
+								if ((ap = getProcClass(data)) == nullptr) break;
+								Gdiplus::Graphics g(GetDC(hwnd));
+								g.Clear(ap->Theme.GetBackgroundGdi());
+								::SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+							} catch (...) {}
+							break;
+						}
+						default: return ::DefSubclassProc(hwnd, m, w, l);
+					}
+					break;
 				}
 				default: return ::DefSubclassProc(hwnd, m, w, l);
 			}
@@ -430,7 +738,6 @@ namespace Common {
 							POINTS p = MAKEPOINTS(l);
 							int32_t val = static_cast<int32_t>(std::abs(p.x * 2.007));
 							val = (val < 0) ? 0 : ((val > 127) ? 127 : val);
-
 							ap->SetKnobValue(val);
 							break;
 						}
@@ -442,7 +749,7 @@ namespace Common {
 					if ((ap = getProcClass(data)) == nullptr) return ::DefSubclassProc(hwnd, m, w, l);
 
 					bool dir = (GET_WHEEL_DELTA_WPARAM(w) > 0);
-					int32_t val = static_cast<int32_t>(std::abs(ap->GetAudioItem().Volume * 127));
+					int32_t val = static_cast<int32_t>(std::abs(ap->GetAudioItem().GetVolume() * 127));
 					val = dir ? (val + 10) : (val - 10);
 					val = (val < 0) ? 0 : ((val > 127) ? 127 : val);
 					ap->SetKnobValue(val);

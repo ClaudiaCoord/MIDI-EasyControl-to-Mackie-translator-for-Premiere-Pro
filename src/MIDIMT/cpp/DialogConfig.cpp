@@ -21,7 +21,7 @@ namespace Common {
 
 		constexpr std::wstring_view TargetAll = L"All"sv;
 		constexpr std::wstring_view TargetInt = L"Internal"sv;
-		constexpr std::wstring_view TargetPP = L"Premiere Pro"sv;
+		constexpr std::wstring_view TargetPP  = L"Premiere Pro"sv;
 		constexpr std::wstring_view TargetMMK = L"Multimedia Key"sv;
 
 		static void HelperAdd(HWND hwnd, uint32_t idx, std::wstring s) {
@@ -31,32 +31,8 @@ namespace Common {
 
 		DialogConfig::DialogConfig() {
 			try {
-				mcb__.LogNotify = [=]() {
-					if (hwnd__)
-						PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_LOG, 0), 0);
-				};
-				mcb__.MonitorNotify = [=]() {
-					if (hwnd__)
-						PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDC_IEVENT_MONITOR, 0), 0);
-				};
-				mcb__.MonitorData = [=](MIDI::Mackie::MIDIDATA& m, DWORD& t) -> bool {
-					if (!hwnd__) return false;
-					try {
-						HWND hwnd = hwnd__.get();
-						ListMixerContainer* cont = new ListMixerContainer(m, t);
-						Common::MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
-
-						if (lv__->ListViewInsertItem(cont))
-							Gui::SaveConfigEnabled(hwnd);
-						if (common_config::Get().Local.IsMidiBridgeRun())
-							Gui::SetControlEnable(hwnd, IDC_SETUP_CODE);
-					}
-					catch (...) {
-						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-					}
-					return true;
-				};
-				mcb__.IsLogOneLine = mcb__.IsMonitorOneLine = true;
+				mcb__.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
+				mcb__.HwndCb = [=]() { return hwnd__.get(); };
 
 				uint16_t status_icos[]{ IDI_ICON_SETUP1, IDI_ICON_SETUP2, IDI_ICON_SETUP3 };
 				img_status__.Init(status_icos, std::size(status_icos), true);
@@ -81,18 +57,23 @@ namespace Common {
 			}
 		}
 		DialogConfig::~DialogConfig() {
-			Dispose();
+			dispose_();
 		}
-
-		const bool DialogConfig::IsRunOnce() {
-			return !hwnd__;
-		}
-		void DialogConfig::SetFocus() {
-			if (hwnd__) (void) ::SetFocus(hwnd__.get());
-		}
-
-		void DialogConfig::Clear() {
+		void DialogConfig::dispose_() {
+			clear_();
 			try {
+				btn_mute__.Release();
+				btn_info__.Release();
+				btn_runapp__.Release();
+				btn_remove__.Release();
+				btn_folder__.Release();
+				img_status__.Release();
+				mcb__.Clear();
+			} catch (...) {}
+		}
+		void DialogConfig::clear_() {
+			try {
+				to_log::Get().unregistred(mcb__.GetCbLog());
 				ConfigDevice = ConfigStatus::None;
 				if (hwnd__)
 					(void) ::PostMessageW(hwnd__.get(), WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
@@ -109,17 +90,14 @@ namespace Common {
 				img_status__.Reset();
 			} catch (...) {}
 		}
-		void DialogConfig::Dispose() {
-			Clear();
-			try {
-				btn_mute__.Release();
-				btn_info__.Release();
-				btn_runapp__.Release();
-				btn_remove__.Release();
-				btn_folder__.Release();
-				img_status__.Release();
-			} catch (...) {}
+
+		const bool DialogConfig::IsRunOnce() {
+			return !hwnd__;
 		}
+		void DialogConfig::SetFocus() {
+			if (hwnd__) (void) ::SetFocus(hwnd__.get());
+		}
+
 		void DialogConfig::InitListView() {
 			try {
 				if (lv__)
@@ -131,18 +109,8 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		void DialogConfig::EndDialog() {
-			try {
-				to_log::Get().unregistred(mcb__.GetCbLog());
-				Clear();
-			}
-			catch (...) {
-				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-			}
-		}
 		void DialogConfig::InitDialog(HWND hwnd) {
 			try {
-				mcb__.Clear();
 				to_log::Get().registred(mcb__.GetCbLog());
 				common_config& cnf = common_config::Get();
 
@@ -192,6 +160,10 @@ namespace Common {
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
+		}
+		void DialogConfig::EndDialog() {
+			if (!hwnd__) return;
+			clear_();
 		}
 
 		void DialogConfig::HelpCategoryAddTarget(HWND hwnd, uint32_t idx, const std::wstring_view target) {
@@ -462,16 +434,41 @@ namespace Common {
 			}
 		}
 
-		void DialogConfig::EventLog() {
+		///
+
+		void DialogConfig::EventLog(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.LogLoop(hwnd__.get(), IDC_LOG);
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd__) return;
+				CbEvent::ToLog(GetDlgItem(hwnd__.get(), IDC_LOG), d.GetData(), true);
 			} catch (...) {}
 		}
-		void DialogConfig::EventMonitor() {
+		void DialogConfig::EventMonitor(CbEventData* data) {
 			try {
-				if (hwnd__) mcb__.MonitorLoop(hwnd__.get(), IDC_LOG);
-			} catch (...) {}
+				if (data == nullptr) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				CbEvent::ToMonitor(GetDlgItem(hwnd, IDC_LOG), d.GetData(), true);
+				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
+
+				ListMixerContainer* cont = new ListMixerContainer(p.second, p.first);
+				MIDI::MidiBridge::Get().RemoveCallbackOut(std::ref(mcb__));
+
+				if (lv__->ListViewInsertItem(cont))
+					Gui::SaveConfigEnabled(hwnd);
+				if (common_config::Get().Local.IsMidiBridgeRun())
+					Gui::SetControlEnable(hwnd, IDC_SETUP_CODE);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
+
+		/// 
 
 		void DialogConfig::ChangeOnAppBox() {
 			if (!hwnd__) return;
@@ -554,7 +551,7 @@ namespace Common {
 				MIXER::AudioSessionMixer& mix = MIXER::AudioSessionMixer::Get();
 				std::vector<MIXER::AudioSessionItem*>& list = mix.GetSessionList();
 				for (auto& a : list) {
-					std::wstring app = a->GetName();
+					std::wstring app = a->Item.GetName();
 					if (!app.empty()) {
 						(void) ::SendMessageW(hwcl, LB_ADDSTRING, 0, (LPARAM)app.c_str());
 						if (last__)
@@ -625,8 +622,11 @@ namespace Common {
 				if (hwcl == nullptr) return;
 				last__->unit.value.value = static_cast<uint8_t>(SendMessageW(hwcl, TBM_GETPOS, 0, 0));
 				Gui::SaveConfigEnabled(hwnd);
-				if (common_config::Get().Local.IsAudioMixerRun())
-					MIXER::AudioSessionMixer::Get().SetVolume(last__->unit.key, last__->unit.value.value);
+				if (common_config::Get().Local.IsAudioMixerRun()) {
+					uint32_t key = static_cast<uint32_t>(last__->unit.key);
+					MIXER::AudioSessionMixer::Get().Volume.ByMidiId.SetVolume(key, last__->unit.value.value);
+				}
+					
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

@@ -21,36 +21,36 @@
 #define FLAG_EXPORT __declspec(dllexport)
 #define KEY_DEVIDER 0.007874
 
-#pragma warning( push )
-#pragma warning( disable : 4251 )
-
 namespace Common {
     namespace MIXER {
         class AudioSessionItem;
         class AudioSessionList;
         class AudioSessionMixer;
         class AudioSessionEvents;
+        class AudioSessionEventsNotify;
         class AudioSessionEventsBuilder;
-        class FLAG_EXPORT AudioVolumeValue;
+        class FLAG_EXPORT AudioSessionItemId;
+        class FLAG_EXPORT AudioSessionItemApp;
+        class FLAG_EXPORT AudioSessionItemValue;
+        class FLAG_EXPORT AudioSessionItemBase;
+        class FLAG_EXPORT AudioSessionItemChange;
     }
 }
-template class FLAG_EXPORT ::std::basic_string<wchar_t>;
-template class FLAG_EXPORT ::std::allocator<Common::MIXER::AudioSessionItem>;
-template class FLAG_EXPORT ::std::vector<Common::MIXER::AudioSessionItem*>;
 
 #include "h\global_enum.h"
 #include "h\AudioSessionHelper.h"
-#include "h\AudioVolumeValue.h"
 #include "h\AudioSessionErrors.h"
-#include "h\AudioEndPointEvents.h"
-#include "h\AudioSessionEventsBuilder.h"
-#include "h\AudioSessionItemChange.h"
-#include "h\AudioSessionItemMidi.h"
-#include "h\AudioSessionItem.h"
+#include "h\item\AudioSessionItemId.h"
+#include "h\item\AudioSessionItemApp.h"
+#include "h\item\AudioSessionItemValue.h"
+#include "h\item\AudioSessionItemBase.h"
+#include "h\item\AudioSessionItemChange.h"
+#include "h\events\AudioEndPointEvents.h"
+#include "h\events\AudioSessionEventsBuilder.h"
+#include "h\item\AudioSessionItem.h"
+#include "h\AudioSessionUnit.h"
 #include "h\AudioSessionList.h"
-#include "h\AudioSessionEvents.h"
-#include "h\AudioSessionEventsNotify.h"
+#include "h\events\AudioSessionEvents.h"
+#include "h\events\AudioSessionEventsNotify.h"
+#include "h\AudioSessionMixerVolume.h"
 #include "h\AudioSessionMixer.h"
-
-#pragma warning( pop )
-

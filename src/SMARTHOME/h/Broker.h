@@ -40,12 +40,18 @@ namespace Common {
 			bool init(BrokerConfig<std::wstring>&);
 			void release();
 			void reset();
+
 			template <typename T>
-			void send(T, MIDI::Mackie::Target);
+			FLAG_EXPORT void send(T, MIDI::Mackie::Target);
 
 			void settitle(std::vector<MIDI::Mackie::Target>&);
 			std::wstring GetHost();
 			int32_t GetLogLevel();
 		};
+
+		extern template FLAG_EXPORT void Broker::send<bool>(bool, MIDI::Mackie::Target);
+		extern template FLAG_EXPORT void Broker::send<uint32_t>(uint32_t, MIDI::Mackie::Target);
+		extern template FLAG_EXPORT void Broker::send<std::string>(std::string, MIDI::Mackie::Target);
+
 	}
 }

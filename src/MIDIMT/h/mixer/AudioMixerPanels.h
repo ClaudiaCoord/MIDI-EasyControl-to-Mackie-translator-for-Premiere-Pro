@@ -15,14 +15,17 @@
 namespace Common {
 	namespace MIDIMT {
 
+		class TransportDeleter;
 		class TransportItem {
 		public:
 			MIXER::AudioSessionItemChange item;
 			TransportItem(MIXER::AudioSessionItemChange);
+
+			TransportDeleter GetDeleter();
 		};
 		class TransportDeleter {
 		public:
-			TransportItem* tr;
+			TransportItem* ti;
 			TransportDeleter(TransportItem*);
 			~TransportDeleter();
 		};
@@ -43,26 +46,33 @@ namespace Common {
 		private:
 			std::vector<AudioMixerPanel*> panels__;
 			Sprites sprites__;
-			PanelData ctrl__[2];
+			PanelData ctrl__[3];
 			BuildPoint bp__;
 			GuiImageStateButton<HICON> icon__;
 			MIXER::callOnChange event_cb__ = [](MIXER::AudioSessionItemChange) {};
 			std::atomic<int32_t> startid__ = 50000;
 			std::atomic<int32_t> position__ = 0;
-			std::atomic<bool> isopen__ = false;
-			uint32_t event_id__ = 0U;
+			std::atomic<bool> isopen__{ false };
+			std::atomic<bool> isballoon__{ false };
+			std::atomic<bool> isduplicateappremoved__{ false };
 			std::unique_ptr<DialogThemeColors> dlgt;
 			TrayNotify* trayn;
+			uint32_t event_id__ = 0U;
+			TTTOOLINFOW ti__{};
 
-			bool  add(MIXER::AudioSessionItemChange);
-			void  dispose();
-			void  buildmenu();
-			void  inituitheme();
-			void  inituiele();
-			POINT menuposition();
-			RECT  panelposition();
-			void  eventmixercb(TransportItem*);
-			void  eventmixercb(MIXER::AudioSessionItemChange);
+			bool	add_(MIXER::AudioSessionItemChange);
+			void	dispose_();
+			void	buildmenu_();
+			void	inituitheme_();
+			void	inituiele_(const ui_themes::ThemePlace place);
+			POINT	menuposition_(const ui_themes::ThemePlace);
+			RECT	panelposition_(const ui_themes::ThemePlace place);
+			int32_t panelbeginsize_(bool);
+			int32_t panelbeginsize_(common_config&, RECT&);
+			void	eventmixercb_(TransportItem*);
+			void	eventmixercb_(MIXER::AudioSessionItemChange);
+			void	setballoon_(ToolTipData);
+			void	setballoon_(HWND);
 
 		public:
 			AudioMixerPanels(TrayNotify*);
@@ -75,11 +85,17 @@ namespace Common {
 			void CallMenu();
 			void Show();
 			bool IsOpen() const;
+
 			PanelData& GetPanel();
 			BuildPoint& GetBuildPoint();
 			DialogThemeColors* GetDialogThemeColors();
+			
 			void SwitchUiTheme(ui_themes::ThemeId);
 			void SwitchUiPlace(ui_themes::ThemePlace);
+			void SwitchAnimation();
+			void SwitchShowAppPath();
+			void SwitchPeakMeter();
+			void SwitchMidiBind();
 			static LRESULT CALLBACK EventPANEL_ID(HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 			static LRESULT CALLBACK EventICON_ID(HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 			static INT_PTR CALLBACK CustomThemeDialog(HWND, UINT, WPARAM, LPARAM);

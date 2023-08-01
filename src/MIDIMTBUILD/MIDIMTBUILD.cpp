@@ -130,6 +130,7 @@ class writer {
                 stream__.flush();
                 stream__.close();
             }
+            ifdef__ = L"";
         }
         void dump(const char* key, int n) {
             std::wcout << L"*[" << to_wstring(key) << L"], [" << n << L"]\n";
