@@ -16,6 +16,7 @@
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
@@ -135,7 +136,11 @@ BEGIN
             MENUITEM "Настройка темы",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "Запомнить позицию",		IDM_SAVE_POS
+        MENUITEM "&Анимация",			IDM_ANIMATION
+        MENUITEM "&Путь приложений",		IDM_APP_PATH
+        MENUITEM "Привязка &MIDI контролов",	IDM_MIDI_BIND
+        MENUITEM "Пиковый &измеритель громкости",IDM_PEAK_METER
+        MENUITEM "З&апомнить позицию",		IDM_SAVE_POS
         MENUITEM SEPARATOR
         MENUITEM "&Закрыть",			IDM_CLOSE
     END
@@ -528,7 +533,7 @@ END
 // Accelerator
 //
 
-IDC_MIDIMT ACCELERATORS
+IDC_MIDIMT_ACCEL ACCELERATORS
 BEGIN
     "?",            IDM_GO_ABOUT,           ASCII,  ALT
     "/",            IDM_GO_ABOUT,           ASCII,  ALT
@@ -564,9 +569,9 @@ BEGIN
     LTEXT           "Рекомендуемая раскладка MIDI панели управления. Файл с настройками этой раскладки находиться в папке 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
 END
 
-IDD_FORMSTART DIALOGEX 0, 0, 551, 394
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
 CAPTION "Запуск MIDI транслятора"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -586,15 +591,15 @@ BEGIN
     LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
     LTEXT           "Интервал как долгое нажатие",IDC_STATIC,167,135,106,8
     LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
-    GROUPBOX        "Запуск",IDC_STATIC,11,156,135,134
+    GROUPBOX        "Запуск",IDC_STATIC,11,156,135,148
     CONTROL         "Старт при загрузке системы",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
     CONTROL         "Авто старт при запуске",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
     CONTROL         "Авто старт этой конфигурации",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
     CONTROL         "Записывать лог",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
-    LTEXT           "Предпочитаемый язык:",IDC_STATIC,23,223,94,8
-    COMBOBOX        IDC_LANG_COMBO,21,236,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Предпочитаемый язык:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Использовать правую кнопку мыши для вызова микшера",IDC_MIXER_RIGHT_CLICK,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,260,117,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,16
     GROUPBOX        "Настройки MIDI",IDC_STATIC,151,156,97,64
     CONTROL         "Драйвер:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
     CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
@@ -604,16 +609,18 @@ BEGIN
     COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
     LTEXT           "количество портов",IDC_STATIC,260,183,66,8
     CONTROL         "Включено",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
-    GROUPBOX        "Настройки Микшера Звука",IDC_STATIC,152,224,184,66
+    GROUPBOX        "Настройки Микшера Звука",IDC_STATIC,152,224,184,80
     CONTROL         "Включено",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
     CONTROL         "Замена значений громкости без проверки",IDC_MIXER_FAST_VALUE,
                     "Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
-    CONTROL         "Устанавливать сохранённые уровни громкости при старте",IDC_MIXER_OLD_VALUE,
+    CONTROL         "Объединять приложения по названию, раздельная регулировка невозможна",IDC_MIXER_DUPLICATE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Устанавливать сохранённые уровни громкости при старте",IDC_MIXER_OLD_VALUE,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
     CONTROL         "Включить MM клавиши",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
-    PUSHBUTTON      "Сохранить &настройки",IDC_DIALOG_SAVE,11,292,91,14,BS_FLAT
-    PUSHBUTTON      "&Старт",IDC_GO_START,107,292,229,14,BS_FLAT
-    EDITTEXT        IDC_LOG,11,310,325,77,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Сохранить &настройки",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Старт",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Конфигурация",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
     EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
     GROUPBOX        "Умный Дом",IDC_STATIC,343,73,199,262
@@ -639,14 +646,14 @@ BEGIN
     EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
     CONTROL         "уровень логирования MQTT сессий:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
     COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Закрыть",IDCANCEL,344,340,200,14,BS_FLAT
-    PUSHBUTTON      "Обновления",IDC_GO_URL,344,356,200,14,BS_FLAT
-    PUSHBUTTON      "&О программе...",IDC_GO_ABOUT,344,373,200,14,BS_FLAT
+    PUSHBUTTON      "&Закрыть",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "Обновления",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&О программе...",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
 END
 
 IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
 CAPTION "Монитор MIDI команд"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -655,14 +662,14 @@ BEGIN
     PUSHBUTTON      "Ст&оп",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
     PUSHBUTTON      "Ст&арт",IDC_MONITOR_START,103,61,192,14,BS_FLAT
     EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "&Закрыть",IDCANCEL,105,241,192,14,BS_FLAT
+    PUSHBUTTON      "&Закрыть",IDCANCEL,105,241,191,14,BS_FLAT
     PUSHBUTTON      "Очи&стить",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
     CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
 END
 
 IDD_FORMSETUP DIALOGEX 0, 0, 711, 249
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
 CAPTION "Настройка управления MIDI"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -696,7 +703,8 @@ BEGIN
     PUSHBUTTON      "",IDC_BTN_RUNAPP,460,150,18,18,BS_ICON | BS_FLAT | WS_DISABLED
     PUSHBUTTON      "",IDC_BTN_REMOVE,460,168,18,18,BS_ICON | BS_FLAT | WS_DISABLED
     PUSHBUTTON      "&Сохранить",IDC_DIALOG_SAVE,228,214,80,14,BS_FLAT | WS_DISABLED
-    PUSHBUTTON      "&Закрыть",IDCANCEL,310,214,176,14,BS_FLAT
+    PUSHBUTTON      "&Экспорт",IDC_DIALOG_EXPORT,310,214,80,14,BS_FLAT
+    PUSHBUTTON      "&Закрыть",IDCANCEL,392,214,94,14,BS_FLAT
     CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,232,480,13
     GROUPBOX        "Подсказки",IDC_STATIC,493,4,209,241
     LISTBOX         IDC_SETUP_HELPLIST,501,35,193,203,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
@@ -780,6 +788,7 @@ BEGIN
     "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
     "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
     "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
     "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
     "\0"
 END
@@ -876,10 +885,6 @@ BEGIN
     IDS_MIXER               "&Микшер"
     IDS_SETTINGS            "&Настройки"
     IDS_START               "Ст&арт"
-END
-
-STRINGTABLE
-BEGIN
     IDS_STOP                "Ст&оп"
     IDS_EXIT                "Вы&ход"
     IDS_SETUP_MSG1          "Конфигурация загружена из драйвера"
@@ -896,14 +901,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_MIDIMT              "MIDIMT"
+    IDS_MIDIMT              "MIDIMT"
     IDS_INFO1               "MIDI транслятор не запущен."
     IDS_INFO2               "MIDI транслятор работает:"
     IDS_INFO3               "Входное устройство:"
-END
-
-STRINGTABLE
-BEGIN
     IDS_INFO4               "Выходной Mackie/Premier порт:"
     IDS_INFO5               "Выходной Proxy порт:"
     IDS_INFO6               "Аудио микшер запущен."
@@ -913,6 +914,7 @@ BEGIN
     IDS_INF1O               "Не удалось переключается на поток пользовательского интерфейса, запуск аудиопанели прерван."
     IDS_INF11               "MIDIMT - Аудио микшер не запущен:"
     IDS_INF12               "MIDIMT - Невозможно закончить операцию:"
+    IDS_INF13               "Управление устройствами 'Умного дома' запущено."
 END
 
 STRINGTABLE
@@ -929,6 +931,8 @@ BEGIN
     IDS_DLG_MSG10           "Версия установленного Virtual MIDI драйвера: "
     IDS_DLG_MSG11           "Выбранная конфигурация не поддерживает авто старт."
     IDS_DLG_MSG12           "Пожалуйста, перед запуском монитора, запустите MIDI бридж из меню, вызвав 'Старт'."
+    IDS_DLG_MSG13           "При запуске был указан файл конфигурации: '{0}'. Установить его как конфигурацию для последующих запусков?"
+    IDS_DLG_MSG14           "При открытии редактора, был указан файл конфигурации: '{0}'. Сохранить его с тем-же именем?"
 END
 
 STRINGTABLE
@@ -1066,6 +1070,74 @@ BEGIN
     IDM_MQTT_LOG_WARNING	"предупреждения"
     IDM_MQTT_LOG_ERR		"только ошибки"
     IDM_MQTT_LOG_DEBUG		"все сообщения"
+END
+
+STRINGTABLE
+BEGIN
+	IDS_ERRORID_OK				"OK"
+	IDS_ERRORID_EMPTY			"<тут пусто>"
+	IDS_ERRORID_UNDEFINED			"Эта ошибка не определена"
+	IDS_ERRORID_JSONCONF_WRITE_ACCESS	"Доступ на запись к файлу конфигурации запрещен, ""{0}"""
+	IDS_ERRORID_JSONCONF_READ_ACCESS	"Файл конфигурации отсутствует или доступ запрещен, ""{0}"""
+	IDS_ERRORID_JSONCONF_EMPTY		"Файл конфигурации пуст, ""{0}"""
+	IDS_ERRORID_JSONCONF_NO_DEVICE		"Имя MIDI-устройства не задано в конфигурации."
+	IDS_ERRORID_JSONCONF_EMPTY_KEYS		"В этой конфигурации не настроены MIDI-клавиши."
+	IDS_ERRORID_JSONCONF_WRITE_EMPTY	"Внимание, в этой конфигурации не настроены MIDI-клавиши! записанная конфигурацию будет не работоспособной."
+	IDS_ERRORID_INIT_COINITIALIZE		"Co*Initialize инициализация не удалась."
+	IDS_ERRORID_INIT_COCREATE		"Co*Create - не удалось создать экземпляр."
+	IDS_ERRORID_INIT_DEFAULT_AE		"Не удалось получить аудио устройство по умолчанию."
+	IDS_ERRORID_INIT_AS_MANAGER2		"Сбой диспетчера аудиосеансов."
+	IDS_ERRORID_INIT_AS_AUDIOMETER		"Аудио пиковый измеритель не доступен."
+	IDS_ERRORID_MIXER_STARTOK		"Микшер аудиосеансов запущен, на момент запуска имеется {0} запущенных программ, доступных для регулирования."
+	IDS_ERRORID_MIXER_STARTERROR		"Не удалось запустить микшер аудиосессий, сведения об ошибке должны быть в файле журнала."
+	IDS_ERRORID_MIXER_STOPOK		"Микшер аудиосессий остановлен."
+	IDS_ERRORID_MIXER_STOPERROR		"Микшер аудиосессий не был правильно остановлен, сведения об ошибке должны быть в файле журнала."
+	IDS_ERRORID_NO_INIT			"Инициализируйте, прежде чем вызывать это.."
+	IDS_ERRORID_SESSION_LIST		"Не удалось получить список аудиосеансов."
+	IDS_ERRORID_LISTISNULL			"Список аудиосессий пуст!"
+	IDS_ERRORID_SESSIONDISCONNECTED		"Отключение аудиосессии, причина=""{0}"""
+	IDS_ERRORID_SESSIONCREATED		"Создана аудиосессия, имя=""{0}"""
+	IDS_ERRORID_ITEM_SC_AE			"Аудиосеанс ""{0}"" – неправильное состояние регистрации ""{1}"": {2}/{3}"
+	IDS_ERRORID_CBVALUE_BAD_SELECT		"Устанавливаемое значение из обратного вызова - неверный селектор."
+	IDS_ERRORID_SET_CB_WARNING		"Установка обратного вызова возможна только после успешного запуска MIDI-моста."
+	IDS_ERRORID_CONFIG_FAIL			"Сбой загрузки конфигурации, файл не найден, запуск невозможен.."
+	IDS_ERRORID_CONFIG_LOAD			"Конфигурация загружена.."
+	IDS_ERRORID_CONFIG_LOADA		"Конфигурация уже загружена.."
+	IDS_ERRORID_CONFIG_EMPTY		"Конфигурация пустая.."
+	IDS_ERRORID_CONFIG_NEW			"Обнаружена новая версия конфигурации.."
+	IDS_ERRORID_NOT_IMPLEMENTED		"Неподдерживаемая реализация в коде, метод не переопределен: {0}"
+	IDS_ERRORID_NOT_CONFIG			"Имя конфигурации не указано, продолжение невозможно."
+	IDS_ERRORID_NOT_DEVICES			"Устройства не подключены, продолжение невозможно."
+	IDS_ERRORID_COUNT_DEVICES		"Внимание, несоответствие количества устройств в итоговом списке, система/список = {0}/{1}"
+	IDS_ERRORID_OPEN_MIDI_DEVICE		"Не удается открыть MIDI-устройство, продолжение невозможно, id = {0}/{1}"
+	IDS_ERRORID_START_MIDI_DEVICE		"Не удается запустить MIDI-устройство, продолжение невозможно, id = {0}/{1}"
+	IDS_ERRORID_DEVICE_NOT_CONNECT		"Устройство не подключено, abort, id = {0}/{1}"
+	IDS_ERRORID_DEVICE_FOUND		"Устройство {0} найдено, {1}"
+	IDS_ERRORID_DEVICE_OPEN			"Устройство {0} открыто, {1}"
+	IDS_ERRORID_DEVICE_CLOSE		"Устройство {0} закрыто (система)"
+	IDS_ERRORID_DEVICE_DONE			"Устройство {0} готово (система)"
+	IDS_ERRORID_NOT_DEVICE_NAME		"Не задано имя для активного устройства, продолжение невозможно, id = {0}/{1}"
+	IDS_ERRORID_NOT_CONFIG_PROXY		"Не заданы прокси-порты в конфигурации, MIDI-прокси отключено."
+	IDS_ERRORID_DRIVER_VER_OK		"Версия драйвера [{0}]"
+	IDS_ERRORID_DRIVER_VER_ERROR		"Проблема с версией драйвера [{0}]"
+	IDS_ERRORID_SEND_BAD_VALUES		"Устройство {0} отправило неверное значение = {1}"
+	IDS_ERRORID_MMKEY_START			"Служба управления мультимедийными ключами запущена."
+	IDS_ERRORID_MMKEY_STOP			"Служба управления мультимедийными ключами остановлена."
+	IDS_ERRORID_MQTT_EMPTY_CONFIG		"Конфигурация MQTT не заполнена, продолжение невозможно."
+	IDS_ERRORID_MQTT_CLIENT_ERROR		"Ошибка создания клиента MQTT, отмена."
+	IDS_ERRORID_MQTT_CLIENT_OK		"Клиент MMQTT успешно создан, продолжаем.."
+	IDS_ERRORID_MQTT_CONNECTED		"Подключено к серверу MQTT:"
+	IDS_ERRORID_MQTT_NOT_CONNECTED		"Не удалось подключиться к серверу MQTT:"
+	IDS_ERRORID_MQTT_DISCONNECTED		"Отключено от сервера MQTT:"
+	IDS_ERRORID_MQTT_NOT_CA_CERT		"Файл сертификата CA не существует, путь = ""{0}"""
+	IDS_ERRORID_MQTT_START			"Служба управления Умным домом запущена."
+	IDS_ERRORID_MQTT_STOP			"Служба управления Умным домом остановлена."
+	IDS_ERRORID_PANEL_INDEX			"Панель аудиомикшера - продолжение невозможно, элементы индекса неверны."
+	IDS_ERRORID_PANEL_INIT			"Панель аудио микшера - продолжение невозможно, ошибка инициализации."
+	IDS_ERRORID_PANEL_ENABLE		"Окно панели аудиомикшера не соответствует статусу, невозможно продолжить следующую операцию."
+	IDS_ERRORID_PANEL_NOT_UI_THREAD		"Панель аудиомикшера вызвано не в потоке пользовательского интерфейса, изменения невозможны."
+	IDS_ERRORID_PANEL_NOT_ITEM_VALID	"Панель аудиомикшера обнаружило неверный элемент, прервано создание окна панели."
+	IDS_ERRORID_NONE			"-"
 END
 
 #endif    // Русский (Россия) resources

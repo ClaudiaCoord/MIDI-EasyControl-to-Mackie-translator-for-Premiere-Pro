@@ -18,7 +18,7 @@ namespace Common {
 				HWND hwcl;
 				if ((hwcl = ::GetDlgItem(hwnd, IDC_OK2)) != nullptr)			::BringWindowToTop(hwcl);
 				if ((hwcl = ::GetDlgItem(hwnd, IDC_OK3)) != nullptr)			::BringWindowToTop(hwcl);
-				if ((hwcl = ::GetDlgItem(hwnd, IDOK)) != nullptr)				::BringWindowToTop(hwcl);
+				if ((hwcl = ::GetDlgItem(hwnd, IDOK)) != nullptr)			::BringWindowToTop(hwcl);
 				if ((hwcl = ::GetDlgItem(hwnd, IDC_ABOUT_COPY)) != nullptr)		::BringWindowToTop(hwcl);
 				if ((hwcl = ::GetDlgItem(hwnd, IDC_ABOUT_VERSION)) != nullptr)	::BringWindowToTop(hwcl);
 			}

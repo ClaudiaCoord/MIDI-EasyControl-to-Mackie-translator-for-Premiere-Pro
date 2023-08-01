@@ -73,6 +73,8 @@ namespace Common {
 								wss << lang.GetString(IDS_INFO6) << L"\r\n";
 							if (cnf.Local.IsMMKeyesRun())
 								wss << lang.GetString(IDS_INFO7) << L"\r\n";
+							if (cnf.Local.IsSmartHomeRun())
+								wss << lang.GetString(IDS_INF13) << L"\r\n";
 
 							::wcscpy_s(data__.szInfo, _countof(data__.szInfo), wss.str().c_str());
 						}

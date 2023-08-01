@@ -19,52 +19,57 @@ namespace Common {
 		private:
 			worker_background& wb__;
 			std::shared_ptr<locker_awaiter> lock__;
-			std::vector<AudioSessionItem*> onlinelist__;
-			std::vector<Common::MIDI::MixerUnit> ctrlunitlist__;
+			std::vector<AudioSessionItem*>  aslist__;
+			std::vector<AudioSessionUnit>   ctrlunitlist__;
 
 			void addtolist_(AudioSessionItem*);
+			int32_t countapp_(const std::size_t&, const GUID&);
 			void clearlistbydup_(AudioSessionItem*);
+			void renamefromlist_(AudioSessionItem*, AudioSessionItem*);
 			void removefromlist_(std::function<bool(AudioSessionItem*&)>);
+			void updatevalues_(AudioSessionItem*);
 			AudioSessionItem* getfromlistbyguid_(LPCGUID);
 			AudioSessionItem* checklistbyitem_(AudioSessionItem*);
-			std::tuple<ListState, AudioSessionItem*> checkfromlist_(const uint32_t&, std::wstring&);
 
 			AudioSessionList() = default;
 
 		public:
 
-			std::atomic<bool> IsSetAudioLevelOldValue;
-			std::atomic<bool> IsDuplicateRemoved = true;
-			std::function<void(Common::MIDI::MixerUnit&, AudioSessionItem*&)> SetParamCb = [](Common::MIDI::MixerUnit&, AudioSessionItem*&) {};
+			std::atomic<bool> IsSetAudioLevelOldValue{ true };
+			std::atomic<bool> IsDuplicateRemoved { false };
+			std::function<void(AudioSessionUnit&, AudioSessionItem*&)> SetParamCb = [](AudioSessionUnit&, AudioSessionItem*&) {};
 
 			AudioSessionList(
 				uint32_t cpid,
+				bool dupremove,
 				bool oldval,
-				std::function<void(Common::MIDI::MixerUnit&, AudioSessionItem*&)> vcb);
+				std::function<void(AudioSessionUnit&, AudioSessionItem*&)> vcb);
 			~AudioSessionList();
 
-			FLAG_EXPORT operator bool() const;
+			operator bool() const;
 
-			FLAG_EXPORT void DuplicateRemoved(bool b);
-			FLAG_EXPORT std::vector<AudioSessionItem*>& GetSessionList();
-			FLAG_EXPORT void SetControlUnits(std::shared_ptr<Common::MIDI::MidiDevice>& md);
+			void DuplicateRemoved(bool b);
+			std::vector<AudioSessionItem*>& GetSessionList();
+			void SetControlUnits(std::shared_ptr<Common::MIDI::MidiDevice>& md);
 
-			FLAG_EXPORT void Add(AudioSessionItem* item);
+			void Add(AudioSessionItem* item);
 
-			FLAG_EXPORT void Remove(GUID& guid);
-			FLAG_EXPORT void Remove(uint32_t& pid);
-			FLAG_EXPORT void Remove(std::wstring& title);
-			FLAG_EXPORT void Remove(TypeItems& t);
+			void RemoveByGuid(const GUID guid);
+			void RemoveByPid(const uint32_t pid);
+			void RemoveByAppId(const std::size_t title);
+			void RemoveByAppName(const std::wstring name);
+			void RemoveByType(const TypeItems t);
 
-			FLAG_EXPORT AudioSessionItem* Get(GUID& guid);
-			FLAG_EXPORT AudioSessionItem* Get(uint32_t& pid);
-			FLAG_EXPORT AudioSessionItem* Get(std::wstring& name);
-			FLAG_EXPORT AudioSessionItem* GetByMidiId(uint32_t midiid);
-			FLAG_EXPORT ListState Found(uint32_t& pid, std::wstring& name);
+			AudioSessionItem* GetByGuid(const GUID guid);
+			AudioSessionItem* GetByPid(const uint32_t pid);
+			std::vector<AudioSessionItem*> GetByAppId(const std::size_t nameid);
+			std::vector<AudioSessionItem*> GetByAppName(const std::wstring name);
+			std::vector<AudioSessionItem*> GetByMidiId(const uint32_t midiid);
+			int32_t CountByAppId(const std::size_t&);
 
-			FLAG_EXPORT bool   IsEmpty();
-			FLAG_EXPORT void   Clear();
-			FLAG_EXPORT size_t Count();
+			bool   IsEmpty();
+			void   Clear();
+			size_t Count();
 
 			void DisplayNameChange(LPCGUID, LPCWSTR);
 			void IconPathChange(LPCGUID, LPCWSTR);

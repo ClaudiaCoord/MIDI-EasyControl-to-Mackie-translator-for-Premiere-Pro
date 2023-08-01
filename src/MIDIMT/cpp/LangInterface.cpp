@@ -27,21 +27,48 @@ namespace Common {
 		public:
 			const LANGID id;
 			const wchar_t dllid[6];
-			const wchar_t locale[7];
 			const wchar_t name[12];
+			wchar_t locale[20][12]{};
 		};
-		static const LANGIDBASE langidbase[] = {
-			{		0, L"AUTO\0", L"no-NE\0", L"AUTO\0" },
-			{    LANG_RUSSIAN, L"RU\0",   L"ru-RU\0", L"Russian\0"},
-			{ LANG_BELARUSIAN, L"RU\0",   L"be-BY\0", L"Belarusian\0"},
-			{  LANG_BULGARIAN, L"RU\0",   L"bg-BG\0", L"Bulgarian\0"},
-			{  LANG_UKRAINIAN, L"RU\0",   L"uk-UA\0", L"Ukrainian\0"},
-			{    LANG_ENGLISH, L"EN\0",   L"en-US\0", L"English\0"}
+		/*
+		* https://docs.translatehouse.org/projects/localization-guide/en/latest/guide/win_lang_ids.html
+		* https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
+		* https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
+		* https://learn.microsoft.com/en-us/windows/win32/wmformat/localized-system-profiles
+		* https://learn.microsoft.com/en-us/windows/win32/tablet/using-the-recognizers-collection
+		*/
+		static const LANGIDBASE lang_id_base[] = {
+			{				0, L"AUTO\0", L"AUTO\0",		{ L"no-NE\0", L'\0'}},
+			{    LANG_RUSSIAN, L"RU\0",   L"Russian\0",		{ L"ru-RU\0", L"ru-MD\0", L'\0'}},
+			{ LANG_BELARUSIAN, L"BY\0",   L"Belarusian\0",	{ L"be-BY\0", L'\0'}},
+			{  LANG_BULGARIAN, L"BG\0",   L"Bulgarian\0",	{ L"bg-BG\0", L'\0'}},
+			{    LANG_BOSNIAN, L"BS\0",   L"Bosnian\0",		{ L"bs-Latn-BA\0", L'\0'}},
+			{   LANG_CROATIAN, L"HR\0",   L"Croatian\0",	{ L"hr-HR\0", L"hr-BA\0", L'\0'}},
+			{     LANG_SLOVAK, L"SL\0",   L"Slovak\0",		{ L"sk-SK\0", L'\0'}},
+			{  LANG_SLOVENIAN, L"SL\0",   L"Slovenian\0",	{ L"sl-SI\0", L'\0'}},
+			{    LANG_SERBIAN, L"SR\0",   L"Serbian\0",		{ L"sr-Latn-CS\0", L"sr-Cyrl-CS\0", L'\0'}},
+			{      LANG_CZECH, L"CZ\0",   L"Czech\0",		{ L"cs-CZ\0", L'\0'}},
+			{  LANG_HUNGARIAN, L"HU\0",   L"Hungarian\0",	{ L"hu-HU\0", L'\0'}},
+			{   LANG_ARMENIAN, L"AR\0",   L"Armenian\0",	{ L"hy-AM\0", L'\0'}},
+			{   LANG_GEORGIAN, L"GR\0",   L"Georgian\0",	{ L"ka-GE\0", L'\0'}},
+			{  LANG_UKRAINIAN, L"RU\0",   L"Ukrainian\0",	{ L"uk-UA\0", L'\0'}},
+			{    LANG_ENGLISH, L"EN\0",   L"English\0",		{ L"en-US\0", L"en-GB\0", L"en-AU\0", L"en-CA\0", L"en-NZ\0", L"en-IE\0", L"en-ZA\0", L"en-JM\0", L"en-BZ\0", L"en-TT\0", L"en-ZW\0", L"en-PH\0", L"en-ID\0", L"en-HK\0", L"en-IN\0", L"en-MY\0", L"en-SG\0", L"en-029\0", L'\0'}},
+			{  LANG_NORWEGIAN, L"NR\0",   L"Norwegian\0",	{ L"nn-NO\0", L"nb-NO\0", L'\0'}},
+			{     LANG_GERMAN, L"DE\0",   L"German\0",		{ L"de-DE\0", L"de-CH\0", L"de-AT\0", L"de-LU\0", L"de-LI\0", L'\0'}},
+			{     LANG_FRENCH, L"FR\0",   L"French\0",		{ L"fr-FR\0", L"fr-FR\0", L"fr-BE\0", L"fr-CA\0", L"fr-CH\0", L"fr-LU\0", L"fr-MC\0", L"fr-RE\0", L"fr-CG\0", L"fr-SN\0", L"fr-CM\0", L"fr-CI\0", L"fr-ML\0", L"fr-MA\0", L"fr-FR\0", L"fr-FR\0", L"fr-HT\0", L"fr-029\0", L"fr-015\0", L'\0'}},
+			{   LANG_JAPANESE, L"JP\0",   L"Japanese\0",	{ L"ja-JP\0", L'\0'}},
+			{    LANG_CHINESE, L"CN\0",   L"Chinese\0",		{ L"zh-CN\0", L"zh-HK\0", L"zh-SG\0", L"zh-MO\0", L"zh-TW\0", L'\0'}},
 		};
 
 		static LANGID get_uilid() {
 			__try {
-				return ::GetUserDefaultUILanguage();
+				LANGID lid = ::GetUserDefaultUILanguage();
+				return  (lid != 0) ? lid : ::GetSystemDefaultUILanguage();
+			} __except (EXCEPTION_EXECUTE_HANDLER) { return 0; }
+		}
+		static const bool get_locale(LPWSTR s) {
+			__try {
+				return ::GetUserDefaultLocaleName(s, LOCALE_NAME_MAX_LENGTH) > 0;
 			} __except (EXCEPTION_EXECUTE_HANDLER) { return 0; }
 		}
 		static HMODULE get_dll(const wchar_t* s) {
@@ -56,14 +83,14 @@ namespace Common {
 			} __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 		}
 		static const LANGIDBASE& find_lang(int id) {
-			for (size_t i = 0; i < std::size(langidbase); i++)
-				if (langidbase[i].id == id) return std::ref(langidbase[i]);
-			return std::ref(langidbase[0]);
+			for (size_t i = 0; i < std::size(lang_id_base); i++)
+				if (lang_id_base[i].id == id) return std::ref(lang_id_base[i]);
+			return std::ref(lang_id_base[0]);
 		}
 		static const LANGIDBASE& find_lang(std::wstring s) {
-			for (size_t i = 0; i < std::size(langidbase); i++)
-				if (s._Equal(langidbase[i].name)) return std::ref(langidbase[i]);
-			return std::ref(langidbase[0]);
+			for (size_t i = 0; i < std::size(lang_id_base); i++)
+				if (s._Equal(lang_id_base[i].name)) return std::ref(lang_id_base[i]);
+			return std::ref(lang_id_base[0]);
 		}
 		static const LANGIDBASE& get_lang() {
 			_set_se_translator(seh_exception_catch);
@@ -78,14 +105,15 @@ namespace Common {
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			return std::ref(langidbase[0]);
+			return std::ref(lang_id_base[0]);
 		}
 
 		LangInterface LangInterface::langinterface__;
 
-		LangInterface::LangInterface() : main_hinst__(nullptr), lang_hinst__(nullptr), dll__(nullptr), hwndmain__(nullptr) {
+		LangInterface::LangInterface() : main_hinst__(nullptr), lang_hinst__(nullptr), dll__(nullptr), hwndmain__(nullptr), id__(0) {
 		}
 		LangInterface::~LangInterface() {
+			common_error_code::Get().set_default_error_cb();
 			Dispose();
 		}
 		LangInterface& LangInterface::Get() {
@@ -112,10 +140,11 @@ namespace Common {
 			try {
 				do {
 					try {
+						id__ = 0;
 						const LANGIDBASE& lb = get_lang();
 						if (lb.id == 0) {
 							if (!first_run)
-								Common::to_log::Get() << default_lang_msg1__;
+								to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << default_lang_msg1__);
 							break;
 						}
 
@@ -129,27 +158,62 @@ namespace Common {
 									HMODULE dll = get_dll(f.path().wstring().c_str());
 									if (dll__ == dll) {
 										if (!first_run)
-											Common::to_log::Get() << default_lang_msg2__;
+											to_log::Get() << default_lang_msg2__;
 										break;
 									}
 									Dispose();
 									lang_hinst__ = dll__ = dll;
 									if (!first_run)
-										Common::to_log::Get() << (log_string() << default_lang_msg3__ << lb.name);
+										to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << default_lang_msg3__ << lb.name);
 									break;
 								}
 							}
 						}
-						if (!set_ui_thread(lb.locale) && !first_run)
-							Common::to_log::Get() << (log_string() << default_lang_msg4__ << lb.locale << L"/" << lb.name);
+						try {
+							bool isfound{ false };
+							wchar_t locname[LOCALE_NAME_MAX_LENGTH + 1]{};
+							if (get_locale(locname)) {
+								const std::wstring ln(locname);
+								for (auto s : lb.locale) {
+									if (!s) break;
+									if (ln._Equal(s)) {
+										if (!set_ui_thread(ln.c_str()) && !first_run)
+											to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << default_lang_msg4__ << ln.c_str() << L"/" << lb.name);
+										else
+											isfound = true;
+										break;
+									}
+								}
+							}
+							if (!isfound && !set_ui_thread(lb.locale[0]) && !first_run)
+								to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << default_lang_msg4__ << lb.locale[0] << L"/" << lb.name);
+
+							id__ = lb.id;
+
+						} catch (...) {
+							if (!first_run)
+								Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+						}
 					} catch (...) {
 						if (!first_run)
 							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 				} while (0);
 
-				str_class__ = GetString(IDC_MIDIMT);
+				str_class__ = GetString(IDS_MIDIMT);
 				str_title__ = GetString(IDS_APP_TITLE);
+
+				common_error_code::Get().set_string_error_cb(
+					[=](uint32_t i) -> std::wstring {
+						try {
+							uint32_t id = (i + static_cast<uint32_t>(common_error_id::err_BASE));
+							const std::wstring s = this->GetString(id);
+							return s.empty() ? common_error_code::get_local_error(i) : s;
+						} catch (...) {}
+						return L"";
+					}
+				);
+
 			} catch (...) {
 				if (!first_run)
 					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -170,7 +234,7 @@ namespace Common {
 		void		   LangInterface::SelectLanguage(std::wstring s) {
 			try {
 				const LANGIDBASE& lb = find_lang(s);
-				Common::common_config::Get().Registry.SetLanguageId(lb.id);
+				common_config::Get().Registry.SetLanguageId(lb.id);
 				Init();
 			}
 			catch (...) {
@@ -187,14 +251,14 @@ namespace Common {
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			return langidbase[0].name;
+			return lang_id_base[0].name;
 		}
 		std::forward_list<std::wstring> LangInterface::GetLanguages() {
 			try {
 				std::forward_list<std::wstring> list;
-				long sz = static_cast<long>(std::size(langidbase));
+				long sz = static_cast<long>(std::size(lang_id_base));
 				for (long i = sz - 1; 0 <= i; i--)
-					list.push_front(langidbase[i].name);
+					list.push_front(lang_id_base[i].name);
 				return list;
 			}
 			catch (...) {
@@ -320,6 +384,23 @@ namespace Common {
 			return L"";
 		}
 
+		std::wstring	LangInterface::GetLangId() {
+			try {
+				switch (id__) {
+					case LANG_CZECH:
+					case LANG_SLOVAK:
+					case LANG_RUSSIAN:
+					case LANG_SERBIAN:
+					case LANG_BULGARIAN:
+					case LANG_SLOVENIAN:
+					case LANG_BELARUSIAN: return lang_id_base[1].dllid;
+					default: return lang_id_base[14].dllid;
+				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return lang_id_base[14].dllid;
+		}
 		std::wstring&   LangInterface::GetMainClass() {
 			return std::ref(str_class__);
 		}

@@ -15,6 +15,8 @@
 namespace Common {
 	namespace MIDI {
 
+		using namespace std::string_view_literals;
+
 		/* NOT USED */
 		static void CALLBACK VP_MIDIDATA_CB(LPVM_MIDI_PORT, LPBYTE, DWORD, DWORD_PTR) {}
 
@@ -22,7 +24,7 @@ namespace Common {
 			this_type__ = ClassTypes::ClassVirtualMidi;
 			active_device__ = name;
 			if (active_device__.empty())
-				throw new runtime_werror(log_string() << LogTag << L"configuration name not specified, abort");
+				throw_common_error(common_error_id::err_NOT_CONFIG);
 		}
 		MidiControllerVirtual::~MidiControllerVirtual() {
 			Dispose();
@@ -38,17 +40,15 @@ namespace Common {
 							return S_OK;
 						}, LogTag);
 					midi_port__ = nullptr;
-					Common::to_log::Get() << (log_string() << LogTag << L"[" << active_device__ << L"] was closed (system)");
+					to_log::Get() << log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_DEVICE_CLOSE),
+						active_device__
+					);
 				}
 			}
-			catch (seh_exception& err) {
-				Common::to_log::Get() << (log_string() << LogTag << L"SEH EXCEPTION: " << err.error());
-			}
-			catch (std::runtime_error& err) {
-				Common::to_log::Get() << (log_string() << LogTag << __FUNCTIONW__ << L": " << err);
-			}
 			catch (...) {
-				Common::to_log::Get() << (log_string() << LogTag << __FUNCTIONW__ << L": " << Utils::DefaulRuntimeError());
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 			isenable__ = false;
 		}
@@ -61,9 +61,17 @@ namespace Common {
 
 			LPCWSTR v = midi_utils::Run_virtualMIDIGetDriverVersion();
 			if (v != nullptr)
-				Common::to_log::Get() << (log_string() << LogTag << L"driver version [" << v << "]");
+				to_log::Get() << log_string().to_log_fomat(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_DRIVER_VER_OK),
+					v
+				);
 			else 
-				Common::to_log::Get() << (log_string() << LogTag << L"driver version trouble: [" << ::GetLastError() << "]");
+				to_log::Get() << log_string().to_log_fomat(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_DRIVER_VER_ERROR),
+					::GetLastError()
+				);
 
 			(void) ::GetLastError();
 			midi_port__ = midi_utils::Run_virtualMIDICreatePortEx2(
@@ -72,61 +80,68 @@ namespace Common {
 			);
 			DWORD err = ::GetLastError();
 
-			std::wstring s{};
+			std::wstring_view s{};
 			switch (err) {
 				case ERR_NOT_ERRORS: {
-					Common::to_log::Get() << (log_string() << LogTag << L"[" << active_device__ << "]: OK");
+					to_log::Get() << log_string().to_log_fomat(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_DEVICE_OPEN),
+						active_device__, L"(system)"
+					);
 					isenable__ = (midi_port__ != nullptr);
 					return isenable__;
 				}
 				case ERR_PATH_NOT_FOUND: {
-					s = L"driver DLL - path not found";
+					s = L"Driver DLL - path not found"sv;
 					break;
 				}
 				case ERR_INVALID_HANDLE: {
-					s = L"Invalid port handle";
+					s = L"Invalid port handle"sv;
 					break;
 				}
 				case ERR_TOO_MANY_CMDS: {
-					s = L"Too many commands";
+					s = L"Too many commands"sv;
 					break;
 				}
 				case ERR_TOO_MANY_SESS: {
-					s = L"Too many sessions";
+					s = L"Too many sessions"sv;
 					break;
 				}
 				case ERR_INVALID_NAME: {
-					s = L"Invalid name";
+					s = L"Invalid name"sv;
 					break;
 				}
 				case ERR_MOD_NOT_FOUND: {
-					s = L"Module not found";
+					s = L"Module not found"sv;
 					break;
 				}
 				case ERR_BAD_ARGUMENTS: {
-					s = L"Bad arguments";
+					s = L"Bad arguments"sv;
 					break;
 				}
 				case ERR_ALREADY_EXISTS: {
-					s = L"Already exists";
+					s = L"Already exists"sv;
 					break;
 				}
 				case ERR_OLD_WIN_VERSION: {
-					s = L"Old win version";
+					s = L"Old win version"sv;
 					break;
 				}
 				case ERR_REVISION_MISMATCH: {
-					s = L"Revision mismatch";
+					s = L"Revision mismatch"sv;
 					break;
 				}
 				case ERR_ALIAS_EXISTS: {
-					s = L"Alias exists";
+					s = L"Alias exists"sv;
 					break;
 				}
-				default:
-					break;
+				default: break;
 			}
-			Common::to_log::Get() << (log_string() << LogTag << L"[" << active_device__ << L"]: (" << err << L") " << s);
+			to_log::Get() << log_string().to_log_fomat(
+				__FUNCTIONW__,
+				common_error_code::Get().get_error(common_error_id::err_OPEN_MIDI_DEVICE),
+				active_device__, s
+			);
 			return false;
 		}
 		void MidiControllerVirtual::Stop() {
@@ -139,19 +154,19 @@ namespace Common {
 				do {
 					if (midi_port__ == nullptr) break;
 					if (!midi_utils::Run_virtualMIDISendData(midi_port__, m.data, 3)) {
-						Common::to_log::Get() << (log_string() << LogTag << L"[" << active_device__ << L"]: send bad values = " << GetLastError());
+						to_log::Get() << log_string().to_log_fomat(
+							__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_SEND_BAD_VALUES),
+							active_device__, ::GetLastError()
+						);
 						break;
 					}
 					return true;
 				} while (0);
 			}
-			catch (seh_exception& err) {
-				Common::to_log::Get() << (log_string() << LogTag << L"SEH EXCEPTION: " << err.error());
+			catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			catch (std::runtime_error& err) {
-				Common::to_log::Get() << (log_string() << LogTag << __FUNCTIONW__ << L": " << err);
-			}
-			catch (...) {}
 			return false;
 		}
 	}

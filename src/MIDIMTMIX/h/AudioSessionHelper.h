@@ -12,6 +12,8 @@
 
 #pragma once
 
+#include <audiopolicy.h>
+
 namespace Common {
 	namespace MIXER {
 
@@ -20,6 +22,7 @@ namespace Common {
 		public:
 			static std::wstring_view TypeItemsHelper(TypeItems);
 			static std::wstring_view OnChangeTypeHelper(OnChangeType);
+			static std::wstring_view DisconnectReasonHelper(AudioSessionDisconnectReason);
 		};
 	}
 }

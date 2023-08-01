@@ -56,16 +56,17 @@ namespace Common {
 
 		std::wstring_view getClassTypes(ClassTypes t) {
 			switch (t) {
-				case Common::MIDI::ClassTypes::ClassProxy: return TypeClassProxy;
-				case Common::MIDI::ClassTypes::ClassMixer: return TypeClassMixer;
-				case Common::MIDI::ClassTypes::ClassMqttKey: return TypeClassMqtt;
-				case Common::MIDI::ClassTypes::ClassMonitor: return TypeClassMonitor;
-				case Common::MIDI::ClassTypes::ClassMediaKey: return TypeClassMediaKey;
-				case Common::MIDI::ClassTypes::ClassInMidi: return TypeClassInMidi;
-				case Common::MIDI::ClassTypes::ClassOutMidi: return TypeClassOutMidi;
-				case Common::MIDI::ClassTypes::ClassOutMidiMackie: return TypeClassOutMidiMackie;
-				case Common::MIDI::ClassTypes::ClassVirtualMidi: return TypeClassVirtualMidi;
-				case Common::MIDI::ClassTypes::ClassNone:
+				using enum ClassTypes;
+				case ClassProxy: return TypeClassProxy;
+				case ClassMixer: return TypeClassMixer;
+				case ClassMqttKey: return TypeClassMqtt;
+				case ClassMonitor: return TypeClassMonitor;
+				case ClassMediaKey: return TypeClassMediaKey;
+				case ClassInMidi: return TypeClassInMidi;
+				case ClassOutMidi: return TypeClassOutMidi;
+				case ClassOutMidiMackie: return TypeClassOutMidiMackie;
+				case ClassVirtualMidi: return TypeClassVirtualMidi;
+				case ClassNone:
 				default: return TypeClassNone;
 			}
 		}
@@ -73,54 +74,55 @@ namespace Common {
 			return getClassTypes(t);
 		}
 
-		std::wstring_view getType(Common::MIDI::MidiUnitType t) {
+		std::wstring_view getType(MidiUnitType t) {
 			switch (t) {
-				case 0: return TypeFADER;
-				case 1: return TypeSLIDER;
-				case 2: return TypeKNOB;
-				case 3: return TypeBUTTON;
-				case 4: return TypeBUTTONT;
-				case 5: return TypeKNOBI;
-				case 6: return TypeSLIDERI;
-				case 7: return TypeFADERI;
+				using enum MidiUnitType;
+				case FADER: return TypeFADER;
+				case SLIDER: return TypeSLIDER;
+				case KNOB: return TypeKNOB;
+				case BTN: return TypeBUTTON;
+				case BTNTOGGLE: return TypeBUTTONT;
+				case KNOBINVERT: return TypeKNOBI;
+				case SLIDERINVERT: return TypeSLIDERI;
+				case FADERINVERT: return TypeFADERI;
 				default: break;
 			}
 			return TypeNONE;
 		}
-		std::wstring_view MidiHelper::GetType(Common::MIDI::MidiUnitType& t) {
+		std::wstring_view MidiHelper::GetType(MidiUnitType& t) {
 			return getType(t);
 		}
 		std::wstring_view MidiHelper::GetType(uint8_t& i) {
-			return getType(static_cast<Common::MIDI::MidiUnitType>(i));
+			return getType(static_cast<MidiUnitType>(i));
 		}
 		std::wstring_view MidiHelper::GetType(uint32_t i) {
-			return getType(static_cast<Common::MIDI::MidiUnitType>(i));
+			return getType(static_cast<MidiUnitType>(i));
 		}
 
-		std::wstring_view getScene(Common::MIDI::MidiUnitScene t) {
-			
+		std::wstring_view getScene(MidiUnitScene t) {
 			switch (t) {
-				case MidiUnitScene::SC1: return L"1"sv;
-				case MidiUnitScene::SC2: return L"2"sv;
-				case MidiUnitScene::SC3: return L"3"sv;
-				case MidiUnitScene::SC4: return L"4"sv;
-				case MidiUnitScene::SC1KNOB: return L"1"sv;
-				case MidiUnitScene::SC2KNOB: return L"2"sv;
-				case MidiUnitScene::SC3KNOB: return L"3"sv;
-				case MidiUnitScene::SC4KNOB: return L"4"sv;
-				case MidiUnitScene::SC4BTN: return L"4"sv;
+				using enum MidiUnitScene;
+				case SC1: return L"1"sv;
+				case SC2: return L"2"sv;
+				case SC3: return L"3"sv;
+				case SC4: return L"4"sv;
+				case SC1KNOB: return L"1"sv;
+				case SC2KNOB: return L"2"sv;
+				case SC3KNOB: return L"3"sv;
+				case SC4KNOB: return L"4"sv;
+				case SC4BTN: return L"4"sv;
 				default: break;
 			}
 			return SceneNONE;
 		}
-		std::wstring_view MidiHelper::GetScene(Common::MIDI::MidiUnitScene& t) {
+		std::wstring_view MidiHelper::GetScene(MidiUnitScene& t) {
 			return getScene(t);
 		}
 		std::wstring_view MidiHelper::GetScene(uint8_t& u) {
-			return getScene(static_cast<Common::MIDI::MidiUnitScene>(u));
+			return getScene(static_cast<MidiUnitScene>(u));
 		}
 		std::wstring_view MidiHelper::GetScene(uint32_t u) {
-			return getScene(static_cast<Common::MIDI::MidiUnitScene>(u));
+			return getScene(static_cast<MidiUnitScene>(u));
 		}
 	}
 }

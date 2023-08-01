@@ -15,30 +15,61 @@
 namespace Common {
 	namespace MIDIMT {
 
+		enum class CbHWNDType : int {
+			TYPE_CB_LOG = 0,
+			TYPE_CB_MON,
+			TYPE_CB_NONE
+		};
+
+		class CbEventData;
+		class CbEventDataDeleter {
+		private:
+			CbEventData* cbd__ = nullptr;
+		public:
+
+			CbEventDataDeleter(CbEventData*);
+			~CbEventDataDeleter();
+			CbEventData* GetData();
+			CbHWNDType GetType();
+
+			template <typename T>
+			T Get();
+		};
+
+		class CbEventData {
+		private:
+			std::wstring ws__{};
+			std::pair<DWORD, MIDI::Mackie::MIDIDATA> data__;
+			CbHWNDType type__ = CbHWNDType::TYPE_CB_NONE;
+		public:
+
+			CbEventData(std::wstring);
+			CbEventData(MIDI::Mackie::MIDIDATA&, DWORD&);
+			CbHWNDType GetType();
+			CbEventDataDeleter GetDeleter();
+
+			template <typename T>
+			T Get();
+		};
+
 		class CbEvent : public MIDI::MidiInstance {
 		private:
-			log_string lsl__;
-			log_string lsm__;
-			std::queue<std::wstring> base_log__;
-			std::queue<std::pair<DWORD, Common::MIDI::Mackie::MIDIDATA>> base_monitor__;
+			int ILOG = -1, IMON = -1;
 
 			void LogCb(const std::wstring&);
-			const bool MonitorCb(Common::MIDI::Mackie::MIDIDATA&, DWORD&);
+			const bool MonitorCb(MIDI::Mackie::MIDIDATA&, DWORD&);
 
 		public:
 
-			bool IsLogOneLine = false;
-			bool IsMonitorOneLine = false;
-			std::function<void()> LogNotify;
-			std::function<void()> MonitorNotify;
-			callMidiOut1Cb MonitorData;
+			std::function<HWND()> HwndCb;
 
 			CbEvent();
 
+			void Init(int, int);
 			void Clear();
 			void AddToLog(std::wstring);
-			void LogLoop(HWND, UINT id);
-			void MonitorLoop(HWND, UINT id);
+			static void ToLog(HWND, CbEventData*, bool);
+			static void ToMonitor(HWND, CbEventData*, bool);
 		};
 	}
 }

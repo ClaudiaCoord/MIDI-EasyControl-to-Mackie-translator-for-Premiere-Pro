@@ -19,7 +19,7 @@ namespace Common {
     seh_exception::seh_exception() : err__(UINT_MAX-1) {}
     seh_exception::seh_exception(seh_exception& e) : err__(e.err__) {}
     seh_exception::seh_exception(uint32_t n) : err__(n) {}
-    uint32_t seh_exception::error() {
+    const uint32_t seh_exception::error() const {
         return err__;
     }
 

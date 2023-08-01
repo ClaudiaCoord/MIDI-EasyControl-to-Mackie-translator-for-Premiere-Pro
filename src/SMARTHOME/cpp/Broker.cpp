@@ -19,22 +19,12 @@ namespace Common {
 
 		#define MOSQ_WILL_ENABLE 1
 
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view errConfig = L": MQTT configuration is empty, abort.."sv;
-		constexpr std::wstring_view errClient = L": MQTT client creation error, canceled.."sv;
-		constexpr std::wstring_view okClient = L": MQTT client successfully created, continue.."sv;
-		constexpr std::wstring_view cbOnConnectOk = L": connected to MQTT server:"sv;
-		constexpr std::wstring_view cbOnConnectErr = L": failed connect to MQTT server:"sv;
-		constexpr std::wstring_view cbOnDisconnect = L": disconnected from MQTT server:"sv;
-		constexpr std::wstring_view sslCaFileMissing = L": CA certificate file not exists: "sv;
-
-		constexpr std::string_view strTopic = u8"sensor";
-		constexpr std::string_view strTopicTitle = u8"title";
-		constexpr std::string_view strTopicSlider = u8"slider";
-		constexpr std::string_view strTopicOnOff = u8"onoff";
-		constexpr std::string_view strTopicWill = u8"state";
-		constexpr std::string_view strDefaultName = u8"ctrl9";
+		constexpr std::u8string_view strTopic = u8"sensor";
+		constexpr std::u8string_view strTopicTitle = u8"title";
+		constexpr std::u8string_view strTopicSlider = u8"slider";
+		constexpr std::u8string_view strTopicOnOff = u8"onoff";
+		constexpr std::u8string_view strTopicWill = u8"state";
+		constexpr std::u8string_view strDefaultName = u8"ctrl9";
 
 		void default_mosquitto_deleter::operator()(void* m) {
 			mosquitto* mosq = (mosquitto*)m;
@@ -53,34 +43,38 @@ namespace Common {
 		static void cb_tolog__(const wchar_t locate[], std::wstring_view w, void* u, int rc, int flag = -1) {
 			try {
 				Broker* br = reinterpret_cast<Broker*>(u);
-				const char* s = ::mosquitto_reason_string(rc);
-				log_string log;
-				log << method_to_name(locate) << w;
+				const char* s = (rc != -1) ? ::mosquitto_reason_string(rc) : nullptr;
+				log_string ls;
+				ls.to_log_method(method_to_name(locate));
+				if (!w.empty())
+					ls << w.data() << L" ";
 				if (br != nullptr)
-					log << L" " << br->GetHost();
+					ls << L"-> " << br->GetHost().c_str();
 				if (s != nullptr)
-					log << " (" << Utils::to_string(s) << L")";
+					ls << " (" << Utils::to_string(s) << L")";
 				if (flag != -1)
-					log << L" [" << flag << L"]";
-				to_log::Get() << log.str();
+					ls << L" [" << flag << L"]";
+				if (!log_string::is_string_empty(ls))
+					to_log::Get() << ls.str();
 			} catch (...) {}
 		}
 		static void on_connect__(mosquitto*, void* u, int rc, int flag, const mosquitto_property*) {
-			cb_tolog__(__FUNCTIONW__, (rc == 0) ? cbOnConnectOk : cbOnConnectErr, u, rc, flag);
+			cb_tolog__(__FUNCTIONW__, (rc == 0) ?
+				common_error_code::Get().get_error(common_error_id::err_MQTT_CONNECTED) :
+				common_error_code::Get().get_error(common_error_id::err_MQTT_NOT_CONNECTED),
+				u, rc, flag
+			);
 		}
 		static void on_disconnect__(mosquitto*, void* u, int rc, const mosquitto_property*) {
-			cb_tolog__(__FUNCTIONW__, cbOnDisconnect, u, rc, -1);
+			cb_tolog__(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MQTT_DISCONNECTED), u, rc, -1);
 		}
 		static void on_log__(mosquitto* mosq, void* u, int level, const char* s) {
 			try {
+				if (s == nullptr) return;
 				Broker* br = reinterpret_cast<Broker*>(u);
 				if (br == nullptr) return;
-				if (br->GetLogLevel() >= level) {
-					if (s != nullptr)
-						to_log::Get() << (log_string() << method_to_name(__FUNCTIONW__) << L": " << Utils::to_string(s) << L" [" << level << L"]");
-					else
-						to_log::Get() << (log_string() << method_to_name(__FUNCTIONW__) << L": [" << level << L"]");
-				}
+				if (br->GetLogLevel() >= level)
+					cb_tolog__(__FUNCTIONW__, Utils::to_string(s), u, -1, level);
 			} catch (...) {}
 		}
 
@@ -105,7 +99,7 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		std::string Broker::get_target_topic_(MIDI::Mackie::Target key) {
+		std::u8string Broker::get_target_topic_(MIDI::Mackie::Target key) {
 			switch (key) {
 				case MIDI::Mackie::Target::AV1: return u8"av1";
 				case MIDI::Mackie::Target::AV2: return u8"av2";
@@ -155,7 +149,7 @@ namespace Common {
 				default: return u8"default";
 			}
 		}
-		std::string Broker::get_target_ttitle_(MIDI::Mackie::Target key) {
+		std::u8string Broker::get_target_ttitle_(MIDI::Mackie::Target key) {
 			switch (key) {
 				case MIDI::Mackie::Target::AV1: return u8"level 1";
 				case MIDI::Mackie::Target::AV2: return u8"level 2";
@@ -205,20 +199,19 @@ namespace Common {
 				default: return u8"default";
 			}
 		}
-		std::string Broker::build_topic_(std::string s, const std::string_view& v) {
+		std::string   Broker::build_topic_(std::u8string s, const std::u8string_view& v) {
 			std::stringstream topic;
-			topic << u8"";
 			if (!config__.mqttprefix.empty())
-				topic << config__.mqttprefix.c_str() << u8"/";
-			topic << strTopic;
+				topic << config__.mqttprefix.c_str() << u8"/"_logs;
+			topic << std::string(strTopic.begin(), strTopic.end());
 
 			if (!config__.login.empty())
-				topic << u8"/" << config__.login.c_str();
+				topic << u8"/"_logs << config__.login.c_str();
 			else
-				topic << u8"/" << strDefaultName;
+				topic << u8"/"_logs << std::string(strDefaultName.begin(), strDefaultName.end());
 			if (!s.empty())
-				topic << u8"/" << s.c_str();
-			topic << u8"/" << v;
+				topic << u8"/"_logs << std::string(s.begin(), s.end());
+			topic << u8"/"_logs << std::string(v.begin(), v.end());
 			return topic.str();
 		}
 
@@ -227,7 +220,7 @@ namespace Common {
 		}
 		std::wstring Broker::GetHost() {
 			std::wstringstream ws;
-			ws << std::wstring(config__.host.begin(), config__.host.end()) << L":" << config__.port;
+			ws << std::wstring(config__.host.begin(), config__.host.end()).c_str() << L":" << config__.port;
 			return ws.str();
 		}
 		int32_t Broker::GetLogLevel() {
@@ -241,12 +234,15 @@ namespace Common {
 				do {
 					config__.Copy(c);
 					if (config__.empty()) {
-						to_log::Get() << __FUNCTIONW__ << errConfig;
+						to_log::Get() << log_string().to_log_string(
+							__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_MQTT_EMPTY_CONFIG)
+						);
 						break;
 					}
 
 					std::stringstream mqttid;
-					mqttid << (!config__.login.empty() ? config__.login.c_str() : strDefaultName) << "-";
+					mqttid << (!config__.login.empty() ? config__.login.c_str() : std::string(strDefaultName.begin(), strDefaultName.end())) << "-";
 					mqttid << Utils::random_hash(this);
 
 					mosq = ::mosquitto_new(mqttid.str().c_str(), true, this);
@@ -267,7 +263,11 @@ namespace Common {
 							if ((err = ::mosquitto_tls_opts_set(mosq, 1, 0, 0)) != MOSQ_ERR_SUCCESS) break;
 							if ((err = ::mosquitto_tls_insecure_set(mosq, config__.isselfsigned)) != MOSQ_ERR_SUCCESS) break;
 						} else {
-							to_log::Get() << (log_string() << __FUNCTIONW__ << sslCaFileMissing << capath.wstring());
+							to_log::Get() << log_string().to_log_fomat(
+								__FUNCTIONW__,
+								common_error_code::Get().get_error(common_error_id::err_MQTT_NOT_CA_CERT),
+								capath.wstring()
+							);
 						}
 					}
 
@@ -275,7 +275,7 @@ namespace Common {
 					::mosquitto_disconnect_v5_callback_set(mosq, on_disconnect__);
 
 					#if defined(MOSQ_WILL_ENABLE)
-					std::string topic = build_topic_(std::string(), strTopicWill);
+					std::string topic = build_topic_(std::u8string(), strTopicWill);
 					if ((err = ::mosquitto_will_set_v5(mosq, topic.data(), 1, u8"0", 0, true, 0)) != MOSQ_ERR_SUCCESS) break;
 					#endif
 
@@ -294,21 +294,28 @@ namespace Common {
 				switch (err) {
 					case MOSQ_ERR_SUCCESS: {
 						if (mosq == nullptr) {
-							to_log::Get() << (log_string() << __FUNCTIONW__ << errClient);
+							to_log::Get() << log_string().to_log_string(
+								__FUNCTIONW__,
+								common_error_code::Get().get_error(common_error_id::err_MQTT_CLIENT_ERROR)
+							);
 							return false;
 						}
 						broker__.reset(mosq);
 						isrun__ = true;
+						to_log::Get() << log_string().to_log_string(
+							__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_MQTT_CLIENT_OK)
+						);
 						return true;
 					}
 					case MOSQ_ERR_ERRNO: {
 						_com_error e(err);
-						to_log::Get() << (log_string() << __FUNCTIONW__ << L": " << e.ErrorMessage());
+						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << e.ErrorMessage());
 						break;
 					}
 					default: {
 						const char* s = ::mosquitto_strerror(err);
-						to_log::Get() << (log_string() << __FUNCTIONW__ << L": " << Utils::to_string(s));
+						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << Utils::to_string(s));
 						break;
 					}
 				}
@@ -376,6 +383,11 @@ namespace Common {
 						v = val;
 						retain = true;
 					}
+					else if constexpr (std::is_same_v<std::u8string, T>) {
+						topic = build_topic_(get_target_topic_(target), strTopicTitle);
+						v = reinterpret_cast<const char*>(val.data());
+						retain = true;
+					}
 					else break;
 
 					err = ::mosquitto_loop_misc(mosq);
@@ -385,7 +397,7 @@ namespace Common {
 					else if (err == MOSQ_ERR_SUCCESS) {}
 					else break;
 
-					if ((err = ::mosquitto_publish_v5(mosq, &ids, topic.c_str(), v.size(), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
+					if ((err = ::mosquitto_publish_v5(mosq, &ids, topic.c_str(), static_cast<int>(v.size()), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
 					(void) ::mosquitto_loop_write(mosq, 1);
 
 				} while (0);
@@ -396,12 +408,12 @@ namespace Common {
 					}
 					case MOSQ_ERR_ERRNO: {
 						_com_error e(err);
-						to_log::Get() << (log_string() << __FUNCTIONW__ << L": " << e.ErrorMessage());
+						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << e.ErrorMessage());
 						break;
 					}
 					default: {
 						const char* s = ::mosquitto_strerror(err);
-						to_log::Get() << (log_string() << __FUNCTIONW__ << L": " << Utils::to_string(s));
+						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << Utils::to_string(s));
 						break;
 					}
 				}
@@ -412,5 +424,6 @@ namespace Common {
 		template void Broker::send<bool>(bool, MIDI::Mackie::Target);
 		template void Broker::send<uint32_t>(uint32_t, MIDI::Mackie::Target);
 		template void Broker::send<std::string>(std::string, MIDI::Mackie::Target);
+		template void Broker::send<std::u8string>(std::u8string, MIDI::Mackie::Target);
 	}
 }

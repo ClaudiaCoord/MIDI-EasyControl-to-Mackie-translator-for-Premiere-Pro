@@ -16,19 +16,15 @@ namespace Common {
 	namespace MMKey {
 
 		using namespace std::placeholders;
-		using namespace std::string_view_literals;
-
-		constexpr std::wstring_view strStartOk = L": The media key control service is running."sv;
-		constexpr std::wstring_view strStopOk = L": The media key control service has stopped."sv;
 
 		static bool message_once__ = false;
 		static MMKBridge mmkeysbridge__;
 
 		MMKBridge::MMKBridge() {
 			pid_cb__ = [](std::wstring&) { return 0U; };
-			type__ = Common::MIDI::ClassTypes::ClassMediaKey;
-			out1__ = [](Common::MIDI::Mackie::MIDIDATA&, DWORD&) { return false; };
-			out2__ = std::bind(static_cast<const bool(MMKBridge::*)(Common::MIDI::MidiUnit&, DWORD&)>(&MMKBridge::InCallBack), this, _1, _2);
+			type__ = MIDI::ClassTypes::ClassMediaKey;
+			out1__ = [](MIDI::Mackie::MIDIDATA&, DWORD&) { return false; };
+			out2__ = std::bind(static_cast<const bool(MMKBridge::*)(MIDI::MidiUnit&, DWORD&)>(&MMKBridge::InCallBack), this, _1, _2);
 			id__   = Utils::random_hash(this);
 		}
 		MMKBridge::~MMKBridge() {
@@ -36,15 +32,15 @@ namespace Common {
 		}
 
 		void MMKBridge::Stop() {
-			Common::common_config::Get().Local.IsMMKeyesRun(false);
-			Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStopOk);
+			common_config::Get().Local.IsMMKeyesRun(false);
+			to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MMKEY_STOP));
 			message_once__ = false;
 		}
 		MMKBridge& MMKBridge::Get() {
-			Common::common_config::Get().Local.IsMMKeyesRun(true);
+			common_config::Get().Local.IsMMKeyesRun(true);
 			if (!message_once__) {
 				message_once__ = true;
-				Common::to_log::Get() << (log_string() << __FUNCTIONW__ << strStartOk);
+				to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MMKEY_START));
 			}
 			return std::ref(mmkeysbridge__);
 		}
@@ -55,7 +51,7 @@ namespace Common {
 
 		/* Private */
 
-		const bool MMKBridge::InCallBack(Common::MIDI::MidiUnit& m, DWORD&) {
+		const bool MMKBridge::InCallBack(MIDI::MidiUnit& m, DWORD&) {
 			try {
 
 				if ((m.type != Common::MIDI::MidiUnitType::BTN) &&

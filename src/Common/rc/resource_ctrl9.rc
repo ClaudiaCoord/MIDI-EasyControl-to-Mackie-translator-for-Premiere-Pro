@@ -1,0 +1,4 @@
+
+#include "..\..\MIDIMT\rc\resource.h"
+
+IDB_BMP_ASSIGN	BITMAP				"icon\\AboutEctrl9Assign.bmp"

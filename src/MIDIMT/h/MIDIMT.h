@@ -32,6 +32,7 @@
 #include "ext\lodepng.h"
 #include "handle_ptr.h"
 #include "CbEvent.h"
+#include "CheckRun.h"
 #include "LangInterface.h"
 #include "GuiUtils.h"
 #include "ListEdit.h"

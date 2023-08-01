@@ -1,0 +1,1060 @@
+﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_ctrl9.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_GEORGIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie მთარგმნელი"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&ინფორმაცია", IDM_GO_INFO
+        MENUITEM "& აუდიო მიქსერი", IDM_GO_MIXER
+        MENUITEM "&მონიტორი", IDM_GO_MONITOR
+        MENUITEM "&დაყენება", IDM_GO_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "დაწყება", IDM_GO_START
+        MENUITEM "გაჩერდი", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "გასვლა", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "მდებარეობა.."
+        BEGIN
+            MENUITEM "ვერტიკალური მარცხენა", IDM_VERT_LEFT
+            MENUITEM "ვერტიკალური მარჯვენა", IDM_VERT_RIGHT
+            MENUITEM "ჰორიზონტალური ზედა", IDM_HOR_TOP
+            MENUITEM "ჰორიზონტალურად ბოლოში", IDM_HOR_BOTTOM
+        END
+        POPUP "თემა.."
+        BEGIN
+            MENUITEM "მეტრო", IDM_METRO
+            MENUITEM "Მსუბუქი", IDM_LIGHT
+            MENUITEM "Ბნელი", IDM_DARK
+            MENUITEM "რეტრო", IDM_RETRO
+            MENUITEM "Თანამედროვე", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Tuning მაისი", IDM_CUSTOM
+            MENUITEM "თემის პერსონალიზაცია", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&ანიმაცია", IDM_ANIMATION
+        MENUITEM "&აპის გზა", IDM_APP_PATH
+        MENUITEM "დამაგრება & MIDI კონტროლი", IDM_MIDI_BIND
+        MENUITEM "Peak & Loudness Meter", IDM_PEAK_METER
+        MENUITEM "დაიმახსოვრე პოზიცია", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&დახურვა", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Ახალი ჩანაწერი", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "კოპირება", IDM_LV_COPY
+        MENUITEM "ჩასმა", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "წაშლა", IDM_LV_DELETE
+        POPUP "დააყენეთ როგორც.."
+        BEGIN
+            MENUITEM "კონტროლი მიმართეთ აუდიო მიქსერს", IDM_LV_SET_MIXER
+            MENUITEM "მულტიმედიური ღილაკებთან დაკავშირებული კონტროლი", IDM_LV_SET_MMKEY
+            MENUITEM "კონტროლი ჭკვიანი სახლის მკურნალობა", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "მინიჭებული არ არის", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "წაიკითხეთ MIDI კოდი..", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "რეგულატორები.."
+        BEGIN
+            MENUITEM "ზოლის რეგულატორი", IDM_COL3_SLIDER
+            MENUITEM "ზოლის ინვერსიული რეგულატორი", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "მბრუნავი სლაიდერი", IDM_COL3_FADER
+            MENUITEM "მბრუნავი ღილაკი ინვერსიით", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "შიფრატორი", IDM_COL3_KNOB
+            MENUITEM "შიფრატორი ინვერსიით", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "მინიჭებული არ არის", IDM_COL3_NONE
+        END
+        POPUP "ღილაკები.."
+        BEGIN
+            MENUITEM "ღილაკი", IDM_COL3_BTN
+            MENUITEM "გადართვის ღილაკი, მითითებით", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "მინიჭებული არ არის", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "რეგულატორები..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "ღილაკები..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "კონტროლი მიმართეთ აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
+        MENUITEM "მულტიმედიური ღილაკებთან დაკავშირებული კონტროლი", IDM_COL4_MEDIAKEY
+        MENUITEM "კონტროლი ჭკვიანი სახლის მკურნალობა", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "ხმის კონტროლი.."
+        BEGIN
+            MENUITEM "დადუმება (ოსტატი)", IDM_COL4_MAM
+            MENUITEM "სოლო (ოსტატი)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "მდუმარე.."
+            BEGIN
+                MENUITEM "არხი 1", IDM_COL4_B21
+                MENUITEM "არხი 2", IDM_COL4_B22
+                MENUITEM "არხი 3", IDM_COL4_B23
+                MENUITEM "არხი 4", IDM_COL4_B24
+                MENUITEM "არხი 5", IDM_COL4_B25
+                MENUITEM "არხი 6", IDM_COL4_B26
+                MENUITEM "არხი 7", IDM_COL4_B27
+                MENUITEM "არხი 8", IDM_COL4_B28
+                MENUITEM "არხი 9", IDM_COL4_B29
+            END
+            POPUP "სოლო.."
+            BEGIN
+                MENUITEM "არხი 1", IDM_COL4_B11
+                MENUITEM "არხი 2", IDM_COL4_B12
+                MENUITEM "არხი 3", IDM_COL4_B13
+                MENUITEM "არხი 4", IDM_COL4_B14
+                MENUITEM "არხი 5", IDM_COL4_B15
+                MENUITEM "არხი 6", IDM_COL4_B16
+                MENUITEM "არხი 7", IDM_COL4_B17
+                MENUITEM "არხი 8", IDM_COL4_B18
+                MENUITEM "არხი 9", IDM_COL4_B19
+            END
+        END
+        POPUP "მულტიმედიური ღილაკები.."
+        BEGIN
+            MENUITEM "დაკვრა/პაუზა", IDM_COL4_SYS_Play
+            MENUITEM "გაჩერდი", IDM_COL4_SYS_Stop
+            MENUITEM "წინა", IDM_COL4_SYS_Rewind
+            MENUITEM "შემდეგი", IDM_COL4_SYS_Forward
+            MENUITEM "ჩაწერა", IDM_COL4_SYS_Record
+            MENUITEM "ზემოთ (ჯოისტიკი)", IDM_COL4_SYS_Up
+            MENUITEM "ქვემოთ (ჯოისტიკი)", IDM_COL4_SYS_Down
+            MENUITEM "მარჯვენა (ჯოისტიკი)", IDM_COL4_SYS_Right
+            MENUITEM "მარცხენა (ჯოისტიკი)", IDM_COL4_SYS_Left
+            MENUITEM "Მიახლოება", IDM_COL4_SYS_Zoom
+            MENUITEM "სკრაბინგი", IDM_COL4_SYS_Scrub
+        END
+        POPUP """Premiere Pro"" მახასიათებლები .."
+        BEGIN
+            POPUP "სტანდარტული ღილაკის ფუნქციები.."
+            BEGIN
+                MENUITEM "ფუნქცია 1", IDM_COL4_FUN11
+                MENUITEM "თვისება 2", IDM_COL4_FUN12
+                MENUITEM "ფუნქცია 3", IDM_COL4_FUN13
+                MENUITEM "თვისება 4", IDM_COL4_FUN14
+                MENUITEM "თვისება 5", IDM_COL4_FUN15
+                MENUITEM "ფუნქცია 6", IDM_COL4_FUN16
+                MENUITEM "ფუნქცია 7", IDM_COL4_FUN17
+                MENUITEM "ფუნქცია 8", IDM_COL4_FUN18
+            END
+            POPUP """ერთი შეხებით"" ღილაკის ფუნქციები.."
+            BEGIN
+                MENUITEM "ფუნქცია 1", IDM_COL4_FUN21
+                MENUITEM "თვისება 2", IDM_COL4_FUN22
+                MENUITEM "ფუნქცია 3", IDM_COL4_FUN23
+                MENUITEM "თვისება 4", IDM_COL4_FUN24
+                MENUITEM "თვისება 5", IDM_COL4_FUN25
+                MENUITEM "ფუნქცია 6", IDM_COL4_FUN26
+                MENUITEM "ფუნქცია 7", IDM_COL4_FUN27
+                MENUITEM "ფუნქცია 8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "ღილაკები ""ჭკვიანი სახლის"" სისტემაში.."
+        BEGIN
+            MENUITEM "ჩართვა/გამორთვა 1", IDM_COL4_B11
+            MENUITEM "ჩართვა/გამორთვა 2", IDM_COL4_B12
+            MENUITEM "ჩართვა/გამორთვა 3", IDM_COL4_B13
+            MENUITEM "ჩართვა/გამორთვა 4", IDM_COL4_B14
+            MENUITEM "ჩართვა/გამორთვა 5", IDM_COL4_B15
+            MENUITEM "ჩართვა/გამორთვა 6", IDM_COL4_B16
+            MENUITEM "ჩართვა/გამორთვა 7", IDM_COL4_B17
+            MENUITEM "ჩართვა/გამორთვა 8", IDM_COL4_B18
+            MENUITEM "ჩართვა/გამორთვა 9", IDM_COL4_B19
+            MENUITEM "ჩართვა/გამორთვა 10", IDM_COL4_B21
+            MENUITEM "ჩართვა/გამორთვა 11", IDM_COL4_B22
+            MENUITEM "ჩართვა/გამორთვა 12", IDM_COL4_B23
+            MENUITEM "ჩართვა/გამორთვა 13", IDM_COL4_B24
+            MENUITEM "ჩართვა/გამორთვა 14", IDM_COL4_B25
+            MENUITEM "ჩართვა/გამორთვა 15", IDM_COL4_B26
+            MENUITEM "ჩართვა/გამორთვა 16", IDM_COL4_B27
+            MENUITEM "ჩართვა/გამორთვა 17", IDM_COL4_B28
+            MENUITEM "ჩართვა/გამორთვა 18", IDM_COL4_B29
+            MENUITEM "ჩართვა/გამორთვა 19", IDM_COL4_B31
+            MENUITEM "ჩართვა/გამორთვა 20", IDM_COL4_B32
+            MENUITEM "ჩართვა/გამორთვა 21", IDM_COL4_B33
+            MENUITEM "ჩართვა/გამორთვა 22", IDM_COL4_B34
+            MENUITEM "ჩართვა/გამორთვა 23", IDM_COL4_B35
+            MENUITEM "ჩართვა/გამორთვა 24", IDM_COL4_B36
+            MENUITEM "ჩართვა/გამორთვა 25", IDM_COL4_B37
+            MENUITEM "ჩართვა/გამორთვა 26", IDM_COL4_B38
+            MENUITEM "ჩართვა/გამორთვა 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "კონტროლი მიმართეთ აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
+        MENUITEM "მულტიმედიური ღილაკებთან დაკავშირებული კონტროლი", IDM_COL4_MEDIAKEY
+        MENUITEM "კონტროლი ჭკვიანი სახლის მკურნალობა", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "ენკოდერი (კადრის მიხედვით)", IDM_COL4_JOG
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "ხმის კონტროლი.."
+        BEGIN
+            MENUITEM "მოცულობა (მასტერი)", IDM_COL4_MAV
+            MENUITEM "ბალანსი (ოსტატი)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "მოცულობა.."
+            BEGIN
+                MENUITEM "არხი 1", IDM_COL4_AV1
+                MENUITEM "არხი 2", IDM_COL4_AV2
+                MENUITEM "არხი 3", IDM_COL4_AV3
+                MENUITEM "არხი 4", IDM_COL4_AV4
+                MENUITEM "არხი 5", IDM_COL4_AV5
+                MENUITEM "არხი 6", IDM_COL4_AV6
+                MENUITEM "არხი 7", IDM_COL4_AV7
+                MENUITEM "არხი 8", IDM_COL4_AV8
+                MENUITEM "არხი 9", IDM_COL4_XV9
+            END
+            POPUP "Ბალანსი .."
+            BEGIN
+                MENUITEM "არხი 1", IDM_COL4_AP1
+                MENUITEM "არხი 2", IDM_COL4_AP2
+                MENUITEM "არხი 3", IDM_COL4_AP3
+                MENUITEM "არხი 4", IDM_COL4_AP4
+                MENUITEM "არხი 5", IDM_COL4_AP5
+                MENUITEM "არხი 6", IDM_COL4_AP6
+                MENUITEM "არხი 7", IDM_COL4_AP7
+                MENUITEM "არხი 8", IDM_COL4_AP8
+                MENUITEM "არხი 9", IDM_COL4_XP9
+            END
+        END
+        POPUP "რეგულატორები ""ჭკვიანი სახლის"" სისტემაში.."
+        BEGIN
+            MENUITEM "დონე 1", IDM_COL4_AV1
+            MENUITEM "დონე 2", IDM_COL4_AV2
+            MENUITEM "დონე 3", IDM_COL4_AV3
+            MENUITEM "დონე 4", IDM_COL4_AV4
+            MENUITEM "დონე 5", IDM_COL4_AV5
+            MENUITEM "დონე 6", IDM_COL4_AV6
+            MENUITEM "დონე 7", IDM_COL4_AV7
+            MENUITEM "დონე 8", IDM_COL4_AV8
+            MENUITEM "დონე 9", IDM_COL4_XV9
+            MENUITEM "დონე 10", IDM_COL4_AP1
+            MENUITEM "დონე 11", IDM_COL4_AP2
+            MENUITEM "დონე 12", IDM_COL4_AP3
+            MENUITEM "დონე 13", IDM_COL4_AP4
+            MENUITEM "დონე 14", IDM_COL4_AP5
+            MENUITEM "დონე 15", IDM_COL4_AP6
+            MENUITEM "დონე 16", IDM_COL4_AP7
+            MENUITEM "დონე 17", IDM_COL4_AP8
+            MENUITEM "დონე 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "კონტროლი მიმართეთ აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
+        MENUITEM "მულტიმედიური ღილაკებთან დაკავშირებული კონტროლი", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "მოცულობა (მასტერი)", IDM_COL4_MAV
+        MENUITEM "შიფრატორი (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "მოცულობა.."
+        BEGIN
+            MENUITEM "არხი 1", IDM_COL4_AV1
+            MENUITEM "არხი 2", IDM_COL4_AV2
+            MENUITEM "არხი 3", IDM_COL4_AV3
+            MENUITEM "არხი 4", IDM_COL4_AV4
+            MENUITEM "არხი 5", IDM_COL4_AV5
+            MENUITEM "არხი 6", IDM_COL4_AV6
+            MENUITEM "არხი 7", IDM_COL4_AV7
+            MENUITEM "არხი 8", IDM_COL4_AV8
+            MENUITEM "არხი 9", IDM_COL4_XV9
+            MENUITEM "არხი 10", IDM_COL4_AP1
+            MENUITEM "არხი 11", IDM_COL4_AP2
+            MENUITEM "არხი 12", IDM_COL4_AP3
+            MENUITEM "არხი 13", IDM_COL4_AP4
+            MENUITEM "არხი 14", IDM_COL4_AP5
+            MENUITEM "არხი 15", IDM_COL4_AP6
+            MENUITEM "არხი 16", IDM_COL4_AP7
+            MENUITEM "არხი 17", IDM_COL4_AP8
+            MENUITEM "არხი 18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "დადუმება (ოსტატი)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "მდუმარე.."
+        BEGIN
+            MENUITEM "არხი 1", IDM_COL4_B21
+            MENUITEM "არხი 2", IDM_COL4_B22
+            MENUITEM "არხი 3", IDM_COL4_B23
+            MENUITEM "არხი 4", IDM_COL4_B24
+            MENUITEM "არხი 5", IDM_COL4_B25
+            MENUITEM "არხი 6", IDM_COL4_B26
+            MENUITEM "არხი 7", IDM_COL4_B27
+            MENUITEM "არხი 8", IDM_COL4_B28
+            MENUITEM "არხი 9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "დაკვრა/პაუზა", IDM_COL4_SYS_Play
+        MENUITEM "გაჩერდი", IDM_COL4_SYS_Stop
+        MENUITEM "წინა", IDM_COL4_SYS_Rewind
+        MENUITEM "შემდეგი", IDM_COL4_SYS_Forward
+        MENUITEM "ჩაწერა", IDM_COL4_SYS_Record
+        MENUITEM "ზემოთ (ჯოისტიკი)", IDM_COL4_SYS_Up
+        MENUITEM "ქვემოთ (ჯოისტიკი)", IDM_COL4_SYS_Down
+        MENUITEM "მარჯვენა (ჯოისტიკი)", IDM_COL4_SYS_Right
+        MENUITEM "მარცხენა (ჯოისტიკი)", IDM_COL4_SYS_Left
+        MENUITEM "Მიახლოება", IDM_COL4_SYS_Zoom
+        MENUITEM "სკრაბინგი", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "დონე 1", IDM_COL4_AV1
+        MENUITEM "დონე 2", IDM_COL4_AV2
+        MENUITEM "დონე 3", IDM_COL4_AV3
+        MENUITEM "დონე 4", IDM_COL4_AV4
+        MENUITEM "დონე 5", IDM_COL4_AV5
+        MENUITEM "დონე 6", IDM_COL4_AV6
+        MENUITEM "დონე 7", IDM_COL4_AV7
+        MENUITEM "დონე 8", IDM_COL4_AV8
+        MENUITEM "დონე 9", IDM_COL4_XV9
+        MENUITEM "დონე 10", IDM_COL4_AP1
+        MENUITEM "დონე 11", IDM_COL4_AP2
+        MENUITEM "დონე 12", IDM_COL4_AP3
+        MENUITEM "დონე 13", IDM_COL4_AP4
+        MENUITEM "დონე 14", IDM_COL4_AP5
+        MENUITEM "დონე 15", IDM_COL4_AP6
+        MENUITEM "დონე 16", IDM_COL4_AP7
+        MENUITEM "დონე 17", IDM_COL4_AP8
+        MENUITEM "დონე 18", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "ჩართვა/გამორთვა 1", IDM_COL4_B11
+        MENUITEM "ჩართვა/გამორთვა 2", IDM_COL4_B12
+        MENUITEM "ჩართვა/გამორთვა 3", IDM_COL4_B13
+        MENUITEM "ჩართვა/გამორთვა 4", IDM_COL4_B14
+        MENUITEM "ჩართვა/გამორთვა 5", IDM_COL4_B15
+        MENUITEM "ჩართვა/გამორთვა 6", IDM_COL4_B16
+        MENUITEM "ჩართვა/გამორთვა 7", IDM_COL4_B17
+        MENUITEM "ჩართვა/გამორთვა 8", IDM_COL4_B18
+        MENUITEM "ჩართვა/გამორთვა 9", IDM_COL4_B19
+        MENUITEM "ჩართვა/გამორთვა 10", IDM_COL4_B21
+        MENUITEM "ჩართვა/გამორთვა 11", IDM_COL4_B22
+        MENUITEM "ჩართვა/გამორთვა 12", IDM_COL4_B23
+        MENUITEM "ჩართვა/გამორთვა 13", IDM_COL4_B24
+        MENUITEM "ჩართვა/გამორთვა 14", IDM_COL4_B25
+        MENUITEM "ჩართვა/გამორთვა 15", IDM_COL4_B26
+        MENUITEM "ჩართვა/გამორთვა 16", IDM_COL4_B27
+        MENUITEM "ჩართვა/გამორთვა 17", IDM_COL4_B28
+        MENUITEM "ჩართვა/გამორთვა 18", IDM_COL4_B29
+        MENUITEM "ჩართვა/გამორთვა 19", IDM_COL4_B31
+        MENUITEM "ჩართვა/გამორთვა 20", IDM_COL4_B32
+        MENUITEM "ჩართვა/გამორთვა 21", IDM_COL4_B33
+        MENUITEM "ჩართვა/გამორთვა 22", IDM_COL4_B34
+        MENUITEM "ჩართვა/გამორთვა 23", IDM_COL4_B35
+        MENUITEM "ჩართვა/გამორთვა 24", IDM_COL4_B36
+        MENUITEM "ჩართვა/გამორთვა 25", IDM_COL4_B37
+        MENUITEM "ჩართვა/გამორთვა 26", IDM_COL4_B38
+        MENUITEM "ჩართვა/გამორთვა 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "მინიჭებული არ არის", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_EN,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "განახლებები",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "დახმარება",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&დახურვა",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&MIDI პანელის დაყენება",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&დახურვა",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "რეკომენდებული MIDI მართვის პანელის განლაგება. ფაილი ამ განლაგების პარამეტრებით მდებარეობს საქაღალდეში 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "MIDI მთარგმნელის გაშვება"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI მოწყობილობები",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI ხიდი",IDC_STATIC,11,73,326,79
+    CONTROL         "დაიწყო",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "გაჩერდა",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "კონფიგურაცია",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI კონტროლი",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "ინტერვალი დაწკაპუნებებს შორის",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "ინტერვალი ხანგრძლივი დაჭერით",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "გაშვება",IDC_STATIC,11,156,135,148
+    CONTROL         "დაიწყეთ სისტემის ჩატვირთვით",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "ავტომატური დაწყება გაშვებისას",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "ამ კონფიგურაციის ავტომატური დაწყება",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "დაწერეთ ჟურნალი",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "სასურველი ენა:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "გამოიყენეთ მაუსის მარჯვენა ღილაკი მიქსერის დასარეკად",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI პარამეტრები",IDC_STATIC,151,156,97,64
+    CONTROL         "მძღოლი:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOG სცენის ფილტრი",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "პორტი არ შეიქმნა",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI პროქსი",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "პორტების რაოდენობა",IDC_STATIC,260,183,66,8
+    CONTROL         "შედის",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "აუდიო მიქსერის პარამეტრები",IDC_STATIC,152,224,184,80
+    CONTROL         "შედის",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "მოცულობის მნიშვნელობების შეცვლა შემოწმების გარეშე",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "აპლიკაციების შერწყმა სახელით, ცალკე კორექტირება შეუძლებელია",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "დააყენეთ შენახული ხმის დონეები გაშვებისას",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "MM კლავიშების ჩართვა",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Პარამეტრების შენახვა",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&დაწყება",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "კონფიგურაცია",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Ჭკვიანი სახლი",IDC_STATIC,343,73,199,262
+    CONTROL         "შედის",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTT სერვერი",IDC_STATIC,350,102,186,44
+    CONTROL         "IP მისამართი:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "პორტი:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Უსაფრთხოება",IDC_STATIC,350,149,186,106
+    CONTROL         "შესვლა:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "პაროლი:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSK გასაღები:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS ჩართულია",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "თვით ხელმოწერილი",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA სერთიფიკატი",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "Პარამეტრები",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT თემის პრეფიქსი: (სურვილისამებრ)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "MQTT სესიების აღრიცხვის დონე:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&დახურვა",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "განახლებები",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&პროგრამის შესახებ...",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDI ბრძანების მონიტორი"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "ბრძანების მონიტორი",IDC_STATIC,9,4,285,54
+    LTEXT           "MIDI ბრძანების მონიტორი დაგეხმარებათ განსაზღვროთ როგორ არის დაყენებული კონტროლერი. ტესტირების დასაწყებად დააჭირეთ ღილაკს ""დაწყება"". თქვენს კონტროლერზე სხვადასხვა კონტროლის გამოყენებით, თქვენ მიიღებთ შეტყობინებებს სცენის, ნომრისა და მიმდინარე მნიშვნელობის შესახებ.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "გაჩერდი",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "დაწყება",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&დახურვა",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "სუფთა და ციცაბო",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 711, 249
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "MIDI კონტროლის პარამეტრი"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDI კონტროლის დაყენება",IDC_STATIC,7,4,215,224
+    CTEXT           "0",IDC_SETUP_COUNT,200,5,15,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,17,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI",IDC_STATIC,228,4,258,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,238,17,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "და წაიკითხეთ MIDI კოდი",IDC_SETUP_CODE,275,17,183,19,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_INFO,458,17,19,19,BS_ICON | BS_FLAT
+    GROUPBOX        "ინფორმაცია",IDC_STATIC,227,44,259,167
+    LTEXT           "კონტროლი:",IDC_STATIC,240,64,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,64,28,10,WS_EX_RIGHT
+    LTEXT           "სცენა:",IDC_STATIC,240,76,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,76,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,76,28,10,WS_EX_RIGHT
+    LTEXT           "კონტროლის ტიპი:",IDC_STATIC,240,88,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,88,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,88,28,10,WS_EX_RIGHT
+    LTEXT           "მიზანი:",IDC_STATIC,240,100,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,100,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,100,28,10,WS_EX_RIGHT
+    LTEXT           "მიზანი (ხანგრძლივი დაწკაპუნებით):",IDC_STATIC,240,112,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,112,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,112,28,10,WS_EX_RIGHT
+    LTEXT           "მიქსერით რეგულირებადი აპლიკაციები:",IDC_STATIC,240,124,144,10
+    LISTBOX         IDC_SETUP_APPLIST,240,136,215,48,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,240,190,155,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,403,188,53,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,132,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,150,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,168,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Გადარჩენა",IDC_DIALOG_SAVE,228,214,80,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&ექსპორტი",IDC_DIALOG_EXPORT,310,214,80,14,BS_FLAT
+    PUSHBUTTON      "&დახურვა",IDCANCEL,392,214,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,232,480,13
+    GROUPBOX        "მინიშნებები",IDC_STATIC,493,4,209,241
+    LISTBOX         IDC_SETUP_HELPLIST,501,35,193,203,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "ყველა",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,18,27,10
+    CONTROL         "ღილაკები",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,18,41,10
+    CONTROL         "სლაიდერები",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,18,51,10
+    CONTROL         "მულტიმედია",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,632,18,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "მორგებული თემის დაყენება"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "თქვენი თემის ფერები",IDC_STATIC,9,8,188,107
+    CONTROL         "ტექსტის ფერი",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "Ფონის ფერი",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "ჩარჩოს ფერი",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "ბაზის თემა",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "მეტრო",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Მსუბუქი",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Ბნელი",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "რეტრო",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Თანამედროვე",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI Mackie Translator"
+    IDS_MIXER               "& მიქსერი"
+    IDS_SETTINGS            "&პარამეტრები"
+    IDS_START               "დაწყება"
+    IDS_STOP                "გაჩერდი"
+    IDS_EXIT                "გასვლა"
+    IDS_SETUP_MSG1          "კონფიგურაცია ჩატვირთულია დრაივერისგან"
+    IDS_SETUP_MSG2          "კონფიგურაცია ჩატვირთულია ფაილიდან"
+    IDS_SETUP_MSG3          "კონფიგურაცია ახლად შექმნილია და საჭიროებს შევსებას"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT კონფიგურაცია"
+    IDS_CONFIG_EXE_FILTER   "შესრულებადი ფაილები"
+    IDS_MQTT_CA_FILTER      "CA სერთიფიკატი"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI თარჯიმანი არ მუშაობს."
+    IDS_INFO2               "MIDI თარჯიმანი მუშაობს:"
+    IDS_INFO3               "შეყვანის მოწყობილობა:"
+    IDS_INFO4               "Mackie/Premier გამომავალი პორტი:"
+    IDS_INFO5               "გამომავალი პროქსი პორტი:"
+    IDS_INFO6               "აუდიო მიქსერი მუშაობს."
+    IDS_INFO7               "მულტიმედიური კლავიშის კონტროლი მუშაობს, შეამოწმეთ პარამეტრები."
+    IDS_INFO8               "აუდიო მიქსერი არ მუშაობს, შეამოწმეთ პარამეტრები, ჩართული უნდა იყოს აუდიო პანელის გაშვება."
+    IDS_INFO9               "არასწორი მოვლენის ID. გთხოვთ გადატვირთოთ ეს აპლიკაცია."
+    IDS_INF1O               "UI თემატიკაზე გადართვა ვერ მოხერხდა, აუდიო პანელის გაშვება შეწყდა."
+    IDS_INF11               "MIDIMT - აუდიო მიქსერი არ მუშაობს:"
+    IDS_INF12               "MIDIMT - ოპერაციის დასრულება შეუძლებელია:"
+    IDS_INF13               "„ჭკვიანი სახლის“ მოწყობილობის მართვა გაშვებულია."
+    IDS_DLG_MSG1            "MIDI Mackie გამომავალი"
+    IDS_DLG_MSG2            "MIDI პროქსის გამომავალი"
+    IDS_DLG_MSG3            "MIDI ვირტუალური დრაივერის ვერსია:"
+    IDS_DLG_MSG4            "დაინსტალირებული MIDI ვირტუალური დრაივერი ვერ მოიძებნა! თქვენ უნდა დააინსტალიროთ Virtual Loop MIDI პაკეტი თარჯიმნის გასაშვებად"
+    IDS_DLG_MSG5            "გაშვებისას შეიქმნება პროქსი MIDI პორტები:"
+    IDS_DLG_MSG6            "MIDI პროქსი პორტები გამორთულია."
+    IDS_DLG_MSG7            "არჩეული ენა აქტიური იქნება ფანჯრის გადატვირთვის შემდეგ -"
+    IDS_DLG_MSG8            "მინიჭებული MIDI შეყვანის მოწყობილობა"
+    IDS_DLG_MSG9            "გთხოვთ, შეცვალოთ კონფიგურაცია დაწყებამდე."
+    IDS_DLG_MSG10           "დაინსტალირებული ვირტუალური MIDI დრაივერის ვერსია:"
+    IDS_DLG_MSG11           "არჩეულ კონფიგურაციას არ აქვს ავტომატური გაშვების მხარდაჭერა."
+    IDS_DLG_MSG12           "გთხოვთ, მონიტორის ჩართვამდე, მენიუდან გაუშვით MIDI bridge „დაწყების“ დარეკვით."
+    IDS_DLG_MSG13           "გაშვებისას მითითებული კონფიგურაციის ფაილი: „{0}“. დააყენოთ ის, როგორც კონფიგურაცია შემდგომი გაშვებებისთვის?"
+    IDS_DLG_MSG14           "რედაქტორის გახსნისას მითითებული იყო კონფიგურაციის ფაილი: „{0}“. შეინახოთ იგივე სახელით?"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "აუდიოს მოცულობა (ძირითადი)"
+    IDM_COL4_MAP            "ხმის ბალანსი (ძირითადი)"
+    IDM_COL4_MAM            "მუნჯი (ძირითადი)"
+    IDM_COL4_MAS            "აუდიო სოლო (მთავარი)"
+    IDM_COL4_JOG            "JOG (ვიდეო კადრის გადახვევა)"
+    IDM_COL4_AV1            "ხმის მოცულობა (არხი 1)"
+    IDM_COL4_AV2            "ხმის მოცულობა (არხი 2)"
+    IDM_COL4_AV3            "ხმის მოცულობა (არხი 3)"
+    IDM_COL4_AV4            "ხმის მოცულობა (არხი 4)"
+    IDM_COL4_AV5            "ხმის მოცულობა (არხი 5)"
+    IDM_COL4_AV6            "ხმის მოცულობა (არხი 6)"
+    IDM_COL4_AV7            "ხმის მოცულობა (არხი 7)"
+    IDM_COL4_AV8            "ხმის მოცულობა (არხი 8)"
+    IDM_COL4_XV9            "ხმის მოცულობა (არხი 9)"
+    IDM_COL4_AP1            "ხმის ბალანსი (არხი 1)"
+    IDM_COL4_AP2            "ხმის ბალანსი (არხი 2)"
+    IDM_COL4_AP3            "ხმის ბალანსი (არხი 3)"
+    IDM_COL4_AP4            "ხმის ბალანსი (არხი 4)"
+    IDM_COL4_AP5            "ხმის ბალანსი (არხი 5)"
+    IDM_COL4_AP6            "ხმის ბალანსი (არხი 6)"
+    IDM_COL4_AP7            "ხმის ბალანსი (არხი 7)"
+    IDM_COL4_AP8            "ხმის ბალანსი (არხი 8)"
+    IDM_COL4_XP9            "ხმის ბალანსი (არხი 9)"
+    IDM_COL4_B11            "აუდიო სოლო (არხი 1)"
+    IDM_COL4_B12            "აუდიო სოლო (არხი 2)"
+    IDM_COL4_B13            "აუდიო სოლო (არხი 3)"
+    IDM_COL4_B14            "აუდიო სოლო (არხი 4)"
+    IDM_COL4_B15            "აუდიო სოლო (არხი 5)"
+    IDM_COL4_B16            "აუდიო სოლო (არხი 6)"
+    IDM_COL4_B17            "აუდიო სოლო (არხი 7)"
+    IDM_COL4_B18            "აუდიო სოლო (არხი 8)"
+    IDM_COL4_B19            "აუდიო სოლო (არხი 9)"
+    IDM_COL4_B21            "დადუმება (არხი 1)"
+    IDM_COL4_B22            "დადუმება (არხი 2)"
+    IDM_COL4_B23            "დადუმება (არხი 3)"
+    IDM_COL4_B24            "დადუმება (არხი 4)"
+    IDM_COL4_B25            "დადუმება (არხი 5)"
+    IDM_COL4_B26            "დადუმება (არხი 6)"
+    IDM_COL4_B27            "დადუმება (არხი 7)"
+    IDM_COL4_B28            "დადუმება (არხი 8)"
+    IDM_COL4_B29            "დადუმება (არხი 9)"
+    IDM_COL4_B31            "ხმის შერჩევა (არხი 1)"
+    IDM_COL4_B32            "ხმის შერჩევა (არხი 2)"
+    IDM_COL4_B33            "ხმის შერჩევა (არხი 3)"
+    IDM_COL4_B34            "ხმის შერჩევა (არხი 4)"
+    IDM_COL4_B35            "ხმის შერჩევა (არხი 5)"
+    IDM_COL4_B36            "ხმის შერჩევა (არხი 6)"
+    IDM_COL4_B37            "ხმის შერჩევა (არხი 7)"
+    IDM_COL4_B38            "ხმის შერჩევა (არხი 8)"
+    IDM_COL4_B39            "ხმის შერჩევა (არხი 9)"
+    IDM_COL4_FUN11          "ფუნქცია F1 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN12          "ფუნქცია F2 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN13          "ფუნქცია F3 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN14          "ფუნქცია F4 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN15          "ფუნქცია F5 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN16          "ფუნქცია F6 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN17          "ფუნქცია F7 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN18          "ფუნქცია F8 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN21          "F1 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN22          "F2 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN23          "F3 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN24          "F4 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN25          "F5 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN26          "F6 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN27          "F7 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_FUN28          "F8 ფუნქცია (შეკავების რეჟიმი)"
+    IDM_COL4_SYS_Rewind     "გადახვევა (მოთამაშე)"
+    IDM_COL4_SYS_Forward    "სწრაფი წინსვლა (მოთამაშე)"
+    IDM_COL4_SYS_Stop       "გაჩერება (მოთამაშე)"
+    IDM_COL4_SYS_Play       "თამაში (მოთამაშე)"
+    IDM_COL4_SYS_Record     "ჩაწერა (პლეერი)"
+    IDM_COL4_SYS_Up         "ზემოთ (ჯოისტიკი)"
+    IDM_COL4_SYS_Down       "ქვემოთ (ჯოისტიკი)"
+    IDM_COL4_SYS_Left       "მარცხენა (ჯოისტიკი)"
+    IDM_COL4_SYS_Right      "მარჯვენა (ჯოისტიკი)"
+    IDM_COL4_SYS_Zoom       "Მომატება"
+    IDM_COL4_SYS_Scrub      "სკრაბი"
+    IDM_COL4_VOLUMEMIX      "მიქსერის კონტროლი"
+    IDM_COL4_MEDIAKEY       "მულტიმედიური კლავიშები"
+    IDM_COL4_MQTTKEY        "ჭკვიანი სახლის კონტროლი"
+    IDM_COL4_NONE           "მოქმედება არ არის განსაზღვრული"
+    IDM_COL4_MQTT_AV1       "დონე 1"
+    IDM_COL4_MQTT_AV2       "დონე 2"
+    IDM_COL4_MQTT_AV3       "დონე 3"
+    IDM_COL4_MQTT_AV4       "დონე 4"
+    IDM_COL4_MQTT_AV5       "დონე 5"
+    IDM_COL4_MQTT_AV6       "დონე 6"
+    IDM_COL4_MQTT_AV7       "დონე 7"
+    IDM_COL4_MQTT_AV8       "დონე 8"
+    IDM_COL4_MQTT_XV9       "დონე 9"
+    IDM_COL4_MQTT_AP1       "დონე 10"
+    IDM_COL4_MQTT_AP2       "დონე 11"
+    IDM_COL4_MQTT_AP3       "დონე 12"
+    IDM_COL4_MQTT_AP4       "დონე 13"
+    IDM_COL4_MQTT_AP5       "დონე 14"
+    IDM_COL4_MQTT_AP6       "დონე 15"
+    IDM_COL4_MQTT_AP7       "დონე 16"
+    IDM_COL4_MQTT_AP8       "დონე 17"
+    IDM_COL4_MQTT_XP9       "დონე 18"
+    IDM_COL4_MQTT_B11       "ჩართვა/გამორთვა 1"
+    IDM_COL4_MQTT_B12       "ჩართვა/გამორთვა 2"
+    IDM_COL4_MQTT_B13       "ჩართვა/გამორთვა 3"
+    IDM_COL4_MQTT_B14       "ჩართვა/გამორთვა 4"
+    IDM_COL4_MQTT_B15       "ჩართვა/გამორთვა 5"
+    IDM_COL4_MQTT_B16       "ჩართვა/გამორთვა 6"
+    IDM_COL4_MQTT_B17       "ჩართვა/გამორთვა 7"
+    IDM_COL4_MQTT_B18       "ჩართვა/გამორთვა 8"
+    IDM_COL4_MQTT_B19       "ჩართვა/გამორთვა 9"
+    IDM_COL4_MQTT_B21       "ჩართვა/გამორთვა 10"
+    IDM_COL4_MQTT_B22       "ჩართვა/გამორთვა 11"
+    IDM_COL4_MQTT_B23       "ჩართვა/გამორთვა 12"
+    IDM_COL4_MQTT_B24       "ჩართვა/გამორთვა 13"
+    IDM_COL4_MQTT_B25       "ჩართვა/გამორთვა 14"
+    IDM_COL4_MQTT_B26       "ჩართვა/გამორთვა 15"
+    IDM_COL4_MQTT_B27       "ჩართვა/გამორთვა 16"
+    IDM_COL4_MQTT_B28       "ჩართვა/გამორთვა 17"
+    IDM_COL4_MQTT_B29       "ჩართვა/გამორთვა 18"
+    IDM_COL4_MQTT_B31       "ჩართვა/გამორთვა 19"
+    IDM_COL4_MQTT_B32       "ჩართვა/გამორთვა 20"
+    IDM_COL4_MQTT_B33       "ჩართვა/გამორთვა 21"
+    IDM_COL4_MQTT_B34       "ჩართვა/გამორთვა 22"
+    IDM_COL4_MQTT_B35       "ჩართვა/გამორთვა 23"
+    IDM_COL4_MQTT_B36       "ჩართვა/გამორთვა 24"
+    IDM_COL4_MQTT_B37       "ჩართვა/გამორთვა 25"
+    IDM_COL4_MQTT_B38       "ჩართვა/გამორთვა 26"
+    IDM_COL4_MQTT_B39       "ჩართვა/გამორთვა 27"
+    IDM_COL4_MQTT_NONE      "Არ არის დანიშნული"
+    IDM_MQTT_LOG_NONE       "ჟურნალი არ ინახება"
+    IDM_MQTT_LOG_INFO       "ინფორმაცია"
+    IDM_MQTT_LOG_NOTICE     "შეტყობინებები"
+    IDM_MQTT_LOG_WARNING    "გაფრთხილებები"
+    IDM_MQTT_LOG_ERR        "მხოლოდ შეცდომები"
+    IDM_MQTT_LOG_DEBUG      "ყველა შეტყობინება"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "კარგი"
+    IDS_ERRORID_EMPTY       "<აქ ცარიელია>"
+    IDS_ERRORID_UNDEFINED   "ეს შეცდომა არ არის განსაზღვრული"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "კონფიგურაციის ფაილზე წვდომის ჩაწერა უარყოფილია, ""{0}"""
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "კონფიგურაციის ფაილი აკლია ან წვდომა აკრძალულია, ""{0}"""
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "კონფიგურაციის ფაილი ცარიელია, ""{0}"""
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI მოწყობილობის სახელი არ არის მითითებული კონფიგურაციაში."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "ამ კონფიგურაციაში არ არის კონფიგურირებული MIDI კლავიშები."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "ყურადღება, MIDI კლავიშები არ არის კონფიგურირებული ამ კონფიგურაციაში! წერილობითი კონფიგურაცია არ იმუშავებს."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize ინიციალიზაცია ვერ მოხერხდა."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - ინსტანციირება ვერ მოხერხდა."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "ნაგულისხმევი აუდიო მოწყობილობის მიღება ვერ მოხერხდა."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "აუდიო სესიის მენეჯერი გათიშულია."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "აუდიო პიკის მრიცხველი მიუწვდომელია."
+    IDS_ERRORID_MIXER_STARTOK
+                            "აუდიო სესიის მიქსერი გაშვებულია, არის {0} გაშვებული პროგრამა, რომელიც ხელმისაწვდომია ჩატვირთვისას."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "აუდიო სესიის მიქსერის გაშვება ვერ მოხერხდა, შეცდომის დეტალები უნდა იყოს ჟურნალის ფაილში."
+    IDS_ERRORID_MIXER_STOPOK
+                            "აუდიო სესიის მიქსერი შეჩერებულია."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "აუდიო სესიის მიქსერი სათანადოდ არ იყო შეჩერებული, შეცდომის დეტალები უნდა იყოს ჟურნალის ფაილში."
+    IDS_ERRORID_NO_INIT     "ამის დარეკვამდე გააკეთე ინიციალიზაცია.."
+    IDS_ERRORID_SESSION_LIST
+                            "აუდიო სესიების სიის მიღება ვერ მოხერხდა."
+    IDS_ERRORID_LISTISNULL  "აუდიო სესიების სია ცარიელია!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "აუდიო სესიის გამორთვა, მიზეზი=""{0}"""
+    IDS_ERRORID_SESSIONCREATED
+                            "შეიქმნა აუდიო სესია, სახელი=""{0}"""
+    IDS_ERRORID_ITEM_SC_AE  "აუდიო სესია ""{0}"" - ცუდი რეგისტრაციის სტატუსი ""{1}"": {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "გამოძახებიდან დაყენებული მნიშვნელობა არასწორი სელექტორია."
+    IDS_ERRORID_SET_CB_WARNING
+                            "გამოძახების დაყენება შესაძლებელია მხოლოდ MIDI ხიდის წარმატებით დაწყების შემდეგ."
+    IDS_ERRORID_CONFIG_FAIL "კონფიგურაციის ჩატვირთვა ვერ მოხერხდა, ფაილი ვერ მოიძებნა, ვერ დაიწყება.."
+    IDS_ERRORID_CONFIG_LOAD "კონფიგურაცია ჩაიტვირთა.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "კონფიგურაცია უკვე ჩატვირთულია.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "კონფიგურაცია ცარიელია."
+    IDS_ERRORID_CONFIG_NEW  "აღმოჩენილია კონფიგურაციის ახალი ვერსია.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "კოდში მხარდაუჭერელი იმპლემენტაცია, მეთოდი არ არის გადაფარული: {0}"
+    IDS_ERRORID_NOT_CONFIG  "კონფიგურაციის სახელი არ არის მითითებული, გაგრძელება შეუძლებელია."
+    IDS_ERRORID_NOT_DEVICES "არ არის დაკავშირებული მოწყობილობები, გაგრძელება შეუძლებელია."
+    IDS_ERRORID_COUNT_DEVICES
+                            "ყურადღება, შეუსაბამობა მოწყობილობების რაოდენობას შორის საბოლოო სიაში, სისტემა/სია = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "MIDI მოწყობილობის გახსნა შეუძლებელია, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "MIDI მოწყობილობის გაშვება ვერ მოხერხდა, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "მოწყობილობა არ არის დაკავშირებული, შეწყვეტა, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "ნაპოვნია მოწყობილობა {0}, {1}"
+    IDS_ERRORID_DEVICE_OPEN "მოწყობილობა {0} ღიაა, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "მოწყობილობა {0} დახურულია (სისტემა)"
+    IDS_ERRORID_DEVICE_DONE "მოწყობილობა {0} მზად არის (სისტემა)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "აქტიური მოწყობილობის სახელი დაყენებული არ არის, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "პროქსი პორტები არ არის დაყენებული კონფიგურაციაში, MIDI პროქსი გამორთულია."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "დრაივერის ვერსია [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "პრობლემა დრაივერის ვერსიასთან [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "მოწყობილობა {0}-ს გაუგზავნა არასწორი მნიშვნელობა = {1}"
+    IDS_ERRORID_MMKEY_START "გაშვებულია მულტიმედიური გასაღების მართვის სერვისი."
+    IDS_ERRORID_MMKEY_STOP  "მედია გასაღების მართვის სერვისი გაჩერდა."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT კონფიგურაცია ცარიელია, გაგრძელება შეუძლებელია."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "MQTT კლიენტის შექმნის შეცდომა, გაუქმდა."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT კლიენტი წარმატებით შეიქმნა, გააგრძელეთ.."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "დაკავშირებულია MQTT სერვერთან:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "MQTT სერვერთან დაკავშირება ვერ მოხერხდა:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "გათიშულია MQTT სერვერთან:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA სერტიფიკატის ფაილი არ არსებობს, გზა = ""{0}"""
+    IDS_ERRORID_MQTT_START  "Smart Home Control Service მუშაობს."
+    IDS_ERRORID_MQTT_STOP   "Smart Home-ის მართვის სერვისი შეჩერებულია."
+    IDS_ERRORID_PANEL_INDEX "აუდიო მიქსერის პანელი - გაგრძელება შეუძლებელია, ინდექსის ჩანაწერები არასწორია."
+    IDS_ERRORID_PANEL_INIT  "აუდიო მიქსერის პანელი - გაგრძელება შეუძლებელია, ინიციალიზაციის შეცდომა."
+    IDS_ERRORID_PANEL_ENABLE
+                            "აუდიო მიქსერის პანელის ფანჯარა არ ემთხვევა სტატუსს, შეუძლებელია შემდეგი ოპერაციის გაგრძელება."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "აუდიო მიქსერის პანელი არ არის გამოძახებული UI თემაში, ცვლილებები შეუძლებელია."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "აუდიო მიქსერის პანელს წააწყდა არასწორი ელემენტი, პანელის ფანჯრის შექმნა შეწყდა."
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

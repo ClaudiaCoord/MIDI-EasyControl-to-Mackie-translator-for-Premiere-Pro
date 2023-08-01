@@ -1,0 +1,1060 @@
+﻿
+#include "..\..\MIDIMT\rc\resource.h"
+#include "..\..\Common\rc\resource.rc"
+#include "..\..\Common\rc\resource_ctrl9.rc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie トランスレーター"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "＆情報", IDM_GO_INFO
+        MENUITEM "オーディオミキサー(&A)", IDM_GO_MIXER
+        MENUITEM "＆モニター", IDM_GO_MONITOR
+        MENUITEM "設定(&S)", IDM_GO_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "始める", IDM_GO_START
+        MENUITEM "停止", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "出口", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "位置.."
+        BEGIN
+            MENUITEM "垂直左", IDM_VERT_LEFT
+            MENUITEM "垂直右", IDM_VERT_RIGHT
+            MENUITEM "水平上部", IDM_HOR_TOP
+            MENUITEM "下部に水平に", IDM_HOR_BOTTOM
+        END
+        POPUP "主題.."
+        BEGIN
+            MENUITEM "メトロ", IDM_METRO
+            MENUITEM "ライト", IDM_LIGHT
+            MENUITEM "暗い", IDM_DARK
+            MENUITEM "レトロ", IDM_RETRO
+            MENUITEM "モダンな", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "チューニングメイ", IDM_CUSTOM
+            MENUITEM "テーマのカスタマイズ", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "＆アニメーション", IDM_ANIMATION
+        MENUITEM "アプリのパス(&A)", IDM_APP_PATH
+        MENUITEM "MIDI コントロールをバインドする(&M)", IDM_MIDI_BIND
+        MENUITEM "ピーク＆ラウドネスメーター", IDM_PEAK_METER
+        MENUITEM "位置を記憶", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "＆近い", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "新規エントリー", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "コピー", IDM_LV_COPY
+        MENUITEM "入れる", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "消去", IDM_LV_DELETE
+        POPUP "として設定され.."
+        BEGIN
+            MENUITEM "コントロールはオーディオミキサーを参照", IDM_LV_SET_MIXER
+            MENUITEM "マルチメディアボタンに関するコントロール", IDM_LV_SET_MMKEY
+            MENUITEM "制御治療スマートホーム", IDM_LV_SET_MQTT
+            MENUITEM SEPARATOR
+            MENUITEM "未割り当て", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "MIDIコードを読み取ってください。", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "レギュレーター.."
+        BEGIN
+            MENUITEM "ストリップレギュレータ", IDM_COL3_SLIDER
+            MENUITEM "ストリップ反転レギュレータ", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "ロータリースライダー", IDM_COL3_FADER
+            MENUITEM "反転機能付きロータリーノブ", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "エンコーダ", IDM_COL3_KNOB
+            MENUITEM "反転機能付きエンコーダ", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "未割り当て", IDM_COL3_NONE
+        END
+        POPUP "ボタン.."
+        BEGIN
+            MENUITEM "ボタン", IDM_COL3_BTN
+            MENUITEM "切替ボタン、表示付", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "未割り当て", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "レギュレーター..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "ボタン..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "コントロールはオーディオミキサーを参照", IDM_COL4_VOLUMEMIX
+        MENUITEM "マルチメディアボタンに関するコントロール", IDM_COL4_MEDIAKEY
+        MENUITEM "制御治療スマートホーム", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "サウンドコントロール.."
+        BEGIN
+            MENUITEM "ミュート（マスター）", IDM_COL4_MAM
+            MENUITEM "ソロ（マスター）", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "ミュート.."
+            BEGIN
+                MENUITEM "チャンネル1", IDM_COL4_B21
+                MENUITEM "チャンネル2", IDM_COL4_B22
+                MENUITEM "チャンネル3", IDM_COL4_B23
+                MENUITEM "チャンネル4", IDM_COL4_B24
+                MENUITEM "チャンネル5", IDM_COL4_B25
+                MENUITEM "チャンネル6", IDM_COL4_B26
+                MENUITEM "チャンネル7", IDM_COL4_B27
+                MENUITEM "チャンネル8", IDM_COL4_B28
+                MENUITEM "チャンネル9", IDM_COL4_B29
+            END
+            POPUP "ソロ.."
+            BEGIN
+                MENUITEM "チャンネル1", IDM_COL4_B11
+                MENUITEM "チャンネル2", IDM_COL4_B12
+                MENUITEM "チャンネル3", IDM_COL4_B13
+                MENUITEM "チャンネル4", IDM_COL4_B14
+                MENUITEM "チャンネル5", IDM_COL4_B15
+                MENUITEM "チャンネル6", IDM_COL4_B16
+                MENUITEM "チャンネル7", IDM_COL4_B17
+                MENUITEM "チャンネル8", IDM_COL4_B18
+                MENUITEM "チャンネル9", IDM_COL4_B19
+            END
+        END
+        POPUP "マルチメディア ボタン。"
+        BEGIN
+            MENUITEM "再生/一時停止", IDM_COL4_SYS_Play
+            MENUITEM "停止", IDM_COL4_SYS_Stop
+            MENUITEM "前の", IDM_COL4_SYS_Rewind
+            MENUITEM "次", IDM_COL4_SYS_Forward
+            MENUITEM "録音", IDM_COL4_SYS_Record
+            MENUITEM "上（ジョイスティック）", IDM_COL4_SYS_Up
+            MENUITEM "下（ジョイスティック）", IDM_COL4_SYS_Down
+            MENUITEM "右（ジョイスティック）", IDM_COL4_SYS_Right
+            MENUITEM "左 (ジョイスティック)", IDM_COL4_SYS_Left
+            MENUITEM "ズームイン", IDM_COL4_SYS_Zoom
+            MENUITEM "ゴシゴシ", IDM_COL4_SYS_Scrub
+        END
+        POPUP "「Premiere Pro」の特徴.."
+        BEGIN
+            POPUP "標準ボタンの機能 .."
+            BEGIN
+                MENUITEM "機能1", IDM_COL4_FUN11
+                MENUITEM "機能2", IDM_COL4_FUN12
+                MENUITEM "機能3", IDM_COL4_FUN13
+                MENUITEM "特徴4", IDM_COL4_FUN14
+                MENUITEM "特徴5", IDM_COL4_FUN15
+                MENUITEM "機能6", IDM_COL4_FUN16
+                MENUITEM "特徴7", IDM_COL4_FUN17
+                MENUITEM "機能8", IDM_COL4_FUN18
+            END
+            POPUP "「ワンタッチ」ボタンの機能 .."
+            BEGIN
+                MENUITEM "機能1", IDM_COL4_FUN21
+                MENUITEM "機能2", IDM_COL4_FUN22
+                MENUITEM "機能3", IDM_COL4_FUN23
+                MENUITEM "特徴4", IDM_COL4_FUN24
+                MENUITEM "特徴5", IDM_COL4_FUN25
+                MENUITEM "機能6", IDM_COL4_FUN26
+                MENUITEM "特徴7", IDM_COL4_FUN27
+                MENUITEM "機能8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "「スマートホーム」システムのボタン.."
+        BEGIN
+            MENUITEM "オン/オフ1", IDM_COL4_B11
+            MENUITEM "オン/オフ2", IDM_COL4_B12
+            MENUITEM "オン/オフ 3", IDM_COL4_B13
+            MENUITEM "オン/オフ 4", IDM_COL4_B14
+            MENUITEM "オン/オフ5", IDM_COL4_B15
+            MENUITEM "オン/オフ6", IDM_COL4_B16
+            MENUITEM "オン/オフ 7", IDM_COL4_B17
+            MENUITEM "オン/オフ 8", IDM_COL4_B18
+            MENUITEM "オン/オフ9", IDM_COL4_B19
+            MENUITEM "オン/オフ10", IDM_COL4_B21
+            MENUITEM "オン/オフ 11", IDM_COL4_B22
+            MENUITEM "オン/オフ 12", IDM_COL4_B23
+            MENUITEM "オン/オフ 13", IDM_COL4_B24
+            MENUITEM "オン/オフ 14", IDM_COL4_B25
+            MENUITEM "オン/オフ 15", IDM_COL4_B26
+            MENUITEM "オン/オフ 16", IDM_COL4_B27
+            MENUITEM "オン/オフ 17", IDM_COL4_B28
+            MENUITEM "オン/オフ 18", IDM_COL4_B29
+            MENUITEM "オン/オフ 19", IDM_COL4_B31
+            MENUITEM "オン/オフ 20", IDM_COL4_B32
+            MENUITEM "オン/オフ 21", IDM_COL4_B33
+            MENUITEM "オン/オフ 22", IDM_COL4_B34
+            MENUITEM "オン/オフ 23", IDM_COL4_B35
+            MENUITEM "オン/オフ 24", IDM_COL4_B36
+            MENUITEM "オン/オフ 25", IDM_COL4_B37
+            MENUITEM "オン/オフ 26", IDM_COL4_B38
+            MENUITEM "オン/オフ 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "コントロールはオーディオミキサーを参照", IDM_COL4_VOLUMEMIX
+        MENUITEM "マルチメディアボタンに関するコントロール", IDM_COL4_MEDIAKEY
+        MENUITEM "制御治療スマートホーム", IDM_COL4_MQTTKEY
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "エンコーダ (フレームごと)", IDM_COL4_JOG
+        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "サウンドコントロール.."
+        BEGIN
+            MENUITEM "ボリューム（マスター）", IDM_COL4_MAV
+            MENUITEM "バランス（マスター）", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "音量.."
+            BEGIN
+                MENUITEM "チャンネル1", IDM_COL4_AV1
+                MENUITEM "チャンネル2", IDM_COL4_AV2
+                MENUITEM "チャンネル3", IDM_COL4_AV3
+                MENUITEM "チャンネル4", IDM_COL4_AV4
+                MENUITEM "チャンネル5", IDM_COL4_AV5
+                MENUITEM "チャンネル6", IDM_COL4_AV6
+                MENUITEM "チャンネル7", IDM_COL4_AV7
+                MENUITEM "チャンネル8", IDM_COL4_AV8
+                MENUITEM "チャンネル9", IDM_COL4_XV9
+            END
+            POPUP "バランス .."
+            BEGIN
+                MENUITEM "チャンネル1", IDM_COL4_AP1
+                MENUITEM "チャンネル2", IDM_COL4_AP2
+                MENUITEM "チャンネル3", IDM_COL4_AP3
+                MENUITEM "チャンネル4", IDM_COL4_AP4
+                MENUITEM "チャンネル5", IDM_COL4_AP5
+                MENUITEM "チャンネル6", IDM_COL4_AP6
+                MENUITEM "チャンネル7", IDM_COL4_AP7
+                MENUITEM "チャンネル8", IDM_COL4_AP8
+                MENUITEM "チャンネル9", IDM_COL4_XP9
+            END
+        END
+        POPUP "「スマートホーム」システムのレギュレーター.."
+        BEGIN
+            MENUITEM "レベル1", IDM_COL4_AV1
+            MENUITEM "レベル2", IDM_COL4_AV2
+            MENUITEM "レベル3", IDM_COL4_AV3
+            MENUITEM "レベル4", IDM_COL4_AV4
+            MENUITEM "レベル5", IDM_COL4_AV5
+            MENUITEM "レベル6", IDM_COL4_AV6
+            MENUITEM "レベル7", IDM_COL4_AV7
+            MENUITEM "レベル8", IDM_COL4_AV8
+            MENUITEM "レベル9", IDM_COL4_XV9
+            MENUITEM "レベル10", IDM_COL4_AP1
+            MENUITEM "レベル11", IDM_COL4_AP2
+            MENUITEM "レベル12", IDM_COL4_AP3
+            MENUITEM "レベル13", IDM_COL4_AP4
+            MENUITEM "レベル14", IDM_COL4_AP5
+            MENUITEM "レベル15", IDM_COL4_AP6
+            MENUITEM "レベル16", IDM_COL4_AP7
+            MENUITEM "レベル17", IDM_COL4_AP8
+            MENUITEM "レベル18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "コントロールはオーディオミキサーを参照", IDM_COL4_VOLUMEMIX
+        MENUITEM "マルチメディアボタンに関するコントロール", IDM_COL4_MEDIAKEY
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "ボリューム（マスター）", IDM_COL4_MAV
+        MENUITEM "エンコーダ(JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "音量.."
+        BEGIN
+            MENUITEM "チャンネル1", IDM_COL4_AV1
+            MENUITEM "チャンネル2", IDM_COL4_AV2
+            MENUITEM "チャンネル3", IDM_COL4_AV3
+            MENUITEM "チャンネル4", IDM_COL4_AV4
+            MENUITEM "チャンネル5", IDM_COL4_AV5
+            MENUITEM "チャンネル6", IDM_COL4_AV6
+            MENUITEM "チャンネル7", IDM_COL4_AV7
+            MENUITEM "チャンネル8", IDM_COL4_AV8
+            MENUITEM "チャンネル9", IDM_COL4_XV9
+            MENUITEM "チャンネル10", IDM_COL4_AP1
+            MENUITEM "チャンネル11", IDM_COL4_AP2
+            MENUITEM "チャンネル12", IDM_COL4_AP3
+            MENUITEM "チャンネル13", IDM_COL4_AP4
+            MENUITEM "チャンネル14", IDM_COL4_AP5
+            MENUITEM "チャンネル15", IDM_COL4_AP6
+            MENUITEM "チャンネル16", IDM_COL4_AP7
+            MENUITEM "チャンネル17", IDM_COL4_AP8
+            MENUITEM "チャンネル18", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "未割り当て", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "ミュート（マスター）", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "ミュート.."
+        BEGIN
+            MENUITEM "チャンネル1", IDM_COL4_B21
+            MENUITEM "チャンネル2", IDM_COL4_B22
+            MENUITEM "チャンネル3", IDM_COL4_B23
+            MENUITEM "チャンネル4", IDM_COL4_B24
+            MENUITEM "チャンネル5", IDM_COL4_B25
+            MENUITEM "チャンネル6", IDM_COL4_B26
+            MENUITEM "チャンネル7", IDM_COL4_B27
+            MENUITEM "チャンネル8", IDM_COL4_B28
+            MENUITEM "チャンネル9", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "未割り当て", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "再生/一時停止", IDM_COL4_SYS_Play
+        MENUITEM "停止", IDM_COL4_SYS_Stop
+        MENUITEM "前の", IDM_COL4_SYS_Rewind
+        MENUITEM "次", IDM_COL4_SYS_Forward
+        MENUITEM "録音", IDM_COL4_SYS_Record
+        MENUITEM "上（ジョイスティック）", IDM_COL4_SYS_Up
+        MENUITEM "下（ジョイスティック）", IDM_COL4_SYS_Down
+        MENUITEM "右（ジョイスティック）", IDM_COL4_SYS_Right
+        MENUITEM "左 (ジョイスティック)", IDM_COL4_SYS_Left
+        MENUITEM "ズームイン", IDM_COL4_SYS_Zoom
+        MENUITEM "ゴシゴシ", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "未割り当て", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "レベル1", IDM_COL4_AV1
+        MENUITEM "レベル2", IDM_COL4_AV2
+        MENUITEM "レベル3", IDM_COL4_AV3
+        MENUITEM "レベル4", IDM_COL4_AV4
+        MENUITEM "レベル5", IDM_COL4_AV5
+        MENUITEM "レベル6", IDM_COL4_AV6
+        MENUITEM "レベル7", IDM_COL4_AV7
+        MENUITEM "レベル8", IDM_COL4_AV8
+        MENUITEM "レベル9", IDM_COL4_XV9
+        MENUITEM "レベル10", IDM_COL4_AP1
+        MENUITEM "レベル11", IDM_COL4_AP2
+        MENUITEM "レベル12", IDM_COL4_AP3
+        MENUITEM "レベル13", IDM_COL4_AP4
+        MENUITEM "レベル14", IDM_COL4_AP5
+        MENUITEM "レベル15", IDM_COL4_AP6
+        MENUITEM "レベル16", IDM_COL4_AP7
+        MENUITEM "レベル17", IDM_COL4_AP8
+        MENUITEM "レベル18", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "未割り当て", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "オン/オフ1", IDM_COL4_B11
+        MENUITEM "オン/オフ2", IDM_COL4_B12
+        MENUITEM "オン/オフ 3", IDM_COL4_B13
+        MENUITEM "オン/オフ 4", IDM_COL4_B14
+        MENUITEM "オン/オフ5", IDM_COL4_B15
+        MENUITEM "オン/オフ6", IDM_COL4_B16
+        MENUITEM "オン/オフ 7", IDM_COL4_B17
+        MENUITEM "オン/オフ 8", IDM_COL4_B18
+        MENUITEM "オン/オフ9", IDM_COL4_B19
+        MENUITEM "オン/オフ10", IDM_COL4_B21
+        MENUITEM "オン/オフ 11", IDM_COL4_B22
+        MENUITEM "オン/オフ 12", IDM_COL4_B23
+        MENUITEM "オン/オフ 13", IDM_COL4_B24
+        MENUITEM "オン/オフ 14", IDM_COL4_B25
+        MENUITEM "オン/オフ 15", IDM_COL4_B26
+        MENUITEM "オン/オフ 16", IDM_COL4_B27
+        MENUITEM "オン/オフ 17", IDM_COL4_B28
+        MENUITEM "オン/オフ 18", IDM_COL4_B29
+        MENUITEM "オン/オフ 19", IDM_COL4_B31
+        MENUITEM "オン/オフ 20", IDM_COL4_B32
+        MENUITEM "オン/オフ 21", IDM_COL4_B33
+        MENUITEM "オン/オフ 22", IDM_COL4_B34
+        MENUITEM "オン/オフ 23", IDM_COL4_B35
+        MENUITEM "オン/オフ 24", IDM_COL4_B36
+        MENUITEM "オン/オフ 25", IDM_COL4_B37
+        MENUITEM "オン/オフ 26", IDM_COL4_B38
+        MENUITEM "オン/オフ 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "未割り当て", IDM_COL4_NONE
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORMABOUT DIALOGEX 0, 0, 306, 173
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
+    LTEXT           VER_GUI_EN,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
+    LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
+    PUSHBUTTON      "アップデート",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "ヘルプ",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "＆近い",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+END
+
+IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
+    PUSHBUTTON      "MIDI パネルのセットアップ(&MIDI)",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "＆近い",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "推奨される MIDI コントロール パネルのレイアウト。このレイアウトの設定を含むファイルは、「docs/MIDIMT.Ctrl_data」フォルダーにあります。",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+END
+
+IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "MIDIトランスレーターの起動"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDIデバイス",IDC_STATIC,11,4,532,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDIブリッジ",IDC_STATIC,11,73,326,79
+    CONTROL         "打ち上げられた",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "停止",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "構成",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDIコントロール",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
+    CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
+    CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
+    LTEXT           "クリック間の間隔",IDC_STATIC,25,135,98,8
+    LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
+    LTEXT           "長押しの間隔",IDC_STATIC,167,135,106,8
+    LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
+    GROUPBOX        "打ち上げ",IDC_STATIC,11,156,135,148
+    CONTROL         "システム起動時に開始",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "起動時に自動起動",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "この構成を自動開始します",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "ログを書く",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "優先言語:",IDC_STATIC,23,225,94,8
+    COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "マウスの右ボタンを使用してミキサーを呼び出します",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "MIDI設定",IDC_STATIC,151,156,97,64
+    CONTROL         "運転者：",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
+    CONTROL         "JOGシーンフィルター",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "ポートが作成されていません",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDIプロキシ",IDC_STATIC,253,156,83,64
+    COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ポート数",IDC_STATIC,260,183,66,8
+    CONTROL         "付属",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "オーディオミキサーの設定",IDC_STATIC,152,224,184,80
+    CONTROL         "付属",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "ボリューム値をチェックせずに置き換える",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "アプリケーションを名前でマージします。個別の調整はできません",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "起動時に保存された音量レベルを設定する",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "MM キーを有効にする",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "設定を保存する",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "＆始める",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "構成",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "スマートハウス",IDC_STATIC,343,73,199,262
+    CONTROL         "付属",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
+    GROUPBOX        "MQTTサーバー",IDC_STATIC,350,102,186,44
+    CONTROL         "IPアドレス：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "ポート：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "安全性",IDC_STATIC,350,149,186,106
+    CONTROL         "ログイン：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "パスワード：",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "PSKキー:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLSが有効になっています",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
+    CONTROL         "自己署名",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
+    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA証明書",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
+    GROUPBOX        "オプション",IDC_STATIC,350,258,186,71
+    CONTROL         "MQTT トピックのプレフィックス: (オプション)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "MQTT セッションのロギング レベル:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "＆近い",IDCANCEL,344,340,200,16,BS_FLAT
+    PUSHBUTTON      "アップデート",IDC_GO_URL,344,356,200,16,BS_FLAT
+    PUSHBUTTON      "&プログラムについて...",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+END
+
+IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
+CAPTION "MIDIコマンドモニター"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "コマンドモニター",IDC_STATIC,9,4,285,54
+    LTEXT           "MIDI コマンド モニターは、コントローラーがどのように設定されているかを判断するのに役立ちます。テストを開始するには、「開始」ボタンをクリックします。コントローラーのさまざまなコントロールを使用すると、シーン、番号、および現在の値に関するメッセージを受け取ります。",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "停止",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "始める",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "＆近い",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "クリーン＆スティープ",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
+END
+
+IDD_FORMSETUP DIALOGEX 0, 0, 711, 249
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
+CAPTION "MIDIコントロールの設定"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "MIDIコントロールのセットアップ",IDC_STATIC,7,4,215,224
+    CTEXT           "0",IDC_SETUP_COUNT,200,5,15,8
+    CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,17,200,205,WS_EX_CLIENTEDGE
+    GROUPBOX        "ミディ",IDC_STATIC,228,4,258,37
+    ICON            IDI_MIDIMT,IDC_SETUP_ICON,238,17,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    PUSHBUTTON      "MIDI コードを読み取る(&R)",IDC_SETUP_CODE,275,17,183,19,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_INFO,458,17,19,19,BS_ICON | BS_FLAT
+    GROUPBOX        "情報",IDC_STATIC,227,44,259,167
+    LTEXT           "コントロール：",IDC_STATIC,240,64,95,10
+    CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,64,28,10,WS_EX_RIGHT
+    LTEXT           "シーン：",IDC_STATIC,240,76,95,10
+    CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,76,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,76,28,10,WS_EX_RIGHT
+    LTEXT           "コントロールの種類:",IDC_STATIC,240,88,95,10
+    CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,88,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,88,28,10,WS_EX_RIGHT
+    LTEXT           "目的：",IDC_STATIC,240,100,95,10
+    CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,100,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,100,28,10,WS_EX_RIGHT
+    LTEXT           "目的 (長押し):",IDC_STATIC,240,112,95,10
+    CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,340,112,108,10,WS_EX_RIGHT
+    CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,112,28,10,WS_EX_RIGHT
+    LTEXT           "ミキサーで調整可能なアプリケーション:",IDC_STATIC,240,124,144,10
+    LISTBOX         IDC_SETUP_APPLIST,240,136,215,48,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,240,190,155,13
+    PUSHBUTTON      "",IDC_BTN_MUTE,403,188,53,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_FOLDER,460,132,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_RUNAPP,460,150,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "",IDC_BTN_REMOVE,460,168,18,18,BS_ICON | BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "＆保存",IDC_DIALOG_SAVE,228,214,80,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "＆輸出",IDC_DIALOG_EXPORT,310,214,80,14,BS_FLAT
+    PUSHBUTTON      "＆近い",IDCANCEL,392,214,94,14,BS_FLAT
+    CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,232,480,13
+    GROUPBOX        "ヒント",IDC_STATIC,493,4,209,241
+    LISTBOX         IDC_SETUP_HELPLIST,501,35,193,203,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "全て",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,18,27,10
+    CONTROL         "ボタン",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,18,41,10
+    CONTROL         "スライダー",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,18,51,10
+    CONTROL         "マルチメディア",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,632,18,62,10
+END
+
+IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "カスタムテーマの設定"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "あなたのテーマカラー",IDC_STATIC,9,8,188,107
+    CONTROL         "テキストの色",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "背景色",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    CONTROL         "フレームカラー",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
+    GROUPBOX        "基本テーマ",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "メトロ",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "ライト",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "暗い",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "レトロ",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "モダンな",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORMABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_FORMSTART, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 414
+    END
+
+    IDD_FORMMONITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_FORMSETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 710
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\..\\MIDIMT\\rc\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include <SDKDDKVer.h>\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#include ""CommCtrl.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
+    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> オーディオミキサー -> MIDI Mackie Translator"
+    IDS_MIXER               "＆ミキサー"
+    IDS_SETTINGS            "＆設定"
+    IDS_START               "始める"
+    IDS_STOP                "停止"
+    IDS_EXIT                "出口"
+    IDS_SETUP_MSG1          "ドライバーからロードされた設定"
+    IDS_SETUP_MSG2          "ファイルからロードされた構成"
+    IDS_SETUP_MSG3          "構成が新しく作成されたので、入力する必要があります"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MTの設定"
+    IDS_CONFIG_EXE_FILTER   "実行可能ファイル"
+    IDS_MQTT_CA_FILTER      "CA証明書"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI トランスレーターが実行されていません。"
+    IDS_INFO2               "MIDI トランスレーターの動作:"
+    IDS_INFO3               "入力デバイス:"
+    IDS_INFO4               "Mackie/Premier 出力ポート:"
+    IDS_INFO5               "出力プロキシ ポート:"
+    IDS_INFO6               "オーディオミキサーが実行中です。"
+    IDS_INFO7               "マルチメディア キー コントロールが実行されています。設定を確認してください。"
+    IDS_INFO8               "オーディオ ミキサーが実行されていません。設定を確認してください。オーディオ パネルの起動が有効になっている必要があります。"
+    IDS_INFO9               "無効なイベントIDです。このアプリケーションを再起動してください。"
+    IDS_INF1O               "UI スレッドへの切り替えに失敗したため、オーディオ パネルの起動が中止されました。"
+    IDS_INF11               "MIDIMT - オーディオ ミキサーが実行されていません:"
+    IDS_INF12               "MIDIMT - 操作を完了できません:"
+    IDS_INF13               "「スマートホーム」デバイス制御が実行中です。"
+    IDS_DLG_MSG1            "MIDI Mackie 出力"
+    IDS_DLG_MSG2            "MIDIプロキシ出力"
+    IDS_DLG_MSG3            "MIDI仮想ドライバーのバージョン:"
+    IDS_DLG_MSG4            "インストールされている MIDI 仮想ドライバーが見つかりません!トランスレーターを実行するには、Virtual Loop MIDI パッケージをインストールする必要があります"
+    IDS_DLG_MSG5            "起動時に、プロキシ MIDI ポートが作成されます。"
+    IDS_DLG_MSG6            "MIDI プロキシ ポートは無効になっています。"
+    IDS_DLG_MSG7            "選択した言語は、ウィンドウの再起動後にアクティブになります -"
+    IDS_DLG_MSG8            "MIDI 入力デバイスが割り当てられている"
+    IDS_DLG_MSG9            "開始する前に構成を編集してください。"
+    IDS_DLG_MSG10           "インストールされている仮想 MIDI ドライバーのバージョン:"
+    IDS_DLG_MSG11           "選択した構成は自動起動をサポートしていません。"
+    IDS_DLG_MSG12           "モニターを開始する前に、メニューから「開始」を呼び出して MIDI ブリッジを開始してください。"
+    IDS_DLG_MSG13           "起動時に指定された構成ファイル: '{0}'。 以降の実行の構成として設定しますか?"
+    IDS_DLG_MSG14           "エディターを開くときに、構成ファイルが指定されました: '{0}'。 同じ名前で保存しますか?"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "オーディオボリューム（メイン）"
+    IDM_COL4_MAP            "サウンドバランス（基本）"
+    IDM_COL4_MAM            "ミュート（基本）"
+    IDM_COL4_MAS            "オーディオソロ（メイン）"
+    IDM_COL4_JOG            "JOG（ビデオフレーム巻き戻し）"
+    IDM_COL4_AV1            "音量（チャンネル1）"
+    IDM_COL4_AV2            "音量（チャンネル2）"
+    IDM_COL4_AV3            "音量（チャンネル3）"
+    IDM_COL4_AV4            "音量（チャンネル4）"
+    IDM_COL4_AV5            "音量（チャンネル5）"
+    IDM_COL4_AV6            "音量（チャンネル6）"
+    IDM_COL4_AV7            "音量（チャンネル7）"
+    IDM_COL4_AV8            "音量（チャンネル8）"
+    IDM_COL4_XV9            "音量（チャンネル9）"
+    IDM_COL4_AP1            "サウンドバランス（チャンネル1）"
+    IDM_COL4_AP2            "サウンドバランス（チャンネル2）"
+    IDM_COL4_AP3            "サウンドバランス（チャンネル3）"
+    IDM_COL4_AP4            "サウンドバランス（チャンネル4）"
+    IDM_COL4_AP5            "サウンドバランス（チャンネル5）"
+    IDM_COL4_AP6            "サウンドバランス（チャンネル6）"
+    IDM_COL4_AP7            "サウンドバランス（チャンネル7）"
+    IDM_COL4_AP8            "サウンドバランス（チャンネル8）"
+    IDM_COL4_XP9            "サウンドバランス（チャンネル9）"
+    IDM_COL4_B11            "オーディオソロ (チャンネル 1)"
+    IDM_COL4_B12            "オーディオソロ (チャンネル 2)"
+    IDM_COL4_B13            "オーディオソロ (チャンネル 3)"
+    IDM_COL4_B14            "オーディオソロ (チャンネル 4)"
+    IDM_COL4_B15            "オーディオソロ (チャンネル 5)"
+    IDM_COL4_B16            "オーディオソロ（チャンネル6）"
+    IDM_COL4_B17            "オーディオソロ (チャンネル 7)"
+    IDM_COL4_B18            "オーディオソロ（チャンネル8）"
+    IDM_COL4_B19            "オーディオソロ（チャンネル9）"
+    IDM_COL4_B21            "ミュート（チャンネル1）"
+    IDM_COL4_B22            "ミュート（チャンネル2）"
+    IDM_COL4_B23            "ミュート（チャンネル3）"
+    IDM_COL4_B24            "ミュート（チャンネル4）"
+    IDM_COL4_B25            "ミュート（チャンネル5）"
+    IDM_COL4_B26            "ミュート（チャンネル6）"
+    IDM_COL4_B27            "ミュート (チャンネル 7)"
+    IDM_COL4_B28            "ミュート（チャンネル8）"
+    IDM_COL4_B29            "ミュート（チャンネル9）"
+    IDM_COL4_B31            "サウンド選択（チャンネル1）"
+    IDM_COL4_B32            "サウンド選択（チャンネル2）"
+    IDM_COL4_B33            "サウンド選択（チャンネル3）"
+    IDM_COL4_B34            "サウンド選択（チャンネル4）"
+    IDM_COL4_B35            "サウンド選択（チャンネル5）"
+    IDM_COL4_B36            "サウンド選択（チャンネル6）"
+    IDM_COL4_B37            "サウンド選択（チャンネル7）"
+    IDM_COL4_B38            "サウンド選択（チャンネル8）"
+    IDM_COL4_B39            "サウンド選択（チャンネル9）"
+    IDM_COL4_FUN11          "ファンクションF1（標準モード）"
+    IDM_COL4_FUN12          "ファンクションF2（標準モード）"
+    IDM_COL4_FUN13          "ファンクションF3（標準モード）"
+    IDM_COL4_FUN14          "ファンクションF4（標準モード）"
+    IDM_COL4_FUN15          "ファンクションF5（標準モード）"
+    IDM_COL4_FUN16          "ファンクションF6（標準モード）"
+    IDM_COL4_FUN17          "ファンクションF7（標準モード）"
+    IDM_COL4_FUN18          "ファンクションF8（標準モード）"
+    IDM_COL4_FUN21          "F1機能（ホールドモード）"
+    IDM_COL4_FUN22          "F2機能（ホールドモード）"
+    IDM_COL4_FUN23          "F3機能（ホールドモード）"
+    IDM_COL4_FUN24          "F4機能（ホールドモード）"
+    IDM_COL4_FUN25          "F5機能（ホールドモード）"
+    IDM_COL4_FUN26          "F6機能（ホールドモード）"
+    IDM_COL4_FUN27          "F7機能（ホールドモード）"
+    IDM_COL4_FUN28          "F8機能（ホールドモード）"
+    IDM_COL4_SYS_Rewind     "巻き戻し（プレイヤー）"
+    IDM_COL4_SYS_Forward    "早送り（プレイヤー）"
+    IDM_COL4_SYS_Stop       "停止（プレイヤー）"
+    IDM_COL4_SYS_Play       "プレイ（プレイヤー）"
+    IDM_COL4_SYS_Record     "録音（プレーヤー）"
+    IDM_COL4_SYS_Up         "上（ジョイスティック）"
+    IDM_COL4_SYS_Down       "下（ジョイスティック）"
+    IDM_COL4_SYS_Left       "左 (ジョイスティック)"
+    IDM_COL4_SYS_Right      "右（ジョイスティック）"
+    IDM_COL4_SYS_Zoom       "増加"
+    IDM_COL4_SYS_Scrub      "スクラブ"
+    IDM_COL4_VOLUMEMIX      "ミキサー制御"
+    IDM_COL4_MEDIAKEY       "マルチメディアキー"
+    IDM_COL4_MQTTKEY        "スマートホームコントロール"
+    IDM_COL4_NONE           "アクションが定義されていません"
+    IDM_COL4_MQTT_AV1       "レベル1"
+    IDM_COL4_MQTT_AV2       "レベル2"
+    IDM_COL4_MQTT_AV3       "レベル3"
+    IDM_COL4_MQTT_AV4       "レベル4"
+    IDM_COL4_MQTT_AV5       "レベル5"
+    IDM_COL4_MQTT_AV6       "レベル6"
+    IDM_COL4_MQTT_AV7       "レベル7"
+    IDM_COL4_MQTT_AV8       "レベル8"
+    IDM_COL4_MQTT_XV9       "レベル9"
+    IDM_COL4_MQTT_AP1       "レベル10"
+    IDM_COL4_MQTT_AP2       "レベル11"
+    IDM_COL4_MQTT_AP3       "レベル12"
+    IDM_COL4_MQTT_AP4       "レベル13"
+    IDM_COL4_MQTT_AP5       "レベル14"
+    IDM_COL4_MQTT_AP6       "レベル15"
+    IDM_COL4_MQTT_AP7       "レベル16"
+    IDM_COL4_MQTT_AP8       "レベル17"
+    IDM_COL4_MQTT_XP9       "レベル18"
+    IDM_COL4_MQTT_B11       "オン/オフ1"
+    IDM_COL4_MQTT_B12       "オン/オフ2"
+    IDM_COL4_MQTT_B13       "オン/オフ 3"
+    IDM_COL4_MQTT_B14       "オン/オフ 4"
+    IDM_COL4_MQTT_B15       "オン/オフ5"
+    IDM_COL4_MQTT_B16       "オン/オフ6"
+    IDM_COL4_MQTT_B17       "オン/オフ 7"
+    IDM_COL4_MQTT_B18       "オン/オフ 8"
+    IDM_COL4_MQTT_B19       "オン/オフ9"
+    IDM_COL4_MQTT_B21       "オン/オフ10"
+    IDM_COL4_MQTT_B22       "オン/オフ 11"
+    IDM_COL4_MQTT_B23       "オン/オフ 12"
+    IDM_COL4_MQTT_B24       "オン/オフ 13"
+    IDM_COL4_MQTT_B25       "オン/オフ 14"
+    IDM_COL4_MQTT_B26       "オン/オフ 15"
+    IDM_COL4_MQTT_B27       "オン/オフ 16"
+    IDM_COL4_MQTT_B28       "オン/オフ 17"
+    IDM_COL4_MQTT_B29       "オン/オフ 18"
+    IDM_COL4_MQTT_B31       "オン/オフ 19"
+    IDM_COL4_MQTT_B32       "オン/オフ 20"
+    IDM_COL4_MQTT_B33       "オン/オフ 21"
+    IDM_COL4_MQTT_B34       "オン/オフ 22"
+    IDM_COL4_MQTT_B35       "オン/オフ 23"
+    IDM_COL4_MQTT_B36       "オン/オフ 24"
+    IDM_COL4_MQTT_B37       "オン/オフ 25"
+    IDM_COL4_MQTT_B38       "オン/オフ 26"
+    IDM_COL4_MQTT_B39       "オン/オフ 27"
+    IDM_COL4_MQTT_NONE      "割り当てられていない"
+    IDM_MQTT_LOG_NONE       "ログが残されていない"
+    IDM_MQTT_LOG_INFO       "情報"
+    IDM_MQTT_LOG_NOTICE     "通知"
+    IDM_MQTT_LOG_WARNING    "警告"
+    IDM_MQTT_LOG_ERR        "間違いだけ"
+    IDM_MQTT_LOG_DEBUG      "すべてのメッセージ"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "わかりました"
+    IDS_ERRORID_EMPTY       "<ここは空です>"
+    IDS_ERRORID_UNDEFINED   "このエラーは定義されていません"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "構成ファイルへの書き込みアクセスが拒否されました、""{0}"""
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "構成ファイルが見つからないか、アクセスが拒否されました。""{0}"""
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "構成ファイルが空です、""{0}"""
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI デバイス名が設定に設定されていません。"
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "この設定では MIDI キーは設定されていません。"
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "この構成では MIDI キーが設定されていないことに注意してください。書かれた設定は機能しません。"
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize の初期化に失敗しました。"
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - インスタンス化に失敗しました。"
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "デフォルトのオーディオデバイスの取得に失敗しました。"
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "オーディオ セッション マネージャーがクラッシュしました。"
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "オーディオピークメーターは使用できません。"
+    IDS_ERRORID_MIXER_STARTOK
+                            "オーディオ セッション ミキサーが実行中です。起動時に調整できる実行中のプログラムが {0} 個あります。"
+    IDS_ERRORID_MIXER_STARTERROR
+                            "オーディオ セッション ミキサーの開始に失敗しました。エラーの詳細はログ ファイルに記録されます。"
+    IDS_ERRORID_MIXER_STOPOK
+                            "オーディオ セッション ミキサーが停止しました。"
+    IDS_ERRORID_MIXER_STOPERROR
+                            "オーディオ セッション ミキサーが適切に停止されませんでした。エラーの詳細はログ ファイルに記録されます。"
+    IDS_ERRORID_NO_INIT     "これを呼び出す前に初期化してください。"
+    IDS_ERRORID_SESSION_LIST
+                            "オーディオセッションのリストを取得できませんでした。"
+    IDS_ERRORID_LISTISNULL  "オーディオ セッションのリストが空です。"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "オーディオセッションを無効にします。理由= ""{0}"""
+    IDS_ERRORID_SESSIONCREATED
+                            "オーディオセッションが作成されました、名前= ""{0}"""
+    IDS_ERRORID_ITEM_SC_AE  "オーディオ セッション ""{0}"" - 不正な登録ステータス ""{1}"": {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "コールバックから設定されている値は無効なセレクターです。"
+    IDS_ERRORID_SET_CB_WARNING
+                            "コールバックの設定は、MIDI ブリッジが正常に開始された後にのみ可能です。"
+    IDS_ERRORID_CONFIG_FAIL "構成のロードに失敗しました。ファイルが見つかりません。開始できません。"
+    IDS_ERRORID_CONFIG_LOAD "構成がロードされました.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "設定はすでにロードされています。"
+    IDS_ERRORID_CONFIG_EMPTY
+                            "構成が空です。"
+    IDS_ERRORID_CONFIG_NEW  "新しい構成バージョンが検出されました。"
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "コード内のサポートされていない実装、メソッドがオーバーライドされていません: {0}"
+    IDS_ERRORID_NOT_CONFIG  "構成名が指定されていないため、続行できません。"
+    IDS_ERRORID_NOT_DEVICES "デバイスが接続されていないため、続行できません。"
+    IDS_ERRORID_COUNT_DEVICES
+                            "注意、最終リストのデバイス数に不一致があります。システム/リスト = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "MIDI デバイスを開けません。続行できません。ID = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "MIDI デバイスの起動に失敗しました。続行できません。ID = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "デバイスが接続されていません。中止します。ID = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "デバイス {0} が見つかりました、{1}"
+    IDS_ERRORID_DEVICE_OPEN "デバイス {0} が開いています、{1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "デバイス {0} が閉じています (システム)"
+    IDS_ERRORID_DEVICE_DONE "デバイス {0} の準備完了 (システム)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "アクティブなデバイス名が設定されていないため、続行できません。ID = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "プロキシ ポートが設定に設定されておらず、MIDI プロキシが無効になっています。"
+    IDS_ERRORID_DRIVER_VER_OK
+                            "ドライバーのバージョン [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "ドライバーのバージョン [{0}] に問題があります"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "デバイス {0} が無効な値 = {1} を送信しました"
+    IDS_ERRORID_MMKEY_START "マルチメディア キー管理サービスが実行されています。"
+    IDS_ERRORID_MMKEY_STOP  "メディアキー管理サービスが停止しました。"
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT 構成が空であるため、続行できません。"
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "MQTT クライアントの作成中にエラーが発生したため、キャンセルされました。"
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT クライアントが正常に作成されました。続行します。"
+    IDS_ERRORID_MQTT_CONNECTED
+                            "MQTT サーバーに接続されています:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "MQTT サーバーへの接続に失敗しました:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "MQTT サーバーから切断されました:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA 証明書ファイルが存在しません。パス = ""{0}"""
+    IDS_ERRORID_MQTT_START  "スマートホームコントロールサービスが実行中です。"
+    IDS_ERRORID_MQTT_STOP   "スマートホーム制御サービスが停止されました。"
+    IDS_ERRORID_PANEL_INDEX "オーディオ ミキサー パネル - 続行できません。インデックス エントリが正しくありません。"
+    IDS_ERRORID_PANEL_INIT  "オーディオ ミキサー パネル - 続行できません。初期化エラーです。"
+    IDS_ERRORID_PANEL_ENABLE
+                            "オーディオミキサーパネルウィンドウの状態が一致していないため、次の操作を続行できません。"
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "オーディオ ミキサー パネルは UI スレッドで呼び出されないため、変更はできません。"
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "オーディオ ミキサー パネルで無効な項目が検出されたため、パネル ウィンドウの作成が中止されました。"
+    IDS_ERRORID_NONE        "-"
+END
+
+#endif
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

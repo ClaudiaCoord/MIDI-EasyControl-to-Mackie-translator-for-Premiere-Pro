@@ -141,7 +141,7 @@ namespace Common {
 				<< L"\n\t\tapps: [" << ws.str() << L"]");
 		}
 
-		MidiDevice::MidiDevice() : name(L""), autostart(false), manualport(false), proxy(0), btninterval(100U), btnlonginterval(1500U), jogscenefilter(true) {}
+		MidiDevice::MidiDevice() : name({}), config({}), autostart(false), manualport(false), proxy(0), btninterval(100U), btnlonginterval(1500U), jogscenefilter(true) {}
 		MidiDevice::~MidiDevice() { Clear(); }
 		bool MidiDevice::IsEmpty() { return units.empty(); }
 		void MidiDevice::Init() { Clear(); }
@@ -155,8 +155,20 @@ namespace Common {
 			return this;
 		}
 		std::wstring MidiDevice::Dump() {
-			JsonConfig jsc;
+			json_config jsc;
 			return jsc.Dump(this);
+		}
+		void MidiDevice::copysettings__(MidiDevice* cnf) {
+			if (cnf == nullptr) return;
+			name = std::wstring(cnf->name);
+			config = std::wstring(cnf->config);
+			autostart = cnf->autostart;
+			manualport = cnf->manualport;
+			jogscenefilter = cnf->jogscenefilter;
+			proxy = cnf->proxy;
+			btninterval = cnf->btninterval;
+			btnlonginterval = cnf->btnlonginterval;
+			mqttconf.Copy(cnf->mqttconf);
 		}
 
 		bool MidiSetter::ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, DWORD& t, const uint32_t& btninterval) {
@@ -193,66 +205,70 @@ namespace Common {
 		}
 		bool MidiSetter::ValidTarget(MidiUnit& u) {
 			switch (u.target) {
-				case Mackie::Target::MQTTKEY:
-				case Mackie::Target::VOLUMEMIX: {
+				using enum Mackie::Target;
+				case MQTTKEY:
+				case VOLUMEMIX: {
 					if ((u.type == MidiUnitType::BTN) || (u.type == MidiUnitType::BTNTOGGLE)) {
 						switch (u.longtarget) {
-							case Mackie::Target::B11:
-							case Mackie::Target::B12:
-							case Mackie::Target::B13:
-							case Mackie::Target::B14:
-							case Mackie::Target::B15:
-							case Mackie::Target::B16:
-							case Mackie::Target::B17:
-							case Mackie::Target::B18:
-							case Mackie::Target::B19:
-							case Mackie::Target::B21:
-							case Mackie::Target::B22:
-							case Mackie::Target::B23:
-							case Mackie::Target::B24:
-							case Mackie::Target::B25:
-							case Mackie::Target::B26:
-							case Mackie::Target::B27:
-							case Mackie::Target::B28:
-							case Mackie::Target::B29:
-							case Mackie::Target::B31:
-							case Mackie::Target::B32:
-							case Mackie::Target::B33:
-							case Mackie::Target::B34:
-							case Mackie::Target::B35:
-							case Mackie::Target::B36:
-							case Mackie::Target::B37:
-							case Mackie::Target::B38:
-							case Mackie::Target::B39: return true;
+							using enum Mackie::Target;
+							case B11:
+							case B12:
+							case B13:
+							case B14:
+							case B15:
+							case B16:
+							case B17:
+							case B18:
+							case B19:
+							case B21:
+							case B22:
+							case B23:
+							case B24:
+							case B25:
+							case B26:
+							case B27:
+							case B28:
+							case B29:
+							case B31:
+							case B32:
+							case B33:
+							case B34:
+							case B35:
+							case B36:
+							case B37:
+							case B38:
+							case B39: return true;
 							default: break;
 						}
 					} else {
 						switch (u.type) {
-							case MidiUnitType::SLIDER:
-							case MidiUnitType::SLIDERINVERT:
-							case MidiUnitType::FADER:
-							case MidiUnitType::FADERINVERT:
-							case MidiUnitType::KNOB:
-							case MidiUnitType::KNOBINVERT: {
+							using enum MidiUnitType;
+							case SLIDER:
+							case SLIDERINVERT:
+							case FADER:
+							case FADERINVERT:
+							case KNOB:
+							case KNOBINVERT: {
 								switch (u.longtarget) {
-									case Mackie::Target::AV1:
-									case Mackie::Target::AV2:
-									case Mackie::Target::AV3:
-									case Mackie::Target::AV4:
-									case Mackie::Target::AV5:
-									case Mackie::Target::AV6:
-									case Mackie::Target::AV7:
-									case Mackie::Target::AV8:
-									case Mackie::Target::XV9:
-									case Mackie::Target::AP1:
-									case Mackie::Target::AP2:
-									case Mackie::Target::AP3:
-									case Mackie::Target::AP4:
-									case Mackie::Target::AP5:
-									case Mackie::Target::AP6:
-									case Mackie::Target::AP7:
-									case Mackie::Target::AP8:
-									case Mackie::Target::XP9: return true;
+									using enum Mackie::Target;
+									case AV1:
+									case AV2:
+									case AV3:
+									case AV4:
+									case AV5:
+									case AV6:
+									case AV7:
+									case AV8:
+									case XV9:
+									case AP1:
+									case AP2:
+									case AP3:
+									case AP4:
+									case AP5:
+									case AP6:
+									case AP7:
+									case AP8:
+									case XP9: return true;
 									default: break;
 								}
 								break;
@@ -262,20 +278,21 @@ namespace Common {
 					}
 					return false;
 				}
-				case Mackie::Target::MEDIAKEY: {
+				case MEDIAKEY: {
 					if ((u.type == MidiUnitType::BTN) || (u.type == MidiUnitType::BTNTOGGLE)) {
 						switch (u.longtarget) {
-							case Mackie::Target::SYS_Scrub:
-							case Mackie::Target::SYS_Zoom:
-							case Mackie::Target::SYS_Record:
-							case Mackie::Target::SYS_Rewind:
-							case Mackie::Target::SYS_Forward:
-							case Mackie::Target::SYS_Stop:
-							case Mackie::Target::SYS_Play:
-							case Mackie::Target::SYS_Up:
-							case Mackie::Target::SYS_Down:
-							case Mackie::Target::SYS_Left:
-							case Mackie::Target::SYS_Right:return true;
+							using enum Mackie::Target;
+							case SYS_Scrub:
+							case SYS_Zoom:
+							case SYS_Record:
+							case SYS_Rewind:
+							case SYS_Forward:
+							case SYS_Stop:
+							case SYS_Play:
+							case SYS_Up:
+							case SYS_Down:
+							case SYS_Left:
+							case SYS_Right:return true;
 							default: break;
 						}
 					}

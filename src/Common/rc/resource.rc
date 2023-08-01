@@ -1,11 +1,8 @@
 
 #include "resource_midimt.h"
+#include "resource_error_id.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 2 resource.
-//
 #ifndef APSTUDIO_INVOKED
 #include <SDKDDKVer.h>
 #endif
@@ -13,23 +10,12 @@
 #include <windows.h>
 #include "resource_version.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
-
-/////////////////////////////////////////////////////////////////////////////
-//
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
+#pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
 1              ICON                    "icon\\midi_icon_32px.ico"
 2              ICON                    "icon\\midi_icon_48px.ico"
 3              ICON                    "icon\\midi_icon_64px.ico"
@@ -39,10 +25,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 
 #ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
 
 1 TEXTINCLUDE 
 BEGIN
@@ -67,14 +49,7 @@ BEGIN
     "\0"
 END
 
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-// 
+#endif
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
@@ -109,18 +84,8 @@ BEGIN
     END
 END
 
-#endif    // Русский (Россия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
+#endif
 
 #ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif
 

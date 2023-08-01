@@ -96,13 +96,13 @@
 		{"scene":176,"id":30,"type":3,"target":254,"longtarget":39,"onoff":"false","value":64,"apps":["AtomicHeart-Win64-Shipping", "Wolf2"]},
 		{"scene":176,"id":21,"type":1,"target":254,"longtarget":12,"onoff":"false","value":64,"apps":["AtomicHeart-Win64-Shipping", "Wolf2"]},
 
-		{"scene":176,"id":31,"type":3,"target":254,"longtarget":40,"onoff":"false","value":64,"apps":["master"]},
-		{"scene":176,"id":22,"type":1,"target":254,"longtarget":13,"onoff":"false","value":64,"apps":["master"]},
+		{"scene":176,"id":31,"type":3,"target":254,"longtarget":40,"onoff":"false","value":64,"apps":["master","ShellExperienceHost"]},
+		{"scene":176,"id":22,"type":1,"target":254,"longtarget":13,"onoff":"false","value":64,"apps":["master","ShellExperienceHost"]},
 
-		{"scene":176,"id":9,"type":7,"target":254,"longtarget":0,"onoff":"false","value":41,"apps":["master"]},
-		{"scene":177,"id":9,"type":7,"target":254,"longtarget":0,"onoff":"false","value":41,"apps":["master"]},
-		{"scene":178,"id":9,"type":7,"target":254,"longtarget":0,"onoff":"false","value":41,"apps":["master"]},
-		{"scene":179,"id":9,"type":7,"target":254,"longtarget":0,"onoff":"false","value":41,"apps":["master"]},
+		{"scene":176,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
+		{"scene":177,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
+		{"scene":178,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
+		{"scene":179,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
 
 		{"scene":178,"id":23,"type":3,"target":252,"longtarget":23,"onoff":"false","value":0},
 		{"scene":178,"id":14,"type":1,"target":252,"longtarget":5,"onoff":"false","value":0},
@@ -127,8 +127,5 @@
 
 		{"scene":178,"id":30,"type":3,"target":252,"longtarget":30,"onoff":"false","value":0},
 		{"scene":178,"id":21,"type":1,"target":252,"longtarget":12,"onoff":"false","value":0},
-
-		{"scene":178,"id":31,"type":3,"target":254,"longtarget":40,"onoff":"false","value":64,"apps":["master"]},
-		{"scene":178,"id":22,"type":1,"target":254,"longtarget":13,"onoff":"false","value":64,"apps":["master"]},
 	]
 	}

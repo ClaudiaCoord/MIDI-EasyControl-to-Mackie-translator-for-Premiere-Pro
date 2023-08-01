@@ -74,25 +74,25 @@
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <BrowseInformation>true</BrowseInformation>
       <CallingConvention>Cdecl</CallingConvention>
@@ -113,6 +113,7 @@
       <CompileAsWinRT>
       </CompileAsWinRT>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,9 +132,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,10 +154,11 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <BrowseInformation>true</BrowseInformation>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,9 +176,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,36 +190,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\AudioSessionEvents.cpp" />
-    <ClCompile Include="cpp\AudioSessionEventsBuilder.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItemId.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItemApp.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItemValue.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItemBase.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItem.cpp" />
+    <ClCompile Include="cpp\item\AudioSessionItemChange.cpp" />
+    <ClCompile Include="cpp\events\AudioSessionEvents.cpp" />
+    <ClCompile Include="cpp\events\AudioSessionEventsBuilder.cpp" />
+    <ClCompile Include="cpp\events\AudioSessionEventsNotify.cpp" />
+    <ClCompile Include="cpp\events\AudioEndPointEvents.cpp" />
     <ClCompile Include="cpp\AudioSessionHelper.cpp" />
-    <ClCompile Include="cpp\AudioSessionItemChange.cpp" />
-    <ClCompile Include="cpp\AudioSessionItemMidi.cpp" />
-    <ClCompile Include="cpp\AudioSessionItem.cpp" />
+    <ClCompile Include="cpp\AudioSessionUnit.cpp" />
     <ClCompile Include="cpp\AudioSessionList.cpp" />
+    <ClCompile Include="cpp\AudioSessionMixerVolume.cpp" />
     <ClCompile Include="cpp\AudioSessionMixer.cpp" />
-    <ClCompile Include="cpp\AudioSessionEventsNotify.cpp" />
-    <ClCompile Include="cpp\AudioEndPointEvents.cpp" />
-    <ClCompile Include="cpp\AudioVolumeValue.cpp" />
     <ClCompile Include="cpp\dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\MIDIMTDLL\MIDIMTApi.h" />
-    <ClInclude Include="h\AudioSessionHelper.h" />
-    <ClInclude Include="h\AudioSessionItemChange.h" />
-    <ClInclude Include="MIDIMTMIXApi.h" />
-    <ClInclude Include="h\AudioSessionEventsBuilder.h" />
     <ClInclude Include="h\global.h" />
-    <ClInclude Include="h\AudioSessionErrors.h" />
-    <ClInclude Include="h\AudioEndPointEvents.h" />
-    <ClInclude Include="h\AudioSessionEvents.h" />
-    <ClInclude Include="h\AudioSessionItemMidi.h" />
-    <ClInclude Include="h\AudioSessionItem.h" />
-    <ClInclude Include="h\AudioSessionList.h" />
-    <ClInclude Include="h\AudioSessionMixer.h" />
-    <ClInclude Include="h\AudioSessionEventsNotify.h" />
-    <ClInclude Include="h\AudioVolumeValue.h" />
     <ClInclude Include="h\global_enum.h" />
+    <ClInclude Include="h\item\AudioSessionItemBase.h" />
+    <ClInclude Include="h\item\AudioSessionItemId.h" />
+    <ClInclude Include="h\item\AudioSessionItemApp.h" />
+    <ClInclude Include="h\item\AudioSessionItemValue.h" />
+    <ClInclude Include="h\item\AudioSessionItem.h" />
+    <ClInclude Include="h\item\AudioSessionItemChange.h" />
+    <ClInclude Include="h\events\AudioSessionEventsBuilder.h" />
+    <ClInclude Include="h\events\AudioEndPointEvents.h" />
+    <ClInclude Include="h\events\AudioSessionEvents.h" />
+    <ClInclude Include="h\events\AudioSessionEventsNotify.h" />
+    <ClInclude Include="h\AudioSessionHelper.h" />
+    <ClInclude Include="h\AudioSessionUnit.h" />
+    <ClInclude Include="h\AudioSessionList.h" />
+    <ClInclude Include="h\AudioSessionMixerVolume.h" />
+    <ClInclude Include="h\AudioSessionMixer.h" />
+    <ClInclude Include="MIDIMTMIXApi.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MIDIMTDLL\MIDIMTLIB.vcxproj">
@@ -227,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,6 +15,15 @@
 namespace Common {
 	namespace MIDIMT {
 
+		using namespace std::string_view_literals;
+		constexpr std::wstring_view default_help_fmt__ = L"https://claudiacoord.github.io/MIDI-MT/docs/{0}/{1}.html"sv;
+		constexpr std::wstring_view default_page_index__ = L"index"sv;
+		constexpr std::wstring_view default_page_mixer__ = L"Mixer"sv;
+		constexpr std::wstring_view default_page_launch__ = L"Launch"sv;
+		constexpr std::wstring_view default_page_settings__ = L"Settings"sv;
+		constexpr std::wstring_view default_page_smarthome__ = L"Smart-House"sv;
+		constexpr std::wstring_view default_page_installation__ = L"Installation"sv;
+
 		static const wchar_t* blanks[] = { L"", L"  ", L"    " };
 
 		void Gui::SetControlEnable(HWND hwnd, int id, bool val) {
@@ -33,6 +42,73 @@ namespace Common {
 		}
 		void Gui::SaveConfigEnabled(HWND hwnd) {
 			SetControlEnable(hwnd, IDC_DIALOG_SAVE, true);
+		}
+
+		void Gui::ShowHelpPage(uint32_t dlgid, HELPINFO* hi) {
+			if (!hi) return;
+			Gui::ShowHelpPage(dlgid, hi->iCtrlId);
+		}
+		void Gui::ShowHelpPage(uint32_t dlgid, uint32_t eleid) {
+			try {
+				std::wstring page;
+
+				switch (dlgid) {
+					case IDD_FORMSTART: {
+						switch (eleid) {
+							case IDC_MMKEY_ENABLE:
+							case IDC_MIXER_ENABLE:
+							case IDC_MIXER_DUPLICATE:
+							case IDC_MIXER_OLD_VALUE:
+							case IDC_MIXER_FAST_VALUE:
+							case IDC_MIXER_RIGHT_CLICK: page = default_page_mixer__; break;
+							case IDC_MQTT_CA:
+							case IDC_MQTT_PSK:
+							case IDC_MQTT_PASS:
+							case IDC_MQTT_PORT:
+							case IDC_MQTT_ISSSL:
+							case IDC_MQTT_LOGIN:
+							case IDC_MQTT_IPADDR:
+							case IDC_MQTT_CAOPEN:
+							case IDC_MQTT_PREFIX:
+							case IDC_MQTT_LOGLEVEL:
+							case IDC_MQTT_ISSELFSIGN: page = default_page_smarthome__; break;
+							default: page = default_page_launch__; break;
+						}
+						break;
+					}
+					case IDD_FORMMONITOR:
+					case IDD_FORMSETUP: page = default_page_settings__; break;
+					default: page = default_page_index__; break;
+				}
+				std::wstring url = log_string::format(default_help_fmt__.data(), LangInterface::Get().GetLangId(), page);
+				if (!url.empty())
+					ShellExecuteW(0, 0, url.c_str(), 0, 0, SW_SHOW);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		std::wstring Gui::GetDragAndDrop(HDROP hd) {
+			std::wstring cnf;
+			if (!hd) return cnf;
+			try {
+				uint32_t i, cnt = ::DragQueryFileA(hd, -1, 0, 0);
+
+				for (i = 0; i < cnt; ++i) {
+					wchar_t p[MAX_PATH + 1]{};
+
+					if (::DragQueryFileW(hd, i, p, MAX_PATH)) {
+						std::wstring s = std::wstring(p);
+						if (s.ends_with(L".cnf")) {
+							cnf = s;
+							break;
+						}
+					}
+				}
+				::DragFinish(hd);
+			} catch (...) {}
+			return cnf;
 		}
 		std::wstring Gui::GetBlank(uint32_t val) {
 			uint8_t i = (val > 9) ? ((val > 99) ? 0 : 1) : 2;

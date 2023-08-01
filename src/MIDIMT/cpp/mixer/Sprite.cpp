@@ -83,7 +83,7 @@ namespace Common {
                         iin.push_back((uint8_t)ptr[i]);
 
                     if ((val = lodepng::decode(iout, width, height, iin, LCT_RGBA, 8)) != 0U)
-                        throw runtime_werror(Utils::to_string(lodepng_error_text(val)));
+                        throw_common_error(Utils::to_string(lodepng_error_text(val)));
 
                     foreach(iout, width, height, LCT_RGBA);
 
