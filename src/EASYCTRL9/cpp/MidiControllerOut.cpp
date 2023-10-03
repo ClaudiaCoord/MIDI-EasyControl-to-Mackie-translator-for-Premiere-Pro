@@ -15,33 +15,28 @@
 namespace Common {
 	namespace MIDI {
 
-		static MidiControllerOut ctrl_midicontrollerout__;
-
-		MidiControllerOut::MidiControllerOut() : midi_out_handle__(nullptr), ismanualport__(false) {
+		MidiControllerOut::MidiControllerOut(std::shared_ptr<MidiDriver> drv) : midi_out_handle__(nullptr), ismanualport__(false), MidiControllerBase(drv) {
 			this_type__ = ClassTypes::ClassOutMidiMackie;
 		}
 		MidiControllerOut::~MidiControllerOut() {
 			Dispose();
 		}
-		void MidiControllerOut::Dispose() {
-			Dispose(true);
-		}
-		void MidiControllerOut::Dispose(bool b) {
+		void MidiControllerOut::dispose_(bool b) {
 			_set_se_translator(seh_exception_catch);
 			try {
 				HMIDIOUT h = midi_out_handle__;
 				midi_out_handle__ = nullptr;
 				if (h != nullptr) {
-					(void)midi_utils::Check_MMRESULT(
+					(void)mdrv__->CheckMMRESULT(
 						[&]() -> MMRESULT {
-							return midi_utils::Run_midiOutReset(h);
-						},
+						return mdrv__->OutReset(h);
+					},
 						LogTag
 					);
-					(void)midi_utils::Check_MMRESULT(
+					(void)mdrv__->CheckMMRESULT(
 						[&]() -> MMRESULT {
-							return midi_utils::Run_midiOutClose(h);
-						},
+						return mdrv__->OutClose(h);
+					},
 						LogTag
 					);
 					if (ismanualport__)
@@ -56,22 +51,24 @@ namespace Common {
 					vmdev_ptr__.reset();
 					isconnect__ = false;
 				}
-			}
-			catch (...) {
+			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 			isenable__ = false;
+		}
+		void MidiControllerOut::Dispose() {
+			dispose_(true);
 		}
 		bool MidiControllerOut::BuildDeviceList(uint32_t& devid) {
 			_set_se_translator(seh_exception_catch);
 			try {
 				devid = UINT_MAX;
 				device_list__.clear();
-				uint32_t cnt = midi_utils::Run_midiOutGetNumDevs();
+				uint32_t cnt = mdrv__->OutGetNumDevs();
 				for (size_t i = 0; i < cnt; ++i) {
 
 					MIDIOUTCAPS mc{};
-					MMRESULT m = midi_utils::Run_midiOutGetDevCapsW(i, &mc, sizeof(mc));
+					MMRESULT m = mdrv__->OutGetDevCaps(i, &mc, sizeof(mc));
 					if (m != S_OK) {
 						Common::to_log::Get() << (log_string() << LogTag << Utils::MMRESULT_to_string(m) << L" [" << i << L"]");
 						continue;
@@ -125,7 +122,7 @@ namespace Common {
 						);
 
 					if (!vmdev_ptr__)
-						vmdev_ptr__.reset(new MidiControllerVirtual(active_device__));
+						vmdev_ptr__.reset(new MidiControllerVirtual(mdrv__, active_device__));
 
 					isenable__ = vmdev_ptr__.get()->IsEnable();
 					if (!isenable__)
@@ -147,7 +144,7 @@ namespace Common {
 					return isenable__;
 				}
 
-				Dispose(false);
+				dispose_(false);
 
 				isenable__ = (devid < device_list__.size());
 				if (!isenable__)
@@ -158,9 +155,9 @@ namespace Common {
 					);
 
 				active_device__ = device_list__.at(devid);
-				isenable__ = midi_utils::Check_MMRESULT(
+				isenable__ = mdrv__->CheckMMRESULT(
 					[&]() -> MMRESULT {
-						return midi_utils::Run_midiOutOpen(
+						return mdrv__->OutOpen(
 							&midi_out_handle__,
 							static_cast<UINT>(devid),
 							(DWORD_PTR)&MidiOutProc,
@@ -199,17 +196,13 @@ namespace Common {
 					return false;
 
 				if (ismanualport__)
-					return midi_utils::Run_midiOutShortMsg(midi_out_handle__, m.send) == S_OK;
+					return mdrv__->OutShortMsg(midi_out_handle__, m.send) == S_OK;
 				return (vmdev_ptr__) ? vmdev_ptr__.get()->SendToPort(m, t) : false;
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 			return false;
-		}
-
-		MidiControllerOut& MidiControllerOut::Get() {
-			return std::ref(ctrl_midicontrollerout__);
 		}
 	}
 }

@@ -14,7 +14,7 @@
 
 namespace Common {
 
-    locker_auto::locker_auto(std::shared_ptr<locker_awaiter>& a, locker_auto::LockType t) noexcept : aw(a), type(t) {
+    locker_auto::locker_auto(std::shared_ptr<locker_awaiter>& a, locker_auto::LockType t) : aw(a), type(t) {
         switch (type) {
             case locker_auto::LockType::TypeLock:
             case locker_auto::LockType::TypeLockWait: {
@@ -42,10 +42,10 @@ namespace Common {
         }
     }
 
-    const bool locker_auto::IsCanceled() const noexcept {
+    const bool locker_auto::IsCanceled() const {
         return aw->IsCanceled();
     }
-    const bool locker_auto::IsOnlyOne() const noexcept {
+    const bool locker_auto::IsOnlyOne() const {
         switch (type) {
             case locker_auto::LockType::TypeLockOnlyOne:
                 return aw->IsOnlyOne();
@@ -54,7 +54,7 @@ namespace Common {
             default: return false;
         }
     }
-    const bool locker_auto::Begin() noexcept {
+    const bool locker_auto::Begin() {
         if (isbegin) return true;
 
         bool b = true;

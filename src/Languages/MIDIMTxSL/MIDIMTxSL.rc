@@ -1,14 +1,5 @@
 ﻿﻿
-#include "..\..\MIDIMT\rc\resource.h"
-#include "..\..\Common\rc\resource.rc"
-#include "..\..\Common\rc\resource_lang.rc"
-#include "RibbonDialogConfig.rc"
-
 #define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 2 resource.
-//
 #ifndef APSTUDIO_INVOKED
 #include <SDKDDKVer.h>
 #endif
@@ -20,14 +11,8 @@
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS
-
-/////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_SLOVENIAN, SUBLANG_DEFAULT
 #pragma code_page(65001)
 
@@ -38,18 +23,18 @@ LANGUAGE LANG_SLOVENIAN, SUBLANG_DEFAULT
 
 IDR_TRAY_MENU MENU 
 BEGIN
-    POPUP "MIDI Mackie prevajalec"
+    POPUP "MIDI Mackie транслятор"
     BEGIN
         MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Informacije", IDM_GO_INFO
-        MENUITEM "&avdio mešalnik", IDM_GO_MIXER
-        MENUITEM "&Monitor", IDM_GO_MONITOR
-        MENUITEM "&Nastavitev", IDM_GO_CONFIGURE
+        MENUITEM "&Информация", IDM_GO_INFO
+        MENUITEM "&Аудио микшер", IDM_GO_MIXER
+        MENUITEM "&Монитор", IDM_GO_MONITOR
+        MENUITEM "&Настройка", IDM_GO_CONFIGURE
         MENUITEM SEPARATOR
-        MENUITEM "Začetek", IDM_GO_START
-        MENUITEM "Stop", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "Ст&арт", IDM_GO_START
+        MENUITEM "Ст&оп", IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Izhod", IDM_EXIT
+        MENUITEM "Вы&ход", IDM_EXIT
     END
 END
 
@@ -57,32 +42,32 @@ IDR_MIXER_CTRL_MENU MENU
 BEGIN
     POPUP "MIXPANELMENU"
     BEGIN
-        POPUP "Lokacija.."
+        POPUP "Расположение.."
         BEGIN
-            MENUITEM "Navpično levo", IDM_VERT_LEFT
-            MENUITEM "Navpično desno", IDM_VERT_RIGHT
-            MENUITEM "Vodoravni vrh", IDM_HOR_TOP
-            MENUITEM "Vodoravno na dnu", IDM_HOR_BOTTOM
+            MENUITEM "Вертикально слева", IDM_VERT_LEFT
+            MENUITEM "Вертикально справа", IDM_VERT_RIGHT
+            MENUITEM "Горизонтально вверху", IDM_HOR_TOP
+            MENUITEM "Горизонтально внизу", IDM_HOR_BOTTOM
         END
-        POPUP "Zadeva.."
+        POPUP "Тема.."
         BEGIN
-            MENUITEM "Metro", IDM_METRO
-            MENUITEM "Svetloba", IDM_LIGHT
-            MENUITEM "Temno", IDM_DARK
-            MENUITEM "retro", IDM_RETRO
-            MENUITEM "Moderno", IDM_MODERN
+            MENUITEM "Метро", IDM_METRO
+            MENUITEM "Светлая", IDM_LIGHT
+            MENUITEM "Тёмная", IDM_DARK
+            MENUITEM "Рэтро", IDM_RETRO
+            MENUITEM "Современный", IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "TuningMay", IDM_CUSTOM
-            MENUITEM "Prilagoditev teme", IDM_CALLFORM_COLOR
+            MENUITEM "Настраеваямая", IDM_CUSTOM
+            MENUITEM "Настройка темы", IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animacija", IDM_ANIMATION
-        MENUITEM "&Pot aplikacije", IDM_APP_PATH
-        MENUITEM "Vezava &MIDI kontrolnikov", IDM_MIDI_BIND
-        MENUITEM "Merilnik vrhov in glasnosti", IDM_PEAK_METER
-        MENUITEM "Zapomni si položaj", IDM_SAVE_POS
+        MENUITEM "&Анимация", IDM_ANIMATION
+        MENUITEM "&Путь приложений", IDM_APP_PATH
+        MENUITEM "Привязка &MIDI контролов", IDM_MIDI_BIND
+        MENUITEM "Пиковый &измеритель громкости", IDM_PEAK_METER
+        MENUITEM "З&апомнить позицию", IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Zapri", IDM_CLOSE
+        MENUITEM "&Закрыть", IDM_CLOSE
     END
 END
 
@@ -90,22 +75,23 @@ IDR_LV_MENU MENU
 BEGIN
     POPUP "LV MENU"
     BEGIN
-        MENUITEM "Nov vnos", IDM_LV_NEW
+        MENUITEM "Новая запись", IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "Kopirati", IDM_LV_COPY
-        MENUITEM "Vstavi", IDM_LV_PASTE, GRAYED
+        MENUITEM "Копировать", IDM_LV_COPY
+        MENUITEM "Вставить", IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Izbriši", IDM_LV_DELETE
-        POPUP "Nastavljen kot.."
+        MENUITEM "Удалить", IDM_LV_DELETE
+        POPUP "Установить как.."
         BEGIN
-            MENUITEM "Nadzor se nanaša na avdio mešalnik", IDM_LV_SET_MIXER
-            MENUITEM "Kontrolniki, povezani z multimedijskimi gumbi", IDM_LV_SET_MMKEY
-            MENUITEM "Control treat pametni dom", IDM_LV_SET_MQTT
+            MENUITEM "Контроль относиться к аудио микшеру", IDM_LV_SET_MIXER
+            MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_LV_SET_MMKEY
+            MENUITEM "Контроль относиться к умному дому", IDM_LV_SET_MQTT
+            MENUITEM "Контроль относиться к управлению светом", IDM_LV_SET_LIGHTKEY
             MENUITEM SEPARATOR
-            MENUITEM "Nedodeljen", IDM_LV_SET_NONE
+            MENUITEM "Неназначенный", IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Preberi kodo MIDI..", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Читать MIDI код..", IDM_LV_READ_MIDI_CODE
     END
 END
 
@@ -113,25 +99,25 @@ IDR_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "COL3 TYPE MENU"
     BEGIN
-        POPUP "Regulatorji..."
+        POPUP "Регуляторы.."
         BEGIN
-            MENUITEM "Regulator traku", IDM_COL3_SLIDER
-            MENUITEM "Tračni obrnjeni regulator", IDM_COL3_SLIDERINVERT
+            MENUITEM "Полосковый регулятор", IDM_COL3_SLIDER
+            MENUITEM "Полосковый регулятор с инверсией", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Vrtljivi drsnik", IDM_COL3_FADER
-            MENUITEM "Vrtljivi gumb z inverzijo", IDM_COL3_FADERINVERT
+            MENUITEM "Круговый регулятор", IDM_COL3_FADER
+            MENUITEM "Круговый регулятор с инверсией", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "kodirnik", IDM_COL3_KNOB
-            MENUITEM "Kodirnik z inverzijo", IDM_COL3_KNOBINVERT
+            MENUITEM "Энкодер", IDM_COL3_KNOB
+            MENUITEM "Энкодер с инверсией", IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Nedodeljen", IDM_COL3_NONE
+            MENUITEM "Неназначенный", IDM_COL3_NONE
         END
-        POPUP "Gumbi.."
+        POPUP "Кнопки.."
         BEGIN
-            MENUITEM "Gumb", IDM_COL3_BTN
-            MENUITEM "Preklopni gumb, z indikacijo", IDM_COL3_BTNTOGGLE
+            MENUITEM "Кнопка", IDM_COL3_BTN
+            MENUITEM "Кнопка переключать, с индикацией", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Nedodeljen", IDM_COL3_NONE
+            MENUITEM "Неназначенный", IDM_COL3_NONE
         END
     END
 END
@@ -140,14 +126,15 @@ IDR_COL4_ALL_TARGET_MENU MENU
 BEGIN
     POPUP "COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatorji...", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Gumbi..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Регуляторы..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Кнопки..", IDR_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
-        MENUITEM "Nadzor se nanaša na avdio mešalnik", IDM_COL4_VOLUMEMIX
-        MENUITEM "Kontrolniki, povezani z multimedijskimi gumbi", IDM_COL4_MEDIAKEY
-        MENUITEM "Control treat pametni dom", IDM_COL4_MQTTKEY
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+        MENUITEM "Контроль относиться к управлению светом", IDM_COL4_LIGHTKEY
     END
 END
 
@@ -155,111 +142,112 @@ IDR_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
         MENUITEM SEPARATOR
-        POPUP "Nadzor zvoka..."
+        POPUP "Управление звуком.."
         BEGIN
-            MENUITEM "Tiho (mojster)", IDM_COL4_MAM
-            MENUITEM "Solo (mojster)", IDM_COL4_MAS
+            MENUITEM "Без звука (мастер)", IDM_COL4_MAM
+            MENUITEM "Соло (мастер)", IDM_COL4_MAS
             MENUITEM SEPARATOR
-            POPUP "Brez zvoka.."
+            POPUP "Без звука.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B21
-                MENUITEM "kanal 2", IDM_COL4_B22
-                MENUITEM "kanal 3", IDM_COL4_B23
-                MENUITEM "kanal 4", IDM_COL4_B24
-                MENUITEM "kanal 5", IDM_COL4_B25
-                MENUITEM "kanal 6", IDM_COL4_B26
-                MENUITEM "kanal 7", IDM_COL4_B27
-                MENUITEM "kanal 8", IDM_COL4_B28
-                MENUITEM "kanal 9", IDM_COL4_B29
+                MENUITEM "канал 1", IDM_COL4_B21
+                MENUITEM "канал 2", IDM_COL4_B22
+                MENUITEM "канал 3", IDM_COL4_B23
+                MENUITEM "канал 4", IDM_COL4_B24
+                MENUITEM "канал 5", IDM_COL4_B25
+                MENUITEM "канал 6", IDM_COL4_B26
+                MENUITEM "канал 7", IDM_COL4_B27
+                MENUITEM "канал 8", IDM_COL4_B28
+                MENUITEM "канал 9", IDM_COL4_B29
             END
-            POPUP "Solo.."
+            POPUP "Соло.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B11
-                MENUITEM "kanal 2", IDM_COL4_B12
-                MENUITEM "kanal 3", IDM_COL4_B13
-                MENUITEM "kanal 4", IDM_COL4_B14
-                MENUITEM "kanal 5", IDM_COL4_B15
-                MENUITEM "kanal 6", IDM_COL4_B16
-                MENUITEM "kanal 7", IDM_COL4_B17
-                MENUITEM "kanal 8", IDM_COL4_B18
-                MENUITEM "kanal 9", IDM_COL4_B19
-            END
-        END
-        POPUP "Multimedijski gumbi.."
-        BEGIN
-            MENUITEM "Predvajaj/Premor", IDM_COL4_SYS_Play
-            MENUITEM "Stop", IDM_COL4_SYS_Stop
-            MENUITEM "Prejšnja", IDM_COL4_SYS_Rewind
-            MENUITEM "Naslednji", IDM_COL4_SYS_Forward
-            MENUITEM "Snemanje", IDM_COL4_SYS_Record
-            MENUITEM "Gor (krmilna palica)", IDM_COL4_SYS_Up
-            MENUITEM "Dol (krmilna palica)", IDM_COL4_SYS_Down
-            MENUITEM "Desno (krmilna palica)", IDM_COL4_SYS_Right
-            MENUITEM "Levo (krmilna palica)", IDM_COL4_SYS_Left
-            MENUITEM "Približaj", IDM_COL4_SYS_Zoom
-            MENUITEM "drgnjenje", IDM_COL4_SYS_Scrub
-        END
-        POPUP "Funkcije Premiere Pro ..."
-        BEGIN
-            POPUP "Funkcije standardnega gumba..."
-            BEGIN
-                MENUITEM "Funkcija 1", IDM_COL4_FUN11
-                MENUITEM "Funkcija 2", IDM_COL4_FUN12
-                MENUITEM "Funkcija 3", IDM_COL4_FUN13
-                MENUITEM "Funkcija 4", IDM_COL4_FUN14
-                MENUITEM "Funkcija 5", IDM_COL4_FUN15
-                MENUITEM "Funkcija 6", IDM_COL4_FUN16
-                MENUITEM "Funkcija 7", IDM_COL4_FUN17
-                MENUITEM "Funkcija 8", IDM_COL4_FUN18
-            END
-            POPUP "Funkcije gumbov z enim pritiskom..."
-            BEGIN
-                MENUITEM "Funkcija 1", IDM_COL4_FUN21
-                MENUITEM "Funkcija 2", IDM_COL4_FUN22
-                MENUITEM "Funkcija 3", IDM_COL4_FUN23
-                MENUITEM "Funkcija 4", IDM_COL4_FUN24
-                MENUITEM "Funkcija 5", IDM_COL4_FUN25
-                MENUITEM "Funkcija 6", IDM_COL4_FUN26
-                MENUITEM "Funkcija 7", IDM_COL4_FUN27
-                MENUITEM "Funkcija 8", IDM_COL4_FUN28
+                MENUITEM "канал 1", IDM_COL4_B11
+                MENUITEM "канал 2", IDM_COL4_B12
+                MENUITEM "канал 3", IDM_COL4_B13
+                MENUITEM "канал 4", IDM_COL4_B14
+                MENUITEM "канал 5", IDM_COL4_B15
+                MENUITEM "канал 6", IDM_COL4_B16
+                MENUITEM "канал 7", IDM_COL4_B17
+                MENUITEM "канал 8", IDM_COL4_B18
+                MENUITEM "канал 9", IDM_COL4_B19
             END
         END
-        POPUP "Gumbi v sistemu Smart Home.."
+        POPUP "Мультимедиа кнопки.."
         BEGIN
-            MENUITEM "vklop/izklop 1", IDM_COL4_B11
-            MENUITEM "vklop/izklop 2", IDM_COL4_B12
-            MENUITEM "vklop/izklop 3", IDM_COL4_B13
-            MENUITEM "vklop/izklop 4", IDM_COL4_B14
-            MENUITEM "vklop/izklop 5", IDM_COL4_B15
-            MENUITEM "vklop/izklop 6", IDM_COL4_B16
-            MENUITEM "vklop/izklop 7", IDM_COL4_B17
-            MENUITEM "vklop/izklop 8", IDM_COL4_B18
-            MENUITEM "vklop/izklop 9", IDM_COL4_B19
-            MENUITEM "vklop/izklop 10", IDM_COL4_B21
-            MENUITEM "vklop/izklop 11", IDM_COL4_B22
-            MENUITEM "vklop/izklop 12", IDM_COL4_B23
-            MENUITEM "vklop/izklop 13", IDM_COL4_B24
-            MENUITEM "vklop/izklop 14", IDM_COL4_B25
-            MENUITEM "vklop/izklop 15", IDM_COL4_B26
-            MENUITEM "vklop/izklop 16", IDM_COL4_B27
-            MENUITEM "vklop/izklop 17", IDM_COL4_B28
-            MENUITEM "vklop/izklop 18", IDM_COL4_B29
-            MENUITEM "vklop/izklop 19", IDM_COL4_B31
-            MENUITEM "vklop/izklop 20", IDM_COL4_B32
-            MENUITEM "vklop/izklop 21", IDM_COL4_B33
-            MENUITEM "vklop/izklop 22", IDM_COL4_B34
-            MENUITEM "vklop/izklop 23", IDM_COL4_B35
-            MENUITEM "vklop/izklop 24", IDM_COL4_B36
-            MENUITEM "vklop/izklop 25", IDM_COL4_B37
-            MENUITEM "vklop/izklop 26", IDM_COL4_B38
-            MENUITEM "vklop/izklop 27", IDM_COL4_B39
+            MENUITEM "Играть/Пауза", IDM_COL4_SYS_Play
+            MENUITEM "Стоп", IDM_COL4_SYS_Stop
+            MENUITEM "Предыдущий", IDM_COL4_SYS_Rewind
+            MENUITEM "Следующий", IDM_COL4_SYS_Forward
+            MENUITEM "Запись", IDM_COL4_SYS_Record
+            MENUITEM "Вверх  (джойстик)", IDM_COL4_SYS_Up
+            MENUITEM "Вниз   (джойстик)", IDM_COL4_SYS_Down
+            MENUITEM "Вправо (джойстик)", IDM_COL4_SYS_Right
+            MENUITEM "Влево  (джойстик)", IDM_COL4_SYS_Left
+            MENUITEM "Увеличение масштаба", IDM_COL4_SYS_Zoom
+            MENUITEM "Скрабирование", IDM_COL4_SYS_Scrub
+        END
+        POPUP "Функции «Premiere Pro».."
+        BEGIN
+            POPUP "Функции стандартной кнопки.."
+            BEGIN
+                MENUITEM "Функция 1", IDM_COL4_FUN11
+                MENUITEM "Функция 2", IDM_COL4_FUN12
+                MENUITEM "Функция 3", IDM_COL4_FUN13
+                MENUITEM "Функция 4", IDM_COL4_FUN14
+                MENUITEM "Функция 5", IDM_COL4_FUN15
+                MENUITEM "Функция 6", IDM_COL4_FUN16
+                MENUITEM "Функция 7", IDM_COL4_FUN17
+                MENUITEM "Функция 8", IDM_COL4_FUN18
+            END
+            POPUP "Функции кнопки «в одно касание».."
+            BEGIN
+                MENUITEM "Функция 1", IDM_COL4_FUN21
+                MENUITEM "Функция 2", IDM_COL4_FUN22
+                MENUITEM "Функция 3", IDM_COL4_FUN23
+                MENUITEM "Функция 4", IDM_COL4_FUN24
+                MENUITEM "Функция 5", IDM_COL4_FUN25
+                MENUITEM "Функция 6", IDM_COL4_FUN26
+                MENUITEM "Функция 7", IDM_COL4_FUN27
+                MENUITEM "Функция 8", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Кнопки в системе «Умный дом».."
+        BEGIN
+            MENUITEM "вкл/выкл  1", IDM_COL4_B11
+            MENUITEM "вкл/выкл  2", IDM_COL4_B12
+            MENUITEM "вкл/выкл  3", IDM_COL4_B13
+            MENUITEM "вкл/выкл  4", IDM_COL4_B14
+            MENUITEM "вкл/выкл  5", IDM_COL4_B15
+            MENUITEM "вкл/выкл  6", IDM_COL4_B16
+            MENUITEM "вкл/выкл  7", IDM_COL4_B17
+            MENUITEM "вкл/выкл  8", IDM_COL4_B18
+            MENUITEM "вкл/выкл  9", IDM_COL4_B19
+            MENUITEM "вкл/выкл 10", IDM_COL4_B21
+            MENUITEM "вкл/выкл 11", IDM_COL4_B22
+            MENUITEM "вкл/выкл 12", IDM_COL4_B23
+            MENUITEM "вкл/выкл 13", IDM_COL4_B24
+            MENUITEM "вкл/выкл 14", IDM_COL4_B25
+            MENUITEM "вкл/выкл 15", IDM_COL4_B26
+            MENUITEM "вкл/выкл 16", IDM_COL4_B27
+            MENUITEM "вкл/выкл 17", IDM_COL4_B28
+            MENUITEM "вкл/выкл 18", IDM_COL4_B29
+            MENUITEM "вкл/выкл 19", IDM_COL4_B31
+            MENUITEM "вкл/выкл 20", IDM_COL4_B32
+            MENUITEM "вкл/выкл 21", IDM_COL4_B33
+            MENUITEM "вкл/выкл 22", IDM_COL4_B34
+            MENUITEM "вкл/выкл 23", IDM_COL4_B35
+            MENUITEM "вкл/выкл 24", IDM_COL4_B36
+            MENUITEM "вкл/выкл 25", IDM_COL4_B37
+            MENUITEM "вкл/выкл 26", IDM_COL4_B38
+            MENUITEM "вкл/выкл 27", IDM_COL4_B39
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nadzor se nanaša na avdio mešalnik", IDM_COL4_VOLUMEMIX
-        MENUITEM "Kontrolniki, povezani z multimedijskimi gumbi", IDM_COL4_MEDIAKEY
-        MENUITEM "Control treat pametni dom", IDM_COL4_MQTTKEY
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+        MENUITEM "Контроль относиться к управлению светом", IDM_COL4_LIGHTKEY
     END
 END
 
@@ -267,63 +255,65 @@ IDR_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "Kodirnik (sličica za sličico)", IDM_COL4_JOG
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Энкодер (покадровый просмотр)", IDM_COL4_JOG
+        MENUITEM "Неназначенный", IDM_COL4_NONE
         MENUITEM SEPARATOR
-        POPUP "Nadzor zvoka..."
+        POPUP "Управление звуком.."
         BEGIN
-            MENUITEM "Glasnost (master)", IDM_COL4_MAV
-            MENUITEM "Ravnovesje (master)", IDM_COL4_MAP
+            MENUITEM "Громкость (мастер)", IDM_COL4_MAV
+            MENUITEM "Баланс (мастер)", IDM_COL4_MAP
             MENUITEM SEPARATOR
-            POPUP "Glasnost.."
+            POPUP "Громкость.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AV1
-                MENUITEM "kanal 2", IDM_COL4_AV2
-                MENUITEM "kanal 3", IDM_COL4_AV3
-                MENUITEM "kanal 4", IDM_COL4_AV4
-                MENUITEM "kanal 5", IDM_COL4_AV5
-                MENUITEM "kanal 6", IDM_COL4_AV6
-                MENUITEM "kanal 7", IDM_COL4_AV7
-                MENUITEM "kanal 8", IDM_COL4_AV8
-                MENUITEM "kanal 9", IDM_COL4_XV9
+                MENUITEM "канал 1", IDM_COL4_AV1
+                MENUITEM "канал 2", IDM_COL4_AV2
+                MENUITEM "канал 3", IDM_COL4_AV3
+                MENUITEM "канал 4", IDM_COL4_AV4
+                MENUITEM "канал 5", IDM_COL4_AV5
+                MENUITEM "канал 6", IDM_COL4_AV6
+                MENUITEM "канал 7", IDM_COL4_AV7
+                MENUITEM "канал 8", IDM_COL4_AV8
+                MENUITEM "канал 9", IDM_COL4_XV9
             END
-            POPUP "Ravnovesje.."
+            POPUP "Баланс.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AP1
-                MENUITEM "kanal 2", IDM_COL4_AP2
-                MENUITEM "kanal 3", IDM_COL4_AP3
-                MENUITEM "kanal 4", IDM_COL4_AP4
-                MENUITEM "kanal 5", IDM_COL4_AP5
-                MENUITEM "kanal 6", IDM_COL4_AP6
-                MENUITEM "kanal 7", IDM_COL4_AP7
-                MENUITEM "kanal 8", IDM_COL4_AP8
-                MENUITEM "kanal 9", IDM_COL4_XP9
+                MENUITEM "канал 1", IDM_COL4_AP1
+                MENUITEM "канал 2", IDM_COL4_AP2
+                MENUITEM "канал 3", IDM_COL4_AP3
+                MENUITEM "канал 4", IDM_COL4_AP4
+                MENUITEM "канал 5", IDM_COL4_AP5
+                MENUITEM "канал 6", IDM_COL4_AP6
+                MENUITEM "канал 7", IDM_COL4_AP7
+                MENUITEM "канал 8", IDM_COL4_AP8
+                MENUITEM "канал 9", IDM_COL4_XP9
             END
         END
-        POPUP "Regulatorji v sistemu ""Pametni dom"".."
+        POPUP "Регуляторы в системе «Умный дом».."
         BEGIN
-            MENUITEM "stopnja 1", IDM_COL4_AV1
-            MENUITEM "stopnja 2", IDM_COL4_AV2
-            MENUITEM "stopnja 3", IDM_COL4_AV3
-            MENUITEM "stopnja 4", IDM_COL4_AV4
-            MENUITEM "stopnja 5", IDM_COL4_AV5
-            MENUITEM "stopnja 6", IDM_COL4_AV6
-            MENUITEM "stopnja 7", IDM_COL4_AV7
-            MENUITEM "stopnja 8", IDM_COL4_AV8
-            MENUITEM "stopnja 9", IDM_COL4_XV9
-            MENUITEM "stopnja 10", IDM_COL4_AP1
-            MENUITEM "stopnja 11", IDM_COL4_AP2
-            MENUITEM "stopnja 12", IDM_COL4_AP3
-            MENUITEM "stopnja 13", IDM_COL4_AP4
-            MENUITEM "stopnja 14", IDM_COL4_AP5
-            MENUITEM "stopnja 15", IDM_COL4_AP6
-            MENUITEM "stopnja 16", IDM_COL4_AP7
-            MENUITEM "stopnja 17", IDM_COL4_AP8
-            MENUITEM "stopnja 18", IDM_COL4_XP9
+            MENUITEM "уровень  1", IDM_COL4_AV1
+            MENUITEM "уровень  2", IDM_COL4_AV2
+            MENUITEM "уровень  3", IDM_COL4_AV3
+            MENUITEM "уровень  4", IDM_COL4_AV4
+            MENUITEM "уровень  5", IDM_COL4_AV5
+            MENUITEM "уровень  6", IDM_COL4_AV6
+            MENUITEM "уровень  7", IDM_COL4_AV7
+            MENUITEM "уровень  8", IDM_COL4_AV8
+            MENUITEM "уровень  9", IDM_COL4_XV9
+            MENUITEM "уровень 10", IDM_COL4_AP1
+            MENUITEM "уровень 11", IDM_COL4_AP2
+            MENUITEM "уровень 12", IDM_COL4_AP3
+            MENUITEM "уровень 13", IDM_COL4_AP4
+            MENUITEM "уровень 14", IDM_COL4_AP5
+            MENUITEM "уровень 15", IDM_COL4_AP6
+            MENUITEM "уровень 16", IDM_COL4_AP7
+            MENUITEM "уровень 17", IDM_COL4_AP8
+            MENUITEM "уровень 18", IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nadzor se nanaša na avdio mešalnik", IDM_COL4_VOLUMEMIX
-        MENUITEM "Kontrolniki, povezani z multimedijskimi gumbi", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
+        MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
+        MENUITEM "Контроль относиться к умному дому", IDM_COL4_MQTTKEY
+        MENUITEM "Контроль относиться к управлению светом", IDM_COL4_LIGHTKEY
     END
 END
 
@@ -331,32 +321,32 @@ IDR_COL5_SLIDER_MIX_MENU MENU
 BEGIN
     POPUP "COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Glasnost (master)", IDM_COL4_MAV
-        MENUITEM "Kodirnik (JOG)", IDM_COL4_JOG
+        MENUITEM "Громкость (мастер)", IDM_COL4_MAV
+        MENUITEM "Энкодер (JOG)", IDM_COL4_JOG
         MENUITEM SEPARATOR
-        POPUP "Glasnost.."
+        POPUP "Громкость.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_AV1
-            MENUITEM "kanal 2", IDM_COL4_AV2
-            MENUITEM "kanal 3", IDM_COL4_AV3
-            MENUITEM "kanal 4", IDM_COL4_AV4
-            MENUITEM "kanal 5", IDM_COL4_AV5
-            MENUITEM "kanal 6", IDM_COL4_AV6
-            MENUITEM "kanal 7", IDM_COL4_AV7
-            MENUITEM "kanal 8", IDM_COL4_AV8
-            MENUITEM "kanal 9", IDM_COL4_XV9
-            MENUITEM "kanal 10", IDM_COL4_AP1
-            MENUITEM "kanal 11", IDM_COL4_AP2
-            MENUITEM "kanal 12", IDM_COL4_AP3
-            MENUITEM "kanal 13", IDM_COL4_AP4
-            MENUITEM "kanal 14", IDM_COL4_AP5
-            MENUITEM "kanal 15", IDM_COL4_AP6
-            MENUITEM "kanal 16", IDM_COL4_AP7
-            MENUITEM "kanal 17", IDM_COL4_AP8
-            MENUITEM "kanal 18", IDM_COL4_XP9
+            MENUITEM "канал  1", IDM_COL4_AV1
+            MENUITEM "канал  2", IDM_COL4_AV2
+            MENUITEM "канал  3", IDM_COL4_AV3
+            MENUITEM "канал  4", IDM_COL4_AV4
+            MENUITEM "канал  5", IDM_COL4_AV5
+            MENUITEM "канал  6", IDM_COL4_AV6
+            MENUITEM "канал  7", IDM_COL4_AV7
+            MENUITEM "канал  8", IDM_COL4_AV8
+            MENUITEM "канал  9", IDM_COL4_XV9
+            MENUITEM "канал 10", IDM_COL4_AP1
+            MENUITEM "канал 11", IDM_COL4_AP2
+            MENUITEM "канал 12", IDM_COL4_AP3
+            MENUITEM "канал 13", IDM_COL4_AP4
+            MENUITEM "канал 14", IDM_COL4_AP5
+            MENUITEM "канал 15", IDM_COL4_AP6
+            MENUITEM "канал 16", IDM_COL4_AP7
+            MENUITEM "канал 17", IDM_COL4_AP8
+            MENUITEM "канал 18", IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
     END
 END
 
@@ -364,22 +354,22 @@ IDR_COL5_BTN_MIX_MENU MENU
 BEGIN
     POPUP "COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "Mute (master)", IDM_COL4_MAM
+        MENUITEM "Без звука (мастер)", IDM_COL4_MAM
         MENUITEM SEPARATOR
-        POPUP "Brez zvoka.."
+        POPUP "Без звука.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_B21
-            MENUITEM "kanal 2", IDM_COL4_B22
-            MENUITEM "kanal 3", IDM_COL4_B23
-            MENUITEM "kanal 4", IDM_COL4_B24
-            MENUITEM "kanal 5", IDM_COL4_B25
-            MENUITEM "kanal 6", IDM_COL4_B26
-            MENUITEM "kanal 7", IDM_COL4_B27
-            MENUITEM "kanal 8", IDM_COL4_B28
-            MENUITEM "kanal 9", IDM_COL4_B29
+            MENUITEM "канал 1", IDM_COL4_B21
+            MENUITEM "канал 2", IDM_COL4_B22
+            MENUITEM "канал 3", IDM_COL4_B23
+            MENUITEM "канал 4", IDM_COL4_B24
+            MENUITEM "канал 5", IDM_COL4_B25
+            MENUITEM "канал 6", IDM_COL4_B26
+            MENUITEM "канал 7", IDM_COL4_B27
+            MENUITEM "канал 8", IDM_COL4_B28
+            MENUITEM "канал 9", IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
     END
 END
 
@@ -387,19 +377,19 @@ IDR_COL5_BTN_MMKEY_MENU MENU
 BEGIN
     POPUP "COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Predvajaj/Premor", IDM_COL4_SYS_Play
-        MENUITEM "Stop", IDM_COL4_SYS_Stop
-        MENUITEM "Prejšnja", IDM_COL4_SYS_Rewind
-        MENUITEM "Naslednji", IDM_COL4_SYS_Forward
-        MENUITEM "Snemanje", IDM_COL4_SYS_Record
-        MENUITEM "Gor (krmilna palica)", IDM_COL4_SYS_Up
-        MENUITEM "Dol (krmilna palica)", IDM_COL4_SYS_Down
-        MENUITEM "Desno (krmilna palica)", IDM_COL4_SYS_Right
-        MENUITEM "Levo (krmilna palica)", IDM_COL4_SYS_Left
-        MENUITEM "Približaj", IDM_COL4_SYS_Zoom
-        MENUITEM "drgnjenje", IDM_COL4_SYS_Scrub
+        MENUITEM "Играть/Пауза", IDM_COL4_SYS_Play
+        MENUITEM "Стоп", IDM_COL4_SYS_Stop
+        MENUITEM "Предыдущий", IDM_COL4_SYS_Rewind
+        MENUITEM "Следующий", IDM_COL4_SYS_Forward
+        MENUITEM "Запись", IDM_COL4_SYS_Record
+        MENUITEM "Вверх  (джойстик)", IDM_COL4_SYS_Up
+        MENUITEM "Вниз   (джойстик)", IDM_COL4_SYS_Down
+        MENUITEM "Вправо (джойстик)", IDM_COL4_SYS_Right
+        MENUITEM "Влево  (джойстик)", IDM_COL4_SYS_Left
+        MENUITEM "Увеличение масштаба", IDM_COL4_SYS_Zoom
+        MENUITEM "Скрабирование", IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
     END
 END
 
@@ -407,26 +397,26 @@ IDR_COL5_SLIDER_SM_MENU MENU
 BEGIN
     POPUP "COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "stopnja 1", IDM_COL4_AV1
-        MENUITEM "stopnja 2", IDM_COL4_AV2
-        MENUITEM "stopnja 3", IDM_COL4_AV3
-        MENUITEM "stopnja 4", IDM_COL4_AV4
-        MENUITEM "stopnja 5", IDM_COL4_AV5
-        MENUITEM "stopnja 6", IDM_COL4_AV6
-        MENUITEM "stopnja 7", IDM_COL4_AV7
-        MENUITEM "stopnja 8", IDM_COL4_AV8
-        MENUITEM "stopnja 9", IDM_COL4_XV9
-        MENUITEM "stopnja 10", IDM_COL4_AP1
-        MENUITEM "stopnja 11", IDM_COL4_AP2
-        MENUITEM "stopnja 12", IDM_COL4_AP3
-        MENUITEM "stopnja 13", IDM_COL4_AP4
-        MENUITEM "stopnja 14", IDM_COL4_AP5
-        MENUITEM "stopnja 15", IDM_COL4_AP6
-        MENUITEM "stopnja 16", IDM_COL4_AP7
-        MENUITEM "stopnja 17", IDM_COL4_AP8
-        MENUITEM "stopnja 18", IDM_COL4_XP9
+        MENUITEM "уровень  1", IDM_COL4_AV1
+        MENUITEM "уровень  2", IDM_COL4_AV2
+        MENUITEM "уровень  3", IDM_COL4_AV3
+        MENUITEM "уровень  4", IDM_COL4_AV4
+        MENUITEM "уровень  5", IDM_COL4_AV5
+        MENUITEM "уровень  6", IDM_COL4_AV6
+        MENUITEM "уровень  7", IDM_COL4_AV7
+        MENUITEM "уровень  8", IDM_COL4_AV8
+        MENUITEM "уровень  9", IDM_COL4_XV9
+        MENUITEM "уровень 10", IDM_COL4_AP1
+        MENUITEM "уровень 11", IDM_COL4_AP2
+        MENUITEM "уровень 12", IDM_COL4_AP3
+        MENUITEM "уровень 13", IDM_COL4_AP4
+        MENUITEM "уровень 14", IDM_COL4_AP5
+        MENUITEM "уровень 15", IDM_COL4_AP6
+        MENUITEM "уровень 16", IDM_COL4_AP7
+        MENUITEM "уровень 17", IDM_COL4_AP8
+        MENUITEM "уровень 18", IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
     END
 END
 
@@ -434,35 +424,35 @@ IDR_COL5_BTN_SM_MENU MENU
 BEGIN
     POPUP "COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "vklop/izklop 1", IDM_COL4_B11
-        MENUITEM "vklop/izklop 2", IDM_COL4_B12
-        MENUITEM "vklop/izklop 3", IDM_COL4_B13
-        MENUITEM "vklop/izklop 4", IDM_COL4_B14
-        MENUITEM "vklop/izklop 5", IDM_COL4_B15
-        MENUITEM "vklop/izklop 6", IDM_COL4_B16
-        MENUITEM "vklop/izklop 7", IDM_COL4_B17
-        MENUITEM "vklop/izklop 8", IDM_COL4_B18
-        MENUITEM "vklop/izklop 9", IDM_COL4_B19
-        MENUITEM "vklop/izklop 10", IDM_COL4_B21
-        MENUITEM "vklop/izklop 11", IDM_COL4_B22
-        MENUITEM "vklop/izklop 12", IDM_COL4_B23
-        MENUITEM "vklop/izklop 13", IDM_COL4_B24
-        MENUITEM "vklop/izklop 14", IDM_COL4_B25
-        MENUITEM "vklop/izklop 15", IDM_COL4_B26
-        MENUITEM "vklop/izklop 16", IDM_COL4_B27
-        MENUITEM "vklop/izklop 17", IDM_COL4_B28
-        MENUITEM "vklop/izklop 18", IDM_COL4_B29
-        MENUITEM "vklop/izklop 19", IDM_COL4_B31
-        MENUITEM "vklop/izklop 20", IDM_COL4_B32
-        MENUITEM "vklop/izklop 21", IDM_COL4_B33
-        MENUITEM "vklop/izklop 22", IDM_COL4_B34
-        MENUITEM "vklop/izklop 23", IDM_COL4_B35
-        MENUITEM "vklop/izklop 24", IDM_COL4_B36
-        MENUITEM "vklop/izklop 25", IDM_COL4_B37
-        MENUITEM "vklop/izklop 26", IDM_COL4_B38
-        MENUITEM "vklop/izklop 27", IDM_COL4_B39
+        MENUITEM "вкл/выкл  1", IDM_COL4_B11
+        MENUITEM "вкл/выкл  2", IDM_COL4_B12
+        MENUITEM "вкл/выкл  3", IDM_COL4_B13
+        MENUITEM "вкл/выкл  4", IDM_COL4_B14
+        MENUITEM "вкл/выкл  5", IDM_COL4_B15
+        MENUITEM "вкл/выкл  6", IDM_COL4_B16
+        MENUITEM "вкл/выкл  7", IDM_COL4_B17
+        MENUITEM "вкл/выкл  8", IDM_COL4_B18
+        MENUITEM "вкл/выкл  9", IDM_COL4_B19
+        MENUITEM "вкл/выкл 10", IDM_COL4_B21
+        MENUITEM "вкл/выкл 11", IDM_COL4_B22
+        MENUITEM "вкл/выкл 12", IDM_COL4_B23
+        MENUITEM "вкл/выкл 13", IDM_COL4_B24
+        MENUITEM "вкл/выкл 14", IDM_COL4_B25
+        MENUITEM "вкл/выкл 15", IDM_COL4_B26
+        MENUITEM "вкл/выкл 16", IDM_COL4_B27
+        MENUITEM "вкл/выкл 17", IDM_COL4_B28
+        MENUITEM "вкл/выкл 18", IDM_COL4_B29
+        MENUITEM "вкл/выкл 19", IDM_COL4_B31
+        MENUITEM "вкл/выкл 20", IDM_COL4_B32
+        MENUITEM "вкл/выкл 21", IDM_COL4_B33
+        MENUITEM "вкл/выкл 22", IDM_COL4_B34
+        MENUITEM "вкл/выкл 23", IDM_COL4_B35
+        MENUITEM "вкл/выкл 24", IDM_COL4_B36
+        MENUITEM "вкл/выкл 25", IDM_COL4_B37
+        MENUITEM "вкл/выкл 26", IDM_COL4_B38
+        MENUITEM "вкл/выкл 27", IDM_COL4_B39
         MENUITEM SEPARATOR
-        MENUITEM "Nedodeljen", IDM_COL4_NONE
+        MENUITEM "Неназначенный", IDM_COL4_NONE
     END
 END
 
@@ -491,9 +481,9 @@ BEGIN
     CONTROL         IDB_BMP_LOGO,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,0,0,306,175,WS_EX_TRANSPARENT
     LTEXT           VER_GUI_RU,IDC_ABOUT_VERSION,193,34,101,8,SS_NOPREFIX
     LTEXT           VER_COPYRIGHT,IDC_ABOUT_COPY,193,46,101,8
-    PUSHBUTTON      "Posodobitve",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
-    PUSHBUTTON      "pomoč",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
-    DEFPUSHBUTTON   "&Zapri",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Обновления",IDC_OK2,191,64,104,14,BS_FLAT | WS_GROUP
+    PUSHBUTTON      "Помощь",IDC_OK3,191,79,104,15,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Закрыть",IDOK,191,94,104,14,BS_FLAT | WS_GROUP
 END
 
 IDD_ASSIGNBOX DIALOGEX 0, 0, 494, 162
@@ -502,169 +492,197 @@ EXSTYLE WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_COMPOSITED
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         IDB_BMP_ASSIGN,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_DISABLED,7,7,485,130,WS_EX_TRANSPARENT
-    PUSHBUTTON      "&Nastavitev plošče MIDI",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
-    DEFPUSHBUTTON   "&Zapri",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
-    LTEXT           "Priporočena postavitev nadzorne plošče MIDI. Datoteka z nastavitvami za to postavitev se nahaja v mapi 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
+    PUSHBUTTON      "&Программа настройки MIDI панели",IDC_OK2,273,142,148,14,BS_FLAT | WS_GROUP
+    DEFPUSHBUTTON   "&Закрыть",IDOK,423,142,63,14,BS_FLAT | WS_GROUP
+    LTEXT           "Рекомендуемая раскладка MIDI панели управления. Файл с настройками этой раскладки находиться в папке 'docs/MIDIMT.Ctrl_data'",IDC_STATIC,19,140,250,21,SS_NOPREFIX,WS_EX_TRANSPARENT
 END
 
-IDD_FORMSTART DIALOGEX 0, 0, 551, 400
+IDD_FORMSTART DIALOGEX 0, 0, 757, 400
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW | WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP
-CAPTION "Zagon prevajalnika MIDI"
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
+CAPTION "Запуск MIDI транслятора"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    GROUPBOX        "MIDI naprave",IDC_STATIC,11,4,532,66
-    COMBOBOX        IDC_DEVICE_COMBO,20,15,516,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,516,14,ES_READONLY,WS_EX_CLIENTEDGE
-    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,516,14,ES_READONLY,WS_EX_CLIENTEDGE
-    GROUPBOX        "MIDI most",IDC_STATIC,11,73,326,79
-    CONTROL         "sprožil",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
-    CONTROL         "ustavil",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
-    CONTROL         "Konfiguracija",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
-    CONTROL         "Kontrole MIDI",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
+    GROUPBOX        "MIDI устройства",IDC_STATIC,11,4,737,66
+    COMBOBOX        IDC_DEVICE_COMBO,20,15,722,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MIDI_MACKIE_OUT,20,32,722,14,ES_READONLY,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_MIDI_PROXY_OUT,20,49,722,14,ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "MIDI Бридж",IDC_STATIC,11,73,326,79
+    CONTROL         "Запущен",IDC_START_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,21,86,46,10
+    CONTROL         "Остановлен",IDC_START_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_FLAT | WS_DISABLED | WS_GROUP,72,86,57,10
+    CONTROL         "Конфигурация",IDC_INFO_ISCONFIG,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,165,86,65,10
+    CONTROL         "MIDI контролы",IDC_INFO_ISUNITS,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,243,86,65,10
     LTEXT           "0",IDC_INFO_CTRLCOUNT,311,86,12,8
     CONTROL         "",IDC_SLIDER_INT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,19,115,131,15
     CONTROL         "",IDC_SLIDER_LONGINT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,158,116,171,15
-    LTEXT           "Interval med kliki",IDC_STATIC,25,135,98,8
+    LTEXT           "Интервал между нажатиями",IDC_STATIC,25,135,98,8
     LTEXT           "50",IDC_SLIDER_VAL1,125,135,23,8
-    LTEXT           "Interval kot dolg pritisk",IDC_STATIC,167,135,106,8
+    LTEXT           "Интервал как долгое нажатие",IDC_STATIC,167,135,106,8
     LTEXT           "500",IDC_SLIDER_VAL2,275,135,20,8
-    GROUPBOX        "kosilo",IDC_STATIC,11,156,135,148
-    CONTROL         "Začnite ob zagonu sistema",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
-    CONTROL         "Samodejni zagon ob zagonu",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
-    CONTROL         "Samodejni zagon te konfiguracije",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
-    CONTROL         "Pišite dnevnik",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
-    LTEXT           "Želeni jezik:",IDC_STATIC,23,225,94,8
+    GROUPBOX        "Запуск",IDC_STATIC,11,156,135,148
+    CONTROL         "Старт при загрузке системы",IDC_AUTOBOOT_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,169,120,10
+    CONTROL         "Авто старт при запуске",IDC_AUTORUN_SYS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,181,120,10
+    CONTROL         "Авто старт этой конфигурации",IDC_AUTORUN_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,193,120,10
+    CONTROL         "Записывать лог",IDC_WRITE_FILELOG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,21,205,70,10
+    LTEXT           "Предпочитаемый язык:",IDC_STATIC,23,225,94,8
     COMBOBOX        IDC_LANG_COMBO,21,238,81,32,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Z desnim gumbom miške pokličite mešalnik",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
-    GROUPBOX        "MIDI nastavitve",IDC_STATIC,151,156,97,64
-    CONTROL         "Voznik:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
+    CONTROL         "Использовать правую кнопку мыши для вызова микшера",IDC_MIXER_RIGHT_CLICK,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,21,263,117,20
+    GROUPBOX        "Настройки MIDI",IDC_STATIC,151,156,97,64
+    CONTROL         "Драйвер:",IDC_INFO_VMDRV_CHECK,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,161,169,46,10
     CONTROL         "-",IDC_INFO_VMDRV_VER,"Static",SS_SIMPLE | WS_GROUP,205,170,42,8
-    CONTROL         "Filter scene JOG",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
-    CONTROL         "Vrata niso ustvarjena",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
-    GROUPBOX        "MIDI proxy",IDC_STATIC,253,156,83,64
+    CONTROL         "JOG фильтр сцены",IDC_JOGFILTER_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,181,79,10
+    CONTROL         "Порт не создается",IDC_MANUALPORT_CONFIG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,193,83,10
+    GROUPBOX        "MIDI Прокси",IDC_STATIC,253,156,83,64
     COMBOBOX        IDC_PROXY_COMBO,260,170,65,55,CBS_DROPDOWN | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "število vrat",IDC_STATIC,260,183,66,8
-    CONTROL         "Vključeno",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
-    GROUPBOX        "Nastavitve mešalnika zvoka",IDC_STATIC,152,224,184,80
-    CONTROL         "Vključeno",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
-    CONTROL         "Zamenjava vrednosti glasnosti brez preverjanja",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
-    CONTROL         "Aplikacije združite po imenu, ločena prilagoditev ni mogoča",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
-    CONTROL         "Nastavite shranjene ravni glasnosti ob zagonu",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
-    CONTROL         "Omogoči tipke MM",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
-    PUSHBUTTON      "Shrani nastavitve",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
-    PUSHBUTTON      "&Začni",IDC_GO_START,106,306,231,16,BS_FLAT
-    EDITTEXT        IDC_LOG,12,323,325,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "Konfiguracija",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
+    LTEXT           "количество портов",IDC_STATIC,260,183,66,8
+    CONTROL         "Включено",IDC_INFO_ISPROXY,"Button",BS_AUTO3STATE | BS_FLAT | WS_DISABLED | WS_TABSTOP,260,193,50,10
+    GROUPBOX        "Настройки Микшера Звука",IDC_STATIC,152,224,184,80
+    CONTROL         "Включено",IDC_MIXER_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,239,50,10
+    CONTROL         "Замена значений громкости без проверки",IDC_MIXER_FAST_VALUE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,161,251,157,10
+    CONTROL         "Объединять приложения по названию, раздельная регулировка невозможна",IDC_MIXER_DUPLICATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,263,167,19
+    CONTROL         "Устанавливать сохранённые уровни громкости при старте",IDC_MIXER_OLD_VALUE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,161,281,167,19
+    CONTROL         "Включить MM клавиши",IDC_MMKEY_ENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,235,239,94,10
+    PUSHBUTTON      "Сохранить &настройки",IDC_DIALOG_SAVE,11,306,91,16,BS_FLAT
+    PUSHBUTTON      "&Старт",IDC_GO_START,106,306,231,16,BS_FLAT
+    EDITTEXT        IDC_LOG,12,323,533,72,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Конфигурация",IDC_OPEN_CONFIG,256,100,70,14,BS_FLAT
     EDITTEXT        IDC_FILE_CONFIG_NAME,20,100,234,14,ES_READONLY,WS_EX_CLIENTEDGE
-    GROUPBOX        "Pametna hiša",IDC_STATIC,343,73,199,262
-    CONTROL         "Vključeno",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,350,88,50,10
-    GROUPBOX        "MQTT strežnik",IDC_STATIC,350,102,186,44
-    CONTROL         "IP naslov:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,114,69,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_IPADDR,356,124,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "pristanišče:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,469,114,44,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_PORT,469,124,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
-    GROUPBOX        "Varnost",IDC_STATIC,350,149,186,106
-    CONTROL         "Vpiši se:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,160,41,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_LOGIN,356,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "geslo:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,449,160,64,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_PASS,443,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "PSK ključ:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,189,41,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_PSK,356,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "SSL/TLS omogočen",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,218,77,10
-    CONTROL         "samopodpisan",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,435,218,77,10
-    EDITTEXT        IDC_MQTT_CA,356,232,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
-    PUSHBUTTON      "potrdilo CA",IDC_MQTT_CAOPEN,455,232,75,14,BS_FLAT
-    GROUPBOX        "Opcije",IDC_STATIC,350,258,186,71
-    CONTROL         "Predpona teme MQTT: (neobvezno)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,270,170,8,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_MQTT_PREFIX,356,281,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "raven beleženja sej MQTT:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,356,298,167,8,WS_EX_TRANSPARENT
-    COMBOBOX        IDC_MQTT_LOGLEVEL,356,308,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Zapri",IDCANCEL,344,340,200,16,BS_FLAT
-    PUSHBUTTON      "Posodobitve",IDC_GO_URL,344,356,200,16,BS_FLAT
-    PUSHBUTTON      "&O programu..",IDC_GO_ABOUT,344,373,200,16,BS_FLAT
+    GROUPBOX        "Освещение",IDC_STATIC,343,73,199,248
+    GROUPBOX        "Служба DMX",IDC_STATIC,350,87,186,105
+    CONTROL         "Включено",IDC_DMX_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,98,50,10
+    CONTROL         "COM порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,463,102,63,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    COMBOBOX        IDC_DMX_COMBO,357,113,172,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "-",IDC_DMX_COM_NAME,"Static",SS_SIMPLE | WS_GROUP,360,130,167,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,141,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_DMX_COM_PORT,"Static",SS_SIMPLE | WS_GROUP,472,141,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Бит-рейт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,152,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_DMX_COM_BAUDRATE,"Static",SS_SIMPLE | WS_GROUP,472,152,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Стоп-бит:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,163,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_DMX_COM_STOPBITS,"Static",SS_SIMPLE | WS_GROUP,472,163,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Тайм-аут:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,174,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_DMX_COM_TIMEOUT,"Static",SS_SIMPLE | WS_GROUP,472,174,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    GROUPBOX        "Служба ArtNet",IDC_STATIC,350,196,186,119
+    CONTROL         "Включено",IDC_ARTNET_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,356,207,50,10
+    CONTROL         "ArtNet сеть:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,463,211,63,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    COMBOBOX        IDC_ARTNET_COMBO,357,222,172,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Номер вселенной:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,242,77,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_ARTNET_UNIVERSE,495,240,32,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,255,77,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_ARTNET_PORT,495,255,32,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "Адрес:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,273,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_ARTNET_IP,"Static",SS_SIMPLE | WS_GROUP,472,273,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Маска:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,284,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_ARTNET_MASK,"Static",SS_SIMPLE | WS_GROUP,472,284,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "Броадкаст:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,413,295,42,8,WS_EX_TRANSPARENT
+    CONTROL         "-",IDC_ARTNET_BCAST,"Static",SS_SIMPLE | WS_GROUP,472,295,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    GROUPBOX        "Умный Дом",IDC_STATIC,549,74,199,262
+    CONTROL         "Включено",IDC_MQTT_ENABLE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,556,89,50,10
+    GROUPBOX        "MQTT сервер",IDC_STATIC,556,103,186,44
+    CONTROL         "IP адрес:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,562,114,69,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_IPADDR,562,125,109,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,675,114,44,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PORT,675,125,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    GROUPBOX        "Безопасность",IDC_STATIC,556,150,186,106
+    CONTROL         "логин:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,562,161,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_LOGIN,562,170,84,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "пароль:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,655,161,64,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PASS,649,170,86,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "ключ PSK:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,562,190,41,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PSK,562,199,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "SSL/TLS включено",IDC_MQTT_ISSSL,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,562,218,77,10
+    CONTROL         "самоподписанный",IDC_MQTT_ISSELFSIGN,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,641,218,77,10
+    EDITTEXT        IDC_MQTT_CA,562,233,95,14,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "CA сертификат",IDC_MQTT_CAOPEN,661,233,75,14,BS_FLAT
+    GROUPBOX        "Опции",IDC_STATIC,556,258,186,71
+    CONTROL         "MQTT топик префикс: (необязательно)",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,562,271,170,8,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_MQTT_PREFIX,562,282,174,14,ES_AUTOHSCROLL | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "уровень логирования MQTT сессий:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,562,298,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_MQTT_LOGLEVEL,563,309,175,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Закрыть",IDCANCEL,549,341,200,16,BS_FLAT
+    PUSHBUTTON      "Обновления",IDC_GO_URL,549,357,200,16,BS_FLAT
+    PUSHBUTTON      "&О программе..",IDC_GO_ABOUT,549,374,200,16,BS_FLAT
 END
 
 IDD_FORMMONITOR DIALOGEX 0, 0, 305, 276
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW | WS_EX_CONTEXTHELP
-CAPTION "Nadzornik ukazov MIDI"
+CAPTION "Монитор MIDI команд"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    GROUPBOX        "Nadzornik ukazov",IDC_STATIC,9,4,285,54
-    LTEXT           "Nadzornik ukazov MIDI vam bo pomagal ugotoviti, kako je krmilnik nastavljen. Za začetek testiranja kliknite gumb 'Začni'. Z uporabo različnih kontrolnikov na krmilniku boste prejeli sporočila o sceni, številki in trenutni vrednosti.",IDC_STATIC,15,18,274,34
-    PUSHBUTTON      "Stop",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
-    PUSHBUTTON      "Začetek",IDC_MONITOR_START,103,61,192,14,BS_FLAT
+    GROUPBOX        "Монитор команд",IDC_STATIC,9,4,285,54
+    LTEXT           "Монитор MIDI команд поможет вам определить как настроен контроллер. Для начала тестирования нажмите кнопку 'Старт'. Используя различные элементы управления на своем кортроллере, вы будете получать сообщения о сцене, номере и текущем значении.",IDC_STATIC,15,18,274,34
+    PUSHBUTTON      "Ст&оп",IDC_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "Ст&арт",IDC_MONITOR_START,103,61,192,14,BS_FLAT
     EDITTEXT        IDC_MONITOR,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "&Zapri",IDCANCEL,105,241,191,14,BS_FLAT
-    PUSHBUTTON      "Čisto&Strmo",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
+    PUSHBUTTON      "&Закрыть",IDCANCEL,105,241,191,14,BS_FLAT
+    PUSHBUTTON      "Очи&стить",IDC_MONITOR_CLEAR,6,241,98,14,BS_FLAT
     CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,259,287,13
 END
 
 IDD_FORMSETUP DIALOGEX 0, 0, 712, 325
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTEXTHELP | WS_EX_APPWINDOW
-CAPTION "Nastavitev krmiljenja MIDI"
+CAPTION "Настройка управления MIDI"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "",IDC_DIALOG_LOG_NOSCROLL,"Static",SS_SIMPLE | WS_GROUP,12,50,682,41,WS_EX_TRANSPARENT
-    GROUPBOX        "Nastavitev kontrolnikov MIDI",IDC_STATIC,7,97,215,224
+    GROUPBOX        "Настройка MIDI контролов",IDC_STATIC,7,97,215,224
     RTEXT           "0",IDC_SETUP_COUNT,194,97,20,8
     CONTROL         "",IDC_SETUP_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,15,110,200,205,WS_EX_CLIENTEDGE
     GROUPBOX        "MIDI",IDC_STATIC,417,111,60,37
     ICON            IDI_MIDIMT,IDC_SETUP_ICON,423,122,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
     PUSHBUTTON      "",IDC_BTN_INFO,452,122,20,20,BS_ICON | BS_FLAT
-    GROUPBOX        "Informacije",IDC_STATIC,227,97,259,224
-    LTEXT           "Nadzor:",IDC_STATIC,241,157,95,10
+    GROUPBOX        "Информация",IDC_STATIC,227,97,259,224
+    LTEXT           "Контрол:",IDC_STATIC,241,157,95,10
     CONTROL         "",IDC_SETUP_NUMBER,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,157,28,10,WS_EX_RIGHT
-    LTEXT           "Scena:",IDC_STATIC,241,169,95,10
+    LTEXT           "Сцена:",IDC_STATIC,241,169,95,10
     CONTROL         "",IDC_SETUP_SCENE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,169,108,10,WS_EX_RIGHT
     CONTROL         "",IDC_SETUP_SCENEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,169,28,10,WS_EX_RIGHT
-    LTEXT           "Vrsta nadzora:",IDC_STATIC,241,181,95,10
+    LTEXT           "Тип контрола:",IDC_STATIC,241,181,95,10
     CONTROL         "",IDC_SETUP_TYPE,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,181,108,10,WS_EX_RIGHT
     CONTROL         "",IDC_SETUP_TYPEN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,181,28,10,WS_EX_RIGHT
-    LTEXT           "Namen:",IDC_STATIC,241,193,95,10
+    LTEXT           "Назначение:",IDC_STATIC,241,193,95,10
     CONTROL         "",IDC_SETUP_TARGET,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,193,108,10,WS_EX_RIGHT
     CONTROL         "",IDC_SETUP_TARGETN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,193,28,10,WS_EX_RIGHT
-    LTEXT           "Namen (dolg klik):",IDC_STATIC,241,205,95,10
+    LTEXT           "Назначение (долгий клик):",IDC_STATIC,241,205,95,10
     CONTROL         "",IDC_SETUP_TARGET_LONG,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,341,205,108,10,WS_EX_RIGHT
     CONTROL         "",IDC_SETUP_TARGET_LONGN,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,449,205,28,10,WS_EX_RIGHT
-    LTEXT           "Aplikacije, nastavljive z mešalnikom:",IDC_STATIC,241,217,144,10
+    LTEXT           "Регулируемые микшером приложения:",IDC_STATIC,241,217,144,10
     LISTBOX         IDC_SETUP_APPLIST,241,229,215,64,LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_DISABLED | WS_TABSTOP,241,300,181,13
     PUSHBUTTON      "",IDC_BTN_MUTE,426,298,54,18,BS_ICON | BS_FLAT | WS_DISABLED
     PUSHBUTTON      "",IDC_BTN_FOLDER,460,227,20,20,BS_ICON | BS_FLAT | WS_DISABLED
     PUSHBUTTON      "",IDC_BTN_RUNAPP,460,247,20,20,BS_ICON | BS_FLAT | WS_DISABLED
     PUSHBUTTON      "",IDC_BTN_REMOVE,460,267,20,20,BS_ICON | BS_FLAT | WS_DISABLED
-    PUSHBUTTON      "&Zapri",IDCANCEL,609,324,94,14,BS_FLAT
+    PUSHBUTTON      "&Закрыть",IDCANCEL,609,324,94,14,BS_FLAT
     CONTROL         "",IDC_LOG,"Static",SS_SIMPLE | SS_SUNKEN | SS_ENDELLIPSIS | WS_GROUP,7,325,600,13
-    GROUPBOX        "Namigi",IDC_STATIC,493,97,209,224
+    GROUPBOX        "Подсказки",IDC_STATIC,493,97,209,224
     LISTBOX         IDC_SETUP_HELPLIST,501,128,193,188,LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
-    CONTROL         "Vse",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
-    CONTROL         "Gumbi",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
-    CONTROL         "Drsniki",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
-    CONTROL         "Multimedija",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
+    CONTROL         "Все",IDC_SETUP_RADIO1,"Button",BS_AUTORADIOBUTTON,501,110,27,10
+    CONTROL         "Кнопки",IDC_SETUP_RADIO2,"Button",BS_AUTORADIOBUTTON,535,110,41,10
+    CONTROL         "Слайдеры",IDC_SETUP_RADIO3,"Button",BS_AUTORADIOBUTTON,579,110,51,10
+    CONTROL         "Мультимедиа",IDC_SETUP_RADIO4,"Button",BS_AUTORADIOBUTTON,633,110,62,10
 END
 
 IDD_FORMCOLOR DIALOGEX 0, 0, 207, 120
 STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "Nastavitev teme po meri"
+CAPTION "Настройка пользовательской темы"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    GROUPBOX        "Vaše teme Barve",IDC_STATIC,9,8,188,107
-    CONTROL         "Barva besedila",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
+    GROUPBOX        "Цвета вашей темы",IDC_STATIC,9,8,188,107
+    CONTROL         "Цвет текста",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,30,44,8
     LTEXT           "",IDC_COLOR_BOX1,15,40,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
-    CONTROL         "Barva ozadja",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
+    CONTROL         "Цвет фона",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,58,38,8
     LTEXT           "",IDC_COLOR_BOX2,15,68,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
-    CONTROL         "barva okvirja",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
+    CONTROL         "Цвет рамки",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,86,40,8
     LTEXT           "",IDC_COLOR_BOX3,15,96,66,14,SS_NOTIFY | NOT WS_GROUP,WS_EX_STATICEDGE
-    GROUPBOX        "Osnovna tema",IDC_STATIC,88,18,104,92,BS_FLAT
-    CONTROL         "Metro",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
-    CONTROL         "Svetloba",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
-    CONTROL         "Temno",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
-    CONTROL         "retro",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
-    CONTROL         "Moderno",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
+    GROUPBOX        "Базовая тема",IDC_STATIC,88,18,104,92,BS_FLAT
+    CONTROL         "Метро",IDC_RADIO_METRO,"Button",BS_AUTORADIOBUTTON | BS_FLAT,100,35,60,10
+    CONTROL         "Светлая",IDC_RADIO_LIGHT,"Button",BS_AUTORADIOBUTTON,100,49,60,10
+    CONTROL         "Тёмная",IDC_RADIO_DARK,"Button",BS_AUTORADIOBUTTON,100,63,60,10
+    CONTROL         "Рэтро",IDC_RADIO_RETRO,"Button",BS_AUTORADIOBUTTON,100,77,60,10
+    CONTROL         "Современный",IDC_RADIO_MODERN,"Button",BS_AUTORADIOBUTTON,100,91,60,10
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -707,6 +725,7 @@ END
 1 TEXTINCLUDE 
 BEGIN
     "..\\..\\MIDIMT\\rc\\resource.h\0"
+    "RibbonDialogConfigRU.rc\0"
 END
 
 2 TEXTINCLUDE 
@@ -748,313 +767,318 @@ IDB_BMP_LOGO	BITMAP				"AboutLogo.bmp"
 
 STRINGTABLE
 BEGIN
-    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI Mackie Translator"
-    IDS_MIXER               "&Mešalnik"
-    IDS_SETTINGS            "&Nastavitve"
-    IDS_START               "Začetek"
-    IDS_STOP                "Stop"
-    IDS_EXIT                "Izhod"
-    IDS_SETUP_MSG1          "Konfiguracija, naložena iz gonilnika"
-    IDS_SETUP_MSG2          "Konfiguracija naložena iz datoteke"
-    IDS_SETUP_MSG3          "Konfiguracija je na novo ustvarjena in jo je treba izpolniti"
+    IDS_APP_TITLE           "MIDI Easy Control -> Аудио Микшер -> MIDI-Mackie транслятор"
+    IDS_MIXER               "&Микшер"
+    IDS_SETTINGS            "&Настройки"
+    IDS_START               "Ст&арт"
+    IDS_STOP                "Ст&оп"
+    IDS_EXIT                "Вы&ход"
+    IDS_SETUP_MSG1          "Конфигурация загружена из драйвера"
+    IDS_SETUP_MSG2          "Конфигурация загружена из файла"
+    IDS_SETUP_MSG3          "Конфигурация создана заново и требует заполнения"
     IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
     IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
     IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
     IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
-    IDS_START_EXT_FILTER    "Konfiguracija MIDI-MT"
-    IDS_CONFIG_EXE_FILTER   "Izvedljive datoteke"
-    IDS_MQTT_CA_FILTER      "potrdilo CA"
+    IDS_START_EXT_FILTER    "MIDI-MT Конфигурация"
+    IDS_CONFIG_EXE_FILTER   "Исполняемые файлы"
+    IDS_MQTT_CA_FILTER      "CA сертификат"
     IDS_MIDIMT              "MIDIMT"
-    IDS_INFO1               "Prevajalnik MIDI se ne izvaja."
-    IDS_INFO2               "Prevajalnik MIDI deluje:"
-    IDS_INFO3               "Vhodna naprava:"
-    IDS_INFO4               "Izhodna vrata Mackie/Premier:"
-    IDS_INFO5               "Izhodna posredniška vrata:"
-    IDS_INFO6               "Zvočni mešalnik deluje."
-    IDS_INFO7               "Upravljanje multimedijskih tipk se izvaja, preverite nastavitve."
-    IDS_INFO8               "Zvočni mešalnik ne deluje, preverite nastavitve, zagon zvočne plošče mora biti omogočen."
-    IDS_INFO9               "Neveljaven ID dogodka. Ponovno zaženite to aplikacijo."
-    IDS_INF1O               "Preklop na nit uporabniškega vmesnika ni uspel, zagon zvočne plošče je prekinjen."
-    IDS_INF11               "MIDIMT - Zvočni mešalnik ne deluje:"
-    IDS_INF12               "MIDIMT – operacije ni mogoče dokončati:"
-    IDS_INF13               "Začelo se je upravljanje naprav Smart Home."
-    IDS_DLG_MSG1            "MIDI Mackie izhod"
-    IDS_DLG_MSG2            "MIDI proxy izhod"
-    IDS_DLG_MSG3            "Različica virtualnega gonilnika MIDI:"
-    IDS_DLG_MSG4            "Nameščenega gonilnika MIDI Virtual ni mogoče najti! Za zagon prevajalnika morate namestiti paket MIDI Virtual Loop"
-    IDS_DLG_MSG5            "Ob zagonu bodo ustvarjena proxy vrata MIDI:"
-    IDS_DLG_MSG6            "Proxy vrata MIDI so onemogočena."
-    IDS_DLG_MSG7            "Izbrani jezik bo aktiven po ponovnem zagonu okna -"
-    IDS_DLG_MSG8            "Vhodna naprava MIDI je dodeljena"
-    IDS_DLG_MSG9            "Pred začetkom uredite konfiguracijo."
-    IDS_DLG_MSG10           "Različica nameščenega gonilnika Virtual MIDI:"
-    IDS_DLG_MSG11           "Izbrana konfiguracija ne podpira samodejnega zagona."
-    IDS_DLG_MSG12           "Prosimo, da pred zagonom monitorja zaženete MIDI most iz menija s klicem 'Start'."
-    IDS_DLG_MSG13           "Ob zagonu je bila navedena konfiguracijska datoteka: '{0}'. Nastaviti kot konfiguracijo za naslednje zagone?"
-    IDS_DLG_MSG14           "Ob odpiranju urejevalnika je bila navedena konfiguracijska datoteka: '{0}'. Shraniti z istim imenom?"
+    IDS_INFO1               "MIDI транслятор не запущен."
+    IDS_INFO2               "MIDI транслятор работает:"
+    IDS_INFO3               "Входное устройство:"
+    IDS_INFO4               "Выходной Mackie/Premier порт:"
+    IDS_INFO5               "Выходной Proxy порт:"
+    IDS_INFO6               "Аудио микшер запущен."
+    IDS_INFO7               "Управление мультимедиа клавишами запущено, проверьте настройки."
+    IDS_INFO8               "Аудиомикшер не запущен, проверьте настройки, должен быть включен запуск аудиопанели."
+    IDS_INFO9               "Неверный идентификатор события. Пожалуйста, перезапустите это приложение."
+    IDS_INF1O               "Не удалось переключается на поток пользовательского интерфейса, запуск аудиопанели прерван."
+    IDS_INF11               "MIDIMT - Аудио микшер не запущен:"
+    IDS_INF12               "MIDIMT - Невозможно закончить операцию:"
+    IDS_INF13               "Управление устройствами «Умного дома» запущено."
+    IDS_DLG_MSG1            "MIDI Mackie выход"
+    IDS_DLG_MSG2            "MIDI Proxy выход"
+    IDS_DLG_MSG3            "Версия MIDI Virtual драйвера:"
+    IDS_DLG_MSG4            "Установленный MIDI Virtual драйвер не найден! Необходимо установить пакет Virtual Loop MIDI для запуска транслятора"
+    IDS_DLG_MSG5            "При запуске будут созданы Proxy MIDI порты: "
+    IDS_DLG_MSG6            "MIDI Proxy порты отключены."
+    IDS_DLG_MSG7            "Выбранный язык будет активным после перезапуска окна - "
+    IDS_DLG_MSG8            "Входное MIDI устройство назначено на "
+    IDS_DLG_MSG9            "Пожалуйста, отредактируйте конфигурацию перед запуском."
+    IDS_DLG_MSG10           "Версия установленного Virtual MIDI драйвера: "
+    IDS_DLG_MSG11           "Выбранная конфигурация не поддерживает авто старт."
+    IDS_DLG_MSG12           "Пожалуйста, перед запуском монитора, запустите MIDI бридж из меню, вызвав 'Старт'."
+    IDS_DLG_MSG13           "При запуске был указан файл конфигурации: '{0}'. Установить его как конфигурацию для последующих запусков?"
+    IDS_DLG_MSG14           "При открытии редактора, был указан файл конфигурации: '{0}'. Сохранить его с тем-же именем?"
+    IDS_DLG_DMX_NODEV       "Устройства отсутствуют"
+    IDS_DLG_ARTNET_NOINT    "Интерфейсы отсутствуют"
+    IDS_DLG_DMX_SELDEV      "Выберите DMX устройство"
+    IDS_DLG_ARTNET_SELINT   "Выберите ARTNET интерфейс"
 END
 
 STRINGTABLE
 BEGIN
-    IDM_COL4_MAV            "glasnost zvoka (glavna)"
-    IDM_COL4_MAP            "zvočno ravnovesje (osnovno)"
-    IDM_COL4_MAM            "utišanje (osnovno)"
-    IDM_COL4_MAS            "avdio solo (glavni)"
-    IDM_COL4_JOG            "JOG (previjanje videa nazaj)"
-    IDM_COL4_AV1            "glasnost zvoka (kanal 1)"
-    IDM_COL4_AV2            "glasnost zvoka (2. kanal)"
-    IDM_COL4_AV3            "glasnost zvoka (3. kanal)"
-    IDM_COL4_AV4            "glasnost zvoka (kanal 4)"
-    IDM_COL4_AV5            "glasnost zvoka (kanal 5)"
-    IDM_COL4_AV6            "glasnost zvoka (kanal 6)"
-    IDM_COL4_AV7            "glasnost zvoka (kanal 7)"
-    IDM_COL4_AV8            "glasnost zvoka (kanal 8)"
-    IDM_COL4_XV9            "glasnost zvoka (kanal 9)"
-    IDM_COL4_AP1            "zvočno ravnovesje (kanal 1)"
-    IDM_COL4_AP2            "zvočno ravnovesje (kanal 2)"
-    IDM_COL4_AP3            "zvočno ravnovesje (kanal 3)"
-    IDM_COL4_AP4            "zvočno ravnovesje (kanal 4)"
-    IDM_COL4_AP5            "zvočno ravnovesje (kanal 5)"
-    IDM_COL4_AP6            "zvočno ravnovesje (kanal 6)"
-    IDM_COL4_AP7            "zvočno ravnovesje (kanal 7)"
-    IDM_COL4_AP8            "zvočno ravnovesje (kanal 8)"
-    IDM_COL4_XP9            "zvočno ravnovesje (kanal 9)"
-    IDM_COL4_B11            "avdio solo (kanal 1)"
-    IDM_COL4_B12            "avdio solo (kanal 2)"
-    IDM_COL4_B13            "avdio solo (kanal 3)"
-    IDM_COL4_B14            "avdio solo (kanal 4)"
-    IDM_COL4_B15            "avdio solo (kanal 5)"
-    IDM_COL4_B16            "avdio solo (kanal 6)"
-    IDM_COL4_B17            "avdio solo (kanal 7)"
-    IDM_COL4_B18            "avdio solo (kanal 8)"
-    IDM_COL4_B19            "avdio solo (kanal 9)"
-    IDM_COL4_B21            "utišanje (kanal 1)"
-    IDM_COL4_B22            "utišaj (kanal 2)"
-    IDM_COL4_B23            "utišanje (kanal 3)"
-    IDM_COL4_B24            "utišaj (kanal 4)"
-    IDM_COL4_B25            "utišaj (kanal 5)"
-    IDM_COL4_B26            "utišaj (kanal 6)"
-    IDM_COL4_B27            "utišaj (kanal 7)"
-    IDM_COL4_B28            "utišaj (kanal 8)"
-    IDM_COL4_B29            "utišaj (kanal 9)"
-    IDM_COL4_B31            "izbira zvoka (kanal 1)"
-    IDM_COL4_B32            "izbira zvoka (kanal 2)"
-    IDM_COL4_B33            "izbira zvoka (kanal 3)"
-    IDM_COL4_B34            "izbira zvoka (kanal 4)"
-    IDM_COL4_B35            "izbira zvoka (kanal 5)"
-    IDM_COL4_B36            "izbira zvoka (kanal 6)"
-    IDM_COL4_B37            "izbira zvoka (kanal 7)"
-    IDM_COL4_B38            "izbira zvoka (kanal 8)"
-    IDM_COL4_B39            "izbira zvoka (kanal 9)"
-    IDM_COL4_FUN11          "funkcija F1 (standardni način)"
-    IDM_COL4_FUN12          "funkcija F2 (standardni način)"
-    IDM_COL4_FUN13          "funkcija F3 (standardni način)"
-    IDM_COL4_FUN14          "funkcija F4 (standardni način)"
-    IDM_COL4_FUN15          "funkcija F5 (standardni način)"
-    IDM_COL4_FUN16          "funkcija F6 (standardni način)"
-    IDM_COL4_FUN17          "funkcija F7 (standardni način)"
-    IDM_COL4_FUN18          "funkcija F8 (standardni način)"
-    IDM_COL4_FUN21          "Funkcija F1 (zadrževalni način)"
-    IDM_COL4_FUN22          "Funkcija F2 (zadrževalni način)"
-    IDM_COL4_FUN23          "Funkcija F3 (zadrževalni način)"
-    IDM_COL4_FUN24          "Funkcija F4 (zadrževalni način)"
-    IDM_COL4_FUN25          "Funkcija F5 (zadrževalni način)"
-    IDM_COL4_FUN26          "Funkcija F6 (zadrževalni način)"
-    IDM_COL4_FUN27          "Funkcija F7 (zadrževalni način)"
-    IDM_COL4_FUN28          "Funkcija F8 (zadrževalni način)"
-    IDM_COL4_SYS_Rewind     "Previj nazaj (igralec)"
-    IDM_COL4_SYS_Forward    "Hitro naprej (igralec)"
-    IDM_COL4_SYS_Stop       "Stop (igralec)"
-    IDM_COL4_SYS_Play       "Igraj (igralec)"
-    IDM_COL4_SYS_Record     "Snemanje (predvajalnik)"
-    IDM_COL4_SYS_Up         "Gor (krmilna palica)"
-    IDM_COL4_SYS_Down       "Dol (krmilna palica)"
-    IDM_COL4_SYS_Left       "Levo (krmilna palica)"
-    IDM_COL4_SYS_Right      "Desno (krmilna palica)"
-    IDM_COL4_SYS_Zoom       "Porast"
-    IDM_COL4_SYS_Scrub      "Piling"
-    IDM_COL4_VOLUMEMIX      "Nadzor mešalnika"
-    IDM_COL4_MEDIAKEY       "Multimedijske tipke"
-    IDM_COL4_MQTTKEY        "Upravljanje pametnega doma"
-    IDM_COL4_NONE           "dejanje ni definirano"
-    IDM_COL4_MQTT_AV1       "stopnja 1"
-    IDM_COL4_MQTT_AV2       "stopnja 2"
-    IDM_COL4_MQTT_AV3       "stopnja 3"
-    IDM_COL4_MQTT_AV4       "stopnja 4"
-    IDM_COL4_MQTT_AV5       "stopnja 5"
-    IDM_COL4_MQTT_AV6       "stopnja 6"
-    IDM_COL4_MQTT_AV7       "stopnja 7"
-    IDM_COL4_MQTT_AV8       "stopnja 8"
-    IDM_COL4_MQTT_XV9       "stopnja 9"
-    IDM_COL4_MQTT_AP1       "stopnja 10"
-    IDM_COL4_MQTT_AP2       "stopnja 11"
-    IDM_COL4_MQTT_AP3       "stopnja 12"
-    IDM_COL4_MQTT_AP4       "stopnja 13"
-    IDM_COL4_MQTT_AP5       "stopnja 14"
-    IDM_COL4_MQTT_AP6       "stopnja 15"
-    IDM_COL4_MQTT_AP7       "stopnja 16"
-    IDM_COL4_MQTT_AP8       "stopnja 17"
-    IDM_COL4_MQTT_XP9       "stopnja 18"
-    IDM_COL4_MQTT_B11       "vklop/izklop 1"
-    IDM_COL4_MQTT_B12       "vklop/izklop 2"
-    IDM_COL4_MQTT_B13       "vklop/izklop 3"
-    IDM_COL4_MQTT_B14       "vklop/izklop 4"
-    IDM_COL4_MQTT_B15       "vklop/izklop 5"
-    IDM_COL4_MQTT_B16       "vklop/izklop 6"
-    IDM_COL4_MQTT_B17       "vklop/izklop 7"
-    IDM_COL4_MQTT_B18       "vklop/izklop 8"
-    IDM_COL4_MQTT_B19       "vklop/izklop 9"
-    IDM_COL4_MQTT_B21       "vklop/izklop 10"
-    IDM_COL4_MQTT_B22       "vklop/izklop 11"
-    IDM_COL4_MQTT_B23       "vklop/izklop 12"
-    IDM_COL4_MQTT_B24       "vklop/izklop 13"
-    IDM_COL4_MQTT_B25       "vklop/izklop 14"
-    IDM_COL4_MQTT_B26       "vklop/izklop 15"
-    IDM_COL4_MQTT_B27       "vklop/izklop 16"
-    IDM_COL4_MQTT_B28       "vklop/izklop 17"
-    IDM_COL4_MQTT_B29       "vklop/izklop 18"
-    IDM_COL4_MQTT_B31       "vklop/izklop 19"
-    IDM_COL4_MQTT_B32       "vklop/izklop 20"
-    IDM_COL4_MQTT_B33       "vklop/izklop 21"
-    IDM_COL4_MQTT_B34       "vklop/izklop 22"
-    IDM_COL4_MQTT_B35       "vklop/izklop 23"
-    IDM_COL4_MQTT_B36       "vklop/izklop 24"
-    IDM_COL4_MQTT_B37       "vklop/izklop 25"
-    IDM_COL4_MQTT_B38       "vklop/izklop 26"
-    IDM_COL4_MQTT_B39       "vklop/izklop 27"
-    IDM_COL4_MQTT_NONE      "Ni dodeljena"
-    IDM_MQTT_LOG_NONE       "dnevnik se ne vodi"
-    IDM_MQTT_LOG_INFO       "informacije"
-    IDM_MQTT_LOG_NOTICE     "obvestila"
-    IDM_MQTT_LOG_WARNING    "opozorila"
-    IDM_MQTT_LOG_ERR        "samo napake"
-    IDM_MQTT_LOG_DEBUG      "vsa sporočila"
+    IDM_COL4_MAV            "громкость звука (основной)"
+    IDM_COL4_MAP            "звуковой баланс (основной)"
+    IDM_COL4_MAM            "отключение звука (основной)"
+    IDM_COL4_MAS            "аудио соло (основной)"
+    IDM_COL4_JOG            "JOG (перемотка видеокадра)"
+    IDM_COL4_AV1            "громкость звука (канал 1)"
+    IDM_COL4_AV2            "громкость звука (канал 2)"
+    IDM_COL4_AV3            "громкость звука (канал 3)"
+    IDM_COL4_AV4            "громкость звука (канал 4)"
+    IDM_COL4_AV5            "громкость звука (канал 5)"
+    IDM_COL4_AV6            "громкость звука (канал 6)"
+    IDM_COL4_AV7            "громкость звука (канал 7)"
+    IDM_COL4_AV8            "громкость звука (канал 8)"
+    IDM_COL4_XV9            "громкость звука (канал 9)"
+    IDM_COL4_AP1            "звуковой баланс (канал 1)"
+    IDM_COL4_AP2            "звуковой баланс (канал 2)"
+    IDM_COL4_AP3            "звуковой баланс (канал 3)"
+    IDM_COL4_AP4            "звуковой баланс (канал 4)"
+    IDM_COL4_AP5            "звуковой баланс (канал 5)"
+    IDM_COL4_AP6            "звуковой баланс (канал 6)"
+    IDM_COL4_AP7            "звуковой баланс (канал 7)"
+    IDM_COL4_AP8            "звуковой баланс (канал 8)"
+    IDM_COL4_XP9            "звуковой баланс (канал 9)"
+    IDM_COL4_B11            "аудио соло (канал 1)"
+    IDM_COL4_B12            "аудио соло (канал 2)"
+    IDM_COL4_B13            "аудио соло (канал 3)"
+    IDM_COL4_B14            "аудио соло (канал 4)"
+    IDM_COL4_B15            "аудио соло (канал 5)"
+    IDM_COL4_B16            "аудио соло (канал 6)"
+    IDM_COL4_B17            "аудио соло (канал 7)"
+    IDM_COL4_B18            "аудио соло (канал 8)"
+    IDM_COL4_B19            "аудио соло (канал 9)"
+    IDM_COL4_B21            "отключение звука (канал 1)"
+    IDM_COL4_B22            "отключение звука (канал 2)"
+    IDM_COL4_B23            "отключение звука (канал 3)"
+    IDM_COL4_B24            "отключение звука (канал 4)"
+    IDM_COL4_B25            "отключение звука (канал 5)"
+    IDM_COL4_B26            "отключение звука (канал 6)"
+    IDM_COL4_B27            "отключение звука (канал 7)"
+    IDM_COL4_B28            "отключение звука (канал 8)"
+    IDM_COL4_B29            "отключение звука (канал 9)"
+    IDM_COL4_B31            "выбор звука (канал 1)"
+    IDM_COL4_B32            "выбор звука (канал 2)"
+    IDM_COL4_B33            "выбор звука (канал 3)"
+    IDM_COL4_B34            "выбор звука (канал 4)"
+    IDM_COL4_B35            "выбор звука (канал 5)"
+    IDM_COL4_B36            "выбор звука (канал 6)"
+    IDM_COL4_B37            "выбор звука (канал 7)"
+    IDM_COL4_B38            "выбор звука (канал 8)"
+    IDM_COL4_B39            "выбор звука (канал 9)"
+    IDM_COL4_FUN11          "функция F1 (стандартный режим)"
+    IDM_COL4_FUN12          "функция F2 (стандартный режим)"
+    IDM_COL4_FUN13          "функция F3 (стандартный режим)"
+    IDM_COL4_FUN14          "функция F4 (стандартный режим)"
+    IDM_COL4_FUN15          "функция F5 (стандартный режим)"
+    IDM_COL4_FUN16          "функция F6 (стандартный режим)"
+    IDM_COL4_FUN17          "функция F7 (стандартный режим)"
+    IDM_COL4_FUN18          "функция F8 (стандартный режим)"
+    IDM_COL4_FUN21          "функция F1 (удерживаемый режим)"
+    IDM_COL4_FUN22          "функция F2 (удерживаемый режим)"
+    IDM_COL4_FUN23          "функция F3 (удерживаемый режим)"
+    IDM_COL4_FUN24          "функция F4 (удерживаемый режим)"
+    IDM_COL4_FUN25          "функция F5 (удерживаемый режим)"
+    IDM_COL4_FUN26          "функция F6 (удерживаемый режим)"
+    IDM_COL4_FUN27          "функция F7 (удерживаемый режим)"
+    IDM_COL4_FUN28          "функция F8 (удерживаемый режим)"
+    IDM_COL4_SYS_Rewind     "Перемотка назад (проигрыватель)"
+    IDM_COL4_SYS_Forward    "Перемотка вперед (проигрыватель)"
+    IDM_COL4_SYS_Stop       "Стоп (проигрыватель)"
+    IDM_COL4_SYS_Play       "Играть (проигрыватель)"
+    IDM_COL4_SYS_Record     "Запись (проигрыватель)"
+    IDM_COL4_SYS_Up         "Вверх (джойстик)"
+    IDM_COL4_SYS_Down       "Вниз (джойстик)"
+    IDM_COL4_SYS_Left       "Влево (джойстик)"
+    IDM_COL4_SYS_Right      "Вправо (джойстик)"
+    IDM_COL4_SYS_Zoom       "Увеличение"
+    IDM_COL4_SYS_Scrub      "Скраб"
+    IDM_COL4_VOLUMEMIX      "Управление «Микшером»"
+    IDM_COL4_MEDIAKEY       "Мультимедийные клавиши"
+    IDM_COL4_MQTTKEY        "Управление «Умным домом»"
+    IDM_COL4_LIGHTKEY       "Управление освещением"
+    IDM_COL4_NONE           "действие не определено"
+    IDM_COL4_MQTT_AV1       "уровень  1"
+    IDM_COL4_MQTT_AV2       "уровень  2"
+    IDM_COL4_MQTT_AV3       "уровень  3"
+    IDM_COL4_MQTT_AV4       "уровень  4"
+    IDM_COL4_MQTT_AV5       "уровень  5"
+    IDM_COL4_MQTT_AV6       "уровень  6"
+    IDM_COL4_MQTT_AV7       "уровень  7"
+    IDM_COL4_MQTT_AV8       "уровень  8"
+    IDM_COL4_MQTT_XV9       "уровень  9"
+    IDM_COL4_MQTT_AP1       "уровень 10"
+    IDM_COL4_MQTT_AP2       "уровень 11"
+    IDM_COL4_MQTT_AP3       "уровень 12"
+    IDM_COL4_MQTT_AP4       "уровень 13"
+    IDM_COL4_MQTT_AP5       "уровень 14"
+    IDM_COL4_MQTT_AP6       "уровень 15"
+    IDM_COL4_MQTT_AP7       "уровень 16"
+    IDM_COL4_MQTT_AP8       "уровень 17"
+    IDM_COL4_MQTT_XP9       "уровень 18"
+    IDM_COL4_MQTT_B11       "вкл/выкл  1"
+    IDM_COL4_MQTT_B12       "вкл/выкл  2"
+    IDM_COL4_MQTT_B13       "вкл/выкл  3"
+    IDM_COL4_MQTT_B14       "вкл/выкл  4"
+    IDM_COL4_MQTT_B15       "вкл/выкл  5"
+    IDM_COL4_MQTT_B16       "вкл/выкл  6"
+    IDM_COL4_MQTT_B17       "вкл/выкл  7"
+    IDM_COL4_MQTT_B18       "вкл/выкл  8"
+    IDM_COL4_MQTT_B19       "вкл/выкл  9"
+    IDM_COL4_MQTT_B21       "вкл/выкл 10"
+    IDM_COL4_MQTT_B22       "вкл/выкл 11"
+    IDM_COL4_MQTT_B23       "вкл/выкл 12"
+    IDM_COL4_MQTT_B24       "вкл/выкл 13"
+    IDM_COL4_MQTT_B25       "вкл/выкл 14"
+    IDM_COL4_MQTT_B26       "вкл/выкл 15"
+    IDM_COL4_MQTT_B27       "вкл/выкл 16"
+    IDM_COL4_MQTT_B28       "вкл/выкл 17"
+    IDM_COL4_MQTT_B29       "вкл/выкл 18"
+    IDM_COL4_MQTT_B31       "вкл/выкл 19"
+    IDM_COL4_MQTT_B32       "вкл/выкл 20"
+    IDM_COL4_MQTT_B33       "вкл/выкл 21"
+    IDM_COL4_MQTT_B34       "вкл/выкл 22"
+    IDM_COL4_MQTT_B35       "вкл/выкл 23"
+    IDM_COL4_MQTT_B36       "вкл/выкл 24"
+    IDM_COL4_MQTT_B37       "вкл/выкл 25"
+    IDM_COL4_MQTT_B38       "вкл/выкл 26"
+    IDM_COL4_MQTT_B39       "вкл/выкл 27"
+    IDM_COL4_MQTT_NONE      "Не назначено"
+    IDM_MQTT_LOG_NONE       "лог не ведется"
+    IDM_MQTT_LOG_INFO       "информация"
+    IDM_MQTT_LOG_NOTICE     "уведомления"
+    IDM_MQTT_LOG_WARNING    "предупреждения"
+    IDM_MQTT_LOG_ERR        "только ошибки"
+    IDM_MQTT_LOG_DEBUG      "все сообщения"
 END
 
 STRINGTABLE
 BEGIN
     IDS_ERRORID_OK          "OK"
     IDS_ERRORID_EMPTY       "<тут пусто>"
-    IDS_ERRORID_UNDEFINED   "Ta napaka ni definirana"
+    IDS_ERRORID_UNDEFINED   "Эта ошибка не определена"
     IDS_ERRORID_JSONCONF_WRITE_ACCESS
-                            "Dostop za pisanje v konfiguracijsko datoteko je zavrnjen, '{0}'"
+                            "Доступ на запись к файлу конфигурации запрещен, '{0}'"
     IDS_ERRORID_JSONCONF_READ_ACCESS
-                            "Manjka konfiguracijska datoteka ali je dostop zavrnjen, '{0}'"
+                            "Файл конфигурации отсутствует или доступ запрещен, '{0}'"
     IDS_ERRORID_JSONCONF_EMPTY
-                            "Konfiguracijska datoteka je prazna, '{0}'"
+                            "Файл конфигурации пуст, '{0}'"
     IDS_ERRORID_JSONCONF_NO_DEVICE
-                            "Ime naprave MIDI ni nastavljeno v konfiguraciji."
+                            "Имя MIDI-устройства не задано в конфигурации."
     IDS_ERRORID_JSONCONF_EMPTY_KEYS
-                            "V tej konfiguraciji ni konfiguriranih tipk MIDI."
+                            "В этой конфигурации не настроены MIDI-клавиши."
     IDS_ERRORID_JSONCONF_WRITE_EMPTY
-                            "Pozor, v tej konfiguraciji niso konfigurirane tipke MIDI! zapisana konfiguracija ne bo delovala."
+                            "Внимание, в этой конфигурации не настроены MIDI-клавиши! записанная конфигурацию будет не работоспособной."
     IDS_ERRORID_INIT_COINITIALIZE
-                            "Co*Initialize inicializacija ni uspela."
+                            "Co*Initialize инициализация не удалась."
     IDS_ERRORID_INIT_COCREATE
-                            "Co*Create – Instanciacija ni uspela."
+                            "Co*Create - не удалось создать экземпляр."
     IDS_ERRORID_INIT_DEFAULT_AE
-                            "Privzete zvočne naprave ni bilo mogoče pridobiti."
+                            "Не удалось получить аудио устройство по умолчанию."
     IDS_ERRORID_INIT_AS_MANAGER2
-                            "Upravitelj zvočnih sej se je zrušil."
+                            "Сбой диспетчера аудиосеансов."
     IDS_ERRORID_INIT_AS_AUDIOMETER
-                            "Merilnik zvočnih konic ni na voljo."
+                            "Аудио пиковый измеритель не доступен."
     IDS_ERRORID_MIXER_STARTOK
-                            "Audio Session Mixer se izvaja, na voljo je {0} delujočih programov za dušenje ob zagonu."
+                            "Микшер аудиосеансов запущен, на момент запуска имеется {0} запущенных программ, доступных для регулирования."
     IDS_ERRORID_MIXER_STARTERROR
-                            "Zagon mešalnika audio seje ni uspel, podrobnosti o napaki bi morale biti v dnevniški datoteki."
+                            "Не удалось запустить микшер аудиосессий, сведения об ошибке должны быть в файле журнала."
     IDS_ERRORID_MIXER_STOPOK
-                            "Mešalnik zvočne seje se je ustavil."
+                            "Микшер аудиосессий остановлен."
     IDS_ERRORID_MIXER_STOPERROR
-                            "Audio Session Mixer ni bil pravilno ustavljen, podrobnosti o napaki bi morale biti v dnevniški datoteki."
-    IDS_ERRORID_NO_INIT     "Inicializiraj pred klicem tega.."
+                            "Микшер аудиосессий не был правильно остановлен, сведения об ошибке должны быть в файле журнала."
+    IDS_ERRORID_NO_INIT     "Инициализируйте, прежде чем вызывать это.."
     IDS_ERRORID_SESSION_LIST
-                            "Seznama zvočnih sej ni bilo mogoče pridobiti."
-    IDS_ERRORID_LISTISNULL  "Seznam avdio sej je prazen!"
+                            "Не удалось получить список аудиосеансов."
+    IDS_ERRORID_LISTISNULL  "Список аудиосессий пуст!"
     IDS_ERRORID_SESSIONDISCONNECTED
-                            "Onemogočanje zvočne seje, reason='{0}'"
+                            "Отключение аудиосессии, причина='{0}'"
     IDS_ERRORID_SESSIONCREATED
-                            "Avdio seja ustvarjena, name='{0}'"
-    IDS_ERRORID_ITEM_SC_AE  "Avdio seja '{0}' - Neveljavno stanje registracije '{1}': {2}/{3}"
+                            "Создана аудиосессия, имя='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Аудиосеанс '{0}' – неправильное состояние регистрации '{1}': {2}/{3}"
     IDS_ERRORID_CBVALUE_BAD_SELECT
-                            "Vrednost, ki se nastavi iz povratnega klica, je neveljaven izbirnik."
+                            "Устанавливаемое значение из обратного вызова - неверный селектор."
     IDS_ERRORID_SET_CB_WARNING
-                            "Nastavitev povratnega klica je možna šele po uspešnem zagonu MIDI mosta."
-    IDS_ERRORID_CONFIG_FAIL "Nalaganje konfiguracije ni uspelo, datoteke ni bilo mogoče najti, ni mogoče zagnati.."
-    IDS_ERRORID_CONFIG_LOAD "Konfiguracija naložena.."
+                            "Установка обратного вызова возможна только после успешного запуска MIDI-моста."
+    IDS_ERRORID_CONFIG_FAIL "Сбой загрузки конфигурации, файл не найден, запуск невозможен.."
+    IDS_ERRORID_CONFIG_LOAD "Конфигурация загружена.."
     IDS_ERRORID_CONFIG_LOADA
-                            "Konfiguracija je že naložena.."
+                            "Конфигурация уже загружена.."
     IDS_ERRORID_CONFIG_EMPTY
-                            "Konfiguracija je prazna."
-    IDS_ERRORID_CONFIG_NEW  "Zaznana nova različica konfiguracije.."
+                            "Конфигурация пустая.."
+    IDS_ERRORID_CONFIG_NEW  "Обнаружена новая версия конфигурации.."
     IDS_ERRORID_NOT_IMPLEMENTED
-                            "Nepodprta implementacija v kodi, metoda ni preglasena: {0}"
-    IDS_ERRORID_NOT_CONFIG  "Ime konfiguracije ni navedeno, ni mogoče nadaljevati."
-    IDS_ERRORID_NOT_DEVICES "Nobena naprava ni povezana, ni mogoče nadaljevati."
+                            "Неподдерживаемая реализация в коде, метод не переопределен: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Имя конфигурации не указано, продолжение невозможно."
+    IDS_ERRORID_NOT_DEVICES "Устройства не подключены, продолжение невозможно."
     IDS_ERRORID_COUNT_DEVICES
-                            "Pozor, neskladje med številom naprav na končnem seznamu, sistem/seznam = {0}/{1}"
+                            "Внимание, несоответствие количества устройств в итоговом списке, система/список = {0}/{1}"
     IDS_ERRORID_OPEN_MIDI_DEVICE
-                            "Naprave MIDI ni mogoče odpreti, nadaljevati ni mogoče, id = {0}/{1}"
+                            "Не удается открыть MIDI-устройство, продолжение невозможно, id = {0}/{1}"
     IDS_ERRORID_START_MIDI_DEVICE
-                            "Naprave MIDI ni bilo mogoče zagnati, ni mogoče nadaljevati, id = {0}/{1}"
+                            "Не удается запустить MIDI-устройство, продолжение невозможно, id = {0}/{1}"
     IDS_ERRORID_DEVICE_NOT_CONNECT
-                            "Naprava ni povezana, prekinitev, id = {0}/{1}"
+                            "Устройство не подключено, abort, id = {0}/{1}"
     IDS_ERRORID_DEVICE_FOUND
-                            "Najdena naprava {0}, {1}"
-    IDS_ERRORID_DEVICE_OPEN "Naprava {0} odprta, {1}"
+                            "Устройство {0} найдено, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Устройство {0} открыто, {1}"
     IDS_ERRORID_DEVICE_CLOSE
-                            "Naprava {0} zaprta (sistem)"
-    IDS_ERRORID_DEVICE_DONE "Naprava {0} pripravljena (sistem)"
+                            "Устройство {0} закрыто (система)"
+    IDS_ERRORID_DEVICE_DONE "Устройство {0} готово (система)"
     IDS_ERRORID_NOT_DEVICE_NAME
-                            "Ime aktivne naprave ni nastavljeno, ni mogoče nadaljevati, id = {0}/{1}"
+                            "Не задано имя для активного устройства, продолжение невозможно, id = {0}/{1}"
     IDS_ERRORID_NOT_CONFIG_PROXY
-                            "Proxy vrata niso nastavljena v konfiguraciji, MIDI proxy je onemogočen."
+                            "Не заданы прокси-порты в конфигурации, MIDI-прокси отключено."
     IDS_ERRORID_DRIVER_VER_OK
-                            "Različica gonilnika [{0}]"
+                            "Версия драйвера [{0}]"
     IDS_ERRORID_DRIVER_VER_ERROR
-                            "Težava z različico gonilnika [{0}]"
+                            "Проблема с версией драйвера [{0}]"
     IDS_ERRORID_SEND_BAD_VALUES
-                            "Naprava {0} je poslala neveljavno vrednost = {1}"
-    IDS_ERRORID_MMKEY_START "Storitev upravljanja večpredstavnostnih ključev se izvaja."
-    IDS_ERRORID_MMKEY_STOP  "Storitev upravljanja medijskih ključev se je ustavila."
+                            "Устройство {0} отправило неверное значение = {1}"
+    IDS_ERRORID_MMKEY_START "Служба управления мультимедийными ключами запущена."
+    IDS_ERRORID_MMKEY_STOP  "Служба управления мультимедийными ключами остановлена."
     IDS_ERRORID_MQTT_EMPTY_CONFIG
-                            "Konfiguracija MQTT je prazna, ni mogoče nadaljevati."
+                            "Конфигурация MQTT не заполнена, продолжение невозможно."
     IDS_ERRORID_MQTT_CLIENT_ERROR
-                            "Napaka pri ustvarjanju odjemalca MQTT, preklicano."
+                            "Ошибка создания клиента MQTT, отмена."
     IDS_ERRORID_MQTT_CLIENT_OK
-                            "Odjemalec MMQTT uspešno ustvarjen, nadaljujte.."
+                            "Клиент MMQTT успешно создан, продолжаем.."
     IDS_ERRORID_MQTT_CONNECTED
-                            "Povezan s strežnikom MQTT:"
+                            "Подключено к серверу MQTT:"
     IDS_ERRORID_MQTT_NOT_CONNECTED
-                            "Povezava s strežnikom MQTT ni uspela:"
+                            "Не удалось подключиться к серверу MQTT:"
     IDS_ERRORID_MQTT_DISCONNECTED
-                            "Prekinjena povezava s strežnikom MQTT:"
+                            "Отключено от сервера MQTT:"
     IDS_ERRORID_MQTT_NOT_CA_CERT
-                            "Datoteka potrdila CA ne obstaja, pot = '{0}'"
-    IDS_ERRORID_MQTT_START  "Storitev Smart Home Control se izvaja."
-    IDS_ERRORID_MQTT_STOP   "Storitev nadzora pametnega doma je bila ustavljena."
-    IDS_ERRORID_PANEL_INDEX "Zvočna mešalna plošča - ni mogoče nadaljevati, vnosi v kazalo so napačni."
-    IDS_ERRORID_PANEL_INIT  "Zvočna mešalna plošča - ni mogoče nadaljevati, napaka pri inicializaciji."
+                            "Файл сертификата CA не существует, путь = '{0}'"
+    IDS_ERRORID_MQTT_START  "Служба управления Умным домом запущена."
+    IDS_ERRORID_MQTT_STOP   "Служба управления Умным домом остановлена."
+    IDS_ERRORID_PANEL_INDEX "Панель аудиомикшера - продолжение невозможно, элементы индекса неверны."
+    IDS_ERRORID_PANEL_INIT  "Панель аудио микшера - продолжение невозможно, ошибка инициализации."
     IDS_ERRORID_PANEL_ENABLE
-                            "Okno plošče mešalnika zvoka se ne ujema s statusom, ni mogoče nadaljevati z naslednjo operacijo."
+                            "Окно панели аудиомикшера не соответствует статусу, невозможно продолжить следующую операцию."
     IDS_ERRORID_PANEL_NOT_UI_THREAD
-                            "Plošča mešalnika zvoka ni priklicana v niti uporabniškega vmesnika in sprememb ni mogoče izvesti."
+                            "Панель аудиомикшера вызвана не в потоке пользовательского интерфейса, изменения невозможны."
     IDS_ERRORID_PANEL_NOT_ITEM_VALID
-                            "Plošča mešalnika zvoka je zaznala neveljaven element in ustvarjanje okna plošče je bilo prekinjeno."
+                            "Панель аудиомикшера обнаружила неверный элемент, прервано создание окна панели."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "Служба управления освещением DMX запущена с использованием COM{0} – {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "Служба управления освещением DMX не запущена, устройство COM{0} не подключено.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "Служба управления освещением DMX не запущена, конфигурация службы не заполнена."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "Служба управления освещением DMX остановлена."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "Служба управления освещением ArtNet запущена с использованием широковещательного адреса {0}:{1} в сети {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "Служба управления освещением ArtNet не запущена, сеть {0} не найдена.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "Служба управления освещением ArtNet не запущена, конфигурация службы не заполнена."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "Служба управления освещением ArtNet остановлена."
     IDS_ERRORID_NONE        "-"
 END
-
-#endif    // Русский (Россия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-

@@ -98,7 +98,9 @@ namespace Common {
             uint32_t btninterval;
             uint32_t btnlonginterval;
             std::vector<MidiUnit> units;
-            MQTT::BrokerConfig<std::wstring> mqttconf;
+            MQTT::BrokerConfig<std::wstring> mqttconf{};
+            LIGHT::ArtnetConfig artnetconf{};
+            LIGHT::SerialPortConfig dmxconf{};
 
             MidiDevice* get();
 

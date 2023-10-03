@@ -19,16 +19,13 @@
 
 class bridge_out_event;
 class bridge_in_event;
+class MidiDriver;
+class MidiControllerBase;
+class MidiControllerVirtual;
+class MidiControllerIn;
+class MidiControllerOut;
+class MidiControllerProxy;
 
-#include "h\teVirtualMIDI.h"
-#include "h\midi_utils.h"
-#include "h\MidiControllerBase.h"
-#include "h\bridge_out_event.h"
-#include "h\bridge_in_event.h"
-#include "h\MidiControllerVirtual.h"
-#include "h\MidiControllerIn.h"
-#include "h\MidiControllerOut.h"
-#include "h\MidiControllerProxy.h"
 #include "h\MidiBridge.h"
 
 #undef FLAG_EXPORT

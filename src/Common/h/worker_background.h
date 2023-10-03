@@ -20,8 +20,7 @@ namespace Common {
 
     class FLAG_EXPORT worker_background {
 	private:
-		common_timer t__;
-		uint32_t interval__;
+		common_timer t__{};
 		std::forward_list<pairWorkerCb> list__;
 
 		void worker();
@@ -34,13 +33,13 @@ namespace Common {
 		static worker_background& Get();
 		void to_async(callFutureCb);
 
-		void start();
+		void start(uint32_t = 0U);
 		void stop();
 		void clear();
 
-		void set_interval(uint32_t);
+		uint32_t set_interval(uint32_t);
 		uint32_t add(callWorkerCb);
-		void remove(uint32_t);
+		uint32_t remove(uint32_t);
     };
 }
 

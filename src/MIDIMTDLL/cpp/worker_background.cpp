@@ -45,7 +45,8 @@ namespace Common {
 		}
 	}
 
-	worker_background::worker_background() : interval__(5) {
+	worker_background::worker_background() {
+		t__.delay = 5;
 		workerpackid__ = add(std::bind(&worker_background::pack, this));
 	}
 	worker_background::~worker_background() {
@@ -67,11 +68,12 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-	void     worker_background::start() {
+	void     worker_background::start(uint32_t interval) {
 		try {
 			if (t__.IsActive())
 				t__.Stop();
-			t__.SetInterval(interval__, std::bind(&worker_background::worker, this));
+			interval = (interval == 0U) ? t__.delay.load() : interval;
+			t__.SetInterval(interval, std::bind(&worker_background::worker, this));
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
@@ -90,8 +92,10 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-	void     worker_background::set_interval(uint32_t sec) {
-		interval__ = sec;
+	uint32_t worker_background::set_interval(uint32_t sec) {
+		uint32_t old = t__.delay.load();
+		t__.delay = sec;
+		return old;
 	}
 
 	uint32_t worker_background::add(callWorkerCb cb) {
@@ -106,12 +110,13 @@ namespace Common {
 		}
 		return 0U;
 	}
-	void     worker_background::remove(uint32_t id) {
+	uint32_t worker_background::remove(uint32_t id) {
 		try {
 			list__.remove_if([=](pairWorkerCb& p) { return p.first == id; });
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
+		return 0U;
 	}
 	void     worker_background::to_async(callFutureCb cb) {
 		try {

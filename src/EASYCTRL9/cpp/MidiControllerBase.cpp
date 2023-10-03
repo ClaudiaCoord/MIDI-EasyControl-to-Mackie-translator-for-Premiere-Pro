@@ -22,7 +22,8 @@ namespace Common {
             );
         }
 
-        MidiControllerBase::MidiControllerBase() : isenable__(false), isconnect__(false), this_type__(ClassTypes::ClassNone) {
+        MidiControllerBase::MidiControllerBase(std::shared_ptr<MidiDriver> drv)
+            : isenable__(false), isconnect__(false), this_type__(ClassTypes::ClassNone), mdrv__(drv) {
             eventin__ = [](DWORD, DWORD) {};
             id__      = Utils::random_hash(this);
         }

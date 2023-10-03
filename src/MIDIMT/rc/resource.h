@@ -43,8 +43,11 @@
 #define IDI_ICON_LV4                    215
 #define IDI_ICON_LV5                    216
 #define IDI_ICON_LV6                    217
-#define IDI_ICON_MENUH_LIGHT            218
-#define IDI_ICON_MENUH_DARK             219
+#define IDI_ICON_LV7                    218
+#define IDI_ICON_MENUH_LIGHT            219
+#define IDI_ICON_MENUH_DARK             220
+#define IDI_ICON_DMX			221
+#define IDI_ICON_ARTNET			222
 
 #define IDB_KNOB_METRO_ENABLED          254
 #define IDB_KNOB_METRO_DISABLED         255
@@ -172,6 +175,22 @@
 #define IDC_MQTT_PREFIX                 1111
 #define IDC_MQTT_LOGLEVEL               1112
 
+#define IDC_DMX_ENABLE                  1120
+#define IDC_DMX_COMBO                   1121
+#define IDC_DMX_COM_NAME                1122
+#define IDC_DMX_COM_PORT		1123
+#define IDC_DMX_COM_BAUDRATE            1124
+#define IDC_DMX_COM_STOPBITS            1125
+#define IDC_DMX_COM_TIMEOUT             1126
+#define IDC_ARTNET_ENABLE               1127
+#define IDC_ARTNET_COMBO                1128
+#define IDC_ARTNET_PORT			1129
+#define IDC_ARTNET_UNIVERSE             1130
+#define IDC_ARTNET_IP			1131
+#define IDC_ARTNET_MASK			1132
+#define IDC_ARTNET_BCAST		1133
+#define IDC_DMX_POLL			1134
+
 #define IDS_APP_TITLE                   3100
 #define IDS_MIXER                       3101
 #define IDS_SETTINGS                    3102
@@ -189,6 +208,7 @@
 #define IDS_CONFIG_EXE_FILTER           3114
 #define IDS_MQTT_CA_FILTER		3115
 
+#define IDS_DLG_MSG0                    3119
 #define IDS_DLG_MSG1                    3120
 #define IDS_DLG_MSG2                    3121
 #define IDS_DLG_MSG3                    3122
@@ -203,6 +223,12 @@
 #define IDS_DLG_MSG12                   3131
 #define IDS_DLG_MSG13                   3132
 #define IDS_DLG_MSG14                   3133
+#define IDS_DLG_MSG15                   3134
+#define IDS_DLG_MSG16                   3135
+#define IDS_DLG_DMX_NODEV		3136
+#define IDS_DLG_ARTNET_NOINT		3137
+#define IDS_DLG_DMX_SELDEV		3138
+#define IDS_DLG_ARTNET_SELINT		3139
 
 #define IDM_CALLFORM_COLOR              32773
 #define IDM_GO_ABOUT                    32774

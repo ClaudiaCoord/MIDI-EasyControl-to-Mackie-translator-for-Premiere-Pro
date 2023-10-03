@@ -26,12 +26,12 @@
     <ClCompile Include="..\..\Common\rc\dll_lang_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MIDIMTxHR.rc" />
+    <ResourceCompile Include="resourceHR.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{fe0baf25-4f5c-4b44-9272-85d7a0e09235}</ProjectGuid>
+    <ProjectGuid>{880DA508-E48F-4B3E-997C-B5FDE961359E}</ProjectGuid>
     <RootNamespace>MIDIMTxHR</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

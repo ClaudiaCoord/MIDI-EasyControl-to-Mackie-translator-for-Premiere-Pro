@@ -35,6 +35,8 @@ namespace Common {
             void remove(uint32_t);
             void remove(MidiInstance&);
             void remove(MidiControllerBase&);
+            void remove(MidiInstance*);
+            void remove(MidiControllerBase*);
         };
     }
 }

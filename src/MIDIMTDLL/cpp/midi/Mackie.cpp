@@ -25,6 +25,7 @@ namespace Common {
 				case ClassTypes::ClassMixer:         return (unit.target & Target::VOLUMEMIX);
 				case ClassTypes::ClassMediaKey:      return (unit.target & Target::MEDIAKEY);
 				case ClassTypes::ClassMqttKey:       return (unit.target & Target::MQTTKEY);
+				case ClassTypes::ClassLightKey:      return (unit.target & Target::LIGHTKEY);
 				case ClassTypes::ClassOutMidiMackie: break;
 				case ClassTypes::ClassNone:
 				case ClassTypes::ClassInMidi:
@@ -36,6 +37,7 @@ namespace Common {
 						return false;
 					break;
 				}
+				case Target::LIGHTKEY:
 				case Target::MEDIAKEY:
 				case Target::VOLUMEMIX: return false;
 				default: break;

@@ -15,9 +15,7 @@
 namespace Common {
 	namespace MIDI {
 
-		static MidiControllerIn ctrl_midicontrollerin__;
-
-		MidiControllerIn::MidiControllerIn() : midi_in_handle__(nullptr) {
+		MidiControllerIn::MidiControllerIn(std::shared_ptr<MidiDriver> drv) : midi_in_handle__(nullptr), MidiControllerBase(drv) {
 			this_type__ = ClassTypes::ClassInMidi;
 		}
 		MidiControllerIn::~MidiControllerIn() {
@@ -29,21 +27,21 @@ namespace Common {
 				HMIDIIN h = midi_in_handle__;
 				midi_in_handle__ = nullptr;
 				if (h != nullptr) {
-					(void) midi_utils::Check_MMRESULT(
+					(void)mdrv__->CheckMMRESULT(
 						[&]() -> MMRESULT {
-							return midi_utils::Run_midiInStop(h);
+							return mdrv__->InStop(h);
 						},
 						LogTag
 					);
-					(void) midi_utils::Check_MMRESULT(
+					(void)mdrv__->CheckMMRESULT(
 						[&]() -> MMRESULT {
-							return midi_utils::Run_midiInReset(h);
+							return mdrv__->InReset(h);
 						},
 						LogTag
 					);
-					(void) midi_utils::Check_MMRESULT(
+					(void)mdrv__->CheckMMRESULT(
 						[&]() -> MMRESULT {
-							return midi_utils::Run_midiInClose(h);
+							return mdrv__->InClose(h);
 						},
 						LogTag
 					);
@@ -104,9 +102,9 @@ namespace Common {
 					device_list__.at(devid), devid
 				);
 
-				isenable__ = midi_utils::Check_MMRESULT(
+				isenable__ = mdrv__->CheckMMRESULT(
 					[&]() -> MMRESULT {
-						return midi_utils::Run_midiInOpen(
+						return mdrv__->InOpen(
 							&midi_in_handle__,
 							static_cast<UINT>(devid),
 							(DWORD_PTR)&MidiInProc,
@@ -122,9 +120,9 @@ namespace Common {
 						active_device__, devid)
 					);
 
-				isenable__ = midi_utils::Check_MMRESULT(
+				isenable__ = mdrv__->CheckMMRESULT(
 					[&]() -> MMRESULT {
-						return midi_utils::Run_midiInStart(midi_in_handle__);
+						return mdrv__->InStart(midi_in_handle__);
 					},
 					LogTag
 				);
@@ -153,11 +151,11 @@ namespace Common {
 			try {
 				devcnt = UINT_MAX;
 				device_list__.clear();
-				uint32_t cnt = midi_utils::Run_midiInGetNumDevs();
+				uint32_t cnt = mdrv__->InGetNumDevs();
 				for (size_t i = 0; i < cnt; ++i) {
 
 					MIDIINCAPS mc{};
-					MMRESULT m = midi_utils::Run_midiInGetDevCapsW(i, &mc, sizeof(mc));
+					MMRESULT m = mdrv__->InGetDevCaps(i, &mc, sizeof(mc));
 					if (m != S_OK) {
 						Common::to_log::Get() << (log_string() << LogTag << Utils::MMRESULT_to_string(m) << L" [" << i << L"]");
 						continue;
@@ -178,10 +176,6 @@ namespace Common {
 			uint32_t cnt = UINT_MAX;
 			(void) BuildDeviceList(cnt);
 			return std::ref(device_list__);
-		}
-
-		MidiControllerIn& MidiControllerIn::Get() noexcept {
-			return std::ref(ctrl_midicontrollerin__);
 		}
 	}
 }

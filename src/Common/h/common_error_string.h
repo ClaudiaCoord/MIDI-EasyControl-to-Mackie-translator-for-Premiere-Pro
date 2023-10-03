@@ -73,6 +73,7 @@ namespace Common {
 		L"Driver version [{0}]"sv,
 		L"Driver version trouble = [{0}]"sv,
 		L"Device {0} send bad values = {1}"sv,
+		L"The virtual MIDI driver is not installed. You need to install the loopMidi package, or download the full installer and reinstall MIDI-MT. More details: https://claudiacoord.github.io/MIDI-MT/docs/EN/Dependencies.html"sv,
 
 		/* Common::MMKey */
 		L"The media key control service is running."sv,
@@ -95,6 +96,18 @@ namespace Common {
 		L"The audio mixer panel window does not match the status, it is not possible to continue with the next operation."sv,
 		L"The audio mixer panel is not invoked on the UI thread, changes are not possible."sv,
 		L"The audio mixer panel encountered an invalid item, aborted panel window creation."sv,
+
+		/* Common::LIGHT::DMX */
+		L"The DMX lighting control service is started using COM{0} - {1}."sv,
+		L"The DMX lighting control service is not running, the COM{0} device is not connected.."sv,
+		L"The DMX lighting control service is not running and the service configuration is empty."sv,
+		L"The DMX lights control service service has stopped."sv,
+
+		/* Common::LIGHT::ArtNet */
+		L"The ArtNet lighting control service is running using the broadcast address {0}:{1} on network {2}."sv,
+		L"The ArtNet lights control service is not started, network {0} not found.."sv,
+		L"The ArtNet lighting control service is not running and the service configuration is empty."sv,
+		L"The ArtNet lights control service service has stopped."sv,
 
 		L"-" /* err_NONE */
 	};

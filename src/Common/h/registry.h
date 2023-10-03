@@ -33,6 +33,7 @@ namespace Common {
 		bool GetUiShowAudioPeakMeter();
 		bool GetUiShowAppPath();
 		bool GetUiAnimation();
+		bool GetDMXPollEnable();
 		ui_themes::ThemeId GetUiTheme();
 		ui_themes::ThemeId GetUiCustomTheme();
 		ui_themes::ThemePlace GetUiPlace();
@@ -65,5 +66,6 @@ namespace Common {
 		void SetUiCustomThemeColorBackground(COLORREF);
 		void SetUiCustomThemeColorBorder(COLORREF);
 		void SetDisplay(RECT&);
+		void SetDMXPollEnable(bool);
 	};
 }

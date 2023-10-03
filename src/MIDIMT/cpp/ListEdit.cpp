@@ -276,7 +276,7 @@ namespace Common {
 		ListEdit::ListEdit() : icons__(nullptr), ErrorFn([](std::wstring){}) {
 			icons__ = ::ImageList_Create(16, 16, ILC_MASK | ILC_ORIGINALSIZE, 1, 1);
 
-			for (int32_t i = IDI_ICON_LV1; i <= IDI_ICON_LV6; i++) {
+			for (int32_t i = IDI_ICON_LV1; i <= IDI_ICON_LV7; i++) {
 				HICON ico = LangInterface::Get().GetIcon16x16(MAKEINTRESOURCE(i));
 				if (ico != nullptr) {
 					ImageList_AddIcon(icons__, ico);
@@ -610,9 +610,16 @@ namespace Common {
 					}
 					case IDM_LV_SET_MQTT:
 					case IDM_LV_SET_MMKEY:
-					case IDM_LV_SET_MIXER: {
-						uint32_t val = static_cast<uint32_t>((id == IDM_LV_SET_MMKEY) ? MIDI::Mackie::Target::MEDIAKEY : 
-										((id == IDM_LV_SET_MIXER) ? MIDI::Mackie::Target::VOLUMEMIX : MIDI::Mackie::Target::MQTTKEY));
+					case IDM_LV_SET_MIXER: 
+					case IDM_LV_SET_LIGHTKEY: {
+						uint32_t val;
+						switch (id) {
+							case IDM_LV_SET_MQTT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);   break;
+							case IDM_LV_SET_MMKEY:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);  break;
+							case IDM_LV_SET_MIXER:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); break;
+							case IDM_LV_SET_LIGHTKEY:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY);  break;
+							default: return false;
+						}
 						std::wstring ws = std::to_wstring(val);
 						ListView_SetItemText(hwnd, lvpaste->Item(), Columns::Target, (LPWSTR)ws.c_str());
 						listview_updateimage_(hwnd, lvpaste->Item());
@@ -830,11 +837,11 @@ namespace Common {
 					uint32_t u = std::stoul(buf);
 
 					switch (i) {
-						case Columns::Key:	cont->unit.key = u; break;
-						case Columns::Scene: cont->unit.scene = u; break;
-						case Columns::Type: cont->unit.type = static_cast<MIDI::MidiUnitType>(u); break;
-						case Columns::Target: cont->unit.target = static_cast<MIDI::Mackie::Target>(u); break;
-						case Columns::LongTarget: cont->unit.longtarget = static_cast<MIDI::Mackie::Target>(u); break;
+						case Columns::Key:			cont->unit.key = u; break;
+						case Columns::Scene:		cont->unit.scene = u; break;
+						case Columns::Type:			cont->unit.type = static_cast<MIDI::MidiUnitType>(u); break;
+						case Columns::Target:		cont->unit.target = static_cast<MIDI::Mackie::Target>(u); break;
+						case Columns::LongTarget:	cont->unit.longtarget = static_cast<MIDI::Mackie::Target>(u); break;
 						default: break;
 					}
 				}
@@ -893,14 +900,26 @@ namespace Common {
 				ListView_GetSubItemRect(hwnd, item, column, LVIR_LABEL, &rt);
 				::InflateRect(&rt, 2, 2);
 
+				bool isdigitedit = EditAsDigit.load();
 				std::wstring wvalue;
 				{
 					wchar_t txt[50]{};
 					ListView_GetItemText(hwnd, item, column, txt, 50);
 					wvalue = std::wstring(txt);
 				}
+				if (!isdigitedit && (column == Columns::LongTarget)) {
+					try {
+						LVITEMW lvi{};
+						lvi.mask = LVIF_PARAM;
+						lvi.iItem = item;
 
-				switch (EditAsDigit.load() ? Columns::Key : column) {
+						if (ListView_GetItem(hwnd, &lvi)) {
+							ListMixerContainer* cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
+							if (cont) isdigitedit = cont->unit.target == MIDI::Mackie::Target::LIGHTKEY;
+						}
+					} catch (...) {}
+				}
+				switch (isdigitedit ? Columns::Key : column) {
 					case Columns::Key:
 					case Columns::Scene: {
 						listview_digitallabel_(item, column, rt, wvalue);
@@ -1004,11 +1023,13 @@ namespace Common {
 			}
 			else {
 				switch (cont->unit.target) {
-					case MIDI::Mackie::Target::VOLUMEMIX: lvi.iImage = 3; break;
-					case MIDI::Mackie::Target::MEDIAKEY:  lvi.iImage = 4; break;
-					case MIDI::Mackie::Target::MQTTKEY:   lvi.iImage = 5; break;
-					case MIDI::Mackie::Target::NOTARGET:  lvi.iImage = 0; break;
-					default:							  lvi.iImage = 2; break;
+					using enum MIDI::Mackie::Target;
+					case VOLUMEMIX: lvi.iImage = 3; break;
+					case MEDIAKEY:  lvi.iImage = 4; break;
+					case MQTTKEY:   lvi.iImage = 5; break;
+					case LIGHTKEY:  lvi.iImage = 6; break;
+					case NOTARGET:  lvi.iImage = 0; break;
+					default:	    lvi.iImage = 2; break;
 				}
 			}
 		}

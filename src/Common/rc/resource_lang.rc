@@ -5,7 +5,10 @@
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(65001)
 
-IDB_BMP_ASSIGN	BITMAP				"icon\\AboutEctrl9Assign.bmp"
+IDB_BMP_ASSIGN			BITMAP		"icon\\AboutEctrl9Assign.bmp"
+
+IDI_ICON_DMX			ICON		"icon\\DMX512.ico"
+IDI_ICON_ARTNET			ICON		"icon\\ARTNET.ico"
 
 IDI_ICO_UPDATE			IMAGE		"icon\\ribbon\\RB-Save.ico"
 IDI_ICO_EXPORT			IMAGE		"icon\\ribbon\\RB-Download.ico"

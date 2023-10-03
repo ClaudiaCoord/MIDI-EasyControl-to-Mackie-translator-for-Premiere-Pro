@@ -26,12 +26,12 @@
     <ClCompile Include="..\..\Common\rc\dll_lang_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MIDIMTxSK.rc" />
+    <ResourceCompile Include="resourceSK.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{fe0baf25-4f5c-4b44-9272-85d7a0e09238}</ProjectGuid>
+    <ProjectGuid>{fe0baf25-4f5c-4b44-9272-ffff00000027}</ProjectGuid>
     <RootNamespace>MIDIMTxSK</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

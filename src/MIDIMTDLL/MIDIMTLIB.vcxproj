@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -83,19 +83,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -204,6 +204,10 @@
     <ClInclude Include="..\Common\h\common_error_string.h" />
     <ClInclude Include="..\Common\h\common_event.h" />
     <ClInclude Include="..\Common\h\common_utils.h" />
+    <ClInclude Include="..\Common\h\light\ArtnetInterfaceConfig.h" />
+    <ClInclude Include="..\Common\h\light\ArtnetPacket.h" />
+    <ClInclude Include="..\Common\h\light\DMXPacket.h" />
+    <ClInclude Include="..\Common\h\light\DMXSerialPortConfig.h" />
     <ClInclude Include="..\Common\h\handle_ptr.h" />
     <ClInclude Include="..\Common\h\locker_auto.h" />
     <ClInclude Include="..\Common\h\locker_awaiter.h" />
@@ -232,6 +236,10 @@
     <ClCompile Include="cpp\common_config.cpp" />
     <ClCompile Include="cpp\common_error.cpp" />
     <ClCompile Include="cpp\common_utils.cpp" />
+    <ClCompile Include="cpp\light\ArtnetInterfaceConfig.cpp" />
+    <ClCompile Include="cpp\light\ArtnetPacket.cpp" />
+    <ClCompile Include="cpp\light\DMXPacket.cpp" />
+    <ClCompile Include="cpp\light\DMXSerialPortConfig.cpp" />
     <ClCompile Include="cpp\locker_auto.cpp" />
     <ClCompile Include="cpp\locker_awaiter.cpp" />
     <ClCompile Include="cpp\log_string.cpp" />

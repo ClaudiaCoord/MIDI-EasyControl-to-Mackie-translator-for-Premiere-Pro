@@ -21,8 +21,9 @@ namespace Common {
 	private:
 		std::atomic<bool> midibridgerun_;
 		std::atomic<bool> audiomixerrun_;
-		std::atomic<bool> mmkeyesrun_;
 		std::atomic<bool> smarthomerun_;
+		std::atomic<bool> mmkeysrun_;
+		std::atomic<bool> lightsrun_;
 	public:
 		const bool IsMidiBridgeRun();
 		void IsMidiBridgeRun(bool);
@@ -30,8 +31,11 @@ namespace Common {
 		const bool IsAudioMixerRun();
 		void IsAudioMixerRun(bool);
 
-		const bool IsMMKeyesRun();
-		void IsMMKeyesRun(bool);
+		const bool IsMMKeysRun();
+		void IsMMKeysRun(bool);
+
+		const bool IsLightsRun();
+		void IsLightsRun(bool);
 
 		const bool IsSmartHomeRun();
 		void IsSmartHomeRun(bool);

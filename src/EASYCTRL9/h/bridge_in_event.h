@@ -38,6 +38,8 @@ namespace Common {
             void add(MidiControllerBase&);
             void remove(MidiInstance& mi);
             void remove(MidiControllerBase&);
+            void remove(MidiInstance* mi);
+            void remove(MidiControllerBase*);
         };
     }
 }

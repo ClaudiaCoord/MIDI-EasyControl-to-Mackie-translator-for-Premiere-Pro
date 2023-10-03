@@ -26,6 +26,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "MEDIAKEYS.lib")
 #pragma comment(lib, "EASYCTRL9.lib")
 #pragma comment(lib, "SMARTHOME.lib")
+#pragma comment(lib, "MIDIMTLIGHT.lib")
 
 UINT const WMAPP_SHELLICON = WM_APP + 101;
 Gdiplus::GdiplusStartupInput gdiplusStartupInput{};
@@ -496,6 +497,44 @@ INT_PTR CALLBACK StartDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					}
 					break;
 				}
+				case IDC_DMX_ENABLE: {
+					dlgs->ChangeOnDmxEnable();
+					break;
+				}
+				case IDC_DMX_COMBO: {
+					if (HIWORD(w) == CBN_SELENDOK) /* CBN_SELCHANGE */
+						dlgs->ChangeOnDmxDevice();
+					break;
+				}
+				case IDC_DMX_POLL: {
+					dlgs->ChangeOnDmxPool();
+					break;
+				}
+				case IDC_ARTNET_ENABLE: {
+					dlgs->ChangeOnArtnetEnable();
+					break;
+				}
+				case IDC_ARTNET_COMBO: {
+					if (HIWORD(w) == CBN_SELENDOK) /* CBN_SELCHANGE */
+						dlgs->ChangeOnArtnetNetwork();
+					break;
+				}
+				case IDC_ARTNET_PORT:
+				case IDC_ARTNET_UNIVERSE: {
+					if (HIWORD(w) != EN_CHANGE) break;
+					switch (LOWORD(w)) {
+						case IDC_ARTNET_PORT: {
+							dlgs->ChangeOnArtnetPort();
+							break;
+						}
+						case IDC_ARTNET_UNIVERSE: {
+							dlgs->ChangeOnArtnetUniverse();
+							break;
+						}
+						default: break;
+					}
+					break;
+				}
 				case IDC_IEVENT_LOG: {
 					dlgs->EventLog(reinterpret_cast<Common::MIDIMT::CbEventData*>(l));
 					break;
@@ -662,7 +701,8 @@ INT_PTR CALLBACK ConfigDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 				case IDM_LV_DELETE:
 				case IDM_LV_SET_MQTT:
 				case IDM_LV_SET_MMKEY:
-				case IDM_LV_SET_MIXER: {
+				case IDM_LV_SET_MIXER:
+				case IDM_LV_SET_LIGHTKEY: {
 					dlgc->ListViewMenu(LOWORD(w));
 					break;
 				}

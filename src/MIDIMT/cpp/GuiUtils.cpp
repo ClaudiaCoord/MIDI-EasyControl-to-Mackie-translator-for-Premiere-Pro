@@ -23,6 +23,7 @@ namespace Common {
 		constexpr std::wstring_view default_page_settings__ = L"Settings"sv;
 		constexpr std::wstring_view default_page_smarthome__ = L"Smart-House"sv;
 		constexpr std::wstring_view default_page_installation__ = L"Installation"sv;
+		constexpr std::wstring_view default_page_dependencies__ = L"Dependencies"sv;
 
 		static const wchar_t* blanks[] = { L"", L"  ", L"    " };
 
@@ -72,6 +73,7 @@ namespace Common {
 							case IDC_MQTT_PREFIX:
 							case IDC_MQTT_LOGLEVEL:
 							case IDC_MQTT_ISSELFSIGN: page = default_page_smarthome__; break;
+							case IDC_GO_START: page = default_page_dependencies__; break;
 							default: page = default_page_launch__; break;
 						}
 						break;
@@ -82,7 +84,7 @@ namespace Common {
 				}
 				std::wstring url = log_string::format(default_help_fmt__.data(), LangInterface::Get().GetLangId(), page);
 				if (!url.empty())
-					ShellExecuteW(0, 0, url.c_str(), 0, 0, SW_SHOW);
+					::ShellExecuteW(0, 0, url.c_str(), 0, 0, SW_SHOW);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

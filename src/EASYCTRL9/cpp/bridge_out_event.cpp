@@ -59,6 +59,14 @@ namespace Common {
             if (mcb.GetId() == 0U) return;
             event__.remove(mcb.GetId());
         }
+        void bridge_out_event::remove(MidiInstance* mi) {
+            if (!mi || mi->GetId() == 0U) return;
+            event__.remove(mi->GetId());
+        }
+        void bridge_out_event::remove(MidiControllerBase* mcb) {
+            if (!mcb || mcb->GetId() == 0U) return;
+            event__.remove(mcb->GetId());
+        }
 
         void bridge_out_event::clear() {
             event__.clear();
@@ -94,6 +102,7 @@ namespace Common {
                             case ClassTypes::ClassMixer:
                             case ClassTypes::ClassMqttKey:
                             case ClassTypes::ClassMediaKey:
+                            case ClassTypes::ClassLightKey:
                             case ClassTypes::ClassOutMidiMackie: {
                                 try {
                                     mi.GetCbOut2()(unitref.get(), t);
@@ -157,6 +166,52 @@ namespace Common {
                                         mi.GetCbOut2()(u, t);
                                     }
                                     catch (std::bad_function_call& e) {
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        case ClassTypes::ClassLightKey: {
+
+                            for (auto& u : cnf__->units) {
+                                if (u.key == m.key() && u.scene == m.scene()) {
+                                    #if !defined(DEBUG_NO_TARGET)
+                                    if (u.target != Mackie::Target::LIGHTKEY) break;
+                                    #endif
+
+                                    #if defined(DEBUG_BRIDGE_OUT)
+                                    to_log::Get() << (log_string() << L"\t\t(ClassLightKey) = " << u.Dump());
+                                    #endif
+
+                                    unitref.begin();
+
+                                    if (!MidiSetter::ValidTarget(u))
+                                        break;
+
+                                    if ((u.type == MidiUnitType::BTN) || (u.type == MidiUnitType::BTNTOGGLE)) {
+                                        if (!MidiSetter::ÑhatterButton(u, m, t, cnf__.get()->btninterval))
+                                            break;
+
+                                        MidiSetter::SetButton(u);
+                                    }
+                                    else if (
+                                        (u.type == MidiUnitType::SLIDER) ||
+                                        (u.type == MidiUnitType::FADER) ||
+                                        (u.type == MidiUnitType::KNOB) ||
+                                        (u.type == MidiUnitType::SLIDERINVERT) ||
+                                        (u.type == MidiUnitType::FADERINVERT) ||
+                                        (u.type == MidiUnitType::KNOBINVERT)) {
+                                        if (!MidiSetter::SetVolume(u, t, m.value()))
+                                            break;
+                                    }
+                                    else break;
+
+                                    unitref.set(u, mi.GetType());
+                                    try {
+                                        mi.GetCbOut2()(u, t);
+                                    } catch (std::bad_function_call& e) {
                                         to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, mi);
                                     }
                                     break;

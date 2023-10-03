@@ -245,24 +245,24 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -654,6 +654,9 @@
     </ProjectReference>
     <ProjectReference Include="..\MIDIMTDLL\MIDIMTLIB.vcxproj">
       <Project>{93f0fdf9-7136-45ce-b098-541379d35070}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MIDIMTLIGHT\MIDIMTLIGHT.vcxproj">
+      <Project>{4c0cc943-4aeb-48b3-a433-a8cc864f21b1}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MIDIMTMIX\MIDIMTMIX.vcxproj">
       <Project>{c9f700c2-155f-458a-b29e-3e8ffccdfe87}</Project>

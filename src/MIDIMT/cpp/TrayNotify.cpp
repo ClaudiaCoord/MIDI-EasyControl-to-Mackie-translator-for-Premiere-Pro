@@ -71,7 +71,7 @@ namespace Common {
 							}
 							if (cnf.Local.IsAudioMixerRun())
 								wss << lang.GetString(IDS_INFO6) << L"\r\n";
-							if (cnf.Local.IsMMKeyesRun())
+							if (cnf.Local.IsMMKeysRun())
 								wss << lang.GetString(IDS_INFO7) << L"\r\n";
 							if (cnf.Local.IsSmartHomeRun())
 								wss << lang.GetString(IDS_INF13) << L"\r\n";

@@ -18,9 +18,11 @@ namespace Common {
         std::atomic<bool> active__ { true };
 
     public:
+        std::atomic<uint32_t> delay{ 5 };
+
         const bool IsActive() const;
-        void SetTimeout(int delay, std::function<void()> f);
-        void SetInterval(int interval, std::function<void()> f);
+        void SetTimeout(int, std::function<void()>);
+        void SetInterval(int, std::function<void()>);
         void Stop();
     };
 }

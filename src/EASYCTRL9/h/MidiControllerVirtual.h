@@ -15,7 +15,7 @@
 namespace Common {
     namespace MIDI {
 
-        class FLAG_EXPORT MidiControllerVirtual : public MidiControllerBase
+        class MidiControllerVirtual : public MidiControllerBase
         {
         private:
             const wchar_t* LogTag = L"MIDI virtual device ";
@@ -24,7 +24,7 @@ namespace Common {
         public:
 
             MidiControllerVirtual() = delete;
-            MidiControllerVirtual(std::wstring& name);
+            MidiControllerVirtual(std::shared_ptr<MidiDriver>, std::wstring);
             ~MidiControllerVirtual();
             virtual const bool Start() override;
             virtual void Stop() override;

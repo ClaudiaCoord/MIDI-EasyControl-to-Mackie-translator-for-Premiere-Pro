@@ -32,12 +32,12 @@ namespace Common {
 		}
 
 		void MMKBridge::Stop() {
-			common_config::Get().Local.IsMMKeyesRun(false);
+			common_config::Get().Local.IsMMKeysRun(false);
 			to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MMKEY_STOP));
 			message_once__ = false;
 		}
 		MMKBridge& MMKBridge::Get() {
-			common_config::Get().Local.IsMMKeyesRun(true);
+			common_config::Get().Local.IsMMKeysRun(true);
 			if (!message_once__) {
 				message_once__ = true;
 				to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MMKEY_START));

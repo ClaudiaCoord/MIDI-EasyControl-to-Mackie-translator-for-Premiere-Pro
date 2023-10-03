@@ -18,9 +18,6 @@
     <ClCompile Include="cpp\dllmain.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi_utils.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\MidiControllerBase.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -45,15 +42,15 @@
     <ClCompile Include="cpp\MidiBridge.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="cpp\MidiDriver.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\global.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="EASYCTRL9Api.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\midi_utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\MidiControllerVirtual.h">
@@ -81,6 +78,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\MidiBridge.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\MidiDriver.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

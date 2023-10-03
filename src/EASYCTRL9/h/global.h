@@ -20,8 +20,11 @@
 class bridge_out_event;
 class bridge_in_event;
 
+#ifndef _LOAD_MIDIDRV_DYNAMIC
 #include "h\teVirtualMIDI.h"
-#include "h\midi_utils.h"
+#endif
+
+#include "h\MidiDriver.h"
 #include "h\MidiControllerBase.h"
 #include "h\bridge_out_event.h"
 #include "h\bridge_in_event.h"

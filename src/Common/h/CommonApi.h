@@ -36,6 +36,7 @@
 #include <forward_list>
 #include <utility>
 #include <format>
+#include <array>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include <atlbase.h>

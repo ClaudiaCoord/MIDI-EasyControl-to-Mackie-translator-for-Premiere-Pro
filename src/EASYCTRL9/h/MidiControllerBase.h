@@ -15,7 +15,7 @@
 namespace Common {
     namespace MIDI {
 
-        class FLAG_EXPORT MidiControllerBase
+        class MidiControllerBase
         {
         protected:
             bool isenable__;
@@ -26,10 +26,11 @@ namespace Common {
             std::wstring active_device__;
             std::vector<std::wstring> device_list__;
             ClassTypes this_type__;
+            std::shared_ptr<MidiDriver> mdrv__{};
 
             virtual bool BuildDeviceList(uint32_t&);
 
-            MidiControllerBase();
+            MidiControllerBase(std::shared_ptr<MidiDriver>);
         public:
 
             ~MidiControllerBase();

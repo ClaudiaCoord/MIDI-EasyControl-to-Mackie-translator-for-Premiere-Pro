@@ -20,6 +20,7 @@ namespace Common {
 
 		using namespace std::string_view_literals;
 
+		#pragma region strings view
 		constexpr std::wstring_view TargetNONE = L"not action defined"sv;
 
 		constexpr std::wstring_view TargetMAV = L"audio volume (master)"sv;
@@ -120,6 +121,7 @@ namespace Common {
 		constexpr std::wstring_view TargetMMKLeft = L"VOLUME MUTE"sv;
 		constexpr std::wstring_view TargetMMKRight = L"PAUSE"sv;
 
+		constexpr std::wstring_view TargetLightKey = L"Lighting DMX controls"sv;
 		constexpr std::wstring_view TargetMixer = L"System mixer volume/mute"sv;
 		constexpr std::wstring_view TargetMediaKey = L"System multimedia key"sv;
 		constexpr std::wstring_view TargetMqttKey = L"Smart House key (MQTT)"sv;
@@ -129,6 +131,7 @@ namespace Common {
 		constexpr std::wstring_view TypeClickTrigger = L"|Trigger|"sv;
 		constexpr std::wstring_view TypeClickSlider = L"ClickSlider"sv;
 		constexpr std::wstring_view TypeClickNONE = L"|none|"sv;
+		#pragma endregion
 
 		std::wstring_view getClickType(Mackie::ClickType t) {
 			switch (t) {
@@ -296,6 +299,7 @@ namespace Common {
 				case SYS_Zoom:		return IDM_COL4_SYS_Zoom;
 				case SYS_Scrub:		return IDM_COL4_SYS_Scrub;
 
+				case LIGHTKEY:		return IDM_COL4_LIGHTKEY;
 				case MQTTKEY:		return IDM_COL4_MQTTKEY;
 				case MEDIAKEY:		return IDM_COL4_MEDIAKEY;
 				case VOLUMEMIX:		return IDM_COL4_VOLUMEMIX;
@@ -393,6 +397,7 @@ namespace Common {
 				case SYS_Zoom: return TargetZoom;
 				case SYS_Scrub: return TargetScrub;
 
+				case LIGHTKEY: return TargetLightKey;
 				case MQTTKEY: return TargetMqttKey;
 				case MEDIAKEY: return TargetMediaKey;
 				case VOLUMEMIX: return TargetMixer;

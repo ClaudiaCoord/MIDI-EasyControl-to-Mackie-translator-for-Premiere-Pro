@@ -17,6 +17,7 @@
 #include "..\..\EASYCTRL9\EASYCTRL9Api.h"
 #include "..\..\MEDIAKEYS\MEDIAKEYSApi.h"
 #include "..\..\SMARTHOME\SMARTHOMEApi.h"
+#include "..\..\MIDIMTLIGHT\MIDIMTLIGHTApi.h"
 
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"

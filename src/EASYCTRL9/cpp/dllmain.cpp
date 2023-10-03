@@ -13,8 +13,9 @@
 #include "CommonApi.h"
 #pragma comment(lib, "MIDIMTLIB.lib")
 #pragma comment(lib, "winmm.lib")
+#ifndef _LOAD_MIDIDRV_DYNAMIC
 #pragma comment(lib, "tevirtualmidi.lib")
-
+#endif
 
 #ifdef __cplusplus
 extern "C" { void __cdecl CloseOnExit(); }

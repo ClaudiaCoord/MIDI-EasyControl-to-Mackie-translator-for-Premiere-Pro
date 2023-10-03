@@ -14,8 +14,9 @@
 
 namespace Common {
 
-    void common_timer::SetTimeout(int delay, std::function<void()> f) {
+    void common_timer::SetTimeout(int delay_, std::function<void()> f) {
         active__ = true;
+        delay = delay_;
         std::thread t([=]() {
             if (!active__.load()) return;
             std::this_thread::sleep_for(std::chrono::seconds(delay));
@@ -25,11 +26,12 @@ namespace Common {
         t.detach();
     }
 
-    void common_timer::SetInterval(int interval, std::function<void()> f) {
+    void common_timer::SetInterval(int interval_, std::function<void()> f) {
         active__ = true;
+        delay = interval_;
         std::thread t([=]() {
             while (active__.load()) {
-                std::this_thread::sleep_for(std::chrono::seconds(interval));
+                std::this_thread::sleep_for(std::chrono::seconds(delay));
                 if (!active__.load()) return;
                 f();
             }

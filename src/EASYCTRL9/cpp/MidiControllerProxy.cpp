@@ -15,16 +15,11 @@
 namespace Common {
 	namespace MIDI {
 
-		static MidiControllerProxy ctrl_midicontrollerproxy__;
-
-		MidiControllerProxy::MidiControllerProxy() {
+		MidiControllerProxy::MidiControllerProxy(std::shared_ptr<MidiDriver> drv) : MidiControllerBase(drv) {
 			this_type__ = ClassTypes::ClassVirtualMidi;
 		}
 		MidiControllerProxy::~MidiControllerProxy() {
 			Dispose();
-		}
-		MidiControllerProxy& MidiControllerProxy::Get() noexcept {
-			return std::ref(ctrl_midicontrollerproxy__);
 		}
 
 		const bool MidiControllerProxy::Start(std::shared_ptr<MidiDevice>& cnf) {
@@ -45,7 +40,7 @@ namespace Common {
 			for (uint32_t i = 0U; i < count; i++) {
 				try {
 					std::wstring dev = Utils::device_out_name(cnf.get()->name, MidiHelper::GetSuffixProxyOut() + std::to_wstring(i + 1));
-					std::shared_ptr<MidiControllerVirtual> vmidi = std::make_unique<MidiControllerVirtual>(dev);
+					std::shared_ptr<MidiControllerVirtual> vmidi = std::make_unique<MidiControllerVirtual>(mdrv__, dev);
 					if (!vmidi.get()->Start()) {
 						to_log::Get() << log_string().to_log_fomat(
 							__FUNCTIONW__,

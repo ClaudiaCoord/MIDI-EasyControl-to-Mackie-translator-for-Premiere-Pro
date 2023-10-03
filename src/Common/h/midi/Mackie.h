@@ -99,6 +99,7 @@ namespace Common {
 				SYS_Right,
 				SYS_Zoom,
 				SYS_Scrub,
+				LIGHTKEY = 251,
 				MQTTKEY = 252,
 				MEDIAKEY = 253,
 				VOLUMEMIX = 254,

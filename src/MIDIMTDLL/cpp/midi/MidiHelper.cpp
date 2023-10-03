@@ -20,6 +20,7 @@ namespace Common {
 
 		using namespace std::string_view_literals;
 
+		#pragma region strings view
 		constexpr std::wstring_view strMackieOut = L"-Mackie-Out"sv;
 		constexpr std::wstring_view strProxyOut = L"-Proxy-Out-"sv;
 
@@ -45,6 +46,7 @@ namespace Common {
 		constexpr std::wstring_view TypeClassNone = L"Class None"sv;
 
 		constexpr std::wstring_view SceneNONE = L"scene not in list"sv;
+		#pragma endregion
 
 		const std::wstring MidiHelper::GetSuffixMackieOut() {
 			return std::wstring(strMackieOut);
@@ -52,7 +54,6 @@ namespace Common {
 		const std::wstring MidiHelper::GetSuffixProxyOut() {
 			return std::wstring(strProxyOut);
 		}
-
 
 		std::wstring_view getClassTypes(ClassTypes t) {
 			switch (t) {

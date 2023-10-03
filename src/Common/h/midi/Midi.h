@@ -22,6 +22,7 @@ namespace Common {
             ClassMonitor,
             ClassMediaKey,
             ClassMqttKey,
+            ClassLightKey,
             ClassInMidi,
             ClassOutMidi,
             ClassOutMidiMackie,

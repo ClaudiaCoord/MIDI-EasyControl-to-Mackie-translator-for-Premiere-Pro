@@ -20,23 +20,45 @@ namespace Common {
         MidiBridge MidiBridge::ctrlmidibridge__;
 
         MidiBridge::MidiBridge() : isenable__(false), isproxy__(false) {
+            mdrv__ = std::shared_ptr<MidiDriver>(new MidiDriver());
+            min__ = std::unique_ptr<MidiControllerIn>(new MidiControllerIn(mdrv__));
+            mout__ = std::unique_ptr<MidiControllerOut>(new MidiControllerOut(mdrv__));
+            mproxy__ = std::unique_ptr<MidiControllerProxy>(new MidiControllerProxy(mdrv__));
         }
         MidiBridge::~MidiBridge() {
-            Dispose();
+            dispose_();
+            try {
+                min__.reset();
+                mout__.reset();
+                mproxy__.reset();
+                mdrv__.reset();
+            } catch (...) {}
         }
 
-        void MidiBridge::Dispose() {
+        void MidiBridge::dispose_() {
             try {
-                if (isproxy__) {
+                if (isproxy__ && mproxy__) {
+                    if (out_event__)
+                        out_event__->remove(*mproxy__.get());
+                    mproxy__->Stop();
                     isproxy__ = false;
-                    MidiControllerProxy::Get().Stop();
                 }
-                MidiControllerOut::Get().Stop();
-                MidiControllerIn::Get().Stop();
+                else if (isproxy__)
+                    isproxy__ = false;
 
-                in_event__->remove(MidiControllerIn::Get());
-                in_event__.reset();
-                out_event__.reset();
+                if (min__) min__->Stop();
+                if (in_event__) {
+                    if (min__)
+                        in_event__->remove(min__.get());
+                    in_event__.reset();
+                }
+
+                if (mout__) mout__->Stop();
+                if (out_event__) {
+                    if (mout__)
+                        out_event__->remove(mout__.get());
+                    out_event__.reset();
+                }
                 isenable__ = false;
             } catch (...) {}
         }
@@ -46,29 +68,34 @@ namespace Common {
         const bool MidiBridge::IsEnable() {
             return isenable__;
         }
+        const bool MidiBridge::CheckVirtualDriver() {
+            return mdrv__->Check();
+        }
         std::wstring MidiBridge::GetVirtualDriverVersion() {
-            do {
-                try {
-                    LPCWSTR v = midi_utils::Run_virtualMIDIGetDriverVersion();
-                    if (!CHECK_LPWSTRING(v)) break;
-                    return Utils::to_string(v);
-                } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
-            } while (0);
+            try {
+                LPCWSTR v = mdrv__->vGetDriverVersion();
+                if (!CHECK_LPWSTRING(v)) return L"";
+                return Utils::to_string(v);
+            } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
             return L"";
         }
 
-        bool loader_(Common::common_config& cconf, std::wstring& cnfpath) {
-            return cnfpath.empty() ? cconf.Load() : cconf.Load(cnfpath);
+        bool loader_(common_config& conf, std::wstring& confpath) {
+            return confpath.empty() ? conf.Load() : conf.Load(confpath);
         }
 
         const bool MidiBridge::Start(std::wstring cnfpath) {
             try {
-                Common::to_log& log_ = Common::to_log::Get();
-                Common::common_config& cconf = Common::common_config::Get();
-                if (!cconf.IsNewConfig()) {
-                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_NEW));
-                    if (cconf.IsConfig()) {
-                        if (cconf.IsConfigEmpty()) {
+                to_log& log = to_log::Get();
+                if (!mdrv__->Check()) {
+                    log << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_DRIVER));
+                    return false;
+                }
+                common_config& conf = common_config::Get();
+                if (!conf.IsNewConfig()) {
+                    log << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_NEW));
+                    if (conf.IsConfig()) {
+                        if (conf.IsConfigEmpty()) {
                             to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY));
                             return false;
                         }
@@ -77,15 +104,15 @@ namespace Common {
                     }
                 }
 
-                if (loader_(cconf, cnfpath)) {
-                    if (cconf.IsConfigEmpty()) {
+                if (loader_(conf, cnfpath)) {
+                    if (conf.IsConfigEmpty()) {
                         to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY));
                         return false;
                     }
-                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_LOAD));
+                    log << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_LOAD));
                     return start_();
                 } else {
-                    to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_FAIL));
+                    log << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_FAIL));
                 }
             } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
             return false;
@@ -103,51 +130,51 @@ namespace Common {
         }
         const bool MidiBridge::start__() {
             try {
-                Common::common_config& cconf = Common::common_config::Get();
-                std::shared_ptr<MidiDevice>& cnf = cconf.GetConfig();
+                common_config& conf = common_config::Get();
+                std::shared_ptr<MidiDevice>& cnf = conf.GetConfig();
                 if (cnf->IsEmpty()) return false;
 
                 out_event__.reset(new bridge_out_event(cnf));
-                out_event__->add(MidiControllerOut::Get());
-                if (cconf.IsProxy())
-                    out_event__->add(MidiControllerProxy::Get());
+                out_event__->add(*mout__.get());
 
                 in_event__.reset(new bridge_in_event(out_event__));
-                in_event__->add(MidiControllerIn::Get());
+                in_event__->add(*min__.get());
                 in_event__->IsJogSceneFilter(cnf->jogscenefilter);
 
                 do {
-                    if (!(isenable__ = MidiControllerIn::Get().Start(cnf))) break;
-                    if (!(isenable__ = MidiControllerOut::Get().Start(cnf))) break;
-                    if (cconf.IsProxy()) {
-                        if (!(isenable__ = MidiControllerProxy::Get().Start(cnf))) break;
-                        if (!(isproxy__ = (MidiControllerProxy::Get().GetProxyCount() > 0)))
-                            MidiControllerProxy::Get().Stop();
+                    if (!(isenable__ = min__->Start(cnf))) break;
+                    if (!(isenable__ = mout__->Start(cnf))) break;
+                    if (conf.IsProxy()) {
+                        if (!(isenable__ = mproxy__->Start(cnf))) break;
+                        if (!(isproxy__ = (mproxy__->GetProxyCount() > 0)))
+                            mproxy__->Stop();
+                        else
+                            out_event__->add(*mproxy__.get());
                     }
-                    Common::common_config::Get().Local.IsMidiBridgeRun(true);
+                    common_config::Get().Local.IsMidiBridgeRun(true);
                     return true;
                 } while (0);
             }
             catch (...) {
                 Utils::get_exception(std::current_exception(), __FUNCTIONW__);
             }
-            Dispose();
+            dispose_();
             return false;
         }
         const bool MidiBridge::Stop() {
-            Dispose();
-            Common::common_config::Get().Local.IsMidiBridgeRun(isenable__);
+            dispose_();
+            common_config::Get().Local.IsMidiBridgeRun(isenable__);
             return !isenable__;
         }
 
         std::vector<std::wstring>& MidiBridge::GetInputDeviceList() {
-            return MidiControllerIn::Get().GetReBuildDeviceList();
+            return min__->GetReBuildDeviceList();
         }
         std::vector<std::wstring>& MidiBridge::GetOutputDeviceList() {
-            return MidiControllerOut::Get().GetDeviceList();
+            return mout__->GetDeviceList();
         }
         std::vector<std::wstring>& MidiBridge::GetProxyDeviceList() {
-            return MidiControllerProxy::Get().GetDeviceList();
+            return mproxy__->GetDeviceList();
         }
 
         void MidiBridge::SetCallbackIn(MidiControllerBase& mcb) {

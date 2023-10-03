@@ -15,16 +15,15 @@
 namespace Common {
     namespace MIDI {
 
-        class FLAG_EXPORT MidiControllerProxy : public MidiControllerBase {
+        class MidiControllerProxy : public MidiControllerBase {
         private:
             const wchar_t* LogTag = L"MIDI proxy port ";
             std::vector<std::shared_ptr<MidiControllerVirtual>> vmdev_ptr__{};
 
         public:
 
-            MidiControllerProxy();
+            MidiControllerProxy(std::shared_ptr<MidiDriver>);
             ~MidiControllerProxy();
-            static MidiControllerProxy& Get() noexcept;
 
             virtual const bool Start(std::shared_ptr<MidiDevice>& cnf) override;
             virtual void Stop() override;

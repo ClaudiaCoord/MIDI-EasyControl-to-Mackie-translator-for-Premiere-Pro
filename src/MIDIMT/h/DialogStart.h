@@ -27,6 +27,13 @@ namespace Common {
 			void BuildDeviceComboBox(const std::wstring);
 			void BuildProxyComboBox(const uint32_t);
 			void BuildSmartHomeLogLevelComboBox(const int32_t);
+			void BuildDmxDevicesComboBox(const int32_t);
+			void BuildArtnetInterfacesComboBox(const std::wstring);
+
+			void ClearDmxConfig(HWND);
+			void ClearArtnetConfig(HWND);
+			void ShowDmxConfig(HWND, LIGHT::SerialPortConfig&);
+			void ShowArtnetConfig(HWND, LIGHT::ArtnetConfig&);
 
 			void SetConfigurationInfo(HWND, std::shared_ptr<Common::MIDI::MidiDevice>&, Common::common_config&);
 			void SetSliderInfo(HWND, uint32_t, uint32_t);
@@ -72,6 +79,14 @@ namespace Common {
 			void ChangeOnSmartHousePsk();
 			void ChangeOnSmartHouseCa();
 			void ChangeOnSmartHousePrefix();
+
+			void ChangeOnDmxPool();
+			void ChangeOnDmxEnable();
+			void ChangeOnDmxDevice();
+			void ChangeOnArtnetEnable();
+			void ChangeOnArtnetNetwork();
+			void ChangeOnArtnetPort();
+			void ChangeOnArtnetUniverse();
 
 			void EventLog(CbEventData*);
 			void EventMonitor(CbEventData*);

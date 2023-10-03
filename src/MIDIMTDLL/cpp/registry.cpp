@@ -29,6 +29,7 @@ namespace Common
 	static const wchar_t regMixerEnable[] = L"MixerEnable";
 	static const wchar_t regMMKeyEnable[] = L"MMKeyEnable";
 	static const wchar_t regSmartHomeEnable[] = L"SmartHomeEnable";
+	static const wchar_t regDMXPollEnable[] = L"DMXPollEnable";
 	static const wchar_t regMixerRightClick[] = L"MixerRightClick";
 	
 	static const wchar_t regUiCustomTheme[] = L"UiCustomTheme";
@@ -213,6 +214,9 @@ namespace Common
 	bool		 registry::GetMixerDupAppRemove() {
 		return getnumber_<bool>(regMixerDupAppRemove, false);
 	}
+	bool		 registry::GetDMXPollEnable() {
+		return getnumber_<bool>(regDMXPollEnable, true);
+	}
 	std::wstring registry::GetConfPath() {
 		return getstring_(HKEY_CURRENT_USER, regRoot, regConfigName);
 	}
@@ -301,6 +305,9 @@ namespace Common
 	}
 	void		 registry::SetLanguageId(int id) {
 		setnumber_(id, regLangId);
+	}
+	void		 registry::SetDMXPollEnable(bool b) {
+		setnumber_(b, regDMXPollEnable);
 	}
 	void		 registry::SetUiShowAppPath(bool b) {
 		setnumber_(b, regUiShowAppPath);

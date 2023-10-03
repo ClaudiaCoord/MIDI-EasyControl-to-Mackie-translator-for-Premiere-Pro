@@ -15,7 +15,7 @@
 namespace Common {
     namespace MIDI {
 
-        class FLAG_EXPORT MidiControllerOut : public MidiControllerBase {
+        class MidiControllerOut : public MidiControllerBase {
         private:
             const wchar_t* LogTag = L"MIDI Output ";
             bool ismanualport__;
@@ -23,13 +23,12 @@ namespace Common {
             std::unique_ptr <MidiControllerVirtual> vmdev_ptr__{};
 
             virtual bool BuildDeviceList(uint32_t&) override;
-            void Dispose(bool);
+            void dispose_(bool);
 
         public:
 
-            MidiControllerOut();
+            MidiControllerOut(std::shared_ptr<MidiDriver>);
             ~MidiControllerOut();
-            static MidiControllerOut& Get();
 
             virtual const bool Start(std::shared_ptr<MidiDevice>& cnf) override;
             virtual void Stop() override;

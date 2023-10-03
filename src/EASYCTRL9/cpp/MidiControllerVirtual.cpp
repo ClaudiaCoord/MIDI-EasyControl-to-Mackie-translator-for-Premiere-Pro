@@ -20,7 +20,7 @@ namespace Common {
 		/* NOT USED */
 		static void CALLBACK VP_MIDIDATA_CB(LPVM_MIDI_PORT, LPBYTE, DWORD, DWORD_PTR) {}
 
-		MidiControllerVirtual::MidiControllerVirtual(std::wstring& name) : midi_port__(nullptr) {
+		MidiControllerVirtual::MidiControllerVirtual(std::shared_ptr<MidiDriver> drv, std::wstring name) : midi_port__(nullptr), MidiControllerBase(drv) {
 			this_type__ = ClassTypes::ClassVirtualMidi;
 			active_device__ = name;
 			if (active_device__.empty())
@@ -34,9 +34,9 @@ namespace Common {
 			_set_se_translator(seh_exception_catch);
 			try {
 				if (midi_port__ != nullptr) {
-					midi_utils::Check_MMRESULT(
+					(void) mdrv__->CheckMMRESULT(
 						[&]() {
-							midi_utils::Run_virtualMIDIClosePort(midi_port__);
+						mdrv__->vClosePort(midi_port__);
 							return S_OK;
 						}, LogTag);
 					midi_port__ = nullptr;
@@ -55,11 +55,13 @@ namespace Common {
 		const bool MidiControllerVirtual::Start() {
 
 			if (isenable__) Dispose();
-
 			isenable__ = false;
+
+			if (!mdrv__ || !mdrv__->Check()) return false;
+
 			(void) ::GetLastError();
 
-			LPCWSTR v = midi_utils::Run_virtualMIDIGetDriverVersion();
+			LPCWSTR v = mdrv__->vGetDriverVersion();
 			if (v != nullptr)
 				to_log::Get() << log_string().to_log_fomat(
 					__FUNCTIONW__,
@@ -74,7 +76,7 @@ namespace Common {
 				);
 
 			(void) ::GetLastError();
-			midi_port__ = midi_utils::Run_virtualMIDICreatePortEx2(
+			midi_port__ = mdrv__->vCreatePortEx2(
 				active_device__.c_str(),
 				&VP_MIDIDATA_CB, 0
 			);
@@ -82,7 +84,7 @@ namespace Common {
 
 			std::wstring_view s{};
 			switch (err) {
-				case ERR_NOT_ERRORS: {
+				case MidiDriver::STAT::ERR_NOT_ERRORS: {
 					to_log::Get() << log_string().to_log_fomat(
 						__FUNCTIONW__,
 						common_error_code::Get().get_error(common_error_id::err_DEVICE_OPEN),
@@ -91,47 +93,47 @@ namespace Common {
 					isenable__ = (midi_port__ != nullptr);
 					return isenable__;
 				}
-				case ERR_PATH_NOT_FOUND: {
+				case MidiDriver::STAT::ERR_PATH_NOT_FOUND: {
 					s = L"Driver DLL - path not found"sv;
 					break;
 				}
-				case ERR_INVALID_HANDLE: {
+				case MidiDriver::STAT::ERR_INVALID_HANDLE: {
 					s = L"Invalid port handle"sv;
 					break;
 				}
-				case ERR_TOO_MANY_CMDS: {
+				case MidiDriver::STAT::ERR_TOO_MANY_CMDS: {
 					s = L"Too many commands"sv;
 					break;
 				}
-				case ERR_TOO_MANY_SESS: {
+				case MidiDriver::STAT::ERR_TOO_MANY_SESS: {
 					s = L"Too many sessions"sv;
 					break;
 				}
-				case ERR_INVALID_NAME: {
+				case MidiDriver::STAT::ERR_INVALID_NAME: {
 					s = L"Invalid name"sv;
 					break;
 				}
-				case ERR_MOD_NOT_FOUND: {
+				case MidiDriver::STAT::ERR_MOD_NOT_FOUND: {
 					s = L"Module not found"sv;
 					break;
 				}
-				case ERR_BAD_ARGUMENTS: {
+				case MidiDriver::STAT::ERR_BAD_ARGUMENTS: {
 					s = L"Bad arguments"sv;
 					break;
 				}
-				case ERR_ALREADY_EXISTS: {
+				case MidiDriver::STAT::ERR_ALREADY_EXISTS: {
 					s = L"Already exists"sv;
 					break;
 				}
-				case ERR_OLD_WIN_VERSION: {
+				case MidiDriver::STAT::ERR_OLD_WIN_VERSION: {
 					s = L"Old win version"sv;
 					break;
 				}
-				case ERR_REVISION_MISMATCH: {
+				case MidiDriver::STAT::ERR_REVISION_MISMATCH: {
 					s = L"Revision mismatch"sv;
 					break;
 				}
-				case ERR_ALIAS_EXISTS: {
+				case MidiDriver::STAT::ERR_ALIAS_EXISTS: {
 					s = L"Alias exists"sv;
 					break;
 				}
@@ -153,7 +155,7 @@ namespace Common {
 			try {
 				do {
 					if (midi_port__ == nullptr) break;
-					if (!midi_utils::Run_virtualMIDISendData(midi_port__, m.data, 3)) {
+					if (!mdrv__->vSendData(midi_port__, m.data, 3)) {
 						to_log::Get() << log_string().to_log_fomat(
 							__FUNCTIONW__,
 							common_error_code::Get().get_error(common_error_id::err_SEND_BAD_VALUES),

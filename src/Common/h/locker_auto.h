@@ -28,10 +28,10 @@ namespace Common {
     public:
 
         locker_auto() = delete;
-        locker_auto(std::shared_ptr<locker_awaiter>& a, LockType t = LockType::TypeLockWait) noexcept;
+        locker_auto(std::shared_ptr<locker_awaiter>& a, LockType t = LockType::TypeLockWait);
         ~locker_auto();
-        const bool IsCanceled() const noexcept;
-        const bool IsOnlyOne() const noexcept;
-        const bool Begin() noexcept;
+        const bool IsCanceled() const;
+        const bool IsOnlyOne() const;
+        const bool Begin();
     };
 }

@@ -25,12 +25,18 @@ namespace Common {
             bool isenable__;
             bool isproxy__;
 
+            std::shared_ptr<MidiDriver> mdrv__;
+
             std::unique_ptr<bridge_in_event> in_event__;
             std::unique_ptr<bridge_out_event> out_event__;
 
+            std::unique_ptr<MidiControllerIn> min__;
+            std::unique_ptr<MidiControllerOut> mout__;
+            std::unique_ptr<MidiControllerProxy> mproxy__;
+
             const bool start_();
             const bool start__();
-            void Dispose();
+            void dispose_();
 
         public:
 
@@ -40,6 +46,7 @@ namespace Common {
             FLAG_EXPORT static MidiBridge& Get();
 
             FLAG_EXPORT const bool IsEnable();
+            FLAG_EXPORT const bool CheckVirtualDriver();
             FLAG_EXPORT std::wstring GetVirtualDriverVersion();
 
             FLAG_EXPORT std::vector<std::wstring>& GetInputDeviceList();

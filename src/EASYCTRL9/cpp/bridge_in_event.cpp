@@ -45,6 +45,14 @@ namespace Common {
 		void bridge_in_event::remove(MidiInstance& mi) {
 			mi.InCallbackRemove();
 		}
+		void bridge_in_event::remove(MidiControllerBase* clz) {
+			if (!clz) return;
+			clz->InCallbackRemove();
+		}
+		void bridge_in_event::remove(MidiInstance* mi) {
+			if (!mi) return;
+			mi->InCallbackRemove();
+		}
 
 		void bridge_in_event::cbInCall(DWORD d1, DWORD d2) {
 			wb__.to_async(std::async(std::launch::async, [=](DWORD dw1, DWORD dw2) {

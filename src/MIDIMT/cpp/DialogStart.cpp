@@ -27,6 +27,8 @@ namespace Common {
 		static const int ids_on_mixer[] = { IDC_MIXER_FAST_VALUE, IDC_MIXER_OLD_VALUE, IDC_MIXER_DUPLICATE, IDC_MIXER_ENABLE };
 		static const int ids_on_mmkey[] = { IDC_MMKEY_ENABLE };
 		static const int ids_on_mqtt[]  = { IDC_MQTT_IPADDR, IDC_MQTT_PORT, IDC_MQTT_LOGIN, IDC_MQTT_PASS, IDC_MQTT_PSK, IDC_MQTT_ISSSL, IDC_MQTT_ISSELFSIGN, IDC_MQTT_CAOPEN, IDC_MQTT_PREFIX, IDC_MQTT_LOGLEVEL };
+		static const int ids_on_dmx[]   = { IDC_DMX_COMBO, IDC_DMX_POLL };
+		static const int ids_on_artnet[] = { IDC_ARTNET_PORT, IDC_ARTNET_UNIVERSE, IDC_ARTNET_COMBO };
 
 		DialogStart::DialogStart() {
 			mcb__.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
@@ -65,10 +67,25 @@ namespace Common {
 				auto& cnf = common_config::Get();
 				bool ismb = cnf.Local.IsMidiBridgeRun(),
 					 ismix = cnf.Local.IsAudioMixerRun(),
-					 ismkeys = cnf.Local.IsMMKeyesRun(),
+					 ismkeys = cnf.Local.IsMMKeysRun(),
 					 isconfig = cnf.IsNewConfig(),
-					 islog = to_log::Get().filelog();
+					 islog = to_log::Get().filelog(),
+					 isdriver = MIDI::MidiBridge::Get().CheckVirtualDriver();
 
+				if (isdriver) {
+					std::wstring ws = MIDI::MidiBridge::Get().GetVirtualDriverVersion();
+					::CheckDlgButton(hwnd, IDC_INFO_VMDRV_CHECK, CHECKBTN(!ws.empty()));
+					::SetDlgItemTextW(hwnd, IDC_INFO_VMDRV_VER, ws.c_str());
+					if (ws.empty())
+						mcb__.AddToLog(lang.GetString(IDS_DLG_MSG4));
+					else
+						mcb__.AddToLog(log_string() << lang.GetString(IDS_DLG_MSG10) << ws);
+				} else {
+					to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_DRIVER));
+					::CheckDlgButton(hwnd, IDC_INFO_VMDRV_CHECK, false);
+					::SetDlgItemTextW(hwnd, IDC_INFO_VMDRV_VER, L"-");
+					::SetDlgItemTextW(hwnd, IDC_GO_START, lang.GetString(IDS_DLG_MSG0).c_str());
+				}
 				if (isconfig) {
 					isconfig = cnf.Load();
 					if (!isconfig)
@@ -76,28 +93,21 @@ namespace Common {
 				}
 				
 				auto& config = cnf.GetConfig();
-				std::wstring ws = MIDI::MidiBridge::Get().GetVirtualDriverVersion();
-				::CheckDlgButton(hwnd, IDC_INFO_VMDRV_CHECK, CHECKBTN(!ws.empty()));
-				::SetDlgItemTextW(hwnd, IDC_INFO_VMDRV_VER, ws.c_str());
-				if (ws.empty())
-					mcb__.AddToLog(lang.GetString(IDS_DLG_MSG4));
-				else
-					mcb__.AddToLog(log_string() << lang.GetString(IDS_DLG_MSG10) << ws);
 
 				::CheckDlgButton(hwnd, IDC_AUTOBOOT_SYS, CHECKBTN(cnf.Registry.GetAutoRun()));
 				::CheckDlgButton(hwnd, IDC_AUTORUN_SYS, CHECKBTN(cnf.Registry.GetSysAutoStart()));
 
 				::CheckRadioButton(hwnd, IDC_START_RADIO1, IDC_START_RADIO2, CHECKRADIO(ismb, IDC_START_RADIO1, IDC_START_RADIO2));
-				::EnableWindow(GetDlgItem(hwnd, IDC_GO_START), (isconfig && !ismb));
+				::EnableWindow(GetDlgItem(hwnd, IDC_GO_START), ((isconfig && !ismb) || !isdriver));
 				::EnableWindow(GetDlgItem(hwnd, IDC_DIALOG_SAVE), false);
-
 
 				::CheckDlgButton(hwnd, IDC_MIXER_ENABLE,		CHECKBTN(cnf.Registry.GetMixerEnable()));
 				::CheckDlgButton(hwnd, IDC_MMKEY_ENABLE,		CHECKBTN(cnf.Registry.GetMMKeyEnable()));
 				::CheckDlgButton(hwnd, IDC_MIXER_RIGHT_CLICK,	CHECKBTN(cnf.Registry.GetMixerRightClick()));
 				::CheckDlgButton(hwnd, IDC_MIXER_FAST_VALUE,	CHECKBTN(cnf.Registry.GetMixerFastValue()));
-				::CheckDlgButton(hwnd, IDC_MIXER_OLD_VALUE,	CHECKBTN(cnf.Registry.GetMixerSetOldLevelValue()));
-				::CheckDlgButton(hwnd, IDC_MIXER_DUPLICATE,	CHECKBTN(cnf.Registry.GetMixerDupAppRemove()));
+				::CheckDlgButton(hwnd, IDC_MIXER_OLD_VALUE,		CHECKBTN(cnf.Registry.GetMixerSetOldLevelValue()));
+				::CheckDlgButton(hwnd, IDC_MIXER_DUPLICATE,		CHECKBTN(cnf.Registry.GetMixerDupAppRemove()));
+				::CheckDlgButton(hwnd, IDC_DMX_POLL,			CHECKBTN(cnf.Registry.GetDMXPollEnable()));
 
 				::CheckDlgButton(hwnd, IDC_WRITE_FILELOG,		CHECKBTN(islog));
 
@@ -154,16 +164,28 @@ namespace Common {
 			HWND hwnd = hwnd__.get();
 
 			try {
+				if (!MIDI::MidiBridge::Get().CheckVirtualDriver()) {
+					Gui::ShowHelpPage(IDD_FORMSTART, IDC_GO_START);
+					return;
+				}
+
 				const size_t sz_on_start = std::size(ids_on_start),
 							 sz_on_mixer = std::size(ids_on_mixer),
 							 sz_on_mmkey = std::size(ids_on_mmkey),
-							 sz_on_mqtt  = std::size(ids_on_mqtt);
-				std::vector<int> v(sz_on_start + sz_on_mixer + sz_on_mmkey + sz_on_mqtt + 1);
-				std::copy(&ids_on_start[0], &ids_on_start[sz_on_start], back_inserter(v));
-				std::copy(&ids_on_mixer[0], &ids_on_mixer[sz_on_mixer], back_inserter(v));
-				std::copy(&ids_on_mmkey[0], &ids_on_mmkey[sz_on_mmkey], back_inserter(v));
-				std::copy(&ids_on_mqtt[0],  &ids_on_mqtt[sz_on_mqtt],   back_inserter(v));
+							 sz_on_mqtt = std::size(ids_on_mqtt),
+							 sz_on_dmx = std::size(ids_on_dmx),
+							 sz_on_artnet = std::size(ids_on_artnet);
+					
+				std::vector<int> v(sz_on_start + sz_on_mixer + sz_on_mmkey + sz_on_mqtt + sz_on_dmx + sz_on_artnet + 3);
+				std::copy(&ids_on_start[0], &ids_on_start[sz_on_start],   back_inserter(v));
+				std::copy(&ids_on_mixer[0], &ids_on_mixer[sz_on_mixer],   back_inserter(v));
+				std::copy(&ids_on_mmkey[0], &ids_on_mmkey[sz_on_mmkey],   back_inserter(v));
+				std::copy(&ids_on_mqtt[0],  &ids_on_mqtt[sz_on_mqtt],     back_inserter(v));
+				std::copy(&ids_on_dmx[0],   &ids_on_dmx[sz_on_dmx],       back_inserter(v));
+				std::copy(&ids_on_artnet[0],&ids_on_artnet[sz_on_artnet], back_inserter(v));
 				v.push_back(IDC_MQTT_ENABLE);
+				v.push_back(IDC_DMX_ENABLE);
+				v.push_back(IDC_ARTNET_ENABLE);
 
 				for (int i : v)
 					Gui::SetControlEnable(hwnd, i, false);
@@ -186,12 +208,24 @@ namespace Common {
 				common_config& cnf = common_config::Get();
 				do {
 					if (cnf.IsStart()) break;
-					if (!cnf.IsConfig() || cnf.IsConfigEmpty()) {
-						if (!cnf.Load()) break;
+					if (!MIDI::MidiBridge::Get().CheckVirtualDriver()) {
+						to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_DRIVER));
+						break;
 					}
-					if (!cnf.IsConfig() || cnf.IsConfigEmpty()) break;
-					if (!cnf.Registry.GetAutoRun()) break;
-					if (!cnf.GetConfig()->autostart) break;
+					if (!cnf.IsConfig() || cnf.IsConfigEmpty()) {
+						if (!cnf.Load() || !cnf.IsConfig() || cnf.IsConfigEmpty()) {
+							to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_CONFIG_FAIL));
+							break;
+						}
+					}
+					if (!cnf.Registry.GetAutoRun()) {
+						to_log::Get() << LangInterface::Get().GetString(IDS_DLG_MSG15);
+						break;
+					}
+					if (!cnf.GetConfig()->autostart) {
+						to_log::Get() << LangInterface::Get().GetString(IDS_DLG_MSG11);
+						break;
+					}
 					Start();
 				} while (0);
 				
@@ -223,14 +257,17 @@ namespace Common {
 						return false;
 					}
 
-					if (!cnf.GetConfig()->autostart)
+					auto& conf = common_config::Get().GetConfig();
+					if (!conf->autostart)
 						log << lang.GetString(IDS_DLG_MSG11);
 
 					if (mb.Start(cnfname)) {
 
-						bool mix_enabled  = cnf.Registry.GetMixerEnable(),
-							 key_enabled  = cnf.Registry.GetMMKeyEnable(),
-							 mqtt_enabled = cnf.Registry.GetSmartHomeEnable();
+						bool mix_enabled   = cnf.Registry.GetMixerEnable(),
+							 key_enabled   = cnf.Registry.GetMMKeyEnable(),
+							 mqtt_enabled  = cnf.Registry.GetSmartHomeEnable(),
+							 light_enabled = (!conf->dmxconf.empty() && conf->dmxconf.enable) ||
+												(!conf->artnetconf.empty() && conf->artnetconf.enable);
 						
 						if (mix_enabled) {
 							MIXER::AudioSessionMixer& mix = MIXER::AudioSessionMixer::Get();
@@ -249,7 +286,6 @@ namespace Common {
 							MQTT::SmartHome& mqtt = MQTT::SmartHome::Get();
 							if (mqtt.Start()) {
 								mb.SetCallbackOut(mqtt);
-
 								worker_background::Get().to_async(std::async(std::launch::async, [=]() {
 									try {
 										auto& c = common_config::Get().GetConfig();
@@ -262,6 +298,11 @@ namespace Common {
 									} catch (...) {}
 								}));
 							}
+						}
+						if (light_enabled) {
+							LIGHT::LightBridge& lights = LIGHT::LightBridge::Get();
+							if (lights.Start())
+								mb.SetCallbackOut(lights);
 						}
 						std::wstring c = cnfname.empty() ? cnf.Registry.GetConfPath() : cnfname;
 						if (!c.empty())
@@ -292,7 +333,7 @@ namespace Common {
 					if (cnf.Registry.GetMixerSetOldLevelValue())
 						(void) cnf.Save();
 				}
-				if (cnf.Local.IsMMKeyesRun()) {
+				if (cnf.Local.IsMMKeysRun()) {
 					Common::MMKey::MMKBridge& mkey = MMKey::MMKBridge::Get();
 					mb.RemoveCallbackOut(mkey);
 					mkey.Stop();
@@ -301,6 +342,11 @@ namespace Common {
 					MQTT::SmartHome& mqtt = MQTT::SmartHome::Get();
 					mb.RemoveCallbackOut(mqtt);
 					mqtt.Stop();
+				}
+				if (cnf.Local.IsLightsRun()) {
+					LIGHT::LightBridge& lights = LIGHT::LightBridge::Get();
+					mb.RemoveCallbackOut(lights);
+					lights.Stop();
 				}
 				to_log::Get().flush();
 			} catch (...) {
@@ -678,6 +724,7 @@ namespace Common {
 				}
 				auto& conf = common_config::Get().GetConfig();
 				conf->mqttconf.loglevel = val;
+				Gui::SaveConfigEnabled(hwnd);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -849,6 +896,164 @@ namespace Common {
 
 		///
 
+		void DialogStart::ChangeOnDmxPool() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				common_config::Get().Registry.SetDMXPollEnable(
+					Gui::GetControlChecked(hwnd, IDC_DMX_POLL)
+				);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnDmxEnable() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				bool b = Gui::GetControlChecked(hwnd, IDC_DMX_ENABLE);
+				common_config::Get().GetConfig()->dmxconf.enable = b;
+				for (int i : ids_on_dmx)
+					Gui::SetControlEnable(hwnd, i, b);
+				Gui::SaveConfigEnabled(hwnd);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnDmxDevice() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+				HWND hwcb = ::GetDlgItem(hwnd, IDC_DMX_COMBO);
+				if (hwcb == nullptr) return;
+
+				int32_t idx = static_cast<int32_t>(::SendMessageW(hwcb, CB_GETCURSEL, 0, 0));
+				if (idx == CB_ERR) return;
+				if (idx == 0) {
+					ClearDmxConfig(hwnd);
+					return;
+				}
+
+				idx--;
+				auto f = std::async(std::launch::async, [=](int32_t idx_, LIGHT::SerialPortConfig lcfg_) -> LIGHT::SerialPortConfig& {
+					try {
+						LIGHT::SerialPortConfig& cfg = LIGHT::LightBridge::Get().GetDivices().get(idx_);
+						if (!cfg.empty())
+							common_config::Get().GetConfig()->dmxconf.Copy(cfg);
+						return cfg;
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+					return std::ref(lcfg_);
+				}, idx, LIGHT::SerialPortConfig());
+
+				try {
+					LIGHT::SerialPortConfig& cfg = f.get();
+					if (cfg.empty()) {
+						ClearDmxConfig(hwnd);
+						return;
+					}
+					ShowDmxConfig(hwnd, cfg);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				Gui::SaveConfigEnabled(hwnd);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnArtnetEnable() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				bool b = Gui::GetControlChecked(hwnd, IDC_ARTNET_ENABLE);
+				common_config::Get().GetConfig()->artnetconf.enable = b;
+				for (int i : ids_on_artnet)
+					Gui::SetControlEnable(hwnd, i, b);
+				Gui::SaveConfigEnabled(hwnd);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnArtnetNetwork() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+				HWND hwcb = ::GetDlgItem(hwnd, IDC_ARTNET_COMBO);
+				if (hwcb == nullptr) return;
+
+				int32_t idx = static_cast<int32_t>(::SendMessageW(hwcb, CB_GETCURSEL, 0, 0));
+				if (idx == CB_ERR) return;
+				if (idx == 0) {
+					ClearArtnetConfig(hwnd);
+					return;
+				}
+
+				idx--;
+				auto f = std::async(std::launch::async, [=](int32_t idx_, LIGHT::ArtnetConfig lcfg_) -> LIGHT::ArtnetConfig& {
+					try {
+						LIGHT::ArtnetConfig& cfg = LIGHT::LightBridge::Get().GetInterfaces().get(idx_);
+						if (!cfg.empty())
+							common_config::Get().GetConfig()->artnetconf.Copy(cfg);
+						return cfg;
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+					return std::ref(lcfg_);
+				}, idx, LIGHT::ArtnetConfig());
+
+				try {
+					LIGHT::ArtnetConfig& cfg = f.get();
+					if (cfg.empty()) {
+						ClearArtnetConfig(hwnd);
+						return;
+					}
+					ShowArtnetConfig(hwnd, cfg);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				Gui::SaveConfigEnabled(hwnd);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnArtnetPort() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				auto txt = Gui::GetControlText(hwnd, IDC_ARTNET_PORT);
+				if (txt.empty() || !std::all_of(txt.begin(), txt.end(), ::isdigit)) return;
+
+				common_config::Get().GetConfig()->artnetconf.port = std::stoul(txt);
+				Gui::SaveConfigEnabled(hwnd);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ChangeOnArtnetUniverse() {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				auto txt = Gui::GetControlText(hwnd, IDC_ARTNET_UNIVERSE);
+				if (txt.empty() || !std::all_of(txt.begin(), txt.end(), ::isdigit)) return;
+
+				common_config::Get().GetConfig()->artnetconf.universe = std::stoul(txt);
+				Gui::SaveConfigEnabled(hwnd);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		///
+
 		void DialogStart::OpenDragAndDrop(std::wstring s) {
 			if (s.empty() || !hwnd__) return;
 			HWND hwnd = hwnd__.get();
@@ -966,6 +1171,169 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void DialogStart::BuildDmxDevicesComboBox(const int32_t p) {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				HWND hwcb = ::GetDlgItem(hwnd, IDC_DMX_COMBO);
+				if (hwcb == nullptr) return;
+
+				ComboBox_ResetContent(hwcb);
+
+				auto f = std::async(std::launch::async, [=](LIGHT::SerialPortConfigs lcfg_) -> LIGHT::SerialPortConfigs& {
+					try {
+						return LIGHT::LightBridge::Get().GetDivices(true);
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+					return std::ref(lcfg_);
+				}, LIGHT::SerialPortConfigs());
+
+				try {
+					LIGHT::SerialPortConfigs& v = f.get();
+					if (v.empty()) {
+						ComboBox_AddString(hwcb, LangInterface::Get().GetString(IDS_DLG_DMX_NODEV).c_str());
+						::EnableWindow(hwcb, false);
+					} else {
+						ComboBox_AddString(hwcb, LangInterface::Get().GetString(IDS_DLG_DMX_SELDEV).c_str());
+						std::wstring selected{};
+						for (auto& i : v.get()) {
+							log_string ls;
+							ls << L"COM" << i.port << L" : " << i.name.c_str();
+							if ((p > 0) && (i.port == p)) {
+								selected = ls.str();
+								ComboBox_AddString(hwcb, selected.c_str());
+							} else
+								ComboBox_AddString(hwcb, ls.str().c_str());
+						}
+						if (!selected.empty())
+							ComboBox_SelectString(hwcb, 0, selected.c_str());
+						else
+							ComboBox_SetCurSel(hwcb, 0);
+						::EnableWindow(hwcb, true);
+					}
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::BuildArtnetInterfacesComboBox(const std::wstring s) {
+			try {
+				if (!hwnd__) return;
+				HWND hwnd = hwnd__.get();
+
+				HWND hwcb = ::GetDlgItem(hwnd, IDC_ARTNET_COMBO);
+				if (hwcb == nullptr) return;
+
+				ComboBox_ResetContent(hwcb);
+
+				auto f = std::async(std::launch::async, [=](LIGHT::ArtnetConfigs lcfg_) -> LIGHT::ArtnetConfigs& {
+					try {
+						return LIGHT::LightBridge::Get().GetInterfaces(true);
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+					return std::ref(lcfg_);
+				}, LIGHT::ArtnetConfigs());
+
+				try {
+					LIGHT::ArtnetConfigs& v = f.get();
+					if (v.empty()) {
+						ComboBox_AddString(hwcb, LangInterface::Get().GetString(IDS_DLG_ARTNET_NOINT).c_str());
+						::EnableWindow(hwcb, false);
+					} else {
+						ComboBox_AddString(hwcb, LangInterface::Get().GetString(IDS_DLG_ARTNET_SELINT).c_str());
+						for (auto& i : v.get())
+							ComboBox_AddString(hwcb, i.broadcast.c_str());
+						if (!s.empty())
+							ComboBox_SelectString(hwcb, 0, s.c_str());
+						else
+							ComboBox_SetCurSel(hwcb, 0);
+						::EnableWindow(hwcb, true);
+					}
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void DialogStart::ShowDmxConfig(HWND hwnd, LIGHT::SerialPortConfig& dmxconf) {
+			try {
+				bool valid = !dmxconf.empty();
+				if (valid)
+					::CheckDlgButton(hwnd, IDC_DMX_ENABLE, CHECKBTN(dmxconf.enable));
+				else
+					::CheckDlgButton(hwnd, IDC_DMX_ENABLE, CHECKBTN(false));
+
+				::SetDlgItemTextW(hwnd, IDC_DMX_COM_NAME,
+					(!valid || dmxconf.name.empty()) ? L"-" : dmxconf.name.c_str()
+				);
+				::SetDlgItemTextW(hwnd, IDC_DMX_COM_BAUDRATE,
+					valid ? std::to_wstring(dmxconf.baudrate).c_str() : L"-"
+				);
+				::SetDlgItemTextW(hwnd, IDC_DMX_COM_STOPBITS,
+					valid ? std::to_wstring(dmxconf.stop_bits).c_str() : L"-"
+				);
+				::SetDlgItemTextW(hwnd, IDC_DMX_COM_TIMEOUT,
+					valid ? std::to_wstring(dmxconf.timeout).c_str() : L"-"
+				);
+				if (valid && dmxconf.port > 0) {
+					log_string ls;
+					ls << L"COM" << dmxconf.port;
+					::SetDlgItemTextW(hwnd, IDC_DMX_COM_PORT, ls.str().c_str());
+				} else {
+					::SetDlgItemTextW(hwnd, IDC_DMX_COM_PORT, L"-");
+				}
+				for (int i : ids_on_dmx)
+					Gui::SetControlEnable(hwnd, i, dmxconf.enable);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ShowArtnetConfig(HWND hwnd, LIGHT::ArtnetConfig& artnetconf) {
+			try {
+				bool valid = !artnetconf.empty();
+				if (valid)
+					::CheckDlgButton(hwnd, IDC_ARTNET_ENABLE, CHECKBTN(artnetconf.enable));
+				else
+					::CheckDlgButton(hwnd, IDC_ARTNET_ENABLE, CHECKBTN(false));
+
+				::SetDlgItemTextW(hwnd, IDC_ARTNET_PORT,
+					valid ? std::to_wstring(artnetconf.port).c_str() : L"-"
+				);
+				::SetDlgItemTextW(hwnd, IDC_ARTNET_UNIVERSE,
+					valid ? std::to_wstring(artnetconf.universe).c_str() : L"-"
+				);
+				::SetDlgItemTextW(hwnd, IDC_ARTNET_IP,
+					(!valid || artnetconf.ip.empty()) ? L"-" : artnetconf.ip.c_str()
+				);
+				::SetDlgItemTextW(hwnd, IDC_ARTNET_MASK,
+					(!valid || artnetconf.mask.empty()) ? L"-" : artnetconf.mask.c_str()
+				);
+				::SetDlgItemTextW(hwnd, IDC_ARTNET_BCAST,
+					(!valid || artnetconf.broadcast.empty()) ? L"-" : artnetconf.broadcast.c_str()
+				);
+				for (int i : ids_on_artnet)
+					Gui::SetControlEnable(hwnd, i, artnetconf.enable);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::ClearDmxConfig(HWND hwnd) {
+			LIGHT::SerialPortConfig lcfg = LIGHT::SerialPortConfig();
+			ShowDmxConfig(hwnd, lcfg);
+		}
+		void DialogStart::ClearArtnetConfig(HWND hwnd) {
+			LIGHT::ArtnetConfig lcfg = LIGHT::ArtnetConfig();
+			ShowArtnetConfig(hwnd, lcfg);
+		}
 
 		void DialogStart::SetConfigurationInfo(HWND hwnd, std::shared_ptr<Common::MIDI::MidiDevice>& config, Common::common_config& cnf) {
 
@@ -1028,6 +1396,13 @@ namespace Common {
 			}
 			if (cnf.IsConfig() && !cnf.IsConfigEmpty())
 				::EnableWindow(GetDlgItem(hwnd, IDC_GO_START), true);
+
+
+			BuildDmxDevicesComboBox(config->dmxconf.port);
+			BuildArtnetInterfacesComboBox(config->artnetconf.broadcast);
+
+			ShowDmxConfig(hwnd, config->dmxconf);
+			ShowArtnetConfig(hwnd, config->artnetconf);
 		}
 		void DialogStart::SetSliderInfo(HWND hwnd, uint32_t id, uint32_t pos) {
 			::SetDlgItemTextW(hwnd, id, std::wstring(std::to_wstring(pos)).c_str());

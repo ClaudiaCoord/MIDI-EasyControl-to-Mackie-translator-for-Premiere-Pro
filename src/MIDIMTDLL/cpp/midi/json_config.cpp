@@ -46,7 +46,23 @@ namespace Common {
 		constexpr wchar_t FIELD_MQTT_CAPATH[] = L"certcapath";
 		constexpr wchar_t FIELD_MQTT_SSIGN[] = L"selfsigned";
 		constexpr wchar_t FIELD_MQTT_LLEVEL[] = L"loglevel";
-		
+
+		constexpr wchar_t FIELD_LIGHTS[] = L"lights";
+		constexpr wchar_t FIELD_LIGHTS_ENABLE[] = L"enable";
+		constexpr wchar_t FIELD_LIGHTS_DMX[] = L"dmx";
+		constexpr wchar_t FIELD_LIGHTS_DMX_PORT[] = L"port";
+		constexpr wchar_t FIELD_LIGHTS_DMX_BAUDRATE[] = L"baudrate";
+		constexpr wchar_t FIELD_LIGHTS_DMX_STOPBITS[] = L"stopbits";
+		constexpr wchar_t FIELD_LIGHTS_DMX_TIMEOUT[] = L"timeout";
+		constexpr wchar_t FIELD_LIGHTS_DMX_NAME[] = L"name";
+
+		constexpr wchar_t FIELD_LIGHTS_ARTNET[] = L"artnet";
+		constexpr wchar_t FIELD_LIGHTS_ARTNET_PORT[] = L"port";
+		constexpr wchar_t FIELD_LIGHTS_ARTNET_UNIVERSE[] = L"universe";
+		constexpr wchar_t FIELD_LIGHTS_ARTNET_IP[] = L"ip";
+		constexpr wchar_t FIELD_LIGHTS_ARTNET_MASK[] = L"mask";
+		constexpr wchar_t FIELD_LIGHTS_ARTNET_BROADCAST[] = L"broadcast";
+
 		bool json_config::Read(MidiDevice* md, std::wstring cnfpath)
 		{
 			try {
@@ -134,6 +150,31 @@ namespace Common {
 						md->mqttconf.isselfsigned = mdata.Get<bool>(FIELD_MQTT_SSIGN, true);
 					}
 
+					xobject ldata = rjson.Get<xobject>(FIELD_LIGHTS);
+					if (ldata.Count() > 0) {
+						ldata.Enter(0);
+						xobject dmx = ldata.Get<xobject>(FIELD_LIGHTS_DMX);
+						if (dmx.Count() > 0) {
+							dmx.Enter(0);
+							md->dmxconf.enable = dmx.Get<bool>(FIELD_LIGHTS_ENABLE, false);
+							md->dmxconf.port = dmx.Get<int32_t>(FIELD_LIGHTS_DMX_PORT, -1);
+							md->dmxconf.baudrate = dmx.Get<uint32_t>(FIELD_LIGHTS_DMX_BAUDRATE, 250000U);
+							md->dmxconf.stop_bits = dmx.Get<int>(FIELD_LIGHTS_DMX_STOPBITS, 2);
+							md->dmxconf.timeout = dmx.Get<int>(FIELD_LIGHTS_DMX_TIMEOUT, 5);
+							md->dmxconf.name = dmx.Get<std::wstring>(FIELD_LIGHTS_DMX_NAME, L"");
+						}
+						xobject artnet = ldata.Get<xobject>(FIELD_LIGHTS_ARTNET);
+						if (artnet.Count() > 0) {
+							artnet.Enter(0);
+							md->artnetconf.enable = artnet.Get<bool>(FIELD_LIGHTS_ENABLE, false);
+							md->artnetconf.port = artnet.Get<uint32_t>(FIELD_LIGHTS_ARTNET_PORT, 0x1936);
+							md->artnetconf.universe = artnet.Get<uint32_t>(FIELD_LIGHTS_ARTNET_UNIVERSE, 1U);
+							md->artnetconf.ip = artnet.Get<std::wstring>(FIELD_LIGHTS_ARTNET_IP, L"");
+							md->artnetconf.mask = artnet.Get<std::wstring>(FIELD_LIGHTS_ARTNET_MASK, L"");
+							md->artnetconf.broadcast = artnet.Get<std::wstring>(FIELD_LIGHTS_ARTNET_BROADCAST, L"");
+						}
+					}
+
 					xarray cdata = rjson.Get<xarray>(FIELD_UNITS);
 					size_t cnt1 = cdata.Count();
 					if (cnt1 <= 0) {
@@ -187,8 +228,7 @@ namespace Common {
 			return false;
 		}
 
-		bool json_config::Write(MidiDevice* md, std::wstring cnfpath, bool issetreg)
-		{
+		bool json_config::Write(MidiDevice* md, std::wstring cnfpath, bool issetreg) {
 			try {
 				do {
 					if ((md == nullptr) || md->name.empty()) break;
@@ -223,6 +263,31 @@ namespace Common {
 						mjson[FIELD_MQTT_ISSSL].Set<bool>(md->mqttconf.isssl);
 						mjson[FIELD_MQTT_SSIGN].Set<bool>(md->mqttconf.isselfsigned);
 						rjson[FIELD_MQTT].Set(std::move(mjson));
+					}
+
+					if (!md->dmxconf.empty() || !md->artnetconf.empty()) {
+						TinyJson ljson{};
+						if (!md->dmxconf.empty()) {
+							TinyJson dmxjson;
+							dmxjson[FIELD_LIGHTS_ENABLE].Set<bool>(md->dmxconf.enable);
+							dmxjson[FIELD_LIGHTS_DMX_PORT].Set(md->dmxconf.port);
+							dmxjson[FIELD_LIGHTS_DMX_BAUDRATE].Set(md->dmxconf.baudrate);
+							dmxjson[FIELD_LIGHTS_DMX_STOPBITS].Set<int>(md->dmxconf.stop_bits);
+							dmxjson[FIELD_LIGHTS_DMX_TIMEOUT].Set<int>(md->dmxconf.timeout);
+							dmxjson[FIELD_LIGHTS_DMX_NAME].Set(md->dmxconf.name.c_str());
+							ljson[FIELD_LIGHTS_DMX].Set(std::move(dmxjson));
+						}
+						if (!md->artnetconf.empty()) {
+							TinyJson artjson;
+							artjson[FIELD_LIGHTS_ENABLE].Set<bool>(md->artnetconf.enable);
+							artjson[FIELD_LIGHTS_ARTNET_PORT].Set(md->artnetconf.port);
+							artjson[FIELD_LIGHTS_ARTNET_UNIVERSE].Set(md->artnetconf.universe);
+							artjson[FIELD_LIGHTS_ARTNET_IP].Set(md->artnetconf.ip.c_str());
+							artjson[FIELD_LIGHTS_ARTNET_MASK].Set(md->artnetconf.mask.c_str());
+							artjson[FIELD_LIGHTS_ARTNET_BROADCAST].Set(md->artnetconf.broadcast.c_str());
+							ljson[FIELD_LIGHTS_ARTNET].Set(std::move(artjson));
+						}
+						rjson[FIELD_LIGHTS].Set(std::move(ljson));
 					}
 
 					for (auto& unit : md->units) {

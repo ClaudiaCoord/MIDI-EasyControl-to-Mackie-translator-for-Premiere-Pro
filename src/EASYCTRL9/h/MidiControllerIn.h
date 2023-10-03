@@ -15,7 +15,7 @@
 namespace Common {
     namespace MIDI {
 
-        class FLAG_EXPORT MidiControllerIn : public MidiControllerBase {
+        class MidiControllerIn : public MidiControllerBase {
         private:
             const wchar_t* LogTag = L"MIDI Input ";
             HMIDIIN midi_in_handle__;
@@ -24,9 +24,8 @@ namespace Common {
 
         public:
 
-            MidiControllerIn();
+            MidiControllerIn(std::shared_ptr<MidiDriver>);
             ~MidiControllerIn();
-            static MidiControllerIn& Get() noexcept;
 
             virtual const bool Start(std::shared_ptr<MidiDevice>& cnf) override;
             virtual void Stop() override;

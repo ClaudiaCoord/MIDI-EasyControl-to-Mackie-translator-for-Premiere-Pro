@@ -222,11 +222,11 @@ namespace Common {
 		audiomixerrun_ = b;
 	}
 
-	const bool		common_config_local::IsMMKeyesRun() {
-		return mmkeyesrun_;
+	const bool		common_config_local::IsMMKeysRun() {
+		return mmkeysrun_;
 	}
-	void			common_config_local::IsMMKeyesRun(bool b) {
-		mmkeyesrun_ = b;
+	void			common_config_local::IsMMKeysRun(bool b) {
+		mmkeysrun_ = b;
 	}
 
 	const bool		common_config_local::IsSmartHomeRun() {
@@ -234,5 +234,12 @@ namespace Common {
 	}
 	void			common_config_local::IsSmartHomeRun(bool b) {
 		smarthomerun_ = b;
+	}
+
+	const bool		common_config_local::IsLightsRun() {
+		return lightsrun_;
+	}
+	void			common_config_local::IsLightsRun(bool b) {
+		lightsrun_ = b;
 	}
 }

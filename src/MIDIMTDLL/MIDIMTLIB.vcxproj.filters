@@ -22,6 +22,18 @@
     <Filter Include="Файлы заголовков\globals">
       <UniqueIdentifier>{3a665af4-17a8-4d80-bd3a-940ad2b957dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\light">
+      <UniqueIdentifier>{c19a8645-e832-4b3f-8e7f-91276626a018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\light">
+      <UniqueIdentifier>{22626ea7-b8bc-489e-a73f-0a13a3b131ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\mqtt">
+      <UniqueIdentifier>{f2f01b63-5077-4875-b0a2-407d9f8ee72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\mqtt">
+      <UniqueIdentifier>{892ceceb-5673-4ade-bd33-276eeb808137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -75,9 +87,6 @@
     <ClInclude Include="..\Common\h\handle_ptr.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\h\common_error.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -114,6 +123,21 @@
     <ClInclude Include="..\Common\h\CommonApi.h">
       <Filter>Файлы заголовков\globals</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h">
+      <Filter>Файлы заголовков\mqtt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\light\ArtnetPacket.h">
+      <Filter>Файлы заголовков\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\light\DMXPacket.h">
+      <Filter>Файлы заголовков\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\light\DMXSerialPortConfig.h">
+      <Filter>Файлы заголовков\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\light\ArtnetInterfaceConfig.h">
+      <Filter>Файлы заголовков\light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -135,9 +159,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\json_recent.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\mqtt\BrokerConfig.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\log_string.cpp">
@@ -178,6 +199,21 @@
     </ClCompile>
     <ClCompile Include="cpp\midi\MidiInstance.cpp">
       <Filter>Исходные файлы\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\mqtt\BrokerConfig.cpp">
+      <Filter>Исходные файлы\mqtt</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\ArtnetPacket.cpp">
+      <Filter>Исходные файлы\light</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\DMXPacket.cpp">
+      <Filter>Исходные файлы\light</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\DMXSerialPortConfig.cpp">
+      <Filter>Исходные файлы\light</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\ArtnetInterfaceConfig.cpp">
+      <Filter>Исходные файлы\light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

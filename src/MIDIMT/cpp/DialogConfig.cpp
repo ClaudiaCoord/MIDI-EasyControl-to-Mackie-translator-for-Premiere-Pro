@@ -381,12 +381,17 @@ namespace Common {
 						case 5: {
 							wn = std::to_wstring(static_cast<uint32_t>(last__->unit.longtarget));
 							switch (last__->unit.target) {
-								case MIDI::Mackie::Target::MEDIAKEY: {
+								using enum MIDI::Mackie::Target;
+								case MEDIAKEY: {
 									ws = MIDI::MackieHelper::GetTranslateMMKey(last__->unit.longtarget);
 									break;
 								}
-								case MIDI::Mackie::Target::MQTTKEY: {
+								case MQTTKEY: {
 									ws = lang.GetString(MIDI::MackieHelper::GetSmartHomeTargetID(last__->unit.longtarget));
+									break;
+								}
+								case LIGHTKEY: {
+									ws = lang.GetString(IDS_DLG_MSG16);
 									break;
 								}
 								default:{
@@ -617,13 +622,13 @@ namespace Common {
 			try {
 				common_config& cnf = common_config::Get();
 				LangInterface& lang = LangInterface::Get();
-				bool mainsave = !confpath__.empty() &&
+				bool extsave = !confpath__.empty() &&
 					(::MessageBoxW(0,
 						log_string::format(lang.GetString(IDS_DLG_MSG14), confpath__).c_str(),
 						lang.GetString(IDS_START_EXT_FILTER).c_str(),
 						MB_YESNO | MB_ICONQUESTION) == IDYES);
 
-				if (!mainsave) {
+				if (!extsave) {
 					if (!lv__->ListViewGetList(cnf.Get().GetConfig())) return;
 					(void) cnf.Save();
 				} else {
