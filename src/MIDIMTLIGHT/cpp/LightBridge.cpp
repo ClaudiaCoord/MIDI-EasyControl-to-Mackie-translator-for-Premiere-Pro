@@ -30,15 +30,30 @@ namespace Common {
 			dmxport__ = std::unique_ptr<DMXSerial>(new DMXSerial(std::bind(&LightBridge::getDMXPacket_, this)));
 		}
 		LightBridge::~LightBridge() {
-			lock__->reset();
-			lock__.reset();
-			artnet__.reset();
-			dmxport__.reset();
+			try {
+				lock__->reset();
+				lock__.reset();
+				artnet__.reset();
+				dmxport__.reset();
+			} catch (...) {}
 		}
 
 		DMXPacket LightBridge::getDMXPacket_() {
 			if (lock__->IsLock()) return DMXPacket();
 			return dmx_packet__;
+		}
+
+		void LightBridge::BlackOut(bool b) {
+			dmx_packet__.set_blackout(b);
+		}
+		bool LightBridge::IsBlackOut() {
+			return dmx_packet__.is_blackout();
+		}
+		void LightBridge::DmxPause(bool b) {
+			dmx_pause__ = b;
+		}
+		bool LightBridge::IsDmxPause() {
+			return dmx_pause__.load();
 		}
 
 		bool LightBridge::Start() {
@@ -145,8 +160,13 @@ namespace Common {
 			try {
 				std::thread t([=]() {
 					dmx_pool_active__ = true;
+					const long tm = (dmxport__->IsRun() && artnet__->IsRun()) ? 50 : 75;
 					while (dmx_pool_active__) {
 						try {
+							if (dmx_pause__) {
+								std::this_thread::sleep_for(std::chrono::milliseconds(100));
+								continue;
+							}
 							std::vector<byte> v = dmx_packet__.create();
 							if (!dmx_pool_active__) break;
 							if (dmxport__->IsRun()) (void) dmxport__->Send(v);
@@ -156,8 +176,7 @@ namespace Common {
 						} catch (...) {
 							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 						}
-						std::this_thread::sleep_for(std::chrono::milliseconds(90));
-						if (!dmx_pool_active__) break;
+						std::this_thread::sleep_for(std::chrono::milliseconds(tm));
 					}
 				});
 				t.detach();
@@ -209,7 +228,7 @@ namespace Common {
 				}
 				#endif
 
-				if (dmx_pool_active__) return true;
+				if (dmx_pool_active__ || dmx_pause__) return true;
 
 				if (locker.IsCanceled()) return true;
 				if (dmxport__->IsRun()) r = dmxport__->Send(dmx_packet__, ((val == 255U) || (val == 0U)));

@@ -23,8 +23,9 @@ namespace Common {
 		common_timer t__{};
 		std::forward_list<pairWorkerCb> list__;
 
-		void worker();
-		void pack();
+		void dispose_();
+		void worker_();
+		void pack_();
 
     public:
 		worker_background();

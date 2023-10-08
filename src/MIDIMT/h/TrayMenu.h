@@ -14,8 +14,8 @@ namespace Common {
 		class TrayMenu {
 
 			GuiImageStateButton<HBITMAP> icons__;
-			void dispose();
-			void setitem(HMENU, uint16_t, uint16_t, bool, bool);
+			void dispose_();
+			void setitem_(HMENU, uint16_t, uint16_t, bool, bool);
 		public:
 			TrayMenu();
 			~TrayMenu();

@@ -19,7 +19,7 @@ namespace Common {
         {
         private:
             std::shared_ptr<MidiDevice>& cnf__;
-            Common::common_event<MidiInstance> event__;
+            common_event<MidiInstance> event__;
 
         public:
 
@@ -30,13 +30,17 @@ namespace Common {
             void CallCbOut(Mackie::MIDIDATA&, DWORD&);
 
             void clear();
+
             void add(MidiInstance&);
             void add(MidiControllerBase&);
+            void add_ptr(MidiInstance*);
+            void add_ptr(MidiControllerBase*);
+
             void remove(uint32_t);
             void remove(MidiInstance&);
             void remove(MidiControllerBase&);
-            void remove(MidiInstance*);
-            void remove(MidiControllerBase*);
+            void remove_ptr(MidiInstance*);
+            void remove_ptr(MidiControllerBase*);
         };
     }
 }

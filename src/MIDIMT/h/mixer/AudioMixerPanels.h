@@ -56,7 +56,6 @@ namespace Common {
 			std::atomic<bool> isballoon__{ false };
 			std::atomic<bool> isduplicateappremoved__{ false };
 			std::unique_ptr<DialogThemeColors> dlgt;
-			TrayNotify* trayn;
 			uint32_t event_id__ = 0U;
 			TTTOOLINFOW ti__{};
 
@@ -75,7 +74,7 @@ namespace Common {
 			void	setballoon_(HWND);
 
 		public:
-			AudioMixerPanels(TrayNotify*);
+			AudioMixerPanels();
 			~AudioMixerPanels();
 			
 			ui_theme Theme{};

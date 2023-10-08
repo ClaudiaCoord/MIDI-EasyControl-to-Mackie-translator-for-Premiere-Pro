@@ -17,8 +17,6 @@ namespace Common {
 
 		TrayMenu::TrayMenu() {
 			try {
-				LangInterface& lang = LangInterface::Get();
-
 				uint16_t iconsId[] = {
 					IDI_MMENU_I0,
 					IDI_MMENU_I1,
@@ -33,12 +31,12 @@ namespace Common {
 			} catch (...) {}
 		}
 		TrayMenu::~TrayMenu() {
-			dispose();
+			dispose_();
 		}
-		void TrayMenu::dispose() {
+		void TrayMenu::dispose_() {
 			icons__.Release();
 		}
-		void TrayMenu::setitem(HMENU hm, uint16_t id, uint16_t iid, bool b, bool isstatus) {
+		void TrayMenu::setitem_(HMENU hm, uint16_t id, uint16_t iid, bool b, bool isstatus) {
 			if (isstatus) {
 				(void) ::CheckMenuItem(hm, id, (b ? MF_CHECKED : MF_UNCHECKED) | MF_BYPOSITION);
 				(void) ::EnableMenuItem(hm, id, (b ? MF_GRAYED : MF_ENABLED) | MF_BYPOSITION);
@@ -64,17 +62,32 @@ namespace Common {
 						if (::GetSystemMetrics(SM_MENUDROPALIGNMENT) != 0) uFlags |= TPM_RIGHTALIGN;
 						else uFlags |= TPM_LEFTALIGN;
 
-						bool brun = common_config::Get().Local.IsMidiBridgeRun();
+						bool isrun = common_config::Get().Local.IsMidiBridgeRun(),
+							 isdriver = MIDI::MidiBridge::Get().CheckVirtualDriver();
 						uint32_t cnt = ::GetMenuItemCount(hsm);
 
 						for (uint16_t i = 0, ii = 0; i < cnt; i++) {
 							switch (::GetMenuItemID(hsm, i)) {
 								case 0: break;
+								case IDM_GO_EMPTY: {
+									if (!isdriver) {
+										std::wstring warn = LangInterface::Get().GetString(IDS_DLG_MSG17);
+										MENUITEMINFOW mi{};
+										mi.cbSize = sizeof(mi);
+										mi.fMask = MIIM_TYPE | MIIM_DATA;
+										::GetMenuItemInfoW(hsm, IDM_GO_EMPTY, false, &mi);
+										mi.fMask = MIIM_TYPE | MIIM_DATA;
+										mi.dwTypeData = reinterpret_cast<LPWSTR>(warn.data());
+										::SetMenuItemInfoW(hsm, IDM_GO_EMPTY, false, &mi);
+									}
+									setitem_(hsm, i, ii++, false, false);
+									break;
+								}
 								case IDM_GO_STOP:
 								case IDM_GO_MIXER:
-								case IDM_GO_MONITOR: setitem(hsm, i, ii++, !brun, true);  break;
-								case IDM_GO_START:   setitem(hsm, i, ii++, brun, true);   break;
-								default: 			 setitem(hsm, i, ii++, false, false); break;
+								case IDM_GO_MONITOR: setitem_(hsm, i, ii++, !isrun, true);  break;
+								case IDM_GO_START:   setitem_(hsm, i, ii++, isrun, true);   break;
+								default: 			 setitem_(hsm, i, ii++, false, false); break;
 							}
 						}
 						::TrackPopupMenuEx(hsm, uFlags, p.x + 20, p.y, hwnd, NULL);

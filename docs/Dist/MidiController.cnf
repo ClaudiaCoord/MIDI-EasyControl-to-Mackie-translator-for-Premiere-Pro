@@ -19,6 +19,24 @@
 		"isssl": "false",
 		"selfsigned": "false"
 	},
+	"lights": {
+		"dmx": {
+			"enable": "true",
+			"port": 5,
+			"baudrate": 250000,
+			"stopbits": 2,
+			"timeout": 3,
+			"name": "USB Serial Port"
+		},
+		"artnet": {
+			"enable": "false",
+			"port": 6454,
+			"universe": 1,
+			"ip": "192.168.0.5",
+			"mask": "255.255.255.0",
+			"broadcast": "192.168.0.255"
+		}
+	},
 	"units":[
 		{"scene":177,"id":22,"type":0,"target":0,"longtarget":255,"onoff":"false","value":64},
 		{"scene":177,"id":13,"type":1,"target":1,"longtarget":255,"onoff":"false","value":64},
@@ -127,5 +145,14 @@
 
 		{"scene":178,"id":30,"type":3,"target":252,"longtarget":30,"onoff":"false","value":0},
 		{"scene":178,"id":21,"type":1,"target":252,"longtarget":12,"onoff":"false","value":0},
+
+		{"scene":179,"id":2,"type":3,"target":251,"longtarget":3,"onoff":"false","value":0},
+		{"scene":179,"id":23,"type":3,"target":251,"longtarget":5,"onoff":"false","value":0},
+		{"scene":179,"id":24,"type":3,"target":251,"longtarget":6,"onoff":"false","value":0},
+		{"scene":179,"id":25,"type":3,"target":251,"longtarget":7,"onoff":"false","value":0},
+
+		{"scene":179,"id":14,"type":1,"target":251,"longtarget":5,"onoff":"false","value":11},
+		{"scene":179,"id":15,"type":1,"target":251,"longtarget":6,"onoff":"false","value":33},
+		{"scene":179,"id":16,"type":1,"target":251,"longtarget":7,"onoff":"false","value":22},
 	]
 	}

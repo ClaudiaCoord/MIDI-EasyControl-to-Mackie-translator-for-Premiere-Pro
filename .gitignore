@@ -36,6 +36,7 @@
 *.iss
 *.pdb
 *.cmd
+*.jbf
 .vs/*
 Win32/*
 SetupFiles/*

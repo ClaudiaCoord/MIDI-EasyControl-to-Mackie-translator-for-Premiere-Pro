@@ -62,6 +62,12 @@ namespace Common {
 			if (midx__ > 0) return;
 			midx__ = (val >= 513) ? midx__ : val;
 		}
+		void DMXPacket::set_blackout(bool b) {
+			blackout = b;
+		}
+		const bool DMXPacket::is_blackout() {
+			return blackout;
+		}
 		std::vector<byte> DMXPacket::create() {
 			#if defined(DEV_DMXUSBPRO_ENABLE)
 			/*
@@ -80,6 +86,8 @@ namespace Common {
 			return data;
 			#else
 			//return std::vector<byte>(&data__[0], &data__[midx__]);
+			if (blackout)
+				return std::vector<byte>(512);
 			return std::vector<byte>(data__.begin(), data__.end());
 			#endif
 		}

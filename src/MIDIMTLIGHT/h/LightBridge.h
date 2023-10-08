@@ -23,6 +23,7 @@ namespace Common {
 			const bool InCallBack(Common::MIDI::MidiUnit&, DWORD&);
 			callGetPid pid_cb__;
 			std::atomic<bool> dmx_pool_active__{ false };
+			std::atomic<bool> dmx_pause__{ false };
 			std::atomic<DWORD> packet_id__{ 0U };
 			std::unique_ptr<DMXArtnet> artnet__;
 			std::unique_ptr<DMXSerial> dmxport__;
@@ -33,14 +34,18 @@ namespace Common {
 			void poolDMXPacket_();
 
 		public:
+
+
 			LightBridge();
 			~LightBridge();
 
 			void Stop();
 			bool Start();
 			void SetPidCb(callGetPid);
-
-			void ScriptCb(uint16_t, uint8_t);
+			void BlackOut(bool);
+			bool IsBlackOut();
+			void DmxPause(bool);
+			bool IsDmxPause();
 
 			static LightBridge& Get();
 
