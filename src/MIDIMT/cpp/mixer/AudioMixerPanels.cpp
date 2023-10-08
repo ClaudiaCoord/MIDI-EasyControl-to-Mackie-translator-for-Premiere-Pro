@@ -86,7 +86,7 @@ namespace Common {
 			common_config::Get().UiThemes.SetDisplay(r);
 		}
 
-		AudioMixerPanels::AudioMixerPanels(TrayNotify* tn) : trayn(tn) {
+		AudioMixerPanels::AudioMixerPanels() {
 			inituitheme_();
 			inituiele_(common_config::Get().UiThemes.GetPlaceId());
 			event_id__ = Utils::random_hash(this);
@@ -472,7 +472,7 @@ namespace Common {
 				if (!Utils::random_isvalid(event_id__)) {
 					LangInterface& lang = LangInterface::Get();
 					std::wstring ws = lang.GetString(IDS_INFO9);
-					trayn->Warning(lang.GetString(IDS_INF12), ws);
+					MIDIMT::TrayNotify::Get().Warning(lang.GetString(IDS_INF12), ws);
 					throw_common_error(std::move(ws));
 				}
 
@@ -480,7 +480,7 @@ namespace Common {
 				if (!cnf.Local.IsAudioMixerRun()) {
 					LangInterface& lang = LangInterface::Get();
 					std::wstring ws = lang.GetString(IDS_INFO8);
-					trayn->Warning(lang.GetString(IDS_INF11), ws);
+					MIDIMT::TrayNotify::Get().Warning(lang.GetString(IDS_INF11), ws);
 					throw_common_error(std::move(ws));
 				}
 

@@ -39,7 +39,7 @@ namespace Common {
             try {
                 if (isproxy__ && mproxy__) {
                     if (out_event__)
-                        out_event__->remove(*mproxy__.get());
+                        out_event__->remove_ptr(mproxy__.get());
                     mproxy__->Stop();
                     isproxy__ = false;
                 }
@@ -49,14 +49,14 @@ namespace Common {
                 if (min__) min__->Stop();
                 if (in_event__) {
                     if (min__)
-                        in_event__->remove(min__.get());
+                        in_event__->remove_ptr(min__.get());
                     in_event__.reset();
                 }
 
                 if (mout__) mout__->Stop();
                 if (out_event__) {
                     if (mout__)
-                        out_event__->remove(mout__.get());
+                        out_event__->remove_ptr(mout__.get());
                     out_event__.reset();
                 }
                 isenable__ = false;
@@ -135,10 +135,10 @@ namespace Common {
                 if (cnf->IsEmpty()) return false;
 
                 out_event__.reset(new bridge_out_event(cnf));
-                out_event__->add(*mout__.get());
+                out_event__->add_ptr(mout__.get());
 
                 in_event__.reset(new bridge_in_event(out_event__));
-                in_event__->add(*min__.get());
+                in_event__->add_ptr(min__.get());
                 in_event__->IsJogSceneFilter(cnf->jogscenefilter);
 
                 do {
@@ -149,7 +149,7 @@ namespace Common {
                         if (!(isproxy__ = (mproxy__->GetProxyCount() > 0)))
                             mproxy__->Stop();
                         else
-                            out_event__->add(*mproxy__.get());
+                            out_event__->add_ptr(mproxy__.get());
                     }
                     common_config::Get().Local.IsMidiBridgeRun(true);
                     return true;

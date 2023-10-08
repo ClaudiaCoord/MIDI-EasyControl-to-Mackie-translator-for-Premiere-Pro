@@ -36,10 +36,13 @@ namespace Common {
 
             void add(MidiInstance& mi);
             void add(MidiControllerBase&);
+            void add_ptr(MidiInstance* mi);
+            void add_ptr(MidiControllerBase*);
+
             void remove(MidiInstance& mi);
             void remove(MidiControllerBase&);
-            void remove(MidiInstance* mi);
-            void remove(MidiControllerBase*);
+            void remove_ptr(MidiInstance* mi);
+            void remove_ptr(MidiControllerBase*);
         };
     }
 }

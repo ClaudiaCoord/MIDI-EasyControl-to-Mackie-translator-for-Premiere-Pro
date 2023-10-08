@@ -21,6 +21,8 @@ namespace Common {
 			TrayNotify();
 			~TrayNotify();
 
+			static TrayNotify& Get();
+
 			void Init(HWND, uint32_t, std::wstring&);
 			void Install();
 			void UnInstall();

@@ -14,11 +14,11 @@
 #define VER_SUB		5
 #define VER_BUILD		7
 #define VER_TXT		"1.0.5.7"
-#define VER_GUI_RU		"MIDI-MT, Версия 1.0.5.7 (x64)"
-#define VER_GUI_EN		"MIDI-MT, Version 1.0.5.7 (x64)"
-#define VER_LAUNCH_DESC		"MIDI-MT launcher [1.0.5.7 (x64/Release)]"
-#define VER_EXE_DESC		"MIDI-MT + MIDI to Mackie notation translator + Audio sessions controls + Smart-House controls.. [1.0.5.7 (x64/Release)]"
-#define VER_DLL_DESC		"MIDI-MT part library [1.0.5.7 (x64/Release)]. MIDI-MT + MIDI to Mackie notation translator + Audio sessions controls + Smart-House controls."
+#define VER_GUI_RU		"MIDI-MT, Версия 1.0.5.7 (x32)"
+#define VER_GUI_EN		"MIDI-MT, Version 1.0.5.7 (x32)"
+#define VER_LAUNCH_DESC		"MIDI-MT launcher [1.0.5.7 (x32/Release)]"
+#define VER_EXE_DESC		"MIDI-MT + MIDI to Mackie notation translator + Audio sessions controls + Smart-House controls.. [1.0.5.7 (x32/Release)]"
+#define VER_DLL_DESC		"MIDI-MT part library [1.0.5.7 (x32/Release)]. MIDI-MT + MIDI to Mackie notation translator + Audio sessions controls + Smart-House controls."
 #define VER_DLL_NAME		"MIDI-MT is High Level Application Driver for USB MIDI Control Surface."
 
 #endif
