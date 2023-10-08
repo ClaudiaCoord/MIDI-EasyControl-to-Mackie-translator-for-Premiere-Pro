@@ -50,7 +50,7 @@ namespace Common {
 		}
 		void SmartHome::Stop() {
 			try {
-				broker__->release();
+				broker__->reset();
 				common_config::Get().Local.IsSmartHomeRun(false);
 				to_log::Get() << log_string().to_log_string(
 					__FUNCTIONW__,

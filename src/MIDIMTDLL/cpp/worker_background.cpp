@@ -12,9 +12,10 @@
 
 #include "global.h"
 #include <queue>
-using namespace std::placeholders;
 
 namespace Common {
+
+	using namespace std::placeholders;
 
 	static std::atomic<bool> isregistred__ = false;
 	static std::atomic<uint32_t> workerpackid__ = 0U;
@@ -47,16 +48,26 @@ namespace Common {
 
 	worker_background::worker_background() {
 		t__.delay = 5;
-		workerpackid__ = add(std::bind(&worker_background::pack, this));
+		workerpackid__ = add(std::bind(&worker_background::pack_, this));
 	}
 	worker_background::~worker_background() {
-		clear();
+		dispose_();
 	}
 	worker_background& worker_background::Get() {
 		return std::ref(worker_background__);
 	}
 
-	void     worker_background::worker() {
+	void	 worker_background::dispose_() {
+		try {
+			if (t__.IsActive()) {
+				t__.Stop();
+				std::this_thread::sleep_for(std::chrono::milliseconds(150));
+			}
+			if (!list__.empty())
+				list__.clear();
+		} catch (...) {}
+	}
+	void     worker_background::worker_() {
 		uint32_t id = UINT32_MAX;
 		try {
 			for (auto& a : list__) {
@@ -68,12 +79,24 @@ namespace Common {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
+	void     worker_background::pack_() {
+		try {
+			locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
+			if (locker.IsOnlyOne() || !locker.Begin()) return;
+			if (locker.IsCanceled() || asyncreq__.empty()) return;
+
+			repack_();
+		} catch (...) {
+			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+		}
+	}
+
 	void     worker_background::start(uint32_t interval) {
 		try {
 			if (t__.IsActive())
 				t__.Stop();
 			interval = (interval == 0U) ? t__.delay.load() : interval;
-			t__.SetInterval(interval, std::bind(&worker_background::worker, this));
+			t__.SetInterval(interval, std::bind(&worker_background::worker_, this));
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
@@ -83,11 +106,8 @@ namespace Common {
 	}
 	void     worker_background::clear() {
 		try {
-			if (t__.IsActive())
-				t__.Stop();
-			if (!list__.empty())
-				list__.clear();
-			workerpackid__ = add(std::bind(&worker_background::pack, this));
+			dispose_();
+			workerpackid__ = add(std::bind(&worker_background::pack_, this));
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
@@ -121,18 +141,6 @@ namespace Common {
 	void     worker_background::to_async(callFutureCb cb) {
 		try {
 			asyncreq__.push(std::move(cb));
-		}
-		catch (...) {
-			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-		}
-	}
-	void     worker_background::pack() {
-		try {
-			locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-			if (locker.IsOnlyOne() || !locker.Begin()) return;
-			if (locker.IsCanceled() || asyncreq__.empty()) return;
-
-			repack_();
 		}
 		catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);

@@ -25,13 +25,17 @@ namespace Common {
 		constexpr std::u8string_view strTopicOnOff = u8"onoff";
 		constexpr std::u8string_view strTopicWill = u8"state";
 		constexpr std::u8string_view strDefaultName = u8"ctrl9";
+		constexpr std::u8string_view strOn = u8"255";
+		constexpr std::u8string_view strOff = u8"0";
+		static std::atomic<bool> isconnect__{ false };
 
-		void default_mosquitto_deleter::operator()(void* m) {
-			mosquitto* mosq = (mosquitto*)m;
-			if (mosq != nullptr) {
-				::mosquitto_disconnect(mosq);
-				::mosquitto_destroy(mosq);
+		void default_mosquitto_deleter::operator()(void* v) {
+			mosquitto* m = reinterpret_cast<mosquitto*>(v);
+			if (m) {
+				::mosquitto_disconnect(m);
+				::mosquitto_destroy(m);
 			}
+			try { ::mosquitto_lib_cleanup(); } catch (...) {}
 		}
 
 		static std::wstring method_to_name(const wchar_t locate[]) {
@@ -59,13 +63,15 @@ namespace Common {
 			} catch (...) {}
 		}
 		static void on_connect__(mosquitto*, void* u, int rc, int flag, const mosquitto_property*) {
-			cb_tolog__(__FUNCTIONW__, (rc == 0) ?
+			isconnect__ = (rc == 0);
+			cb_tolog__(__FUNCTIONW__, isconnect__.load() ?
 				common_error_code::Get().get_error(common_error_id::err_MQTT_CONNECTED) :
 				common_error_code::Get().get_error(common_error_id::err_MQTT_NOT_CONNECTED),
 				u, rc, flag
 			);
 		}
 		static void on_disconnect__(mosquitto*, void* u, int rc, const mosquitto_property*) {
+			isconnect__ = false;
 			cb_tolog__(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_MQTT_DISCONNECTED), u, rc, -1);
 		}
 		static void on_log__(mosquitto* mosq, void* u, int level, const char* s) {
@@ -78,125 +84,139 @@ namespace Common {
 			} catch (...) {}
 		}
 
-		Broker::Broker(){
-			try { ::mosquitto_lib_init(); } catch (...) {}
+		static bool reconnect_(mosquitto* m, int32_t& err) {
+			if (!m) return false;
+			try {
+				if ((err = ::mosquitto_reconnect(m)) != MOSQ_ERR_SUCCESS) return false;
+				(void) ::mosquitto_loop_misc(m);
+				isconnect__ = true;
+				return isconnect__.load();
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return false;
+		}
+
+		Broker::Broker() {
 		}
 		Broker::~Broker() {
-			dispose_();
-			try { ::mosquitto_lib_cleanup(); } catch (...) {}
+			reset();
 		}
 		void Broker::dispose_() {
 			try {
 				isrun__ = false;
-				if (!broker__) return;
-				mosquitto* mosq = (mosquitto*) broker__.release();
-				if (mosq == nullptr) return;
-				::mosquitto_disconnect(mosq);
-				::mosquitto_destroy(mosq);
-				config__.clear();
-
+				if (broker__) {
+					mosquitto* m = (mosquitto*)broker__.release();
+					if (m) {
+						::mosquitto_disconnect(m);
+						::mosquitto_destroy(m);
+					}
+				}
+				try { ::mosquitto_lib_cleanup(); } catch (...) {}
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
 		std::u8string Broker::get_target_topic_(MIDI::Mackie::Target key) {
 			switch (key) {
-				case MIDI::Mackie::Target::AV1: return u8"av1";
-				case MIDI::Mackie::Target::AV2: return u8"av2";
-				case MIDI::Mackie::Target::AV3: return u8"av3";
-				case MIDI::Mackie::Target::AV4: return u8"av4";
-				case MIDI::Mackie::Target::AV5: return u8"av5";
-				case MIDI::Mackie::Target::AV6: return u8"av6";
-				case MIDI::Mackie::Target::AV7: return u8"av7";
-				case MIDI::Mackie::Target::AV8: return u8"av8";
-				case MIDI::Mackie::Target::XV9: return u8"xv9";
-				case MIDI::Mackie::Target::AP1: return u8"ap1";
-				case MIDI::Mackie::Target::AP2: return u8"ap2";
-				case MIDI::Mackie::Target::AP3: return u8"ap3";
-				case MIDI::Mackie::Target::AP4: return u8"ap4";
-				case MIDI::Mackie::Target::AP5: return u8"ap5";
-				case MIDI::Mackie::Target::AP6: return u8"ap6";
-				case MIDI::Mackie::Target::AP7: return u8"ap7";
-				case MIDI::Mackie::Target::AP8: return u8"ap8";
-				case MIDI::Mackie::Target::XP9: return u8"xp9";
-				case MIDI::Mackie::Target::B11: return u8"b11";
-				case MIDI::Mackie::Target::B12: return u8"b12";
-				case MIDI::Mackie::Target::B13: return u8"b13";
-				case MIDI::Mackie::Target::B14: return u8"b14";
-				case MIDI::Mackie::Target::B15: return u8"b15";
-				case MIDI::Mackie::Target::B16: return u8"b16";
-				case MIDI::Mackie::Target::B17: return u8"b17";
-				case MIDI::Mackie::Target::B18: return u8"b18";
-				case MIDI::Mackie::Target::B19: return u8"b19";
-				case MIDI::Mackie::Target::B21: return u8"b21";
-				case MIDI::Mackie::Target::B22: return u8"b22";
-				case MIDI::Mackie::Target::B23: return u8"b23";
-				case MIDI::Mackie::Target::B24: return u8"b24";
-				case MIDI::Mackie::Target::B25: return u8"b25";
-				case MIDI::Mackie::Target::B26: return u8"b26";
-				case MIDI::Mackie::Target::B27: return u8"b27";
-				case MIDI::Mackie::Target::B28: return u8"b28";
-				case MIDI::Mackie::Target::B29: return u8"b29";
-				case MIDI::Mackie::Target::B31: return u8"b31";
-				case MIDI::Mackie::Target::B32: return u8"b32";
-				case MIDI::Mackie::Target::B33: return u8"b33";
-				case MIDI::Mackie::Target::B34: return u8"b34";
-				case MIDI::Mackie::Target::B35: return u8"b35";
-				case MIDI::Mackie::Target::B36: return u8"b36";
-				case MIDI::Mackie::Target::B37: return u8"b37";
-				case MIDI::Mackie::Target::B38: return u8"b38";
-				case MIDI::Mackie::Target::B39: return u8"b39";
+				using enum MIDI::Mackie::Target;
+				case AV1: return u8"av1";
+				case AV2: return u8"av2";
+				case AV3: return u8"av3";
+				case AV4: return u8"av4";
+				case AV5: return u8"av5";
+				case AV6: return u8"av6";
+				case AV7: return u8"av7";
+				case AV8: return u8"av8";
+				case XV9: return u8"xv9";
+				case AP1: return u8"ap1";
+				case AP2: return u8"ap2";
+				case AP3: return u8"ap3";
+				case AP4: return u8"ap4";
+				case AP5: return u8"ap5";
+				case AP6: return u8"ap6";
+				case AP7: return u8"ap7";
+				case AP8: return u8"ap8";
+				case XP9: return u8"xp9";
+				case B11: return u8"b11";
+				case B12: return u8"b12";
+				case B13: return u8"b13";
+				case B14: return u8"b14";
+				case B15: return u8"b15";
+				case B16: return u8"b16";
+				case B17: return u8"b17";
+				case B18: return u8"b18";
+				case B19: return u8"b19";
+				case B21: return u8"b21";
+				case B22: return u8"b22";
+				case B23: return u8"b23";
+				case B24: return u8"b24";
+				case B25: return u8"b25";
+				case B26: return u8"b26";
+				case B27: return u8"b27";
+				case B28: return u8"b28";
+				case B29: return u8"b29";
+				case B31: return u8"b31";
+				case B32: return u8"b32";
+				case B33: return u8"b33";
+				case B34: return u8"b34";
+				case B35: return u8"b35";
+				case B36: return u8"b36";
+				case B37: return u8"b37";
+				case B38: return u8"b38";
+				case B39: return u8"b39";
 				default: return u8"default";
 			}
 		}
 		std::u8string Broker::get_target_ttitle_(MIDI::Mackie::Target key) {
 			switch (key) {
-				case MIDI::Mackie::Target::AV1: return u8"level 1";
-				case MIDI::Mackie::Target::AV2: return u8"level 2";
-				case MIDI::Mackie::Target::AV3: return u8"level 3";
-				case MIDI::Mackie::Target::AV4: return u8"level 4";
-				case MIDI::Mackie::Target::AV5: return u8"level 5";
-				case MIDI::Mackie::Target::AV6: return u8"level 6";
-				case MIDI::Mackie::Target::AV7: return u8"level 7";
-				case MIDI::Mackie::Target::AV8: return u8"level 8";
-				case MIDI::Mackie::Target::XV9: return u8"level 9";
-				case MIDI::Mackie::Target::AP1: return u8"level 10";
-				case MIDI::Mackie::Target::AP2: return u8"level 11";
-				case MIDI::Mackie::Target::AP3: return u8"level 12";
-				case MIDI::Mackie::Target::AP4: return u8"level 13";
-				case MIDI::Mackie::Target::AP5: return u8"level 14";
-				case MIDI::Mackie::Target::AP6: return u8"level 15";
-				case MIDI::Mackie::Target::AP7: return u8"level 16";
-				case MIDI::Mackie::Target::AP8: return u8"level 17";
-				case MIDI::Mackie::Target::XP9: return u8"level 18";
-				case MIDI::Mackie::Target::B11: return u8"on/off 1";
-				case MIDI::Mackie::Target::B12: return u8"on/off 2";
-				case MIDI::Mackie::Target::B13: return u8"on/off 3";
-				case MIDI::Mackie::Target::B14: return u8"on/off 4";
-				case MIDI::Mackie::Target::B15: return u8"on/off 5";
-				case MIDI::Mackie::Target::B16: return u8"on/off 6";
-				case MIDI::Mackie::Target::B17: return u8"on/off 7";
-				case MIDI::Mackie::Target::B18: return u8"on/off 8";
-				case MIDI::Mackie::Target::B19: return u8"on/off 9";
-				case MIDI::Mackie::Target::B21: return u8"on/off 10";
-				case MIDI::Mackie::Target::B22: return u8"on/off 11";
-				case MIDI::Mackie::Target::B23: return u8"on/off 12";
-				case MIDI::Mackie::Target::B24: return u8"on/off 13";
-				case MIDI::Mackie::Target::B25: return u8"on/off 14";
-				case MIDI::Mackie::Target::B26: return u8"on/off 15";
-				case MIDI::Mackie::Target::B27: return u8"on/off 16";
-				case MIDI::Mackie::Target::B28: return u8"on/off 17";
-				case MIDI::Mackie::Target::B29: return u8"on/off 18";
-				case MIDI::Mackie::Target::B31: return u8"on/off 19";
-				case MIDI::Mackie::Target::B32: return u8"on/off 20";
-				case MIDI::Mackie::Target::B33: return u8"on/off 21";
-				case MIDI::Mackie::Target::B34: return u8"on/off 22";
-				case MIDI::Mackie::Target::B35: return u8"on/off 23";
-				case MIDI::Mackie::Target::B36: return u8"on/off 24";
-				case MIDI::Mackie::Target::B37: return u8"on/off 25";
-				case MIDI::Mackie::Target::B38: return u8"on/off 26";
-				case MIDI::Mackie::Target::B39: return u8"on/off 27";
-				default: return u8"default";
+				using enum MIDI::Mackie::Target;
+				case AV1: return u8"level 1";
+				case AV2: return u8"level 2";
+				case AV3: return u8"level 3";
+				case AV4: return u8"level 4";
+				case AV5: return u8"level 5";
+				case AV6: return u8"level 6";
+				case AV7: return u8"level 7";
+				case AV8: return u8"level 8";
+				case XV9: return u8"level 9";
+				case AP1: return u8"level 10";
+				case AP2: return u8"level 11";
+				case AP3: return u8"level 12";
+				case AP4: return u8"level 13";
+				case AP5: return u8"level 14";
+				case AP6: return u8"level 15";
+				case AP7: return u8"level 16";
+				case AP8: return u8"level 17";
+				case XP9: return u8"level 18";
+				case B11: return u8"on/off 1";
+				case B12: return u8"on/off 2";
+				case B13: return u8"on/off 3";
+				case B14: return u8"on/off 4";
+				case B15: return u8"on/off 5";
+				case B16: return u8"on/off 6";
+				case B17: return u8"on/off 7";
+				case B18: return u8"on/off 8";
+				case B19: return u8"on/off 9";
+				case B21: return u8"on/off 10";
+				case B22: return u8"on/off 11";
+				case B23: return u8"on/off 12";
+				case B24: return u8"on/off 13";
+				case B25: return u8"on/off 14";
+				case B26: return u8"on/off 15";
+				case B27: return u8"on/off 16";
+				case B28: return u8"on/off 17";
+				case B29: return u8"on/off 18";
+				case B31: return u8"on/off 19";
+				case B32: return u8"on/off 20";
+				case B33: return u8"on/off 21";
+				case B34: return u8"on/off 22";
+				case B35: return u8"on/off 23";
+				case B36: return u8"on/off 24";
+				case B37: return u8"on/off 25";
+				case B38: return u8"on/off 26";
+				case B39: return u8"on/off 27";
+				default:  return u8"default";
 			}
 		}
 		std::string   Broker::build_topic_(std::u8string s, const std::u8string_view& v) {
@@ -230,7 +250,8 @@ namespace Common {
 		bool Broker::init(BrokerConfig<std::wstring>& c) {
 			try {
 				int32_t err = 0;
-				mosquitto* mosq = nullptr;
+				mosquitto* m = nullptr;
+				isconnect__ = false;
 				do {
 					config__.Copy(c);
 					if (config__.empty()) {
@@ -242,26 +263,28 @@ namespace Common {
 					}
 
 					std::stringstream mqttid;
-					mqttid << (!config__.login.empty() ? config__.login.c_str() : std::string(strDefaultName.begin(), strDefaultName.end())) << "-";
-					mqttid << Utils::random_hash(this);
+					mqttid << (!config__.login.empty() ? config__.login.c_str() : std::string(strDefaultName.begin(), strDefaultName.end()))
+						   << "-"
+						   << Utils::random_hash(this);
 
-					mosq = ::mosquitto_new(mqttid.str().c_str(), true, this);
-					if (mosq == nullptr) break;
+					::mosquitto_lib_init();
+					m = ::mosquitto_new(mqttid.str().c_str(), true, this);
+					if (m == nullptr) break;
 
-					::mosquitto_log_callback_set(mosq, on_log__);
-					if ((err = ::mosquitto_int_option(mosq, MOSQ_OPT_PROTOCOL_VERSION, MQTT_PROTOCOL_V5)) != MOSQ_ERR_SUCCESS) break;
+					::mosquitto_log_callback_set(m, on_log__);
+					if ((err = ::mosquitto_int_option(m, MOSQ_OPT_PROTOCOL_VERSION, MQTT_PROTOCOL_V5)) != MOSQ_ERR_SUCCESS) break;
 
 					if (!config__.login.empty()) {
-						if ((err = ::mosquitto_username_pw_set(mosq, config__.login.data(), config__.password.data())) != MOSQ_ERR_SUCCESS) break;
+						if ((err = ::mosquitto_username_pw_set(m, config__.login.data(), config__.password.data())) != MOSQ_ERR_SUCCESS) break;
 						if (!config__.sslpsk.empty())
-							if ((err = ::mosquitto_tls_psk_set(mosq, config__.sslpsk.data(), config__.login.data(), 0)) != MOSQ_ERR_SUCCESS) break;
+							if ((err = ::mosquitto_tls_psk_set(m, config__.sslpsk.data(), config__.login.data(), 0)) != MOSQ_ERR_SUCCESS) break;
 					}
 					if (config__.isssl && config__.sslpsk.empty() && !config__.certcapath.empty()) {
 						std::filesystem::path capath(config__.certcapath);
 						if (std::filesystem::exists(capath)) {
-							if ((err = ::mosquitto_tls_set(mosq, capath.string().data(), capath.parent_path().string().data(), 0, 0, 0)) != MOSQ_ERR_SUCCESS) break;
-							if ((err = ::mosquitto_tls_opts_set(mosq, 1, 0, 0)) != MOSQ_ERR_SUCCESS) break;
-							if ((err = ::mosquitto_tls_insecure_set(mosq, config__.isselfsigned)) != MOSQ_ERR_SUCCESS) break;
+							if ((err = ::mosquitto_tls_set(m, capath.string().data(), capath.parent_path().string().data(), 0, 0, 0)) != MOSQ_ERR_SUCCESS) break;
+							if ((err = ::mosquitto_tls_opts_set(m, 1, 0, 0)) != MOSQ_ERR_SUCCESS) break;
+							if ((err = ::mosquitto_tls_insecure_set(m, config__.isselfsigned)) != MOSQ_ERR_SUCCESS) break;
 						} else {
 							to_log::Get() << log_string().to_log_fomat(
 								__FUNCTIONW__,
@@ -271,21 +294,20 @@ namespace Common {
 						}
 					}
 
-					::mosquitto_connect_v5_callback_set(mosq, on_connect__);
-					::mosquitto_disconnect_v5_callback_set(mosq, on_disconnect__);
+					::mosquitto_connect_v5_callback_set(m, on_connect__);
+					::mosquitto_disconnect_v5_callback_set(m, on_disconnect__);
 
 					#if defined(MOSQ_WILL_ENABLE)
 					std::string topic = build_topic_(std::u8string(), strTopicWill);
-					if ((err = ::mosquitto_will_set_v5(mosq, topic.data(), 1, u8"0", 0, true, 0)) != MOSQ_ERR_SUCCESS) break;
+					if ((err = ::mosquitto_will_set_v5(m, topic.data(), 1, u8"0", 0, true, 0)) != MOSQ_ERR_SUCCESS) break;
 					#endif
 
-					if ((err = ::mosquitto_connect(mosq, config__.host.data(), config__.port, 0)) != MOSQ_ERR_SUCCESS) break;
-
-					err = ::mosquitto_loop_misc(mosq);
+					if ((err = ::mosquitto_connect(m, config__.host.data(), config__.port, 0)) != MOSQ_ERR_SUCCESS) break;
+					if ((err = ::mosquitto_loop_misc(m)) == MOSQ_ERR_SUCCESS) isconnect__ = true;
 
 					#if defined(MOSQ_WILL_ENABLE)
 					int32_t ids = ids__.load();
-					if (::mosquitto_publish_v5(mosq, &ids, topic.data(), 1, u8"1", 0, true, nullptr) == MOSQ_ERR_SUCCESS) {
+					if (::mosquitto_publish_v5(m, &ids, topic.data(), 1, u8"1", 0, true, nullptr) == MOSQ_ERR_SUCCESS) {
 						ids__ = ids;
 					}
 					#endif
@@ -293,14 +315,14 @@ namespace Common {
 				} while (0);
 				switch (err) {
 					case MOSQ_ERR_SUCCESS: {
-						if (mosq == nullptr) {
+						if (m == nullptr) {
 							to_log::Get() << log_string().to_log_string(
 								__FUNCTIONW__,
 								common_error_code::Get().get_error(common_error_id::err_MQTT_CLIENT_ERROR)
 							);
 							return false;
 						}
-						broker__.reset(mosq);
+						broker__.reset(m);
 						isrun__ = true;
 						to_log::Get() << log_string().to_log_string(
 							__FUNCTIONW__,
@@ -309,7 +331,7 @@ namespace Common {
 						return true;
 					}
 					case MOSQ_ERR_ERRNO: {
-						_com_error e(err);
+						_com_error e(::GetLastError());
 						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << e.ErrorMessage());
 						break;
 					}
@@ -319,9 +341,10 @@ namespace Common {
 						break;
 					}
 				}
-				if (mosq != nullptr) {
-					::mosquitto_disconnect(mosq);
-					::mosquitto_destroy(mosq);
+				if (m != nullptr) {
+					::mosquitto_disconnect(m);
+					::mosquitto_destroy(m);
+					::mosquitto_lib_cleanup();
 				}
 
 			} catch (...) {
@@ -333,20 +356,8 @@ namespace Common {
 			dispose_();
 		}
 		void Broker::reset() {
-			try {
-				isrun__ = false;
-				if (broker__) {
-					mosquitto* mosq = (mosquitto*)broker__.release();
-					if (mosq != nullptr) {
-						::mosquitto_disconnect(mosq);
-						::mosquitto_destroy(mosq);
-					}
-				}
-				::mosquitto_lib_cleanup();
-				::mosquitto_lib_init();
-			} catch (...) {
-				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-			}
+			dispose_();
+			config__.clear();
 		}
 		void Broker::settitle(std::vector<MIDI::Mackie::Target>& v) {
 			try {
@@ -364,8 +375,9 @@ namespace Common {
 						ids = ids__.load();
 				do {
 					if (!broker__) break;
-					mosquitto* mosq = (mosquitto*)broker__.get();
-					if (mosq == nullptr) break;
+					mosquitto* m = (mosquitto*)broker__.get();
+					if (!m) break;
+					if (!isconnect__ && !reconnect_(m, err)) break;
 
 					std::string v;
 					std::string topic;
@@ -376,7 +388,7 @@ namespace Common {
 					}
 					else if constexpr (std::is_same_v<bool, T>) {
 						topic = build_topic_(get_target_topic_(target), strTopicOnOff);
-						v = std::to_string(val);
+						v = val ? std::string(strOn.begin(), strOn.end()) : std::string(strOff.begin(), strOff.end());
 					}
 					else if constexpr (std::is_same_v<std::string, T>) {
 						topic = build_topic_(get_target_topic_(target), strTopicTitle);
@@ -390,15 +402,15 @@ namespace Common {
 					}
 					else break;
 
-					err = ::mosquitto_loop_misc(mosq);
+					err = ::mosquitto_loop_misc(m);
 					if (err == MOSQ_ERR_NO_CONN) {
-						if ((err = ::mosquitto_reconnect(mosq)) != MOSQ_ERR_SUCCESS) break;
+						if ((err = ::mosquitto_reconnect(m)) != MOSQ_ERR_SUCCESS) break;
 					}
 					else if (err == MOSQ_ERR_SUCCESS) {}
 					else break;
 
-					if ((err = ::mosquitto_publish_v5(mosq, &ids, topic.c_str(), static_cast<int>(v.size()), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
-					(void) ::mosquitto_loop_write(mosq, 1);
+					if ((err = ::mosquitto_publish_v5(m, &ids, topic.c_str(), static_cast<int>(v.size()), v.data(), 0, retain, nullptr)) != MOSQ_ERR_SUCCESS) break;
+					(void) ::mosquitto_loop_write(m, 1);
 
 				} while (0);
 				switch (err) {
@@ -407,8 +419,10 @@ namespace Common {
 						break; 
 					}
 					case MOSQ_ERR_ERRNO: {
-						_com_error e(err);
+						_com_error e(::GetLastError());
 						to_log::Get() << (log_string().to_log_method(__FUNCTIONW__) << e.ErrorMessage());
+						if (!broker__) break;
+						(void)reconnect_((mosquitto*)broker__.get(), err);
 						break;
 					}
 					default: {

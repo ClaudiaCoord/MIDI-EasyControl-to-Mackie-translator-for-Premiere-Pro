@@ -27,7 +27,7 @@ namespace Common {
 		static const int ids_on_mixer[] = { IDC_MIXER_FAST_VALUE, IDC_MIXER_OLD_VALUE, IDC_MIXER_DUPLICATE, IDC_MIXER_ENABLE };
 		static const int ids_on_mmkey[] = { IDC_MMKEY_ENABLE };
 		static const int ids_on_mqtt[]  = { IDC_MQTT_IPADDR, IDC_MQTT_PORT, IDC_MQTT_LOGIN, IDC_MQTT_PASS, IDC_MQTT_PSK, IDC_MQTT_ISSSL, IDC_MQTT_ISSELFSIGN, IDC_MQTT_CAOPEN, IDC_MQTT_PREFIX, IDC_MQTT_LOGLEVEL };
-		static const int ids_on_dmx[]   = { IDC_DMX_COMBO, IDC_DMX_POLL };
+		static const int ids_on_dmx[]   = { IDC_DMX_COMBO };
 		static const int ids_on_artnet[] = { IDC_ARTNET_PORT, IDC_ARTNET_UNIVERSE, IDC_ARTNET_COMBO };
 
 		DialogStart::DialogStart() {
@@ -176,13 +176,14 @@ namespace Common {
 							 sz_on_dmx = std::size(ids_on_dmx),
 							 sz_on_artnet = std::size(ids_on_artnet);
 					
-				std::vector<int> v(sz_on_start + sz_on_mixer + sz_on_mmkey + sz_on_mqtt + sz_on_dmx + sz_on_artnet + 3);
+				std::vector<int> v(sz_on_start + sz_on_mixer + sz_on_mmkey + sz_on_mqtt + sz_on_dmx + sz_on_artnet + 4);
 				std::copy(&ids_on_start[0], &ids_on_start[sz_on_start],   back_inserter(v));
 				std::copy(&ids_on_mixer[0], &ids_on_mixer[sz_on_mixer],   back_inserter(v));
 				std::copy(&ids_on_mmkey[0], &ids_on_mmkey[sz_on_mmkey],   back_inserter(v));
 				std::copy(&ids_on_mqtt[0],  &ids_on_mqtt[sz_on_mqtt],     back_inserter(v));
 				std::copy(&ids_on_dmx[0],   &ids_on_dmx[sz_on_dmx],       back_inserter(v));
 				std::copy(&ids_on_artnet[0],&ids_on_artnet[sz_on_artnet], back_inserter(v));
+				v.push_back(IDC_DMX_POLL);
 				v.push_back(IDC_MQTT_ENABLE);
 				v.push_back(IDC_DMX_ENABLE);
 				v.push_back(IDC_ARTNET_ENABLE);
@@ -209,7 +210,11 @@ namespace Common {
 				do {
 					if (cnf.IsStart()) break;
 					if (!MIDI::MidiBridge::Get().CheckVirtualDriver()) {
-						to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_DRIVER));
+						std::wstring warn = log_string().to_log_string(
+							__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_NOT_DRIVER)
+						);
+						to_log::Get() << warn;
+						MIDIMT::TrayNotify::Get().Warning(LangInterface::Get().GetString(IDS_DLG_MSG0), warn);
 						break;
 					}
 					if (!cnf.IsConfig() || cnf.IsConfigEmpty()) {
@@ -226,7 +231,7 @@ namespace Common {
 						to_log::Get() << LangInterface::Get().GetString(IDS_DLG_MSG11);
 						break;
 					}
-					Start();
+					(void) Start();
 				} while (0);
 				
 			} catch (...) {
@@ -918,6 +923,9 @@ namespace Common {
 				common_config::Get().GetConfig()->dmxconf.enable = b;
 				for (int i : ids_on_dmx)
 					Gui::SetControlEnable(hwnd, i, b);
+
+				b = (!b) ? Gui::GetControlChecked(hwnd, IDC_ARTNET_ENABLE) : b;
+				Gui::SetControlEnable(hwnd, IDC_DMX_POLL, b);
 				Gui::SaveConfigEnabled(hwnd);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -975,6 +983,9 @@ namespace Common {
 				common_config::Get().GetConfig()->artnetconf.enable = b;
 				for (int i : ids_on_artnet)
 					Gui::SetControlEnable(hwnd, i, b);
+
+				b = (!b) ? Gui::GetControlChecked(hwnd, IDC_DMX_ENABLE) : b;
+				Gui::SetControlEnable(hwnd, IDC_DMX_POLL, b);
 				Gui::SaveConfigEnabled(hwnd);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -1292,6 +1303,9 @@ namespace Common {
 				for (int i : ids_on_dmx)
 					Gui::SetControlEnable(hwnd, i, dmxconf.enable);
 
+				bool b = (!dmxconf.enable) ? Gui::GetControlChecked(hwnd, IDC_ARTNET_ENABLE) : dmxconf.enable;
+				Gui::SetControlEnable(hwnd, IDC_DMX_POLL, b);
+
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -1321,6 +1335,9 @@ namespace Common {
 				);
 				for (int i : ids_on_artnet)
 					Gui::SetControlEnable(hwnd, i, artnetconf.enable);
+
+				bool b = (!artnetconf.enable) ? Gui::GetControlChecked(hwnd, IDC_DMX_ENABLE) : artnetconf.enable;
+				Gui::SetControlEnable(hwnd, IDC_DMX_POLL, b);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

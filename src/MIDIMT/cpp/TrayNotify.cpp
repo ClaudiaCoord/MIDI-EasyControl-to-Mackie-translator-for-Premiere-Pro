@@ -15,10 +15,15 @@
 namespace Common {
 	namespace MIDIMT {
 
-		static const wchar_t guidString[] = L"{cd3e2202-b792-4fd9-b9b1-313224a46d76}";
+		static const wchar_t guidString[] = APPGUID;
+		static TrayNotify traynotify_class__{};
 
 		TrayNotify::TrayNotify() : guid__(GUID_NULL) {}
 		TrayNotify::~TrayNotify() {}
+
+		TrayNotify& TrayNotify::Get() {
+			return std::ref(traynotify_class__);
+		}
 
 		void TrayNotify::Init(HWND hwnd, uint32_t id, std::wstring& title) {
 			data__.cbSize = sizeof(NOTIFYICONDATA);
@@ -28,7 +33,7 @@ namespace Common {
 			data__.uVersion = NOTIFYICON_VERSION_4;
 			data__.hIcon = LangInterface::Get().GetIcon(MAKEINTRESOURCE(IDI_SMALL));
 			data__.uCallbackMessage = id;
-			if (CLSIDFromString(guidString, (LPCLSID)&guid__) == S_OK)
+			if (::CLSIDFromString(guidString, (LPCLSID)&guid__) == S_OK)
 				data__.guidItem = guid__;
 			::wcscpy_s(data__.szTip, title.c_str());
 		}
@@ -38,7 +43,7 @@ namespace Common {
 		}
 		void TrayNotify::UnInstall() {
 			data__.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-			Shell_NotifyIcon(NIM_DELETE, &data__);
+			::Shell_NotifyIconW(NIM_DELETE, &data__);
 		}
 		void TrayNotify::Show() {
 			try {

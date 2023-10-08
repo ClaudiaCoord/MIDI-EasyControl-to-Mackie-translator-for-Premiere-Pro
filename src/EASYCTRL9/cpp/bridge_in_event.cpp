@@ -39,17 +39,30 @@ namespace Common {
 				std::bind(&bridge_in_event::cbInCall, this, _1, _2)
 			);
 		}
+		void bridge_in_event::add_ptr(MidiInstance* mi) {
+			if (!mi) return;
+			mi->InCallbackSet(
+				std::bind(&bridge_in_event::cbInCall, this, _1, _2)
+			);
+		}
+		void bridge_in_event::add_ptr(MidiControllerBase* clz) {
+			if (!clz) return;
+			clz->InCallbackSet(
+				std::bind(&bridge_in_event::cbInCall, this, _1, _2)
+			);
+		}
+
 		void bridge_in_event::remove(MidiControllerBase& clz) {
             clz.InCallbackRemove();
         }
 		void bridge_in_event::remove(MidiInstance& mi) {
 			mi.InCallbackRemove();
 		}
-		void bridge_in_event::remove(MidiControllerBase* clz) {
+		void bridge_in_event::remove_ptr(MidiControllerBase* clz) {
 			if (!clz) return;
 			clz->InCallbackRemove();
 		}
-		void bridge_in_event::remove(MidiInstance* mi) {
+		void bridge_in_event::remove_ptr(MidiInstance* mi) {
 			if (!mi) return;
 			mi->InCallbackRemove();
 		}

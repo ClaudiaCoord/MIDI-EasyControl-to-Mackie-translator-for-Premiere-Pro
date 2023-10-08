@@ -111,8 +111,7 @@ namespace Common {
                 r = (asio::write(*serial__.get(), asio::buffer((void*)arr, sz)) == sz);
                 DWORD status{ 0 };
                 while (status != EV_TXEMPTY) {
-                    h = serial__->native_handle();
-                    if (!h) break;
+                    if (!serial__ || !(h = serial__->native_handle())) break;
                     if (canceller.load()) return true;
                     (void)::WaitCommEvent(h, &status, 0);
                     std::this_thread::sleep_for(std::chrono::milliseconds(2));

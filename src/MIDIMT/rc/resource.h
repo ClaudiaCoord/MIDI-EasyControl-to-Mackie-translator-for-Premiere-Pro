@@ -225,10 +225,11 @@
 #define IDS_DLG_MSG14                   3133
 #define IDS_DLG_MSG15                   3134
 #define IDS_DLG_MSG16                   3135
-#define IDS_DLG_DMX_NODEV		3136
-#define IDS_DLG_ARTNET_NOINT		3137
-#define IDS_DLG_DMX_SELDEV		3138
-#define IDS_DLG_ARTNET_SELINT		3139
+#define IDS_DLG_MSG17                   3136
+#define IDS_DLG_DMX_NODEV		3137
+#define IDS_DLG_ARTNET_NOINT		3138
+#define IDS_DLG_DMX_SELDEV		3139
+#define IDS_DLG_ARTNET_SELINT		3140
 
 #define IDM_CALLFORM_COLOR              32773
 #define IDM_GO_ABOUT                    32774

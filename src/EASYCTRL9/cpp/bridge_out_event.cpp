@@ -48,6 +48,15 @@ namespace Common {
             if (mcb.GetId() == 0U) return;
             event__.add(MidiInstance(mcb), mcb.GetId());
         }
+        void bridge_out_event::add_ptr(MidiInstance* mi) {
+            if (!mi || mi->GetId() == 0U) return;
+            event__.add(*mi, mi->GetId());
+        }
+        void bridge_out_event::add_ptr(MidiControllerBase* mcb) {
+            if (!mcb || mcb->GetId() == 0U) return;
+            event__.add(MidiInstance(*mcb), mcb->GetId());
+        }
+
         void bridge_out_event::remove(uint32_t id) {
             event__.remove(id);
         }
@@ -59,11 +68,11 @@ namespace Common {
             if (mcb.GetId() == 0U) return;
             event__.remove(mcb.GetId());
         }
-        void bridge_out_event::remove(MidiInstance* mi) {
+        void bridge_out_event::remove_ptr(MidiInstance* mi) {
             if (!mi || mi->GetId() == 0U) return;
             event__.remove(mi->GetId());
         }
-        void bridge_out_event::remove(MidiControllerBase* mcb) {
+        void bridge_out_event::remove_ptr(MidiControllerBase* mcb) {
             if (!mcb || mcb->GetId() == 0U) return;
             event__.remove(mcb->GetId());
         }
@@ -71,7 +80,6 @@ namespace Common {
         void bridge_out_event::clear() {
             event__.clear();
         }
-
         void bridge_out_event::CallCbOut(Mackie::MIDIDATA& m, DWORD& t) {
             try {
 

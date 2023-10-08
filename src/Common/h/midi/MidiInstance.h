@@ -37,15 +37,13 @@ namespace Common {
             void InCallbackRemove();
 
             template<class T1>
-            MidiInstance(T1& clz) { Set(clz); }
-
-            template<class T1>
-            void Set(T1& clz) {
+            MidiInstance(T1& clz) {
                 type__ = clz.GetType();
                 out1__ = clz.GetCbOut1();
                 out2__ = clz.GetCbOut2();
-                id__   = clz.GetId();
+                id__ = clz.GetId();
             }
+
             template<class T1 = ClassTypes>
             void Set(T1 t, callMidiOut1Cb cb1, callMidiOut2Cb cb2) {
                 type__ = t;

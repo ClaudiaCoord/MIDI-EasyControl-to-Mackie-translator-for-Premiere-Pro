@@ -36,7 +36,6 @@ std::unique_ptr<Common::MIDIMT::DialogStart> dlgs;
 std::unique_ptr<Common::MIDIMT::DialogConfig> dlgc;
 std::unique_ptr<Common::MIDIMT::DialogMonitor> dlgm;
 std::unique_ptr<Common::MIDIMT::DialogAbout> dlga;
-std::unique_ptr<Common::MIDIMT::TrayNotify> trayn;
 std::unique_ptr<Common::MIDIMT::TrayMenu> menu;
 std::unique_ptr<Common::MIDIMT::AudioMixerPanels> mctrl;
 
@@ -81,7 +80,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	(void) Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, 0);
 
 	RegisterMainClass();
-	trayn = std::make_unique<Common::MIDIMT::TrayNotify>();
 
 	if (!InitInstance(nCmdShow)) return 0;
 	if (::CoInitializeEx(0, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) != S_OK) return 0;
@@ -94,7 +92,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	dlgc = std::make_unique<Common::MIDIMT::DialogConfig>();
 	dlgm = std::make_unique<Common::MIDIMT::DialogMonitor>();
 	dlga = std::make_unique<Common::MIDIMT::DialogAbout>();
-	mctrl = std::make_unique<Common::MIDIMT::AudioMixerPanels>(trayn.get());
+	mctrl = std::make_unique<Common::MIDIMT::AudioMixerPanels>();
 
 	MSG msg;
 	HACCEL ha = lang.GetAccelerators(MAKEINTRESOURCEW(IDC_MIDIMT_ACCEL));
@@ -162,11 +160,12 @@ BOOL InitInstance(int nCmdShow)
 	if (!hwnd) return FALSE;
 
 	lang.SetMainHwnd(hwnd);
-	trayn->Init(hwnd, WMAPP_SHELLICON, lang.GetMainTitle());
+	Common::MIDIMT::TrayNotify& tnotify = Common::MIDIMT::TrayNotify::Get();
+	tnotify.Init(hwnd, WMAPP_SHELLICON, lang.GetMainTitle());
 
 	ShowWindow(hwnd, SW_HIDE);
 	UpdateWindow(hwnd);
-	trayn->Install();
+	tnotify.Install();
 	return TRUE;
 }
 
@@ -180,6 +179,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
 		case WM_COMMAND: {
 			switch (LOWORD(w)) {
+				case IDM_GO_EMPTY: {
+					if (!Common::MIDI::MidiBridge::Get().CheckVirtualDriver())
+						Common::MIDIMT::Gui::ShowHelpPage(IDD_FORMSTART, IDC_GO_START);
+					break;
+				}
 				case IDM_GO_START: {
 					if (dlgs->IsRunOnce() && dlgc->IsRunOnce() && dlgm->IsRunOnce())
 						Common::MIDIMT::LangInterface::Get().GetDialog(hwnd, StartDialogProc, MAKEINTRESOURCEW(IDD_FORMSTART));
@@ -213,7 +217,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 					return true;
 				}
 				case IDM_GO_INFO: {
-					trayn->Show();
+					Common::MIDIMT::TrayNotify::Get().Show();
 					return true;
 				}
 				case IDM_GO_MIXER: {
@@ -264,7 +268,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 			break;
 		}
 		case WM_DESTROY: {
-			trayn->UnInstall();
+			Common::MIDIMT::TrayNotify::Get().UnInstall();
 			::PostQuitMessage(0);
 			return true;
 		}
