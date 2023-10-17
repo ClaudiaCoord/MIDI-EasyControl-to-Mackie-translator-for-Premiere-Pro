@@ -19,6 +19,9 @@
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
 #include "..\..\Common\rc\resource_lang.rc"
+#include "..\..\Languages\MIDIMTxRU\RibbonDialogConfigxRU.rc"
+#include "..\..\Languages\MIDIMTxRU\MIDIMT_STRINGxRU.rc"
+#include "..\..\Languages\MIDIMTxRU\MIDIMT_MENUxRU.rc"
 #include "..\..\Languages\MIDIMTxRU\MIDIMTxRU.rc"
 #undef APSTUDIO_HIDDEN_SYMBOLS
 
@@ -69,6 +72,8 @@ IDI_ICON_LV6            ICON                    "ico\\LV6.ico"
 
 IDI_ICON_LV7            ICON                    "ico\\LV7.ico"
 
+IDI_ICON_LV8            ICON                    "ico\\LV8.ico"
+
 IDI_MMENU_I0            ICON                    "ico\\AkarMenuNone.ico"
 
 IDI_MMENU_I1            ICON                    "ico\\AkarMenuNotify.ico"
@@ -105,6 +110,9 @@ BEGIN
     "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
     "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
     "#include ""..\\..\\Common\\rc\\resource_lang.rc""\r\n"
+    "#include ""..\\..\\Languages\\MIDIMTxRU\\RibbonDialogConfigRU.rc""\r\n"
+    "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMT_STRINGxRU.rc""\r\n"
+    "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMT_MENUxRU.rc""\r\n"
     "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMTxRU.rc""\r\n"
     "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
     "\0"

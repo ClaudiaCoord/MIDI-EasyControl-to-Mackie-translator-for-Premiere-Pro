@@ -946,6 +946,7 @@ namespace Common {
 				}
 
 				idx--;
+				LIGHT::SerialPortConfig lcfg{};
 				auto f = std::async(std::launch::async, [=](int32_t idx_, LIGHT::SerialPortConfig lcfg_) -> LIGHT::SerialPortConfig& {
 					try {
 						LIGHT::SerialPortConfig& cfg = LIGHT::LightBridge::Get().GetDivices().get(idx_);
@@ -956,7 +957,7 @@ namespace Common {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 					return std::ref(lcfg_);
-				}, idx, LIGHT::SerialPortConfig());
+				}, idx, lcfg);
 
 				try {
 					LIGHT::SerialPortConfig& cfg = f.get();
@@ -1006,6 +1007,7 @@ namespace Common {
 				}
 
 				idx--;
+				LIGHT::ArtnetConfig lcfg{};
 				auto f = std::async(std::launch::async, [=](int32_t idx_, LIGHT::ArtnetConfig lcfg_) -> LIGHT::ArtnetConfig& {
 					try {
 						LIGHT::ArtnetConfig& cfg = LIGHT::LightBridge::Get().GetInterfaces().get(idx_);
@@ -1016,7 +1018,7 @@ namespace Common {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 					return std::ref(lcfg_);
-				}, idx, LIGHT::ArtnetConfig());
+				}, idx, lcfg);
 
 				try {
 					LIGHT::ArtnetConfig& cfg = f.get();
@@ -1192,6 +1194,7 @@ namespace Common {
 
 				ComboBox_ResetContent(hwcb);
 
+				LIGHT::SerialPortConfigs lcfg{};
 				auto f = std::async(std::launch::async, [=](LIGHT::SerialPortConfigs lcfg_) -> LIGHT::SerialPortConfigs& {
 					try {
 						return LIGHT::LightBridge::Get().GetDivices(true);
@@ -1199,7 +1202,7 @@ namespace Common {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 					return std::ref(lcfg_);
-				}, LIGHT::SerialPortConfigs());
+				}, lcfg);
 
 				try {
 					LIGHT::SerialPortConfigs& v = f.get();
@@ -1241,6 +1244,7 @@ namespace Common {
 
 				ComboBox_ResetContent(hwcb);
 
+				LIGHT::ArtnetConfigs lcfg{};
 				auto f = std::async(std::launch::async, [=](LIGHT::ArtnetConfigs lcfg_) -> LIGHT::ArtnetConfigs& {
 					try {
 						return LIGHT::LightBridge::Get().GetInterfaces(true);
@@ -1248,7 +1252,7 @@ namespace Common {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 					return std::ref(lcfg_);
-				}, LIGHT::ArtnetConfigs());
+				}, lcfg);
 
 				try {
 					LIGHT::ArtnetConfigs& v = f.get();

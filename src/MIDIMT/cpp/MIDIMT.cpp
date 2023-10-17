@@ -706,7 +706,8 @@ INT_PTR CALLBACK ConfigDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 				case IDM_LV_SET_MQTT:
 				case IDM_LV_SET_MMKEY:
 				case IDM_LV_SET_MIXER:
-				case IDM_LV_SET_LIGHTKEY: {
+				case IDM_LV_SET_LIGHTKEY8B:
+				case IDM_LV_SET_LIGHTKEY16B: {
 					dlgc->ListViewMenu(LOWORD(w));
 					break;
 				}

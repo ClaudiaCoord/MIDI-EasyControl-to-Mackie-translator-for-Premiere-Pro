@@ -1,0 +1,474 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU 
+BEGIN
+    POPUP "MIDI Mackie fordító"
+    BEGIN
+        MENUITEM " ", IDM_GO_EMPTY
+        MENUITEM "&Információ", IDM_GO_INFO
+        MENUITEM "&Audiokeverő", IDM_GO_MIXER
+        MENUITEM "&Monitor", IDM_GO_MONITOR
+        MENUITEM "&Beállítások", IDM_GO_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Rajt", IDM_GO_START
+        MENUITEM "Állj meg", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Kijárat", IDM_EXIT
+    END
+END
+
+IDR_MIXER_CTRL_MENU MENU 
+BEGIN
+    POPUP "MIXPANELMENU"
+    BEGIN
+        POPUP "Elhelyezkedés.."
+        BEGIN
+            MENUITEM "Függőleges balra", IDM_VERT_LEFT
+            MENUITEM "Függőleges jobbra", IDM_VERT_RIGHT
+            MENUITEM "Vízszintesen a tetején", IDM_HOR_TOP
+            MENUITEM "Vízszintesen lent", IDM_HOR_BOTTOM
+        END
+        POPUP "Tantárgy.."
+        BEGIN
+            MENUITEM "Metró", IDM_METRO
+            MENUITEM "Fény", IDM_LIGHT
+            MENUITEM "Sötét", IDM_DARK
+            MENUITEM "Retro", IDM_RETRO
+            MENUITEM "Modern", IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Felállítása", IDM_CUSTOM
+            MENUITEM "Téma beállítása", IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Élénkség", IDM_ANIMATION
+        MENUITEM "&Alkalmazás elérési útja", IDM_APP_PATH
+        MENUITEM "&MIDI vezérlők kötése", IDM_MIDI_BIND
+        MENUITEM "Csúcs és hangerő mérő", IDM_PEAK_METER
+        MENUITEM "Emlékezz pozícióra", IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Bezárás", IDM_CLOSE
+    END
+END
+
+IDR_LV_MENU MENU 
+BEGIN
+    POPUP "LV MENU"
+    BEGIN
+        MENUITEM "Új bejegyzés", IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Másolat", IDM_LV_COPY
+        MENUITEM "Beszúrás", IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Töröl", IDM_LV_DELETE
+        POPUP "Telepítés mint.."
+        BEGIN
+            MENUITEM "A vezérlés az audiokeverőre vonatkozik", IDM_LV_SET_MIXER
+            MENUITEM "A vezérlők a multimédiás gombokra vonatkoznak", IDM_LV_SET_MMKEY
+            MENUITEM "Az irányítás az okosotthonra utal", IDM_LV_SET_MQTT
+            POPUP "A vezérlés a fényvezérlésre vonatkozik"
+            BEGIN
+                MENUITEM "8 bites csatorna (standard)", IDM_LV_SET_LIGHTKEY8B
+                MENUITEM "16 bites csatorna (bővített)", IDM_LV_SET_LIGHTKEY16B
+            END
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Olvassa el a MIDI kódot.", IDM_LV_READ_MIDI_CODE
+    END
+END
+
+IDR_COL3_TYPE_MENU MENU 
+BEGIN
+    POPUP "COL3 TYPE MENU"
+    BEGIN
+        POPUP "Szabályozók.."
+        BEGIN
+            MENUITEM "Szalagszabályzó", IDM_COL3_SLIDER
+            MENUITEM "Inverziós szalagszabályzó", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Kör alakú szabályozó", IDM_COL3_FADER
+            MENUITEM "Kör alakú szabályzó inverzióval", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Kódoló", IDM_COL3_KNOB
+            MENUITEM "Kódoló inverzióval", IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_COL3_NONE
+        END
+        POPUP "Gombok.."
+        BEGIN
+            MENUITEM "Gomb", IDM_COL3_BTN
+            MENUITEM "Kapcsoló gomb, jelzéssel", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Nincs hozzárendelve", IDM_COL3_NONE
+        END
+    END
+END
+
+IDR_COL4_ALL_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Szabályozók..", IDR_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Gombok..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés az audiokeverőre vonatkozik", IDM_COL4_VOLUMEMIX
+        MENUITEM "A vezérlők a multimédiás gombokra vonatkoznak", IDM_COL4_MEDIAKEY
+        MENUITEM "Az irányítás az okosotthonra utal", IDM_COL4_MQTTKEY
+        POPUP "A vezérlés a fényvezérlésre vonatkozik"
+        BEGIN
+            MENUITEM "8 bites csatorna (standard)", IDM_COL4_LIGHTKEY8B
+            MENUITEM "16 bites csatorna (bővített)", IDM_COL4_LIGHTKEY16B
+        END
+    END
+END
+
+IDR_COL4_BTN_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Hangvezérlés..."
+        BEGIN
+            MENUITEM "Csendes (mester)", IDM_COL4_MAM
+            MENUITEM "Egyedül (mester)", IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Hangtalan.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_B21
+                MENUITEM "2. csatorna", IDM_COL4_B22
+                MENUITEM "3. csatorna", IDM_COL4_B23
+                MENUITEM "4. csatorna", IDM_COL4_B24
+                MENUITEM "5. csatorna", IDM_COL4_B25
+                MENUITEM "6. csatorna", IDM_COL4_B26
+                MENUITEM "7. csatorna", IDM_COL4_B27
+                MENUITEM "8. csatorna", IDM_COL4_B28
+                MENUITEM "9. csatorna", IDM_COL4_B29
+            END
+            POPUP "Szóló.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_B11
+                MENUITEM "2. csatorna", IDM_COL4_B12
+                MENUITEM "3. csatorna", IDM_COL4_B13
+                MENUITEM "4. csatorna", IDM_COL4_B14
+                MENUITEM "5. csatorna", IDM_COL4_B15
+                MENUITEM "6. csatorna", IDM_COL4_B16
+                MENUITEM "7. csatorna", IDM_COL4_B17
+                MENUITEM "8. csatorna", IDM_COL4_B18
+                MENUITEM "9. csatorna", IDM_COL4_B19
+            END
+        END
+        POPUP "Multimédiás gombok.."
+        BEGIN
+            MENUITEM "Lejátszás/Szünet", IDM_COL4_SYS_Play
+            MENUITEM "Állj meg", IDM_COL4_SYS_Stop
+            MENUITEM "Előző", IDM_COL4_SYS_Rewind
+            MENUITEM "Következő", IDM_COL4_SYS_Forward
+            MENUITEM "Rekord", IDM_COL4_SYS_Record
+            MENUITEM "Fel (joystick)", IDM_COL4_SYS_Up
+            MENUITEM "Le (joystick)", IDM_COL4_SYS_Down
+            MENUITEM "Jobbra (joystick)", IDM_COL4_SYS_Right
+            MENUITEM "Bal (joystick)", IDM_COL4_SYS_Left
+            MENUITEM "Nagyítás", IDM_COL4_SYS_Zoom
+            MENUITEM "Súrolás", IDM_COL4_SYS_Scrub
+        END
+        POPUP "A Premiere Pro szolgáltatásai..."
+        BEGIN
+            POPUP "A standard gomb funkciói..."
+            BEGIN
+                MENUITEM "1. funkció", IDM_COL4_FUN11
+                MENUITEM "2. funkció", IDM_COL4_FUN12
+                MENUITEM "3. funkció", IDM_COL4_FUN13
+                MENUITEM "4. funkció", IDM_COL4_FUN14
+                MENUITEM "5. funkció", IDM_COL4_FUN15
+                MENUITEM "6. funkció", IDM_COL4_FUN16
+                MENUITEM "7. funkció", IDM_COL4_FUN17
+                MENUITEM "8. funkció", IDM_COL4_FUN18
+            END
+            POPUP "Egyérintéses gomb funkciók..."
+            BEGIN
+                MENUITEM "1. funkció", IDM_COL4_FUN21
+                MENUITEM "2. funkció", IDM_COL4_FUN22
+                MENUITEM "3. funkció", IDM_COL4_FUN23
+                MENUITEM "4. funkció", IDM_COL4_FUN24
+                MENUITEM "5. funkció", IDM_COL4_FUN25
+                MENUITEM "6. funkció", IDM_COL4_FUN26
+                MENUITEM "7. funkció", IDM_COL4_FUN27
+                MENUITEM "8. funkció", IDM_COL4_FUN28
+            END
+        END
+        POPUP "Gombok a Smart Home rendszerben..."
+        BEGIN
+            MENUITEM "be/ki 1", IDM_COL4_B11
+            MENUITEM "be/ki 2", IDM_COL4_B12
+            MENUITEM "be/ki 3", IDM_COL4_B13
+            MENUITEM "be/ki 4", IDM_COL4_B14
+            MENUITEM "be/ki 5", IDM_COL4_B15
+            MENUITEM "be/ki 6", IDM_COL4_B16
+            MENUITEM "be/ki 7", IDM_COL4_B17
+            MENUITEM "be/ki 8", IDM_COL4_B18
+            MENUITEM "be/ki 9", IDM_COL4_B19
+            MENUITEM "be/ki 10", IDM_COL4_B21
+            MENUITEM "be/ki 11", IDM_COL4_B22
+            MENUITEM "be/ki 12", IDM_COL4_B23
+            MENUITEM "be/ki 13", IDM_COL4_B24
+            MENUITEM "be/ki 14", IDM_COL4_B25
+            MENUITEM "be/ki 15", IDM_COL4_B26
+            MENUITEM "be/ki 16", IDM_COL4_B27
+            MENUITEM "be/ki 17", IDM_COL4_B28
+            MENUITEM "be/ki 18", IDM_COL4_B29
+            MENUITEM "be/ki 19", IDM_COL4_B31
+            MENUITEM "be/ki 20", IDM_COL4_B32
+            MENUITEM "be/ki 21", IDM_COL4_B33
+            MENUITEM "be/ki 22", IDM_COL4_B34
+            MENUITEM "be/ki 23", IDM_COL4_B35
+            MENUITEM "be/ki 24", IDM_COL4_B36
+            MENUITEM "be/ki 25", IDM_COL4_B37
+            MENUITEM "be/ki 26", IDM_COL4_B38
+            MENUITEM "be/ki 27", IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés az audiokeverőre vonatkozik", IDM_COL4_VOLUMEMIX
+        MENUITEM "A vezérlők a multimédiás gombokra vonatkoznak", IDM_COL4_MEDIAKEY
+        MENUITEM "Az irányítás az okosotthonra utal", IDM_COL4_MQTTKEY
+        POPUP "A vezérlés a fényvezérlésre vonatkozik"
+        BEGIN
+            MENUITEM "8 bites csatorna (standard)", IDM_COL4_LIGHTKEY8B
+            MENUITEM "16 bites csatorna (bővített)", IDM_COL4_LIGHTKEY16B
+        END
+    END
+END
+
+IDR_COL4_SLIDER_TARGET_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Kódoló (képkockánkénti megtekintés)", IDM_COL4_JOG
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Hangvezérlés..."
+        BEGIN
+            MENUITEM "kötet (mester)", IDM_COL4_MAV
+            MENUITEM "Egyenleg (mester)", IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Hangerő.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_AV1
+                MENUITEM "2. csatorna", IDM_COL4_AV2
+                MENUITEM "3. csatorna", IDM_COL4_AV3
+                MENUITEM "4. csatorna", IDM_COL4_AV4
+                MENUITEM "5. csatorna", IDM_COL4_AV5
+                MENUITEM "6. csatorna", IDM_COL4_AV6
+                MENUITEM "7. csatorna", IDM_COL4_AV7
+                MENUITEM "8. csatorna", IDM_COL4_AV8
+                MENUITEM "9. csatorna", IDM_COL4_XV9
+            END
+            POPUP "Egyensúly.."
+            BEGIN
+                MENUITEM "csatorna 1", IDM_COL4_AP1
+                MENUITEM "2. csatorna", IDM_COL4_AP2
+                MENUITEM "3. csatorna", IDM_COL4_AP3
+                MENUITEM "4. csatorna", IDM_COL4_AP4
+                MENUITEM "5. csatorna", IDM_COL4_AP5
+                MENUITEM "6. csatorna", IDM_COL4_AP6
+                MENUITEM "7. csatorna", IDM_COL4_AP7
+                MENUITEM "8. csatorna", IDM_COL4_AP8
+                MENUITEM "9. csatorna", IDM_COL4_XP9
+            END
+        END
+        POPUP "Szabályozók az „okos otthon” rendszerben..."
+        BEGIN
+            MENUITEM "1. szint", IDM_COL4_AV1
+            MENUITEM "2. szint", IDM_COL4_AV2
+            MENUITEM "3. szint", IDM_COL4_AV3
+            MENUITEM "4. szint", IDM_COL4_AV4
+            MENUITEM "5. szint", IDM_COL4_AV5
+            MENUITEM "6. szint", IDM_COL4_AV6
+            MENUITEM "7. szint", IDM_COL4_AV7
+            MENUITEM "8. szint", IDM_COL4_AV8
+            MENUITEM "9. szint", IDM_COL4_XV9
+            MENUITEM "10. szint", IDM_COL4_AP1
+            MENUITEM "11. szint", IDM_COL4_AP2
+            MENUITEM "12. szint", IDM_COL4_AP3
+            MENUITEM "13. szint", IDM_COL4_AP4
+            MENUITEM "14. szint", IDM_COL4_AP5
+            MENUITEM "15. szint", IDM_COL4_AP6
+            MENUITEM "16. szint", IDM_COL4_AP7
+            MENUITEM "17. szint", IDM_COL4_AP8
+            MENUITEM "18. szint", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "A vezérlés az audiokeverőre vonatkozik", IDM_COL4_VOLUMEMIX
+        MENUITEM "A vezérlők a multimédiás gombokra vonatkoznak", IDM_COL4_MEDIAKEY
+        MENUITEM "Az irányítás az okosotthonra utal", IDM_COL4_MQTTKEY
+        POPUP "A vezérlés a fényvezérlésre vonatkozik"
+        BEGIN
+            MENUITEM "8 bites csatorna (standard)", IDM_COL4_LIGHTKEY8B
+            MENUITEM "16 bites csatorna (bővített)", IDM_COL4_LIGHTKEY16B
+        END
+    END
+END
+
+IDR_COL5_SLIDER_MIX_MENU MENU 
+BEGIN
+    POPUP "COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "kötet (mester)", IDM_COL4_MAV
+        MENUITEM "Kódoló (JOG)", IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Hangerő.."
+        BEGIN
+            MENUITEM "csatorna 1", IDM_COL4_AV1
+            MENUITEM "2. csatorna", IDM_COL4_AV2
+            MENUITEM "3. csatorna", IDM_COL4_AV3
+            MENUITEM "4. csatorna", IDM_COL4_AV4
+            MENUITEM "5. csatorna", IDM_COL4_AV5
+            MENUITEM "6. csatorna", IDM_COL4_AV6
+            MENUITEM "7. csatorna", IDM_COL4_AV7
+            MENUITEM "8. csatorna", IDM_COL4_AV8
+            MENUITEM "9. csatorna", IDM_COL4_XV9
+            MENUITEM "10. csatorna", IDM_COL4_AP1
+            MENUITEM "11. csatorna", IDM_COL4_AP2
+            MENUITEM "12. csatorna", IDM_COL4_AP3
+            MENUITEM "csatorna 13", IDM_COL4_AP4
+            MENUITEM "csatorna 14", IDM_COL4_AP5
+            MENUITEM "15. csatorna", IDM_COL4_AP6
+            MENUITEM "16-os csatorna", IDM_COL4_AP7
+            MENUITEM "17-es csatorna", IDM_COL4_AP8
+            MENUITEM "18-as csatorna", IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MIX_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Csendes (mester)", IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Hangtalan.."
+        BEGIN
+            MENUITEM "csatorna 1", IDM_COL4_B21
+            MENUITEM "2. csatorna", IDM_COL4_B22
+            MENUITEM "3. csatorna", IDM_COL4_B23
+            MENUITEM "4. csatorna", IDM_COL4_B24
+            MENUITEM "5. csatorna", IDM_COL4_B25
+            MENUITEM "6. csatorna", IDM_COL4_B26
+            MENUITEM "7. csatorna", IDM_COL4_B27
+            MENUITEM "8. csatorna", IDM_COL4_B28
+            MENUITEM "9. csatorna", IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_MMKEY_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Lejátszás/Szünet", IDM_COL4_SYS_Play
+        MENUITEM "Állj meg", IDM_COL4_SYS_Stop
+        MENUITEM "Előző", IDM_COL4_SYS_Rewind
+        MENUITEM "Következő", IDM_COL4_SYS_Forward
+        MENUITEM "Rekord", IDM_COL4_SYS_Record
+        MENUITEM "Fel (joystick)", IDM_COL4_SYS_Up
+        MENUITEM "Le (joystick)", IDM_COL4_SYS_Down
+        MENUITEM "Jobbra (joystick)", IDM_COL4_SYS_Right
+        MENUITEM "Bal (joystick)", IDM_COL4_SYS_Left
+        MENUITEM "Nagyítás", IDM_COL4_SYS_Zoom
+        MENUITEM "Súrolás", IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_SLIDER_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "1. szint", IDM_COL4_AV1
+        MENUITEM "2. szint", IDM_COL4_AV2
+        MENUITEM "3. szint", IDM_COL4_AV3
+        MENUITEM "4. szint", IDM_COL4_AV4
+        MENUITEM "5. szint", IDM_COL4_AV5
+        MENUITEM "6. szint", IDM_COL4_AV6
+        MENUITEM "7. szint", IDM_COL4_AV7
+        MENUITEM "8. szint", IDM_COL4_AV8
+        MENUITEM "9. szint", IDM_COL4_XV9
+        MENUITEM "10. szint", IDM_COL4_AP1
+        MENUITEM "11. szint", IDM_COL4_AP2
+        MENUITEM "12. szint", IDM_COL4_AP3
+        MENUITEM "13. szint", IDM_COL4_AP4
+        MENUITEM "14. szint", IDM_COL4_AP5
+        MENUITEM "15. szint", IDM_COL4_AP6
+        MENUITEM "16. szint", IDM_COL4_AP7
+        MENUITEM "17. szint", IDM_COL4_AP8
+        MENUITEM "18. szint", IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+
+IDR_COL5_BTN_SM_MENU MENU 
+BEGIN
+    POPUP "COL5 BTN SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "be/ki 1", IDM_COL4_B11
+        MENUITEM "be/ki 2", IDM_COL4_B12
+        MENUITEM "be/ki 3", IDM_COL4_B13
+        MENUITEM "be/ki 4", IDM_COL4_B14
+        MENUITEM "be/ki 5", IDM_COL4_B15
+        MENUITEM "be/ki 6", IDM_COL4_B16
+        MENUITEM "be/ki 7", IDM_COL4_B17
+        MENUITEM "be/ki 8", IDM_COL4_B18
+        MENUITEM "be/ki 9", IDM_COL4_B19
+        MENUITEM "be/ki 10", IDM_COL4_B21
+        MENUITEM "be/ki 11", IDM_COL4_B22
+        MENUITEM "be/ki 12", IDM_COL4_B23
+        MENUITEM "be/ki 13", IDM_COL4_B24
+        MENUITEM "be/ki 14", IDM_COL4_B25
+        MENUITEM "be/ki 15", IDM_COL4_B26
+        MENUITEM "be/ki 16", IDM_COL4_B27
+        MENUITEM "be/ki 17", IDM_COL4_B28
+        MENUITEM "be/ki 18", IDM_COL4_B29
+        MENUITEM "be/ki 19", IDM_COL4_B31
+        MENUITEM "be/ki 20", IDM_COL4_B32
+        MENUITEM "be/ki 21", IDM_COL4_B33
+        MENUITEM "be/ki 22", IDM_COL4_B34
+        MENUITEM "be/ki 23", IDM_COL4_B35
+        MENUITEM "be/ki 24", IDM_COL4_B36
+        MENUITEM "be/ki 25", IDM_COL4_B37
+        MENUITEM "be/ki 26", IDM_COL4_B38
+        MENUITEM "be/ki 27", IDM_COL4_B39
+        MENUITEM SEPARATOR
+        MENUITEM "Nincs hozzárendelve", IDM_COL4_NONE
+    END
+END
+

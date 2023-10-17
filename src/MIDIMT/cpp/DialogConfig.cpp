@@ -390,7 +390,8 @@ namespace Common {
 									ws = lang.GetString(MIDI::MackieHelper::GetSmartHomeTargetID(last__->unit.longtarget));
 									break;
 								}
-								case LIGHTKEY: {
+								case LIGHTKEY8B:
+								case LIGHTKEY16B: {
 									ws = lang.GetString(IDS_DLG_MSG16);
 									break;
 								}

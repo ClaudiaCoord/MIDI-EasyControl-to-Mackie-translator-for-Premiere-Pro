@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_GEORGIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> აუდიო მიქსერი -> MIDI-Mackie მთარგმნელი"
+    IDS_MIXER               "& მიქსერი"
+    IDS_SETTINGS            "&პარამეტრები"
+    IDS_START               "დაწყება"
+    IDS_STOP                "გაჩერდი"
+    IDS_EXIT                "გასვლა"
+    IDS_SETUP_MSG1          "კონფიგურაცია ჩატვირთულია დრაივერისგან"
+    IDS_SETUP_MSG2          "კონფიგურაცია ჩატვირთულია ფაილიდან"
+    IDS_SETUP_MSG3          "კონფიგურაცია ხელახლა შეიქმნა და საჭიროებს შევსებას"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT კონფიგურაცია"
+    IDS_CONFIG_EXE_FILTER   "შესრულებადი ფაილები"
+    IDS_MQTT_CA_FILTER      "CA სერთიფიკატი"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI თარჯიმანი არ მუშაობს."
+    IDS_INFO2               "MIDI თარჯიმანი მუშაობს:"
+    IDS_INFO3               "შეყვანის მოწყობილობა:"
+    IDS_INFO4               "Mackie/Premier გამომავალი პორტი:"
+    IDS_INFO5               "გამომავალი პროქსი პორტი:"
+    IDS_INFO6               "აუდიო მიქსერი მუშაობს."
+    IDS_INFO7               "მულტიმედიური კლავიშის კონტროლი მუშაობს, შეამოწმეთ თქვენი პარამეტრები."
+    IDS_INFO8               "აუდიო მიქსერი არ მუშაობს, შეამოწმეთ პარამეტრები, აუდიო პანელის გაშვება უნდა იყოს ჩართული."
+    IDS_INFO9               "არასწორი მოვლენის ID. გთხოვთ გადატვირთოთ ეს აპლიკაცია."
+    IDS_INF1O               "UI თემატიკაზე გადართვა ვერ მოხერხდა, აუდიო პანელის გაშვება შეწყდა."
+    IDS_INF11               "MIDIMT - აუდიო მიქსერი არ მუშაობს:"
+    IDS_INF12               "MIDIMT - ოპერაციის დასრულება შეუძლებელია:"
+    IDS_INF13               "Smart Home მოწყობილობის მართვა დაიწყო."
+    IDS_INF14               "განათების კონტროლი DMX512 პროტოკოლით დაიწყო."
+    IDS_INF15               "განათების კონტროლი ArtNet პროტოკოლით დაიწყო."
+    IDS_DLG_MSG0            "ვირტუალური MIDI დრაივერის დაყენება"
+    IDS_DLG_MSG1            "MIDI Mackie გამომავალი"
+    IDS_DLG_MSG2            "MIDI პროქსი გამომავალი"
+    IDS_DLG_MSG3            "MIDI ვირტუალური დრაივერის ვერსია:"
+    IDS_DLG_MSG4            "დაინსტალირებული ვირტუალური MIDI დრაივერი ვერ მოიძებნა! თქვენ უნდა დააინსტალიროთ Virtual Loop MIDI პაკეტი MIDI-MT მთარგმნელის გასაშვებად"
+    IDS_DLG_MSG5            "გაშვებისას შეიქმნება პროქსი MIDI პორტები:"
+    IDS_DLG_MSG6            "MIDI Proxy პორტები გამორთულია."
+    IDS_DLG_MSG7            "არჩეული ენა აქტიური იქნება ფანჯრის გადატვირთვის შემდეგ -"
+    IDS_DLG_MSG8            "მინიჭებული MIDI შეყვანის მოწყობილობა"
+    IDS_DLG_MSG9            "გთხოვთ, შეცვალოთ კონფიგურაცია დაწყებამდე."
+    IDS_DLG_MSG10           "დაინსტალირებული ვირტუალური MIDI დრაივერის ვერსია:"
+    IDS_DLG_MSG11           "არჩეულ კონფიგურაციას არ აქვს ავტომატური გაშვების მხარდაჭერა."
+    IDS_DLG_MSG12           "გთხოვთ, მონიტორის ჩართვამდე, მენიუდან გაუშვით MIDI bridge „დაწყების“ დარეკვით."
+    IDS_DLG_MSG13           "გაშვებისას კონფიგურაციის ფაილი იყო მითითებული: „{0}“. დააყენოთ ის, როგორც კონფიგურაცია შემდგომი გაშვებებისთვის?"
+    IDS_DLG_MSG14           "რედაქტორის გახსნისას მითითებული იყო კონფიგურაციის ფაილი: „{0}“. შეინახოთ იგივე სახელით?"
+    IDS_DLG_MSG15           "ავტომატური გაშვება გამორთულია ზოგად კონფიგურაციაში."
+    IDS_DLG_MSG16           "DMX არხის ნომერი"
+    IDS_DLG_MSG17           "თქვენ უნდა დააინსტალიროთ ვირტუალური MIDI დრაივერი!"
+    IDS_DLG_DMX_NODEV       "მოწყობილობები ხელმისაწვდომი არ არის"
+    IDS_DLG_ARTNET_NOINT    "არანაირი ინტერფეისი"
+    IDS_DLG_DMX_SELDEV      "აირჩიეთ DMX მოწყობილობა"
+    IDS_DLG_ARTNET_SELINT   "აირჩიეთ ARTNET ინტერფეისი"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "ხმის მოცულობა (ძირითადი)"
+    IDM_COL4_MAP            "ხმის ბალანსი (ძირითადი)"
+    IDM_COL4_MAM            "მუნჯი (მთავარი)"
+    IDM_COL4_MAS            "აუდიო სოლო (მთავარი)"
+    IDM_COL4_JOG            "JOG (ვიდეო ჩარჩოს გადახვევა)"
+    IDM_COL4_AV1            "ხმის მოცულობა (არხი 1)"
+    IDM_COL4_AV2            "ხმის მოცულობა (არხი 2)"
+    IDM_COL4_AV3            "ხმის მოცულობა (არხი 3)"
+    IDM_COL4_AV4            "ხმის მოცულობა (არხი 4)"
+    IDM_COL4_AV5            "ხმის მოცულობა (არხი 5)"
+    IDM_COL4_AV6            "ხმის მოცულობა (არხი 6)"
+    IDM_COL4_AV7            "ხმის მოცულობა (არხი 7)"
+    IDM_COL4_AV8            "ხმის მოცულობა (არხი 8)"
+    IDM_COL4_XV9            "ხმის მოცულობა (არხი 9)"
+    IDM_COL4_AP1            "ხმის ბალანსი (არხი 1)"
+    IDM_COL4_AP2            "ხმის ბალანსი (არხი 2)"
+    IDM_COL4_AP3            "ხმის ბალანსი (არხი 3)"
+    IDM_COL4_AP4            "ხმის ბალანსი (არხი 4)"
+    IDM_COL4_AP5            "ხმის ბალანსი (არხი 5)"
+    IDM_COL4_AP6            "ხმის ბალანსი (არხი 6)"
+    IDM_COL4_AP7            "ხმის ბალანსი (არხი 7)"
+    IDM_COL4_AP8            "ხმის ბალანსი (არხი 8)"
+    IDM_COL4_XP9            "ხმის ბალანსი (არხი 9)"
+    IDM_COL4_B11            "აუდიო სოლო (არხი 1)"
+    IDM_COL4_B12            "აუდიო სოლო (არხი 2)"
+    IDM_COL4_B13            "აუდიო სოლო (არხი 3)"
+    IDM_COL4_B14            "აუდიო სოლო (არხი 4)"
+    IDM_COL4_B15            "აუდიო სოლო (არხი 5)"
+    IDM_COL4_B16            "აუდიო სოლო (არხი 6)"
+    IDM_COL4_B17            "აუდიო სოლო (არხი 7)"
+    IDM_COL4_B18            "აუდიო სოლო (არხი 8)"
+    IDM_COL4_B19            "აუდიო სოლო (არხი 9)"
+    IDM_COL4_B21            "დადუმება (არხი 1)"
+    IDM_COL4_B22            "დადუმება (არხი 2)"
+    IDM_COL4_B23            "დადუმება (არხი 3)"
+    IDM_COL4_B24            "დადუმება (არხი 4)"
+    IDM_COL4_B25            "დადუმება (არხი 5)"
+    IDM_COL4_B26            "დადუმება (არხი 6)"
+    IDM_COL4_B27            "დადუმება (არხი 7)"
+    IDM_COL4_B28            "დადუმება (არხი 8)"
+    IDM_COL4_B29            "დადუმება (არხი 9)"
+    IDM_COL4_B31            "ხმის შერჩევა (არხი 1)"
+    IDM_COL4_B32            "ხმის შერჩევა (არხი 2)"
+    IDM_COL4_B33            "ხმის შერჩევა (არხი 3)"
+    IDM_COL4_B34            "ხმის შერჩევა (არხი 4)"
+    IDM_COL4_B35            "ხმის შერჩევა (არხი 5)"
+    IDM_COL4_B36            "ხმის შერჩევა (არხი 6)"
+    IDM_COL4_B37            "ხმის შერჩევა (არხი 7)"
+    IDM_COL4_B38            "ხმის შერჩევა (არხი 8)"
+    IDM_COL4_B39            "ხმის შერჩევა (არხი 9)"
+    IDM_COL4_FUN11          "ფუნქცია F1 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN12          "ფუნქცია F2 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN13          "ფუნქცია F3 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN14          "ფუნქცია F4 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN15          "ფუნქცია F5 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN16          "ფუნქცია F6 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN17          "ფუნქცია F7 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN18          "ფუნქცია F8 (სტანდარტული რეჟიმი)"
+    IDM_COL4_FUN21          "ფუნქცია F1 (შეჩერებული რეჟიმი)"
+    IDM_COL4_FUN22          "ფუნქცია F2 (შეჩერებული რეჟიმი)"
+    IDM_COL4_FUN23          "ფუნქცია F3 (შეჩერებული რეჟიმი)"
+    IDM_COL4_FUN24          "ფუნქცია F4 (გამართული რეჟიმი)"
+    IDM_COL4_FUN25          "ფუნქცია F5 (გამართული რეჟიმი)"
+    IDM_COL4_FUN26          "ფუნქცია F6 (გამართული რეჟიმი)"
+    IDM_COL4_FUN27          "ფუნქცია F7 (შეჩერებული რეჟიმი)"
+    IDM_COL4_FUN28          "ფუნქცია F8 (შეჩერებული რეჟიმი)"
+    IDM_COL4_SYS_Rewind     "გადახვევა (მოთამაშე)"
+    IDM_COL4_SYS_Forward    "სწრაფი წინსვლა (მოთამაშე)"
+    IDM_COL4_SYS_Stop       "გაჩერება (მოთამაშე)"
+    IDM_COL4_SYS_Play       "თამაში (მოთამაშე)"
+    IDM_COL4_SYS_Record     "ჩაწერა (პლეერი)"
+    IDM_COL4_SYS_Up         "ზემოთ (ჯოისტიკი)"
+    IDM_COL4_SYS_Down       "ქვემოთ (ჯოისტიკი)"
+    IDM_COL4_SYS_Left       "მარცხენა (ჯოისტიკი)"
+    IDM_COL4_SYS_Right      "მარჯვენა (ჯოისტიკი)"
+    IDM_COL4_SYS_Zoom       "Მომატება"
+    IDM_COL4_SYS_Scrub      "სკრაბი"
+    IDM_COL4_VOLUMEMIX      "მიქსერის კონტროლი"
+    IDM_COL4_MEDIAKEY       "მულტიმედიური კლავიშები"
+    IDM_COL4_MQTTKEY        "ჭკვიანი სახლის მენეჯმენტი"
+    IDM_COL4_LIGHTKEY8B     "განათების კონტროლი (8 ბიტი)"
+    IDM_COL4_LIGHTKEY16B    "განათების კონტროლი (16 ბიტი)"
+    IDM_COL4_NONE           "მოქმედება არ არის განსაზღვრული"
+    IDM_COL4_MQTT_AV1       "დონე 1"
+    IDM_COL4_MQTT_AV2       "დონე 2"
+    IDM_COL4_MQTT_AV3       "დონე 3"
+    IDM_COL4_MQTT_AV4       "დონე 4"
+    IDM_COL4_MQTT_AV5       "დონე 5"
+    IDM_COL4_MQTT_AV6       "დონე 6"
+    IDM_COL4_MQTT_AV7       "დონე 7"
+    IDM_COL4_MQTT_AV8       "დონე 8"
+    IDM_COL4_MQTT_XV9       "დონე 9"
+    IDM_COL4_MQTT_AP1       "დონე 10"
+    IDM_COL4_MQTT_AP2       "დონე 11"
+    IDM_COL4_MQTT_AP3       "დონე 12"
+    IDM_COL4_MQTT_AP4       "დონე 13"
+    IDM_COL4_MQTT_AP5       "დონე 14"
+    IDM_COL4_MQTT_AP6       "დონე 15"
+    IDM_COL4_MQTT_AP7       "დონე 16"
+    IDM_COL4_MQTT_AP8       "დონე 17"
+    IDM_COL4_MQTT_XP9       "დონე 18"
+    IDM_COL4_MQTT_B11       "ჩართვა/გამორთვა 1"
+    IDM_COL4_MQTT_B12       "ჩართვა/გამორთვა 2"
+    IDM_COL4_MQTT_B13       "ჩართვა/გამორთვა 3"
+    IDM_COL4_MQTT_B14       "ჩართვა/გამორთვა 4"
+    IDM_COL4_MQTT_B15       "ჩართვა/გამორთვა 5"
+    IDM_COL4_MQTT_B16       "ჩართვა/გამორთვა 6"
+    IDM_COL4_MQTT_B17       "ჩართვა/გამორთვა 7"
+    IDM_COL4_MQTT_B18       "ჩართვა/გამორთვა 8"
+    IDM_COL4_MQTT_B19       "ჩართვა/გამორთვა 9"
+    IDM_COL4_MQTT_B21       "ჩართვა/გამორთვა 10"
+    IDM_COL4_MQTT_B22       "ჩართვა/გამორთვა 11"
+    IDM_COL4_MQTT_B23       "ჩართვა/გამორთვა 12"
+    IDM_COL4_MQTT_B24       "ჩართვა/გამორთვა 13"
+    IDM_COL4_MQTT_B25       "ჩართვა/გამორთვა 14"
+    IDM_COL4_MQTT_B26       "ჩართვა/გამორთვა 15"
+    IDM_COL4_MQTT_B27       "ჩართვა/გამორთვა 16"
+    IDM_COL4_MQTT_B28       "ჩართვა/გამორთვა 17"
+    IDM_COL4_MQTT_B29       "ჩართვა/გამორთვა 18"
+    IDM_COL4_MQTT_B31       "ჩართვა/გამორთვა 19"
+    IDM_COL4_MQTT_B32       "ჩართვა/გამორთვა 20"
+    IDM_COL4_MQTT_B33       "ჩართვა/გამორთვა 21"
+    IDM_COL4_MQTT_B34       "ჩართვა/გამორთვა 22"
+    IDM_COL4_MQTT_B35       "ჩართვა/გამორთვა 23"
+    IDM_COL4_MQTT_B36       "ჩართვა/გამორთვა 24"
+    IDM_COL4_MQTT_B37       "ჩართვა/გამორთვა 25"
+    IDM_COL4_MQTT_B38       "ჩართვა/გამორთვა 26"
+    IDM_COL4_MQTT_B39       "ჩართვა/გამორთვა 27"
+    IDM_COL4_MQTT_NONE      "Არ არის დანიშნული"
+    IDM_MQTT_LOG_NONE       "ჟურნალი არ ინახება"
+    IDM_MQTT_LOG_INFO       "ინფორმაცია"
+    IDM_MQTT_LOG_NOTICE     "შეტყობინებები"
+    IDM_MQTT_LOG_WARNING    "გაფრთხილებები"
+    IDM_MQTT_LOG_ERR        "მხოლოდ შეცდომები"
+    IDM_MQTT_LOG_DEBUG      "ყველა შეტყობინება"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "ეს შეცდომა განუსაზღვრელია"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "კონფიგურაციის ფაილზე ჩაწერის წვდომა უარყოფილია, „{0}“"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "კონფიგურაციის ფაილი აკლია ან წვდომა აკრძალულია, „{0}“"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "კონფიგურაციის ფაილი ცარიელია, „{0}“"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI მოწყობილობის სახელი არ არის კონფიგურირებული."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "ამ კონფიგურაციაში არ არის კონფიგურირებული MIDI კლავიშები."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "ყურადღება, ამ კონფიგურაციას არ აქვს კონფიგურირებული MIDI კლავიშები! ჩაწერილი კონფიგურაცია არ იმუშავებს."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize ინიციალიზაცია ვერ მოხერხდა."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - ინსტანციის შექმნა ვერ მოხერხდა."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "ნაგულისხმევი აუდიო მოწყობილობის მიღება ვერ მოხერხდა."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "აუდიო სესიის მენეჯერი გათიშულია."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "აუდიო პიკის მრიცხველი მიუწვდომელია."
+    IDS_ERRORID_MIXER_STARTOK
+                            "აუდიო სესიის მიქსერი მუშაობს, გაშვების დროს არის {0} გაშვებული პროგრამა ხელმისაწვდომი რეგულირებისთვის."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "აუდიო სესიის მიქსერის გაშვება ვერ მოხერხდა, შეცდომის დეტალები უნდა იყოს ჟურნალის ფაილში."
+    IDS_ERRORID_MIXER_STOPOK
+                            "აუდიო სესიის მიქსერი შეჩერებულია."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "აუდიო სესიის მიქსერი სწორად არ იყო შეჩერებული, შეცდომის დეტალები უნდა იყოს ჟურნალის ფაილში."
+    IDS_ERRORID_NO_INIT     "ამის დარეკვამდე გააკეთე ინიციალიზაცია.."
+    IDS_ERRORID_SESSION_LIST
+                            "აუდიო სესიების სიის მიღება ვერ მოხერხდა."
+    IDS_ERRORID_LISTISNULL  "აუდიო სესიების სია ცარიელია!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "აუდიო სესიის გამორთვა, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "შეიქმნა აუდიო სესია, სახელი='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "აუდიო სესია „{0}“ - რეგისტრაციის არასწორი მდგომარეობა „{1}“: {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "გამოძახებიდან დაყენებული მნიშვნელობა არასწორი სელექტორია."
+    IDS_ERRORID_SET_CB_WARNING
+                            "გამოძახების დაყენება შესაძლებელია მხოლოდ MIDI ხიდის წარმატებით გაშვების შემდეგ."
+    IDS_ERRORID_CONFIG_FAIL "კონფიგურაციის ჩატვირთვა ვერ მოხერხდა, ფაილი ვერ მოიძებნა, გაშვება შეუძლებელია."
+    IDS_ERRORID_CONFIG_LOAD "კონფიგურაცია ჩაიტვირთა.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "კონფიგურაცია უკვე ჩატვირთულია.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "კონფიგურაცია ცარიელია.."
+    IDS_ERRORID_CONFIG_NEW  "აღმოჩენილია კონფიგურაციის ახალი ვერსია.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "კოდში მხარდაუჭერელი იმპლემენტაცია, მეთოდი არ არის გადაფარული: {0}"
+    IDS_ERRORID_NOT_CONFIG  "კონფიგურაციის სახელი არ არის მითითებული და მისი გაგრძელება შეუძლებელია."
+    IDS_ERRORID_NOT_DEVICES "მოწყობილობები არ არის დაკავშირებული და ვერ გაგრძელდება."
+    IDS_ERRORID_COUNT_DEVICES
+                            "ყურადღება, მოწყობილობების რაოდენობის შეუსაბამობა საბოლოო სიაში, სისტემა/სია = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "MIDI მოწყობილობის გახსნა შეუძლებელია, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "MIDI მოწყობილობის გაშვება შეუძლებელია, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "მოწყობილობა არ არის დაკავშირებული, შეწყვეტა, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "ნაპოვნია მოწყობილობა {0}, {1}"
+    IDS_ERRORID_DEVICE_OPEN "მოწყობილობა {0} ღიაა, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "მოწყობილობა {0} დახურულია (სისტემა)"
+    IDS_ERRORID_DEVICE_DONE "მოწყობილობა {0} მზად არის (სისტემა)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "აქტიური მოწყობილობის სახელი არ არის მითითებული, გაგრძელება შეუძლებელია, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "პროქსი პორტები არ არის მითითებული კონფიგურაციაში, MIDI პროქსი გამორთულია."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "დრაივერის ვერსია [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "პრობლემა დრაივერის ვერსიასთან [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "მოწყობილობა {0}-ს გაუგზავნა არასწორი მნიშვნელობა = {1}"
+    IDS_ERRORID_NOT_DRIVER  "ვირტუალური MIDI დრაივერი არ არის დაინსტალირებული. თქვენ უნდა დააინსტალიროთ loopMidi პაკეტი, ან ჩამოტვირთოთ სრული ინსტალერი და ხელახლა დააინსტალიროთ MIDI-MT. დამატებითი დეტალები: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "გაშვებულია მედია გასაღების მართვის სერვისი."
+    IDS_ERRORID_MMKEY_STOP  "მედია გასაღების მართვის სერვისი გაჩერდა."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT კონფიგურაცია ცარიელია და გაგრძელება შეუძლებელია."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "MQTT კლიენტის შექმნის შეცდომა, გაუქმება."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT კლიენტი წარმატებით შეიქმნა, გააგრძელეთ..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "დაკავშირებულია MQTT სერვერთან:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "MQTT სერვერთან დაკავშირება ვერ მოხერხდა:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "გათიშულია MQTT სერვერთან:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA სერტიფიკატის ფაილი არ არსებობს, გზა = '{0}'"
+    IDS_ERRORID_MQTT_START  "Smart Home კონტროლის სერვისი ამოქმედდა."
+    IDS_ERRORID_MQTT_STOP   "Smart Home-ის მართვის სერვისი შეჩერებულია."
+    IDS_ERRORID_PANEL_INDEX "აუდიო მიქსერის პანელი - გაგრძელება შეუძლებელია, ინდექსის ელემენტები არასწორია."
+    IDS_ERRORID_PANEL_INIT  "აუდიო მიქსერის პანელი - გაგრძელება შეუძლებელია, ინიციალიზაციის შეცდომა."
+    IDS_ERRORID_PANEL_ENABLE
+                            "აუდიო მიქსერის პანელის ფანჯარას არ აქვს სწორი სტატუსი და შემდეგი ოპერაციის გაგრძელება შეუძლებელია."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "აუდიო მიქსერის პანელი არ არის გამოძახებული UI თემაში და ცვლილებების შეტანა შეუძლებელია."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "აუდიო მიქსერის პანელმა აღმოაჩინა არასწორი ელემენტი და პანელის ფანჯრის შექმნა შეწყდა."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "DMX განათების კონტროლის სერვისი დაწყებულია COM{0} - {1}-ის გამოყენებით."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "DMX განათების მართვის სერვისი არ მუშაობს, COM{0} მოწყობილობა არ არის დაკავშირებული.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "DMX განათების კონტროლის სერვისი არ მუშაობს და სერვისის კონფიგურაცია არ არის შევსებული."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "DMX განათების კონტროლის სერვისი შეჩერებულია."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "ArtNet Lighting Control Service მუშაობს სამაუწყებლო მისამართის გამოყენებით {0}:{1} ქსელში {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNet განათების მართვის სერვისი არ მუშაობს, ქსელი {0} ვერ მოიძებნა.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "ArtNet განათების კონტროლის სერვისი არ მუშაობს, სერვისის კონფიგურაცია არ არის შევსებული."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "ArtNet განათების კონტროლის სერვისი შეჩერებულია."
+    IDS_ERRORID_NONE        "-"
+END

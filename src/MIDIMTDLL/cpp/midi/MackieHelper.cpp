@@ -121,7 +121,8 @@ namespace Common {
 		constexpr std::wstring_view TargetMMKLeft = L"VOLUME MUTE"sv;
 		constexpr std::wstring_view TargetMMKRight = L"PAUSE"sv;
 
-		constexpr std::wstring_view TargetLightKey = L"Lighting DMX controls"sv;
+		constexpr std::wstring_view TargetLightKey8 = L"Lighting DMX controls (8 bits)"sv;
+		constexpr std::wstring_view TargetLightKey16 = L"Lighting DMX controls (16 bits)"sv;
 		constexpr std::wstring_view TargetMixer = L"System mixer volume/mute"sv;
 		constexpr std::wstring_view TargetMediaKey = L"System multimedia key"sv;
 		constexpr std::wstring_view TargetMqttKey = L"Smart House key (MQTT)"sv;
@@ -299,7 +300,8 @@ namespace Common {
 				case SYS_Zoom:		return IDM_COL4_SYS_Zoom;
 				case SYS_Scrub:		return IDM_COL4_SYS_Scrub;
 
-				case LIGHTKEY:		return IDM_COL4_LIGHTKEY;
+				case LIGHTKEY16B:	return IDM_COL4_LIGHTKEY16B;
+				case LIGHTKEY8B:	return IDM_COL4_LIGHTKEY8B;
 				case MQTTKEY:		return IDM_COL4_MQTTKEY;
 				case MEDIAKEY:		return IDM_COL4_MEDIAKEY;
 				case VOLUMEMIX:		return IDM_COL4_VOLUMEMIX;
@@ -397,7 +399,8 @@ namespace Common {
 				case SYS_Zoom: return TargetZoom;
 				case SYS_Scrub: return TargetScrub;
 
-				case LIGHTKEY: return TargetLightKey;
+				case LIGHTKEY16B: return TargetLightKey16;
+				case LIGHTKEY8B: return TargetLightKey8;
 				case MQTTKEY: return TargetMqttKey;
 				case MEDIAKEY: return TargetMediaKey;
 				case VOLUMEMIX: return TargetMixer;

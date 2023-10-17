@@ -54,12 +54,18 @@ namespace Common {
 			{   LANG_ARMENIAN, L"AR\0",   L"Armenian\0",	{ L"hy-AM\0", L'\0'}}, /* 1067 */
 			{   LANG_GEORGIAN, L"GR\0",   L"Georgian\0",	{ L"ka-GE\0", L'\0'}}, /* 1079 */
 			{  LANG_UKRAINIAN, L"RU\0",   L"Ukrainian\0",	{ L"uk-UA\0", L'\0'}}, /* 1049 */
+			{   LANG_ROMANIAN, L"RO\0",   L"Frisian\0",		{ L"ro-RO\0", L"ro-MD\0", L"rm-CH\0", L'\0'}}, /* 1048 */
 			{    LANG_ENGLISH, L"EN\0",   L"English\0",		{ L"en-US\0", L"en-GB\0", L"en-AU\0", L"en-CA\0", L"en-NZ\0", L"en-IE\0", L"en-ZA\0", L"en-JM\0", L"en-BZ\0", L"en-TT\0", L"en-ZW\0", L"en-PH\0", L"en-ID\0", L"en-HK\0", L"en-IN\0", L"en-MY\0", L"en-SG\0", L"en-029\0", L'\0'}}, /* 1033 */
 			{     LANG_GERMAN, L"DE\0",   L"German\0",		{ L"de-DE\0", L"de-CH\0", L"de-AT\0", L"de-LU\0", L"de-LI\0", L'\0'}}, /* 1031 */
 			{     LANG_FRENCH, L"FR\0",   L"French\0",		{ L"fr-FR\0", L"fr-FR\0", L"fr-BE\0", L"fr-CA\0", L"fr-CH\0", L"fr-LU\0", L"fr-MC\0", L"fr-RE\0", L"fr-CG\0", L"fr-SN\0", L"fr-CM\0", L"fr-CI\0", L"fr-ML\0", L"fr-MA\0", L"fr-FR\0", L"fr-FR\0", L"fr-HT\0", L"fr-029\0", L"fr-015\0", L'\0'}}, /* 1036 */
+			{    LANG_FRISIAN, L"WF\0",   L"Frisian\0",		{ L"fy-NL\0", L'\0'}}, /* 1122 */
+			{      LANG_DUTCH, L"NL\0",   L"Belgium\0",		{ L"nl-NL\0", L"nl-BE\0", L'\0'}}, /* 1043, 2067 */
+			{     LANG_DANISH, L"DA\0",   L"Dutch\0",		{ L"da-DK\0", L'\0'}}, /* 1030 */
+			{    LANG_SWEDISH, L"SV\0",   L"Swedish\0",		{ L"sv-SE\0", L"sv-FI\0", L'\0'}}, /* 1053 */
 			{  LANG_NORWEGIAN, L"NR\0",   L"Norwegian\0",	{ L"nn-NO\0", L"nb-NO\0", L'\0'}}, /* 2068 */
+			{ LANG_PORTUGUESE, L"PG\0",   L"Portuguese\0",	{ L"pt-PT\0", L"pt-BR\0", L'\0'}}, /* 2070 */
 			{   LANG_JAPANESE, L"JP\0",   L"Japanese\0",	{ L"ja-JP\0", L'\0'}}, /* 1041 */
-			{    LANG_CHINESE, L"CN\0",   L"Chinese\0",		{ L"zh-CN\0", L"zh-HK\0", L"zh-SG\0", L"zh-MO\0", L"zh-TW\0", L'\0'}}, /* 2052 */
+			{    LANG_CHINESE, L"CN\0",   L"Chinese\0",		{ L"zh-CN\0", L"zh-HK\0", L"zh-SG\0", L"zh-MO\0", L"zh-TW\0", L'\0'}}, /* 2029 */
 		};
 
 		static LANGID get_uilid() {
@@ -153,8 +159,13 @@ namespace Common {
 							break;
 						}
 
-						auto p = std::filesystem::current_path();
-						p.append(L"lang");
+						std::filesystem::path p;
+						{
+							wchar_t cpath[MAX_PATH]{};
+							if (::GetModuleFileNameW(lang_hinst__, cpath, MAX_PATH - 1) == 0) break;
+							p = std::filesystem::path(cpath).parent_path();
+							p.append(L"lang");
+						}
 
 						if (std::filesystem::exists(p)) {
 							for (const auto& f : std::filesystem::directory_iterator(p)) {

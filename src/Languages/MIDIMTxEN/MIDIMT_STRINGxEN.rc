@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie translator"
+    IDS_MIXER               "&Mixer"
+    IDS_SETTINGS            "&Settings"
+    IDS_START               "Start"
+    IDS_STOP                "Stop"
+    IDS_EXIT                "Exit"
+    IDS_SETUP_MSG1          "Configuration loaded from driver"
+    IDS_SETUP_MSG2          "Configuration loaded from file"
+    IDS_SETUP_MSG3          "The configuration has been created anew and requires filling out"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT Configuration"
+    IDS_CONFIG_EXE_FILTER   "Executable files"
+    IDS_MQTT_CA_FILTER      "CA certificate"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI translator is not running."
+    IDS_INFO2               "MIDI translator works:"
+    IDS_INFO3               "Input device:"
+    IDS_INFO4               "Mackie/Premier output port:"
+    IDS_INFO5               "Output proxy port:"
+    IDS_INFO6               "The audio mixer is running."
+    IDS_INFO7               "Multimedia key control is running, check your settings."
+    IDS_INFO8               "The audio mixer is not running, check the settings, the audio panel launch must be enabled."
+    IDS_INFO9               "Invalid event ID. Please restart this application."
+    IDS_INF1O               "Failed to switch to UI thread, audio panel startup aborted."
+    IDS_INF11               "MIDIMT - Audio mixer is not running:"
+    IDS_INF12               "MIDIMT - Unable to complete operation:"
+    IDS_INF13               "Smart Home device management has started."
+    IDS_INF14               "Lighting control via the DMX512 protocol has been launched."
+    IDS_INF15               "Lighting control via the ArtNet protocol has been launched."
+    IDS_DLG_MSG0            "Installing Virtual MIDI Driver"
+    IDS_DLG_MSG1            "MIDI Mackie output"
+    IDS_DLG_MSG2            "MIDI Proxy output"
+    IDS_DLG_MSG3            "MIDI Virtual Driver Version:"
+    IDS_DLG_MSG4            "The installed Virtual MIDI driver was not found! You must install the Virtual Loop MIDI package to run the MIDI-MT translator"
+    IDS_DLG_MSG5            "When launched, proxy MIDI ports will be created:"
+    IDS_DLG_MSG6            "MIDI Proxy ports are disabled."
+    IDS_DLG_MSG7            "The selected language will be active after the window is restarted -"
+    IDS_DLG_MSG8            "MIDI input device assigned to"
+    IDS_DLG_MSG9            "Please edit the configuration before starting."
+    IDS_DLG_MSG10           "Version of installed Virtual MIDI driver:"
+    IDS_DLG_MSG11           "The selected configuration does not support auto start."
+    IDS_DLG_MSG12           "Please, before starting the monitor, start the MIDI bridge from the menu by calling 'Start'."
+    IDS_DLG_MSG13           "At startup, the configuration file was specified: '{0}'. Set it as a configuration for subsequent runs?"
+    IDS_DLG_MSG14           "When opening the editor, the configuration file was specified: '{0}'. Save it with the same name?"
+    IDS_DLG_MSG15           "Autorun is disabled in the general configuration."
+    IDS_DLG_MSG16           "DMX channel number"
+    IDS_DLG_MSG17           "You need to install the Virtual MIDI driver!"
+    IDS_DLG_DMX_NODEV       "No devices available"
+    IDS_DLG_ARTNET_NOINT    "No interfaces"
+    IDS_DLG_DMX_SELDEV      "Select DMX device"
+    IDS_DLG_ARTNET_SELINT   "Select ARTNET interface"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "sound volume (main)"
+    IDM_COL4_MAP            "sound balance (basic)"
+    IDM_COL4_MAM            "mute (main)"
+    IDM_COL4_MAS            "audio solo (main)"
+    IDM_COL4_JOG            "JOG (rewind video frame)"
+    IDM_COL4_AV1            "sound volume (channel 1)"
+    IDM_COL4_AV2            "sound volume (channel 2)"
+    IDM_COL4_AV3            "sound volume (channel 3)"
+    IDM_COL4_AV4            "sound volume (channel 4)"
+    IDM_COL4_AV5            "sound volume (channel 5)"
+    IDM_COL4_AV6            "sound volume (channel 6)"
+    IDM_COL4_AV7            "sound volume (channel 7)"
+    IDM_COL4_AV8            "sound volume (channel 8)"
+    IDM_COL4_XV9            "sound volume (channel 9)"
+    IDM_COL4_AP1            "sound balance (channel 1)"
+    IDM_COL4_AP2            "sound balance (channel 2)"
+    IDM_COL4_AP3            "sound balance (channel 3)"
+    IDM_COL4_AP4            "sound balance (channel 4)"
+    IDM_COL4_AP5            "sound balance (channel 5)"
+    IDM_COL4_AP6            "sound balance (channel 6)"
+    IDM_COL4_AP7            "sound balance (channel 7)"
+    IDM_COL4_AP8            "sound balance (channel 8)"
+    IDM_COL4_XP9            "sound balance (channel 9)"
+    IDM_COL4_B11            "audio solo (channel 1)"
+    IDM_COL4_B12            "audio solo (channel 2)"
+    IDM_COL4_B13            "audio solo (channel 3)"
+    IDM_COL4_B14            "audio solo (channel 4)"
+    IDM_COL4_B15            "audio solo (channel 5)"
+    IDM_COL4_B16            "audio solo (channel 6)"
+    IDM_COL4_B17            "audio solo (channel 7)"
+    IDM_COL4_B18            "audio solo (channel 8)"
+    IDM_COL4_B19            "audio solo (channel 9)"
+    IDM_COL4_B21            "mute (channel 1)"
+    IDM_COL4_B22            "mute (channel 2)"
+    IDM_COL4_B23            "mute (channel 3)"
+    IDM_COL4_B24            "mute (channel 4)"
+    IDM_COL4_B25            "mute (channel 5)"
+    IDM_COL4_B26            "mute (channel 6)"
+    IDM_COL4_B27            "mute (channel 7)"
+    IDM_COL4_B28            "mute (channel 8)"
+    IDM_COL4_B29            "mute (channel 9)"
+    IDM_COL4_B31            "sound selection (channel 1)"
+    IDM_COL4_B32            "sound selection (channel 2)"
+    IDM_COL4_B33            "sound selection (channel 3)"
+    IDM_COL4_B34            "sound selection (channel 4)"
+    IDM_COL4_B35            "sound selection (channel 5)"
+    IDM_COL4_B36            "sound selection (channel 6)"
+    IDM_COL4_B37            "sound selection (channel 7)"
+    IDM_COL4_B38            "sound selection (channel 8)"
+    IDM_COL4_B39            "sound selection (channel 9)"
+    IDM_COL4_FUN11          "function F1 (standard mode)"
+    IDM_COL4_FUN12          "function F2 (standard mode)"
+    IDM_COL4_FUN13          "function F3 (standard mode)"
+    IDM_COL4_FUN14          "function F4 (standard mode)"
+    IDM_COL4_FUN15          "function F5 (standard mode)"
+    IDM_COL4_FUN16          "function F6 (standard mode)"
+    IDM_COL4_FUN17          "function F7 (standard mode)"
+    IDM_COL4_FUN18          "function F8 (standard mode)"
+    IDM_COL4_FUN21          "function F1 (held mode)"
+    IDM_COL4_FUN22          "function F2 (held mode)"
+    IDM_COL4_FUN23          "function F3 (held mode)"
+    IDM_COL4_FUN24          "function F4 (held mode)"
+    IDM_COL4_FUN25          "function F5 (held mode)"
+    IDM_COL4_FUN26          "function F6 (held mode)"
+    IDM_COL4_FUN27          "function F7 (held mode)"
+    IDM_COL4_FUN28          "function F8 (held mode)"
+    IDM_COL4_SYS_Rewind     "Rewind (player)"
+    IDM_COL4_SYS_Forward    "Fast forward (player)"
+    IDM_COL4_SYS_Stop       "Stop (player)"
+    IDM_COL4_SYS_Play       "Play (player)"
+    IDM_COL4_SYS_Record     "Recording (player)"
+    IDM_COL4_SYS_Up         "Up (joystick)"
+    IDM_COL4_SYS_Down       "Down (joystick)"
+    IDM_COL4_SYS_Left       "Left (joystick)"
+    IDM_COL4_SYS_Right      "Right (joystick)"
+    IDM_COL4_SYS_Zoom       "Increase"
+    IDM_COL4_SYS_Scrub      "Scrub"
+    IDM_COL4_VOLUMEMIX      "Mixer control"
+    IDM_COL4_MEDIAKEY       "Multimedia keys"
+    IDM_COL4_MQTTKEY        "Smart Home Management"
+    IDM_COL4_LIGHTKEY8B     "Lighting control (8 bits)"
+    IDM_COL4_LIGHTKEY16B    "Lighting control (16 bit)"
+    IDM_COL4_NONE           "action not defined"
+    IDM_COL4_MQTT_AV1       "level 1"
+    IDM_COL4_MQTT_AV2       "level 2"
+    IDM_COL4_MQTT_AV3       "level 3"
+    IDM_COL4_MQTT_AV4       "level 4"
+    IDM_COL4_MQTT_AV5       "level 5"
+    IDM_COL4_MQTT_AV6       "level 6"
+    IDM_COL4_MQTT_AV7       "level 7"
+    IDM_COL4_MQTT_AV8       "level 8"
+    IDM_COL4_MQTT_XV9       "level 9"
+    IDM_COL4_MQTT_AP1       "level 10"
+    IDM_COL4_MQTT_AP2       "level 11"
+    IDM_COL4_MQTT_AP3       "level 12"
+    IDM_COL4_MQTT_AP4       "level 13"
+    IDM_COL4_MQTT_AP5       "level 14"
+    IDM_COL4_MQTT_AP6       "level 15"
+    IDM_COL4_MQTT_AP7       "level 16"
+    IDM_COL4_MQTT_AP8       "level 17"
+    IDM_COL4_MQTT_XP9       "level 18"
+    IDM_COL4_MQTT_B11       "on/off 1"
+    IDM_COL4_MQTT_B12       "on/off 2"
+    IDM_COL4_MQTT_B13       "on/off 3"
+    IDM_COL4_MQTT_B14       "on/off 4"
+    IDM_COL4_MQTT_B15       "on/off 5"
+    IDM_COL4_MQTT_B16       "on/off 6"
+    IDM_COL4_MQTT_B17       "on/off 7"
+    IDM_COL4_MQTT_B18       "on/off 8"
+    IDM_COL4_MQTT_B19       "on/off 9"
+    IDM_COL4_MQTT_B21       "on/off 10"
+    IDM_COL4_MQTT_B22       "on/off 11"
+    IDM_COL4_MQTT_B23       "on/off 12"
+    IDM_COL4_MQTT_B24       "on/off 13"
+    IDM_COL4_MQTT_B25       "on/off 14"
+    IDM_COL4_MQTT_B26       "on/off 15"
+    IDM_COL4_MQTT_B27       "on/off 16"
+    IDM_COL4_MQTT_B28       "on/off 17"
+    IDM_COL4_MQTT_B29       "on/off 18"
+    IDM_COL4_MQTT_B31       "on/off 19"
+    IDM_COL4_MQTT_B32       "on/off 20"
+    IDM_COL4_MQTT_B33       "on/off 21"
+    IDM_COL4_MQTT_B34       "on/off 22"
+    IDM_COL4_MQTT_B35       "on/off 23"
+    IDM_COL4_MQTT_B36       "on/off 24"
+    IDM_COL4_MQTT_B37       "on/off 25"
+    IDM_COL4_MQTT_B38       "on/off 26"
+    IDM_COL4_MQTT_B39       "on/off 27"
+    IDM_COL4_MQTT_NONE      "Not assigned"
+    IDM_MQTT_LOG_NONE       "no log is maintained"
+    IDM_MQTT_LOG_INFO       "information"
+    IDM_MQTT_LOG_NOTICE     "notifications"
+    IDM_MQTT_LOG_WARNING    "warnings"
+    IDM_MQTT_LOG_ERR        "only errors"
+    IDM_MQTT_LOG_DEBUG      "all messages"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "This error is undefined"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Write access to the configuration file is denied, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Configuration file missing or access denied, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Configuration file is empty, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "The MIDI device name is not configured."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "There are no MIDI keys configured in this configuration."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Attention, this configuration does not have MIDI keys configured! the recorded configuration will not work."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize initialization failed."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - failed to create an instance."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Failed to get default audio device."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager crashed."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Audio peak meter is not available."
+    IDS_ERRORID_MIXER_STARTOK
+                            "The audio session mixer is running, at the time of launch there are {0} running programs available for regulation."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "The audio session mixer could not be started, error details should be in the log file."
+    IDS_ERRORID_MIXER_STOPOK
+                            "The audio session mixer has stopped."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "The audio session mixer was not stopped correctly, error details should be in the log file."
+    IDS_ERRORID_NO_INIT     "Initialize before calling this.."
+    IDS_ERRORID_SESSION_LIST
+                            "Failed to get list of audio sessions."
+    IDS_ERRORID_LISTISNULL  "The list of audio sessions is empty!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Disabling audio session, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Audio session created, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Audio session '{0}' - Invalid registration state '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "The value being set from the callback is an invalid selector."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Setting a callback is only possible after the MIDI bridge has been successfully launched."
+    IDS_ERRORID_CONFIG_FAIL "Configuration loading failed, file not found, launch impossible."
+    IDS_ERRORID_CONFIG_LOAD "Configuration loaded.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "The configuration has already been loaded.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Configuration is empty.."
+    IDS_ERRORID_CONFIG_NEW  "New configuration version detected.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Unsupported implementation in code, method not overridden: {0}"
+    IDS_ERRORID_NOT_CONFIG  "The configuration name is not specified and cannot continue."
+    IDS_ERRORID_NOT_DEVICES "The devices are not connected and cannot continue."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Attention, mismatch in the number of devices in the final list, system/list = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Cannot open MIDI device, cannot continue, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Cannot start MIDI device, cannot continue, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Device not connected, abort, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Device {0} found, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Device {0} open, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Device {0} closed (system)"
+    IDS_ERRORID_DEVICE_DONE "Device {0} ready (system)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "The name for the active device is not specified, continuation is impossible, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy ports are not specified in the configuration, MIDI proxy is disabled."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Driver version [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problem with driver version [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Device {0} sent invalid value = {1}"
+    IDS_ERRORID_NOT_DRIVER  "The virtual MIDI driver is not installed. You need to install the loopMidi package, or download the full installer and reinstall MIDI-MT. More details: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "The Media Key Management service is running."
+    IDS_ERRORID_MMKEY_STOP  "The Media Key Management service has stopped."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT configuration is empty and cannot continue."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Error creating MQTT client, canceling."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "The MMQTT client has been successfully created, continue..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Connected to MQTT server:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Failed to connect to MQTT server:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Disconnected from MQTT server:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA certificate file does not exist, path = '{0}'"
+    IDS_ERRORID_MQTT_START  "The Smart Home control service has been launched."
+    IDS_ERRORID_MQTT_STOP   "The Smart Home control service has been stopped."
+    IDS_ERRORID_PANEL_INDEX "Audio Mixer Panel - Cannot continue, index items are incorrect."
+    IDS_ERRORID_PANEL_INIT  "Audio mixer panel - cannot continue, initialization error."
+    IDS_ERRORID_PANEL_ENABLE
+                            "The audio mixer panel window does not have the correct status and the next operation cannot be continued."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "The audio mixer panel is not invoked on a UI thread and changes cannot be made."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "The audio mixer panel detected an invalid element and the creation of the panel window was aborted."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "The DMX lighting control service is started using COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "The DMX lighting control service is not running, the COM{0} device is not connected.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "The DMX lighting control service is not running and the service configuration is not filled in."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "The DMX lighting control service has stopped."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "The ArtNet Lighting Control Service is running using the broadcast address {0}:{1} on network {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNet lighting control service is not running, network {0} not found.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "The ArtNet lighting control service is not running, the service configuration is not filled in."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "The ArtNet lighting control service has stopped."
+    IDS_ERRORID_NONE        "-"
+END

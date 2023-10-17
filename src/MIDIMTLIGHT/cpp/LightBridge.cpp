@@ -72,6 +72,7 @@ namespace Common {
 						}
 						if (r[0]) {
 							r[0] = dmxport__->Start(conf->dmxconf);
+							common_config::Get().Local.IsLightsDmxRun(r[0]);
 							to_log::Get() << log_string().to_log_fomat(
 								__FUNCTIONW__,
 								common_error_code::Get().get_error(common_error_id::err_LIGHT_DMX_START),
@@ -96,6 +97,7 @@ namespace Common {
 						}
 						if (r[1]) {
 							r[1] = artnet__->Start(conf->artnetconf);
+							common_config::Get().Local.IsLightsArtNetRun(r[1]);
 							to_log::Get() << log_string().to_log_fomat(
 								__FUNCTIONW__,
 								common_error_code::Get().get_error(common_error_id::err_LIGHT_ARTNET_START),
@@ -135,6 +137,9 @@ namespace Common {
 					artnet__->Stop();
 					to_log::Get() << log_string().to_log_string(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_LIGHT_ARTNET_STOP));
 				}
+				common_config::Get().Local.IsLightsArtNetRun(false);
+				common_config::Get().Local.IsLightsDmxRun(false);
+
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -205,8 +210,8 @@ namespace Common {
 				locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
 				if (locker.IsOnlyOne() || !locker.Begin() || locker.IsCanceled()) return true;
 
-				bool r = false;
-				uint8_t val = m.value.value;
+				uint8_t val = m.value.value,
+						target = m.target;
 				uint16_t devid = static_cast<uint16_t>(m.longtarget);
 
 				if ((m.type == MIDI::MidiUnitType::BTN) || (m.type == MIDI::MidiUnitType::BTNTOGGLE))
@@ -215,7 +220,18 @@ namespace Common {
 					val = (val == 127U) ? 255U : ((val <= 127U) ? (val * 2) : val);
 				val = (val <= 4U) ? 0U : val; /* correct end input */
 
-				dmx_packet__.set_value(devid, val);
+				switch (target) {
+					using enum MIDI::Mackie::Target;
+					case LIGHTKEY8B: {
+						dmx_packet__.set_value8(devid, val);
+						break;
+					}
+					case LIGHTKEY16B: {
+						dmx_packet__.set_value16(devid, val);
+						break;
+					}
+					default: return false;
+				}
 
 				#if defined(_DEBUG_PRINT)
 				{
@@ -229,6 +245,8 @@ namespace Common {
 				#endif
 
 				if (dmx_pool_active__ || dmx_pause__) return true;
+
+				bool r = false;
 
 				if (locker.IsCanceled()) return true;
 				if (dmxport__->IsRun()) r = dmxport__->Send(dmx_packet__, ((val == 255U) || (val == 0U)));

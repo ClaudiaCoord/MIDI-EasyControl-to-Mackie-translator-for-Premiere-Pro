@@ -276,7 +276,7 @@ namespace Common {
 		ListEdit::ListEdit() : icons__(nullptr), ErrorFn([](std::wstring){}) {
 			icons__ = ::ImageList_Create(16, 16, ILC_MASK | ILC_ORIGINALSIZE, 1, 1);
 
-			for (int32_t i = IDI_ICON_LV1; i <= IDI_ICON_LV7; i++) {
+			for (int32_t i = IDI_ICON_LV1; i <= IDI_ICON_LV8; i++) {
 				HICON ico = LangInterface::Get().GetIcon16x16(MAKEINTRESOURCE(i));
 				if (ico != nullptr) {
 					ImageList_AddIcon(icons__, ico);
@@ -611,13 +611,15 @@ namespace Common {
 					case IDM_LV_SET_MQTT:
 					case IDM_LV_SET_MMKEY:
 					case IDM_LV_SET_MIXER: 
-					case IDM_LV_SET_LIGHTKEY: {
+					case IDM_LV_SET_LIGHTKEY8B:
+					case IDM_LV_SET_LIGHTKEY16B: {
 						uint32_t val;
 						switch (id) {
 							case IDM_LV_SET_MQTT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);   break;
 							case IDM_LV_SET_MMKEY:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);  break;
 							case IDM_LV_SET_MIXER:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); break;
-							case IDM_LV_SET_LIGHTKEY:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY);  break;
+							case IDM_LV_SET_LIGHTKEY8B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY8B);  break;
+							case IDM_LV_SET_LIGHTKEY16B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY16B);  break;
 							default: return false;
 						}
 						std::wstring ws = std::to_wstring(val);
@@ -915,7 +917,7 @@ namespace Common {
 
 						if (ListView_GetItem(hwnd, &lvi)) {
 							ListMixerContainer* cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
-							if (cont) isdigitedit = cont->unit.target == MIDI::Mackie::Target::LIGHTKEY;
+							if (cont) isdigitedit = ((cont->unit.target == MIDI::Mackie::Target::LIGHTKEY8B) || (cont->unit.target == MIDI::Mackie::Target::LIGHTKEY16B));
 						}
 					} catch (...) {}
 				}
@@ -1027,9 +1029,10 @@ namespace Common {
 					case VOLUMEMIX: lvi.iImage = 3; break;
 					case MEDIAKEY:  lvi.iImage = 4; break;
 					case MQTTKEY:   lvi.iImage = 5; break;
-					case LIGHTKEY:  lvi.iImage = 6; break;
+					case LIGHTKEY8B: lvi.iImage = 6; break;
+					case LIGHTKEY16B: lvi.iImage = 7; break;
 					case NOTARGET:  lvi.iImage = 0; break;
-					default:	    lvi.iImage = 2; break;
+					default:	  lvi.iImage = 2; break;
 				}
 			}
 		}

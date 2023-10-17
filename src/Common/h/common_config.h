@@ -24,6 +24,8 @@ namespace Common {
 		std::atomic<bool> smarthomerun_;
 		std::atomic<bool> mmkeysrun_;
 		std::atomic<bool> lightsrun_;
+		std::atomic<bool> lightsdmxrun_;
+		std::atomic<bool> lightsartnetrun_;
 	public:
 		const bool IsMidiBridgeRun();
 		void IsMidiBridgeRun(bool);
@@ -34,11 +36,17 @@ namespace Common {
 		const bool IsMMKeysRun();
 		void IsMMKeysRun(bool);
 
+		const bool IsSmartHomeRun();
+		void IsSmartHomeRun(bool);
+
 		const bool IsLightsRun();
 		void IsLightsRun(bool);
 
-		const bool IsSmartHomeRun();
-		void IsSmartHomeRun(bool);
+		const bool IsLightsDmxRun();
+		void IsLightsDmxRun(bool);
+
+		const bool IsLightsArtNetRun();
+		void IsLightsArtNetRun(bool);
 	};
 
     class FLAG_EXPORT common_config {

@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_FRISIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie oersetter"
+    IDS_MIXER               "&Mixer"
+    IDS_SETTINGS            "&Ynstellings"
+    IDS_START               "Start"
+    IDS_STOP                "Ophâlde"
+    IDS_EXIT                "Útgong"
+    IDS_SETUP_MSG1          "Konfiguraasje laden fan bestjoerder"
+    IDS_SETUP_MSG2          "Konfiguraasje laden út triem"
+    IDS_SETUP_MSG3          "De konfiguraasje is oanmakke op 'e nij en fereasket ynfoljen"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT konfiguraasje"
+    IDS_CONFIG_EXE_FILTER   "Útfierbere triemmen"
+    IDS_MQTT_CA_FILTER      "CA sertifikaat"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI-oersetter wurket net."
+    IDS_INFO2               "MIDI-oersetter wurket:"
+    IDS_INFO3               "Ynfier apparaat:"
+    IDS_INFO4               "Mackie / Premier útfier haven:"
+    IDS_INFO5               "Utfier proxy poarte:"
+    IDS_INFO6               "De audiomixer rint."
+    IDS_INFO7               "Multimedia-kaaikontrôle rint, kontrolearje jo ynstellingen."
+    IDS_INFO8               "De audiomixer rint net, kontrolearje de ynstellingen, de start fan it audiopaniel moat ynskeakele wurde."
+    IDS_INFO9               "Unjildige evenemint ID. Start dizze applikaasje opnij."
+    IDS_INF1O               "It oerskeakeljen nei UI-thread is mislearre, opstarten fan audiopaniel ôfbrutsen."
+    IDS_INF11               "MIDIMT - Audiomixer wurket net:"
+    IDS_INF12               "MIDIMT - Kin operaasje net foltôgje:"
+    IDS_INF13               "Behear fan Smart Home-apparaten is begon."
+    IDS_INF14               "Ljochtkontrôle fia it DMX512-protokol is lansearre."
+    IDS_INF15               "Ljochtkontrôle fia it ArtNet-protokol is lansearre."
+    IDS_DLG_MSG0            "Ynstallearje Virtual MIDI Driver"
+    IDS_DLG_MSG1            "MIDI Mackie útfier"
+    IDS_DLG_MSG2            "MIDI Proxy útfier"
+    IDS_DLG_MSG3            "MIDI Virtual Driver Ferzje:"
+    IDS_DLG_MSG4            "De ynstallearre firtuele MIDI-bestjoerder is net fûn! Jo moatte it Virtual Loop MIDI-pakket ynstallearje om de MIDI-MT-oersetter út te fieren"
+    IDS_DLG_MSG5            "As lansearre, sille proxy MIDI-poarten wurde makke:"
+    IDS_DLG_MSG6            "MIDI Proxy havens binne útskeakele."
+    IDS_DLG_MSG7            "De selektearre taal sil aktyf wêze neidat it finster op 'e nij starte is -"
+    IDS_DLG_MSG8            "MIDI input apparaat tawiisd oan"
+    IDS_DLG_MSG9            "Bewurkje asjebleaft de konfiguraasje foardat jo begjinne."
+    IDS_DLG_MSG10           "Ferzje fan ynstalleare Virtual MIDI-bestjoerder:"
+    IDS_DLG_MSG11           "De selektearre konfiguraasje stipet gjin automatyske start."
+    IDS_DLG_MSG12           "Asjebleaft, foardat jo de monitor begjinne, start de MIDI-brêge út it menu troch 'Start' te roppen."
+    IDS_DLG_MSG13           "By it opstarten waard it konfiguraasjetriem oantsjutte: '{0}'. Set it as in konfiguraasje foar folgjende runs?"
+    IDS_DLG_MSG14           "By it iepenjen fan de bewurker waard it konfiguraasjetriem opjûn: '{0}'. Bewarje it mei deselde namme?"
+    IDS_DLG_MSG15           "Autorun is útskeakele yn 'e algemiene konfiguraasje."
+    IDS_DLG_MSG16           "DMX kanaal nûmer"
+    IDS_DLG_MSG17           "Jo moatte de Virtual MIDI-bestjoerder ynstallearje!"
+    IDS_DLG_DMX_NODEV       "Gjin apparaten beskikber"
+    IDS_DLG_ARTNET_NOINT    "Gjin ynterfaces"
+    IDS_DLG_DMX_SELDEV      "Selektearje DMX apparaat"
+    IDS_DLG_ARTNET_SELINT   "Selektearje ARTNET-ynterface"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "lûdvolume (haad)"
+    IDM_COL4_MAP            "lûdbalâns (basis)"
+    IDM_COL4_MAM            "stomme (haad)"
+    IDM_COL4_MAS            "audio solo (haad)"
+    IDM_COL4_JOG            "JOG (fideoframe weromspoelen)"
+    IDM_COL4_AV1            "lûdvolume (kanaal 1)"
+    IDM_COL4_AV2            "lûdvolume (kanaal 2)"
+    IDM_COL4_AV3            "lûdvolume (kanaal 3)"
+    IDM_COL4_AV4            "lûdvolume (kanaal 4)"
+    IDM_COL4_AV5            "lûdvolume (kanaal 5)"
+    IDM_COL4_AV6            "lûdvolume (kanaal 6)"
+    IDM_COL4_AV7            "lûdvolume (kanaal 7)"
+    IDM_COL4_AV8            "lûdvolume (kanaal 8)"
+    IDM_COL4_XV9            "lûdvolume (kanaal 9)"
+    IDM_COL4_AP1            "lûdbalâns (kanaal 1)"
+    IDM_COL4_AP2            "lûdbalâns (kanaal 2)"
+    IDM_COL4_AP3            "lûdbalâns (kanaal 3)"
+    IDM_COL4_AP4            "lûdbalâns (kanaal 4)"
+    IDM_COL4_AP5            "lûdbalâns (kanaal 5)"
+    IDM_COL4_AP6            "lûdbalâns (kanaal 6)"
+    IDM_COL4_AP7            "lûdbalâns (kanaal 7)"
+    IDM_COL4_AP8            "lûdbalâns (kanaal 8)"
+    IDM_COL4_XP9            "lûdbalâns (kanaal 9)"
+    IDM_COL4_B11            "audio solo (kanaal 1)"
+    IDM_COL4_B12            "audio solo (kanaal 2)"
+    IDM_COL4_B13            "audio solo (kanaal 3)"
+    IDM_COL4_B14            "audio solo (kanaal 4)"
+    IDM_COL4_B15            "audio solo (kanaal 5)"
+    IDM_COL4_B16            "audio solo (kanaal 6)"
+    IDM_COL4_B17            "audio solo (kanaal 7)"
+    IDM_COL4_B18            "audio solo (kanaal 8)"
+    IDM_COL4_B19            "audio solo (kanaal 9)"
+    IDM_COL4_B21            "mute (kanaal 1)"
+    IDM_COL4_B22            "mute (kanaal 2)"
+    IDM_COL4_B23            "mute (kanaal 3)"
+    IDM_COL4_B24            "mute (kanaal 4)"
+    IDM_COL4_B25            "mute (kanaal 5)"
+    IDM_COL4_B26            "mute (kanaal 6)"
+    IDM_COL4_B27            "mute (kanaal 7)"
+    IDM_COL4_B28            "mute (kanaal 8)"
+    IDM_COL4_B29            "mute (kanaal 9)"
+    IDM_COL4_B31            "lûd seleksje (kanaal 1)"
+    IDM_COL4_B32            "lûd seleksje (kanaal 2)"
+    IDM_COL4_B33            "lûd seleksje (kanaal 3)"
+    IDM_COL4_B34            "lûd seleksje (kanaal 4)"
+    IDM_COL4_B35            "lûd seleksje (kanaal 5)"
+    IDM_COL4_B36            "lûd seleksje (kanaal 6)"
+    IDM_COL4_B37            "lûd seleksje (kanaal 7)"
+    IDM_COL4_B38            "lûd seleksje (kanaal 8)"
+    IDM_COL4_B39            "lûd seleksje (kanaal 9)"
+    IDM_COL4_FUN11          "funksje F1 (standertmodus)"
+    IDM_COL4_FUN12          "funksje F2 (standert modus)"
+    IDM_COL4_FUN13          "funksje F3 (standert modus)"
+    IDM_COL4_FUN14          "funksje F4 (standert modus)"
+    IDM_COL4_FUN15          "funksje F5 (standert modus)"
+    IDM_COL4_FUN16          "funksje F6 (standert modus)"
+    IDM_COL4_FUN17          "funksje F7 (standert modus)"
+    IDM_COL4_FUN18          "funksje F8 (standert modus)"
+    IDM_COL4_FUN21          "funksje F1 (hâlden modus)"
+    IDM_COL4_FUN22          "funksje F2 (hâlde modus)"
+    IDM_COL4_FUN23          "funksje F3 (holden modus)"
+    IDM_COL4_FUN24          "funksje F4 (hâlde modus)"
+    IDM_COL4_FUN25          "funksje F5 (held modus)"
+    IDM_COL4_FUN26          "funksje F6 (hâlde modus)"
+    IDM_COL4_FUN27          "funksje F7 (holden modus)"
+    IDM_COL4_FUN28          "funksje F8 (holden modus)"
+    IDM_COL4_SYS_Rewind     "Rewind (spiler)"
+    IDM_COL4_SYS_Forward    "Snel foarút (spiler)"
+    IDM_COL4_SYS_Stop       "Stopje (spiler)"
+    IDM_COL4_SYS_Play       "Spylje (spiler)"
+    IDM_COL4_SYS_Record     "Opname (spiler)"
+    IDM_COL4_SYS_Up         "Up (joystick)"
+    IDM_COL4_SYS_Down       "Down (joystick)"
+    IDM_COL4_SYS_Left       "Lofts (joystick)"
+    IDM_COL4_SYS_Right      "Rjochts (joystick)"
+    IDM_COL4_SYS_Zoom       "Tanimme"
+    IDM_COL4_SYS_Scrub      "Scrub"
+    IDM_COL4_VOLUMEMIX      "Mixer kontrôle"
+    IDM_COL4_MEDIAKEY       "Multimedia toetsen"
+    IDM_COL4_MQTTKEY        "Smart Home Management"
+    IDM_COL4_LIGHTKEY8B     "Ljochtkontrôle (8 bits)"
+    IDM_COL4_LIGHTKEY16B    "Ljochtkontrôle (16 bit)"
+    IDM_COL4_NONE           "aksje net definiearre"
+    IDM_COL4_MQTT_AV1       "nivo 1"
+    IDM_COL4_MQTT_AV2       "nivo 2"
+    IDM_COL4_MQTT_AV3       "nivo 3"
+    IDM_COL4_MQTT_AV4       "nivo 4"
+    IDM_COL4_MQTT_AV5       "nivo 5"
+    IDM_COL4_MQTT_AV6       "nivo 6"
+    IDM_COL4_MQTT_AV7       "nivo 7"
+    IDM_COL4_MQTT_AV8       "nivo 8"
+    IDM_COL4_MQTT_XV9       "nivo 9"
+    IDM_COL4_MQTT_AP1       "nivo 10"
+    IDM_COL4_MQTT_AP2       "nivo 11"
+    IDM_COL4_MQTT_AP3       "nivo 12"
+    IDM_COL4_MQTT_AP4       "nivo 13"
+    IDM_COL4_MQTT_AP5       "nivo 14"
+    IDM_COL4_MQTT_AP6       "nivo 15"
+    IDM_COL4_MQTT_AP7       "nivo 16"
+    IDM_COL4_MQTT_AP8       "nivo 17"
+    IDM_COL4_MQTT_XP9       "nivo 18"
+    IDM_COL4_MQTT_B11       "oan/út 1"
+    IDM_COL4_MQTT_B12       "oan/út 2"
+    IDM_COL4_MQTT_B13       "oan/út 3"
+    IDM_COL4_MQTT_B14       "oan/út 4"
+    IDM_COL4_MQTT_B15       "oan/út 5"
+    IDM_COL4_MQTT_B16       "oan/út 6"
+    IDM_COL4_MQTT_B17       "oan/út 7"
+    IDM_COL4_MQTT_B18       "oan/út 8"
+    IDM_COL4_MQTT_B19       "oan/út 9"
+    IDM_COL4_MQTT_B21       "oan/út 10"
+    IDM_COL4_MQTT_B22       "oan/út 11"
+    IDM_COL4_MQTT_B23       "oan/út 12"
+    IDM_COL4_MQTT_B24       "oan/út 13"
+    IDM_COL4_MQTT_B25       "oan/út 14"
+    IDM_COL4_MQTT_B26       "oan/út 15"
+    IDM_COL4_MQTT_B27       "oan/út 16"
+    IDM_COL4_MQTT_B28       "oan/út 17"
+    IDM_COL4_MQTT_B29       "oan/út 18"
+    IDM_COL4_MQTT_B31       "oan/út 19"
+    IDM_COL4_MQTT_B32       "oan/út 20"
+    IDM_COL4_MQTT_B33       "oan/út 21"
+    IDM_COL4_MQTT_B34       "oan/út 22"
+    IDM_COL4_MQTT_B35       "oan/út 23"
+    IDM_COL4_MQTT_B36       "oan/út 24"
+    IDM_COL4_MQTT_B37       "oan/út 25"
+    IDM_COL4_MQTT_B38       "oan/út 26"
+    IDM_COL4_MQTT_B39       "oan/út 27"
+    IDM_COL4_MQTT_NONE      "Net tawiisd"
+    IDM_MQTT_LOG_NONE       "gjin log wurdt byhâlden"
+    IDM_MQTT_LOG_INFO       "ynformaasje"
+    IDM_MQTT_LOG_NOTICE     "notifikaasjes"
+    IDM_MQTT_LOG_WARNING    "warskôgings"
+    IDM_MQTT_LOG_ERR        "allinne flaters"
+    IDM_MQTT_LOG_DEBUG      "alle berjochten"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Dizze flater is net definiearre"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Skriuwtagong ta it konfiguraasjetriem is wegere, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfiguraasjetriem mist of tagong wegere, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfiguraasjetriem is leech, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "De namme fan it MIDI-apparaat is net ynsteld."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "D'r binne gjin MIDI-kaaien konfigureare yn dizze konfiguraasje."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Oandacht, dizze konfiguraasje hat gjin MIDI-kaaien ynsteld! de opnommen konfiguraasje sil net wurkje."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Inisjalisearjen inisjalisearjen mislearre."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - koe in eksimplaar net oanmeitsje."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "It krijen fan standert audio-apparaat is mislearre."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager ferûngelokke."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Audio peak meter is net beskikber."
+    IDS_ERRORID_MIXER_STARTOK
+                            "De audio-sesjemixer rint, op it momint fan lansearring binne d'r {0} rinnende programma's beskikber foar regeljouwing."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "De audio-sesjemixer koe net starte wurde, flaterdetails moatte yn it logbestân stean."
+    IDS_ERRORID_MIXER_STOPOK
+                            "De audio-sesjemixer is stoppe."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "De audio-sesjemixer waard net goed stoppe, flaterdetails moatte yn it lochbestân stean."
+    IDS_ERRORID_NO_INIT     "Inisjalisearje foardat jo dit belje .."
+    IDS_ERRORID_SESSION_LIST
+                            "It opheljen fan de list mei audio sesjes mislearre."
+    IDS_ERRORID_LISTISNULL  "De list mei audio sesjes is leech!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Audio sesje útskeakelje, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Audio sesje oanmakke, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Audio sesje '{0}' - Unjildige registraasje steat '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "De wearde dy't wurdt ynsteld fanút it werombeljen is in ûnjildige selektor."
+    IDS_ERRORID_SET_CB_WARNING
+                            "It ynstellen fan in callback is allinich mooglik nei't de MIDI-brêge mei súkses lansearre is."
+    IDS_ERRORID_CONFIG_FAIL "Konfiguraasje laden mislearre, triem net fûn, lansearring ûnmooglik."
+    IDS_ERRORID_CONFIG_LOAD "Konfiguraasje laden.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "De konfiguraasje is al laden.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfiguraasje is leech.."
+    IDS_ERRORID_CONFIG_NEW  "Nije konfiguraasjeferzje ûntdutsen.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Net-stipe ymplemintaasje yn koade, metoade net oerskreaun: {0}"
+    IDS_ERRORID_NOT_CONFIG  "De konfiguraasjenamme is net oantsjutte en kin net trochset wurde."
+    IDS_ERRORID_NOT_DEVICES "De apparaten binne net ferbûn en kinne net trochgean."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Oandacht, net oerienkomme yn it oantal apparaten yn 'e definitive list, systeem/list = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Kin MIDI-apparaat net iepenje, kin net trochgean, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Kin MIDI-apparaat net starte, kin net trochgean, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Apparaat net ferbûn, ôfbrekke, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Apparaat {0} fûn, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Apparaat {0} iepen, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Apparaat {0} sluten (systeem)"
+    IDS_ERRORID_DEVICE_DONE "Apparaat {0} klear (systeem)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "De namme foar it aktive apparaat is net oantsjutte, fuortsetting is ûnmooglik, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy havens wurde net oantsjutte yn de konfiguraasje, MIDI proxy is útskeakele."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Bestjoerderferzje [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Probleem mei bestjoerder ferzje [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Apparaat {0} ferstjoerd ûnjildige wearde = {1}"
+    IDS_ERRORID_NOT_DRIVER  "De firtuele MIDI-bestjoerder is net ynstalleare. Jo moatte it loopMidi-pakket ynstallearje, of it folsleine ynstallearder downloade en MIDI-MT opnij ynstallearje. Mear details: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "De Media Key Management-tsjinst rint."
+    IDS_ERRORID_MMKEY_STOP  "De Media Key Management-tsjinst is stoppe."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT-konfiguraasje is leech en kin net trochgean."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Flater by it meitsjen fan MQTT-kliïnt, annulearje."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "De MMQTT-kliïnt is mei súkses makke, trochgean ..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Ferbûn mei MQTT-tsjinner:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Ferbine mei MQTT-tsjinner mislearre:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Ferbûn mei MQTT-tsjinner:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA-sertifikaattriem bestiet net, paad = '{0}'"
+    IDS_ERRORID_MQTT_START  "De Smart Home-kontrôletsjinst is lansearre."
+    IDS_ERRORID_MQTT_STOP   "De Smart Home-kontrôletsjinst is stoppe."
+    IDS_ERRORID_PANEL_INDEX "Audio Mixer Panel - Kin net trochgean, yndeks items binne ferkeard."
+    IDS_ERRORID_PANEL_INIT  "Audiomixerpaniel - kin net trochgean, initialisaasjeflater."
+    IDS_ERRORID_PANEL_ENABLE
+                            "It finster fan it audiomixerpaniel hat net de juste status en de folgjende operaasje kin net trochset wurde."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "It audiomixerpaniel wurdt net oproppen op in UI-thread en feroarings kinne net makke wurde."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "It audiomixerpaniel ûntdekte in ûnjildich elemint en it oanmeitsjen fan it panielfinster waard ôfbrutsen."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "De tsjinst foar DMX-ljochtkontrôle wurdt begûn mei COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "De tsjinst foar DMX-ljochtkontrôle rint net, it COM{0}-apparaat is net ferbûn.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "De tsjinst foar DMX-ljochtkontrôle rint net en de tsjinstkonfiguraasje is net ynfolle."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "De tsjinst foar DMX-ljochtkontrôle is stoppe."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "De ArtNet-ljochtkontrôletsjinst rint mei it útstjoeradres {0}:{1} op netwurk {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNet lighting control tsjinst wurket net, netwurk {0} net fûn.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "De ArtNet-ljochtkontrôletsjinst rint net, de tsjinstkonfiguraasje is net ynfolle."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "De ArtNet-ljochtkontrôletsjinst is stoppe."
+    IDS_ERRORID_NONE        "-"
+END

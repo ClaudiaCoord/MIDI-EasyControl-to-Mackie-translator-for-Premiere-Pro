@@ -52,10 +52,17 @@ namespace Common {
 			if ((idx > 512U) || (idx == 0U)) return 0U;
 			return data__[--idx];
 		}
-		void DMXPacket::set_value(uint16_t idx, uint8_t val) {
+		void DMXPacket::set_value8(uint16_t idx, uint8_t val) {
 			if ((idx > 512U) || (idx == 0U)) return;
 			--idx;
 			data__[idx] = val;
+			midx__ = (midx__ < idx) ? idx : midx__;
+		}
+		void DMXPacket::set_value16(uint16_t idx, uint8_t val) {
+			if ((idx > 511U) || (idx == 0U)) return;
+			uint16_t v = (UINT16_MAX / 256) * val;
+			data__[(idx - 1)] = (v & 0xff);
+			data__[idx] = (v >> 8);
 			midx__ = (midx__ < idx) ? idx : midx__;
 		}
 		void DMXPacket::set_index(size_t val) {

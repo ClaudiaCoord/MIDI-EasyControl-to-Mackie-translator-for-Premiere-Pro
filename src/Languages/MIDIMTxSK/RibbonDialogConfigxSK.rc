@@ -1,0 +1,172 @@
+﻿﻿
+#include "..\..\Common\rc\resource_midimt.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_SLOVAK, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+STRINGTABLE
+BEGIN
+    IDS_RB_DIALOG_LAST_OPENL
+                            "Najnovšie súbory:"
+    IDS_RB_TABHOMEL         "Úprava"
+    IDS_RB_TABFILTERL       "Filtre"
+    IDS_RB_PANEL_EDITMAINL  "upraviť MIDI kľúč"
+    IDS_RB_PANEL_EDITSETL   "nastaviť MIDI kľúč ako..."
+    IDS_RB_PANEL_EDITOPTL   "možnosti editora"
+    IDS_RB_PANEL_FILTERL    "výber zobrazovacích filtrov"
+    IDS_RB_PANEL_SORTL      "triedenie"
+    IDS_RB_MENUL            "&Ponuka"
+    IDS_RB_MENUT            "Ponuka aplikácií"
+    IDS_RB_PANEL_QATL       "&Rýchly prístup"
+    IDS_RB_PANEL_QATT       "Panel s nástrojmi Rýchly prístup"
+    IDS_RB_DIALOG_SAVEL     "&Uložiť"
+    IDS_RB_DIALOG_SAVET     "Uložiť a použiť"
+    IDS_RB_DIALOG_SAVED     "Uložte do predtým stiahnutého súboru a aktualizujte aktuálnu konfiguráciu."
+    IDS_RB_DIALOG_EXPORTL   "&Export"
+    IDS_RB_DIALOG_EXPORTT   "Exportovať do nového súboru"
+    IDS_RB_DIALOG_EXPORTD   "Exportujte upravenú konfiguráciu do nového súboru."
+    IDS_RB_DIALOG_IMPORTL   "&Importovať"
+    IDS_RB_DIALOG_IMPORTT   "Importovať zo súboru"
+    IDS_RB_DIALOG_IMPORTD   "Importovať konfiguráciu zo súboru."
+    IDS_RB_DIALOG_EXITL     "&VÝCHOD"
+    IDS_RB_DIALOG_EXITT     "Ukončiť editor"
+    IDS_RB_DIALOG_EXITD     "Ukončí Editor konfigurácie kľúča MIDI; ak sa zmeny neuložia, stratia sa."
+    IDS_RB_LV_NEWL          "&Nový MIDI kľúč"
+    IDS_RB_LV_NEWT          "Nový MIDI kľúč"
+    IDS_RB_LV_NEWD          "Vytvorenie nového MIDI kľúča."
+    IDS_RB_LV_COPYL         "&Kopírovať"
+    IDS_RB_LV_COPYT         "Kopírovať kľúč MIDI"
+    IDS_RB_LV_COPYD         "Skopírujte vybranú položku MIDI kľúča."
+    IDS_RB_LV_PASTEL        "&Vložiť"
+    IDS_RB_LV_PASTET        "Vložte kľúč"
+    IDS_RB_LV_PASTED        "Prilepte skopírovaný kľúč MIDI."
+    IDS_RB_LV_DELETEL       "&Odstrániť"
+    IDS_RB_LV_DELETET       "Odstrániť kľúč"
+    IDS_RB_LV_DELETED       "Vymažte vybratú položku MIDI kľúča."
+    IDS_RB_LV_SET_MQTTL     "Inteligentný dom"
+    IDS_RB_LV_SET_MQTTT     "Nastavte skupinu ako „Smart Home“."
+    IDS_RB_LV_SET_MQTTD     "Priraďte vybraný MIDI kľúč skupine „Smart Home“."
+    IDS_RB_LV_SET_MMKEYL    "Multimediálne tlačidlá"
+    IDS_RB_LV_SET_MMKEYT    "Nastavte skupinu ako ""Multimediálne tlačidlá"""
+    IDS_RB_LV_SET_MMKEYD    "Priraďte vybraný MIDI kľúč do skupiny „Multimediálne tlačidlá“."
+    IDS_RB_LV_SET_MIXERL    "Zvukový mixér"
+    IDS_RB_LV_SET_MIXERT    "Nastaviť skupinu ako „Zmiešavač zvuku“"
+    IDS_RB_LV_SET_MIXERD    "Priraďte vybraný MIDI kľúč do skupiny „Audio Mixer“."
+    IDS_RB_LV_READ_MIDI_CODEL
+                            "Prečítajte si MIDI kód"
+    IDS_RB_LV_READ_MIDI_CODET
+                            "Prečítajte si riadiaci kód MIDI"
+    IDS_RB_LV_READ_MIDI_CODED
+                            "Čítajte MIDI kód ​​z ovládacieho panela alebo MIDI klávesnice."
+    IDS_RB_LV_EDIT_MODEL    "Len digitálny vstup"
+    IDS_RB_LV_EDIT_MODET    "Používajte iba digitálny vstup"
+    IDS_RB_LV_EDIT_MODED    "Nepoužívajte ponuku na výber hodnoty, použite iba digitálny vstup."
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSL
+                            "MIDI ovládací panel"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYST
+                            "Odporúčané nastavenia"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSD
+                            "Odporúčané nastavenia ovládacieho panela MIDI kompatibilné s ovládacími prvkami Adobe Premiere Pro."
+    IDS_RB_LV_FILTER_EMBEDL "Vstavané filtre"
+    IDS_RB_LV_FILTER_KEYL   "kľúč"
+    IDS_RB_LV_FILTER_KEYT   "Filtrovanie podľa MIDI kľúča"
+    IDS_RB_LV_FILTER_KEYD   "Zobraziť iba zhody v rámci skupiny klávesov MIDI."
+    IDS_RB_LV_FILTER_SCENEL "Scéna"
+    IDS_RB_LV_FILTER_SCENET "Filtrovanie podľa MIDI scény"
+    IDS_RB_LV_FILTER_SCENED "Zobraziť iba zhody v skupine scén MIDI."
+    IDS_RB_LV_FILTER_TARGETL
+                            "Účel 1"
+    IDS_RB_LV_FILTER_TARGETT
+                            "Filtrovať podľa cieľa 1"
+    IDS_RB_LV_FILTER_TARGETD
+                            "Zobraziť iba zápasy v cieľovej skupine 1."
+    IDS_RB_LV_FILTER_TARGETLONGL
+                            "Účel 2"
+    IDS_RB_LV_FILTER_TARGETLONGT
+                            "Filtrovať podľa cieľa 2"
+    IDS_RB_LV_FILTER_TARGETLONGD
+                            "Zobraziť iba zápasy v cieľovej skupine 2."
+    IDS_RB_LV_FILTER_CLEARL "Vymazať filtre"
+    IDS_RB_LV_FILTER_CLEART "Čistenie filtrov"
+    IDS_RB_LV_FILTER_CLEARD "Úplne jasné filtre, zobrazia sa všetky záznamy."
+    IDS_RB_LV_FILTER_SETL   "Nastavte filter"
+    IDS_RB_LV_FILTER_SETT   "Inštalácia filtra"
+    IDS_RB_LV_FILTER_SETD   "Nastavenie filtra zobrazí všetky neplatné položky."
+    IDS_RB_LV_FILTER_ONL    "Použiť filter"
+    IDS_RB_LV_FILTER_ONT    "Použitie filtra"
+    IDS_RB_LV_FILTER_OND    "Použitím filtra sa zobrazia vybrané položky."
+    IDS_RB_LV_FILTER_OFFL   "Zrušiť filter"
+    IDS_RB_LV_FILTER_OFFT   "Zrušiť filter"
+    IDS_RB_LV_FILTER_OFFD   "Zrušením filtra sa zobrazia všetky položky."
+    IDS_RB_LV_FILTER_MMKEYL "Zobraziť ""Multimediálne tlačidlá"""
+    IDS_RB_LV_FILTER_MMKEYT "Filtrujte podľa skupiny „Multimediálne tlačidlá“."
+    IDS_RB_LV_FILTER_MMKEYD "Použitím filtra sa zobrazia členovia skupiny Multimediálne tlačidlá."
+    IDS_RB_LV_FILTER_MIXERL "Zobraziť „Zmiešavač zvuku“"
+    IDS_RB_LV_FILTER_MIXERT "Filtrujte podľa skupiny „Zmiešavač zvuku“."
+    IDS_RB_LV_FILTER_MIXERD "Použitím filtra sa zobrazia členovia skupiny Audio Mixer."
+    IDS_RB_LV_FILTER_MQTTL  "Zobraziť „Inteligentný dom“"
+    IDS_RB_LV_FILTER_MQTTT  "Filtrujte podľa skupiny „Inteligentný dom“"
+    IDS_RB_LV_FILTER_MQTTD  "Použitím filtra sa zobrazia členovia skupiny „Inteligentný dom“."
+    IDS_RB_LV_FILTER_TYPEBTNL
+                            "Typ filtra"
+    IDS_RB_LV_FILTER_TYPEBTNT
+                            "Nastavenie typu použitých filtrov"
+    IDS_RB_LV_FILTER_TYPEBTND
+                            "Použité typy filtrov majú dva logické stavy: „A“, „ALEBO“."
+    IDS_RB_LV_FILTER_TYPEGRPL
+                            "Výber typu filtra"
+    IDS_RB_LV_FILTER_TYPEORL
+                            "Zobraziť všetky zhody"
+    IDS_RB_LV_FILTER_TYPEORT
+                            "Zobraziť záznamy s ľubovoľnou zhodou"
+    IDS_RB_LV_FILTER_TYPEORD
+                            "Filter má logický stav „A“ a zobrazuje všetky zhody."
+    IDS_RB_LV_FILTER_TYPEANDL
+                            "Zobraziť iba úplné zhody"
+    IDS_RB_LV_FILTER_TYPEANDT
+                            "Zobraziť iba záznamy s presnými zhodami"
+    IDS_RB_LV_FILTER_TYPEANDD
+                            "Filter má logický stav „ALEBO“ a zobrazuje iba úplné zhody."
+    IDS_RB_LV_FILTER_AUTOCOMMITL
+                            "Automatické odosielanie údajov vo filtri"
+    IDS_RB_LV_FILTER_AUTOCOMMITT
+                            "Automatické odosielanie zadaných hodnôt vo filtri"
+    IDS_RB_LV_FILTER_AUTOCOMMITD
+                            "Automaticky odosiela vstupné hodnoty do vstavaného filtra."
+    IDS_RB_LV_EXT_MODEL     "Zobraziť triedenie"
+    IDS_RB_LV_SORTUP_KEYL   "kľúčom"
+    IDS_RB_LV_SORTUP_KEYT   "Zoradiť podľa vzostupne a MIDI kľúča."
+    IDS_RB_LV_SORTUP_SCENEL "okolo javiska"
+    IDS_RB_LV_SORTUP_SCENET "Triedenie podľa vzostupne a MIDI scény."
+    IDS_RB_LV_SORTUP_TARGETL
+                            "po dohode 1"
+    IDS_RB_LV_SORTUP_TARGETT
+                            "Zoradiť podľa vzostupne a MIDI cieľa 1."
+    IDS_RB_LV_SORTUP_TARGETLONGL
+                            "po dohode 2"
+    IDS_RB_LV_SORTUP_TARGETLONGT
+                            "Triedenie vzostupne a MIDI cieľ 2."
+    IDS_RB_LV_SORTDOWN_KEYT "Triedenie podľa zostupného a MIDI kľúča."
+    IDS_RB_LV_SORTDOWN_SCENET
+                            "Triedenie podľa zostupného poradia a MIDI scény."
+    IDS_RB_LV_SORTDOWN_TARGETT
+                            "Triedenie podľa zostupného poradia a MIDI cieľa 1."
+    IDS_RB_LV_SORTDOWN_TARGETLONGT
+                            "Triedenie podľa zostupného poradia a MIDI cieľa 2."
+END

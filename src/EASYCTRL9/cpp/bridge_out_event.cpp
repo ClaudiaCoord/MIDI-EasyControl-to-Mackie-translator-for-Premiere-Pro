@@ -186,7 +186,7 @@ namespace Common {
                             for (auto& u : cnf__->units) {
                                 if (u.key == m.key() && u.scene == m.scene()) {
                                     #if !defined(DEBUG_NO_TARGET)
-                                    if (u.target != Mackie::Target::LIGHTKEY) break;
+                                    if ((u.target != Mackie::Target::LIGHTKEY8B) && (u.target != Mackie::Target::LIGHTKEY16B)) break;
                                     #endif
 
                                     #if defined(DEBUG_BRIDGE_OUT)

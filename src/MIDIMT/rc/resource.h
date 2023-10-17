@@ -44,10 +44,11 @@
 #define IDI_ICON_LV5                    216
 #define IDI_ICON_LV6                    217
 #define IDI_ICON_LV7                    218
-#define IDI_ICON_MENUH_LIGHT            219
-#define IDI_ICON_MENUH_DARK             220
-#define IDI_ICON_DMX			221
-#define IDI_ICON_ARTNET			222
+#define IDI_ICON_LV8                    219
+#define IDI_ICON_MENUH_LIGHT            220
+#define IDI_ICON_MENUH_DARK             221
+#define IDI_ICON_DMX			222
+#define IDI_ICON_ARTNET			223
 
 #define IDB_KNOB_METRO_ENABLED          254
 #define IDB_KNOB_METRO_DISABLED         255
@@ -74,8 +75,10 @@
 #define IDS_INF11                       311
 #define IDS_INF12                       312
 #define IDS_INF13                       313
-#define IDB_BMP_LOGO                    314
-#define IDB_BMP_ASSIGN			315
+#define IDS_INF14                       314
+#define IDS_INF15                       315
+#define IDB_BMP_LOGO                    316
+#define IDB_BMP_ASSIGN			317
 
 #define IDC_DIALOG_SAVE                 998
 #define IDC_DIALOG_EXPORT               999

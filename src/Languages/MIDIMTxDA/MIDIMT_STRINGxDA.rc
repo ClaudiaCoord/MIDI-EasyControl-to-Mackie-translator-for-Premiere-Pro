@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie oversætter"
+    IDS_MIXER               "&Blander"
+    IDS_SETTINGS            "&Indstillinger"
+    IDS_START               "Start"
+    IDS_STOP                "Hold op"
+    IDS_EXIT                "Afslut"
+    IDS_SETUP_MSG1          "Konfiguration indlæst fra driver"
+    IDS_SETUP_MSG2          "Konfiguration indlæst fra fil"
+    IDS_SETUP_MSG3          "Konfigurationen er blevet oprettet på ny og kræver udfyldning"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT konfiguration"
+    IDS_CONFIG_EXE_FILTER   "Eksekverbare filer"
+    IDS_MQTT_CA_FILTER      "CA certifikat"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI-oversætteren kører ikke."
+    IDS_INFO2               "MIDI-oversætter virker:"
+    IDS_INFO3               "Input enhed:"
+    IDS_INFO4               "Mackie/Premier udgangsport:"
+    IDS_INFO5               "Output proxy port:"
+    IDS_INFO6               "Lydmixeren kører."
+    IDS_INFO7               "Multimedietaststyring kører, tjek dine indstillinger."
+    IDS_INFO8               "Lydmixeren kører ikke, tjek indstillingerne, lydpanelstarten skal være aktiveret."
+    IDS_INFO9               "Ugyldigt hændelses-id. Genstart venligst denne applikation."
+    IDS_INF1O               "Kunne ikke skifte til UI-tråd, opstart af lydpanel blev afbrudt."
+    IDS_INF11               "MIDIMT - Lydmixer kører ikke:"
+    IDS_INF12               "MIDIMT - Kan ikke fuldføre handling:"
+    IDS_INF13               "Smart Home-enhedsadministration er startet."
+    IDS_INF14               "Lysstyring via DMX512-protokollen er blevet lanceret."
+    IDS_INF15               "Lysstyring via ArtNet-protokollen er blevet lanceret."
+    IDS_DLG_MSG0            "Installation af Virtual MIDI-driver"
+    IDS_DLG_MSG1            "MIDI Mackie udgang"
+    IDS_DLG_MSG2            "MIDI proxy output"
+    IDS_DLG_MSG3            "MIDI Virtual Driver version:"
+    IDS_DLG_MSG4            "Den installerede virtuelle MIDI-driver blev ikke fundet! Du skal installere Virtual Loop MIDI-pakken for at køre MIDI-MT-oversætteren"
+    IDS_DLG_MSG5            "Ved opstart oprettes der proxy-MIDI-porte:"
+    IDS_DLG_MSG6            "MIDI Proxy-porte er deaktiveret."
+    IDS_DLG_MSG7            "Det valgte sprog vil være aktivt efter at vinduet er genstartet -"
+    IDS_DLG_MSG8            "MIDI-inputenhed tildelt til"
+    IDS_DLG_MSG9            "Rediger venligst konfigurationen før du starter."
+    IDS_DLG_MSG10           "Version af installeret Virtual MIDI-driver:"
+    IDS_DLG_MSG11           "Den valgte konfiguration understøtter ikke automatisk start."
+    IDS_DLG_MSG12           "Før du starter monitoren, skal du starte MIDI-broen fra menuen ved at kalde 'Start'."
+    IDS_DLG_MSG13           "Ved opstart blev konfigurationsfilen angivet: '{0}'. Vil du indstille det som en konfiguration for efterfølgende kørsler?"
+    IDS_DLG_MSG14           "Ved åbning af editoren blev konfigurationsfilen angivet: '{0}'. Vil du gemme det med samme navn?"
+    IDS_DLG_MSG15           "Autorun er deaktiveret i den generelle konfiguration."
+    IDS_DLG_MSG16           "DMX kanalnummer"
+    IDS_DLG_MSG17           "Du skal installere den virtuelle MIDI-driver!"
+    IDS_DLG_DMX_NODEV       "Ingen tilgængelige enheder"
+    IDS_DLG_ARTNET_NOINT    "Ingen grænseflader"
+    IDS_DLG_DMX_SELDEV      "Vælg DMX-enhed"
+    IDS_DLG_ARTNET_SELINT   "Vælg ARTNET interface"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "lydstyrke (hoved)"
+    IDM_COL4_MAP            "lydbalance (grundlæggende)"
+    IDM_COL4_MAM            "mute (hoved)"
+    IDM_COL4_MAS            "lydsolo (hoved)"
+    IDM_COL4_JOG            "JOG (spol videoramme tilbage)"
+    IDM_COL4_AV1            "lydstyrke (kanal 1)"
+    IDM_COL4_AV2            "lydstyrke (kanal 2)"
+    IDM_COL4_AV3            "lydstyrke (kanal 3)"
+    IDM_COL4_AV4            "lydstyrke (kanal 4)"
+    IDM_COL4_AV5            "lydstyrke (kanal 5)"
+    IDM_COL4_AV6            "lydstyrke (kanal 6)"
+    IDM_COL4_AV7            "lydstyrke (kanal 7)"
+    IDM_COL4_AV8            "lydstyrke (kanal 8)"
+    IDM_COL4_XV9            "lydstyrke (kanal 9)"
+    IDM_COL4_AP1            "lydbalance (kanal 1)"
+    IDM_COL4_AP2            "lydbalance (kanal 2)"
+    IDM_COL4_AP3            "lydbalance (kanal 3)"
+    IDM_COL4_AP4            "lydbalance (kanal 4)"
+    IDM_COL4_AP5            "lydbalance (kanal 5)"
+    IDM_COL4_AP6            "lydbalance (kanal 6)"
+    IDM_COL4_AP7            "lydbalance (kanal 7)"
+    IDM_COL4_AP8            "lydbalance (kanal 8)"
+    IDM_COL4_XP9            "lydbalance (kanal 9)"
+    IDM_COL4_B11            "lydsolo (kanal 1)"
+    IDM_COL4_B12            "lydsolo (kanal 2)"
+    IDM_COL4_B13            "lydsolo (kanal 3)"
+    IDM_COL4_B14            "lydsolo (kanal 4)"
+    IDM_COL4_B15            "lydsolo (kanal 5)"
+    IDM_COL4_B16            "lydsolo (kanal 6)"
+    IDM_COL4_B17            "lydsolo (kanal 7)"
+    IDM_COL4_B18            "lydsolo (kanal 8)"
+    IDM_COL4_B19            "lydsolo (kanal 9)"
+    IDM_COL4_B21            "mute (kanal 1)"
+    IDM_COL4_B22            "mute (kanal 2)"
+    IDM_COL4_B23            "mute (kanal 3)"
+    IDM_COL4_B24            "mute (kanal 4)"
+    IDM_COL4_B25            "mute (kanal 5)"
+    IDM_COL4_B26            "mute (kanal 6)"
+    IDM_COL4_B27            "mute (kanal 7)"
+    IDM_COL4_B28            "mute (kanal 8)"
+    IDM_COL4_B29            "mute (kanal 9)"
+    IDM_COL4_B31            "lydvalg (kanal 1)"
+    IDM_COL4_B32            "lydvalg (kanal 2)"
+    IDM_COL4_B33            "lydvalg (kanal 3)"
+    IDM_COL4_B34            "lydvalg (kanal 4)"
+    IDM_COL4_B35            "lydvalg (kanal 5)"
+    IDM_COL4_B36            "lydvalg (kanal 6)"
+    IDM_COL4_B37            "lydvalg (kanal 7)"
+    IDM_COL4_B38            "lydvalg (kanal 8)"
+    IDM_COL4_B39            "lydvalg (kanal 9)"
+    IDM_COL4_FUN11          "funktion F1 (standardtilstand)"
+    IDM_COL4_FUN12          "funktion F2 (standardtilstand)"
+    IDM_COL4_FUN13          "funktion F3 (standardtilstand)"
+    IDM_COL4_FUN14          "funktion F4 (standardtilstand)"
+    IDM_COL4_FUN15          "funktion F5 (standardtilstand)"
+    IDM_COL4_FUN16          "funktion F6 (standardtilstand)"
+    IDM_COL4_FUN17          "funktion F7 (standardtilstand)"
+    IDM_COL4_FUN18          "funktion F8 (standardtilstand)"
+    IDM_COL4_FUN21          "funktion F1 (holdt tilstand)"
+    IDM_COL4_FUN22          "funktion F2 (holdt tilstand)"
+    IDM_COL4_FUN23          "funktion F3 (holdt tilstand)"
+    IDM_COL4_FUN24          "funktion F4 (holdt tilstand)"
+    IDM_COL4_FUN25          "funktion F5 (holdt tilstand)"
+    IDM_COL4_FUN26          "funktion F6 (holdt tilstand)"
+    IDM_COL4_FUN27          "funktion F7 (holdt tilstand)"
+    IDM_COL4_FUN28          "funktion F8 (holdt tilstand)"
+    IDM_COL4_SYS_Rewind     "Spol tilbage (spiller)"
+    IDM_COL4_SYS_Forward    "Hurtigt frem (spiller)"
+    IDM_COL4_SYS_Stop       "Stop (spiller)"
+    IDM_COL4_SYS_Play       "Spil (spiller)"
+    IDM_COL4_SYS_Record     "Optagelse (afspiller)"
+    IDM_COL4_SYS_Up         "Op (joystick)"
+    IDM_COL4_SYS_Down       "Ned (joystick)"
+    IDM_COL4_SYS_Left       "Venstre (joystick)"
+    IDM_COL4_SYS_Right      "Højre (joystick)"
+    IDM_COL4_SYS_Zoom       "Øge"
+    IDM_COL4_SYS_Scrub      "Skrubbe"
+    IDM_COL4_VOLUMEMIX      "Mixer kontrol"
+    IDM_COL4_MEDIAKEY       "Multimedietaster"
+    IDM_COL4_MQTTKEY        "Smart Home Management"
+    IDM_COL4_LIGHTKEY8B     "Lysstyring (8 bit)"
+    IDM_COL4_LIGHTKEY16B    "Lysstyring (16 bit)"
+    IDM_COL4_NONE           "handling ikke defineret"
+    IDM_COL4_MQTT_AV1       "niveau 1"
+    IDM_COL4_MQTT_AV2       "niveau 2"
+    IDM_COL4_MQTT_AV3       "niveau 3"
+    IDM_COL4_MQTT_AV4       "niveau 4"
+    IDM_COL4_MQTT_AV5       "niveau 5"
+    IDM_COL4_MQTT_AV6       "niveau 6"
+    IDM_COL4_MQTT_AV7       "niveau 7"
+    IDM_COL4_MQTT_AV8       "niveau 8"
+    IDM_COL4_MQTT_XV9       "niveau 9"
+    IDM_COL4_MQTT_AP1       "niveau 10"
+    IDM_COL4_MQTT_AP2       "niveau 11"
+    IDM_COL4_MQTT_AP3       "niveau 12"
+    IDM_COL4_MQTT_AP4       "niveau 13"
+    IDM_COL4_MQTT_AP5       "niveau 14"
+    IDM_COL4_MQTT_AP6       "niveau 15"
+    IDM_COL4_MQTT_AP7       "niveau 16"
+    IDM_COL4_MQTT_AP8       "niveau 17"
+    IDM_COL4_MQTT_XP9       "niveau 18"
+    IDM_COL4_MQTT_B11       "tænd/sluk 1"
+    IDM_COL4_MQTT_B12       "tænd/sluk 2"
+    IDM_COL4_MQTT_B13       "tænd/sluk 3"
+    IDM_COL4_MQTT_B14       "tænd/sluk 4"
+    IDM_COL4_MQTT_B15       "tænd/sluk 5"
+    IDM_COL4_MQTT_B16       "tænd/sluk 6"
+    IDM_COL4_MQTT_B17       "tænd/sluk 7"
+    IDM_COL4_MQTT_B18       "tænd/sluk 8"
+    IDM_COL4_MQTT_B19       "tænd/sluk 9"
+    IDM_COL4_MQTT_B21       "tænd/sluk 10"
+    IDM_COL4_MQTT_B22       "tænd/sluk 11"
+    IDM_COL4_MQTT_B23       "tænd/sluk 12"
+    IDM_COL4_MQTT_B24       "tænd/sluk 13"
+    IDM_COL4_MQTT_B25       "tænd/sluk 14"
+    IDM_COL4_MQTT_B26       "tænd/sluk 15"
+    IDM_COL4_MQTT_B27       "tænd/sluk 16"
+    IDM_COL4_MQTT_B28       "tænd/sluk 17"
+    IDM_COL4_MQTT_B29       "tænd/sluk 18"
+    IDM_COL4_MQTT_B31       "tænd/sluk 19"
+    IDM_COL4_MQTT_B32       "tænd/sluk 20"
+    IDM_COL4_MQTT_B33       "tænd/sluk 21"
+    IDM_COL4_MQTT_B34       "tænd/sluk 22"
+    IDM_COL4_MQTT_B35       "tænd/sluk 23"
+    IDM_COL4_MQTT_B36       "tænd/sluk 24"
+    IDM_COL4_MQTT_B37       "tænd/sluk 25"
+    IDM_COL4_MQTT_B38       "tænd/sluk 26"
+    IDM_COL4_MQTT_B39       "tænd/sluk 27"
+    IDM_COL4_MQTT_NONE      "Ikke tildelt"
+    IDM_MQTT_LOG_NONE       "der føres ingen log"
+    IDM_MQTT_LOG_INFO       "Information"
+    IDM_MQTT_LOG_NOTICE     "meddelelser"
+    IDM_MQTT_LOG_WARNING    "advarsler"
+    IDM_MQTT_LOG_ERR        "kun fejl"
+    IDM_MQTT_LOG_DEBUG      "alle beskeder"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Denne fejl er udefineret"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Skriveadgang til konfigurationsfilen nægtes, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfigurationsfil mangler eller adgang nægtet, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfigurationsfilen er tom, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI-enhedens navn er ikke konfigureret."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "Der er ingen MIDI-nøgler konfigureret i denne konfiguration."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Bemærk, denne konfiguration har ikke konfigureret MIDI-nøgler! den optagede konfiguration vil ikke fungere."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize initialisering mislykkedes."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - kunne ikke oprette en instans."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Kunne ikke hente standardlydenhed."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager gik ned."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Lydspidsmåler er ikke tilgængelig."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Lydsessionsmixeren kører, på lanceringstidspunktet er der {0} kørende programmer tilgængelige for regulering."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Lydsessionsmixeren kunne ikke startes, fejloplysningerne skulle være i logfilen."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Lydsessionsmixeren er stoppet."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Lydsessionsmixeren blev ikke stoppet korrekt, fejloplysningerne skulle være i logfilen."
+    IDS_ERRORID_NO_INIT     "Initialiser før du ringer til dette.."
+    IDS_ERRORID_SESSION_LIST
+                            "Kunne ikke hente listen over lydsessioner."
+    IDS_ERRORID_LISTISNULL  "Listen over lydsessioner er tom!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Deaktiverer lydsession, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Lydsession oprettet, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Lydsession '{0}' - Ugyldig registreringstilstand '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Værdien, der indstilles fra tilbagekaldet, er en ugyldig vælger."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Det er kun muligt at indstille et tilbagekald, efter at MIDI-broen er blevet startet."
+    IDS_ERRORID_CONFIG_FAIL "Indlæsning af konfiguration mislykkedes, fil blev ikke fundet, start umulig."
+    IDS_ERRORID_CONFIG_LOAD "Konfiguration indlæst.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Konfigurationen er allerede blevet indlæst.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfigurationen er tom.."
+    IDS_ERRORID_CONFIG_NEW  "Ny konfigurationsversion fundet.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Ikke-understøttet implementering i kode, metode ikke tilsidesat: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Konfigurationsnavnet er ikke angivet og kan ikke fortsætte."
+    IDS_ERRORID_NOT_DEVICES "Enhederne er ikke tilsluttet og kan ikke fortsætte."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Bemærk, uoverensstemmelse i antallet af enheder på den endelige liste, system/liste = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Kan ikke åbne MIDI-enhed, kan ikke fortsætte, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Kan ikke starte MIDI-enhed, kan ikke fortsætte, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Enhed ikke tilsluttet, afbryd, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Enhed {0} fundet, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Enhed {0} åben, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Enhed {0} lukket (system)"
+    IDS_ERRORID_DEVICE_DONE "Enhed {0} klar (system)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Navnet på den aktive enhed er ikke angivet, fortsættelse er umulig, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy-porte er ikke angivet i konfigurationen, MIDI-proxy er deaktiveret."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Driverversion [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problem med driverversion [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Enheden {0} sendte ugyldig værdi = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Den virtuelle MIDI-driver er ikke installeret. Du skal installere loopMidi-pakken eller downloade hele installationsprogrammet og geninstallere MIDI-MT. Flere detaljer: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Media Key Management-tjenesten kører."
+    IDS_ERRORID_MMKEY_STOP  "Media Key Management-tjenesten er stoppet."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT-konfigurationen er tom og kan ikke fortsætte."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Fejl ved oprettelse af MQTT-klient, annullering."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT-klienten er blevet oprettet, fortsæt..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Forbundet til MQTT-server:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Kunne ikke oprette forbindelse til MQTT-serveren:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Afbrudt fra MQTT-serveren:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA-certifikatfil findes ikke, sti = '{0}'"
+    IDS_ERRORID_MQTT_START  "Tjenesten Smart Home Control er blevet lanceret."
+    IDS_ERRORID_MQTT_STOP   "Smart Home-kontroltjenesten er blevet stoppet."
+    IDS_ERRORID_PANEL_INDEX "Audio Mixer Panel - Kan ikke fortsætte, indekselementer er forkerte."
+    IDS_ERRORID_PANEL_INIT  "Lydmixerpanel - kan ikke fortsætte, initialiseringsfejl."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Lydmixerpanelvinduet har ikke den korrekte status, og den næste handling kan ikke fortsættes."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Lydmixerpanelet kaldes ikke på en UI-tråd, og ændringer kan ikke foretages."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Lydmixerpanelet registrerede et ugyldigt element, og oprettelsen af ​​panelvinduet blev afbrudt."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "DMX-lysstyringstjenesten startes ved hjælp af COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "DMX-lysstyringstjenesten kører ikke, COM{0}-enheden er ikke tilsluttet.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "DMX-lysstyringstjenesten kører ikke, og servicekonfigurationen er ikke udfyldt."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "DMX-lysstyringstjenesten er stoppet."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "ArtNets lysstyringstjeneste kører ved hjælp af udsendelsesadressen {0}:{1} på netværket {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNet lysstyringstjeneste kører ikke, netværket {0} blev ikke fundet.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "ArtNet lysstyringstjenesten kører ikke, tjenestekonfigurationen er ikke udfyldt."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "ArtNets lysstyringstjeneste er stoppet."
+    IDS_ERRORID_NONE        "-"
+END

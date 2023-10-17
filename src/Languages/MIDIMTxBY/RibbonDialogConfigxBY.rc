@@ -1,0 +1,172 @@
+﻿﻿
+#include "..\..\Common\rc\resource_midimt.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_BELARUSIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+STRINGTABLE
+BEGIN
+    IDS_RB_DIALOG_LAST_OPENL
+                            "Апошнія файлы:"
+    IDS_RB_TABHOMEL         "Рэдагаванне"
+    IDS_RB_TABFILTERL       "Фільтры"
+    IDS_RB_PANEL_EDITMAINL  "рэдагаваць MIDI ключ"
+    IDS_RB_PANEL_EDITSETL   "ўсталяваць MIDI ключ як.."
+    IDS_RB_PANEL_EDITOPTL   "параметры рэдактара"
+    IDS_RB_PANEL_FILTERL    "выбар фільтраў прагляду"
+    IDS_RB_PANEL_SORTL      "сартаванне"
+    IDS_RB_MENUL            "&Меню"
+    IDS_RB_MENUT            "Меню прыкладання"
+    IDS_RB_PANEL_QATL       "&хуткі доступ"
+    IDS_RB_PANEL_QATT       "Панэль хуткага доступу"
+    IDS_RB_DIALOG_SAVEL     "&Захаваць"
+    IDS_RB_DIALOG_SAVET     "Захаваць і прымяніць"
+    IDS_RB_DIALOG_SAVED     "Захаваць у загружаны раней файл і абнавіць бягучую канфігурацыю."
+    IDS_RB_DIALOG_EXPORTL   "&Экспарт"
+    IDS_RB_DIALOG_EXPORTT   "Экспарт у новы файл"
+    IDS_RB_DIALOG_EXPORTD   "Экспартаваць адрэдагаваную канфігурацыю ў новы файл."
+    IDS_RB_DIALOG_IMPORTL   "&Імпарт"
+    IDS_RB_DIALOG_IMPORTT   "Імпарт з файла"
+    IDS_RB_DIALOG_IMPORTD   "Імпартаваць канфігурацыю з файла."
+    IDS_RB_DIALOG_EXITL     "&Выхад"
+    IDS_RB_DIALOG_EXITT     "Выхад з рэдактара"
+    IDS_RB_DIALOG_EXITD     "Выйсце з рэдактара канфігурацыі MIDI ключоў, калі змены не захаваны, яны будуць згубленыя."
+    IDS_RB_LV_NEWL          "&Новы MIDI ключ"
+    IDS_RB_LV_NEWT          "Новы MIDI ключ"
+    IDS_RB_LV_NEWD          "Стварэнне новага MIDI ключа."
+    IDS_RB_LV_COPYL         "&Капіяваць"
+    IDS_RB_LV_COPYT         "Капіяваць MIDI ключ"
+    IDS_RB_LV_COPYD         "Скапіяваць выбраную запіс MIDI ключа."
+    IDS_RB_LV_PASTEL        "&Уставіць"
+    IDS_RB_LV_PASTET        "Уставіць ключ"
+    IDS_RB_LV_PASTED        "Уставіць скапіяваны MIDI ключ."
+    IDS_RB_LV_DELETEL       "&Выдаліць"
+    IDS_RB_LV_DELETET       "Выдаліць ключ"
+    IDS_RB_LV_DELETED       "Выдаліць выбраны запіс MIDI ключа."
+    IDS_RB_LV_SET_MQTTL     "Разумны дом"
+    IDS_RB_LV_SET_MQTTT     "Устанавіць групу як «Разумны дом»."
+    IDS_RB_LV_SET_MQTTD     "Прызначыць выбраны MIDI ключ да групы ""Разумны дом""."
+    IDS_RB_LV_SET_MMKEYL    "Мультымедыя кнопкі"
+    IDS_RB_LV_SET_MMKEYT    "Усталяваць групу як «Мультымедыя кнопкі»"
+    IDS_RB_LV_SET_MMKEYD    "Прызначыць выбраны MIDI ключ да групы ""Мультымедыя кнопкі""."
+    IDS_RB_LV_SET_MIXERL    "Аўдыё мікшар"
+    IDS_RB_LV_SET_MIXERT    "Усталяваць групу як «Аўдыё мікшар»"
+    IDS_RB_LV_SET_MIXERD    "Прызначыць выбраны MIDI ключ да групы ""Аўдыё мікшар""."
+    IDS_RB_LV_READ_MIDI_CODEL
+                            "Чытаць MIDI код"
+    IDS_RB_LV_READ_MIDI_CODET
+                            "Прачытаць MIDI код кантролю"
+    IDS_RB_LV_READ_MIDI_CODED
+                            "Чытанне MIDI кода з паверхні кантролю або MIDI клавіятуры."
+    IDS_RB_LV_EDIT_MODEL    "Толькі лічбавы ўвод"
+    IDS_RB_LV_EDIT_MODET    "Выкарыстоўваць толькі лічбавы ўвод"
+    IDS_RB_LV_EDIT_MODED    "Не выкарыстоўваць меню выбару значэнняў, выкарыстоўваць толькі лічбавы ўвод."
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSL
+                            "MIDI панэль кіравання"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYST
+                            "Рэкамендуемыя налады"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSD
+                            "Рэкамендуемыя наладкі панэлі кіравання MIDI, сумяшчальныя з элементамі кіравання Adobe Premiere Pro."
+    IDS_RB_LV_FILTER_EMBEDL "Убудаваныя фільтры"
+    IDS_RB_LV_FILTER_KEYL   "Ключ"
+    IDS_RB_LV_FILTER_KEYT   "Фільтраваць па MIDI ключу"
+    IDS_RB_LV_FILTER_KEYD   "Паказваць толькі супадзенні ў групе MIDI ключоў."
+    IDS_RB_LV_FILTER_SCENEL "Сцэна"
+    IDS_RB_LV_FILTER_SCENET "Фільтраваць па MIDI сцэне"
+    IDS_RB_LV_FILTER_SCENED "Паказваць толькі супадзенні ў гурце MIDI сцэны."
+    IDS_RB_LV_FILTER_TARGETL
+                            "Прызначэнне 1"
+    IDS_RB_LV_FILTER_TARGETT
+                            "Фільтраваць па прызначэнні 1"
+    IDS_RB_LV_FILTER_TARGETD
+                            "Паказваць толькі супадзенні ў групе па мэтавым прызначэнні 1."
+    IDS_RB_LV_FILTER_TARGETLONGL
+                            "Прызначэнне 2"
+    IDS_RB_LV_FILTER_TARGETLONGT
+                            "Фільтраваць па прызначэнні 2"
+    IDS_RB_LV_FILTER_TARGETLONGD
+                            "Паказваць толькі супадзенні ў групе па мэтавым прызначэнні 2."
+    IDS_RB_LV_FILTER_CLEARL "Ачысціць фільтры"
+    IDS_RB_LV_FILTER_CLEART "Ачыстка фільтраў"
+    IDS_RB_LV_FILTER_CLEARD "Поўная ачыстка фільтраў, будуць паказаны ўсе запісы."
+    IDS_RB_LV_FILTER_SETL   "Усталяваць фільтр"
+    IDS_RB_LV_FILTER_SETT   "Ўстаноўка фільтра"
+    IDS_RB_LV_FILTER_SETD   "Усталяванне фільтра паказвае ўсе несапраўдныя элементы."
+    IDS_RB_LV_FILTER_ONL    "Ужыць фільтр"
+    IDS_RB_LV_FILTER_ONT    "Ужыванне фільтра"
+    IDS_RB_LV_FILTER_OND    "Ужыванне фільтра паказвае абраныя элементы."
+    IDS_RB_LV_FILTER_OFFL   "Адмяніць фільтр"
+    IDS_RB_LV_FILTER_OFFT   "Адмена фільтра"
+    IDS_RB_LV_FILTER_OFFD   "Адмена фільтра пакажа ўсе элементы."
+    IDS_RB_LV_FILTER_MMKEYL "Паказаць «Мультымедыя кнопкі»"
+    IDS_RB_LV_FILTER_MMKEYT "Фільтраваць па групе «Мультымедыя кнопкі»"
+    IDS_RB_LV_FILTER_MMKEYD "Ужыванне фільтра пакажа чальцоў групы «Мультымедыя кнопкі»."
+    IDS_RB_LV_FILTER_MIXERL "Паказаць «Аўдыё мікшар»"
+    IDS_RB_LV_FILTER_MIXERT "Фільтраваць па групе «Аўдыё мікшар»"
+    IDS_RB_LV_FILTER_MIXERD "Ужыванне фільтра пакажа чальцоў групы «Аўдыё мікшар»."
+    IDS_RB_LV_FILTER_MQTTL  "Паказаць «Разумны дом»"
+    IDS_RB_LV_FILTER_MQTTT  "Фільтраваць па групе «Разумны дом»"
+    IDS_RB_LV_FILTER_MQTTD  "Ужыванне фільтра пакажа чальцоў групы «Разумны дом»."
+    IDS_RB_LV_FILTER_TYPEBTNL
+                            "Тып фільтра"
+    IDS_RB_LV_FILTER_TYPEBTNT
+                            "Устаноўка тыпу прымяняемых фільтраў"
+    IDS_RB_LV_FILTER_TYPEBTND
+                            "Тыпы прымяняюцца фільтраў маюць два лагічныя станы: «І», «АБО»."
+    IDS_RB_LV_FILTER_TYPEGRPL
+                            "Выбар тыпу фільтрацыі"
+    IDS_RB_LV_FILTER_TYPEORL
+                            "Паказваць любыя супадзенні"
+    IDS_RB_LV_FILTER_TYPEORT
+                            "Паказваць запісы з любым супадзеннем"
+    IDS_RB_LV_FILTER_TYPEORD
+                            "Фільтр мае стан лагічнага «І» і паказвае любыя супадзенні."
+    IDS_RB_LV_FILTER_TYPEANDL
+                            "Паказваць толькі поўныя супадзенні"
+    IDS_RB_LV_FILTER_TYPEANDT
+                            "Паказваць запісы толькі з поўным супадзеннем"
+    IDS_RB_LV_FILTER_TYPEANDD
+                            "Фільтр мае стан лагічнага «АБО» і паказвае толькі поўныя супадзенні."
+    IDS_RB_LV_FILTER_AUTOCOMMITL
+                            "Аўто адпраўка дадзеных у фільтры"
+    IDS_RB_LV_FILTER_AUTOCOMMITT
+                            "Аўто адпраўка ўводзімых значэнняў у фільтры"
+    IDS_RB_LV_FILTER_AUTOCOMMITD
+                            "Аўтаматычна адпраўляе ўводзімыя значэнні ва ўбудаваным фільтры."
+    IDS_RB_LV_EXT_MODEL     "Паказаць сартаванне"
+    IDS_RB_LV_SORTUP_KEYL   "па ключы"
+    IDS_RB_LV_SORTUP_KEYT   "Сартаванне па ўзрастанні і MIDI ключу."
+    IDS_RB_LV_SORTUP_SCENEL "па сцэне"
+    IDS_RB_LV_SORTUP_SCENET "Сартаванне па ўзрастанні і MIDI сцэне."
+    IDS_RB_LV_SORTUP_TARGETL
+                            "па прызначэнні 1"
+    IDS_RB_LV_SORTUP_TARGETT
+                            "Сартаванне па ўзрастанні і MIDI прызначэнню 1."
+    IDS_RB_LV_SORTUP_TARGETLONGL
+                            "па прызначэнні 2"
+    IDS_RB_LV_SORTUP_TARGETLONGT
+                            "Сартаванне па ўзрастанні і MIDI прызначэнню 2."
+    IDS_RB_LV_SORTDOWN_KEYT "Сартаванне па змяншэнні і MIDI ключу."
+    IDS_RB_LV_SORTDOWN_SCENET
+                            "Сартаванне па змяншэнні і MIDI сцэне."
+    IDS_RB_LV_SORTDOWN_TARGETT
+                            "Сартаванне па змяншэнні і MIDI прызначэнню 1."
+    IDS_RB_LV_SORTDOWN_TARGETLONGT
+                            "Сартаванне па змяншэнні і MIDI прызначэнню 2."
+END

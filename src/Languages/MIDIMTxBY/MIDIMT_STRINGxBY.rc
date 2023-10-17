@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_BELARUSIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Аўдыё Мікшар -> MIDI-Mackie транслятар"
+    IDS_MIXER               "&Мікшэр"
+    IDS_SETTINGS            "&Налады"
+    IDS_START               "Ст&арт"
+    IDS_STOP                "Ст&оп"
+    IDS_EXIT                "Выйхад"
+    IDS_SETUP_MSG1          "Канфігурацыя загружана з драйвера"
+    IDS_SETUP_MSG2          "Канфігурацыя загружана з файла"
+    IDS_SETUP_MSG3          "Канфігурацыя створана нанова і патрабуе запаўнення"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT Канфігурацыя"
+    IDS_CONFIG_EXE_FILTER   "Выконваныя файлы"
+    IDS_MQTT_CA_FILTER      "CA сертыфікат"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI транслятар не запушчаны."
+    IDS_INFO2               "MIDI транслятар працуе:"
+    IDS_INFO3               "Уваходная прылада:"
+    IDS_INFO4               "Выходны Mackie/Premier порт:"
+    IDS_INFO5               "Выхадны проксі порт:"
+    IDS_INFO6               "Аўдыё мікшар запушчаны."
+    IDS_INFO7               "Кіраванне мультымедыя клавішамі запушчана, праверце наладкі."
+    IDS_INFO8               "Аўдыёмікшар не запушчаны, праверце налады, павінен быць уключаны запуск аўдыяпанэлі."
+    IDS_INFO9               "Няверны ідэнтыфікатар падзеі. Калі ласка, перазапусціце гэта дадатак."
+    IDS_INF1O               "Не атрымалася перамыкаецца на струмень карыстацкага інтэрфейсу, запуск аўдыёпанэлі перарваны."
+    IDS_INF11               "MIDIMT - Аўдыё мікшар не запушчаны:"
+    IDS_INF12               "MIDIMT - Немагчыма скончыць аперацыю:"
+    IDS_INF13               "Кіраванне прыладамі \\Разумнага дома\\ запушчана."
+    IDS_INF14               "Кіраванне асвятленнем па пратаколе ""DMX512"" запушчана."
+    IDS_INF15               "Кіраванне асвятленнем па пратаколе ""ArtNet"" запушчана."
+    IDS_DLG_MSG0            "Ўстаноўка Virtual MIDI драйвера"
+    IDS_DLG_MSG1            "MIDI Mackie выхад"
+    IDS_DLG_MSG2            "MIDI Proxy выхад"
+    IDS_DLG_MSG3            "Версія MIDI Virtual драйвера:"
+    IDS_DLG_MSG4            "Устаноўлены Virtual MIDI драйвер не знойдзены! Неабходна ўсталяваць пакет Virtual Loop MIDI для запуску MIDI-MT транслятара"
+    IDS_DLG_MSG5            "Пры запуску будуць створаны проксі MIDI парты:"
+    IDS_DLG_MSG6            "MIDI Proxy парты адключаныя."
+    IDS_DLG_MSG7            "Абраная мова будзе актыўнай пасля перазапуску акна -"
+    IDS_DLG_MSG8            "Уваходнае MIDI прылада прызначанае на"
+    IDS_DLG_MSG9            "Калі ласка, адрэдагуйце канфігурацыю перад запускам."
+    IDS_DLG_MSG10           "Версія ўсталяванага Virtual MIDI драйвера:"
+    IDS_DLG_MSG11           "Абраная канфігурацыя не падтрымлівае аўта старт."
+    IDS_DLG_MSG12           "Калі ласка, перад запускам манітора, запусціце MIDI брыдж з меню, выклікаўшы 'Старт'."
+    IDS_DLG_MSG13           "Пры запуску быў паказаны файл канфігурацыі: '{0}'. Усталяваць яго як канфігурацыю для наступных запускаў?"
+    IDS_DLG_MSG14           "Пры адкрыцці рэдактара, быў паказаны файл канфігурацыі: '{0}'. Захаваць яго з тым жа імем?"
+    IDS_DLG_MSG15           "Аўтазапуск забаронены ў агульнай канфігурацыі."
+    IDS_DLG_MSG16           "Нумар DMX канала"
+    IDS_DLG_MSG17           "Неабходна ўсталяваць Virtual MIDI драйвер!"
+    IDS_DLG_DMX_NODEV       "Прылады адсутнічаюць"
+    IDS_DLG_ARTNET_NOINT    "Інтэрфейсы адсутнічаюць"
+    IDS_DLG_DMX_SELDEV      "Абярыце DMX прылада"
+    IDS_DLG_ARTNET_SELINT   "Абярыце ARTNET інтэрфейс"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "гучнасць гуку (асноўны)"
+    IDM_COL4_MAP            "гукавы баланс (асноўны)"
+    IDM_COL4_MAM            "адключэнне гуку (асноўны)"
+    IDM_COL4_MAS            "аўдыё сола (асноўны)"
+    IDM_COL4_JOG            "JOG (перамотка відэакадра)"
+    IDM_COL4_AV1            "гучнасць гуку (канал 1)"
+    IDM_COL4_AV2            "гучнасць гуку (канал 2)"
+    IDM_COL4_AV3            "гучнасць гуку (канал 3)"
+    IDM_COL4_AV4            "гучнасць гуку (канал 4)"
+    IDM_COL4_AV5            "гучнасць гуку (канал 5)"
+    IDM_COL4_AV6            "гучнасць гуку (канал 6)"
+    IDM_COL4_AV7            "гучнасць гуку (канал 7)"
+    IDM_COL4_AV8            "гучнасць гуку (канал 8)"
+    IDM_COL4_XV9            "гучнасць гуку (канал 9)"
+    IDM_COL4_AP1            "гукавы баланс (канал 1)"
+    IDM_COL4_AP2            "гукавы баланс (канал 2)"
+    IDM_COL4_AP3            "гукавы баланс (канал 3)"
+    IDM_COL4_AP4            "гукавы баланс (канал 4)"
+    IDM_COL4_AP5            "гукавы баланс (канал 5)"
+    IDM_COL4_AP6            "гукавы баланс (канал 6)"
+    IDM_COL4_AP7            "гукавы баланс (канал 7)"
+    IDM_COL4_AP8            "гукавы баланс (канал 8)"
+    IDM_COL4_XP9            "гукавы баланс (канал 9)"
+    IDM_COL4_B11            "аўдыё сола (канал 1)"
+    IDM_COL4_B12            "аўдыё сола (канал 2)"
+    IDM_COL4_B13            "аўдыё сола (канал 3)"
+    IDM_COL4_B14            "аўдыё сола (канал 4)"
+    IDM_COL4_B15            "аўдыё сола (канал 5)"
+    IDM_COL4_B16            "аўдыё сола (канал 6)"
+    IDM_COL4_B17            "аўдыё сола (канал 7)"
+    IDM_COL4_B18            "аўдыё сола (канал 8)"
+    IDM_COL4_B19            "аўдыё сола (канал 9)"
+    IDM_COL4_B21            "адключэнне гуку (канал 1)"
+    IDM_COL4_B22            "адключэнне гуку (канал 2)"
+    IDM_COL4_B23            "адключэнне гуку (канал 3)"
+    IDM_COL4_B24            "адключэнне гуку (канал 4)"
+    IDM_COL4_B25            "адключэнне гуку (канал 5)"
+    IDM_COL4_B26            "адключэнне гуку (канал 6)"
+    IDM_COL4_B27            "адключэнне гуку (канал 7)"
+    IDM_COL4_B28            "адключэнне гуку (канал 8)"
+    IDM_COL4_B29            "адключэнне гуку (канал 9)"
+    IDM_COL4_B31            "выбар гуку (канал 1)"
+    IDM_COL4_B32            "выбар гуку (канал 2)"
+    IDM_COL4_B33            "выбар гуку (канал 3)"
+    IDM_COL4_B34            "выбар гуку (канал 4)"
+    IDM_COL4_B35            "выбар гуку (канал 5)"
+    IDM_COL4_B36            "выбар гуку (канал 6)"
+    IDM_COL4_B37            "выбар гуку (канал 7)"
+    IDM_COL4_B38            "выбар гуку (канал 8)"
+    IDM_COL4_B39            "выбар гуку (канал 9)"
+    IDM_COL4_FUN11          "функцыя F1 (стандартны рэжым)"
+    IDM_COL4_FUN12          "функцыя F2 (стандартны рэжым)"
+    IDM_COL4_FUN13          "функцыя F3 (стандартны рэжым)"
+    IDM_COL4_FUN14          "функцыя F4 (стандартны рэжым)"
+    IDM_COL4_FUN15          "функцыя F5 (стандартны рэжым)"
+    IDM_COL4_FUN16          "функцыя F6 (стандартны рэжым)"
+    IDM_COL4_FUN17          "функцыя F7 (стандартны рэжым)"
+    IDM_COL4_FUN18          "функцыя F8 (стандартны рэжым)"
+    IDM_COL4_FUN21          "функцыя F1 (утрымліваемы рэжым)"
+    IDM_COL4_FUN22          "функцыя F2 (утрымліваемы рэжым)"
+    IDM_COL4_FUN23          "функцыя F3 (утрымліваемы рэжым)"
+    IDM_COL4_FUN24          "функцыя F4 (утрымліваемы рэжым)"
+    IDM_COL4_FUN25          "функцыя F5 (утрыманы рэжым)"
+    IDM_COL4_FUN26          "функцыя F6 (утрымліваемы рэжым)"
+    IDM_COL4_FUN27          "функцыя F7 (утрымліваемы рэжым)"
+    IDM_COL4_FUN28          "функцыя F8 (утрымліваемы рэжым)"
+    IDM_COL4_SYS_Rewind     "Перамотка назад (прайгравальнік)"
+    IDM_COL4_SYS_Forward    "Перамотка наперад (прайгравальнік)"
+    IDM_COL4_SYS_Stop       "Стоп (прайгравальнік)"
+    IDM_COL4_SYS_Play       "Гуляць (прайгравальнік)"
+    IDM_COL4_SYS_Record     "Запіс (прайгравальнік)"
+    IDM_COL4_SYS_Up         "Уверх (джойсцік)"
+    IDM_COL4_SYS_Down       "Уніз (джойсцік)"
+    IDM_COL4_SYS_Left       "Налева (джойсцік)"
+    IDM_COL4_SYS_Right      "Направа (джойсцік)"
+    IDM_COL4_SYS_Zoom       "Павелічэнне"
+    IDM_COL4_SYS_Scrub      "Скраб"
+    IDM_COL4_VOLUMEMIX      "Упраўленне «Мікшэрам»"
+    IDM_COL4_MEDIAKEY       "Мультымедыйныя клавішы"
+    IDM_COL4_MQTTKEY        "Упраўленне «Разумным домам»"
+    IDM_COL4_LIGHTKEY8B     "Упраўленне асвятленнем (8 біт)"
+    IDM_COL4_LIGHTKEY16B    "Упраўленне асвятленнем (16 біт)"
+    IDM_COL4_NONE           "дзеянне не вызначана"
+    IDM_COL4_MQTT_AV1       "узровень 1"
+    IDM_COL4_MQTT_AV2       "узровень 2"
+    IDM_COL4_MQTT_AV3       "узровень 3"
+    IDM_COL4_MQTT_AV4       "узровень 4"
+    IDM_COL4_MQTT_AV5       "узровень 5"
+    IDM_COL4_MQTT_AV6       "узровень 6"
+    IDM_COL4_MQTT_AV7       "узровень 7"
+    IDM_COL4_MQTT_AV8       "узровень 8"
+    IDM_COL4_MQTT_XV9       "узровень 9"
+    IDM_COL4_MQTT_AP1       "узровень 10"
+    IDM_COL4_MQTT_AP2       "узровень 11"
+    IDM_COL4_MQTT_AP3       "узровень 12"
+    IDM_COL4_MQTT_AP4       "узровень 13"
+    IDM_COL4_MQTT_AP5       "узровень 14"
+    IDM_COL4_MQTT_AP6       "узровень 15"
+    IDM_COL4_MQTT_AP7       "узровень 16"
+    IDM_COL4_MQTT_AP8       "узровень 17"
+    IDM_COL4_MQTT_XP9       "узровень 18"
+    IDM_COL4_MQTT_B11       "вкл/выкл 1"
+    IDM_COL4_MQTT_B12       "вкл/выкл 2"
+    IDM_COL4_MQTT_B13       "вкл/выкл 3"
+    IDM_COL4_MQTT_B14       "вкл/выкл 4"
+    IDM_COL4_MQTT_B15       "вкл/выкл 5"
+    IDM_COL4_MQTT_B16       "вкл/выкл 6"
+    IDM_COL4_MQTT_B17       "вкл/выкл 7"
+    IDM_COL4_MQTT_B18       "вкл/выкл 8"
+    IDM_COL4_MQTT_B19       "вкл/выкл 9"
+    IDM_COL4_MQTT_B21       "вкл/выкл 10"
+    IDM_COL4_MQTT_B22       "вкл/выкл 11"
+    IDM_COL4_MQTT_B23       "вкл/выкл 12"
+    IDM_COL4_MQTT_B24       "вкл/выкл 13"
+    IDM_COL4_MQTT_B25       "вкл/выкл 14"
+    IDM_COL4_MQTT_B26       "вкл/выкл 15"
+    IDM_COL4_MQTT_B27       "вкл/выкл 16"
+    IDM_COL4_MQTT_B28       "вкл/выкл 17"
+    IDM_COL4_MQTT_B29       "вкл/выкл 18"
+    IDM_COL4_MQTT_B31       "вкл/выкл 19"
+    IDM_COL4_MQTT_B32       "вкл/выкл 20"
+    IDM_COL4_MQTT_B33       "вкл/выкл 21"
+    IDM_COL4_MQTT_B34       "вкл/выкл 22"
+    IDM_COL4_MQTT_B35       "вкл/выкл 23"
+    IDM_COL4_MQTT_B36       "вкл/выкл 24"
+    IDM_COL4_MQTT_B37       "вкл/выкл 25"
+    IDM_COL4_MQTT_B38       "вкл/выкл 26"
+    IDM_COL4_MQTT_B39       "вкл/выкл 27"
+    IDM_COL4_MQTT_NONE      "Не прызначана"
+    IDM_MQTT_LOG_NONE       "лог не вядзецца"
+    IDM_MQTT_LOG_INFO       "інфармацыя"
+    IDM_MQTT_LOG_NOTICE     "апавяшчэння"
+    IDM_MQTT_LOG_WARNING    "папярэджанні"
+    IDM_MQTT_LOG_ERR        "толькі памылкі"
+    IDM_MQTT_LOG_DEBUG      "усе паведамленні"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Гэтая памылка не вызначана"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Доступ на запіс да файла канфігурацыі забаронены, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Файл канфігурацыі адсутнічае або доступ забаронены, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Файл канфігурацыі пусты, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Імя MIDI-прылады не зададзена ў канфігурацыі."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "У гэтай канфігурацыі не настроены MIDI-клавішы."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Увага, у гэтай канфігурацыі не настроены MIDI-клавішы! запісаная канфігурацыю будзе не працаздольнай."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize ініцыялізацыя не ўдалася."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - не атрымалася стварыць асобнік."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Не атрымалася атрымаць аўдыё прылада па змаўчанні."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Збой дыспетчара аўдыясеансаў."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Аўдыё пікавы вымяральнік не даступны."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Мікшар аўдыёсеансаў запушчаны, на момант запуску маецца {0} запушчаных праграм, даступных для рэгулявання."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Не атрымалася запусціць мікшар аўдыёсесіі, звесткі пра памылку павінны быць у файле часопіса."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Мікшар аўдыясесія спынены."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Мікшар аўдыёсесіі не быў правільна спынены, звесткі пра памылку павінны быць у файле часопіса."
+    IDS_ERRORID_NO_INIT     "Ініцыялізуйце, перш чым выклікаць гэта."
+    IDS_ERRORID_SESSION_LIST
+                            "Не ўдалося атрымаць спіс аўдыёсеансаў."
+    IDS_ERRORID_LISTISNULL  "Спіс аўдыясесія пусты!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Адключэнне аўдыясесіі, прычына='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Створана аўдыясесія, імя='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Аўдыёсеанс '{0}' – няправільны стан рэгістрацыі '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Усталёўванае значэнне з зваротнага выкліку - няслушны селектар."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Ўстаноўка зваротнага выкліку магчыма толькі пасля паспяховага запуску MIDI-моста."
+    IDS_ERRORID_CONFIG_FAIL "Збой загрузкі канфігурацыі, файл не знойдзены, запуск немагчымы."
+    IDS_ERRORID_CONFIG_LOAD "Канфігурацыя загружана.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Канфігурацыя ўжо загружана."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Канфігурацыя пустая."
+    IDS_ERRORID_CONFIG_NEW  "Выяўлена новая версія канфігурацыі."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Непадтрымліваемая рэалізацыя ў кодзе, метад не перавызначаны: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Імя канфігурацыі не пазначана, працяг немагчыма."
+    IDS_ERRORID_NOT_DEVICES "Прылады не падключаны, працяг немагчыма."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Увага, неадпаведнасць колькасці прылад у выніковым спісе, сістэма/спіс = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Не ўдаецца адкрыць MIDI-прыладу, працяг немагчыма, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Не ўдаецца запусціць MIDI-прыладу, працяг немагчыма, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Прылада не падключана, abort, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Прылада {0} знойдзена, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Прылада {0} адкрыта, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Прылада {0} зачынена (сістэма)"
+    IDS_ERRORID_DEVICE_DONE "Прылада {0} гатова (сістэма)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Не зададзена імя для актыўнай прылады, працяг немагчыма, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Не зададзены проксі-парты ў канфігурацыі, MIDI-проксі адключана."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Версія драйвера [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Праблема з версіяй драйвера [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Прылада {0} адправіла няправільнае значэнне = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Віртуальны MIDI драйвер не ўсталяваны. Неабходна ўсталяваць пакет loopMidi, ці спампаваць поўную весію ўсталёўшчыка і пераўсталяваць MIDI-MT. Падрабязней: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Служба кіравання мультымедыйнымі ключамі запушчана."
+    IDS_ERRORID_MMKEY_STOP  "Служба кіравання мультымедыйнымі ключамі спынена."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "Канфігурацыя MQTT не запоўнена, працяг немагчыма."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Памылка стварэння кліента MQTT, адмена."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "Кліент MMQTT паспяхова створаны, працягваем."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Падключана да сервера MQTT:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Не атрымалася падлучыцца да сервера MQTT:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Адключана ад сервера MQTT:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "Файл сертыфіката CA не існуе, шлях = '{0}'"
+    IDS_ERRORID_MQTT_START  "Служба кіравання Разумным домам запушчана."
+    IDS_ERRORID_MQTT_STOP   "Служба кіравання Разумным домам спынена."
+    IDS_ERRORID_PANEL_INDEX "Панэль аўдыёмікшэра - працяг немагчыма, элементы азначніка няслушныя."
+    IDS_ERRORID_PANEL_INIT  "Панэль аўдыё мікшэра - працяг немагчыма, памылка ініцыялізацыі."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Акно панэлі аўдыёмікшэра не адпавядае статуту, немагчыма працягнуць наступную аперацыю."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Панэль аўдыёмікшэра выклікана не ў струмені карыстацкага інтэрфейсу, змены немагчымыя."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Панэль аўдыёмікшэра выявіла няправільны элемент, перарвана стварэнне акна панэлі."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "Служба кіравання асвятленнем DMX запушчана з выкарыстаннем COM {0} – {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "Служба кіравання асвятленнем DMX не запушчана, прылада COM{0} не падключана."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "Служба кіравання асвятленнем DMX не запушчана, канфігурацыя службы не запоўнена."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "Служба кіравання асвятленнем DMX спынена."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "Служба кіравання асвятленнем ArtNet запушчана з выкарыстаннем шырокавяшчальнага адраса {0}:{1} у сетцы {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "Служба кіравання асвятленнем ArtNet не запушчана, сетка {0} не знойдзена."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "Служба кіравання асвятленнем ArtNet не запушчана, канфігурацыя службы не запоўнена."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "Служба кіравання асвятленнем ArtNet спынена."
+    IDS_ERRORID_NONE        "-"
+END

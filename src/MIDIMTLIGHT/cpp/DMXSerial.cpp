@@ -137,7 +137,7 @@ namespace Common {
                     CEnumerateNamesArray names;
 
                     if (CEnumerateSerial::UsingSetupAPI2(ports, names)) {
-                        for (int i = 0; i < ports.size(); i++)
+                        for (size_t i = 0; i < ports.size(); i++)
                             devices__.add(ports[i], names[i]);
                     }
                 } catch (...) {

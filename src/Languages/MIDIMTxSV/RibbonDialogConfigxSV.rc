@@ -1,0 +1,172 @@
+﻿﻿
+#include "..\..\Common\rc\resource_midimt.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+STRINGTABLE
+BEGIN
+    IDS_RB_DIALOG_LAST_OPENL
+                            "Senaste filerna:"
+    IDS_RB_TABHOMEL         "Redigering"
+    IDS_RB_TABFILTERL       "Filter"
+    IDS_RB_PANEL_EDITMAINL  "redigera MIDI-nyckeln"
+    IDS_RB_PANEL_EDITSETL   "ställ in MIDI-nyckeln som..."
+    IDS_RB_PANEL_EDITOPTL   "redigeringsalternativ"
+    IDS_RB_PANEL_FILTERL    "urval av visningsfilter"
+    IDS_RB_PANEL_SORTL      "sortering"
+    IDS_RB_MENUL            "&Meny"
+    IDS_RB_MENUT            "Applikationsmeny"
+    IDS_RB_PANEL_QATL       "&Snabb åtkomst"
+    IDS_RB_PANEL_QATT       "Snabbåtkomstverktygsfält"
+    IDS_RB_DIALOG_SAVEL     "&Spara"
+    IDS_RB_DIALOG_SAVET     "Spara och tillämpa"
+    IDS_RB_DIALOG_SAVED     "Spara till den tidigare nedladdade filen och uppdatera den aktuella konfigurationen."
+    IDS_RB_DIALOG_EXPORTL   "&Exportera"
+    IDS_RB_DIALOG_EXPORTT   "Exportera till en ny fil"
+    IDS_RB_DIALOG_EXPORTD   "Exportera den redigerade konfigurationen till en ny fil."
+    IDS_RB_DIALOG_IMPORTL   "&Importera"
+    IDS_RB_DIALOG_IMPORTT   "Importera från fil"
+    IDS_RB_DIALOG_IMPORTD   "Importera konfiguration från fil."
+    IDS_RB_DIALOG_EXITL     "&Utgång"
+    IDS_RB_DIALOG_EXITT     "Avsluta editorn"
+    IDS_RB_DIALOG_EXITD     "Avsluter MIDI Key Configuration Editor; om ändringar inte sparas kommer de att gå förlorade."
+    IDS_RB_LV_NEWL          "&Ny MIDI-nyckel"
+    IDS_RB_LV_NEWT          "Ny MIDI-nyckel"
+    IDS_RB_LV_NEWD          "Skapa en ny MIDI-nyckel."
+    IDS_RB_LV_COPYL         "&Kopiera"
+    IDS_RB_LV_COPYT         "Kopiera MIDI-nyckeln"
+    IDS_RB_LV_COPYD         "Kopiera den valda MIDI-tangenten."
+    IDS_RB_LV_PASTEL        "&Föra in"
+    IDS_RB_LV_PASTET        "Sätt i nyckel"
+    IDS_RB_LV_PASTED        "Klistra in den kopierade MIDI-nyckeln."
+    IDS_RB_LV_DELETEL       "&Radera"
+    IDS_RB_LV_DELETET       "Ta bort nyckel"
+    IDS_RB_LV_DELETED       "Radera den valda MIDI-tangenten."
+    IDS_RB_LV_SET_MQTTL     "Smart hus"
+    IDS_RB_LV_SET_MQTTT     "Ställ in gruppen som ""Smart Home""."
+    IDS_RB_LV_SET_MQTTD     "Tilldela den valda MIDI-nyckeln till gruppen ""Smart Home""."
+    IDS_RB_LV_SET_MMKEYL    "Multimediaknappar"
+    IDS_RB_LV_SET_MMKEYT    "Ställ in gruppen som ""Multimediaknappar"""
+    IDS_RB_LV_SET_MMKEYD    "Tilldela den valda MIDI-nyckeln till gruppen ""Multimedia Buttons""."
+    IDS_RB_LV_SET_MIXERL    "Ljudmixer"
+    IDS_RB_LV_SET_MIXERT    "Ställ in grupp som ""Audio Mixer"""
+    IDS_RB_LV_SET_MIXERD    "Tilldela den valda MIDI-tangenten till gruppen ""Audio Mixer""."
+    IDS_RB_LV_READ_MIDI_CODEL
+                            "Läs MIDI-koden"
+    IDS_RB_LV_READ_MIDI_CODET
+                            "Läs MIDI-kontrollkoden"
+    IDS_RB_LV_READ_MIDI_CODED
+                            "Läs MIDI-kod från en kontrollyta eller MIDI-keyboard."
+    IDS_RB_LV_EDIT_MODEL    "Endast digital ingång"
+    IDS_RB_LV_EDIT_MODET    "Använd endast digital ingång"
+    IDS_RB_LV_EDIT_MODED    "Använd inte värdevalsmenyn, använd endast digital ingång."
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSL
+                            "MIDI kontrollpanel"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYST
+                            "Rekommenderade inställningar"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSD
+                            "Rekommenderade MIDI-kontrollpanelinställningar kompatibla med Adobe Premiere Pro-kontroller."
+    IDS_RB_LV_FILTER_EMBEDL "Inbyggda filter"
+    IDS_RB_LV_FILTER_KEYL   "Nyckel"
+    IDS_RB_LV_FILTER_KEYT   "Filtrera efter MIDI-nyckel"
+    IDS_RB_LV_FILTER_KEYD   "Visa endast matchningar inom en MIDI-nyckelgrupp."
+    IDS_RB_LV_FILTER_SCENEL "Scen"
+    IDS_RB_LV_FILTER_SCENET "Filtrera efter MIDI-scen"
+    IDS_RB_LV_FILTER_SCENED "Visa endast matchningar i MIDI-scengruppen."
+    IDS_RB_LV_FILTER_TARGETL
+                            "Syfte 1"
+    IDS_RB_LV_FILTER_TARGETT
+                            "Filtrera efter destination 1"
+    IDS_RB_LV_FILTER_TARGETD
+                            "Visa endast matchningar i målgrupp 1."
+    IDS_RB_LV_FILTER_TARGETLONGL
+                            "Syfte 2"
+    IDS_RB_LV_FILTER_TARGETLONGT
+                            "Filtrera efter destination 2"
+    IDS_RB_LV_FILTER_TARGETLONGD
+                            "Visa endast matchningar i målgrupp 2."
+    IDS_RB_LV_FILTER_CLEARL "Rensa filter"
+    IDS_RB_LV_FILTER_CLEART "Rengöring av filter"
+    IDS_RB_LV_FILTER_CLEARD "Rensa filtren helt, alla poster kommer att visas."
+    IDS_RB_LV_FILTER_SETL   "Ställ in filter"
+    IDS_RB_LV_FILTER_SETT   "Filterinstallation"
+    IDS_RB_LV_FILTER_SETD   "Om du ställer in filtret visas alla ogiltiga objekt."
+    IDS_RB_LV_FILTER_ONL    "Använd filter"
+    IDS_RB_LV_FILTER_ONT    "Använda ett filter"
+    IDS_RB_LV_FILTER_OND    "Genom att använda ett filter visas de valda objekten."
+    IDS_RB_LV_FILTER_OFFL   "Avbryt filter"
+    IDS_RB_LV_FILTER_OFFT   "Avbryt filter"
+    IDS_RB_LV_FILTER_OFFD   "Om du avbryter filtret visas alla element."
+    IDS_RB_LV_FILTER_MMKEYL "Visa ""Multimediaknappar"""
+    IDS_RB_LV_FILTER_MMKEYT "Filtrera efter grupp ""Multimediaknappar""."
+    IDS_RB_LV_FILTER_MMKEYD "Om du använder ett filter visas medlemmarna i gruppen Multimediaknappar."
+    IDS_RB_LV_FILTER_MIXERL "Visa ""Audio Mixer"""
+    IDS_RB_LV_FILTER_MIXERT "Filtrera efter ""Audio Mixer""-grupp"
+    IDS_RB_LV_FILTER_MIXERD "Om du använder ett filter visas medlemmarna i Audio Mixer-gruppen."
+    IDS_RB_LV_FILTER_MQTTL  "Visa ""Smart Home"""
+    IDS_RB_LV_FILTER_MQTTT  "Filtrera efter ""Smart Home""-grupp"
+    IDS_RB_LV_FILTER_MQTTD  "Om du använder ett filter visas medlemmarna i Smart Home-gruppen."
+    IDS_RB_LV_FILTER_TYPEBTNL
+                            "Filtertyp"
+    IDS_RB_LV_FILTER_TYPEBTNT
+                            "Ställa in vilken typ av filter som ska tillämpas"
+    IDS_RB_LV_FILTER_TYPEBTND
+                            "De typer av filter som används har två logiska tillstånd: ""OCH"", ""ELLER""."
+    IDS_RB_LV_FILTER_TYPEGRPL
+                            "Välja en filtertyp"
+    IDS_RB_LV_FILTER_TYPEORL
+                            "Visa eventuella matchningar"
+    IDS_RB_LV_FILTER_TYPEORT
+                            "Visa bidrag med valfri matchning"
+    IDS_RB_LV_FILTER_TYPEORD
+                            "Filtret har ett logiskt OCH-tillstånd och visar eventuella matchningar."
+    IDS_RB_LV_FILTER_TYPEANDL
+                            "Visa endast fullständiga matchningar"
+    IDS_RB_LV_FILTER_TYPEANDT
+                            "Visa endast poster med exakta matchningar"
+    IDS_RB_LV_FILTER_TYPEANDD
+                            "Filtret har ett logiskt ELLER-tillstånd och visar endast fullständiga matchningar."
+    IDS_RB_LV_FILTER_AUTOCOMMITL
+                            "Automatisk sändning av data i filtret"
+    IDS_RB_LV_FILTER_AUTOCOMMITT
+                            "Automatisk sändning av inmatade värden i filtret"
+    IDS_RB_LV_FILTER_AUTOCOMMITD
+                            "Skickar automatiskt in ingångsvärden i ett inbyggt filter."
+    IDS_RB_LV_EXT_MODEL     "Visa sortering"
+    IDS_RB_LV_SORTUP_KEYL   "med nyckel"
+    IDS_RB_LV_SORTUP_KEYT   "Sortera efter stigande och MIDI-nyckel."
+    IDS_RB_LV_SORTUP_SCENEL "runt scenen"
+    IDS_RB_LV_SORTUP_SCENET "Sortering efter stigande och MIDI-scen."
+    IDS_RB_LV_SORTUP_TARGETL
+                            "efter överenskommelse 1"
+    IDS_RB_LV_SORTUP_TARGETT
+                            "Sortera efter stigande och MIDI-destination 1."
+    IDS_RB_LV_SORTUP_TARGETLONGL
+                            "efter överenskommelse 2"
+    IDS_RB_LV_SORTUP_TARGETLONGT
+                            "Sortering efter stigande och MIDI-destination 2."
+    IDS_RB_LV_SORTDOWN_KEYT "Sortera efter fallande och MIDI-nyckel."
+    IDS_RB_LV_SORTDOWN_SCENET
+                            "Sortering efter fallande ordning och MIDI-scen."
+    IDS_RB_LV_SORTDOWN_TARGETT
+                            "Sortera efter fallande ordning och MIDI-destination 1."
+    IDS_RB_LV_SORTDOWN_TARGETLONGT
+                            "Sortering efter fallande ordning och MIDI-destination 2."
+END

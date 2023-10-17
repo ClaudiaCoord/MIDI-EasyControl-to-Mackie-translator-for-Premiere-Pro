@@ -242,4 +242,18 @@ namespace Common {
 	void			common_config_local::IsLightsRun(bool b) {
 		lightsrun_ = b;
 	}
+
+	const bool		common_config_local::IsLightsDmxRun() {
+		return lightsdmxrun_;
+	}
+	void			common_config_local::IsLightsDmxRun(bool b) {
+		lightsdmxrun_ = b;
+	}
+
+	const bool		common_config_local::IsLightsArtNetRun() {
+		return lightsartnetrun_;
+	}
+	void			common_config_local::IsLightsArtNetRun(bool b) {
+		lightsartnetrun_ = b;
+	}
 }

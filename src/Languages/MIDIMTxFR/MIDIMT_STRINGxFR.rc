@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_FRENCH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Mélangeur audio -> Traducteur MIDI-Mackie"
+    IDS_MIXER               "&Mixer"
+    IDS_SETTINGS            "&Paramètres"
+    IDS_START               "Commencer"
+    IDS_STOP                "Arrêt"
+    IDS_EXIT                "Sortie"
+    IDS_SETUP_MSG1          "Configuration chargée depuis le pilote"
+    IDS_SETUP_MSG2          "Configuration chargée à partir du fichier"
+    IDS_SETUP_MSG3          "La configuration a été créée à nouveau et doit être remplie"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "Configuration MIDI-MT"
+    IDS_CONFIG_EXE_FILTER   "Fichiers exécutables"
+    IDS_MQTT_CA_FILTER      "Certificat d'autorité de certification"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "Le traducteur MIDI n'est pas en cours d'exécution."
+    IDS_INFO2               "Le traducteur MIDI fonctionne :"
+    IDS_INFO3               "Dispositif d'entrée:"
+    IDS_INFO4               "Port de sortie Mackie/Premier :"
+    IDS_INFO5               "Port proxy de sortie :"
+    IDS_INFO6               "Le mixeur audio est en cours d'exécution."
+    IDS_INFO7               "Le contrôle des touches multimédia est en cours d'exécution, vérifiez vos paramètres."
+    IDS_INFO8               "Le mixeur audio ne fonctionne pas, vérifiez les paramètres, le lancement du panneau audio doit être activé."
+    IDS_INFO9               "ID d'événement invalide. Veuillez redémarrer cette application."
+    IDS_INF1O               "Échec du passage au fil de l'interface utilisateur, démarrage du panneau audio interrompu."
+    IDS_INF11               "MIDIMT - Le mixeur audio ne fonctionne pas :"
+    IDS_INF12               "MIDIMT - Impossible de terminer l'opération :"
+    IDS_INF13               "La gestion des appareils Smart Home a commencé."
+    IDS_INF14               "Le contrôle de l'éclairage via le protocole DMX512 a été lancé."
+    IDS_INF15               "Le contrôle de l'éclairage via le protocole ArtNet a été lancé."
+    IDS_DLG_MSG0            "Installation du pilote MIDI virtuel"
+    IDS_DLG_MSG1            "Sortie MIDI Mackie"
+    IDS_DLG_MSG2            "Sortie proxy MIDI"
+    IDS_DLG_MSG3            "Version du pilote virtuel MIDI :"
+    IDS_DLG_MSG4            "Le pilote Virtual MIDI installé n'a pas été trouvé ! Vous devez installer le package Virtual Loop MIDI pour exécuter le traducteur MIDI-MT"
+    IDS_DLG_MSG5            "Une fois lancés, des ports MIDI proxy seront créés :"
+    IDS_DLG_MSG6            "Les ports proxy MIDI sont désactivés."
+    IDS_DLG_MSG7            "La langue sélectionnée sera active après le redémarrage de la fenêtre -"
+    IDS_DLG_MSG8            "Périphérique d’entrée MIDI affecté à"
+    IDS_DLG_MSG9            "Veuillez modifier la configuration avant de commencer."
+    IDS_DLG_MSG10           "Version du pilote Virtual MIDI installé :"
+    IDS_DLG_MSG11           "La configuration sélectionnée ne prend pas en charge le démarrage automatique."
+    IDS_DLG_MSG12           "S'il vous plaît, avant de démarrer le moniteur, démarrez le pont MIDI depuis le menu en appelant « Démarrer »."
+    IDS_DLG_MSG13           "Au démarrage, le fichier de configuration a été spécifié : '{0}'. Le définir comme configuration pour les exécutions ultérieures ?"
+    IDS_DLG_MSG14           "A l'ouverture de l'éditeur, le fichier de configuration a été précisé : '{0}'. L'enregistrer sous le même nom ?"
+    IDS_DLG_MSG15           "L'exécution automatique est désactivée dans la configuration générale."
+    IDS_DLG_MSG16           "Numéro de canal DMX"
+    IDS_DLG_MSG17           "Vous devez installer le pilote Virtual MIDI !"
+    IDS_DLG_DMX_NODEV       "Aucun appareil disponible"
+    IDS_DLG_ARTNET_NOINT    "Aucune interface"
+    IDS_DLG_DMX_SELDEV      "Sélectionnez un appareil DMX"
+    IDS_DLG_ARTNET_SELINT   "Sélectionnez l'interface ARTNET"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "volume sonore (principal)"
+    IDM_COL4_MAP            "balance sonore (de base)"
+    IDM_COL4_MAM            "muet (principal)"
+    IDM_COL4_MAS            "solo audio (principal)"
+    IDM_COL4_JOG            "JOG (rembobiner l'image vidéo)"
+    IDM_COL4_AV1            "volume sonore (canal 1)"
+    IDM_COL4_AV2            "volume sonore (canal 2)"
+    IDM_COL4_AV3            "volume sonore (canal 3)"
+    IDM_COL4_AV4            "volume sonore (canal 4)"
+    IDM_COL4_AV5            "volume sonore (canal 5)"
+    IDM_COL4_AV6            "volume sonore (canal 6)"
+    IDM_COL4_AV7            "volume sonore (canal 7)"
+    IDM_COL4_AV8            "volume sonore (canal 8)"
+    IDM_COL4_XV9            "volume sonore (canal 9)"
+    IDM_COL4_AP1            "balance sonore (canal 1)"
+    IDM_COL4_AP2            "balance sonore (canal 2)"
+    IDM_COL4_AP3            "balance sonore (canal 3)"
+    IDM_COL4_AP4            "balance sonore (canal 4)"
+    IDM_COL4_AP5            "balance sonore (canal 5)"
+    IDM_COL4_AP6            "balance sonore (canal 6)"
+    IDM_COL4_AP7            "balance sonore (canal 7)"
+    IDM_COL4_AP8            "balance sonore (canal 8)"
+    IDM_COL4_XP9            "balance sonore (canal 9)"
+    IDM_COL4_B11            "solo audio (canal 1)"
+    IDM_COL4_B12            "solo audio (canal 2)"
+    IDM_COL4_B13            "solo audio (canal 3)"
+    IDM_COL4_B14            "solo audio (canal 4)"
+    IDM_COL4_B15            "solo audio (canal 5)"
+    IDM_COL4_B16            "solo audio (canal 6)"
+    IDM_COL4_B17            "solo audio (canal 7)"
+    IDM_COL4_B18            "solo audio (canal 8)"
+    IDM_COL4_B19            "solo audio (canal 9)"
+    IDM_COL4_B21            "muet (canal 1)"
+    IDM_COL4_B22            "muet (canal 2)"
+    IDM_COL4_B23            "muet (canal 3)"
+    IDM_COL4_B24            "muet (canal 4)"
+    IDM_COL4_B25            "muet (canal 5)"
+    IDM_COL4_B26            "muet (canal 6)"
+    IDM_COL4_B27            "muet (canal 7)"
+    IDM_COL4_B28            "muet (canal 8)"
+    IDM_COL4_B29            "muet (canal 9)"
+    IDM_COL4_B31            "sélection du son (canal 1)"
+    IDM_COL4_B32            "sélection du son (canal 2)"
+    IDM_COL4_B33            "sélection du son (canal 3)"
+    IDM_COL4_B34            "sélection du son (canal 4)"
+    IDM_COL4_B35            "sélection du son (canal 5)"
+    IDM_COL4_B36            "sélection du son (canal 6)"
+    IDM_COL4_B37            "sélection du son (canal 7)"
+    IDM_COL4_B38            "sélection du son (canal 8)"
+    IDM_COL4_B39            "sélection du son (canal 9)"
+    IDM_COL4_FUN11          "fonction F1 (mode standard)"
+    IDM_COL4_FUN12          "fonction F2 (mode standard)"
+    IDM_COL4_FUN13          "fonction F3 (mode standard)"
+    IDM_COL4_FUN14          "fonction F4 (mode standard)"
+    IDM_COL4_FUN15          "fonction F5 (mode standard)"
+    IDM_COL4_FUN16          "fonction F6 (mode standard)"
+    IDM_COL4_FUN17          "fonction F7 (mode standard)"
+    IDM_COL4_FUN18          "fonction F8 (mode standard)"
+    IDM_COL4_FUN21          "fonction F1 (mode maintenu)"
+    IDM_COL4_FUN22          "fonction F2 (mode maintenu)"
+    IDM_COL4_FUN23          "fonction F3 (mode maintenu)"
+    IDM_COL4_FUN24          "fonction F4 (mode maintenu)"
+    IDM_COL4_FUN25          "fonction F5 (mode maintenu)"
+    IDM_COL4_FUN26          "fonction F6 (mode maintenu)"
+    IDM_COL4_FUN27          "fonction F7 (mode maintenu)"
+    IDM_COL4_FUN28          "fonction F8 (mode maintenu)"
+    IDM_COL4_SYS_Rewind     "Rembobiner (joueur)"
+    IDM_COL4_SYS_Forward    "Avance rapide (lecteur)"
+    IDM_COL4_SYS_Stop       "Arrêter (joueur)"
+    IDM_COL4_SYS_Play       "Jouer (joueur)"
+    IDM_COL4_SYS_Record     "Enregistrement (lecteur)"
+    IDM_COL4_SYS_Up         "Vers le haut (joystick)"
+    IDM_COL4_SYS_Down       "Vers le bas (joystick)"
+    IDM_COL4_SYS_Left       "Gauche (joystick)"
+    IDM_COL4_SYS_Right      "Droite (joystick)"
+    IDM_COL4_SYS_Zoom       "Augmenter"
+    IDM_COL4_SYS_Scrub      "Frotter"
+    IDM_COL4_VOLUMEMIX      "Contrôle du mélangeur"
+    IDM_COL4_MEDIAKEY       "Touches multimédia"
+    IDM_COL4_MQTTKEY        "Gestion de la maison intelligente"
+    IDM_COL4_LIGHTKEY8B     "Contrôle de l'éclairage (8 bits)"
+    IDM_COL4_LIGHTKEY16B    "Contrôle de l'éclairage (16 bits)"
+    IDM_COL4_NONE           "action non définie"
+    IDM_COL4_MQTT_AV1       "niveau 1"
+    IDM_COL4_MQTT_AV2       "niveau 2"
+    IDM_COL4_MQTT_AV3       "niveau 3"
+    IDM_COL4_MQTT_AV4       "niveau 4"
+    IDM_COL4_MQTT_AV5       "niveau 5"
+    IDM_COL4_MQTT_AV6       "niveau 6"
+    IDM_COL4_MQTT_AV7       "niveau 7"
+    IDM_COL4_MQTT_AV8       "niveau 8"
+    IDM_COL4_MQTT_XV9       "niveau 9"
+    IDM_COL4_MQTT_AP1       "niveau 10"
+    IDM_COL4_MQTT_AP2       "niveau 11"
+    IDM_COL4_MQTT_AP3       "niveau 12"
+    IDM_COL4_MQTT_AP4       "niveau 13"
+    IDM_COL4_MQTT_AP5       "niveau 14"
+    IDM_COL4_MQTT_AP6       "niveau 15"
+    IDM_COL4_MQTT_AP7       "niveau 16"
+    IDM_COL4_MQTT_AP8       "niveau 17"
+    IDM_COL4_MQTT_XP9       "niveau 18"
+    IDM_COL4_MQTT_B11       "marche/arrêt 1"
+    IDM_COL4_MQTT_B12       "marche/arrêt 2"
+    IDM_COL4_MQTT_B13       "marche/arrêt 3"
+    IDM_COL4_MQTT_B14       "marche/arrêt 4"
+    IDM_COL4_MQTT_B15       "marche/arrêt 5"
+    IDM_COL4_MQTT_B16       "marche/arrêt 6"
+    IDM_COL4_MQTT_B17       "marche/arrêt 7"
+    IDM_COL4_MQTT_B18       "marche/arrêt 8"
+    IDM_COL4_MQTT_B19       "marche/arrêt 9"
+    IDM_COL4_MQTT_B21       "marche/arrêt 10"
+    IDM_COL4_MQTT_B22       "marche/arrêt 11"
+    IDM_COL4_MQTT_B23       "marche/arrêt 12"
+    IDM_COL4_MQTT_B24       "marche/arrêt 13"
+    IDM_COL4_MQTT_B25       "marche/arrêt 14"
+    IDM_COL4_MQTT_B26       "marche/arrêt 15"
+    IDM_COL4_MQTT_B27       "marche/arrêt 16"
+    IDM_COL4_MQTT_B28       "marche/arrêt 17"
+    IDM_COL4_MQTT_B29       "marche/arrêt 18"
+    IDM_COL4_MQTT_B31       "marche/arrêt 19"
+    IDM_COL4_MQTT_B32       "marche/arrêt 20"
+    IDM_COL4_MQTT_B33       "marche/arrêt 21"
+    IDM_COL4_MQTT_B34       "marche/arrêt 22"
+    IDM_COL4_MQTT_B35       "marche/arrêt 23"
+    IDM_COL4_MQTT_B36       "marche/arrêt 24"
+    IDM_COL4_MQTT_B37       "marche/arrêt 25"
+    IDM_COL4_MQTT_B38       "marche/arrêt 26"
+    IDM_COL4_MQTT_B39       "marche/arrêt 27"
+    IDM_COL4_MQTT_NONE      "Non attribué"
+    IDM_MQTT_LOG_NONE       "aucun journal n'est conservé"
+    IDM_MQTT_LOG_INFO       "information"
+    IDM_MQTT_LOG_NOTICE     "avis"
+    IDM_MQTT_LOG_WARNING    "avertissements"
+    IDM_MQTT_LOG_ERR        "seulement des erreurs"
+    IDM_MQTT_LOG_DEBUG      "tous les messages"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Cette erreur n'est pas définie"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "L'accès en écriture au fichier de configuration est refusé, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Fichier de configuration manquant ou accès refusé, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Le fichier de configuration est vide, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Le nom du périphérique MIDI n'est pas configuré."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "Aucune touche MIDI n'est configurée dans cette configuration."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Attention, cette configuration n'a pas de touches MIDI configurées ! la configuration enregistrée ne fonctionnera pas."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "L’initialisation de Co*Initialize a échoué."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create : échec de création d'une instance."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Échec de l'obtention du périphérique audio par défaut."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Le gestionnaire de session audio est tombé en panne."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "L'indicateur de crête audio n'est pas disponible."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Le mixeur de session audio est en cours d'exécution. Au moment du lancement, {0} programmes en cours d'exécution sont disponibles pour la régulation."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Le mixeur de session audio n'a pas pu être démarré, les détails de l'erreur doivent figurer dans le fichier journal."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Le mixeur de session audio s'est arrêté."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Le mélangeur de session audio n'a pas été arrêté correctement, les détails de l'erreur doivent figurer dans le fichier journal."
+    IDS_ERRORID_NO_INIT     "Initialisez avant d'appeler ceci."
+    IDS_ERRORID_SESSION_LIST
+                            "Échec de l'obtention de la liste des sessions audio."
+    IDS_ERRORID_LISTISNULL  "La liste des sessions audio est vide !"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Désactivation de la session audio, raison='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Session audio créée, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Session audio « {0} » – État d'enregistrement « {1} » non valide : {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "La valeur définie à partir du rappel est un sélecteur non valide."
+    IDS_ERRORID_SET_CB_WARNING
+                            "La définition d'un rappel n'est possible qu'après le lancement réussi du pont MIDI."
+    IDS_ERRORID_CONFIG_FAIL "Echec du chargement de la configuration, fichier introuvable, lancement impossible."
+    IDS_ERRORID_CONFIG_LOAD "Configuration chargée.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "La configuration a déjà été chargée.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "La configuration est vide.."
+    IDS_ERRORID_CONFIG_NEW  "Nouvelle version de configuration détectée.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Implémentation non prise en charge dans le code, méthode non remplacée : {0}"
+    IDS_ERRORID_NOT_CONFIG  "Le nom de la configuration n'est pas spécifié et ne peut pas être poursuivi."
+    IDS_ERRORID_NOT_DEVICES "Les appareils ne sont pas connectés et ne peuvent pas continuer."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Attention, non-concordance du nombre d'appareils dans la liste finale, système/liste = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Impossible d'ouvrir le périphérique MIDI, impossible de continuer, identifiant = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Impossible de démarrer le périphérique MIDI, impossible de continuer, identifiant = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Appareil non connecté, abandon, identifiant = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Appareil {0} trouvé, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Appareil {0} ouvert, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Appareil {0} fermé (système)"
+    IDS_ERRORID_DEVICE_DONE "Appareil {0} prêt (système)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Le nom de l'appareil actif n'est pas précisé, la suite est impossible, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Les ports proxy ne sont pas spécifiés dans la configuration, le proxy MIDI est désactivé."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Version du pilote [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problème avec la version du pilote [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "L'appareil {0} a envoyé une valeur non valide = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Le pilote MIDI virtuel n'est pas installé. Vous devez installer le package loopMidi ou télécharger le programme d'installation complet et réinstaller MIDI-MT. Plus de détails : https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Le service Media Key Management est en cours d’exécution."
+    IDS_ERRORID_MMKEY_STOP  "Le service Media Key Management s’est arrêté."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "La configuration MQTT est vide et ne peut pas continuer."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Erreur lors de la création du client MQTT, annulation."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "Le client MMQTT a été créé avec succès, continuez..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Connecté au serveur MQTT :"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Échec de la connexion au serveur MQTT :"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Déconnecté du serveur MQTT :"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "Le fichier de certificat CA n'existe pas, chemin = '{0}'"
+    IDS_ERRORID_MQTT_START  "Le service de contrôle Smart Home a été lancé."
+    IDS_ERRORID_MQTT_STOP   "Le service de contrôle Smart Home a été arrêté."
+    IDS_ERRORID_PANEL_INDEX "Panneau de mixage audio - Impossible de continuer, les éléments d'index sont incorrects."
+    IDS_ERRORID_PANEL_INIT  "Panneau de mixage audio : impossible de continuer, erreur d'initialisation."
+    IDS_ERRORID_PANEL_ENABLE
+                            "La fenêtre du panneau de mixage audio n'a pas l'état correct et l'opération suivante ne peut pas être poursuivie."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Le panneau de mixage audio n'est pas appelé sur un thread d'interface utilisateur et des modifications ne peuvent pas être apportées."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Le panneau de mixage audio a détecté un élément non valide et la création de la fenêtre du panneau a été abandonnée."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "Le service de contrôle d'éclairage DMX est démarré à l'aide de COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "Le service de contrôle d'éclairage DMX n'est pas en cours d'exécution, le périphérique COM{0} n'est pas connecté."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "Le service de contrôle d'éclairage DMX n'est pas exécuté et la configuration du service n'est pas renseignée."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "Le service de contrôle d'éclairage DMX s'est arrêté."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "Le service de contrôle d'éclairage ArtNet s'exécute en utilisant l'adresse de diffusion {0} :{1} sur le réseau {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "Le service de contrôle d'éclairage ArtNet n'est pas en cours d'exécution, le réseau {0} est introuvable."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "Le service de contrôle d'éclairage ArtNet n'est pas en cours d'exécution, la configuration du service n'est pas renseignée."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "Le service de contrôle d'éclairage ArtNet s'est arrêté."
+    IDS_ERRORID_NONE        "-"
+END

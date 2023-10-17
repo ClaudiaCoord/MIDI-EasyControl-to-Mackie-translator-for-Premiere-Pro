@@ -1,0 +1,172 @@
+﻿﻿
+#include "..\..\Common\rc\resource_midimt.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_ARMENIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+STRINGTABLE
+BEGIN
+    IDS_RB_DIALOG_LAST_OPENL
+                            "Վերջին ֆայլերը."
+    IDS_RB_TABHOMEL         "Խմբագրում"
+    IDS_RB_TABFILTERL       "Զտիչներ"
+    IDS_RB_PANEL_EDITMAINL  "խմբագրել MIDI ստեղնը"
+    IDS_RB_PANEL_EDITSETL   "սահմանել MIDI ստեղնը որպես..."
+    IDS_RB_PANEL_EDITOPTL   "խմբագրի ընտրանքներ"
+    IDS_RB_PANEL_FILTERL    "դիտման ֆիլտրերի ընտրություն"
+    IDS_RB_PANEL_SORTL      "տեսակավորում"
+    IDS_RB_MENUL            "&Մենյու"
+    IDS_RB_MENUT            "Դիմումի ընտրացանկ"
+    IDS_RB_PANEL_QATL       "&Արագ մուտք"
+    IDS_RB_PANEL_QATT       "Արագ մուտքի Գործիքադարակ"
+    IDS_RB_DIALOG_SAVEL     "&Պահպանել"
+    IDS_RB_DIALOG_SAVET     "Պահպանել և կիրառել"
+    IDS_RB_DIALOG_SAVED     "Պահպանեք նախկինում ներբեռնված ֆայլում և թարմացրեք ընթացիկ կոնֆիգուրացիան:"
+    IDS_RB_DIALOG_EXPORTL   "&Արտահանում"
+    IDS_RB_DIALOG_EXPORTT   "Արտահանել նոր ֆայլ"
+    IDS_RB_DIALOG_EXPORTD   "Արտահանեք խմբագրված կազմաձևը նոր ֆայլ:"
+    IDS_RB_DIALOG_IMPORTL   "&Ներմուծում"
+    IDS_RB_DIALOG_IMPORTT   "Ներմուծում ֆայլից"
+    IDS_RB_DIALOG_IMPORTD   "Ներմուծեք կոնֆիգուրացիան ֆայլից:"
+    IDS_RB_DIALOG_EXITL     "&Ելք"
+    IDS_RB_DIALOG_EXITT     "Դուրս գալ խմբագրից"
+    IDS_RB_DIALOG_EXITD     "Դուրս է գալիս MIDI Key Configuration Editor-ից, եթե փոփոխությունները չպահվեն, դրանք կկորչեն:"
+    IDS_RB_LV_NEWL          "&Նոր MIDI բանալի"
+    IDS_RB_LV_NEWT          "Նոր MIDI բանալի"
+    IDS_RB_LV_NEWD          "Նոր MIDI բանալի ստեղծում:"
+    IDS_RB_LV_COPYL         "&Պատճենել"
+    IDS_RB_LV_COPYT         "Պատճենել MIDI ստեղնը"
+    IDS_RB_LV_COPYD         "Պատճենեք ընտրված MIDI ստեղնի մուտքագրումը:"
+    IDS_RB_LV_PASTEL        "&Տեղադրել"
+    IDS_RB_LV_PASTET        "Տեղադրեք բանալին"
+    IDS_RB_LV_PASTED        "Տեղադրեք պատճենված MIDI ստեղնը:"
+    IDS_RB_LV_DELETEL       "&Ջնջել"
+    IDS_RB_LV_DELETET       "Ջնջել բանալին"
+    IDS_RB_LV_DELETED       "Ջնջել ընտրված MIDI ստեղնաշարի մուտքագրումը:"
+    IDS_RB_LV_SET_MQTTL     "Խելացի տուն"
+    IDS_RB_LV_SET_MQTTT     "Խումբը սահմանեք որպես «Խելացի տուն»:"
+    IDS_RB_LV_SET_MQTTD     "Նշեք ընտրված MIDI ստեղնը «Խելացի տուն» խմբին:"
+    IDS_RB_LV_SET_MMKEYL    "Մուլտիմեդիա կոճակներ"
+    IDS_RB_LV_SET_MMKEYT    "Սահմանեք խումբը որպես «Մուլտիմեդիա կոճակներ»"
+    IDS_RB_LV_SET_MMKEYD    "Նշեք ընտրված MIDI ստեղնը «Մուլտիմեդիա կոճակներ» խմբին:"
+    IDS_RB_LV_SET_MIXERL    "Աուդիո խառնիչ"
+    IDS_RB_LV_SET_MIXERT    "Սահմանել խումբը որպես «Աուդիո խառնիչ»"
+    IDS_RB_LV_SET_MIXERD    "Նշեք ընտրված MIDI ստեղնը «Աուդիո խառնիչ» խմբին:"
+    IDS_RB_LV_READ_MIDI_CODEL
+                            "Կարդացեք MIDI կոդը"
+    IDS_RB_LV_READ_MIDI_CODET
+                            "Կարդացեք MIDI կառավարման կոդը"
+    IDS_RB_LV_READ_MIDI_CODED
+                            "Կարդացեք MIDI կոդը կառավարման մակերեսից կամ MIDI ստեղնաշարից:"
+    IDS_RB_LV_EDIT_MODEL    "Միայն թվային մուտքագրում"
+    IDS_RB_LV_EDIT_MODET    "Օգտագործեք միայն թվային մուտքագրում"
+    IDS_RB_LV_EDIT_MODED    "Մի օգտագործեք արժեքների ընտրության ընտրացանկը, օգտագործեք միայն թվային մուտքագրում:"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSL
+                            "MIDI կառավարման վահանակ"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYST
+                            "Առաջարկվող կարգավորումներ"
+    IDS_RB_DIALOG_SHOW_MIDI_KEYSD
+                            "Առաջարկվող MIDI կառավարման վահանակի կարգավորումները, որոնք համատեղելի են Adobe Premiere Pro-ի կառավարիչների հետ:"
+    IDS_RB_LV_FILTER_EMBEDL "Ներկառուցված զտիչներ"
+    IDS_RB_LV_FILTER_KEYL   "Բանալի"
+    IDS_RB_LV_FILTER_KEYT   "Զտել MIDI ստեղնով"
+    IDS_RB_LV_FILTER_KEYD   "Ցուցադրել միայն համընկնումները MIDI ստեղնաշարի խմբի մեջ:"
+    IDS_RB_LV_FILTER_SCENEL "Տեսարան"
+    IDS_RB_LV_FILTER_SCENET "Զտել ըստ MIDI տեսարանի"
+    IDS_RB_LV_FILTER_SCENED "Ցույց տալ միայն համընկնումները MIDI տեսարանների խմբում:"
+    IDS_RB_LV_FILTER_TARGETL
+                            "Նպատակ 1"
+    IDS_RB_LV_FILTER_TARGETT
+                            "Զտել ըստ նպատակակետ 1-ի"
+    IDS_RB_LV_FILTER_TARGETD
+                            "Ցույց տալ միայն համընկնումները թիրախային խմբում 1:"
+    IDS_RB_LV_FILTER_TARGETLONGL
+                            "Նպատակ 2"
+    IDS_RB_LV_FILTER_TARGETLONGT
+                            "Զտել ըստ նպատակակետ 2-ի"
+    IDS_RB_LV_FILTER_TARGETLONGD
+                            "Ցույց տալ միայն համընկնումները 2-րդ թիրախային խմբում:"
+    IDS_RB_LV_FILTER_CLEARL "Մաքրել ֆիլտրերը"
+    IDS_RB_LV_FILTER_CLEART "Մաքրող ֆիլտրեր"
+    IDS_RB_LV_FILTER_CLEARD "Լիովին մաքուր զտիչներ, բոլոր գրառումները կցուցադրվեն:"
+    IDS_RB_LV_FILTER_SETL   "Սահմանել ֆիլտրը"
+    IDS_RB_LV_FILTER_SETT   "Ֆիլտրի տեղադրում"
+    IDS_RB_LV_FILTER_SETD   "Զտիչի կարգավորումը ցույց է տալիս բոլոր անվավեր տարրերը:"
+    IDS_RB_LV_FILTER_ONL    "Կիրառել զտիչ"
+    IDS_RB_LV_FILTER_ONT    "Ֆիլտրի կիրառում"
+    IDS_RB_LV_FILTER_OND    "Զտիչ կիրառելը ցույց է տալիս ընտրված տարրերը:"
+    IDS_RB_LV_FILTER_OFFL   "Չեղարկել զտիչը"
+    IDS_RB_LV_FILTER_OFFT   "Չեղարկել զտիչը"
+    IDS_RB_LV_FILTER_OFFD   "Ֆիլտրի չեղարկումը ցույց կտա բոլոր տարրերը:"
+    IDS_RB_LV_FILTER_MMKEYL "Ցույց տալ «Մուլտիմեդիա կոճակներ»"
+    IDS_RB_LV_FILTER_MMKEYT "Զտել ըստ «Մուլտիմեդիա կոճակներ» խմբի"
+    IDS_RB_LV_FILTER_MMKEYD "Զտիչի կիրառումը ցույց կտա Multimedia Buttons խմբի անդամներին:"
+    IDS_RB_LV_FILTER_MIXERL "Ցույց տալ «Աուդիո խառնիչ»"
+    IDS_RB_LV_FILTER_MIXERT "Զտել ըստ «Աուդիո խառնիչ» խմբի"
+    IDS_RB_LV_FILTER_MIXERD "Զտիչ կիրառելը ցույց կտա Audio Mixer խմբի անդամներին:"
+    IDS_RB_LV_FILTER_MQTTL  "Ցույց տալ խելացի տունը"
+    IDS_RB_LV_FILTER_MQTTT  "Զտել ըստ «Խելացի տուն» խմբի"
+    IDS_RB_LV_FILTER_MQTTD  "Զտիչ կիրառելը ցույց կտա Smart Home խմբի անդամներին:"
+    IDS_RB_LV_FILTER_TYPEBTNL
+                            "Զտիչի տեսակը"
+    IDS_RB_LV_FILTER_TYPEBTNT
+                            "Կիրառվող ֆիլտրերի տեսակը սահմանելը"
+    IDS_RB_LV_FILTER_TYPEBTND
+                            "Օգտագործված ֆիլտրերի տեսակներն ունեն երկու տրամաբանական վիճակ՝ «ԵՎ», «ԿԱՄ»:"
+    IDS_RB_LV_FILTER_TYPEGRPL
+                            "Ընտրելով ֆիլտրի տեսակը"
+    IDS_RB_LV_FILTER_TYPEORL
+                            "Ցույց տալ ցանկացած համընկնում"
+    IDS_RB_LV_FILTER_TYPEORT
+                            "Ցույց տալ գրառումները ցանկացած համընկնումով"
+    IDS_RB_LV_FILTER_TYPEORD
+                            "Զտիչը ունի տրամաբանական ԵՎ վիճակ և ցույց է տալիս ցանկացած համընկնում:"
+    IDS_RB_LV_FILTER_TYPEANDL
+                            "Ցույց տալ միայն ամբողջական համընկնումները"
+    IDS_RB_LV_FILTER_TYPEANDT
+                            "Ցուցադրել միայն ճշգրիտ համընկնող գրառումները"
+    IDS_RB_LV_FILTER_TYPEANDD
+                            "Զտիչը ունի տրամաբանական ԿԱՄ վիճակ և ցույց է տալիս միայն ամբողջական համընկնումներ:"
+    IDS_RB_LV_FILTER_AUTOCOMMITL
+                            "Տվյալների ավտոմատ ուղարկում ֆիլտրում"
+    IDS_RB_LV_FILTER_AUTOCOMMITT
+                            "Զտիչում մուտքագրված արժեքների ավտոմատ ուղարկում"
+    IDS_RB_LV_FILTER_AUTOCOMMITD
+                            "Ինքնաբերաբար ներկայացնում է մուտքային արժեքները ներկառուցված ֆիլտրում:"
+    IDS_RB_LV_EXT_MODEL     "Ցույց տալ տեսակավորումը"
+    IDS_RB_LV_SORTUP_KEYL   "բանալիով"
+    IDS_RB_LV_SORTUP_KEYT   "Դասավորել ըստ աճման և MIDI ստեղների:"
+    IDS_RB_LV_SORTUP_SCENEL "բեմի շուրջ"
+    IDS_RB_LV_SORTUP_SCENET "Տեսակավորում ըստ աճման և MIDI տեսարանի:"
+    IDS_RB_LV_SORTUP_TARGETL
+                            "1-ին նշանակմամբ"
+    IDS_RB_LV_SORTUP_TARGETT
+                            "Տեսակավորում ըստ աճման և MIDI նպատակակետի 1."
+    IDS_RB_LV_SORTUP_TARGETLONGL
+                            "նշանակմամբ 2"
+    IDS_RB_LV_SORTUP_TARGETLONGT
+                            "Տեսակավորում ըստ աճման և MIDI նպատակակետի 2."
+    IDS_RB_LV_SORTDOWN_KEYT "Դասավորել ըստ նվազման և MIDI ստեղների:"
+    IDS_RB_LV_SORTDOWN_SCENET
+                            "Տեսակավորում ըստ նվազման կարգի և MIDI տեսարանի:"
+    IDS_RB_LV_SORTDOWN_TARGETT
+                            "Տեսակավորում ըստ նվազման և MIDI նպատակակետի 1."
+    IDS_RB_LV_SORTDOWN_TARGETLONGT
+                            "Տեսակավորում ըստ նվազման և MIDI նպատակակետի 2."
+END

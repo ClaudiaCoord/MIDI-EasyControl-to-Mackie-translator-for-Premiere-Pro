@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_BOSNIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie prevoditelj"
+    IDS_MIXER               "&Mikser"
+    IDS_SETTINGS            "&Postavke"
+    IDS_START               "Počni"
+    IDS_STOP                "Stani"
+    IDS_EXIT                "Izlaz"
+    IDS_SETUP_MSG1          "Konfiguracija učitana iz drajvera"
+    IDS_SETUP_MSG2          "Konfiguracija učitana iz datoteke"
+    IDS_SETUP_MSG3          "Konfiguracija je iznova kreirana i potrebno je popuniti"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT konfiguracija"
+    IDS_CONFIG_EXE_FILTER   "Izvršne datoteke"
+    IDS_MQTT_CA_FILTER      "CA certifikat"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI prevodilac ne radi."
+    IDS_INFO2               "MIDI prevodilac radi:"
+    IDS_INFO3               "Ulazni uređaj:"
+    IDS_INFO4               "Mackie/Premier izlazni port:"
+    IDS_INFO5               "Izlazni proxy port:"
+    IDS_INFO6               "Audio mikser radi."
+    IDS_INFO7               "Kontrola multimedijalnih tastera je pokrenuta, proverite podešavanja."
+    IDS_INFO8               "Audio mikser ne radi, provjerite postavke, pokretanje audio panela mora biti omogućeno."
+    IDS_INFO9               "Nevažeći ID događaja. Ponovo pokrenite ovu aplikaciju."
+    IDS_INF1O               "Prebacivanje na UI nit nije uspjelo, pokretanje audio panela je prekinuto."
+    IDS_INF11               "MIDIMT - Audio mikser ne radi:"
+    IDS_INF12               "MIDIMT - Nije moguće završiti operaciju:"
+    IDS_INF13               "Započelo je upravljanje pametnim kućnim uređajima."
+    IDS_INF14               "Pokrenuta je kontrola rasvjete putem DMX512 protokola."
+    IDS_INF15               "Pokrenuta je kontrola rasvjete putem ArtNet protokola."
+    IDS_DLG_MSG0            "Instalacija virtuelnog MIDI drajvera"
+    IDS_DLG_MSG1            "MIDI Mackie izlaz"
+    IDS_DLG_MSG2            "MIDI Proxy izlaz"
+    IDS_DLG_MSG3            "Verzija virtuelnog MIDI drajvera:"
+    IDS_DLG_MSG4            "Instalirani Virtual MIDI drajver nije pronađen! Morate instalirati MIDI paket Virtual Loop da biste pokrenuli MIDI-MT translator"
+    IDS_DLG_MSG5            "Kada se pokrene, kreiraće se proxy MIDI portovi:"
+    IDS_DLG_MSG6            "MIDI proxy portovi su onemogućeni."
+    IDS_DLG_MSG7            "Odabrani jezik će biti aktivan nakon što se prozor ponovo pokrene -"
+    IDS_DLG_MSG8            "MIDI ulazni uređaj dodijeljen"
+    IDS_DLG_MSG9            "Molimo uredite konfiguraciju prije početka."
+    IDS_DLG_MSG10           "Verzija instaliranog Virtual MIDI drajvera:"
+    IDS_DLG_MSG11           "Odabrana konfiguracija ne podržava automatsko pokretanje."
+    IDS_DLG_MSG12           "Molimo, prije pokretanja monitora, pokrenite MIDI bridge iz menija pozivanjem 'Start'."
+    IDS_DLG_MSG13           "Prilikom pokretanja, konfiguracijski fajl je specificiran: '{0}'. Postaviti ga kao konfiguraciju za naredna izvođenja?"
+    IDS_DLG_MSG14           "Prilikom otvaranja editora naveden je konfiguracijski fajl: '{0}'. Sačuvati ga pod istim imenom?"
+    IDS_DLG_MSG15           "Automatsko pokretanje je onemogućeno u općoj konfiguraciji."
+    IDS_DLG_MSG16           "Broj DMX kanala"
+    IDS_DLG_MSG17           "Morate instalirati Virtual MIDI drajver!"
+    IDS_DLG_DMX_NODEV       "Nema dostupnih uređaja"
+    IDS_DLG_ARTNET_NOINT    "Nema interfejsa"
+    IDS_DLG_DMX_SELDEV      "Odaberite DMX uređaj"
+    IDS_DLG_ARTNET_SELINT   "Odaberite ARTNET interfejs"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "jačina zvuka (glavna)"
+    IDM_COL4_MAP            "balans zvuka (osnovni)"
+    IDM_COL4_MAM            "utišati (glavni)"
+    IDM_COL4_MAS            "audio solo (glavni)"
+    IDM_COL4_JOG            "JOG (premotavanje video okvira)"
+    IDM_COL4_AV1            "jačina zvuka (kanal 1)"
+    IDM_COL4_AV2            "jačina zvuka (kanal 2)"
+    IDM_COL4_AV3            "jačina zvuka (kanal 3)"
+    IDM_COL4_AV4            "jačina zvuka (kanal 4)"
+    IDM_COL4_AV5            "jačina zvuka (kanal 5)"
+    IDM_COL4_AV6            "jačina zvuka (kanal 6)"
+    IDM_COL4_AV7            "jačina zvuka (kanal 7)"
+    IDM_COL4_AV8            "jačina zvuka (kanal 8)"
+    IDM_COL4_XV9            "jačina zvuka (kanal 9)"
+    IDM_COL4_AP1            "balans zvuka (kanal 1)"
+    IDM_COL4_AP2            "balans zvuka (kanal 2)"
+    IDM_COL4_AP3            "balans zvuka (kanal 3)"
+    IDM_COL4_AP4            "balans zvuka (kanal 4)"
+    IDM_COL4_AP5            "balans zvuka (kanal 5)"
+    IDM_COL4_AP6            "balans zvuka (kanal 6)"
+    IDM_COL4_AP7            "balans zvuka (kanal 7)"
+    IDM_COL4_AP8            "balans zvuka (kanal 8)"
+    IDM_COL4_XP9            "balans zvuka (kanal 9)"
+    IDM_COL4_B11            "audio solo (kanal 1)"
+    IDM_COL4_B12            "audio solo (kanal 2)"
+    IDM_COL4_B13            "audio solo (kanal 3)"
+    IDM_COL4_B14            "audio solo (kanal 4)"
+    IDM_COL4_B15            "audio solo (kanal 5)"
+    IDM_COL4_B16            "audio solo (kanal 6)"
+    IDM_COL4_B17            "audio solo (kanal 7)"
+    IDM_COL4_B18            "audio solo (kanal 8)"
+    IDM_COL4_B19            "audio solo (kanal 9)"
+    IDM_COL4_B21            "isključi zvuk (kanal 1)"
+    IDM_COL4_B22            "isključi zvuk (kanal 2)"
+    IDM_COL4_B23            "isključi zvuk (kanal 3)"
+    IDM_COL4_B24            "isključi zvuk (kanal 4)"
+    IDM_COL4_B25            "isključi zvuk (kanal 5)"
+    IDM_COL4_B26            "isključi zvuk (kanal 6)"
+    IDM_COL4_B27            "isključi zvuk (kanal 7)"
+    IDM_COL4_B28            "isključi zvuk (kanal 8)"
+    IDM_COL4_B29            "isključi zvuk (kanal 9)"
+    IDM_COL4_B31            "izbor zvuka (kanal 1)"
+    IDM_COL4_B32            "izbor zvuka (kanal 2)"
+    IDM_COL4_B33            "izbor zvuka (kanal 3)"
+    IDM_COL4_B34            "izbor zvuka (kanal 4)"
+    IDM_COL4_B35            "izbor zvuka (kanal 5)"
+    IDM_COL4_B36            "izbor zvuka (kanal 6)"
+    IDM_COL4_B37            "izbor zvuka (kanal 7)"
+    IDM_COL4_B38            "izbor zvuka (kanal 8)"
+    IDM_COL4_B39            "izbor zvuka (kanal 9)"
+    IDM_COL4_FUN11          "funkcija F1 (standardni način rada)"
+    IDM_COL4_FUN12          "funkcija F2 (standardni način rada)"
+    IDM_COL4_FUN13          "funkcija F3 (standardni način rada)"
+    IDM_COL4_FUN14          "funkcija F4 (standardni način rada)"
+    IDM_COL4_FUN15          "funkcija F5 (standardni način rada)"
+    IDM_COL4_FUN16          "funkcija F6 (standardni način rada)"
+    IDM_COL4_FUN17          "funkcija F7 (standardni način rada)"
+    IDM_COL4_FUN18          "funkcija F8 (standardni način rada)"
+    IDM_COL4_FUN21          "funkcija F1 (na čekanju)"
+    IDM_COL4_FUN22          "funkcija F2 (na čekanju)"
+    IDM_COL4_FUN23          "funkcija F3 (na čekanju)"
+    IDM_COL4_FUN24          "funkcija F4 (na čekanju)"
+    IDM_COL4_FUN25          "funkcija F5 (na čekanju)"
+    IDM_COL4_FUN26          "funkcija F6 (na čekanju)"
+    IDM_COL4_FUN27          "funkcija F7 (na čekanju)"
+    IDM_COL4_FUN28          "funkcija F8 (na čekanju)"
+    IDM_COL4_SYS_Rewind     "Premotavanje (player)"
+    IDM_COL4_SYS_Forward    "Brzo naprijed (igrač)"
+    IDM_COL4_SYS_Stop       "Zaustavi (igrač)"
+    IDM_COL4_SYS_Play       "Igraj (igrač)"
+    IDM_COL4_SYS_Record     "Snimanje (plejer)"
+    IDM_COL4_SYS_Up         "gore (džojstik)"
+    IDM_COL4_SYS_Down       "dolje (džojstik)"
+    IDM_COL4_SYS_Left       "Lijevo (džojstik)"
+    IDM_COL4_SYS_Right      "desno (džojstik)"
+    IDM_COL4_SYS_Zoom       "Povećati"
+    IDM_COL4_SYS_Scrub      "Scrub"
+    IDM_COL4_VOLUMEMIX      "Kontrola miksera"
+    IDM_COL4_MEDIAKEY       "Multimedijalni tasteri"
+    IDM_COL4_MQTTKEY        "Upravljanje pametnim domom"
+    IDM_COL4_LIGHTKEY8B     "Kontrola rasvjete (8 bita)"
+    IDM_COL4_LIGHTKEY16B    "Kontrola rasvjete (16 bit)"
+    IDM_COL4_NONE           "radnja nije definisana"
+    IDM_COL4_MQTT_AV1       "nivo 1"
+    IDM_COL4_MQTT_AV2       "nivo 2"
+    IDM_COL4_MQTT_AV3       "nivo 3"
+    IDM_COL4_MQTT_AV4       "nivo 4"
+    IDM_COL4_MQTT_AV5       "nivo 5"
+    IDM_COL4_MQTT_AV6       "nivo 6"
+    IDM_COL4_MQTT_AV7       "nivo 7"
+    IDM_COL4_MQTT_AV8       "nivo 8"
+    IDM_COL4_MQTT_XV9       "nivo 9"
+    IDM_COL4_MQTT_AP1       "nivo 10"
+    IDM_COL4_MQTT_AP2       "nivo 11"
+    IDM_COL4_MQTT_AP3       "nivo 12"
+    IDM_COL4_MQTT_AP4       "nivo 13"
+    IDM_COL4_MQTT_AP5       "nivo 14"
+    IDM_COL4_MQTT_AP6       "nivo 15"
+    IDM_COL4_MQTT_AP7       "nivo 16"
+    IDM_COL4_MQTT_AP8       "nivo 17"
+    IDM_COL4_MQTT_XP9       "nivo 18"
+    IDM_COL4_MQTT_B11       "uključivanje/isključivanje 1"
+    IDM_COL4_MQTT_B12       "uključivanje/isključivanje 2"
+    IDM_COL4_MQTT_B13       "uključivanje/isključivanje 3"
+    IDM_COL4_MQTT_B14       "uključivanje/isključivanje 4"
+    IDM_COL4_MQTT_B15       "uključivanje/isključivanje 5"
+    IDM_COL4_MQTT_B16       "uključivanje/isključivanje 6"
+    IDM_COL4_MQTT_B17       "uključivanje/isključivanje 7"
+    IDM_COL4_MQTT_B18       "uključivanje/isključivanje 8"
+    IDM_COL4_MQTT_B19       "uključivanje/isključivanje 9"
+    IDM_COL4_MQTT_B21       "uključeno/isključeno 10"
+    IDM_COL4_MQTT_B22       "uključivanje/isključivanje 11"
+    IDM_COL4_MQTT_B23       "uključen/isključen 12"
+    IDM_COL4_MQTT_B24       "uključivanje/isključivanje 13"
+    IDM_COL4_MQTT_B25       "uključivanje/isključivanje 14"
+    IDM_COL4_MQTT_B26       "uključeno/isključeno 15"
+    IDM_COL4_MQTT_B27       "uključeno/isključeno 16"
+    IDM_COL4_MQTT_B28       "uključeno/isključeno 17"
+    IDM_COL4_MQTT_B29       "uključeno/isključeno 18"
+    IDM_COL4_MQTT_B31       "uključeno/isključeno 19"
+    IDM_COL4_MQTT_B32       "uključen/isključen 20"
+    IDM_COL4_MQTT_B33       "uključeno/isključeno 21"
+    IDM_COL4_MQTT_B34       "uključeno/isključeno 22"
+    IDM_COL4_MQTT_B35       "uključeno/isključeno 23"
+    IDM_COL4_MQTT_B36       "uključeno/isključeno 24"
+    IDM_COL4_MQTT_B37       "uključeno/isključeno 25"
+    IDM_COL4_MQTT_B38       "uključen/isključen 26"
+    IDM_COL4_MQTT_B39       "uključeno/isključeno 27"
+    IDM_COL4_MQTT_NONE      "Nije dodijeljeno"
+    IDM_MQTT_LOG_NONE       "ne vodi se dnevnik"
+    IDM_MQTT_LOG_INFO       "informacije"
+    IDM_MQTT_LOG_NOTICE     "obavještenja"
+    IDM_MQTT_LOG_WARNING    "upozorenja"
+    IDM_MQTT_LOG_ERR        "samo greške"
+    IDM_MQTT_LOG_DEBUG      "sve poruke"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Ova greška je nedefinirana"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Pristup za pisanje u konfiguracijski fajl je odbijen, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Nedostaje konfiguracijski fajl ili pristup odbijen, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfiguracijski fajl je prazan, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Naziv MIDI uređaja nije konfigurisan."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "U ovoj konfiguraciji nisu konfigurirani MIDI ključevi."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Pažnja, ova konfiguracija nema konfigurirane MIDI tipke! snimljena konfiguracija neće raditi."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Ko*inicijalizacija nije uspjela."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - nije uspjelo kreiranje instance."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Nije uspjelo preuzimanje zadanog audio uređaja."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager se srušio."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Audio peak meter nije dostupan."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Mikser audio sesije je pokrenut, u vrijeme pokretanja postoji {0} pokrenutih programa dostupnih za regulaciju."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Nije moguće pokrenuti mikser audio sesije, detalji o grešci bi trebali biti u datoteci evidencije."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Mikser audio sesije je zaustavljen."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Mikser audio sesije nije ispravno zaustavljen, detalji o grešci bi trebali biti u datoteci evidencije."
+    IDS_ERRORID_NO_INIT     "Inicijalizirajte prije pozivanja ovog.."
+    IDS_ERRORID_SESSION_LIST
+                            "Nije uspjelo preuzimanje liste audio sesija."
+    IDS_ERRORID_LISTISNULL  "Lista audio sesija je prazna!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Onemogućavanje audio sesije, razlog='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Audio sesija kreirana, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Audio sesija '{0}' - Nevažeće stanje registracije '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Vrijednost koja se postavlja iz povratnog poziva je nevažeći selektor."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Postavljanje povratnog poziva moguće je samo nakon što je MIDI most uspješno pokrenut."
+    IDS_ERRORID_CONFIG_FAIL "Učitavanje konfiguracije nije uspjelo, datoteka nije pronađena, pokretanje nemoguće."
+    IDS_ERRORID_CONFIG_LOAD "Konfiguracija je učitana.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Konfiguracija je već učitana.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfiguracija je prazna.."
+    IDS_ERRORID_CONFIG_NEW  "Otkrivena je nova verzija konfiguracije.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Nepodržana implementacija u kodu, metoda nije poništena: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Ime konfiguracije nije navedeno i ne može se nastaviti."
+    IDS_ERRORID_NOT_DEVICES "Uređaji nisu povezani i ne mogu nastaviti."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Pažnja, broj uređaja na konačnoj listi se ne podudara, sistem/lista = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Nije moguće otvoriti MIDI uređaj, ne može se nastaviti, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Nije moguće pokrenuti MIDI uređaj, ne može nastaviti, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Uređaj nije povezan, prekid, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Pronađen uređaj {0}, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Uređaj {0} otvoren, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Uređaj {0} zatvoren (sistem)"
+    IDS_ERRORID_DEVICE_DONE "Uređaj {0} spreman (sistem)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Naziv aktivnog uređaja nije naveden, nastavak je nemoguć, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy portovi nisu navedeni u konfiguraciji, MIDI proxy je onemogućen."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Verzija drajvera [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problem sa verzijom drajvera [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Uređaj {0} poslao je nevažeću vrijednost = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Virtuelni MIDI drajver nije instaliran. Morate instalirati loopMidi paket ili preuzeti kompletan instalater i ponovo instalirati MIDI-MT. Više detalja: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Usluga upravljanja medijskim ključevima je pokrenuta."
+    IDS_ERRORID_MMKEY_STOP  "Usluga upravljanja medijskim ključevima je zaustavljena."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT konfiguracija je prazna i ne može se nastaviti."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Greška pri kreiranju MQTT klijenta, otkazivanje."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT klijent je uspješno kreiran, nastavite..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Povezano na MQTT server:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Povezivanje na MQTT server nije uspjelo:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Prekinuta sa MQTT serverom:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "Datoteka CA certifikata ne postoji, putanja = '{0}'"
+    IDS_ERRORID_MQTT_START  "Pokrenuta je usluga upravljanja pametnim domom."
+    IDS_ERRORID_MQTT_STOP   "Usluga upravljanja Smart Home je zaustavljena."
+    IDS_ERRORID_PANEL_INDEX "Panel miksera zvuka - Nije moguće nastaviti, stavke indeksa su netačne."
+    IDS_ERRORID_PANEL_INIT  "Panel miksera zvuka - ne može se nastaviti, greška pri inicijalizaciji."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Prozor panela audio miksera nema ispravan status i sljedeća operacija se ne može nastaviti."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Panel miksera zvuka se ne poziva na UI niti i promjene se ne mogu napraviti."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Panel miksera zvuka je otkrio nevažeći element i kreiranje prozora panela je prekinuto."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "DMX usluga kontrole rasvjete se pokreće pomoću COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "Usluga DMX kontrole rasvjete ne radi, COM{0} uređaj nije povezan."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "Usluga DMX kontrole rasvjete ne radi i konfiguracija usluge nije popunjena."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "DMX usluga kontrole rasvjete je zaustavljena."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "ArtNet Lighting Control Service radi koristeći adresu emitovanja {0}:{1} na mreži {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNet usluga kontrole rasvjete nije pokrenuta, mreža {0} nije pronađena.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "ArtNet usluga upravljanja rasvjetom ne radi, konfiguracija usluge nije popunjena."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "ArtNet usluga upravljanja rasvjetom je zaustavljena."
+    IDS_ERRORID_NONE        "-"
+END

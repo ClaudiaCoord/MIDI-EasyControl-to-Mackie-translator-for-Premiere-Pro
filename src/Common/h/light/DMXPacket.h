@@ -40,7 +40,8 @@ namespace Common {
 
 			void set_blackout(bool);
 			void set_index(size_t);
-			void set_value(uint16_t, uint8_t);
+			void set_value8(uint16_t, uint8_t);
+			void set_value16(uint16_t, uint8_t);
 
 			std::vector<byte> create();
 		};

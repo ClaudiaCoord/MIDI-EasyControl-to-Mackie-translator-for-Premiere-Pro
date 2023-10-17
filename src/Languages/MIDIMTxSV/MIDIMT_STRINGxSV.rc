@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie översättare"
+    IDS_MIXER               "&Mixer"
+    IDS_SETTINGS            "&Inställningar"
+    IDS_START               "Start"
+    IDS_STOP                "Sluta"
+    IDS_EXIT                "Utgång"
+    IDS_SETUP_MSG1          "Konfiguration laddad från drivrutinen"
+    IDS_SETUP_MSG2          "Konfigurationen har laddats från filen"
+    IDS_SETUP_MSG3          "Konfigurationen har skapats på nytt och måste fyllas i"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "MIDI-MT-konfiguration"
+    IDS_CONFIG_EXE_FILTER   "Körbara filer"
+    IDS_MQTT_CA_FILTER      "CA-certifikat"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI-översättaren körs inte."
+    IDS_INFO2               "MIDI-översättaren fungerar:"
+    IDS_INFO3               "Inmatningsapparat:"
+    IDS_INFO4               "Mackie/Premier-utgångsport:"
+    IDS_INFO5               "Output proxy-port:"
+    IDS_INFO6               "Ljudmixern är igång."
+    IDS_INFO7               "Multimediaknappkontroll körs, kontrollera dina inställningar."
+    IDS_INFO8               "Ljudmixern är inte igång, kontrollera inställningarna, ljudpanelens start måste vara aktiverad."
+    IDS_INFO9               "Ogiltigt händelse-ID. Starta om det här programmet."
+    IDS_INF1O               "Det gick inte att byta till gränssnittstråden, start av ljudpanelen avbröts."
+    IDS_INF11               "MIDIMT - Ljudmixern körs inte:"
+    IDS_INF12               "MIDIMT - Kan inte slutföra operationen:"
+    IDS_INF13               "Hantering av smarta hemenheter har startat."
+    IDS_INF14               "Ljusstyrning via DMX512-protokollet har lanserats."
+    IDS_INF15               "Ljusstyrning via ArtNet-protokollet har lanserats."
+    IDS_DLG_MSG0            "Installera virtuell MIDI-drivrutin"
+    IDS_DLG_MSG1            "MIDI Mackie-utgång"
+    IDS_DLG_MSG2            "MIDI-proxyutgång"
+    IDS_DLG_MSG3            "MIDI virtuell drivrutinsversion:"
+    IDS_DLG_MSG4            "Den installerade virtuella MIDI-drivrutinen hittades inte! Du måste installera Virtual Loop MIDI-paketet för att köra MIDI-MT-översättaren"
+    IDS_DLG_MSG5            "När den startas skapas proxy-MIDI-portar:"
+    IDS_DLG_MSG6            "MIDI Proxy-portar är inaktiverade."
+    IDS_DLG_MSG7            "Det valda språket kommer att vara aktivt efter att fönstret har startat om -"
+    IDS_DLG_MSG8            "MIDI-ingångsenhet tilldelad till"
+    IDS_DLG_MSG9            "Vänligen redigera konfigurationen innan du börjar."
+    IDS_DLG_MSG10           "Version av installerad virtuell MIDI-drivrutin:"
+    IDS_DLG_MSG11           "Den valda konfigurationen stöder inte automatisk start."
+    IDS_DLG_MSG12           "Vänligen, innan du startar monitorn, starta MIDI-bryggan från menyn genom att anropa 'Start'."
+    IDS_DLG_MSG13           "Vid start specificerades konfigurationsfilen: '{0}'. Vill du ställa in det som en konfiguration för efterföljande körningar?"
+    IDS_DLG_MSG14           "När du öppnade redigeraren angavs konfigurationsfilen: '{0}'. Spara den med samma namn?"
+    IDS_DLG_MSG15           "Autorun är inaktiverad i den allmänna konfigurationen."
+    IDS_DLG_MSG16           "DMX-kanalnummer"
+    IDS_DLG_MSG17           "Du måste installera Virtual MIDI-drivrutinen!"
+    IDS_DLG_DMX_NODEV       "Inga tillgängliga enheter"
+    IDS_DLG_ARTNET_NOINT    "Inga gränssnitt"
+    IDS_DLG_DMX_SELDEV      "Välj DMX-enhet"
+    IDS_DLG_ARTNET_SELINT   "Välj ARTNET-gränssnitt"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "ljudvolym (huvud)"
+    IDM_COL4_MAP            "ljudbalans (grundläggande)"
+    IDM_COL4_MAM            "tyst (huvud)"
+    IDM_COL4_MAS            "ljud solo (huvud)"
+    IDM_COL4_JOG            "JOG (spol tillbaka videoram)"
+    IDM_COL4_AV1            "ljudvolym (kanal 1)"
+    IDM_COL4_AV2            "ljudvolym (kanal 2)"
+    IDM_COL4_AV3            "ljudvolym (kanal 3)"
+    IDM_COL4_AV4            "ljudvolym (kanal 4)"
+    IDM_COL4_AV5            "ljudvolym (kanal 5)"
+    IDM_COL4_AV6            "ljudvolym (kanal 6)"
+    IDM_COL4_AV7            "ljudvolym (kanal 7)"
+    IDM_COL4_AV8            "ljudvolym (kanal 8)"
+    IDM_COL4_XV9            "ljudvolym (kanal 9)"
+    IDM_COL4_AP1            "ljudbalans (kanal 1)"
+    IDM_COL4_AP2            "ljudbalans (kanal 2)"
+    IDM_COL4_AP3            "ljudbalans (kanal 3)"
+    IDM_COL4_AP4            "ljudbalans (kanal 4)"
+    IDM_COL4_AP5            "ljudbalans (kanal 5)"
+    IDM_COL4_AP6            "ljudbalans (kanal 6)"
+    IDM_COL4_AP7            "ljudbalans (kanal 7)"
+    IDM_COL4_AP8            "ljudbalans (kanal 8)"
+    IDM_COL4_XP9            "ljudbalans (kanal 9)"
+    IDM_COL4_B11            "ljudsolo (kanal 1)"
+    IDM_COL4_B12            "ljudsolo (kanal 2)"
+    IDM_COL4_B13            "ljudsolo (kanal 3)"
+    IDM_COL4_B14            "ljudsolo (kanal 4)"
+    IDM_COL4_B15            "ljudsolo (kanal 5)"
+    IDM_COL4_B16            "ljudsolo (kanal 6)"
+    IDM_COL4_B17            "ljudsolo (kanal 7)"
+    IDM_COL4_B18            "ljudsolo (kanal 8)"
+    IDM_COL4_B19            "ljudsolo (kanal 9)"
+    IDM_COL4_B21            "tyst (kanal 1)"
+    IDM_COL4_B22            "tyst (kanal 2)"
+    IDM_COL4_B23            "tyst (kanal 3)"
+    IDM_COL4_B24            "tyst (kanal 4)"
+    IDM_COL4_B25            "tyst (kanal 5)"
+    IDM_COL4_B26            "tyst (kanal 6)"
+    IDM_COL4_B27            "tyst (kanal 7)"
+    IDM_COL4_B28            "tyst (kanal 8)"
+    IDM_COL4_B29            "tyst (kanal 9)"
+    IDM_COL4_B31            "ljudval (kanal 1)"
+    IDM_COL4_B32            "ljudval (kanal 2)"
+    IDM_COL4_B33            "ljudval (kanal 3)"
+    IDM_COL4_B34            "ljudval (kanal 4)"
+    IDM_COL4_B35            "ljudval (kanal 5)"
+    IDM_COL4_B36            "ljudval (kanal 6)"
+    IDM_COL4_B37            "ljudval (kanal 7)"
+    IDM_COL4_B38            "ljudval (kanal 8)"
+    IDM_COL4_B39            "ljudval (kanal 9)"
+    IDM_COL4_FUN11          "funktion F1 (standardläge)"
+    IDM_COL4_FUN12          "funktion F2 (standardläge)"
+    IDM_COL4_FUN13          "funktion F3 (standardläge)"
+    IDM_COL4_FUN14          "funktion F4 (standardläge)"
+    IDM_COL4_FUN15          "funktion F5 (standardläge)"
+    IDM_COL4_FUN16          "funktion F6 (standardläge)"
+    IDM_COL4_FUN17          "funktion F7 (standardläge)"
+    IDM_COL4_FUN18          "funktion F8 (standardläge)"
+    IDM_COL4_FUN21          "funktion F1 (hållet läge)"
+    IDM_COL4_FUN22          "funktion F2 (hållet läge)"
+    IDM_COL4_FUN23          "funktion F3 (hållet läge)"
+    IDM_COL4_FUN24          "funktion F4 (hållet läge)"
+    IDM_COL4_FUN25          "funktion F5 (hållet läge)"
+    IDM_COL4_FUN26          "funktion F6 (hållet läge)"
+    IDM_COL4_FUN27          "funktion F7 (hållet läge)"
+    IDM_COL4_FUN28          "funktion F8 (hållet läge)"
+    IDM_COL4_SYS_Rewind     "Spola tillbaka (spelare)"
+    IDM_COL4_SYS_Forward    "Snabbspolning framåt (spelare)"
+    IDM_COL4_SYS_Stop       "Stoppa (spelare)"
+    IDM_COL4_SYS_Play       "Spela (spelare)"
+    IDM_COL4_SYS_Record     "Inspelning (spelare)"
+    IDM_COL4_SYS_Up         "Upp (joystick)"
+    IDM_COL4_SYS_Down       "Ner (joystick)"
+    IDM_COL4_SYS_Left       "Vänster (joystick)"
+    IDM_COL4_SYS_Right      "Höger (joystick)"
+    IDM_COL4_SYS_Zoom       "Öka"
+    IDM_COL4_SYS_Scrub      "Skrubba"
+    IDM_COL4_VOLUMEMIX      "Mixerkontroll"
+    IDM_COL4_MEDIAKEY       "Multimediaknappar"
+    IDM_COL4_MQTTKEY        "Hantering av smarta hem"
+    IDM_COL4_LIGHTKEY8B     "Ljuskontroll (8 bitar)"
+    IDM_COL4_LIGHTKEY16B    "Ljuskontroll (16 bitar)"
+    IDM_COL4_NONE           "åtgärd inte definierad"
+    IDM_COL4_MQTT_AV1       "nivå 1"
+    IDM_COL4_MQTT_AV2       "nivå 2"
+    IDM_COL4_MQTT_AV3       "Nivå 3"
+    IDM_COL4_MQTT_AV4       "nivå 4"
+    IDM_COL4_MQTT_AV5       "nivå 5"
+    IDM_COL4_MQTT_AV6       "nivå 6"
+    IDM_COL4_MQTT_AV7       "nivå 7"
+    IDM_COL4_MQTT_AV8       "nivå 8"
+    IDM_COL4_MQTT_XV9       "nivå 9"
+    IDM_COL4_MQTT_AP1       "nivå 10"
+    IDM_COL4_MQTT_AP2       "nivå 11"
+    IDM_COL4_MQTT_AP3       "nivå 12"
+    IDM_COL4_MQTT_AP4       "nivå 13"
+    IDM_COL4_MQTT_AP5       "nivå 14"
+    IDM_COL4_MQTT_AP6       "nivå 15"
+    IDM_COL4_MQTT_AP7       "nivå 16"
+    IDM_COL4_MQTT_AP8       "nivå 17"
+    IDM_COL4_MQTT_XP9       "nivå 18"
+    IDM_COL4_MQTT_B11       "på/av 1"
+    IDM_COL4_MQTT_B12       "på/av 2"
+    IDM_COL4_MQTT_B13       "på/av 3"
+    IDM_COL4_MQTT_B14       "på/av 4"
+    IDM_COL4_MQTT_B15       "på/av 5"
+    IDM_COL4_MQTT_B16       "på/av 6"
+    IDM_COL4_MQTT_B17       "på/av 7"
+    IDM_COL4_MQTT_B18       "på/av 8"
+    IDM_COL4_MQTT_B19       "på/av 9"
+    IDM_COL4_MQTT_B21       "på/av 10"
+    IDM_COL4_MQTT_B22       "på/av 11"
+    IDM_COL4_MQTT_B23       "på/av 12"
+    IDM_COL4_MQTT_B24       "på/av 13"
+    IDM_COL4_MQTT_B25       "på/av 14"
+    IDM_COL4_MQTT_B26       "på/av 15"
+    IDM_COL4_MQTT_B27       "på/av 16"
+    IDM_COL4_MQTT_B28       "på/av 17"
+    IDM_COL4_MQTT_B29       "på/av 18"
+    IDM_COL4_MQTT_B31       "på/av 19"
+    IDM_COL4_MQTT_B32       "på/av 20"
+    IDM_COL4_MQTT_B33       "på/av 21"
+    IDM_COL4_MQTT_B34       "på/av 22"
+    IDM_COL4_MQTT_B35       "på/av 23"
+    IDM_COL4_MQTT_B36       "på/av 24"
+    IDM_COL4_MQTT_B37       "på/av 25"
+    IDM_COL4_MQTT_B38       "på/av 26"
+    IDM_COL4_MQTT_B39       "på/av 27"
+    IDM_COL4_MQTT_NONE      "Inte tilldelats"
+    IDM_MQTT_LOG_NONE       "ingen logg förs"
+    IDM_MQTT_LOG_INFO       "information"
+    IDM_MQTT_LOG_NOTICE     "meddelanden"
+    IDM_MQTT_LOG_WARNING    "varningar"
+    IDM_MQTT_LOG_ERR        "bara fel"
+    IDM_MQTT_LOG_DEBUG      "alla meddelanden"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Detta fel är odefinierat"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Skrivåtkomst till konfigurationsfilen nekas, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfigurationsfil saknas eller åtkomst nekad, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfigurationsfilen är tom, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "MIDI-enhetsnamnet är inte konfigurerat."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "Det finns inga MIDI-nycklar konfigurerade i denna konfiguration."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Observera, denna konfiguration har inte MIDI-nycklar konfigurerade! den inspelade konfigurationen kommer inte att fungera."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Co*Initialize-initiering misslyckades."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create - det gick inte att skapa en instans."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Det gick inte att hämta standardljudenhet."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Audio Session Manager kraschade."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Ljudmätare är inte tillgänglig."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Ljudsessionsmixern är igång, vid tidpunkten för lanseringen finns det {0} program som körs tillgängliga för reglering."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Ljudsessionsmixern kunde inte startas, felinformation bör finnas i loggfilen."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Ljudsessionsmixern har stoppats."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Audio Session Mixer stoppades inte korrekt, felinformationen bör finnas i loggfilen."
+    IDS_ERRORID_NO_INIT     "Initiera innan du ringer detta.."
+    IDS_ERRORID_SESSION_LIST
+                            "Det gick inte att hämta listan över ljudsessioner."
+    IDS_ERRORID_LISTISNULL  "Listan över ljudsessioner är tom!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Inaktiverar ljudsession, reason='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Ljudsession skapad, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Ljudsession '{0}' - Ogiltig registreringstillstånd '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Värdet som ställs in från återuppringningen är en ogiltig väljare."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Att ställa in ett återuppringning är endast möjligt efter att MIDI-bryggan har startats."
+    IDS_ERRORID_CONFIG_FAIL "Konfigurationsladdning misslyckades, filen hittades inte, start omöjlig."
+    IDS_ERRORID_CONFIG_LOAD "Konfigurationen har laddats.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Konfigurationen har redan laddats.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfigurationen är tom.."
+    IDS_ERRORID_CONFIG_NEW  "Ny konfigurationsversion upptäckt.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Implementering som inte stöds i kod, metod har inte åsidosatts: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Konfigurationsnamnet är inte specificerat och kan inte fortsätta."
+    IDS_ERRORID_NOT_DEVICES "Enheterna är inte anslutna och kan inte fortsätta."
+    IDS_ERRORID_COUNT_DEVICES
+                            "OBS, oöverensstämmelse i antalet enheter i den slutliga listan, system/lista = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Kan inte öppna MIDI-enhet, kan inte fortsätta, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Kan inte starta MIDI-enhet, kan inte fortsätta, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Enhet inte ansluten, avbryt, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Enhet {0} hittades, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Enhet {0} öppen, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Enhet {0} stängd (system)"
+    IDS_ERRORID_DEVICE_DONE "Enhet {0} redo (system)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Namnet på den aktiva enheten är inte specificerat, fortsättning är omöjlig, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxyportar är inte specificerade i konfigurationen, MIDI-proxy är inaktiverad."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Drivrutinsversion [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problem med drivrutinsversionen [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Enheten {0} skickade ogiltigt värde = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Den virtuella MIDI-drivrutinen är inte installerad. Du måste installera loopMidi-paketet, eller ladda ner hela installationsprogrammet och installera om MIDI-MT. Mer information: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Tjänsten Media Key Management körs."
+    IDS_ERRORID_MMKEY_STOP  "Tjänsten Media Key Management har stoppats."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "MQTT-konfigurationen är tom och kan inte fortsätta."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Det gick inte att skapa MQTT-klient, avbryter."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "MMQTT-klienten har skapats framgångsrikt, fortsätt..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Ansluten till MQTT-server:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Det gick inte att ansluta till MQTT-servern:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Frånkopplad från MQTT-server:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "CA-certifikatfilen finns inte, sökväg = '{0}'"
+    IDS_ERRORID_MQTT_START  "Tjänsten Smart Home Control har lanserats."
+    IDS_ERRORID_MQTT_STOP   "Tjänsten Smart Home Control har stoppats."
+    IDS_ERRORID_PANEL_INDEX "Audio Mixer Panel - Kan inte fortsätta, indexobjekt är felaktiga."
+    IDS_ERRORID_PANEL_INIT  "Ljudmixerpanel - kan inte fortsätta, initieringsfel."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Ljudmixerpanelens fönster har inte korrekt status och nästa operation kan inte fortsätta."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Ljudmixerpanelen anropas inte på en gränssnittstråd och ändringar kan inte göras."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Ljudmixerpanelen upptäckte ett ogiltigt element och skapandet av panelfönstret avbröts."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "DMX-ljusstyrningstjänsten startas med COM{0} - {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "DMX-ljusstyrningstjänsten körs inte, COM{0}-enheten är inte ansluten.."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "DMX-ljusstyrningstjänsten körs inte och tjänstekonfigurationen är inte ifylld."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "DMX-ljusstyrningstjänsten har upphört."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "ArtNets ljusstyrningstjänst körs med sändningsadressen {0}:{1} på nätverket {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "ArtNets ljusstyrningstjänst körs inte, nätverket {0} hittades inte.."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "ArtNets ljusstyrningstjänst är inte igång, tjänstekonfigurationen är inte ifylld."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "ArtNets ljusstyrningstjänst har upphört."
+    IDS_ERRORID_NONE        "-"
+END

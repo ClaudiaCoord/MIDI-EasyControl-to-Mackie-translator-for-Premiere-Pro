@@ -60,28 +60,33 @@ namespace Common {
 						std::wstring ws = cnf.GetConfig()->name;
 						if (!ws.empty()) {
 
-							std::wstringstream wss;
-							wss << lang.GetString(IDS_INFO3) << L" " << ws << L"\r\n";
-							wss << lang.GetString(IDS_INFO4) << L" " << ws << MIDI::MidiHelper::GetSuffixMackieOut() << L"\r\n";
+							log_string ls;
+							ls << lang.GetString(IDS_INFO3).c_str() << L" " << ws.c_str() << L"\r\n";
+							ls << lang.GetString(IDS_INFO4).c_str() << L" " << ws.c_str() << MIDI::MidiHelper::GetSuffixMackieOut().c_str() << L"\r\n";
 
 							if (cnf.IsProxy()) {
 								uint32_t cnt = cnf.GetConfig()->proxy;
-								wss << lang.GetString(IDS_INFO5) << L"\r\n";
+								ls << lang.GetString(IDS_INFO5).c_str() << L"\r\n";
 
 								if (cnt == 1)
-									wss << L"\t\t" << ws << MIDI::MidiHelper::GetSuffixProxyOut() << L"1\r\n";
+									ls << L"\t\t" << ws.c_str() << MIDI::MidiHelper::GetSuffixProxyOut().c_str() << L"1\r\n";
 								else
 									for(uint32_t i = 0; i < cnt; i++)
-										wss << L"\t\t" << ws << MIDI::MidiHelper::GetSuffixProxyOut() << std::to_wstring(i + 1U) << L"\r\n";
+										ls << L"\t\t" << ws.c_str() << MIDI::MidiHelper::GetSuffixProxyOut().c_str() << std::to_wstring(i + 1U).c_str() << L"\r\n";
 							}
 							if (cnf.Local.IsAudioMixerRun())
-								wss << lang.GetString(IDS_INFO6) << L"\r\n";
+								ls << lang.GetString(IDS_INFO6).c_str() << L"\r\n";
 							if (cnf.Local.IsMMKeysRun())
-								wss << lang.GetString(IDS_INFO7) << L"\r\n";
+								ls << lang.GetString(IDS_INFO7).c_str() << L"\r\n";
 							if (cnf.Local.IsSmartHomeRun())
-								wss << lang.GetString(IDS_INF13) << L"\r\n";
+								ls << lang.GetString(IDS_INF13).c_str() << L"\r\n";
+							if (cnf.Local.IsLightsDmxRun())
+								ls << lang.GetString(IDS_INF14).c_str() << L"\r\n";
+							if (cnf.Local.IsLightsArtNetRun())
+								ls << lang.GetString(IDS_INF15).c_str() << L"\r\n";
 
-							::wcscpy_s(data__.szInfo, _countof(data__.szInfo), wss.str().c_str());
+							std::wstring wdata = ls.str();
+							::wcscpy_s(data__.szInfo, _countof(data__.szInfo), wdata.c_str());
 						}
 					}
 				} else {

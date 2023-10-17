@@ -227,7 +227,8 @@ namespace Common {
 		bool MidiSetter::ValidTarget(MidiUnit& u) {
 			switch (u.target) {
 				using enum Mackie::Target;
-				case LIGHTKEY: return u.longtarget > Mackie::Target::MAV; /* u.longtarget = numeric DMX device */
+				case LIGHTKEY8B:
+				case LIGHTKEY16B: return u.longtarget > Mackie::Target::MAV; /* u.longtarget = numeric DMX device */
 				case MQTTKEY:
 				case VOLUMEMIX: {
 					if ((u.type == MidiUnitType::BTN) || (u.type == MidiUnitType::BTNTOGGLE)) {

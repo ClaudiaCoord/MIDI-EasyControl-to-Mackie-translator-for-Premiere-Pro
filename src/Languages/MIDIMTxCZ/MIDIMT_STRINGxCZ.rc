@@ -1,0 +1,348 @@
+﻿﻿
+#define APSTUDIO_READONLY_SYMBOLS
+#ifndef APSTUDIO_INVOKED
+#include <SDKDDKVer.h>
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#include "CommCtrl.h"
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie překladač"
+    IDS_MIXER               "&Směšovač"
+    IDS_SETTINGS            "&Nastavení"
+    IDS_START               "Start"
+    IDS_STOP                "Stop"
+    IDS_EXIT                "Výstup"
+    IDS_SETUP_MSG1          "Konfigurace načtena z ovladače"
+    IDS_SETUP_MSG2          "Konfigurace načtena ze souboru"
+    IDS_SETUP_MSG3          "Konfigurace byla vytvořena znovu a vyžaduje vyplnění"
+    IDS_URL_WIKI            "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU"
+    IDS_URL_GIT             "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases"
+    IDS_URL_WEB             "https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/"
+    IDS_URL_ESETUP          "https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.1.1/EasyControl.zip"
+    IDS_START_EXT_FILTER    "Konfigurace MIDI-MT"
+    IDS_CONFIG_EXE_FILTER   "Spustitelné soubory"
+    IDS_MQTT_CA_FILTER      "certifikát CA"
+    IDS_MIDIMT              "MIDIMT"
+    IDS_INFO1               "MIDI překladač neběží."
+    IDS_INFO2               "MIDI překladač funguje:"
+    IDS_INFO3               "Vstupní zařízení:"
+    IDS_INFO4               "Výstupní port Mackie/Premier:"
+    IDS_INFO5               "Výstupní port proxy:"
+    IDS_INFO6               "Směšovač zvuku běží."
+    IDS_INFO7               "Ovládání multimediálními klávesami je spuštěno, zkontrolujte nastavení."
+    IDS_INFO8               "Audio mixer neběží, zkontrolujte nastavení, musí být povoleno spouštění audio panelu."
+    IDS_INFO9               "Neplatné ID události. Restartujte tuto aplikaci."
+    IDS_INF1O               "Nepodařilo se přepnout na vlákno uživatelského rozhraní, spuštění panelu zvuku bylo přerušeno."
+    IDS_INF11               "MIDIMT - Audio mixer neběží:"
+    IDS_INF12               "MIDIMT – Nelze dokončit operaci:"
+    IDS_INF13               "Správa zařízení Smart Home byla zahájena."
+    IDS_INF14               "Bylo spuštěno ovládání osvětlení přes protokol DMX512."
+    IDS_INF15               "Bylo spuštěno ovládání osvětlení přes protokol ArtNet."
+    IDS_DLG_MSG0            "Instalace virtuálního MIDI ovladače"
+    IDS_DLG_MSG1            "MIDI výstup Mackie"
+    IDS_DLG_MSG2            "MIDI Proxy výstup"
+    IDS_DLG_MSG3            "Verze virtuálního ovladače MIDI:"
+    IDS_DLG_MSG4            "Nainstalovaný virtuální MIDI ovladač nebyl nalezen! Chcete-li spustit překladač MIDI-MT, musíte nainstalovat balíček Virtual Loop MIDI"
+    IDS_DLG_MSG5            "Po spuštění se vytvoří proxy MIDI porty:"
+    IDS_DLG_MSG6            "Porty MIDI Proxy jsou zakázány."
+    IDS_DLG_MSG7            "Zvolený jazyk bude aktivní po restartu okna -"
+    IDS_DLG_MSG8            "MIDI vstupní zařízení přiřazeno"
+    IDS_DLG_MSG9            "Před zahájením upravte konfiguraci."
+    IDS_DLG_MSG10           "Verze nainstalovaného virtuálního MIDI ovladače:"
+    IDS_DLG_MSG11           "Vybraná konfigurace nepodporuje automatický start."
+    IDS_DLG_MSG12           "Před spuštěním monitoru spusťte MIDI bridge z nabídky zavoláním „Start“."
+    IDS_DLG_MSG13           "Při spuštění byl zadán konfigurační soubor: '{0}'. Nastavit to jako konfiguraci pro další běhy?"
+    IDS_DLG_MSG14           "Při otevírání editoru byl zadán konfigurační soubor: '{0}'. Uložit to pod stejným názvem?"
+    IDS_DLG_MSG15           "Automatické spouštění je v obecné konfiguraci zakázáno."
+    IDS_DLG_MSG16           "Číslo kanálu DMX"
+    IDS_DLG_MSG17           "Musíte nainstalovat ovladač Virtual MIDI!"
+    IDS_DLG_DMX_NODEV       "Nejsou k dispozici žádná zařízení"
+    IDS_DLG_ARTNET_NOINT    "Žádná rozhraní"
+    IDS_DLG_DMX_SELDEV      "Vyberte zařízení DMX"
+    IDS_DLG_ARTNET_SELINT   "Vyberte rozhraní ARTNET"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_COL4_MAV            "hlasitost zvuku (hlavní)"
+    IDM_COL4_MAP            "vyvážení zvuku (základní)"
+    IDM_COL4_MAM            "ztlumit (hlavní)"
+    IDM_COL4_MAS            "audio sólo (hlavní)"
+    IDM_COL4_JOG            "JOG (přetočení snímku videa zpět)"
+    IDM_COL4_AV1            "hlasitost zvuku (kanál 1)"
+    IDM_COL4_AV2            "hlasitost zvuku (kanál 2)"
+    IDM_COL4_AV3            "hlasitost zvuku (kanál 3)"
+    IDM_COL4_AV4            "hlasitost zvuku (kanál 4)"
+    IDM_COL4_AV5            "hlasitost zvuku (kanál 5)"
+    IDM_COL4_AV6            "hlasitost zvuku (kanál 6)"
+    IDM_COL4_AV7            "hlasitost zvuku (kanál 7)"
+    IDM_COL4_AV8            "hlasitost zvuku (kanál 8)"
+    IDM_COL4_XV9            "hlasitost zvuku (kanál 9)"
+    IDM_COL4_AP1            "vyvážení zvuku (kanál 1)"
+    IDM_COL4_AP2            "vyvážení zvuku (kanál 2)"
+    IDM_COL4_AP3            "vyvážení zvuku (kanál 3)"
+    IDM_COL4_AP4            "vyvážení zvuku (kanál 4)"
+    IDM_COL4_AP5            "vyvážení zvuku (kanál 5)"
+    IDM_COL4_AP6            "vyvážení zvuku (kanál 6)"
+    IDM_COL4_AP7            "vyvážení zvuku (kanál 7)"
+    IDM_COL4_AP8            "vyvážení zvuku (kanál 8)"
+    IDM_COL4_XP9            "vyvážení zvuku (kanál 9)"
+    IDM_COL4_B11            "audio sólo (kanál 1)"
+    IDM_COL4_B12            "audio sólo (kanál 2)"
+    IDM_COL4_B13            "audio sólo (kanál 3)"
+    IDM_COL4_B14            "audio sólo (kanál 4)"
+    IDM_COL4_B15            "audio sólo (kanál 5)"
+    IDM_COL4_B16            "audio sólo (kanál 6)"
+    IDM_COL4_B17            "audio sólo (kanál 7)"
+    IDM_COL4_B18            "audio sólo (kanál 8)"
+    IDM_COL4_B19            "audio sólo (kanál 9)"
+    IDM_COL4_B21            "ztlumit (kanál 1)"
+    IDM_COL4_B22            "ztlumit (kanál 2)"
+    IDM_COL4_B23            "ztlumit (kanál 3)"
+    IDM_COL4_B24            "ztlumit (kanál 4)"
+    IDM_COL4_B25            "ztlumit (kanál 5)"
+    IDM_COL4_B26            "ztlumit (kanál 6)"
+    IDM_COL4_B27            "ztlumit (kanál 7)"
+    IDM_COL4_B28            "ztlumit (kanál 8)"
+    IDM_COL4_B29            "ztlumit (kanál 9)"
+    IDM_COL4_B31            "výběr zvuku (kanál 1)"
+    IDM_COL4_B32            "výběr zvuku (kanál 2)"
+    IDM_COL4_B33            "výběr zvuku (kanál 3)"
+    IDM_COL4_B34            "výběr zvuku (kanál 4)"
+    IDM_COL4_B35            "výběr zvuku (kanál 5)"
+    IDM_COL4_B36            "výběr zvuku (kanál 6)"
+    IDM_COL4_B37            "výběr zvuku (kanál 7)"
+    IDM_COL4_B38            "výběr zvuku (kanál 8)"
+    IDM_COL4_B39            "výběr zvuku (kanál 9)"
+    IDM_COL4_FUN11          "funkce F1 (standardní režim)"
+    IDM_COL4_FUN12          "funkce F2 (standardní režim)"
+    IDM_COL4_FUN13          "funkce F3 (standardní režim)"
+    IDM_COL4_FUN14          "funkce F4 (standardní režim)"
+    IDM_COL4_FUN15          "funkce F5 (standardní režim)"
+    IDM_COL4_FUN16          "funkce F6 (standardní režim)"
+    IDM_COL4_FUN17          "funkce F7 (standardní režim)"
+    IDM_COL4_FUN18          "funkce F8 (standardní režim)"
+    IDM_COL4_FUN21          "funkce F1 (režim držení)"
+    IDM_COL4_FUN22          "funkce F2 (režim držení)"
+    IDM_COL4_FUN23          "funkce F3 (režim držení)"
+    IDM_COL4_FUN24          "funkce F4 (režim držení)"
+    IDM_COL4_FUN25          "funkce F5 (režim držení)"
+    IDM_COL4_FUN26          "funkce F6 (režim držení)"
+    IDM_COL4_FUN27          "funkce F7 (režim držení)"
+    IDM_COL4_FUN28          "funkce F8 (režim držení)"
+    IDM_COL4_SYS_Rewind     "Přetočit zpět (hráč)"
+    IDM_COL4_SYS_Forward    "Rychle vpřed (hráč)"
+    IDM_COL4_SYS_Stop       "Stop (hráč)"
+    IDM_COL4_SYS_Play       "Hrát (hráč)"
+    IDM_COL4_SYS_Record     "Nahrávání (přehrávač)"
+    IDM_COL4_SYS_Up         "Nahoru (joystick)"
+    IDM_COL4_SYS_Down       "Dolů (joystick)"
+    IDM_COL4_SYS_Left       "Vlevo (joystick)"
+    IDM_COL4_SYS_Right      "Vpravo (joystick)"
+    IDM_COL4_SYS_Zoom       "Zvýšit"
+    IDM_COL4_SYS_Scrub      "Drhnout"
+    IDM_COL4_VOLUMEMIX      "Ovládání mixéru"
+    IDM_COL4_MEDIAKEY       "Multimediální klávesy"
+    IDM_COL4_MQTTKEY        "Správa chytré domácnosti"
+    IDM_COL4_LIGHTKEY8B     "Ovládání osvětlení (8 bitů)"
+    IDM_COL4_LIGHTKEY16B    "Ovládání osvětlení (16bit)"
+    IDM_COL4_NONE           "akce není definována"
+    IDM_COL4_MQTT_AV1       "úroveň 1"
+    IDM_COL4_MQTT_AV2       "úroveň 2"
+    IDM_COL4_MQTT_AV3       "úroveň 3"
+    IDM_COL4_MQTT_AV4       "úroveň 4"
+    IDM_COL4_MQTT_AV5       "úroveň 5"
+    IDM_COL4_MQTT_AV6       "úroveň 6"
+    IDM_COL4_MQTT_AV7       "úroveň 7"
+    IDM_COL4_MQTT_AV8       "úroveň 8"
+    IDM_COL4_MQTT_XV9       "úroveň 9"
+    IDM_COL4_MQTT_AP1       "úroveň 10"
+    IDM_COL4_MQTT_AP2       "úroveň 11"
+    IDM_COL4_MQTT_AP3       "úroveň 12"
+    IDM_COL4_MQTT_AP4       "úroveň 13"
+    IDM_COL4_MQTT_AP5       "úroveň 14"
+    IDM_COL4_MQTT_AP6       "úroveň 15"
+    IDM_COL4_MQTT_AP7       "úroveň 16"
+    IDM_COL4_MQTT_AP8       "úroveň 17"
+    IDM_COL4_MQTT_XP9       "úroveň 18"
+    IDM_COL4_MQTT_B11       "zapnutí/vypnutí 1"
+    IDM_COL4_MQTT_B12       "zapnutí/vypnutí 2"
+    IDM_COL4_MQTT_B13       "zapnutí/vypnutí 3"
+    IDM_COL4_MQTT_B14       "zapnutí/vypnutí 4"
+    IDM_COL4_MQTT_B15       "zapnutí/vypnutí 5"
+    IDM_COL4_MQTT_B16       "zapnutí/vypnutí 6"
+    IDM_COL4_MQTT_B17       "zapnutí/vypnutí 7"
+    IDM_COL4_MQTT_B18       "zapnutí/vypnutí 8"
+    IDM_COL4_MQTT_B19       "zapnutí/vypnutí 9"
+    IDM_COL4_MQTT_B21       "zapnutí/vypnutí 10"
+    IDM_COL4_MQTT_B22       "zapnutí/vypnutí 11"
+    IDM_COL4_MQTT_B23       "zapnutí/vypnutí 12"
+    IDM_COL4_MQTT_B24       "zapnutí/vypnutí 13"
+    IDM_COL4_MQTT_B25       "zapnutí/vypnutí 14"
+    IDM_COL4_MQTT_B26       "zapnutí/vypnutí 15"
+    IDM_COL4_MQTT_B27       "zapnutí/vypnutí 16"
+    IDM_COL4_MQTT_B28       "zapnutí/vypnutí 17"
+    IDM_COL4_MQTT_B29       "zapnutí/vypnutí 18"
+    IDM_COL4_MQTT_B31       "zapnutí/vypnutí 19"
+    IDM_COL4_MQTT_B32       "zapnutí/vypnutí 20"
+    IDM_COL4_MQTT_B33       "zapnutí/vypnutí 21"
+    IDM_COL4_MQTT_B34       "zapnutí/vypnutí 22"
+    IDM_COL4_MQTT_B35       "zapnutí/vypnutí 23"
+    IDM_COL4_MQTT_B36       "zapnutí/vypnutí 24"
+    IDM_COL4_MQTT_B37       "zapnutí/vypnutí 25"
+    IDM_COL4_MQTT_B38       "zapnutí/vypnutí 26"
+    IDM_COL4_MQTT_B39       "zapnutí/vypnutí 27"
+    IDM_COL4_MQTT_NONE      "Nepřiřazena"
+    IDM_MQTT_LOG_NONE       "není udržován žádný protokol"
+    IDM_MQTT_LOG_INFO       "informace"
+    IDM_MQTT_LOG_NOTICE     "oznámení"
+    IDM_MQTT_LOG_WARNING    "varování"
+    IDM_MQTT_LOG_ERR        "pouze chyby"
+    IDM_MQTT_LOG_DEBUG      "všechny zprávy"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ERRORID_OK          "OK"
+    IDS_ERRORID_EMPTY       "<тут пусто>"
+    IDS_ERRORID_UNDEFINED   "Tato chyba není definována"
+    IDS_ERRORID_JSONCONF_WRITE_ACCESS
+                            "Přístup pro zápis do konfiguračního souboru je odepřen, '{0}'"
+    IDS_ERRORID_JSONCONF_READ_ACCESS
+                            "Konfigurační soubor chybí nebo byl přístup odepřen, '{0}'"
+    IDS_ERRORID_JSONCONF_EMPTY
+                            "Konfigurační soubor je prázdný, '{0}'"
+    IDS_ERRORID_JSONCONF_NO_DEVICE
+                            "Název zařízení MIDI není nakonfigurován."
+    IDS_ERRORID_JSONCONF_EMPTY_KEYS
+                            "V této konfiguraci nejsou nakonfigurovány žádné MIDI klíče."
+    IDS_ERRORID_JSONCONF_WRITE_EMPTY
+                            "Pozor, tato konfigurace nemá nakonfigurované MIDI klíče! zaznamenaná konfigurace nebude fungovat."
+    IDS_ERRORID_INIT_COINITIALIZE
+                            "Inicializace Co*Initialize se nezdařila."
+    IDS_ERRORID_INIT_COCREATE
+                            "Co*Create – nepodařilo se vytvořit instanci."
+    IDS_ERRORID_INIT_DEFAULT_AE
+                            "Nepodařilo se získat výchozí zvukové zařízení."
+    IDS_ERRORID_INIT_AS_MANAGER2
+                            "Správce zvukových relací selhal."
+    IDS_ERRORID_INIT_AS_AUDIOMETER
+                            "Měřič zvukové špičky není k dispozici."
+    IDS_ERRORID_MIXER_STARTOK
+                            "Mixér audio relací je spuštěn, v době spuštění je k dispozici {0} spuštěných programů pro regulaci."
+    IDS_ERRORID_MIXER_STARTERROR
+                            "Směšovač zvukové relace nelze spustit, podrobnosti o chybě by měly být v souboru protokolu."
+    IDS_ERRORID_MIXER_STOPOK
+                            "Směšovač zvukové relace se zastavil."
+    IDS_ERRORID_MIXER_STOPERROR
+                            "Audio Session Mixer nebyl správně zastaven, podrobnosti o chybě by měly být v souboru protokolu."
+    IDS_ERRORID_NO_INIT     "Inicializujte před voláním tohoto.."
+    IDS_ERRORID_SESSION_LIST
+                            "Nepodařilo se získat seznam zvukových relací."
+    IDS_ERRORID_LISTISNULL  "Seznam audio relací je prázdný!"
+    IDS_ERRORID_SESSIONDISCONNECTED
+                            "Deaktivace zvukové relace, důvod='{0}'"
+    IDS_ERRORID_SESSIONCREATED
+                            "Zvuková relace byla vytvořena, name='{0}'"
+    IDS_ERRORID_ITEM_SC_AE  "Zvuková relace '{0}' – Neplatný stav registrace '{1}': {2}/{3}"
+    IDS_ERRORID_CBVALUE_BAD_SELECT
+                            "Hodnota nastavovaná ze zpětného volání je neplatný volič."
+    IDS_ERRORID_SET_CB_WARNING
+                            "Nastavení zpětného volání je možné pouze po úspěšném spuštění MIDI bridge."
+    IDS_ERRORID_CONFIG_FAIL "Načítání konfigurace se nezdařilo, soubor nenalezen, spuštění nemožné."
+    IDS_ERRORID_CONFIG_LOAD "Konfigurace načtena.."
+    IDS_ERRORID_CONFIG_LOADA
+                            "Konfigurace již byla načtena.."
+    IDS_ERRORID_CONFIG_EMPTY
+                            "Konfigurace je prázdná.."
+    IDS_ERRORID_CONFIG_NEW  "Zjištěna nová verze konfigurace.."
+    IDS_ERRORID_NOT_IMPLEMENTED
+                            "Nepodporovaná implementace v kódu, metoda není přepsána: {0}"
+    IDS_ERRORID_NOT_CONFIG  "Název konfigurace není zadán a nelze v něm pokračovat."
+    IDS_ERRORID_NOT_DEVICES "Zařízení nejsou připojena a nemohou pokračovat."
+    IDS_ERRORID_COUNT_DEVICES
+                            "Pozor, nesoulad v počtu zařízení v konečném seznamu, systém/seznam = {0}/{1}"
+    IDS_ERRORID_OPEN_MIDI_DEVICE
+                            "Nelze otevřít zařízení MIDI, nelze pokračovat, id = {0}/{1}"
+    IDS_ERRORID_START_MIDI_DEVICE
+                            "Nelze spustit zařízení MIDI, nelze pokračovat, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_NOT_CONNECT
+                            "Zařízení není připojeno, přerušit, id = {0}/{1}"
+    IDS_ERRORID_DEVICE_FOUND
+                            "Bylo nalezeno zařízení {0}, {1}"
+    IDS_ERRORID_DEVICE_OPEN "Zařízení {0} otevřeno, {1}"
+    IDS_ERRORID_DEVICE_CLOSE
+                            "Zařízení {0} uzavřeno (systém)"
+    IDS_ERRORID_DEVICE_DONE "Zařízení {0} připraveno (systém)"
+    IDS_ERRORID_NOT_DEVICE_NAME
+                            "Název aktivního zařízení není zadán, pokračování není možné, id = {0}/{1}"
+    IDS_ERRORID_NOT_CONFIG_PROXY
+                            "Proxy porty nejsou v konfiguraci specifikovány, MIDI proxy je vypnutá."
+    IDS_ERRORID_DRIVER_VER_OK
+                            "Verze ovladače [{0}]"
+    IDS_ERRORID_DRIVER_VER_ERROR
+                            "Problém s verzí ovladače [{0}]"
+    IDS_ERRORID_SEND_BAD_VALUES
+                            "Zařízení {0} odeslalo neplatnou hodnotu = {1}"
+    IDS_ERRORID_NOT_DRIVER  "Virtuální MIDI ovladač není nainstalován. Musíte nainstalovat balíček loopMidi nebo si stáhnout úplný instalační program a přeinstalovat MIDI-MT. Další podrobnosti: https://claudiacoord.github.io/MIDI-MT/docs/RU/Dependencies.html"
+    IDS_ERRORID_MMKEY_START "Služba Media Key Management je spuštěna."
+    IDS_ERRORID_MMKEY_STOP  "Služba Media Key Management byla zastavena."
+    IDS_ERRORID_MQTT_EMPTY_CONFIG
+                            "Konfigurace MQTT je prázdná a nemůže pokračovat."
+    IDS_ERRORID_MQTT_CLIENT_ERROR
+                            "Chyba při vytváření klienta MQTT, zrušení."
+    IDS_ERRORID_MQTT_CLIENT_OK
+                            "Klient MMQTT byl úspěšně vytvořen, pokračujte..."
+    IDS_ERRORID_MQTT_CONNECTED
+                            "Připojeno k serveru MQTT:"
+    IDS_ERRORID_MQTT_NOT_CONNECTED
+                            "Nepodařilo se připojit k serveru MQTT:"
+    IDS_ERRORID_MQTT_DISCONNECTED
+                            "Odpojeno od serveru MQTT:"
+    IDS_ERRORID_MQTT_NOT_CA_CERT
+                            "Soubor certifikátu CA neexistuje, cesta = '{0}'"
+    IDS_ERRORID_MQTT_START  "Byla spuštěna služba ovládání Smart Home."
+    IDS_ERRORID_MQTT_STOP   "Služba ovládání Smart Home byla zastavena."
+    IDS_ERRORID_PANEL_INDEX "Panel Audio Mixer – Nelze pokračovat, položky indexu jsou nesprávné."
+    IDS_ERRORID_PANEL_INIT  "Panel směšovače zvuku – nelze pokračovat, chyba inicializace."
+    IDS_ERRORID_PANEL_ENABLE
+                            "Okno panelu audio mixeru nemá správný stav a nelze pokračovat v další operaci."
+    IDS_ERRORID_PANEL_NOT_UI_THREAD
+                            "Panel zvukového mixu není vyvolán ve vláknu uživatelského rozhraní a nelze provádět změny."
+    IDS_ERRORID_PANEL_NOT_ITEM_VALID
+                            "Panel zvukového mixu detekoval neplatný prvek a vytvoření okna panelu bylo přerušeno."
+    IDS_ERRORID_LIGHT_DMX_START
+                            "Služba ovládání osvětlení DMX se spouští pomocí COM{0} – {1}."
+    IDS_ERRORID_LIGHT_DMX_NOT_COM
+                            "Služba ovládání osvětlení DMX není spuštěna, zařízení COM{0} není připojeno."
+    IDS_ERRORID_LIGHT_DMX_NOT_CONFIG
+                            "Služba ovládání osvětlení DMX není spuštěna a konfigurace služby není vyplněna."
+    IDS_ERRORID_LIGHT_DMX_STOP
+                            "Služba ovládání osvětlení DMX byla zastavena."
+    IDS_ERRORID_LIGHT_ARTNET_START
+                            "Služba ArtNet Lighting Control Service je spuštěna pomocí vysílací adresy {0}:{1} v síti {2}."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_COM
+                            "Služba ovládání osvětlení ArtNet není spuštěna, síť {0} nebyla nalezena."
+    IDS_ERRORID_LIGHT_ARTNET_NOT_CONFIG
+                            "Služba ovládání osvětlení ArtNet neběží, konfigurace služby není vyplněna."
+    IDS_ERRORID_LIGHT_ARTNET_STOP
+                            "Služba ovládání osvětlení ArtNet byla zastavena."
+    IDS_ERRORID_NONE        "-"
+END

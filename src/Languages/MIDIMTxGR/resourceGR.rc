@@ -2,8 +2,10 @@
 #include "..\..\MIDIMT\rc\resource.h"
 #include "..\..\Common\rc\resource.rc"
 #include "..\..\Common\rc\resource_lang.rc"
+#include "MIDIMT_STRINGxGR.rc"
+#include "MIDIMT_MENUxGR.rc"
 #include "MIDIMTxGR.rc"
-#include "RibbonDialogConfigGR.rc"
+#include "RibbonDialogConfigxGR.rc"
 
 #ifndef APSTUDIO_INVOKED
 #include <SDKDDKVer.h>
