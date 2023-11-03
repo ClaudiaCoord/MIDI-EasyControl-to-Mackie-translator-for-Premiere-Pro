@@ -56,13 +56,15 @@ namespace Common {
             FLAG_EXPORT const bool Start(std::wstring = L"");
             FLAG_EXPORT const bool Stop();
 
-            FLAG_EXPORT void SetCallbackIn(MidiControllerBase& mi);
+            FLAG_EXPORT void SetCallbackIn(MidiControllerBase& mcb);
+            FLAG_EXPORT void SetCallbackIn(MidiInstance* mi);
             FLAG_EXPORT void SetCallbackOut(MidiControllerBase& mcb);
             FLAG_EXPORT void SetCallbackOut(MidiInstance& mi);
             FLAG_EXPORT void RemoveCallbackOut(uint32_t id);
             FLAG_EXPORT void RemoveCallbackOut(MidiInstance& mi);
             FLAG_EXPORT void RemoveCallbackOut(MidiControllerBase& mcb);
             FLAG_EXPORT void RemoveCallbackIn(MidiControllerBase& mcb);
+            FLAG_EXPORT void RemoveCallbackIn(MidiInstance* mi);
         };
     }
 }

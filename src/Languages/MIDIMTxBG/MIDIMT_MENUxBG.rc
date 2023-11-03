@@ -28,7 +28,11 @@ BEGIN
         MENUITEM " ", IDM_GO_EMPTY
         MENUITEM "&Информация", IDM_GO_INFO
         MENUITEM "&Аудио миксер", IDM_GO_MIXER
-        MENUITEM "&Монитор", IDM_GO_MONITOR
+        POPUP "&Мониторинг"
+        BEGIN
+            MENUITEM "&Монитор", IDM_GO_MONITOR
+            MENUITEM "&Преглед на регистрационния файл", IDM_GO_VIEWLOG
+        END
         MENUITEM "&Настройки", IDM_GO_CONFIGURE
         MENUITEM SEPARATOR
         MENUITEM "Започнете", IDM_GO_START
@@ -36,6 +40,16 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Изход", IDM_EXIT
     END
+END
+
+IDR_LOG_VIEW_MENU MENU
+BEGIN
+    MENUITEM "выход",                       IDM_DIALOG_EXIT
+    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
+    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
+    MENUITEM "в начало",                    IDM_LOGV_BEGIN
+    MENUITEM "в конец",                     IDM_LOGV_END
+    MENUITEM "очистить",                    IDM_LOGV_CLEAR
 END
 
 IDR_MIXER_CTRL_MENU MENU 
@@ -300,7 +314,7 @@ BEGIN
                 MENUITEM "канал 9", IDM_COL4_XP9
             END
         END
-        POPUP "Регулатори в системата ""Умен дом"".."
+        POPUP "Регулатори в системата \\Умен дом\\.."
         BEGIN
             MENUITEM "ниво 1", IDM_COL4_AV1
             MENUITEM "ниво 2", IDM_COL4_AV2

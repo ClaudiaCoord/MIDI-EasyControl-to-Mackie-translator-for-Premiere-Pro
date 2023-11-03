@@ -28,7 +28,11 @@ BEGIN
         MENUITEM " ", IDM_GO_EMPTY
         MENUITEM "&Informacije", IDM_GO_INFO
         MENUITEM "&Avdio mešalnik", IDM_GO_MIXER
-        MENUITEM "&Monitor", IDM_GO_MONITOR
+        POPUP "&Spremljanje"
+        BEGIN
+            MENUITEM "&Monitor", IDM_GO_MONITOR
+            MENUITEM "&Prikaži dnevniško datoteko", IDM_GO_VIEWLOG
+        END
         MENUITEM "&Nastavitve", IDM_GO_CONFIGURE
         MENUITEM SEPARATOR
         MENUITEM "Začetek", IDM_GO_START
@@ -36,6 +40,16 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Izhod", IDM_EXIT
     END
+END
+
+IDR_LOG_VIEW_MENU MENU
+BEGIN
+    MENUITEM "выход",                       IDM_DIALOG_EXIT
+    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
+    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
+    MENUITEM "в начало",                    IDM_LOGV_BEGIN
+    MENUITEM "в конец",                     IDM_LOGV_END
+    MENUITEM "очистить",                    IDM_LOGV_CLEAR
 END
 
 IDR_MIXER_CTRL_MENU MENU 
@@ -300,7 +314,7 @@ BEGIN
                 MENUITEM "kanal 9", IDM_COL4_XP9
             END
         END
-        POPUP "Regulatorji v sistemu ""Pametni dom"".."
+        POPUP "Regulatorji v sistemu \\Pametni dom\\.."
         BEGIN
             MENUITEM "stopnja 1", IDM_COL4_AV1
             MENUITEM "stopnja 2", IDM_COL4_AV2

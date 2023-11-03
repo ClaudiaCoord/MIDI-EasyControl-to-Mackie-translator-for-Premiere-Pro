@@ -44,5 +44,8 @@ namespace Common {
         void MidiInstance::InCallbackRemove() {
             in__ = [](DWORD, DWORD) {};
         }
+        void MidiInstance::InCallbackCall(DWORD d, DWORD t) {
+            in__(d, t);
+        }
     }
 }

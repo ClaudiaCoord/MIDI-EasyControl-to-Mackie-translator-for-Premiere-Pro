@@ -10,6 +10,7 @@
 #define IDD_FORMSMARTHOME		106
 #define IDD_FORMCOLOR                   107
 #define IDD_ASSIGNBOX			108
+#define IDD_LOGVIEW			109
 
 #define IDR_TRAY_MENU                   110
 #define IDR_LV_MENU                     111
@@ -25,6 +26,7 @@
 #define IDR_COL5_MENU_REPLACE_FIELD1    121
 #define IDR_COL5_MENU_REPLACE_FIELD2    122
 #define IDR_MIXER_CTRL_MENU             123
+#define IDR_LOG_VIEW_MENU		124
 
 #define IDI_MIDIMT                      201
 #define IDI_SMALL                       202
@@ -234,16 +236,25 @@
 #define IDS_DLG_DMX_SELDEV		3139
 #define IDS_DLG_ARTNET_SELINT		3140
 
+#define IDM_POPUP_MONITOR		32772
 #define IDM_CALLFORM_COLOR              32773
 #define IDM_GO_ABOUT                    32774
 #define IDM_GO_EMPTY                    32775
 #define IDM_GO_INFO                     32776
 #define IDM_GO_MIXER                    32777
 #define IDM_GO_MONITOR                  32778
-#define IDM_GO_CONFIGURE		32779
-#define IDM_GO_START                    32780
-#define IDM_GO_STOP                     32781
-#define IDM_EXIT                        32782
+#define IDM_GO_VIEWLOG			32779
+#define IDM_GO_CONFIGURE		32780
+#define IDM_GO_START                    32781
+#define IDM_GO_STOP                     32782
+#define IDM_EXIT                        32783
+#define IDM_LOG_VIEW                    32784
+#define IDC_PROGRESS1                   32785
+#define IDM_LOGV_ZOOMIN			32786
+#define IDM_LOGV_ZOOMOUT		32787
+#define IDM_LOGV_BEGIN			32788
+#define IDM_LOGV_END			32789
+#define IDM_LOGV_CLEAR			32790
 #define IDC_STATIC                      -1
 
 // Next default values for new objects

@@ -24,7 +24,9 @@ namespace Common {
 
             MidiUnitValue();
             MidiUnitValue(uint8_t v, uint32_t t);
+            const bool IsEmpty() const;
             void Copy(MidiUnitValue&);
+            std::wstring Dump();
         };
 
         class FLAG_EXPORT MixerUnit {

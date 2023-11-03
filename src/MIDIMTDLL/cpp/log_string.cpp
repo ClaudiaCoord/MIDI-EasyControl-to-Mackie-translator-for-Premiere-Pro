@@ -217,6 +217,10 @@ namespace Common {
 		closelog();
 	}
 
+	std::wstring to_log::logname() {
+		return DEFAULT_LOG_NAME;
+	}
+
 	static uint32_t filelog_cb_id__ = 0U;
 	to_log& to_log::Get() {
 		return std::ref(to_log::tolog__);

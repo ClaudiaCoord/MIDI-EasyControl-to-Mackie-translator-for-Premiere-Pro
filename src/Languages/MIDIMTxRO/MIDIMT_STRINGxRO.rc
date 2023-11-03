@@ -26,7 +26,7 @@ BEGIN
     IDS_APP_TITLE           "MIDI Easy Control -> Audio Mixer -> MIDI-Mackie translator"
     IDS_MIXER               "&Mixer"
     IDS_SETTINGS            "&Setări"
-    IDS_START               "start"
+    IDS_START               "Start"
     IDS_STOP                "Stop"
     IDS_EXIT                "Ieșire"
     IDS_SETUP_MSG1          "Configurație încărcată din driver"

@@ -18,6 +18,7 @@
 #include "..\..\MEDIAKEYS\MEDIAKEYSApi.h"
 #include "..\..\SMARTHOME\SMARTHOMEApi.h"
 #include "..\..\MIDIMTLIGHT\MIDIMTLIGHTApi.h"
+#include "..\..\MIDIMTVEUI\MIDIMTVEUIApi.h"
 
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
@@ -58,4 +59,5 @@
 #include "RToolBarDialogConfig.h"
 #include "DialogConfig.h"
 #include "DialogAbout.h"
+#include "DialogLogView.h"
 

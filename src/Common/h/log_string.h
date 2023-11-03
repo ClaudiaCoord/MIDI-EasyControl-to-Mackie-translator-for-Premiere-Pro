@@ -150,6 +150,8 @@ namespace Common {
         FLAG_EXPORT to_log& operator<< (const wchar_t[]);
         FLAG_EXPORT to_log& operator<< (bool&);
 
+        FLAG_EXPORT std::wstring logname();
+
         template<typename T1>
         constexpr to_log& operator<< (const T1& arg) noexcept {
             pushlog_(arg);

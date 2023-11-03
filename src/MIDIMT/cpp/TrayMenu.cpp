@@ -25,33 +25,34 @@ namespace Common {
 					IDI_MMENU_I4,
 					IDI_MMENU_I6,
 					IDI_MMENU_I7,
-					IDI_MMENU_I9
+					IDI_MMENU_I9,
+					IDI_MMENU_I10
 				};
-				icons__.Init(iconsId, std::size(iconsId), true);
+				icons_.Init(iconsId, std::size(iconsId), true);
 			} catch (...) {}
 		}
 		TrayMenu::~TrayMenu() {
 			dispose_();
 		}
 		void TrayMenu::dispose_() {
-			icons__.Release();
+			icons_.Release();
 		}
 		void TrayMenu::setitem_(HMENU hm, uint16_t id, uint16_t iid, bool b, bool isstatus) {
 			if (isstatus) {
 				(void) ::CheckMenuItem(hm, id, (b ? MF_CHECKED : MF_UNCHECKED) | MF_BYPOSITION);
 				(void) ::EnableMenuItem(hm, id, (b ? MF_GRAYED : MF_ENABLED) | MF_BYPOSITION);
 			}
-			HBITMAP ico = icons__.GetIcon(iid);
+			HBITMAP ico = icons_.GetIcon(iid);
 			if (ico == nullptr) return;
 			(void) ::SetMenuItemBitmaps(hm, id, MF_BITMAP | MF_BYPOSITION, ico, ico);
 		}
 
 		void TrayMenu::EndDialog() {
-			icons__.Reset();
+			icons_.Reset();
 		}
 		void TrayMenu::Show(HWND hwnd, const POINT p) {
 			try {
-				if (icons__.IsEmpty())
+				if (icons_.IsEmpty())
 					throw_common_error(L"bad menu count!");
 
 				HMENU hm = LangInterface::Get().GetMenu(MAKEINTRESOURCEW(IDR_TRAY_MENU));
@@ -84,10 +85,16 @@ namespace Common {
 									break;
 								}
 								case IDM_GO_STOP:
-								case IDM_GO_MIXER:
-								case IDM_GO_MONITOR: setitem_(hsm, i, ii++, !isrun, true);  break;
-								case IDM_GO_START:   setitem_(hsm, i, ii++, isrun, true);   break;
-								default: 			 setitem_(hsm, i, ii++, false, false); break;
+								case IDM_GO_MIXER: setitem_(hsm, i, ii++, !isrun, true);  break;
+								case IDM_GO_START: setitem_(hsm, i, ii++, isrun, true);   break;
+								default:		   setitem_(hsm, i, ii++, false, false); break;
+							}
+						}
+						HMENU hsmm = ::GetSubMenu(hsm, 3);
+						if (hsmm) {
+							if (::GetMenuItemCount(hsmm) >= 2) {
+								setitem_(hsmm, 0, 3, false, false); // case IDM_GO_MONITOR: 
+								setitem_(hsmm, 1, 8, false, false); // case IDM_GO_VIEWLOG: 
 							}
 						}
 						::TrackPopupMenuEx(hsm, uFlags, p.x + 20, p.y, hwnd, NULL);

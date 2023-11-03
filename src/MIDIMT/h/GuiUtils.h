@@ -32,14 +32,15 @@ namespace Common {
 		template <typename T>
 		class GuiImageStateButton {
 		private:
-			bool isimagebox__;
-			handle_ptr<HWND> hwnd__;
+			bool isimagebox__{ false };
+			handle_ptr<HWND> hwnd__{};
 			std::vector<ICONDATA<T>*> icos__{};
 			void Dispose();
 		public:
 
 			GuiImageStateButton();
 			~GuiImageStateButton();
+			size_t Count() const;
 			bool  IsEmpty() const;
 			void  Init(HWND, uint16_t);
 			void  Init(uint16_t[], size_t, bool = false);

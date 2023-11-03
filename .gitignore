@@ -82,3 +82,7 @@ x32/*
 /src/Common/rc/ribbon/*.bml
 /src/Common/rc/ribbon/ico/notused
 
+!/src/MIDIMTVEUI/lib/*/*/Lexilla.lib
+!/src/MIDIMTVEUI/lib/*/*/Scintilla.lib
+/src/MIDIMTVEUI/lib/*
+/src/MIDIMTVEUI/scintilla/*

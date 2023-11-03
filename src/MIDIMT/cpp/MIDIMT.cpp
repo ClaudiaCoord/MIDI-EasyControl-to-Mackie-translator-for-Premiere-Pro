@@ -27,6 +27,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "EASYCTRL9.lib")
 #pragma comment(lib, "SMARTHOME.lib")
 #pragma comment(lib, "MIDIMTLIGHT.lib")
+#pragma comment(lib, "MIDIMTVEUI.lib")
 
 UINT const WMAPP_SHELLICON = WM_APP + 101;
 Gdiplus::GdiplusStartupInput gdiplusStartupInput{};
@@ -35,9 +36,11 @@ ULONG_PTR					 gdiplusToken{};
 std::unique_ptr<Common::MIDIMT::DialogStart> dlgs;
 std::unique_ptr<Common::MIDIMT::DialogConfig> dlgc;
 std::unique_ptr<Common::MIDIMT::DialogMonitor> dlgm;
+std::unique_ptr<Common::MIDIMT::DialogLogView> dlgl;
 std::unique_ptr<Common::MIDIMT::DialogAbout> dlga;
 std::unique_ptr<Common::MIDIMT::TrayMenu> menu;
 std::unique_ptr<Common::MIDIMT::AudioMixerPanels> mctrl;
+
 
 ATOM                RegisterMainClass();
 BOOL                InitInstance(int);
@@ -47,6 +50,7 @@ INT_PTR CALLBACK    AssignDialogProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    ConfigDialogProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    StartDialogProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    MonitorDialogProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    LogViewDialogProc(HWND, UINT, WPARAM, LPARAM);
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -91,6 +95,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	dlgs = std::make_unique<Common::MIDIMT::DialogStart>();
 	dlgc = std::make_unique<Common::MIDIMT::DialogConfig>();
 	dlgm = std::make_unique<Common::MIDIMT::DialogMonitor>();
+	dlgl = std::make_unique<Common::MIDIMT::DialogLogView>();
 	dlga = std::make_unique<Common::MIDIMT::DialogAbout>();
 	mctrl = std::make_unique<Common::MIDIMT::AudioMixerPanels>();
 
@@ -196,6 +201,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 						Common::MIDIMT::LangInterface::Get().GetDialog(hwnd, MonitorDialogProc, MAKEINTRESOURCEW(IDD_FORMMONITOR));
 					else
 						dlgm->SetFocus();
+					return true;
+				}
+				case IDM_GO_VIEWLOG: {
+					if (dlgl->IsRunOnce())
+						Common::MIDIMT::LangInterface::Get().GetDialog(hwnd, LogViewDialogProc, MAKEINTRESOURCEW(IDD_LOGVIEW));
+					else
+						dlgl->SetFocus();
 					return true;
 				}
 				case IDM_GO_CONFIGURE: {
@@ -596,6 +608,56 @@ INT_PTR CALLBACK MonitorDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
 				case IDM_DIALOG_EXIT: {
 					dlgm->EndDialog();
 					EndDialog(hwnd, w);
+					break;
+				}
+				default: return false;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+INT_PTR CALLBACK LogViewDialogProc(HWND hwnd, UINT m, WPARAM w, LPARAM l) {
+	switch (m) {
+		case WM_INITDIALOG: {
+			dlgl->InitDialog(hwnd);
+			return true;
+		}
+		case WM_NOTIFY: {
+			NMHDR* hdr = (LPNMHDR)l;
+			dlgl->sc_event(hdr);
+			break;
+		}
+		case WM_HELP: {
+			Common::MIDIMT::Gui::ShowHelpPage(IDD_LOGVIEW, reinterpret_cast<HELPINFO*>(l));
+			return true;
+		}
+		case WM_COMMAND: {
+			switch (LOWORD(w)) {
+				case IDM_LOGV_BEGIN: {
+					dlgl->gostart();
+					break;
+				}
+				case IDM_LOGV_END: {
+					dlgl->goend();
+					break;
+				}
+				case IDM_LOGV_ZOOMIN: {
+					dlgl->zoomin();
+					break;
+				}
+				case IDM_LOGV_ZOOMOUT: {
+					dlgl->zoomout();
+					break;
+				}
+				case IDM_LOGV_CLEAR: {
+					dlgl->clear();
+					break;
+				}
+				case IDCANCEL:
+				case IDM_DIALOG_EXIT: {
+					dlgl->EndDialog();
+					::EndDialog(hwnd, w);
 					break;
 				}
 				default: return false;

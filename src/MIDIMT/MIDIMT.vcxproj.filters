@@ -87,6 +87,9 @@
     <ClInclude Include="h\RToolBarDialogConfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="h\DialogLogView.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\MIDIMT.cpp">
@@ -147,6 +150,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\RToolBarDialogConfig.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\DialogLogView.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@
  * EDIT ORIGINAL: Common\rc\template\resource_version_EDIT.h
  */
 
-#define VER_COPYRIGHT		"Copyright (c) CC 2023/10 MIT"
+#define VER_COPYRIGHT		"Copyright (c) CC 2023/11 MIT"
 #define VER_MAJOR		1
 #define VER_MINOR		0
 #define VER_SUB		5

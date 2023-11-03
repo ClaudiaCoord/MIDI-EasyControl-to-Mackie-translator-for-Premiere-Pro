@@ -956,7 +956,10 @@ namespace Common {
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
+					#pragma warning( push )
+					#pragma warning( disable : 4172 )
 					return std::ref(lcfg_);
+					#pragma warning( pop )
 				}, idx, lcfg);
 
 				try {
@@ -1017,7 +1020,10 @@ namespace Common {
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
+					#pragma warning( push )
+					#pragma warning( disable : 4172 )
 					return std::ref(lcfg_);
+					#pragma warning( pop )
 				}, idx, lcfg);
 
 				try {
@@ -1201,7 +1207,10 @@ namespace Common {
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
+					#pragma warning( push )
+					#pragma warning( disable : 4172 )
 					return std::ref(lcfg_);
+					#pragma warning( pop )
 				}, lcfg);
 
 				try {
@@ -1251,7 +1260,10 @@ namespace Common {
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
+					#pragma warning( push )
+					#pragma warning( disable : 4172 )
 					return std::ref(lcfg_);
+					#pragma warning( pop )
 				}, lcfg);
 
 				try {

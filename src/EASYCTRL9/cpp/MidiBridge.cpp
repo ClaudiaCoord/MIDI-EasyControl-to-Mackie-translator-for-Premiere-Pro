@@ -181,6 +181,10 @@ namespace Common {
             if (in_event__ && isenable__) in_event__->add(mcb);
             else throw_common_error(common_error_id::err_SET_CB_WARNING);
         }
+        void MidiBridge::SetCallbackIn(MidiInstance* mi) {
+            if (in_event__ && isenable__) in_event__->add_ptr(mi);
+            else throw_common_error(common_error_id::err_SET_CB_WARNING);
+        }
         void MidiBridge::SetCallbackOut(MidiControllerBase& mcb) {
             if (out_event__ && isenable__) out_event__->add(mcb);
             else throw_common_error(common_error_id::err_SET_CB_WARNING);
@@ -201,6 +205,9 @@ namespace Common {
         }
         void MidiBridge::RemoveCallbackIn(MidiControllerBase& mcb) {
             if (in_event__ && isenable__) in_event__->remove(mcb);
+        }
+        void MidiBridge::RemoveCallbackIn(MidiInstance* mi) {
+            if (in_event__ && isenable__) in_event__->remove_ptr(mi);
         }
     }
 }

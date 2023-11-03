@@ -161,8 +161,8 @@ namespace Common {
 
 						std::filesystem::path p;
 						{
-							wchar_t cpath[MAX_PATH]{};
-							if (::GetModuleFileNameW(lang_hinst__, cpath, MAX_PATH - 1) == 0) break;
+							wchar_t cpath[MAX_PATH + 1]{};
+							if (::GetModuleFileNameW(lang_hinst__, cpath, MAX_PATH) == 0) break;
 							p = std::filesystem::path(cpath).parent_path();
 							p.append(L"lang");
 						}

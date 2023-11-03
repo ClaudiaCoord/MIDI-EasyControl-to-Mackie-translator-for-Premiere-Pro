@@ -19,8 +19,19 @@ namespace Common {
 
 		MidiUnitValue::MidiUnitValue() : value(255), time(0), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
 		MidiUnitValue::MidiUnitValue(uint8_t v, uint32_t t) { value = v; time = t; lvalue = false; type = Mackie::ClickType::ClickUnknown; }
+		const bool MidiUnitValue::IsEmpty() const {
+			return (value == 255U) && (time == 0) && !lvalue && (type == Mackie::ClickType::ClickUnknown);
+		}
 		void MidiUnitValue::Copy(MidiUnitValue& muv) {
 			value = muv.value; time = muv.time; lvalue = muv.lvalue; type = muv.type;
+		}
+		std::wstring MidiUnitValue::Dump() {
+			log_string ls;
+			ls << L"\tclick type: " << MackieHelper::GetClickType(type)
+				<< L"\n\tvalue: " << static_cast<int>(value)
+				<< L", flag value: " << Utils::BOOL_to_string(lvalue)
+				<< L"\n\ttime: " << Utils::MILLISECONDS_to_string(time);
+			return ls.str();
 		}
 
 		MidiUnit::MidiUnit() : scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}

@@ -35,6 +35,7 @@ namespace Common {
 
             void InCallbackSet(callMidiInCb f);
             void InCallbackRemove();
+            void InCallbackCall(DWORD, DWORD);
 
             template<class T1>
             MidiInstance(T1& clz) {

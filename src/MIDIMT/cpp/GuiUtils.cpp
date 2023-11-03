@@ -80,6 +80,7 @@ namespace Common {
 					}
 					case IDD_FORMMONITOR:
 					case IDD_FORMSETUP: page = default_page_settings__; break;
+					case IDD_LOGVIEW:
 					default: page = default_page_index__; break;
 				}
 				std::wstring url = log_string::format(default_help_fmt__.data(), LangInterface::Get().GetLangId(), page);
@@ -271,6 +272,10 @@ namespace Common {
 		template <class T>
 		bool  GuiImageStateButton<T>::IsEmpty() const {
 			return icos__.empty();
+		}
+		template <class T>
+		size_t GuiImageStateButton<T>::Count() const {
+			return icos__.size();
 		}
 
 		template class GuiImageStateButton<HICON>;

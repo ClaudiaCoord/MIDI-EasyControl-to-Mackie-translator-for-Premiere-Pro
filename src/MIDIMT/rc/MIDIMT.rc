@@ -90,6 +90,8 @@ IDI_MMENU_I7            ICON                    "ico\\AkarMenuStop.ico"
 
 IDI_MMENU_I9            ICON                    "ico\\AkarMenuExit.ico"
 
+IDI_MMENU_I10           ICON                    "ico\\AkarStatisticUp.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 
 1 TEXTINCLUDE 

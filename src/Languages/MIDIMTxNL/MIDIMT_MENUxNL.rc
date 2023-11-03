@@ -28,7 +28,11 @@ BEGIN
         MENUITEM " ", IDM_GO_EMPTY
         MENUITEM "&Informatie", IDM_GO_INFO
         MENUITEM "&Audiomixer", IDM_GO_MIXER
-        MENUITEM "&Monitor", IDM_GO_MONITOR
+        POPUP "&Toezicht houden"
+        BEGIN
+            MENUITEM "&Monitor", IDM_GO_MONITOR
+            MENUITEM "&Logbestand bekijken", IDM_GO_VIEWLOG
+        END
         MENUITEM "&Instellingen", IDM_GO_CONFIGURE
         MENUITEM SEPARATOR
         MENUITEM "Begin", IDM_GO_START
@@ -36,6 +40,16 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Uitgang", IDM_EXIT
     END
+END
+
+IDR_LOG_VIEW_MENU MENU
+BEGIN
+    MENUITEM "выход",                       IDM_DIALOG_EXIT
+    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
+    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
+    MENUITEM "в начало",                    IDM_LOGV_BEGIN
+    MENUITEM "в конец",                     IDM_LOGV_END
+    MENUITEM "очистить",                    IDM_LOGV_CLEAR
 END
 
 IDR_MIXER_CTRL_MENU MENU 
