@@ -17,77 +17,78 @@ namespace Common {
 
 		using namespace std::string_view_literals;
 
-		constexpr std::wstring_view strTypeSession = L"Type SESSION"sv;
-		constexpr std::wstring_view strTypeMaster = L"Type MASTER"sv;
-		constexpr std::wstring_view strTypeDevice = L"Type DEVICE"sv;
-		constexpr std::wstring_view strTypeNone = L"Type NONE"sv;
+		class MixerNames {
+		public:
+			static constexpr std::wstring_view TypeSession = L"Type SESSION"sv;
+			static constexpr std::wstring_view TypeMaster = L"Type MASTER"sv;
+			static constexpr std::wstring_view TypeDevice = L"Type DEVICE"sv;
+			static constexpr std::wstring_view TypeNone = L"Type NONE"sv;
 
-		constexpr std::wstring_view strOnNoChange = L"On NO change"sv;
-		constexpr std::wstring_view strOnChangeNone = L"On change NONE"sv;
-		constexpr std::wstring_view strOnChangeNew = L"On change NEW"sv;
-		constexpr std::wstring_view strOnChangeUpdateData = L"On change update DATA"sv;
-		constexpr std::wstring_view strOnChangeUpdateVolume = L"On change update VOLUME"sv;
-		constexpr std::wstring_view strOnChangeUpdatePan = L"On change update PANORAMA"sv;
-		constexpr std::wstring_view strOnChangeUpdateMute = L"On change update MUTE"sv;
-		constexpr std::wstring_view strOnChangeUpdateAll = L"On change update All, VOLUME + MUTE"sv;
-		constexpr std::wstring_view strOnChangeRemove = L"On change DELETE"sv;
+			static constexpr std::wstring_view OnNoChange = L"On NO change"sv;
+			static constexpr std::wstring_view OnChangeNone = L"On change NONE"sv;
+			static constexpr std::wstring_view OnChangeNew = L"On change NEW"sv;
+			static constexpr std::wstring_view OnChangeUpdateData = L"On change update DATA"sv;
+			static constexpr std::wstring_view OnChangeUpdateVolume = L"On change update VOLUME"sv;
+			static constexpr std::wstring_view OnChangeUpdatePan = L"On change update PANORAMA"sv;
+			static constexpr std::wstring_view OnChangeUpdateMute = L"On change update MUTE"sv;
+			static constexpr std::wstring_view OnChangeUpdateAll = L"On change update All, VOLUME + MUTE"sv;
+			static constexpr std::wstring_view OnChangeRemove = L"On change DELETE"sv;
 
-		constexpr std::wstring_view strOnChangeNoCbUpdateData = L"On change update DATA (NO CB CALL)"sv;
-		constexpr std::wstring_view strOnChangeNoCbUpdateVolume = L"On change update VOLUME (NO CB CALL)"sv;
-		constexpr std::wstring_view strOnChangeNoCbUpdatePan = L"On change update PANORAMA (NO CB CALL)"sv;
-		constexpr std::wstring_view strOnChangeNoCbUpdateMute = L"On change update MUTE (NO CB CALL)"sv;
-		constexpr std::wstring_view strOnChangeNoCbUpdateAll = L"On change update All, VOLUME + MUTE (NO CB CALL)"sv;
+			static constexpr std::wstring_view OnChangeNoCbUpdateData = L"On change update DATA (NO CB CALL)"sv;
+			static constexpr std::wstring_view OnChangeNoCbUpdateVolume = L"On change update VOLUME (NO CB CALL)"sv;
+			static constexpr std::wstring_view OnChangeNoCbUpdatePan = L"On change update PANORAMA (NO CB CALL)"sv;
+			static constexpr std::wstring_view OnChangeNoCbUpdateMute = L"On change update MUTE (NO CB CALL)"sv;
+			static constexpr std::wstring_view OnChangeNoCbUpdateAll = L"On change update All, VOLUME + MUTE (NO CB CALL)"sv;
 
-
-		constexpr std::wstring_view strReasonDeviceRemoval = L"device removal"sv;
-		constexpr std::wstring_view strReasonServerShutdown = L"server shutdown"sv;
-		constexpr std::wstring_view strReasonFormatChanged = L"format changed"sv;
-		constexpr std::wstring_view strReasonSessionLogoff = L"session logoff"sv;
-		constexpr std::wstring_view strReasonSessionDisconnected = L"session disconnected"sv;
-		constexpr std::wstring_view strReasonExclusiveModeOverride = L"exclusive mode override"sv;
-
+			static constexpr std::wstring_view ReasonDeviceRemoval = L"device removal"sv;
+			static constexpr std::wstring_view ReasonServerShutdown = L"server shutdown"sv;
+			static constexpr std::wstring_view ReasonFormatChanged = L"format changed"sv;
+			static constexpr std::wstring_view ReasonSessionLogoff = L"session logoff"sv;
+			static constexpr std::wstring_view ReasonSessionDisconnected = L"session disconnected"sv;
+			static constexpr std::wstring_view ReasonExclusiveModeOverride = L"exclusive mode override"sv;
+		};
 
 		/* static helper */
 
 		std::wstring_view AudioSessionHelper::TypeItemsHelper(TypeItems type) {
 			switch (type) {
 				using enum TypeItems;
-				case TypeSession: return strTypeSession;
-				case TypeMaster: return strTypeMaster;
-				case TypeDevice: return strTypeDevice;
-				case TypeNone: return strTypeNone;
+				case TypeSession: return MixerNames::TypeSession;
+				case TypeMaster: return MixerNames::TypeMaster;
+				case TypeDevice: return MixerNames::TypeDevice;
+				case TypeNone: return MixerNames::TypeNone;
 				default: return L"";
 			}
 		}
 		std::wstring_view AudioSessionHelper::OnChangeTypeHelper(OnChangeType type) {
 			switch (type) {
 				using enum OnChangeType;
-				case OnNoChange: return strOnNoChange;
-				case OnChangeNone: return strOnChangeNone;
-				case OnChangeNew:  return strOnChangeNew;
-				case OnChangeRemove: return strOnChangeRemove;
-				case OnChangeUpdateData: return strOnChangeUpdateData;
-				case OnChangeUpdateVolume: return strOnChangeUpdateVolume;
-				case OnChangeUpdatePan: return strOnChangeUpdatePan;
-				case OnChangeUpdateMute:  return strOnChangeUpdateMute;
-				case OnChangeUpdateAllValues: return strOnChangeUpdateAll;
-				case OnChangeNoCbUpdateData: return strOnChangeNoCbUpdateData;
-				case OnChangeNoCbUpdateVolume: return strOnChangeNoCbUpdateVolume;
-				case OnChangeNoCbUpdatePan: return strOnChangeNoCbUpdatePan;
-				case OnChangeNoCbUpdateMute:  return strOnChangeNoCbUpdateMute;
-				case OnChangeNoCbUpdateAllValues: return strOnChangeNoCbUpdateAll;
+				case OnNoChange: return MixerNames::OnNoChange;
+				case OnChangeNone: return MixerNames::OnChangeNone;
+				case OnChangeNew:  return MixerNames::OnChangeNew;
+				case OnChangeRemove: return MixerNames::OnChangeRemove;
+				case OnChangeUpdateData: return MixerNames::OnChangeUpdateData;
+				case OnChangeUpdateVolume: return MixerNames::OnChangeUpdateVolume;
+				case OnChangeUpdatePan: return MixerNames::OnChangeUpdatePan;
+				case OnChangeUpdateMute:  return MixerNames::OnChangeUpdateMute;
+				case OnChangeUpdateAllValues: return MixerNames::OnChangeUpdateAll;
+				case OnChangeNoCbUpdateData: return MixerNames::OnChangeNoCbUpdateData;
+				case OnChangeNoCbUpdateVolume: return MixerNames::OnChangeNoCbUpdateVolume;
+				case OnChangeNoCbUpdatePan: return MixerNames::OnChangeNoCbUpdatePan;
+				case OnChangeNoCbUpdateMute:  return MixerNames::OnChangeNoCbUpdateMute;
+				case OnChangeNoCbUpdateAllValues: return MixerNames::OnChangeNoCbUpdateAll;
 				default: return L"";
 			}
 		}
 		std::wstring_view AudioSessionHelper::DisconnectReasonHelper(AudioSessionDisconnectReason t) {
 			switch (t) {
 				using enum AudioSessionDisconnectReason;
-				case DisconnectReasonFormatChanged: return strReasonFormatChanged;
-				case DisconnectReasonSessionLogoff: return strReasonSessionLogoff;
-				case DisconnectReasonDeviceRemoval: return strReasonDeviceRemoval;
-				case DisconnectReasonServerShutdown: return strReasonServerShutdown;
-				case DisconnectReasonSessionDisconnected: return strReasonSessionDisconnected;
-				case DisconnectReasonExclusiveModeOverride: return strReasonExclusiveModeOverride;
+				case DisconnectReasonFormatChanged: return MixerNames::ReasonFormatChanged;
+				case DisconnectReasonSessionLogoff: return MixerNames::ReasonSessionLogoff;
+				case DisconnectReasonDeviceRemoval: return MixerNames::ReasonDeviceRemoval;
+				case DisconnectReasonServerShutdown: return MixerNames::ReasonServerShutdown;
+				case DisconnectReasonSessionDisconnected: return MixerNames::ReasonSessionDisconnected;
+				case DisconnectReasonExclusiveModeOverride: return MixerNames::ReasonExclusiveModeOverride;
 				default: return L"";
 			}
 		}

@@ -30,31 +30,33 @@ namespace Common {
 
 
 		MidiDriver::MidiDriver() {
-
 		}
 		MidiDriver::~MidiDriver() {
 			dispose_();
 		}
 		const bool MidiDriver::IsEmpty() const {
-			return (hdrv__ == nullptr) ||
+			return (hdrv_ == nullptr) ||
 				(vCreatePortEx2_ == nullptr) ||
 				(vCreatePortEx3 == nullptr) ||
 				(vClosePort_ == nullptr) ||
 				(vSendData_ == nullptr) ||
 				(vGetData == nullptr) ||
 				(vGetProcesses == nullptr) ||
-				(vShutdown == nullptr) ||
+				(vShutdownPort_ == nullptr) ||
 				(vGetVersion == nullptr) ||
 				(vGetDriverVer_ == nullptr) ||
 				(vLogging == nullptr);
 		}
-		const bool MidiDriver::Check() {
+		const bool MidiDriver::Init() {
 			return init_();
+		}
+		const bool MidiDriver::Check() {
+			return Init();
 		}
 
 		void MidiDriver::dispose_() {
-			HMODULE hdrv = hdrv__;
-			hdrv__ = nullptr;
+			HMODULE hdrv = hdrv_;
+			hdrv_ = nullptr;
 			if (hdrv && (hdrv != INVALID_HANDLE_VALUE)) {
 				try {
 					(void)::FreeLibrary(hdrv);
@@ -72,31 +74,31 @@ namespace Common {
 			vSendData_ = nullptr;
 			vGetData = nullptr;
 			vGetProcesses = nullptr;
-			vShutdown = nullptr;
+			vShutdownPort_ = nullptr;
 			vGetVersion = nullptr;
 			vGetDriverVer_ = nullptr;
 			vLogging = nullptr;
 		}
 
 		bool MidiDriver::init_() {
-			if (hdrv__) return true;
+			if (hdrv_) return true;
 			try {
 
-				hdrv__ = ::LoadLibraryExW(L"tevirtualMIDI", 0, LOAD_LIBRARY_SEARCH_SYSTEM32);
-				if (!hdrv__ || (hdrv__ == INVALID_HANDLE_VALUE)) {
+				hdrv_ = ::LoadLibraryExW(L"tevirtualMIDI", 0, LOAD_LIBRARY_SEARCH_SYSTEM32);
+				if (!hdrv_ || (hdrv_ == INVALID_HANDLE_VALUE)) {
 					clear_();
 					return false;
 				}
-				vCreatePortEx2_	= reinterpret_cast<vMIDICreatePortEx2>(::GetProcAddress(hdrv__, "virtualMIDICreatePortEx2"));
-				vCreatePortEx3	= reinterpret_cast<vMIDICreatePortEx3>(::GetProcAddress(hdrv__, "virtualMIDICreatePortEx3"));
-				vClosePort_		= reinterpret_cast<vMIDIClosePort>(::GetProcAddress(hdrv__, "virtualMIDIClosePort"));
-				vSendData_		= reinterpret_cast<vMIDISendData>(::GetProcAddress(hdrv__, "virtualMIDISendData"));
-				vGetData		= reinterpret_cast<vMIDIGetData>(::GetProcAddress(hdrv__, "virtualMIDIGetData"));
-				vGetProcesses	= reinterpret_cast<vMIDIGetProcesses>(::GetProcAddress(hdrv__, "virtualMIDIGetProcesses"));
-				vShutdown		= reinterpret_cast<vMIDIShutdown>(::GetProcAddress(hdrv__, "virtualMIDIShutdown"));
-				vGetVersion		= reinterpret_cast<vMIDIGetVersion>(::GetProcAddress(hdrv__, "virtualMIDIGetVersion"));
-				vLogging		= reinterpret_cast<vMIDILogging>(::GetProcAddress(hdrv__, "virtualMIDILogging"));
-				vGetDriverVer_	= reinterpret_cast<vMIDIGetDriverVersion>(::GetProcAddress(hdrv__, "virtualMIDIGetDriverVersion"));
+				vCreatePortEx2_	= reinterpret_cast<vMIDICreatePortEx2>(::GetProcAddress(hdrv_, "virtualMIDICreatePortEx2"));
+				vCreatePortEx3	= reinterpret_cast<vMIDICreatePortEx3>(::GetProcAddress(hdrv_, "virtualMIDICreatePortEx3"));
+				vClosePort_		= reinterpret_cast<vMIDIClosePort>(::GetProcAddress(hdrv_, "virtualMIDIClosePort"));
+				vSendData_		= reinterpret_cast<vMIDISendData>(::GetProcAddress(hdrv_, "virtualMIDISendData"));
+				vGetData		= reinterpret_cast<vMIDIGetData>(::GetProcAddress(hdrv_, "virtualMIDIGetData"));
+				vGetProcesses	= reinterpret_cast<vMIDIGetProcesses>(::GetProcAddress(hdrv_, "virtualMIDIGetProcesses"));
+				vShutdownPort_  = reinterpret_cast<vMIDIShutdown>(::GetProcAddress(hdrv_, "virtualMIDIShutdown"));
+				vGetVersion		= reinterpret_cast<vMIDIGetVersion>(::GetProcAddress(hdrv_, "virtualMIDIGetVersion"));
+				vLogging		= reinterpret_cast<vMIDILogging>(::GetProcAddress(hdrv_, "virtualMIDILogging"));
+				vGetDriverVer_	= reinterpret_cast<vMIDIGetDriverVersion>(::GetProcAddress(hdrv_, "virtualMIDIGetDriverVersion"));
 
 				if (IsEmpty()) {
 					clear_();
@@ -137,15 +139,22 @@ namespace Common {
 		bool MidiDriver::vSendData(LPVM_MIDI_PORT p, LPBYTE b, DWORD z) {
 			__try {
 				if (!vSendData_) return false;
-				return vSendData_(p, b, z);
+				return static_cast<bool>(vSendData_(p, b, z));
+			} __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+		}
+		bool MidiDriver::vShutdown(LPVM_MIDI_PORT p) {
+			__try {
+				if (!vShutdownPort_) return false;
+				return static_cast<bool>(vShutdownPort_(p));
 			} __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 		}
 		void MidiDriver::vClosePort(LPVM_MIDI_PORT p) {
 			__try {
 				if (!vClosePort_) return;
-				return vClosePort_(p);
+				vClosePort_(p);
 			} __except (EXCEPTION_EXECUTE_HANDLER) {}
 		}
+	
 		LPVM_MIDI_PORT MidiDriver::vCreatePortEx2(LPCWSTR s, LPVM_MIDI_DATA_CB c, DWORD_PTR p) {
 			__try {
 				if (!vCreatePortEx2_) return nullptr;

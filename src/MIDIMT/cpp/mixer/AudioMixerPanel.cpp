@@ -25,184 +25,9 @@ namespace Common {
 
 		using namespace std::placeholders;
 
-		/* ToolTipData */
-
-		ToolTipData::ToolTipData() : hwnd(nullptr) {}
-		ToolTipData::ToolTipData(HWND h, RECT& r, const std::wstring& s) : hwnd(h) {
-			rect.left = r.left;
-			rect.right = r.right;
-			rect.top = r.top;
-			rect.bottom = r.bottom;
-			title = std::wstring(s.begin(), s.end());
-		}
-		const bool ToolTipData::IsValid() {
-			return (!title.empty()) && (hwnd != nullptr);
-		}
-
-		/* PanelData */
-
-		PanelData::PanelData() : style(0U), x(0), y(0), w(0), h(0), mcapture__(false), enable__(true), anime__(false) {
-		}
-		PanelData::~PanelData() {
-			dispose_();
-		}
-		void PanelData::dispose_() {
-			try {
-				HWND hwnd = hwnd__.release();
-				if (hwnd != nullptr) {
-					SUBCLASSPROC proc = proc__.release();
-					if (proc != nullptr)
-						::RemoveWindowSubclass(hwnd, proc, id__);
-					::DestroyWindow(hwnd);
-				}
-			} catch (...) {}
-		}
-		void PanelData::refresh_() {
-			if (hwnd__ && ::IsGUIThread(true))
-				::SetWindowPos(hwnd__.get(), HWND_TOP, x, y, 0, 0, SWP_NOSIZE);
-		}
-
-		void PanelData::Close(int32_t attr) {
-			if ((attr != -1) && anime__ && hwnd__)
-				::AnimateWindow(
-					hwnd__.get(),
-					(attr == AW_BLEND) ? 300 : 200,
-					(attr) ? (AW_HIDE | attr) : (AW_HIDE | AW_CENTER)
-				);
-			dispose_();
-		}
-		void PanelData::Show(const bool anime) {
-			Show(anime ? 0 : 1);
-		}
-		void PanelData::Show(int32_t attr) {
-			if (anime__ && hwnd__) {
-				if (attr == -1) return;
-				if (attr == 1) ::ShowWindow(hwnd__.get(), SW_SHOW);
-				else ::AnimateWindow(
-						hwnd__.get(),
-						(attr == AW_BLEND) ? 300 : 150,
-						(attr) ? (AW_ACTIVATE | attr) : (AW_ACTIVATE | AW_HOR_POSITIVE)
-					 );
-			}
-		}
-		void PanelData::Set(uint32_t s_, int32_t x_, int32_t y_, int32_t w_, int32_t h_) {
-			style = s_, x = x_; y = y_; w = w_; h = h_;
-		}
-		const bool PanelData::Init(HINSTANCE hi, int32_t id) {
-			try {
-				HWND wnd;
-				if ((wnd = ::CreateWindowExW(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, TOOLTIPS_CLASSW, L" ", style, x, y, w, h, 0, 0, hi, 0)) == nullptr)
-					return false;
-
-				id__ = id;
-				hwnd__.reset(wnd);
-				return true;
-			} catch (...) {}
-			return false;
-		}
-		const bool PanelData::Init(HINSTANCE hi, HWND hwnd, int32_t id, int32_t position, SUBCLASSPROC proc, bool animele, void* clz) {
-			try {
-				int32_t xx = x, yy = y;
-				if (common_config::Get().UiThemes.IsPlaceVertical())
-					yy += position;
-				else
-					xx += position;
-
-				if ((style & WS_VISIBLE) == 0) {
-					if (!animele) style = (style | WS_VISIBLE);
-					else anime__ = true;
-				}
-
-				HWND wnd;
-				if ((wnd = ::CreateWindowExW(WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT, L"STATIC", L" ", style, xx, yy, w, h, hwnd, 0, hi, 0)) == nullptr)
-					return false;
-
-				id__ = id;
-				hwnd__.reset(wnd);
-
-				if ((proc != nullptr) && (clz != nullptr)) {
-					proc__.reset(proc);
-					::SetWindowSubclass(hwnd__.get(), proc__.get(), id, (DWORD_PTR)clz);
-				}
-				return true;
-			} catch (...) {}
-			return false;
-		}
-		HWND PanelData::GetHWND() {
-			return hwnd__.get();
-		}
-		RECT PanelData::GetSize() {
-			RECT r{};
-			r.left = x;
-			r.right = y;
-			r.top = w;
-			r.bottom = h;
-			return r;
-		}
-		void PanelData::SetSize(RECT& r) {
-			x = r.left;
-			y = r.right;
-			w = r.top;
-			h = r.bottom;
-			refresh_();
-		}
-		bool PanelData::SetPosition(bool isv, bool anime) {
-			try {
-				RECT r{};
-				HWND hwnd = hwnd__.get();
-				if (!hwnd__ || !::GetWindowRect(hwnd, &r)) return false;
-				POINT p{};
-				p.x = isv ? 0 : (r.left - (r.right - r.left));
-				p.y = isv ? (r.top - (r.bottom - r.top)) : 0;
-
-				uint32_t flags = (anime && anime__) ? (SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW) : (SWP_NOSIZE | SWP_NOZORDER);
-				::SetWindowPos(hwnd, HWND_TOP, p.x, p.y, 0, 0, flags);
-				if (anime && anime__)
-					::AnimateWindow(hwnd, 150, AW_ACTIVATE | AW_VER_POSITIVE);
-				return true;
-			} catch (...) {}
-			return false;
-		}
-		void PanelData::SetAnimation(bool b) {
-			anime__ = b;
-		}
-		void PanelData::SetCapture(bool iscap) {
-			if (hwnd__) {
-				if (iscap) {
-					mcapture__ = true;
-					(void) ::SetCapture(hwnd__.get());
-				}
-				else if (mcapture__) {
-					mcapture__ = !::ReleaseCapture();
-				}
-			}
-		}
-		void PanelData::SetEnabled(bool state) {
-			if (!hwnd__) {
-				enable__ = false;
-				return;
-			}
-			enable__ = state;
-			refresh_();
-		}
-		const bool PanelData::GetEnabled() {
-			return enable__.load();
-		}
-
-		std::wstring PanelData::to_string() {
-			try {
-				std::wstringstream ws;
-				ws << L"ID:" << id__ << std::boolalpha << L", HWND:" << (bool)(hwnd__) << L", Enable:" << enable__.load()
-					<< L", Animation:" << anime__.load() << L", Mouse cap:" << mcapture__.load() << L", SubClass:" << (bool)(proc__)
-					<< L", (x:" << x << L",y:" << y << L",w:" << w << L",h:" << h << L"), style:" << style << L";\n";
-				return ws.str();
-			} catch (...) {}
-			return L"";
-		}
-
 		/* AudioMixerPanel */
 
-		AudioMixerPanel::AudioMixerPanel(HINSTANCE h, Sprites& sprites) : sprites__(sprites), Theme(common_config::Get().UiThemes.GetTheme()) {
+		AudioMixerPanel::AudioMixerPanel(UI::Sprites& sprites) : sprites__(sprites), Theme(common_config::Get().UiThemes.GetTheme()) {
 			ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].Set(
 				WS_CHILD | WS_CLIPSIBLINGS | BS_FLAT,
 				0, 0, 84, 94
@@ -240,7 +65,7 @@ namespace Common {
 			if (!renew && (knob_idx__.load() == idx)) return;
 			knob_idx__ = idx;
 
-			PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+			UI::Panel& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
 			const bool state = kpanel.GetEnabled();
 			valueknob_(kpanel, !state, state);
 
@@ -250,20 +75,24 @@ namespace Common {
 					if (nameid == 0) return;
 					worker_background::Get().to_async(
 						std::async(std::launch::async, [=](const std::size_t i) {
-						MIXER::AudioSessionMixer::Get().Volume.ByAppId.SetVolume(i, u);
+						ClassStorage& st = ClassStorage::Get();
+						if (st.IsDialog<MIXER::AudioSessionMixer>())
+							st.GetDialog<MIXER::AudioSessionMixer>()->Volume.ByAppId.SetVolume(i, u);
 					}, nameid));
 				} else {
 					const GUID guid = Item.GetGUID();
 					if (guid == GUID_NULL) return;
 					worker_background::Get().to_async(
 						std::async(std::launch::async, [=](const GUID g) {
-						MIXER::AudioSessionMixer::Get().Volume.ByGuid.SetVolume(g, u);
+						ClassStorage& st = ClassStorage::Get();
+						if (st.IsDialog<MIXER::AudioSessionMixer>())
+							st.GetDialog<MIXER::AudioSessionMixer>()->Volume.ByGuid.SetVolume(g, u);
 					}, guid));
 				}
 			}
 		}
 		void AudioMixerPanel::valuecb_mute_(bool isup, bool renew, bool m) {
-			PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+			UI::Panel& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
 			const bool state = kpanel.GetEnabled();
 
 			if (!renew && ((!state && m) || (state && !m))) return;
@@ -275,14 +104,18 @@ namespace Common {
 					if (nameid == 0) return;
 					worker_background::Get().to_async(
 						std::async(std::launch::async, [=](const std::size_t i) {
-						MIXER::AudioSessionMixer::Get().Volume.ByAppId.SetMute(i, m);
+						ClassStorage& st = ClassStorage::Get();
+						if (st.IsDialog<MIXER::AudioSessionMixer>())
+							st.GetDialog<MIXER::AudioSessionMixer>()->Volume.ByAppId.SetMute(i, m);
 					}, nameid));
 				} else {
 					const GUID guid = Item.GetGUID();
 					if (guid == GUID_NULL) return;
 					worker_background::Get().to_async(
 						std::async(std::launch::async, [=](const GUID g) {
-						MIXER::AudioSessionMixer::Get().Volume.ByGuid.SetMute(g, m);
+						ClassStorage& st = ClassStorage::Get();
+						if (st.IsDialog<MIXER::AudioSessionMixer>())
+							st.GetDialog<MIXER::AudioSessionMixer>()->Volume.ByGuid.SetMute(g, m);
 					}, guid));
 				}
 			}
@@ -320,7 +153,7 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		void AudioMixerPanel::valueknob_(PanelData& panel, bool mute, bool state) {
+		void AudioMixerPanel::valueknob_(UI::Panel& panel, bool mute, bool state) {
 			try {
 
 				if (!::IsGUIThread(true)) {
@@ -395,7 +228,7 @@ namespace Common {
 		MIXER::AudioSessionItemChange& AudioMixerPanel::GetAudioItem() {
 			return std::ref(Item);
 		}
-		ToolTipData AudioMixerPanel::GetBalloonData() {
+		UI::ToolTipData AudioMixerPanel::GetBalloonData() {
 			try {
 				do {
 					HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND(),
@@ -407,12 +240,12 @@ namespace Common {
 
 					RECT r{};
 					if (::GetClientRect(hwnt, &r))
-						return ToolTipData(hwnt, r, Item.Item.GetPath());
+						return UI::ToolTipData(hwnt, r, Item.Item.GetPath());
 				} while (0);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			return ToolTipData();
+			return UI::ToolTipData();
 		}
 
 		void AudioMixerPanel::SetCapture(ITEMID idx, bool iscap) {
@@ -422,7 +255,7 @@ namespace Common {
 		void AudioMixerPanel::SetKnobValue(int32_t val) {
 			if (disposed__) return;
 			try {
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+				UI::Panel& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
 				if (!kpanel.GetEnabled()) return;
 				Item.SetVolume(static_cast<uint8_t>(val));
 			} catch (...) {}
@@ -430,7 +263,7 @@ namespace Common {
 		void AudioMixerPanel::SetBtnMute() {
 			if (disposed__) return;
 			try {
-				PanelData& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
+				UI::Panel& kpanel = ctrl__[AudioMixerPanel::ITEMID::KNOB_ID];
 				Item.SetMute(kpanel.GetEnabled());
 			} catch (...) {}
 		}
@@ -448,7 +281,7 @@ namespace Common {
 				showmidikeybind__ = b;
 				HWND hwnd = ctrl__[AudioMixerPanel::ITEMID::PANEL_ID].GetHWND();
 				if (hwnd == nullptr) return;
-				::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IDC_IEVENT_CLEAR, 0), (LPARAM)0);
+				::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(DLG_AMIX_EVENT_CLEAR, 0), (LPARAM)0);
 			} catch (...) {}
 		}
 		void AudioMixerPanel::ShowPeakMeter(bool b) {
@@ -461,7 +294,7 @@ namespace Common {
 					::SetTimer(hwnd, ID_TIMER, 200, 0);
 				} else {
 					::KillTimer(hwnd, ID_TIMER);
-					::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IDC_IEVENT_CLEAR, 0), (LPARAM)0);
+					::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(DLG_AMIX_EVENT_CLEAR, 0), (LPARAM)0);
 				}
 			} catch (...) {}
 		}
@@ -532,7 +365,7 @@ namespace Common {
 
 					Theme = theme;
 					RECT r = GetSize();
-					int32_t panelsize = PLACESIZE(isvertical, r);
+					int32_t panelsize = UI::PLACESIZE(isvertical, r);
 
 					for (size_t i = 0; i < _countof(ctrl__); i++) {
 						HWND hwnd;
@@ -540,7 +373,7 @@ namespace Common {
 						SUBCLASSPROC proc;
 
 						startid += static_cast<int32_t>(i);
-						PanelData& p = ctrl__[i];
+						UI::Panel& p = ctrl__[i];
 
 						switch (i) {
 							case 0: {
@@ -562,11 +395,11 @@ namespace Common {
 								break;
 							}
 							default: {
-								throw_common_error(common_error_id::err_PANEL_INDEX);
+								throw make_common_error(common_error_id::err_PANEL_INDEX);
 							}
 						}
 						if ((hwnd == nullptr) || !p.Init(hi, hwnd, startid, pos, proc, animele, this))
-							throw_common_error(common_error_id::err_PANEL_INIT);
+							throw make_common_error(common_error_id::err_PANEL_INIT);
 					}
 					startid += 1;
 					position += panelsize;
@@ -651,7 +484,9 @@ namespace Common {
 							try {
 								if ((ap = getProcClass(data)) == nullptr) break;
 								float f{};
-								if (!MIXER::AudioSessionMixer::Get().GetMasterVolumePeak(&f)) break;
+								ClassStorage& st = ClassStorage::Get();
+								if (!st.IsDialog<MIXER::AudioSessionMixer>()) break;
+								if (!st.GetDialog<MIXER::AudioSessionMixer>()->GetMasterVolumePeak(&f)) break;
 
 								#if defined (_DEBUG_DESIGN)
 								Gdiplus::Graphics g(GetDC(hwnd));
@@ -707,7 +542,7 @@ namespace Common {
 				}
 				case WM_COMMAND: {
 					switch (LOWORD(w)) {
-						case IDC_IEVENT_CLEAR: {
+						case DLG_AMIX_EVENT_CLEAR: {
 							try {
 								if ((ap = getProcClass(data)) == nullptr) break;
 								if (!ap->statevisable__) break;

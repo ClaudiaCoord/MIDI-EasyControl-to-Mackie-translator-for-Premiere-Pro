@@ -14,15 +14,11 @@
 
 #include "..\..\MIDIMTDLL\MIDIMTApi.h"
 
-#include "..\..\Common\rc\resource_midimt.h"
-#include "..\..\Common\rc\resource_mackie.h"
+#include "..\rc\MIDIMT-Launcher-rc.h"
 #include "..\..\Common\rc\resource_version.h"
-#include "..\..\MIDIMT\rc\resource.h"
 
 #include <windowsx.h>
 #include <shellapi.h>
-#include <commctrl.h>
-#include <comdef.h>
 #include <msi.h>
 
 

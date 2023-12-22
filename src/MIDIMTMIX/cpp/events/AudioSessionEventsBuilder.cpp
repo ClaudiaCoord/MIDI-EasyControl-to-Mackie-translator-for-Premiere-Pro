@@ -15,7 +15,7 @@
 namespace Common {
     namespace MIXER {
 
-        AudioSessionEventsBuilder::AudioSessionEventsBuilder() : ptr_se__(nullptr), ptr_ae__(nullptr), isdelete_se__(false), isdelete_ae__(false) {}
+        AudioSessionEventsBuilder::AudioSessionEventsBuilder() : ptr_se_(nullptr), ptr_ae_(nullptr), isdelete_se_(false), isdelete_ae_(false) {}
         void AudioSessionEventsBuilder::Release() {
             #if defined(__NO_SAFE_REF_DELETE)
             if ((ptr_se__ != nullptr) && !isdelete_se__) {
@@ -32,31 +32,31 @@ namespace Common {
         /* IAudioSessionEvents event */
 
         AudioSessionEvents* AudioSessionEventsBuilder::GetSe() {
-            return ptr_se__;
+            return ptr_se_;
         }
         AudioSessionEvents* AudioSessionEventsBuilder::GetSe(AudioSessionList* aslist, std::function<const GUID()> fnguid) {
-            if (isdelete_se__) return nullptr;
-            if (ptr_se__ == nullptr)
-                ptr_se__ = new AudioSessionEvents(aslist, [&]() { isdelete_se__ = true; }, fnguid);
-            return ptr_se__;
+            if (isdelete_se_) return nullptr;
+            if (ptr_se_ == nullptr)
+                ptr_se_ = new AudioSessionEvents(aslist, [&]() { isdelete_se_ = true; }, fnguid);
+            return ptr_se_;
         }
         bool AudioSessionEventsBuilder::IsValidSe() {
-            return (!isdelete_se__) && (ptr_se__ != nullptr);
+            return (!isdelete_se_) && (ptr_se_ != nullptr);
         }
 
         /* IAudioEndpointVolumeCallback event */
 
         AudioEndPointEvents* AudioSessionEventsBuilder::GetAe() {
-            return ptr_ae__;
+            return ptr_ae_;
         }
         AudioEndPointEvents* AudioSessionEventsBuilder::GetAe(AudioSessionList* aslist, std::function<const GUID()> fnguid) {
-            if (isdelete_ae__) return nullptr;
-            if (ptr_ae__ == nullptr)
-                ptr_ae__ = new AudioEndPointEvents(aslist, [&]() { isdelete_ae__ = true; }, fnguid);
-            return ptr_ae__;
+            if (isdelete_ae_) return nullptr;
+            if (ptr_ae_ == nullptr)
+                ptr_ae_ = new AudioEndPointEvents(aslist, [&]() { isdelete_ae_ = true; }, fnguid);
+            return ptr_ae_;
         }
         bool AudioSessionEventsBuilder::IsValidAe() {
-            return (!isdelete_ae__) && (ptr_ae__ != nullptr);
+            return (!isdelete_ae_) && (ptr_ae_ != nullptr);
         }
     }
 }

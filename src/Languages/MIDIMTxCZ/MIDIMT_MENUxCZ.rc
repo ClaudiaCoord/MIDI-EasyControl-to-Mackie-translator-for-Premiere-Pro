@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "Překladač MIDI Mackie"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Informace", IDM_GO_INFO
-        MENUITEM "&Směšovač zvuku", IDM_GO_MIXER
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Informace",                 IDM_GO_INFO
+        MENUITEM "&Směšovač zvuku",               IDM_GO_MIXER
         POPUP "&Monitorování"
         BEGIN
-            MENUITEM "&Monitor", IDM_GO_MONITOR
-            MENUITEM "&Zobrazit soubor protokolu", IDM_GO_VIEWLOG
+            MENUITEM "&Monitor",		IDM_GO_MONITOR
+            MENUITEM "&Zobrazit soubor protokolu",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Nastavení", IDM_GO_CONFIGURE
+        MENUITEM "&Nastavení",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "Start", IDM_GO_START
-        MENUITEM "Stop", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "Start",                      IDM_GO_START
+        MENUITEM "Stop",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Výstup", IDM_EXIT
+        MENUITEM "Výstup",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "výstup",					DLG_EXIT
+    MENUITEM "větší",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "menší",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "na začátek",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "Na konci",					DLG_LOGVIEW_MENU_END
+    MENUITEM "Průhledná",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "konfigurace"
+    BEGIN
+	MENUITEM "zobrazit celou konfiguraci",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "zobrazit konfiguraci MIDI",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "zobrazit konfiguraci MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "zobrazit konfiguraci MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "zobrazit konfiguraci LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "zobrazit konfiguraci DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "zobrazit konfiguraci ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "pluginy"
+    BEGIN
+	MENUITEM "statistiky pluginů",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "Start",				DLG_GO_START
+    MENUITEM "stop",				DLG_GO_STOP
+    MENUITEM "uložit nastavení",		DLG_SAVE
+    MENUITEM "Pomoc",				DLG_GO_HELP
+    POPUP "Jazyk"
+    BEGIN
+	MENUITEM "auto",			DLG_LANG_MENU_0
+    END
+    MENUITEM "log",				DLG_GO_LOG
+    MENUITEM "výstup",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Umístění.."
         BEGIN
-            MENUITEM "Svisle vlevo", IDM_VERT_LEFT
-            MENUITEM "Svisle vpravo", IDM_VERT_RIGHT
-            MENUITEM "Vodorovně nahoře", IDM_HOR_TOP
-            MENUITEM "Vodorovně níže", IDM_HOR_BOTTOM
+            MENUITEM "Svisle vlevo",	IDM_VERT_LEFT
+            MENUITEM "Svisle vpravo",	IDM_VERT_RIGHT
+            MENUITEM "Vodorovně nahoře",	IDM_HOR_TOP
+            MENUITEM "Vodorovně níže",	IDM_HOR_BOTTOM
         END
         POPUP "Předmět.."
         BEGIN
-            MENUITEM "Metro", IDM_METRO
-            MENUITEM "Světlo", IDM_LIGHT
-            MENUITEM "Temný", IDM_DARK
-            MENUITEM "Retro", IDM_RETRO
-            MENUITEM "Moderní", IDM_MODERN
+            MENUITEM "Metro",			IDM_METRO
+            MENUITEM "Světlo",			IDM_LIGHT
+            MENUITEM "Temný",			IDM_DARK
+            MENUITEM "Retro",			IDM_RETRO
+            MENUITEM "Moderní",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Nastavení", IDM_CUSTOM
-            MENUITEM "Nastavení motivu", IDM_CALLFORM_COLOR
+            MENUITEM "Přizpůsobitelné",		IDM_CUSTOM
+            MENUITEM "Nastavení motivu",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animace", IDM_ANIMATION
-        MENUITEM "&Cesta aplikace", IDM_APP_PATH
-        MENUITEM "Vazba & MIDI ovládací prvky", IDM_MIDI_BIND
-        MENUITEM "Peak & Volume Meter", IDM_PEAK_METER
-        MENUITEM "Zapamatujte si pozici", IDM_SAVE_POS
+        MENUITEM "&Animace",			IDM_ANIMATION
+        MENUITEM "&Cesta aplikace",		IDM_APP_PATH
+        MENUITEM "Vazba & MIDI ovládací prvky",	IDM_MIDI_BIND
+        MENUITEM "Peak & Volume Meter",IDM_PEAK_METER
+        MENUITEM "Zapamatujte si pozici",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Zavřít", IDM_CLOSE
+        MENUITEM "&Zavřít",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "Nový záznam", IDM_LV_NEW
+        MENUITEM "Nový záznam",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "kopírovat", IDM_LV_COPY
-        MENUITEM "Vložit", IDM_LV_PASTE, GRAYED
+        MENUITEM "kopírovat",                  IDM_LV_COPY
+        MENUITEM "Vložit",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Vymazat", IDM_LV_DELETE
+        MENUITEM "Vymazat",                     IDM_LV_DELETE
         POPUP "Instalovat jako.."
         BEGIN
             MENUITEM "Ovládání se týká audio mixeru", IDM_LV_SET_MIXER
             MENUITEM "Ovládací prvky se vztahují na multimediální tlačítka", IDM_LV_SET_MMKEY
             MENUITEM "Ovládání odkazuje na chytrou domácnost", IDM_LV_SET_MQTT
-            POPUP "Ovládání se týká ovládání světla"
-            BEGIN
-                MENUITEM "Kanál 8 bitů (standardní)", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "Kanál 16bit (rozšířený)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "Ovládání se týká ovládání světla"
+	    BEGIN
+		MENUITEM "Kanál 8 bitů (standardní)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "Kanál 16bit (rozšířený)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "Nepřiřazeno", IDM_LV_SET_NONE
+            MENUITEM "Nepřiřazeno",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Číst MIDI kód..", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Číst MIDI kód..",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
         POPUP "Regulátoři..."
         BEGIN
-            MENUITEM "Pásový regulátor", IDM_COL3_SLIDER
+            MENUITEM "Pásový regulátor",        IDM_COL3_SLIDER
             MENUITEM "Pásový regulátor s inverzí", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Kruhový regulátor", IDM_COL3_FADER
+            MENUITEM "Kruhový regulátor",          IDM_COL3_FADER
             MENUITEM "Kruhový regulátor s inverzí", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Kodér", IDM_COL3_KNOB
-            MENUITEM "Kodér s inverzí", IDM_COL3_KNOBINVERT
+            MENUITEM "Kodér",                     IDM_COL3_KNOB
+            MENUITEM "Kodér s inverzí",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Nepřiřazeno", IDM_COL3_NONE
+            MENUITEM "Nepřiřazeno",               IDM_COL3_NONE
         END
         POPUP "Tlačítka.."
         BEGIN
-            MENUITEM "Knoflík", IDM_COL3_BTN
+            MENUITEM "Knoflík",                      IDM_COL3_BTN
             MENUITEM "Spínací tlačítko, s indikací", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Nepřiřazeno", IDM_COL3_NONE
+            MENUITEM "Nepřiřazeno",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulátoři...", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Tlačítka..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Regulátoři...",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Tlačítka..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Ovládání se týká audio mixeru", IDM_COL4_VOLUMEMIX
         MENUITEM "Ovládací prvky se vztahují na multimediální tlačítka", IDM_COL4_MEDIAKEY
         MENUITEM "Ovládání odkazuje na chytrou domácnost", IDM_COL4_MQTTKEY
-        POPUP "Ovládání se týká ovládání světla"
-        BEGIN
-            MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Ovládání se týká ovládání světla"
+	BEGIN
+	   MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ovládání zvuku..."
         BEGIN
-            MENUITEM "Tichý (mistr)", IDM_COL4_MAM
-            MENUITEM "Solo (mistr)", IDM_COL4_MAS
+            MENUITEM "Tichý (mistr)",		IDM_COL4_MAM
+            MENUITEM "Solo (mistr)",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Nehlučný.."
             BEGIN
-                MENUITEM "kanál 1", IDM_COL4_B21
-                MENUITEM "kanál 2", IDM_COL4_B22
-                MENUITEM "kanál 3", IDM_COL4_B23
-                MENUITEM "kanál 4", IDM_COL4_B24
-                MENUITEM "kanál 5", IDM_COL4_B25
-                MENUITEM "kanál 6", IDM_COL4_B26
-                MENUITEM "kanál 7", IDM_COL4_B27
-                MENUITEM "kanál 8", IDM_COL4_B28
-                MENUITEM "kanál 9", IDM_COL4_B29
+                MENUITEM "kanál 1",                     IDM_COL4_B21
+                MENUITEM "kanál 2",                     IDM_COL4_B22
+                MENUITEM "kanál 3",                     IDM_COL4_B23
+                MENUITEM "kanál 4",                     IDM_COL4_B24
+                MENUITEM "kanál 5",                     IDM_COL4_B25
+                MENUITEM "kanál 6",                     IDM_COL4_B26
+                MENUITEM "kanál 7",                     IDM_COL4_B27
+                MENUITEM "kanál 8",                     IDM_COL4_B28
+                MENUITEM "kanál 9",                     IDM_COL4_B29
             END
             POPUP "Sólo.."
             BEGIN
-                MENUITEM "kanál 1", IDM_COL4_B11
-                MENUITEM "kanál 2", IDM_COL4_B12
-                MENUITEM "kanál 3", IDM_COL4_B13
-                MENUITEM "kanál 4", IDM_COL4_B14
-                MENUITEM "kanál 5", IDM_COL4_B15
-                MENUITEM "kanál 6", IDM_COL4_B16
-                MENUITEM "kanál 7", IDM_COL4_B17
-                MENUITEM "kanál 8", IDM_COL4_B18
-                MENUITEM "kanál 9", IDM_COL4_B19
+                MENUITEM "kanál 1",                     IDM_COL4_B11
+                MENUITEM "kanál 2",                     IDM_COL4_B12
+                MENUITEM "kanál 3",                     IDM_COL4_B13
+                MENUITEM "kanál 4",                     IDM_COL4_B14
+                MENUITEM "kanál 5",                     IDM_COL4_B15
+                MENUITEM "kanál 6",                     IDM_COL4_B16
+                MENUITEM "kanál 7",                     IDM_COL4_B17
+                MENUITEM "kanál 8",                     IDM_COL4_B18
+                MENUITEM "kanál 9",                     IDM_COL4_B19
             END
         END
         POPUP "Multimediální tlačítka.."
         BEGIN
-            MENUITEM "Přehrát/Pozastavit", IDM_COL4_SYS_Play
-            MENUITEM "Stop", IDM_COL4_SYS_Stop
-            MENUITEM "Předchozí", IDM_COL4_SYS_Rewind
-            MENUITEM "další", IDM_COL4_SYS_Forward
-            MENUITEM "Záznam", IDM_COL4_SYS_Record
-            MENUITEM "Nahoru (joystick)", IDM_COL4_SYS_Up
-            MENUITEM "Dolů (joystick)", IDM_COL4_SYS_Down
-            MENUITEM "Vpravo (joystick)", IDM_COL4_SYS_Right
-            MENUITEM "Vlevo (joystick)", IDM_COL4_SYS_Left
-            MENUITEM "Přiblížit", IDM_COL4_SYS_Zoom
-            MENUITEM "Drhnutí", IDM_COL4_SYS_Scrub
+            MENUITEM "Přehrát/Pozastavit",                IDM_COL4_SYS_Play
+            MENUITEM "Stop",                        IDM_COL4_SYS_Stop
+            MENUITEM "Předchozí",                  IDM_COL4_SYS_Rewind
+            MENUITEM "další",                   IDM_COL4_SYS_Forward
+            MENUITEM "Záznam",                      IDM_COL4_SYS_Record
+            MENUITEM "Nahoru (joystick)",            IDM_COL4_SYS_Up
+            MENUITEM "Dolů (joystick)",             IDM_COL4_SYS_Down
+            MENUITEM "Vpravo (joystick)",           IDM_COL4_SYS_Right
+            MENUITEM "Vlevo (joystick)",            IDM_COL4_SYS_Left
+            MENUITEM "Přiblížit",         IDM_COL4_SYS_Zoom
+            MENUITEM "Drhnutí",               IDM_COL4_SYS_Scrub
         END
         POPUP "Funkce Premiere Pro..."
         BEGIN
             POPUP "Funkce standardního tlačítka..."
             BEGIN
-                MENUITEM "Funkce 1", IDM_COL4_FUN11
-                MENUITEM "Funkce 2", IDM_COL4_FUN12
-                MENUITEM "Funkce 3", IDM_COL4_FUN13
-                MENUITEM "Funkce 4", IDM_COL4_FUN14
-                MENUITEM "Funkce 5", IDM_COL4_FUN15
-                MENUITEM "Funkce 6", IDM_COL4_FUN16
-                MENUITEM "Funkce 7", IDM_COL4_FUN17
-                MENUITEM "Funkce 8", IDM_COL4_FUN18
+                MENUITEM "Funkce 1",                   IDM_COL4_FUN11
+                MENUITEM "Funkce 2",                   IDM_COL4_FUN12
+                MENUITEM "Funkce 3",                   IDM_COL4_FUN13
+                MENUITEM "Funkce 4",                   IDM_COL4_FUN14
+                MENUITEM "Funkce 5",                   IDM_COL4_FUN15
+                MENUITEM "Funkce 6",                   IDM_COL4_FUN16
+                MENUITEM "Funkce 7",                   IDM_COL4_FUN17
+                MENUITEM "Funkce 8",                   IDM_COL4_FUN18
             END
             POPUP "Funkce jednoho tlačítka..."
             BEGIN
-                MENUITEM "Funkce 1", IDM_COL4_FUN21
-                MENUITEM "Funkce 2", IDM_COL4_FUN22
-                MENUITEM "Funkce 3", IDM_COL4_FUN23
-                MENUITEM "Funkce 4", IDM_COL4_FUN24
-                MENUITEM "Funkce 5", IDM_COL4_FUN25
-                MENUITEM "Funkce 6", IDM_COL4_FUN26
-                MENUITEM "Funkce 7", IDM_COL4_FUN27
-                MENUITEM "Funkce 8", IDM_COL4_FUN28
+                MENUITEM "Funkce 1",                   IDM_COL4_FUN21
+                MENUITEM "Funkce 2",                   IDM_COL4_FUN22
+                MENUITEM "Funkce 3",                   IDM_COL4_FUN23
+                MENUITEM "Funkce 4",                   IDM_COL4_FUN24
+                MENUITEM "Funkce 5",                   IDM_COL4_FUN25
+                MENUITEM "Funkce 6",                   IDM_COL4_FUN26
+                MENUITEM "Funkce 7",                   IDM_COL4_FUN27
+                MENUITEM "Funkce 8",                   IDM_COL4_FUN28
             END
         END
         POPUP "Tlačítka v systému Smart Home.."
         BEGIN
-            MENUITEM "zapnutí/vypnutí 1", IDM_COL4_B11
-            MENUITEM "zapnutí/vypnutí 2", IDM_COL4_B12
-            MENUITEM "zapnutí/vypnutí 3", IDM_COL4_B13
-            MENUITEM "zapnutí/vypnutí 4", IDM_COL4_B14
-            MENUITEM "zapnutí/vypnutí 5", IDM_COL4_B15
-            MENUITEM "zapnutí/vypnutí 6", IDM_COL4_B16
-            MENUITEM "zapnutí/vypnutí 7", IDM_COL4_B17
-            MENUITEM "zapnutí/vypnutí 8", IDM_COL4_B18
-            MENUITEM "zapnutí/vypnutí 9", IDM_COL4_B19
-            MENUITEM "zapnutí/vypnutí 10", IDM_COL4_B21
-            MENUITEM "zapnutí/vypnutí 11", IDM_COL4_B22
-            MENUITEM "zapnutí/vypnutí 12", IDM_COL4_B23
-            MENUITEM "zapnutí/vypnutí 13", IDM_COL4_B24
-            MENUITEM "zapnutí/vypnutí 14", IDM_COL4_B25
-            MENUITEM "zapnutí/vypnutí 15", IDM_COL4_B26
-            MENUITEM "zapnutí/vypnutí 16", IDM_COL4_B27
-            MENUITEM "zapnutí/vypnutí 17", IDM_COL4_B28
-            MENUITEM "zapnutí/vypnutí 18", IDM_COL4_B29
-            MENUITEM "zapnutí/vypnutí 19", IDM_COL4_B31
-            MENUITEM "zapnutí/vypnutí 20", IDM_COL4_B32
-            MENUITEM "zapnutí/vypnutí 21", IDM_COL4_B33
-            MENUITEM "zapnutí/vypnutí 22", IDM_COL4_B34
-            MENUITEM "zapnutí/vypnutí 23", IDM_COL4_B35
-            MENUITEM "zapnutí/vypnutí 24", IDM_COL4_B36
-            MENUITEM "zapnutí/vypnutí 25", IDM_COL4_B37
-            MENUITEM "zapnutí/vypnutí 26", IDM_COL4_B38
-            MENUITEM "zapnutí/vypnutí 27", IDM_COL4_B39
+                MENUITEM "zapnutí/vypnutí 1",                 IDM_COL4_B11
+                MENUITEM "zapnutí/vypnutí 2",                 IDM_COL4_B12
+                MENUITEM "zapnutí/vypnutí 3",                 IDM_COL4_B13
+                MENUITEM "zapnutí/vypnutí 4",                 IDM_COL4_B14
+                MENUITEM "zapnutí/vypnutí 5",                 IDM_COL4_B15
+                MENUITEM "zapnutí/vypnutí 6",                 IDM_COL4_B16
+                MENUITEM "zapnutí/vypnutí 7",                 IDM_COL4_B17
+                MENUITEM "zapnutí/vypnutí 8",                 IDM_COL4_B18
+                MENUITEM "zapnutí/vypnutí 9",                 IDM_COL4_B19
+                MENUITEM "zapnutí/vypnutí 10",                 IDM_COL4_B21
+                MENUITEM "zapnutí/vypnutí 11",                 IDM_COL4_B22
+                MENUITEM "zapnutí/vypnutí 12",                 IDM_COL4_B23
+                MENUITEM "zapnutí/vypnutí 13",                 IDM_COL4_B24
+                MENUITEM "zapnutí/vypnutí 14",                 IDM_COL4_B25
+                MENUITEM "zapnutí/vypnutí 15",                 IDM_COL4_B26
+                MENUITEM "zapnutí/vypnutí 16",                 IDM_COL4_B27
+                MENUITEM "zapnutí/vypnutí 17",                 IDM_COL4_B28
+                MENUITEM "zapnutí/vypnutí 18",                 IDM_COL4_B29
+                MENUITEM "zapnutí/vypnutí 19",                 IDM_COL4_B31
+                MENUITEM "zapnutí/vypnutí 20",                 IDM_COL4_B32
+                MENUITEM "zapnutí/vypnutí 21",                 IDM_COL4_B33
+                MENUITEM "zapnutí/vypnutí 22",                 IDM_COL4_B34
+                MENUITEM "zapnutí/vypnutí 23",                 IDM_COL4_B35
+                MENUITEM "zapnutí/vypnutí 24",                 IDM_COL4_B36
+                MENUITEM "zapnutí/vypnutí 25",                 IDM_COL4_B37
+                MENUITEM "zapnutí/vypnutí 26",                 IDM_COL4_B38
+                MENUITEM "zapnutí/vypnutí 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "Ovládání se týká audio mixeru", IDM_COL4_VOLUMEMIX
         MENUITEM "Ovládací prvky se vztahují na multimediální tlačítka", IDM_COL4_MEDIAKEY
         MENUITEM "Ovládání odkazuje na chytrou domácnost", IDM_COL4_MQTTKEY
-        POPUP "Ovládání se týká ovládání světla"
-        BEGIN
-            MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Ovládání se týká ovládání světla"
+	BEGIN
+	   MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Kodér (prohlížení snímek po snímku)", IDM_COL4_JOG
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ovládání zvuku..."
         BEGIN
-            MENUITEM "svazek (hlavní)", IDM_COL4_MAV
-            MENUITEM "Rovnováha (hlavní)", IDM_COL4_MAP
+            MENUITEM "svazek (hlavní)",          IDM_COL4_MAV
+            MENUITEM "Rovnováha (hlavní)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Hlasitost.."
             BEGIN
-                MENUITEM "kanál 1", IDM_COL4_AV1
-                MENUITEM "kanál 2", IDM_COL4_AV2
-                MENUITEM "kanál 3", IDM_COL4_AV3
-                MENUITEM "kanál 4", IDM_COL4_AV4
-                MENUITEM "kanál 5", IDM_COL4_AV5
-                MENUITEM "kanál 6", IDM_COL4_AV6
-                MENUITEM "kanál 7", IDM_COL4_AV7
-                MENUITEM "kanál 8", IDM_COL4_AV8
-                MENUITEM "kanál 9", IDM_COL4_XV9
+                MENUITEM "kanál 1",                     IDM_COL4_AV1
+                MENUITEM "kanál 2",                     IDM_COL4_AV2
+                MENUITEM "kanál 3",                     IDM_COL4_AV3
+                MENUITEM "kanál 4",                     IDM_COL4_AV4
+                MENUITEM "kanál 5",                     IDM_COL4_AV5
+                MENUITEM "kanál 6",                     IDM_COL4_AV6
+                MENUITEM "kanál 7",                     IDM_COL4_AV7
+                MENUITEM "kanál 8",                     IDM_COL4_AV8
+                MENUITEM "kanál 9",                     IDM_COL4_XV9
             END
             POPUP "Zůstatek.."
             BEGIN
-                MENUITEM "kanál 1", IDM_COL4_AP1
-                MENUITEM "kanál 2", IDM_COL4_AP2
-                MENUITEM "kanál 3", IDM_COL4_AP3
-                MENUITEM "kanál 4", IDM_COL4_AP4
-                MENUITEM "kanál 5", IDM_COL4_AP5
-                MENUITEM "kanál 6", IDM_COL4_AP6
-                MENUITEM "kanál 7", IDM_COL4_AP7
-                MENUITEM "kanál 8", IDM_COL4_AP8
-                MENUITEM "kanál 9", IDM_COL4_XP9
+                MENUITEM "kanál 1",                     IDM_COL4_AP1
+                MENUITEM "kanál 2",                     IDM_COL4_AP2
+                MENUITEM "kanál 3",                     IDM_COL4_AP3
+                MENUITEM "kanál 4",                     IDM_COL4_AP4
+                MENUITEM "kanál 5",                     IDM_COL4_AP5
+                MENUITEM "kanál 6",                     IDM_COL4_AP6
+                MENUITEM "kanál 7",                     IDM_COL4_AP7
+                MENUITEM "kanál 8",                     IDM_COL4_AP8
+                MENUITEM "kanál 9",                     IDM_COL4_XP9
             END
         END
         POPUP "Regulátory v systému „Smart Home“..."
         BEGIN
-            MENUITEM "úroveň 1", IDM_COL4_AV1
-            MENUITEM "úroveň 2", IDM_COL4_AV2
-            MENUITEM "úroveň 3", IDM_COL4_AV3
-            MENUITEM "úroveň 4", IDM_COL4_AV4
-            MENUITEM "úroveň 5", IDM_COL4_AV5
-            MENUITEM "úroveň 6", IDM_COL4_AV6
-            MENUITEM "úroveň 7", IDM_COL4_AV7
-            MENUITEM "úroveň 8", IDM_COL4_AV8
-            MENUITEM "úroveň 9", IDM_COL4_XV9
-            MENUITEM "úroveň 10", IDM_COL4_AP1
-            MENUITEM "úroveň 11", IDM_COL4_AP2
-            MENUITEM "úroveň 12", IDM_COL4_AP3
-            MENUITEM "úroveň 13", IDM_COL4_AP4
-            MENUITEM "úroveň 14", IDM_COL4_AP5
-            MENUITEM "úroveň 15", IDM_COL4_AP6
-            MENUITEM "úroveň 16", IDM_COL4_AP7
-            MENUITEM "úroveň 17", IDM_COL4_AP8
-            MENUITEM "úroveň 18", IDM_COL4_XP9
+                MENUITEM "úroveň 1",              IDM_COL4_AV1
+                MENUITEM "úroveň 2",              IDM_COL4_AV2
+                MENUITEM "úroveň 3",              IDM_COL4_AV3
+                MENUITEM "úroveň 4",              IDM_COL4_AV4
+                MENUITEM "úroveň 5",              IDM_COL4_AV5
+                MENUITEM "úroveň 6",              IDM_COL4_AV6
+                MENUITEM "úroveň 7",              IDM_COL4_AV7
+                MENUITEM "úroveň 8",              IDM_COL4_AV8
+                MENUITEM "úroveň 9",              IDM_COL4_XV9
+                MENUITEM "úroveň 10",              IDM_COL4_AP1
+                MENUITEM "úroveň 11",              IDM_COL4_AP2
+                MENUITEM "úroveň 12",              IDM_COL4_AP3
+                MENUITEM "úroveň 13",              IDM_COL4_AP4
+                MENUITEM "úroveň 14",              IDM_COL4_AP5
+                MENUITEM "úroveň 15",              IDM_COL4_AP6
+                MENUITEM "úroveň 16",              IDM_COL4_AP7
+                MENUITEM "úroveň 17",              IDM_COL4_AP8
+                MENUITEM "úroveň 18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "Ovládání se týká audio mixeru", IDM_COL4_VOLUMEMIX
         MENUITEM "Ovládací prvky se vztahují na multimediální tlačítka", IDM_COL4_MEDIAKEY
         MENUITEM "Ovládání odkazuje na chytrou domácnost", IDM_COL4_MQTTKEY
-        POPUP "Ovládání se týká ovládání světla"
-        BEGIN
-            MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Ovládání se týká ovládání světla"
+	BEGIN
+	   MENUITEM "Kanál 8 bitů (standardní)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanál 16bit (rozšířený)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "svazek (hlavní)", IDM_COL4_MAV
-        MENUITEM "Kodér (JOG)", IDM_COL4_JOG
+        MENUITEM "svazek (hlavní)",          IDM_COL4_MAV
+        MENUITEM "Kodér (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Hlasitost.."
         BEGIN
-            MENUITEM "kanál 1", IDM_COL4_AV1
-            MENUITEM "kanál 2", IDM_COL4_AV2
-            MENUITEM "kanál 3", IDM_COL4_AV3
-            MENUITEM "kanál 4", IDM_COL4_AV4
-            MENUITEM "kanál 5", IDM_COL4_AV5
-            MENUITEM "kanál 6", IDM_COL4_AV6
-            MENUITEM "kanál 7", IDM_COL4_AV7
-            MENUITEM "kanál 8", IDM_COL4_AV8
-            MENUITEM "kanál 9", IDM_COL4_XV9
-            MENUITEM "kanál 10", IDM_COL4_AP1
-            MENUITEM "kanál 11", IDM_COL4_AP2
-            MENUITEM "kanál 12", IDM_COL4_AP3
-            MENUITEM "kanál 13", IDM_COL4_AP4
-            MENUITEM "kanál 14", IDM_COL4_AP5
-            MENUITEM "kanál 15", IDM_COL4_AP6
-            MENUITEM "kanál 16", IDM_COL4_AP7
-            MENUITEM "kanál 17", IDM_COL4_AP8
-            MENUITEM "kanál 18", IDM_COL4_XP9
+            MENUITEM "kanál 1",                     IDM_COL4_AV1
+            MENUITEM "kanál 2",                     IDM_COL4_AV2
+            MENUITEM "kanál 3",                     IDM_COL4_AV3
+            MENUITEM "kanál 4",                     IDM_COL4_AV4
+            MENUITEM "kanál 5",                     IDM_COL4_AV5
+            MENUITEM "kanál 6",                     IDM_COL4_AV6
+            MENUITEM "kanál 7",                     IDM_COL4_AV7
+            MENUITEM "kanál 8",                     IDM_COL4_AV8
+            MENUITEM "kanál 9",			    IDM_COL4_XV9
+            MENUITEM "kanál 10",                    IDM_COL4_AP1
+            MENUITEM "kanál 11",                    IDM_COL4_AP2
+            MENUITEM "kanál 12",                    IDM_COL4_AP3
+            MENUITEM "kanál 13",                    IDM_COL4_AP4
+            MENUITEM "kanál 14",                    IDM_COL4_AP5
+            MENUITEM "kanál 15",                    IDM_COL4_AP6
+            MENUITEM "kanál 16",                    IDM_COL4_AP7
+            MENUITEM "kanál 17",                    IDM_COL4_AP8
+            MENUITEM "kanál 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "Tichý (mistr)", IDM_COL4_MAM
+        MENUITEM "Tichý (mistr)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "Nehlučný.."
         BEGIN
-            MENUITEM "kanál 1", IDM_COL4_B21
-            MENUITEM "kanál 2", IDM_COL4_B22
-            MENUITEM "kanál 3", IDM_COL4_B23
-            MENUITEM "kanál 4", IDM_COL4_B24
-            MENUITEM "kanál 5", IDM_COL4_B25
-            MENUITEM "kanál 6", IDM_COL4_B26
-            MENUITEM "kanál 7", IDM_COL4_B27
-            MENUITEM "kanál 8", IDM_COL4_B28
-            MENUITEM "kanál 9", IDM_COL4_B29
+            MENUITEM "kanál 1",                     IDM_COL4_B21
+            MENUITEM "kanál 2",                     IDM_COL4_B22
+            MENUITEM "kanál 3",                     IDM_COL4_B23
+            MENUITEM "kanál 4",                     IDM_COL4_B24
+            MENUITEM "kanál 5",                     IDM_COL4_B25
+            MENUITEM "kanál 6",                     IDM_COL4_B26
+            MENUITEM "kanál 7",                     IDM_COL4_B27
+            MENUITEM "kanál 8",                     IDM_COL4_B28
+            MENUITEM "kanál 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Přehrát/Pozastavit", IDM_COL4_SYS_Play
-        MENUITEM "Stop", IDM_COL4_SYS_Stop
-        MENUITEM "Předchozí", IDM_COL4_SYS_Rewind
-        MENUITEM "další", IDM_COL4_SYS_Forward
-        MENUITEM "Záznam", IDM_COL4_SYS_Record
-        MENUITEM "Nahoru (joystick)", IDM_COL4_SYS_Up
-        MENUITEM "Dolů (joystick)", IDM_COL4_SYS_Down
-        MENUITEM "Vpravo (joystick)", IDM_COL4_SYS_Right
-        MENUITEM "Vlevo (joystick)", IDM_COL4_SYS_Left
-        MENUITEM "Přiblížit", IDM_COL4_SYS_Zoom
-        MENUITEM "Drhnutí", IDM_COL4_SYS_Scrub
+        MENUITEM "Přehrát/Pozastavit",                IDM_COL4_SYS_Play
+        MENUITEM "Stop",                        IDM_COL4_SYS_Stop
+        MENUITEM "Předchozí",                  IDM_COL4_SYS_Rewind
+        MENUITEM "další",                   IDM_COL4_SYS_Forward
+        MENUITEM "Záznam",                      IDM_COL4_SYS_Record
+        MENUITEM "Nahoru (joystick)",           IDM_COL4_SYS_Up
+        MENUITEM "Dolů (joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "Vpravo (joystick)",           IDM_COL4_SYS_Right
+        MENUITEM "Vlevo (joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "Přiblížit",         IDM_COL4_SYS_Zoom
+        MENUITEM "Drhnutí",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "úroveň 1", IDM_COL4_AV1
-        MENUITEM "úroveň 2", IDM_COL4_AV2
-        MENUITEM "úroveň 3", IDM_COL4_AV3
-        MENUITEM "úroveň 4", IDM_COL4_AV4
-        MENUITEM "úroveň 5", IDM_COL4_AV5
-        MENUITEM "úroveň 6", IDM_COL4_AV6
-        MENUITEM "úroveň 7", IDM_COL4_AV7
-        MENUITEM "úroveň 8", IDM_COL4_AV8
-        MENUITEM "úroveň 9", IDM_COL4_XV9
-        MENUITEM "úroveň 10", IDM_COL4_AP1
-        MENUITEM "úroveň 11", IDM_COL4_AP2
-        MENUITEM "úroveň 12", IDM_COL4_AP3
-        MENUITEM "úroveň 13", IDM_COL4_AP4
-        MENUITEM "úroveň 14", IDM_COL4_AP5
-        MENUITEM "úroveň 15", IDM_COL4_AP6
-        MENUITEM "úroveň 16", IDM_COL4_AP7
-        MENUITEM "úroveň 17", IDM_COL4_AP8
-        MENUITEM "úroveň 18", IDM_COL4_XP9
+        MENUITEM "úroveň 1",                    IDM_COL4_AV1
+        MENUITEM "úroveň 2",                    IDM_COL4_AV2
+        MENUITEM "úroveň 3",                    IDM_COL4_AV3
+        MENUITEM "úroveň 4",                    IDM_COL4_AV4
+        MENUITEM "úroveň 5",                    IDM_COL4_AV5
+        MENUITEM "úroveň 6",                    IDM_COL4_AV6
+        MENUITEM "úroveň 7",                    IDM_COL4_AV7
+        MENUITEM "úroveň 8",                    IDM_COL4_AV8
+        MENUITEM "úroveň 9",                    IDM_COL4_XV9
+        MENUITEM "úroveň 10",                    IDM_COL4_AP1
+        MENUITEM "úroveň 11",                    IDM_COL4_AP2
+        MENUITEM "úroveň 12",                    IDM_COL4_AP3
+        MENUITEM "úroveň 13",                    IDM_COL4_AP4
+        MENUITEM "úroveň 14",                    IDM_COL4_AP5
+        MENUITEM "úroveň 15",                    IDM_COL4_AP6
+        MENUITEM "úroveň 16",                    IDM_COL4_AP7
+        MENUITEM "úroveň 17",                    IDM_COL4_AP8
+        MENUITEM "úroveň 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+        MENUITEM "Nepřiřazeno",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "zapnutí/vypnutí 1", IDM_COL4_B11
-        MENUITEM "zapnutí/vypnutí 2", IDM_COL4_B12
-        MENUITEM "zapnutí/vypnutí 3", IDM_COL4_B13
-        MENUITEM "zapnutí/vypnutí 4", IDM_COL4_B14
-        MENUITEM "zapnutí/vypnutí 5", IDM_COL4_B15
-        MENUITEM "zapnutí/vypnutí 6", IDM_COL4_B16
-        MENUITEM "zapnutí/vypnutí 7", IDM_COL4_B17
-        MENUITEM "zapnutí/vypnutí 8", IDM_COL4_B18
-        MENUITEM "zapnutí/vypnutí 9", IDM_COL4_B19
-        MENUITEM "zapnutí/vypnutí 10", IDM_COL4_B21
-        MENUITEM "zapnutí/vypnutí 11", IDM_COL4_B22
-        MENUITEM "zapnutí/vypnutí 12", IDM_COL4_B23
-        MENUITEM "zapnutí/vypnutí 13", IDM_COL4_B24
-        MENUITEM "zapnutí/vypnutí 14", IDM_COL4_B25
-        MENUITEM "zapnutí/vypnutí 15", IDM_COL4_B26
-        MENUITEM "zapnutí/vypnutí 16", IDM_COL4_B27
-        MENUITEM "zapnutí/vypnutí 17", IDM_COL4_B28
-        MENUITEM "zapnutí/vypnutí 18", IDM_COL4_B29
-        MENUITEM "zapnutí/vypnutí 19", IDM_COL4_B31
-        MENUITEM "zapnutí/vypnutí 20", IDM_COL4_B32
-        MENUITEM "zapnutí/vypnutí 21", IDM_COL4_B33
-        MENUITEM "zapnutí/vypnutí 22", IDM_COL4_B34
-        MENUITEM "zapnutí/vypnutí 23", IDM_COL4_B35
-        MENUITEM "zapnutí/vypnutí 24", IDM_COL4_B36
-        MENUITEM "zapnutí/vypnutí 25", IDM_COL4_B37
-        MENUITEM "zapnutí/vypnutí 26", IDM_COL4_B38
-        MENUITEM "zapnutí/vypnutí 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "Nepřiřazeno", IDM_COL4_NONE
+    MENUITEM "zapnutí/vypnutí 1",                     IDM_COL4_B11
+    MENUITEM "zapnutí/vypnutí 2",                     IDM_COL4_B12
+    MENUITEM "zapnutí/vypnutí 3",                     IDM_COL4_B13
+    MENUITEM "zapnutí/vypnutí 4",                     IDM_COL4_B14
+    MENUITEM "zapnutí/vypnutí 5",                     IDM_COL4_B15
+    MENUITEM "zapnutí/vypnutí 6",                     IDM_COL4_B16
+    MENUITEM "zapnutí/vypnutí 7",                     IDM_COL4_B17
+    MENUITEM "zapnutí/vypnutí 8",                     IDM_COL4_B18
+    MENUITEM "zapnutí/vypnutí 9",                     IDM_COL4_B19
+    MENUITEM "zapnutí/vypnutí 10",                     IDM_COL4_B21
+    MENUITEM "zapnutí/vypnutí 11",                     IDM_COL4_B22
+    MENUITEM "zapnutí/vypnutí 12",                     IDM_COL4_B23
+    MENUITEM "zapnutí/vypnutí 13",                     IDM_COL4_B24
+    MENUITEM "zapnutí/vypnutí 14",                     IDM_COL4_B25
+    MENUITEM "zapnutí/vypnutí 15",                     IDM_COL4_B26
+    MENUITEM "zapnutí/vypnutí 16",                     IDM_COL4_B27
+    MENUITEM "zapnutí/vypnutí 17",                     IDM_COL4_B28
+    MENUITEM "zapnutí/vypnutí 18",                     IDM_COL4_B29
+    MENUITEM "zapnutí/vypnutí 19",                     IDM_COL4_B31
+    MENUITEM "zapnutí/vypnutí 20",                     IDM_COL4_B32
+    MENUITEM "zapnutí/vypnutí 21",                     IDM_COL4_B33
+    MENUITEM "zapnutí/vypnutí 22",                     IDM_COL4_B34
+    MENUITEM "zapnutí/vypnutí 23",                     IDM_COL4_B35
+    MENUITEM "zapnutí/vypnutí 24",                     IDM_COL4_B36
+    MENUITEM "zapnutí/vypnutí 25",                     IDM_COL4_B37
+    MENUITEM "zapnutí/vypnutí 26",                     IDM_COL4_B38
+    MENUITEM "zapnutí/vypnutí 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Nepřiřazeno",                   IDM_COL4_NONE
     END
 END
 

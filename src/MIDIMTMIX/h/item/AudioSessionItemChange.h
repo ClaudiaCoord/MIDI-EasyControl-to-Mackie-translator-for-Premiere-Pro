@@ -18,10 +18,10 @@ namespace Common {
 		class FLAG_EXPORT AudioSessionItemChange
 		{
 		private:
-			bool isinit__{ false };
-			bool isevent__{ true };
-			bool iscallaudiocb__{ false };
-			OnChangeType actiontype__{ OnChangeType::OnChangeNone };
+			bool isinit_{ false };
+			bool isevent_{ true };
+			bool iscallaudiocb_{ false };
+			OnChangeType actiontype_{ OnChangeType::OnChangeNone };
 
 			template<typename T>
 			void copychangedata_(T&);

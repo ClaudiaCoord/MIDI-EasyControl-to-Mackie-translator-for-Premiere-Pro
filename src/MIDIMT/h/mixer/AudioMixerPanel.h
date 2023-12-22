@@ -15,84 +15,10 @@
 namespace Common {
 	namespace MIDIMT {
 
-		class AudioMixerPanel;
-
-		/*
-			local panel and other elements size, RECTANGLE:
-			{ left = 0 (pad x), right = 0 (pad y), top = 84 (width), bottom = 94 (height) }
-		*/
-		static inline int32_t PLACESIZE(const bool isvertical, RECT& r) {
-			return (isvertical ? (r.bottom + r.right) : (r.top + r.left));
-		}
-
-		class ToolTipData {
-		public:
-			HWND		 hwnd;
-			RECT		 rect{};
-			std::wstring title;
-
-			ToolTipData();
-			ToolTipData(HWND, RECT&, const std::wstring&);
-
-			const bool   IsValid();
-		};
-
-		class PanelData {
+		class AudioMixerPanel {
 		private:
-			std::atomic<bool> anime__;
-			std::atomic<bool> enable__;
-			std::atomic<bool> mcapture__;
-			handle_ptr<HWND, default_hwnd_deleter<HWND>> hwnd__;
-			handle_ptr<SUBCLASSPROC> proc__;
-			int32_t id__ = 0;
-
-			void dispose_();
-			void refresh_();
-
-		public:
-			uint32_t style;
-			int32_t x, y, w, h;
-
-			PanelData();
-			~PanelData();
-			void Close(int32_t = -1);
-			void Show(const bool);
-			void Show(int32_t = 0);
-			void Set(uint32_t, int32_t, int32_t, int32_t, int32_t);
-			const bool Init(HINSTANCE, int32_t); /* ToolTip init */
-			const bool Init(HINSTANCE, HWND, int32_t, int32_t, SUBCLASSPROC, bool, void*);
-			HWND GetHWND();
-			
-			const bool GetEnabled();
-			void SetEnabled(bool);
-			void SetCapture(bool = true);
-			void SetAnimation(bool);
-			RECT GetSize();
-			void SetSize(RECT& r);
-			bool SetPosition(bool, bool);
-			
-			std::wstring to_string();
-
-			template <typename T1>
-			void SetData(T1 val) {
-				if (enable__ && (hwnd__ != nullptr)) {
-					if constexpr (std::is_same_v<HBITMAP, T1>)
-						(void) ::SendMessageW(hwnd__, STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)val);
-					else if constexpr (std::is_same_v<HICON, T1>)
-						(void) ::SendMessageW(hwnd__, STM_SETICON, (WPARAM)val, (LPARAM)0);
-					else if constexpr (std::is_same_v<std::wstring, T1>)
-						(void) ::SendMessageW(hwnd__, WM_SETTEXT, (WPARAM)0, (LPARAM)val.c_str());
-					else if constexpr (std::is_same_v<wchar_t[], T1>)
-						(void) ::SendMessageW(hwnd__, WM_SETTEXT, (WPARAM)0, (LPARAM)val);
-				}
-			}
-		};
-
-		class AudioMixerPanel
-		{
-		private:
-			PanelData ctrl__[3]{};
-			Sprites& sprites__;
+			UI::Panel ctrl__[3]{};
+			UI::Sprites& sprites__;
 			std::atomic<int32_t> knob_idx__{ 0 };
 			std::atomic<bool> disposed__{ false };
 			std::atomic<bool> isduplicateappremoved__{ false };
@@ -106,7 +32,7 @@ namespace Common {
 			void valuecb_(bool, MIXER::OnChangeType, uint8_t, float, bool);
 			void valuecb_mute_(bool, bool, bool);
 			void valuecb_volume_(bool, bool, uint8_t);
-			void valueknob_(PanelData&, bool, bool);
+			void valueknob_(UI::Panel&, bool, bool);
 
 		public:
 			enum ITEMID : int {
@@ -119,12 +45,12 @@ namespace Common {
 
 			ui_theme& Theme;
 			
-			AudioMixerPanel(HINSTANCE, Sprites&);
+			AudioMixerPanel(UI::Sprites&);
 			~AudioMixerPanel();
 
 			HWND GetHWND(ITEMID);
 
-			ToolTipData GetBalloonData();
+			UI::ToolTipData GetBalloonData();
 			RECT GetSize(ITEMID = ITEMID::PANEL_ID);
 			void SetSize(RECT&, ITEMID = ITEMID::PANEL_ID);
 			void SetVisableStatus(bool);

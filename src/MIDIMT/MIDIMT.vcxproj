@@ -245,24 +245,24 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTBR\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTBR\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTBR\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\SMARTHOME\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\rc;$(MSBuildProjectDirectory)\..\Common\h\;$(MSBuildProjectDirectory)\..\Common\rc\;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\EASYCTRL9\;$(MSBuildProjectDirectory)\..\MIDIMTBR\;$(MSBuildProjectDirectory)\..\MIDIMTMIX\;$(MSBuildProjectDirectory)\..\MIDIMTVEUI\;$(MSBuildProjectDirectory)\..\Languages\MIDIMTxRU\</ExternalIncludePath>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -558,23 +558,21 @@
   <ItemGroup>
     <ClInclude Include="h\CheckRun.h" />
     <ClInclude Include="h\DialogAbout.h" />
+    <ClInclude Include="h\DialogEditInfo.h" />
     <ClInclude Include="h\DialogLogView.h" />
-    <ClInclude Include="h\ext\lodepng.h" />
     <ClInclude Include="h\CbEvent.h" />
-    <ClInclude Include="h\GuiUtils.h" />
+    <ClInclude Include="h\ClassStorage.h" />
     <ClInclude Include="h\LangInterface.h" />
     <ClInclude Include="h\MIDIMT.h" />
     <ClInclude Include="h\DialogMonitor.h" />
-    <ClInclude Include="h\DialogConfig.h" />
+    <ClInclude Include="h\DialogEdit.h" />
     <ClInclude Include="h\ListEdit.h" />
     <ClInclude Include="h\DialogStart.h" />
     <ClInclude Include="h\mixer\AudioMixerPanel.h" />
     <ClInclude Include="h\mixer\AudioMixerPanels.h" />
     <ClInclude Include="h\mixer\DialogThemeColors.h" />
-    <ClInclude Include="h\mixer\Sprite.h" />
-    <ClInclude Include="h\mixer\Sprites.h" />
     <ClInclude Include="h\RToolBarBase.h" />
-    <ClInclude Include="h\RToolBarDialogConfig.h" />
+    <ClInclude Include="h\RToolBarDialogEdit.h" />
     <ClInclude Include="h\TrayMenu.h" />
     <ClInclude Include="h\TrayNotify.h" />
     <ClInclude Include="rc\resource.h" />
@@ -583,22 +581,20 @@
     <ClCompile Include="cpp\CbEvent.cpp" />
     <ClCompile Include="cpp\CheckRun.cpp" />
     <ClCompile Include="cpp\DialogAbout.cpp" />
+    <ClCompile Include="cpp\DialogEditInfo.cpp" />
     <ClCompile Include="cpp\DialogLogView.cpp" />
-    <ClCompile Include="cpp\ext\lodepng.cpp" />
-    <ClCompile Include="cpp\GuiUtils.cpp" />
+    <ClCompile Include="cpp\ClassStorage.cpp" />
     <ClCompile Include="cpp\LangInterface.cpp" />
     <ClCompile Include="cpp\MIDIMT.cpp" />
     <ClCompile Include="cpp\DialogMonitor.cpp" />
-    <ClCompile Include="cpp\DialogConfig.cpp" />
+    <ClCompile Include="cpp\DialogEdit.cpp" />
     <ClCompile Include="cpp\ListEdit.cpp" />
     <ClCompile Include="cpp\DialogStart.cpp" />
     <ClCompile Include="cpp\mixer\AudioMixerPanel.cpp" />
     <ClCompile Include="cpp\mixer\AudioMixerPanels.cpp" />
     <ClCompile Include="cpp\mixer\DialogThemeColors.cpp" />
-    <ClCompile Include="cpp\mixer\Sprite.cpp" />
-    <ClCompile Include="cpp\mixer\Sprites.cpp" />
     <ClCompile Include="cpp\RToolBarBase.cpp" />
-    <ClCompile Include="cpp\RToolBarDialogConfig.cpp" />
+    <ClCompile Include="cpp\RToolBarDialogEdit.cpp" />
     <ClCompile Include="cpp\TrayMenu.cpp" />
     <ClCompile Include="cpp\TrayNotify.cpp" />
   </ItemGroup>
@@ -651,23 +647,17 @@
     <ProjectReference Include="..\EASYCTRL9\EASYCTRL9.vcxproj">
       <Project>{382d330f-cb2b-4189-81fe-ea7754ea41f2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MEDIAKEYS\MEDIAKEYS.vcxproj">
-      <Project>{4c0cc943-4aeb-48b3-a433-a8bb864f41b0}</Project>
+    <ProjectReference Include="..\MIDIMTBR\MIDIMTBR.vcxproj">
+      <Project>{21308f11-0fb2-4742-bb73-704c015c794d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MIDIMTDLL\MIDIMTLIB.vcxproj">
       <Project>{93f0fdf9-7136-45ce-b098-541379d35070}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\MIDIMTLIGHT\MIDIMTLIGHT.vcxproj">
-      <Project>{4c0cc943-4aeb-48b3-a433-a8cc864f21b1}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MIDIMTMIX\MIDIMTMIX.vcxproj">
       <Project>{c9f700c2-155f-458a-b29e-3e8ffccdfe87}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MIDIMTVEUI\MIDIMTVEUI.vcxproj">
       <Project>{4c0cc943-4aeb-48b3-a433-a8aa864f41b0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SMARTHOME\SMARTHOME.vcxproj">
-      <Project>{4c0cc943-4aeb-48b3-a433-a8cc864f42b1}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

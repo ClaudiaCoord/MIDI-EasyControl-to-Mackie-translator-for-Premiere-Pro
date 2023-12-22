@@ -1,47 +1,35 @@
 
-#include "..\MIDIMT\rc\resource.h"
-
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
-#include "windows.h"
-#include "CommCtrl.h"
-#include "..\Common\rc\resource_version.h"
-#include "..\Common\rc\resource_midimt.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
+#include "MIDIMT-Launcher-rc.h"
 
 #pragma code_page(65001)
 
-IDI_MIDIMT              ICON                    "..\\MIDIMT\\rc\\ico\\MIDIMT.ico"
+ICON_MIDIMT		ICON	"..\\MIDIMT\\rc\\ico\\MIDIMT.ico"
 
-IDI_SMALL               ICON                    "..\\MIDIMT\\rc\\ico\\MIDIMTsmall.ico"
+ICON_MIDIMT_SMALL	ICON	"..\\MIDIMT\\rc\\ico\\MIDIMTsmall.ico"
 
 
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 STRINGTABLE
 BEGIN
-    IDS_INFO1               "Не определена платформа приложения, 32 или 64, продолжение невозможно."
-    IDS_INFO2               "ОШИБКА УСТАНОВКИ, требуется разрешение администратора, проверьте политики и разрешения на устоновку пользовательских пакетов."
-    IDS_INFO3               "Не удалось инициализировать CoInitializeEx , продолжение невозможно."
+	STRING_INFO1	"Не определена платформа приложения, 32 или 64, продолжение невозможно.."
+	STRING_INFO2	"ОШИБКА УСТАНОВКИ, требуется разрешение администратора, проверьте политики и разрешения на устоновку пользовательских пакетов."
+	STRING_INFO3	"Не удалось инициализировать CoInitializeEx, продолжение невозможно.."
 END
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE
 BEGIN
-    IDS_INFO1               "Application platform not defined, 32 or 64, cannot continue."
-    IDS_INFO2               "INSTALLATION ERROR, administrator permission required, check policies and permissions to install custom packages."
-    IDS_INFO3               "Failed to initialize CoInitializeEx , cannot continue."
+	STRING_INFO1	"Application platform not defined, 32 or 64, cannot continue.."
+	STRING_INFO2	"INSTALLATION ERROR, administrator permission required, check policies and permissions to install custom packages."
+	STRING_INFO3	"Failed to initialize CoInitializeEx, cannot continue.."
 END
 
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
-1021 MSI "msi\\mdrv32"
-1022 MSI "msi\\mdrv64"
+MSIDRV_32	MSI	"msi\\mdrv32"
+MSIDRV_64	MSI	"msi\\mdrv64"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
@@ -76,31 +64,3 @@ BEGIN
     END
 END
 
-#ifdef APSTUDIO_INVOKED
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\MIDIMT\\rc\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#ifndef APSTUDIO_INVOKED\r\n"
-    "#include <SDKDDKVer.h>\r\n"
-    "#endif\r\n"
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#include ""CommCtrl.h""\r\n"
-    "#include ""..\\Common\\rc\\resource_version.h""\r\n"
-    "#include ""..\Common\rc\resource_midimt.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif

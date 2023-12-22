@@ -29,14 +29,17 @@ namespace Common {
         }
         log_string ArtnetConfig::dump() {
             log_string ls{};
+            ls << L"\tenable module:" << Utils::BOOL_to_string(enable);
+
             if (!ip.empty())
-                ls << L"IP: " << ip.c_str() << L", ";
+                ls << L"\n\tIP: " << ip.c_str();
             if (!mask.empty())
-                ls << L"Mask: " << mask.c_str() << L", ";
+                ls << L"\n\tMask: " << mask.c_str();
             if (!broadcast.empty())
-                ls << L"Broadcast: " << broadcast.c_str() << L", ";
+                ls << L"\n\tBroadcast: " << broadcast.c_str();
             if (!broadcast.empty())
-                ls << L"Universe: " << universe << L"\n";
+                ls << L"\n\tUniverse: " << universe;
+            ls << L"\n";
             return ls;
         }
         void ArtnetConfig::Copy(ArtnetConfig& c) {

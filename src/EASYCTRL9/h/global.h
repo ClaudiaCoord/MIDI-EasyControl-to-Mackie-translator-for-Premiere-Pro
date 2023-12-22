@@ -4,7 +4,7 @@
 	+ MultiMedia Key translator.
 	(c) CC 2023, MIT
 
-	EASYCTRL9
+	EASYCTRL9 MIDI driver
 
 	See README.md for more details.
 	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!
@@ -17,20 +17,12 @@
 
 #define FLAG_EXPORT __declspec(dllexport)
 
-class bridge_out_event;
-class bridge_in_event;
-
 #ifndef _LOAD_MIDIDRV_DYNAMIC
 #include "h\teVirtualMIDI.h"
 #endif
 
-#include "h\MidiDriver.h"
-#include "h\MidiControllerBase.h"
-#include "h\bridge_out_event.h"
-#include "h\bridge_in_event.h"
-#include "h\MidiControllerVirtual.h"
-#include "h\MidiControllerIn.h"
-#include "h\MidiControllerOut.h"
-#include "h\MidiControllerProxy.h"
-#include "h\MidiBridge.h"
+#include "MidiDriver.h"
+#include "MidiControllerBase.h"
+#include "MidiControllerVirtual.h"
+#include "MidiDevices.h"
 

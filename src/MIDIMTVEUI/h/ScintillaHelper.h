@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include "global.h"
-
 namespace Common {
 	namespace UI {
 

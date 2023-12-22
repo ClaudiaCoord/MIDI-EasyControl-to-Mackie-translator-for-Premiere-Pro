@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_ROMANIAN, SUBLANG_DEFAULT
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "Traducător MIDI Mackie"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Informație", IDM_GO_INFO
-        MENUITEM "& Mixer audio", IDM_GO_MIXER
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Informație",                 IDM_GO_INFO
+        MENUITEM "&Mixer audio",               IDM_GO_MIXER
         POPUP "&Monitorizarea"
         BEGIN
-            MENUITEM "&Monitor", IDM_GO_MONITOR
-            MENUITEM "&Vizualizați fișierul jurnal", IDM_GO_VIEWLOG
+            MENUITEM "&Monitor",		IDM_GO_MONITOR
+            MENUITEM "&Vizualizați fișierul jurnal",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Setări", IDM_GO_CONFIGURE
+        MENUITEM "&Setări",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "start", IDM_GO_START
-        MENUITEM "Stop", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "start",                      IDM_GO_START
+        MENUITEM "Stop",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Ieșire", IDM_EXIT
+        MENUITEM "Ieșire",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "Ieșire",					DLG_EXIT
+    MENUITEM "mai mare",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "mai mic",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "pana la inceput",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "În cele din urmă",					DLG_LOGVIEW_MENU_END
+    MENUITEM "clar",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "configurație"
+    BEGIN
+	MENUITEM "arată toată configurația",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "arată configurația MIDI",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "arată configurația MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "arată configurația MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "arată configurația LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "arată configurația DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "arată configurația ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "pluginuri"
+    BEGIN
+	MENUITEM "statistici plugin",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "start",				DLG_GO_START
+    MENUITEM "Stop",				DLG_GO_STOP
+    MENUITEM "salvează setările",		DLG_SAVE
+    MENUITEM "Ajutor",				DLG_GO_HELP
+    POPUP "limba"
+    BEGIN
+	MENUITEM "auto",			DLG_LANG_MENU_0
+    END
+    MENUITEM "Buturuga",				DLG_GO_LOG
+    MENUITEM "Ieșire",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Locație.."
         BEGIN
-            MENUITEM "Vertical stânga", IDM_VERT_LEFT
-            MENUITEM "Vertical dreapta", IDM_VERT_RIGHT
-            MENUITEM "Orizontal în partea de sus", IDM_HOR_TOP
-            MENUITEM "Pe orizontală dedesubt", IDM_HOR_BOTTOM
+            MENUITEM "Vertical stânga",	IDM_VERT_LEFT
+            MENUITEM "Vertical dreapta",	IDM_VERT_RIGHT
+            MENUITEM "Orizontal în partea de sus",	IDM_HOR_TOP
+            MENUITEM "Pe orizontală dedesubt",	IDM_HOR_BOTTOM
         END
         POPUP "Subiect.."
         BEGIN
-            MENUITEM "Metroul", IDM_METRO
-            MENUITEM "Ușoară", IDM_LIGHT
-            MENUITEM "Întuneric", IDM_DARK
-            MENUITEM "Retro", IDM_RETRO
-            MENUITEM "Modern", IDM_MODERN
+            MENUITEM "Metroul",			IDM_METRO
+            MENUITEM "Ușoară",			IDM_LIGHT
+            MENUITEM "Întuneric",			IDM_DARK
+            MENUITEM "Retro",			IDM_RETRO
+            MENUITEM "Modern",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Configurare", IDM_CUSTOM
-            MENUITEM "Configurarea unei teme", IDM_CALLFORM_COLOR
+            MENUITEM "Personalizat",		IDM_CUSTOM
+            MENUITEM "Configurarea unei teme",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animaţie", IDM_ANIMATION
-        MENUITEM "&Calea aplicației", IDM_APP_PATH
-        MENUITEM "Legare & controale MIDI", IDM_MIDI_BIND
-        MENUITEM "Contor de vârf și volum", IDM_PEAK_METER
-        MENUITEM "Amintiți-vă poziția", IDM_SAVE_POS
+        MENUITEM "&Animaţie",			IDM_ANIMATION
+        MENUITEM "&Calea aplicației",		IDM_APP_PATH
+        MENUITEM "Legare & controale MIDI",	IDM_MIDI_BIND
+        MENUITEM "Contor de vârf și volum",IDM_PEAK_METER
+        MENUITEM "Amintiți-vă poziția",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Închide", IDM_CLOSE
+        MENUITEM "&Închide",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "Intrare nouă", IDM_LV_NEW
+        MENUITEM "Intrare nouă",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "Copie", IDM_LV_COPY
-        MENUITEM "Introduce", IDM_LV_PASTE, GRAYED
+        MENUITEM "Copie",                  IDM_LV_COPY
+        MENUITEM "Introduce",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Șterge", IDM_LV_DELETE
+        MENUITEM "Șterge",                     IDM_LV_DELETE
         POPUP "Instalați ca.."
         BEGIN
             MENUITEM "Controlul se referă la mixerul audio", IDM_LV_SET_MIXER
             MENUITEM "Comenzile se aplică butoanelor multimedia", IDM_LV_SET_MMKEY
             MENUITEM "Controlul se referă la o casă inteligentă", IDM_LV_SET_MQTT
-            POPUP "Controlul se referă la controlul luminii"
-            BEGIN
-                MENUITEM "Canal 8 biți (standard)", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "Canal pe 16 biți (extins)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "Controlul se referă la controlul luminii"
+	    BEGIN
+		MENUITEM "Canal 8 biți (standard)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "Canal pe 16 biți (extins)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "Nealocat", IDM_LV_SET_NONE
+            MENUITEM "Nealocat",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Citiți codul MIDI...", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Citiți codul MIDI...",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulatoarele..."
+        POPUP "Regulatori..."
         BEGIN
-            MENUITEM "Regulator de bandă", IDM_COL3_SLIDER
+            MENUITEM "Regulator de bandă",        IDM_COL3_SLIDER
             MENUITEM "Regulator de bandă cu inversare", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Regulator circular", IDM_COL3_FADER
+            MENUITEM "Regulator circular",          IDM_COL3_FADER
             MENUITEM "Regulator circular cu inversare", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Codificator", IDM_COL3_KNOB
-            MENUITEM "Encoder cu inversare", IDM_COL3_KNOBINVERT
+            MENUITEM "Codificator",                     IDM_COL3_KNOB
+            MENUITEM "Encoder cu inversare",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Nealocat", IDM_COL3_NONE
+            MENUITEM "Nealocat",               IDM_COL3_NONE
         END
         POPUP "Butoane.."
         BEGIN
-            MENUITEM "Buton", IDM_COL3_BTN
+            MENUITEM "Buton",                      IDM_COL3_BTN
             MENUITEM "Buton comutator, cu indicatie", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Nealocat", IDM_COL3_NONE
+            MENUITEM "Nealocat",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatoarele...", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Butoane..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Regulatori...",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Butoane..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Controlul se referă la mixerul audio", IDM_COL4_VOLUMEMIX
         MENUITEM "Comenzile se aplică butoanelor multimedia", IDM_COL4_MEDIAKEY
         MENUITEM "Controlul se referă la o casă inteligentă", IDM_COL4_MQTTKEY
-        POPUP "Controlul se referă la controlul luminii"
-        BEGIN
-            MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Controlul se referă la controlul luminii"
+	BEGIN
+	   MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Controlul sunetului..."
         BEGIN
-            MENUITEM "Tacut (maestrul)", IDM_COL4_MAM
-            MENUITEM "Solo (master)", IDM_COL4_MAS
+            MENUITEM "Tacut (maestrul)",		IDM_COL4_MAM
+            MENUITEM "Solo (master)",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Fără sunet.."
             BEGIN
-                MENUITEM "canalul 1", IDM_COL4_B21
-                MENUITEM "canalul 2", IDM_COL4_B22
-                MENUITEM "canalul 3", IDM_COL4_B23
-                MENUITEM "canalul 4", IDM_COL4_B24
-                MENUITEM "canalul 5", IDM_COL4_B25
-                MENUITEM "canalul 6", IDM_COL4_B26
-                MENUITEM "canalul 7", IDM_COL4_B27
-                MENUITEM "canalul 8", IDM_COL4_B28
-                MENUITEM "canalul 9", IDM_COL4_B29
+                MENUITEM "canalul 1",                     IDM_COL4_B21
+                MENUITEM "canalul 2",                     IDM_COL4_B22
+                MENUITEM "canalul 3",                     IDM_COL4_B23
+                MENUITEM "canalul 4",                     IDM_COL4_B24
+                MENUITEM "canalul 5",                     IDM_COL4_B25
+                MENUITEM "canalul 6",                     IDM_COL4_B26
+                MENUITEM "canalul 7",                     IDM_COL4_B27
+                MENUITEM "canalul 8",                     IDM_COL4_B28
+                MENUITEM "canalul 9",                     IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "canalul 1", IDM_COL4_B11
-                MENUITEM "canalul 2", IDM_COL4_B12
-                MENUITEM "canalul 3", IDM_COL4_B13
-                MENUITEM "canalul 4", IDM_COL4_B14
-                MENUITEM "canalul 5", IDM_COL4_B15
-                MENUITEM "canalul 6", IDM_COL4_B16
-                MENUITEM "canalul 7", IDM_COL4_B17
-                MENUITEM "canalul 8", IDM_COL4_B18
-                MENUITEM "canalul 9", IDM_COL4_B19
+                MENUITEM "canalul 1",                     IDM_COL4_B11
+                MENUITEM "canalul 2",                     IDM_COL4_B12
+                MENUITEM "canalul 3",                     IDM_COL4_B13
+                MENUITEM "canalul 4",                     IDM_COL4_B14
+                MENUITEM "canalul 5",                     IDM_COL4_B15
+                MENUITEM "canalul 6",                     IDM_COL4_B16
+                MENUITEM "canalul 7",                     IDM_COL4_B17
+                MENUITEM "canalul 8",                     IDM_COL4_B18
+                MENUITEM "canalul 9",                     IDM_COL4_B19
             END
         END
         POPUP "butoane multimedia.."
         BEGIN
-            MENUITEM "Redare/Pauză", IDM_COL4_SYS_Play
-            MENUITEM "Stop", IDM_COL4_SYS_Stop
-            MENUITEM "Anterior", IDM_COL4_SYS_Rewind
-            MENUITEM "Următorul", IDM_COL4_SYS_Forward
-            MENUITEM "Record", IDM_COL4_SYS_Record
-            MENUITEM "Sus (joystick)", IDM_COL4_SYS_Up
-            MENUITEM "Jos (joystick)", IDM_COL4_SYS_Down
-            MENUITEM "dreapta (joystick)", IDM_COL4_SYS_Right
-            MENUITEM "Stânga (joystick)", IDM_COL4_SYS_Left
-            MENUITEM "A mari", IDM_COL4_SYS_Zoom
-            MENUITEM "Spălare", IDM_COL4_SYS_Scrub
+            MENUITEM "Redare/Pauză",                IDM_COL4_SYS_Play
+            MENUITEM "Stop",                        IDM_COL4_SYS_Stop
+            MENUITEM "Anterior",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Următorul",                   IDM_COL4_SYS_Forward
+            MENUITEM "Record",                      IDM_COL4_SYS_Record
+            MENUITEM "Sus (joystick)",            IDM_COL4_SYS_Up
+            MENUITEM "Jos (joystick)",             IDM_COL4_SYS_Down
+            MENUITEM "dreapta (joystick)",           IDM_COL4_SYS_Right
+            MENUITEM "Stânga (joystick)",            IDM_COL4_SYS_Left
+            MENUITEM "A mari",         IDM_COL4_SYS_Zoom
+            MENUITEM "Spălare",               IDM_COL4_SYS_Scrub
         END
         POPUP "Caracteristicile Premiere Pro..."
         BEGIN
             POPUP "Funcțiile unui buton standard..."
             BEGIN
-                MENUITEM "Funcția 1", IDM_COL4_FUN11
-                MENUITEM "Funcția 2", IDM_COL4_FUN12
-                MENUITEM "Funcția 3", IDM_COL4_FUN13
-                MENUITEM "Funcția 4", IDM_COL4_FUN14
-                MENUITEM "Funcția 5", IDM_COL4_FUN15
-                MENUITEM "Funcția 6", IDM_COL4_FUN16
-                MENUITEM "Funcția 7", IDM_COL4_FUN17
-                MENUITEM "Funcția 8", IDM_COL4_FUN18
+                MENUITEM "Funcția 1",                   IDM_COL4_FUN11
+                MENUITEM "Funcția 2",                   IDM_COL4_FUN12
+                MENUITEM "Funcția 3",                   IDM_COL4_FUN13
+                MENUITEM "Funcția 4",                   IDM_COL4_FUN14
+                MENUITEM "Funcția 5",                   IDM_COL4_FUN15
+                MENUITEM "Funcția 6",                   IDM_COL4_FUN16
+                MENUITEM "Funcția 7",                   IDM_COL4_FUN17
+                MENUITEM "Funcția 8",                   IDM_COL4_FUN18
             END
             POPUP "Funcții de buton cu o singură atingere..."
             BEGIN
-                MENUITEM "Funcția 1", IDM_COL4_FUN21
-                MENUITEM "Funcția 2", IDM_COL4_FUN22
-                MENUITEM "Funcția 3", IDM_COL4_FUN23
-                MENUITEM "Funcția 4", IDM_COL4_FUN24
-                MENUITEM "Funcția 5", IDM_COL4_FUN25
-                MENUITEM "Funcția 6", IDM_COL4_FUN26
-                MENUITEM "Funcția 7", IDM_COL4_FUN27
-                MENUITEM "Funcția 8", IDM_COL4_FUN28
+                MENUITEM "Funcția 1",                   IDM_COL4_FUN21
+                MENUITEM "Funcția 2",                   IDM_COL4_FUN22
+                MENUITEM "Funcția 3",                   IDM_COL4_FUN23
+                MENUITEM "Funcția 4",                   IDM_COL4_FUN24
+                MENUITEM "Funcția 5",                   IDM_COL4_FUN25
+                MENUITEM "Funcția 6",                   IDM_COL4_FUN26
+                MENUITEM "Funcția 7",                   IDM_COL4_FUN27
+                MENUITEM "Funcția 8",                   IDM_COL4_FUN28
             END
         END
         POPUP "Butoane din sistemul Smart Home..."
         BEGIN
-            MENUITEM "pornit/oprit 1", IDM_COL4_B11
-            MENUITEM "pornit/oprit 2", IDM_COL4_B12
-            MENUITEM "pornit/oprit 3", IDM_COL4_B13
-            MENUITEM "pornit/oprit 4", IDM_COL4_B14
-            MENUITEM "pornit/oprit 5", IDM_COL4_B15
-            MENUITEM "pornit/oprit 6", IDM_COL4_B16
-            MENUITEM "pornit/oprit 7", IDM_COL4_B17
-            MENUITEM "pornit/oprit 8", IDM_COL4_B18
-            MENUITEM "pornit/oprit 9", IDM_COL4_B19
-            MENUITEM "pornit/oprit 10", IDM_COL4_B21
-            MENUITEM "pornit/oprit 11", IDM_COL4_B22
-            MENUITEM "pornit/oprit 12", IDM_COL4_B23
-            MENUITEM "pornit/oprit 13", IDM_COL4_B24
-            MENUITEM "pornit/oprit 14", IDM_COL4_B25
-            MENUITEM "pornit/oprit 15", IDM_COL4_B26
-            MENUITEM "pornit/oprit 16", IDM_COL4_B27
-            MENUITEM "pornit/oprit 17", IDM_COL4_B28
-            MENUITEM "pornit/oprit 18", IDM_COL4_B29
-            MENUITEM "pornit/oprit 19", IDM_COL4_B31
-            MENUITEM "pornit/oprit 20", IDM_COL4_B32
-            MENUITEM "pornit/oprit 21", IDM_COL4_B33
-            MENUITEM "pornit/oprit 22", IDM_COL4_B34
-            MENUITEM "pornit/oprit 23", IDM_COL4_B35
-            MENUITEM "pornit/oprit 24", IDM_COL4_B36
-            MENUITEM "pornit/oprit 25", IDM_COL4_B37
-            MENUITEM "pornit/oprit 26", IDM_COL4_B38
-            MENUITEM "pornit/oprit 27", IDM_COL4_B39
+                MENUITEM "pornit/oprit 1",                 IDM_COL4_B11
+                MENUITEM "pornit/oprit 2",                 IDM_COL4_B12
+                MENUITEM "pornit/oprit 3",                 IDM_COL4_B13
+                MENUITEM "pornit/oprit 4",                 IDM_COL4_B14
+                MENUITEM "pornit/oprit 5",                 IDM_COL4_B15
+                MENUITEM "pornit/oprit 6",                 IDM_COL4_B16
+                MENUITEM "pornit/oprit 7",                 IDM_COL4_B17
+                MENUITEM "pornit/oprit 8",                 IDM_COL4_B18
+                MENUITEM "pornit/oprit 9",                 IDM_COL4_B19
+                MENUITEM "pornit/oprit 10",                 IDM_COL4_B21
+                MENUITEM "pornit/oprit 11",                 IDM_COL4_B22
+                MENUITEM "pornit/oprit 12",                 IDM_COL4_B23
+                MENUITEM "pornit/oprit 13",                 IDM_COL4_B24
+                MENUITEM "pornit/oprit 14",                 IDM_COL4_B25
+                MENUITEM "pornit/oprit 15",                 IDM_COL4_B26
+                MENUITEM "pornit/oprit 16",                 IDM_COL4_B27
+                MENUITEM "pornit/oprit 17",                 IDM_COL4_B28
+                MENUITEM "pornit/oprit 18",                 IDM_COL4_B29
+                MENUITEM "pornit/oprit 19",                 IDM_COL4_B31
+                MENUITEM "pornit/oprit 20",                 IDM_COL4_B32
+                MENUITEM "pornit/oprit 21",                 IDM_COL4_B33
+                MENUITEM "pornit/oprit 22",                 IDM_COL4_B34
+                MENUITEM "pornit/oprit 23",                 IDM_COL4_B35
+                MENUITEM "pornit/oprit 24",                 IDM_COL4_B36
+                MENUITEM "pornit/oprit 25",                 IDM_COL4_B37
+                MENUITEM "pornit/oprit 26",                 IDM_COL4_B38
+                MENUITEM "pornit/oprit 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "Controlul se referă la mixerul audio", IDM_COL4_VOLUMEMIX
         MENUITEM "Comenzile se aplică butoanelor multimedia", IDM_COL4_MEDIAKEY
         MENUITEM "Controlul se referă la o casă inteligentă", IDM_COL4_MQTTKEY
-        POPUP "Controlul se referă la controlul luminii"
-        BEGIN
-            MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Controlul se referă la controlul luminii"
+	BEGIN
+	   MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Encoder (vizionare cadru cu cadru)", IDM_COL4_JOG
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Controlul sunetului..."
         BEGIN
-            MENUITEM "Volum (master)", IDM_COL4_MAV
-            MENUITEM "Echilibru (master)", IDM_COL4_MAP
+            MENUITEM "Volum (master)",          IDM_COL4_MAV
+            MENUITEM "Echilibru (master)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Volum.."
             BEGIN
-                MENUITEM "canalul 1", IDM_COL4_AV1
-                MENUITEM "canalul 2", IDM_COL4_AV2
-                MENUITEM "canalul 3", IDM_COL4_AV3
-                MENUITEM "canalul 4", IDM_COL4_AV4
-                MENUITEM "canalul 5", IDM_COL4_AV5
-                MENUITEM "canalul 6", IDM_COL4_AV6
-                MENUITEM "canalul 7", IDM_COL4_AV7
-                MENUITEM "canalul 8", IDM_COL4_AV8
-                MENUITEM "canalul 9", IDM_COL4_XV9
+                MENUITEM "canalul 1",                     IDM_COL4_AV1
+                MENUITEM "canalul 2",                     IDM_COL4_AV2
+                MENUITEM "canalul 3",                     IDM_COL4_AV3
+                MENUITEM "canalul 4",                     IDM_COL4_AV4
+                MENUITEM "canalul 5",                     IDM_COL4_AV5
+                MENUITEM "canalul 6",                     IDM_COL4_AV6
+                MENUITEM "canalul 7",                     IDM_COL4_AV7
+                MENUITEM "canalul 8",                     IDM_COL4_AV8
+                MENUITEM "canalul 9",                     IDM_COL4_XV9
             END
             POPUP "Echilibru.."
             BEGIN
-                MENUITEM "canalul 1", IDM_COL4_AP1
-                MENUITEM "canalul 2", IDM_COL4_AP2
-                MENUITEM "canalul 3", IDM_COL4_AP3
-                MENUITEM "canalul 4", IDM_COL4_AP4
-                MENUITEM "canalul 5", IDM_COL4_AP5
-                MENUITEM "canalul 6", IDM_COL4_AP6
-                MENUITEM "canalul 7", IDM_COL4_AP7
-                MENUITEM "canalul 8", IDM_COL4_AP8
-                MENUITEM "canalul 9", IDM_COL4_XP9
+                MENUITEM "canalul 1",                     IDM_COL4_AP1
+                MENUITEM "canalul 2",                     IDM_COL4_AP2
+                MENUITEM "canalul 3",                     IDM_COL4_AP3
+                MENUITEM "canalul 4",                     IDM_COL4_AP4
+                MENUITEM "canalul 5",                     IDM_COL4_AP5
+                MENUITEM "canalul 6",                     IDM_COL4_AP6
+                MENUITEM "canalul 7",                     IDM_COL4_AP7
+                MENUITEM "canalul 8",                     IDM_COL4_AP8
+                MENUITEM "canalul 9",                     IDM_COL4_XP9
             END
         END
         POPUP "Regulatoare în sistemul „Smart Home”..."
         BEGIN
-            MENUITEM "nivelul 1", IDM_COL4_AV1
-            MENUITEM "nivelul 2", IDM_COL4_AV2
-            MENUITEM "nivelul 3", IDM_COL4_AV3
-            MENUITEM "nivelul 4", IDM_COL4_AV4
-            MENUITEM "nivelul 5", IDM_COL4_AV5
-            MENUITEM "nivelul 6", IDM_COL4_AV6
-            MENUITEM "nivelul 7", IDM_COL4_AV7
-            MENUITEM "nivelul 8", IDM_COL4_AV8
-            MENUITEM "nivelul 9", IDM_COL4_XV9
-            MENUITEM "nivelul 10", IDM_COL4_AP1
-            MENUITEM "nivelul 11", IDM_COL4_AP2
-            MENUITEM "nivelul 12", IDM_COL4_AP3
-            MENUITEM "nivelul 13", IDM_COL4_AP4
-            MENUITEM "nivelul 14", IDM_COL4_AP5
-            MENUITEM "nivelul 15", IDM_COL4_AP6
-            MENUITEM "nivelul 16", IDM_COL4_AP7
-            MENUITEM "nivelul 17", IDM_COL4_AP8
-            MENUITEM "nivelul 18", IDM_COL4_XP9
+                MENUITEM "nivelul 1",              IDM_COL4_AV1
+                MENUITEM "nivelul 2",              IDM_COL4_AV2
+                MENUITEM "nivelul 3",              IDM_COL4_AV3
+                MENUITEM "nivelul 4",              IDM_COL4_AV4
+                MENUITEM "nivelul 5",              IDM_COL4_AV5
+                MENUITEM "nivelul 6",              IDM_COL4_AV6
+                MENUITEM "nivelul 7",              IDM_COL4_AV7
+                MENUITEM "nivelul 8",              IDM_COL4_AV8
+                MENUITEM "nivelul 9",              IDM_COL4_XV9
+                MENUITEM "nivelul 10",              IDM_COL4_AP1
+                MENUITEM "nivelul 11",              IDM_COL4_AP2
+                MENUITEM "nivelul 12",              IDM_COL4_AP3
+                MENUITEM "nivelul 13",              IDM_COL4_AP4
+                MENUITEM "nivelul 14",              IDM_COL4_AP5
+                MENUITEM "nivelul 15",              IDM_COL4_AP6
+                MENUITEM "nivelul 16",              IDM_COL4_AP7
+                MENUITEM "nivelul 17",              IDM_COL4_AP8
+                MENUITEM "nivelul 18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "Controlul se referă la mixerul audio", IDM_COL4_VOLUMEMIX
         MENUITEM "Comenzile se aplică butoanelor multimedia", IDM_COL4_MEDIAKEY
         MENUITEM "Controlul se referă la o casă inteligentă", IDM_COL4_MQTTKEY
-        POPUP "Controlul se referă la controlul luminii"
-        BEGIN
-            MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Controlul se referă la controlul luminii"
+	BEGIN
+	   MENUITEM "Canal 8 biți (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Canal pe 16 biți (extins)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Volum (master)", IDM_COL4_MAV
-        MENUITEM "Encoder (JOG)", IDM_COL4_JOG
+        MENUITEM "Volum (master)",          IDM_COL4_MAV
+        MENUITEM "Encoder (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Volum.."
         BEGIN
-            MENUITEM "canalul 1", IDM_COL4_AV1
-            MENUITEM "canalul 2", IDM_COL4_AV2
-            MENUITEM "canalul 3", IDM_COL4_AV3
-            MENUITEM "canalul 4", IDM_COL4_AV4
-            MENUITEM "canalul 5", IDM_COL4_AV5
-            MENUITEM "canalul 6", IDM_COL4_AV6
-            MENUITEM "canalul 7", IDM_COL4_AV7
-            MENUITEM "canalul 8", IDM_COL4_AV8
-            MENUITEM "canalul 9", IDM_COL4_XV9
-            MENUITEM "canalul 10", IDM_COL4_AP1
-            MENUITEM "canalul 11", IDM_COL4_AP2
-            MENUITEM "canalul 12", IDM_COL4_AP3
-            MENUITEM "canalul 13", IDM_COL4_AP4
-            MENUITEM "canalul 14", IDM_COL4_AP5
-            MENUITEM "canalul 15", IDM_COL4_AP6
-            MENUITEM "canalul 16", IDM_COL4_AP7
-            MENUITEM "canalul 17", IDM_COL4_AP8
-            MENUITEM "canalul 18", IDM_COL4_XP9
+            MENUITEM "canalul 1",                     IDM_COL4_AV1
+            MENUITEM "canalul 2",                     IDM_COL4_AV2
+            MENUITEM "canalul 3",                     IDM_COL4_AV3
+            MENUITEM "canalul 4",                     IDM_COL4_AV4
+            MENUITEM "canalul 5",                     IDM_COL4_AV5
+            MENUITEM "canalul 6",                     IDM_COL4_AV6
+            MENUITEM "canalul 7",                     IDM_COL4_AV7
+            MENUITEM "canalul 8",                     IDM_COL4_AV8
+            MENUITEM "canalul 9",			    IDM_COL4_XV9
+            MENUITEM "canalul 10",                    IDM_COL4_AP1
+            MENUITEM "canalul 11",                    IDM_COL4_AP2
+            MENUITEM "canalul 12",                    IDM_COL4_AP3
+            MENUITEM "canalul 13",                    IDM_COL4_AP4
+            MENUITEM "canalul 14",                    IDM_COL4_AP5
+            MENUITEM "canalul 15",                    IDM_COL4_AP6
+            MENUITEM "canalul 16",                    IDM_COL4_AP7
+            MENUITEM "canalul 17",                    IDM_COL4_AP8
+            MENUITEM "canalul 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "Tacut (maestrul)", IDM_COL4_MAM
+        MENUITEM "Tacut (maestrul)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "Fără sunet.."
         BEGIN
-            MENUITEM "canalul 1", IDM_COL4_B21
-            MENUITEM "canalul 2", IDM_COL4_B22
-            MENUITEM "canalul 3", IDM_COL4_B23
-            MENUITEM "canalul 4", IDM_COL4_B24
-            MENUITEM "canalul 5", IDM_COL4_B25
-            MENUITEM "canalul 6", IDM_COL4_B26
-            MENUITEM "canalul 7", IDM_COL4_B27
-            MENUITEM "canalul 8", IDM_COL4_B28
-            MENUITEM "canalul 9", IDM_COL4_B29
+            MENUITEM "canalul 1",                     IDM_COL4_B21
+            MENUITEM "canalul 2",                     IDM_COL4_B22
+            MENUITEM "canalul 3",                     IDM_COL4_B23
+            MENUITEM "canalul 4",                     IDM_COL4_B24
+            MENUITEM "canalul 5",                     IDM_COL4_B25
+            MENUITEM "canalul 6",                     IDM_COL4_B26
+            MENUITEM "canalul 7",                     IDM_COL4_B27
+            MENUITEM "canalul 8",                     IDM_COL4_B28
+            MENUITEM "canalul 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Redare/Pauză", IDM_COL4_SYS_Play
-        MENUITEM "Stop", IDM_COL4_SYS_Stop
-        MENUITEM "Anterior", IDM_COL4_SYS_Rewind
-        MENUITEM "Următorul", IDM_COL4_SYS_Forward
-        MENUITEM "Record", IDM_COL4_SYS_Record
-        MENUITEM "Sus (joystick)", IDM_COL4_SYS_Up
-        MENUITEM "Jos (joystick)", IDM_COL4_SYS_Down
-        MENUITEM "dreapta (joystick)", IDM_COL4_SYS_Right
-        MENUITEM "Stânga (joystick)", IDM_COL4_SYS_Left
-        MENUITEM "A mari", IDM_COL4_SYS_Zoom
-        MENUITEM "Spălare", IDM_COL4_SYS_Scrub
+        MENUITEM "Redare/Pauză",                IDM_COL4_SYS_Play
+        MENUITEM "Stop",                        IDM_COL4_SYS_Stop
+        MENUITEM "Anterior",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Următorul",                   IDM_COL4_SYS_Forward
+        MENUITEM "Record",                      IDM_COL4_SYS_Record
+        MENUITEM "Sus (joystick)",           IDM_COL4_SYS_Up
+        MENUITEM "Jos (joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "dreapta (joystick)",           IDM_COL4_SYS_Right
+        MENUITEM "Stânga (joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "A mari",         IDM_COL4_SYS_Zoom
+        MENUITEM "Spălare",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "nivelul 1", IDM_COL4_AV1
-        MENUITEM "nivelul 2", IDM_COL4_AV2
-        MENUITEM "nivelul 3", IDM_COL4_AV3
-        MENUITEM "nivelul 4", IDM_COL4_AV4
-        MENUITEM "nivelul 5", IDM_COL4_AV5
-        MENUITEM "nivelul 6", IDM_COL4_AV6
-        MENUITEM "nivelul 7", IDM_COL4_AV7
-        MENUITEM "nivelul 8", IDM_COL4_AV8
-        MENUITEM "nivelul 9", IDM_COL4_XV9
-        MENUITEM "nivelul 10", IDM_COL4_AP1
-        MENUITEM "nivelul 11", IDM_COL4_AP2
-        MENUITEM "nivelul 12", IDM_COL4_AP3
-        MENUITEM "nivelul 13", IDM_COL4_AP4
-        MENUITEM "nivelul 14", IDM_COL4_AP5
-        MENUITEM "nivelul 15", IDM_COL4_AP6
-        MENUITEM "nivelul 16", IDM_COL4_AP7
-        MENUITEM "nivelul 17", IDM_COL4_AP8
-        MENUITEM "nivelul 18", IDM_COL4_XP9
+        MENUITEM "nivelul 1",                    IDM_COL4_AV1
+        MENUITEM "nivelul 2",                    IDM_COL4_AV2
+        MENUITEM "nivelul 3",                    IDM_COL4_AV3
+        MENUITEM "nivelul 4",                    IDM_COL4_AV4
+        MENUITEM "nivelul 5",                    IDM_COL4_AV5
+        MENUITEM "nivelul 6",                    IDM_COL4_AV6
+        MENUITEM "nivelul 7",                    IDM_COL4_AV7
+        MENUITEM "nivelul 8",                    IDM_COL4_AV8
+        MENUITEM "nivelul 9",                    IDM_COL4_XV9
+        MENUITEM "nivelul 10",                    IDM_COL4_AP1
+        MENUITEM "nivelul 11",                    IDM_COL4_AP2
+        MENUITEM "nivelul 12",                    IDM_COL4_AP3
+        MENUITEM "nivelul 13",                    IDM_COL4_AP4
+        MENUITEM "nivelul 14",                    IDM_COL4_AP5
+        MENUITEM "nivelul 15",                    IDM_COL4_AP6
+        MENUITEM "nivelul 16",                    IDM_COL4_AP7
+        MENUITEM "nivelul 17",                    IDM_COL4_AP8
+        MENUITEM "nivelul 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Nealocat", IDM_COL4_NONE
+        MENUITEM "Nealocat",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "pornit/oprit 1", IDM_COL4_B11
-        MENUITEM "pornit/oprit 2", IDM_COL4_B12
-        MENUITEM "pornit/oprit 3", IDM_COL4_B13
-        MENUITEM "pornit/oprit 4", IDM_COL4_B14
-        MENUITEM "pornit/oprit 5", IDM_COL4_B15
-        MENUITEM "pornit/oprit 6", IDM_COL4_B16
-        MENUITEM "pornit/oprit 7", IDM_COL4_B17
-        MENUITEM "pornit/oprit 8", IDM_COL4_B18
-        MENUITEM "pornit/oprit 9", IDM_COL4_B19
-        MENUITEM "pornit/oprit 10", IDM_COL4_B21
-        MENUITEM "pornit/oprit 11", IDM_COL4_B22
-        MENUITEM "pornit/oprit 12", IDM_COL4_B23
-        MENUITEM "pornit/oprit 13", IDM_COL4_B24
-        MENUITEM "pornit/oprit 14", IDM_COL4_B25
-        MENUITEM "pornit/oprit 15", IDM_COL4_B26
-        MENUITEM "pornit/oprit 16", IDM_COL4_B27
-        MENUITEM "pornit/oprit 17", IDM_COL4_B28
-        MENUITEM "pornit/oprit 18", IDM_COL4_B29
-        MENUITEM "pornit/oprit 19", IDM_COL4_B31
-        MENUITEM "pornit/oprit 20", IDM_COL4_B32
-        MENUITEM "pornit/oprit 21", IDM_COL4_B33
-        MENUITEM "pornit/oprit 22", IDM_COL4_B34
-        MENUITEM "pornit/oprit 23", IDM_COL4_B35
-        MENUITEM "pornit/oprit 24", IDM_COL4_B36
-        MENUITEM "pornit/oprit 25", IDM_COL4_B37
-        MENUITEM "pornit/oprit 26", IDM_COL4_B38
-        MENUITEM "pornit/oprit 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "Nealocat", IDM_COL4_NONE
+    MENUITEM "pornit/oprit 1",                     IDM_COL4_B11
+    MENUITEM "pornit/oprit 2",                     IDM_COL4_B12
+    MENUITEM "pornit/oprit 3",                     IDM_COL4_B13
+    MENUITEM "pornit/oprit 4",                     IDM_COL4_B14
+    MENUITEM "pornit/oprit 5",                     IDM_COL4_B15
+    MENUITEM "pornit/oprit 6",                     IDM_COL4_B16
+    MENUITEM "pornit/oprit 7",                     IDM_COL4_B17
+    MENUITEM "pornit/oprit 8",                     IDM_COL4_B18
+    MENUITEM "pornit/oprit 9",                     IDM_COL4_B19
+    MENUITEM "pornit/oprit 10",                     IDM_COL4_B21
+    MENUITEM "pornit/oprit 11",                     IDM_COL4_B22
+    MENUITEM "pornit/oprit 12",                     IDM_COL4_B23
+    MENUITEM "pornit/oprit 13",                     IDM_COL4_B24
+    MENUITEM "pornit/oprit 14",                     IDM_COL4_B25
+    MENUITEM "pornit/oprit 15",                     IDM_COL4_B26
+    MENUITEM "pornit/oprit 16",                     IDM_COL4_B27
+    MENUITEM "pornit/oprit 17",                     IDM_COL4_B28
+    MENUITEM "pornit/oprit 18",                     IDM_COL4_B29
+    MENUITEM "pornit/oprit 19",                     IDM_COL4_B31
+    MENUITEM "pornit/oprit 20",                     IDM_COL4_B32
+    MENUITEM "pornit/oprit 21",                     IDM_COL4_B33
+    MENUITEM "pornit/oprit 22",                     IDM_COL4_B34
+    MENUITEM "pornit/oprit 23",                     IDM_COL4_B35
+    MENUITEM "pornit/oprit 24",                     IDM_COL4_B36
+    MENUITEM "pornit/oprit 25",                     IDM_COL4_B37
+    MENUITEM "pornit/oprit 26",                     IDM_COL4_B38
+    MENUITEM "pornit/oprit 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Nealocat",                   IDM_COL4_NONE
     END
 END
 

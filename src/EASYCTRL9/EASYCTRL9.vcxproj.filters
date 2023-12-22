@@ -24,22 +24,7 @@
     <ClCompile Include="cpp\MidiControllerVirtual.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\MidiControllerIn.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\MidiControllerOut.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\MidiControllerProxy.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\bridge_in_event.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\bridge_out_event.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\MidiBridge.cpp">
+    <ClCompile Include="cpp\MidiDevices.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\MidiDriver.cpp">
@@ -62,22 +47,7 @@
     <ClInclude Include="h\MidiControllerBase.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\MidiControllerIn.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\MidiControllerOut.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\MidiControllerProxy.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\bridge_in_event.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\bridge_out_event.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\MidiBridge.h">
+    <ClInclude Include="h\MidiDevices.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\MidiDriver.h">
@@ -85,7 +55,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc">
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>

@@ -63,6 +63,7 @@ namespace Common {
 		template <typename T1>
 		template <typename T2>
 		void BrokerConfig<T1>::Copy(BrokerConfig<T2>& c) {
+			enable = c.enable;
 			port = ((c.port > 0) && (c.port < 65536)) ? c.port : port;
 			isssl = c.certcapath.empty() ? false : (c.sslpsk.empty() ? c.isssl : false);
 			loglevel = c.loglevel;
@@ -76,15 +77,17 @@ namespace Common {
 		}
 
 		template <typename T1>
-		std::wstring BrokerConfig<T1>::Dump() {
-			return (log_string() << L"\tMQTT host:" << Utils::to_string(host) << L":" << port << L", prefix: " << Utils::to_string(mqttprefix)
-								 << L"\n\t\tlogin: " << Utils::to_string(login) << L"/" << (password.empty() ? L"-empty-" : L"****")
-								 << L"\n\t\tssl: " << Utils::BOOL_to_string(isssl) << ", self-signed: " << Utils::BOOL_to_string(isselfsigned) << L", CA: " << Utils::to_string(certcapath)
-								 << L"\n\t\tpsk: " << Utils::to_string(sslpsk)) << L", loglevel: " << loglevel;
+		std::wstring BrokerConfig<T1>::dump() {
+			return (log_string() << L"\tenable module:" << Utils::BOOL_to_string(enable)
+								 << L"\n\tMQTT host:" << Utils::to_string(host) << L":" << port << L", prefix: " << Utils::to_string(mqttprefix)
+								 << L"\n\tlogin: " << Utils::to_string(login) << L"/" << (password.empty() ? L"-empty-" : L"****")
+								 << L"\n\tssl: " << Utils::BOOL_to_string(isssl) << L", self-signed: " << Utils::BOOL_to_string(isselfsigned)
+								 << L"\n\tCA: [" << Utils::to_string(certcapath) << L"], psk: [" << Utils::to_string(sslpsk)) << L"]"
+								 << L"\n\tloglevel: " << loglevel;
 		}
 
-		template std::wstring BrokerConfig<std::string>::Dump();
-		template std::wstring BrokerConfig<std::wstring>::Dump();
+		template std::wstring BrokerConfig<std::string>::dump();
+		template std::wstring BrokerConfig<std::wstring>::dump();
 
 		template void BrokerConfig<std::string>::clear();
 		template void BrokerConfig<std::wstring>::clear();

@@ -27,11 +27,19 @@ namespace Common {
     constexpr wchar_t default_no__[] = L"no";
     constexpr wchar_t default_yes__[] = L"yes";
 
+    static std::wstring app_name{};
+
     const std::wstring_view Utils::DefaulRuntimeError() {
         return default_runtime_error__;
     }
     const std::wstring_view Utils::DefaulSehErrorFound() {
         return default_found_seh_error__;
+    }
+
+    uint32_t operator"" _hash(const wchar_t* s, std::size_t n) {
+        if (!s || !n) return 0U;
+        std::wstring w(s, n);
+        return Utils::to_hash(w);
     }
 
     static void exception_(std::exception_ptr ptr, std::wstring f) {
@@ -89,19 +97,18 @@ namespace Common {
             to_log::Get() << ls.str();
         }
     }
-    static void build_MMRESULT_(const MMRESULT& r, wchar_t wc[], const DWORD sz) {
-        __try {
-            (void) ::midiOutGetErrorTextW(r, wc, sz);
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER) {}
+    static CLSID build_GUID_from_Chars_(const char* s) {
+        CLSID clsid{};
+        if (::CLSIDFromString(ATL::CComBSTR(s), &clsid) == NOERROR) return clsid;
+        return GUID_NULL;
     }
-    static void build_GUID_(const GUID& g, wchar_t wc[], const DWORD sz) {
+    static void  build_GUID_(const GUID& g, wchar_t wc[], const DWORD sz) {
         __try {
             (void) ::StringFromGUID2(g, wc, sz);
         }
         __except (EXCEPTION_EXECUTE_HANDLER) {}
     }
-    static bool build_PID_(const DWORD& d, wchar_t wc[], const DWORD sz) {
+    static bool  build_PID_(const DWORD& d, wchar_t wc[], const DWORD sz) {
         bool b = false;
         __try {
             HANDLE h = ::OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, d);
@@ -114,7 +121,7 @@ namespace Common {
         __except (EXCEPTION_EXECUTE_HANDLER) {}
         return b;
     }
-    static bool build_PIDRUN_(const DWORD& d) {
+    static bool  build_PIDRUN_(const DWORD& d) {
         DWORD x = 0U;
         __try {
             HANDLE h = ::OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, d);
@@ -126,6 +133,11 @@ namespace Common {
         }
         __except (EXCEPTION_EXECUTE_HANDLER) {}
         return x == STILL_ACTIVE;
+    }
+    static void  build_MMRESULT_(const MMRESULT& r, wchar_t wc[], const DWORD sz) {
+        __try {
+            (void) ::midiOutGetErrorTextW(r, wc, sz);
+        } __except (EXCEPTION_EXECUTE_HANDLER) {}
     }
     static std::wstring build_Chars_(const char* c) {
         try {
@@ -144,6 +156,21 @@ namespace Common {
         return L"";
     }
 
+    std::string Utils::trim_(std::string_view& sv) {
+        std::string s(sv);
+        static const char* t = " \t\n\r\f\v";
+        s.erase(0, s.find_first_not_of(t));
+        s.erase(s.find_last_not_of(t) + 1U);
+        return s;
+    }
+    std::wstring Utils::trim_(std::wstring_view& sv) {
+        std::wstring s(sv);
+        static const wchar_t* t = L" \t\n\r\f\v";
+        s.erase(0, s.find_first_not_of(t));
+        s.erase(s.find_last_not_of(t) + 1U);
+        return s;
+    }
+
     std::wstring Utils::runing_dir() {
         return std::filesystem::current_path().wstring();
     }
@@ -156,6 +183,48 @@ namespace Common {
         p.append(fname);
         return p.wstring();
     }
+    
+    std::wstring Utils::app_dir(HINSTANCE h) {
+        try {
+            wchar_t cpath[MAX_PATH + 1]{};
+            if (::GetModuleFileNameW(h, cpath, MAX_PATH) != 0)
+                return std::filesystem::path(cpath).parent_path().wstring();
+        } catch (...) {
+            Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+        }
+        return std::wstring();
+    }
+    std::wstring Utils::app_dir(const std::wstring_view& fname, HINSTANCE h) {
+        return app_dir(std::wstring(fname), h);
+    }
+    std::wstring Utils::app_dir(const std::wstring& fname, HINSTANCE h) {
+        std::filesystem::path p(app_dir(h));
+        if (!p.empty()) {
+            p.append(fname);
+            return p.wstring();
+        }
+        return std::wstring();
+    }
+
+    std::wstring Utils::app_name(HINSTANCE h) {
+        std::filesystem::path p(app_dir(h));
+        if (!p.empty())            
+            return p.stem().wstring();
+        return std::wstring();
+    }
+    std::tuple<bool, std::wstring, std::wstring> Utils::app_path(HINSTANCE h) {
+        try {
+            wchar_t cpath[MAX_PATH + 1]{};
+            if (::GetModuleFileNameW(h, cpath, MAX_PATH) != 0) {
+                std::filesystem::path p(cpath);
+                return std::make_tuple(true, p.parent_path().wstring(), p.stem().wstring());
+            }
+        } catch (...) {
+            Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+        }
+        return std::make_tuple(false, std::wstring(), std::wstring());
+    }
+
     std::wstring Utils::device_out_name(const std::wstring& ss, const std::wstring& se) {
         std::filesystem::path p = std::filesystem::path(ss);
         std::wstring ws = p.stem().wstring();
@@ -170,7 +239,7 @@ namespace Common {
     const bool Utils::random_isvalid(uint32_t id) {
         return (id != (UINT_MAX - 1)) && (id != 0U);
     }
-    uint32_t Utils::random_hash(void* v) {
+    uint32_t   Utils::random_hash(void* v) {
         try {
             #pragma warning( push )
             #pragma warning( disable : 4302 4311 )
@@ -182,17 +251,18 @@ namespace Common {
         }
         return (UINT_MAX - 1);
     }
-
-    std::wstring Utils::trim_(std::wstring_view& sv) {
-        sv.remove_prefix(sv.find_first_not_of(L" \t\r\v\n"));
-        sv.remove_suffix(sv.size() - sv.find_last_not_of(L" \t\r\v\n") - 1);
-        return std::wstring(sv);
+    uint32_t   Utils::to_hash(const wchar_t* s) {
+        if (!s) return 0U;
+        std::wstring w(s);
+        return to_hash(w);
     }
-    bool Utils::EndsWith(std::wstring_view str, std::wstring_view suffix) {
-        return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
-    }
-    bool Utils::StartsWith(std::wstring_view str, std::wstring_view prefix) {
-        return str.size() >= prefix.size() && 0 == str.compare(0, prefix.size(), prefix);
+    uint32_t   Utils::to_hash(const std::wstring& s) {
+        try {
+            return static_cast<uint32_t>(std::hash<std::wstring>{}(s));
+        } catch (...) {
+            Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+        }
+        return 0U;
     }
 
     std::tuple<bool, std::wstring, std::wstring> Utils::pid_to_string(const DWORD& d) {
@@ -211,6 +281,9 @@ namespace Common {
     bool Utils::is_pid_running(const DWORD d) {
         return build_PIDRUN_(d);
     }
+    bool Utils::is_guid_equals(const GUID& g1, const GUID& g2) {
+        return ::IsEqualGUID(g1, g2);
+    }
 
     std::wstring Utils::MMRESULT_to_string(const MMRESULT& r) {
         std::wstring ws{};
@@ -219,13 +292,12 @@ namespace Common {
         return Utils::to_string(wc);
     }
     std::wstring Utils::MILLISECONDS_to_string(const DWORD& millis) {
-        uint32_t ms = millis;
-        uint16_t sec = ms / 1000; ms %= 1000;
-        uint16_t min = sec / 60; sec %= 60;
-        uint16_t hour = min / 60; min %= 60;
-        std::wstringstream wss;
-        wss << hour << L":" << min << L":" << sec << L"." << ms;
-        return wss.str();
+        return std::format(L"%T", std::chrono::floor<std::chrono::milliseconds>(std::chrono::milliseconds(millis)));
+    }
+    std::wstring Utils::MILLISECONDS_to_string(const std::chrono::steady_clock::time_point& millis) {
+        auto t = std::chrono::high_resolution_clock::now();
+        auto p = std::chrono::duration_cast<std::chrono::milliseconds>(t - millis);
+        return std::format(L"{:%T}", std::chrono::floor<std::chrono::milliseconds>(p));
     }
     std::wstring Utils::BOOL_to_string(const bool b) {
         return b ? default_yes__ : default_no__;
@@ -235,6 +307,10 @@ namespace Common {
     }
     std::wstring Utils::to_string(const std::wstring_view v) {
         return std::wstring(v);
+    }
+    std::wstring Utils::to_string(const std::string_view v) {
+        const std::string s(v);
+        return Utils::to_string(s);
     }
     std::wstring Utils::to_string(const std::string s) {
         try {
@@ -290,13 +366,13 @@ namespace Common {
     std::wstring Utils::to_string(unsigned int& u) {
         return std::to_wstring(static_cast<unsigned long>(u));
     }
-    std::wstring Utils::to_string(Common::MIDI::ClassTypes t) {
-        return Utils::to_string(Common::MIDI::MidiHelper::GetClassTypes(t));
+    std::wstring Utils::to_string(IO::PluginClassTypes t) {
+        return Utils::to_string(IO::PluginHelper::GetClassTypes(t));
     }
-    std::wstring Utils::to_string(Common::MIDI::MidiUnitType t) {
+    std::wstring Utils::to_string(MIDI::MidiUnitType t) {
         return Utils::to_string(Common::MIDI::MidiHelper::GetType(t));
     }
-    std::wstring Utils::to_string(Common::MIDI::MidiUnitScene t) {
+    std::wstring Utils::to_string(MIDI::MidiUnitScene t) {
         return Utils::to_string(Common::MIDI::MidiHelper::GetScene(t));
     }
 
@@ -313,6 +389,12 @@ namespace Common {
             } while (0);
         } catch (...) {}
         return "";
+    }
+    CLSID       Utils::guid_from_string(const char* s) {
+        return build_GUID_from_Chars_(s);
+    }
+    CLSID       Utils::guid_from_string(const wchar_t* s) {
+        return build_GUID_from_Chars_(from_string(s).c_str());
     }
 
     void Utils::get_exception(std::exception_ptr ptr, const char* f) {

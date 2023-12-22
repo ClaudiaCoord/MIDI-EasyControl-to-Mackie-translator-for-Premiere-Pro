@@ -1,0 +1,509 @@
+#include "windows.h"
+#include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+
+LANGUAGE LANG_ZULU, SUBLANG_DEFAULT
+
+#pragma code_page(65001)
+
+DLG_TRAY_MENU MENU
+BEGIN
+    POPUP "__TRAYMENU"
+    BEGIN
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Ulwazi",                 IDM_GO_INFO
+        MENUITEM "&Isihlanganisi somsindo",               IDM_GO_MIXER
+        POPUP "&Ukuqapha"
+        BEGIN
+            MENUITEM "&Qapha",		IDM_GO_MONITOR
+            MENUITEM "&Buka ifayela lokungena",	IDM_GO_VIEWLOG
+        END
+        MENUITEM "&Izilungiselelo",                  IDM_GO_EDIT
+        MENUITEM SEPARATOR
+        MENUITEM "Qala",                      IDM_GO_START
+        MENUITEM "Ima",                       IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Phuma",                      IDM_EXIT
+    END
+END
+
+DLG_LOGVIEW_MENU MENU
+BEGIN
+    MENUITEM "Phuma",					DLG_EXIT
+    MENUITEM "ezinkulu",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "ezincane",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "ekuqaleni",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "Ekupheleni",					DLG_LOGVIEW_MENU_END
+    MENUITEM "cacile",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "ukumisa"
+    BEGIN
+	MENUITEM "khombisa konke ukucushwa",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "bonisa ukucushwa kwe-MIDI",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "bonisa ukucushwa kwe-MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "bonisa ukucushwa kwe-MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "bonisa ukucushwa kwe-LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "bonisa ukucushwa kwe-DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "bonisa ukucushwa kwe-ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "ama-plugin"
+    BEGIN
+	MENUITEM "izibalo ze-plugin",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
+END
+
+DLG_START_MENU MENU
+BEGIN
+    MENUITEM "qala",				DLG_GO_START
+    MENUITEM "Ima",				DLG_GO_STOP
+    MENUITEM "gcina izilungiselelo",		DLG_SAVE
+    MENUITEM "Usizo",				DLG_GO_HELP
+    POPUP "ulimi"
+    BEGIN
+	MENUITEM "okuzenzakalelayo",			DLG_LANG_MENU_0
+    END
+    MENUITEM "log",				DLG_GO_LOG
+    MENUITEM "Phuma",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
+    BEGIN
+        POPUP "Indawo.."
+        BEGIN
+            MENUITEM "Iqonde kwesokunxele",	IDM_VERT_LEFT
+            MENUITEM "Iqonde kwesokudla",	IDM_VERT_RIGHT
+            MENUITEM "Ngokuvundlile phezulu",	IDM_HOR_TOP
+            MENUITEM "Ngokuvundlile ngezansi",	IDM_HOR_BOTTOM
+        END
+        POPUP "Isihloko.."
+        BEGIN
+            MENUITEM "IMetro",			IDM_METRO
+            MENUITEM "Ukukhanya",			IDM_LIGHT
+            MENUITEM "Kumnyama",			IDM_DARK
+            MENUITEM "I-Retro",			IDM_RETRO
+            MENUITEM "Okwesimanje",		IDM_MODERN
+            MENUITEM SEPARATOR
+            MENUITEM "Yenza ngokwezifiso",		IDM_CUSTOM
+            MENUITEM "Ukusetha itimu",		IDM_CALLFORM_COLOR
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Opopayi",			IDM_ANIMATION
+        MENUITEM "&Indlela yohlelo lokusebenza",		IDM_APP_PATH
+        MENUITEM "Izilawuli ezibophezelayo ze-&MIDI",	IDM_MIDI_BIND
+        MENUITEM "I-Peak &Volume Meter",IDM_PEAK_METER
+        MENUITEM "Khumbula isikhundla",		IDM_SAVE_POS
+        MENUITEM SEPARATOR
+        MENUITEM "&Vala",			IDM_CLOSE
+    END
+END
+
+DLG_EDIT_LV_MENU MENU
+BEGIN
+    POPUP "__LVMENU"
+    BEGIN
+        MENUITEM "Ukufakwa okusha",                IDM_LV_NEW
+        MENUITEM SEPARATOR
+        MENUITEM "Kopisha",                  IDM_LV_COPY
+        MENUITEM "Faka",                    IDM_LV_PASTE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Susa",                     IDM_LV_DELETE
+        POPUP "Faka njenge.."
+        BEGIN
+            MENUITEM "Ukulawula kubhekisela kusihlanganisi somsindo", IDM_LV_SET_MIXER
+            MENUITEM "Izilawuli zisebenza ezinkinobho ze-multimedia", IDM_LV_SET_MMKEY
+            MENUITEM "Ukulawula kusho ikhaya elihlakaniphile", IDM_LV_SET_MQTT
+	    POPUP "Ukulawula kubhekisela ekulawuleni ukukhanya"
+	    BEGIN
+		MENUITEM "Isiteshi esingu-8 bit (okujwayelekile)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "Isiteshi esingu-16 bit (inwetshiwe)", IDM_LV_SET_LIGHTKEY16B
+	    END
+            MENUITEM SEPARATOR
+            MENUITEM "Akunikeziwe",		IDM_LV_SET_NONE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Funda ikhodi ye-MIDI..",		IDM_LV_READ_MIDI_CODE
+    END
+END
+
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
+BEGIN
+    POPUP "__COL3TYPEMENU"
+    BEGIN
+        POPUP "Izilawuli.."
+        BEGIN
+            MENUITEM "Isilawuli se-strip",        IDM_COL3_SLIDER
+            MENUITEM "I-Strip Regulator ene-Inversion", IDM_COL3_SLIDERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Isilawuli esiyindilinga",          IDM_COL3_FADER
+            MENUITEM "Isilawuli esiyindilinga esinokuguqulwa", IDM_COL3_FADERINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Isifaki khodi",                     IDM_COL3_KNOB
+            MENUITEM "Isifaki khodi esinokuguqulwa",         IDM_COL3_KNOBINVERT
+            MENUITEM SEPARATOR
+            MENUITEM "Akunikeziwe",               IDM_COL3_NONE
+        END
+        POPUP "Izinkinobho.."
+        BEGIN
+            MENUITEM "Inkinobho",                      IDM_COL3_BTN
+            MENUITEM "Inkinobho yokushintsha, enenkomba", IDM_COL3_BTNTOGGLE
+            MENUITEM SEPARATOR
+            MENUITEM "Akunikeziwe",               IDM_COL3_NONE
+        END
+    END
+END
+
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
+BEGIN
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
+    BEGIN
+        MENUITEM "Akunikeziwe",			IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Izilawuli..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Izinkinobho..",				IDM_COL5_MENU_REPLACE_FIELD2
+        MENUITEM SEPARATOR
+        MENUITEM "Ukulawula kubhekisela kusihlanganisi somsindo", IDM_COL4_VOLUMEMIX
+        MENUITEM "Izilawuli zisebenza ezinkinobho ze-multimedia", IDM_COL4_MEDIAKEY
+        MENUITEM "Ukulawula kusho ikhaya elihlakaniphile", IDM_COL4_MQTTKEY
+	POPUP "Ukulawula kubhekisela ekulawuleni ukukhanya"
+	BEGIN
+	   MENUITEM "Isiteshi esingu-8 bit (okujwayelekile)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Isiteshi esingu-16 bit (inwetshiwe)", IDM_COL4_LIGHTKEY16B
+	END
+    END
+END
+
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
+BEGIN
+    POPUP "__COL4 BTN TARGET MENU"
+    BEGIN
+        MENUITEM "Akunikeziwe",		   IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ukulawula umsindo..."
+        BEGIN
+            MENUITEM "Thula (master)",		IDM_COL4_MAM
+            MENUITEM "Uyedwa (master)",			IDM_COL4_MAS
+            MENUITEM SEPARATOR
+            POPUP "Ayinamsindo.."
+            BEGIN
+                MENUITEM "isiteshi 1",                     IDM_COL4_B21
+                MENUITEM "isiteshi 2",                     IDM_COL4_B22
+                MENUITEM "isiteshi 3",                     IDM_COL4_B23
+                MENUITEM "isiteshi 4",                     IDM_COL4_B24
+                MENUITEM "isiteshi 5",                     IDM_COL4_B25
+                MENUITEM "isiteshi 6",                     IDM_COL4_B26
+                MENUITEM "isiteshi 7",                     IDM_COL4_B27
+                MENUITEM "isiteshi 8",                     IDM_COL4_B28
+                MENUITEM "isiteshi 9",                     IDM_COL4_B29
+            END
+            POPUP "Solo.."
+            BEGIN
+                MENUITEM "isiteshi 1",                     IDM_COL4_B11
+                MENUITEM "isiteshi 2",                     IDM_COL4_B12
+                MENUITEM "isiteshi 3",                     IDM_COL4_B13
+                MENUITEM "isiteshi 4",                     IDM_COL4_B14
+                MENUITEM "isiteshi 5",                     IDM_COL4_B15
+                MENUITEM "isiteshi 6",                     IDM_COL4_B16
+                MENUITEM "isiteshi 7",                     IDM_COL4_B17
+                MENUITEM "isiteshi 8",                     IDM_COL4_B18
+                MENUITEM "isiteshi 9",                     IDM_COL4_B19
+            END
+        END
+        POPUP "Izinkinobho zemultimedia.."
+        BEGIN
+            MENUITEM "Dlala/Misa kancane",                IDM_COL4_SYS_Play
+            MENUITEM "Ima",                        IDM_COL4_SYS_Stop
+            MENUITEM "Ngaphambilini",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Olandelayo",                   IDM_COL4_SYS_Forward
+            MENUITEM "Qopha",                      IDM_COL4_SYS_Record
+            MENUITEM "Phezulu (induku yokudlala)",            IDM_COL4_SYS_Up
+            MENUITEM "Phansi (induku yokudlala)",             IDM_COL4_SYS_Down
+            MENUITEM "Kwesokudla (induku yokudlala)",           IDM_COL4_SYS_Right
+            MENUITEM "Kwesokunxele (induku yokudlala)",            IDM_COL4_SYS_Left
+            MENUITEM "Sondeza isithombe",         IDM_COL4_SYS_Zoom
+            MENUITEM "Ukukhuhla",               IDM_COL4_SYS_Scrub
+        END
+        POPUP "Izici zePremiere Pro..."
+        BEGIN
+            POPUP "Imisebenzi yenkinobho ejwayelekile..."
+            BEGIN
+                MENUITEM "Umsebenzi 1",                   IDM_COL4_FUN11
+                MENUITEM "Umsebenzi 2",                   IDM_COL4_FUN12
+                MENUITEM "Umsebenzi 3",                   IDM_COL4_FUN13
+                MENUITEM "Umsebenzi 4",                   IDM_COL4_FUN14
+                MENUITEM "Umsebenzi 5",                   IDM_COL4_FUN15
+                MENUITEM "Umsebenzi 6",                   IDM_COL4_FUN16
+                MENUITEM "Umsebenzi 7",                   IDM_COL4_FUN17
+                MENUITEM "Umsebenzi 8",                   IDM_COL4_FUN18
+            END
+            POPUP "Imisebenzi yenkinobho yokuthinta okukodwa..."
+            BEGIN
+                MENUITEM "Umsebenzi 1",                   IDM_COL4_FUN21
+                MENUITEM "Umsebenzi 2",                   IDM_COL4_FUN22
+                MENUITEM "Umsebenzi 3",                   IDM_COL4_FUN23
+                MENUITEM "Umsebenzi 4",                   IDM_COL4_FUN24
+                MENUITEM "Umsebenzi 5",                   IDM_COL4_FUN25
+                MENUITEM "Umsebenzi 6",                   IDM_COL4_FUN26
+                MENUITEM "Umsebenzi 7",                   IDM_COL4_FUN27
+                MENUITEM "Umsebenzi 8",                   IDM_COL4_FUN28
+            END
+        END
+        POPUP "Izinkinobho kusistimu Yekhaya Elihlakaniphile.."
+        BEGIN
+                MENUITEM "vula/cisha 1",                 IDM_COL4_B11
+                MENUITEM "vula/cisha 2",                 IDM_COL4_B12
+                MENUITEM "vula/cisha 3",                 IDM_COL4_B13
+                MENUITEM "vula/vala 4",                 IDM_COL4_B14
+                MENUITEM "vula/vala 5",                 IDM_COL4_B15
+                MENUITEM "vula/cisha 6",                 IDM_COL4_B16
+                MENUITEM "vula/cisha 7",                 IDM_COL4_B17
+                MENUITEM "vula/cisha 8",                 IDM_COL4_B18
+                MENUITEM "vula/cisha 9",                 IDM_COL4_B19
+                MENUITEM "vula/cisha 10",                 IDM_COL4_B21
+                MENUITEM "vula/cisha 11",                 IDM_COL4_B22
+                MENUITEM "vula/cisha 12",                 IDM_COL4_B23
+                MENUITEM "vula/cisha 13",                 IDM_COL4_B24
+                MENUITEM "kuvuliwe/kuvaliwe 14",                 IDM_COL4_B25
+                MENUITEM "kuvuliwe/kuvaliwe 15",                 IDM_COL4_B26
+                MENUITEM "kuvuliwe/kuvaliwe 16",                 IDM_COL4_B27
+                MENUITEM "kuvuliwe/kuvaliwe 17",                 IDM_COL4_B28
+                MENUITEM "kuvuliwe/kuvaliwe 18",                 IDM_COL4_B29
+                MENUITEM "kuvuliwe/kuvaliwe 19",                 IDM_COL4_B31
+                MENUITEM "kuvuliwe/kuvaliwe 20",                 IDM_COL4_B32
+                MENUITEM "kuvuliwe/kuvaliwe 21",                 IDM_COL4_B33
+                MENUITEM "vula/vala 22",                 IDM_COL4_B34
+                MENUITEM "kuvuliwe/kuvaliwe 23",                 IDM_COL4_B35
+                MENUITEM "vula/vala 24",                 IDM_COL4_B36
+                MENUITEM "kuvuliwe/kuvaliwe 25",                 IDM_COL4_B37
+                MENUITEM "vula/vala 26",                 IDM_COL4_B38
+                MENUITEM "kuvuliwe/kuvaliwe 27",                 IDM_COL4_B39
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Ukulawula kubhekisela kusihlanganisi somsindo", IDM_COL4_VOLUMEMIX
+        MENUITEM "Izilawuli zisebenza ezinkinobho ze-multimedia", IDM_COL4_MEDIAKEY
+        MENUITEM "Ukulawula kusho ikhaya elihlakaniphile", IDM_COL4_MQTTKEY
+	POPUP "Ukulawula kubhekisela ekulawuleni ukukhanya"
+	BEGIN
+	   MENUITEM "Isiteshi esingu-8 bit (okujwayelekile)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Isiteshi esingu-16 bit (inwetshiwe)", IDM_COL4_LIGHTKEY16B
+	END
+    END
+END
+
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
+BEGIN
+    POPUP "__COL4 SLIDER TARGET MENU"
+    BEGIN
+        MENUITEM "Isifaki khodi (ukubuka kozimele ngozimele)", IDM_COL4_JOG
+        MENUITEM "Akunikeziwe",               IDM_COL4_NONE
+        MENUITEM SEPARATOR
+        POPUP "Ukulawula umsindo..."
+        BEGIN
+            MENUITEM "Ivolumu (master)",          IDM_COL4_MAV
+            MENUITEM "Ibhalansi (master)",             IDM_COL4_MAP
+            MENUITEM SEPARATOR
+            POPUP "Ivolumu.."
+            BEGIN
+                MENUITEM "isiteshi 1",                     IDM_COL4_AV1
+                MENUITEM "isiteshi 2",                     IDM_COL4_AV2
+                MENUITEM "isiteshi 3",                     IDM_COL4_AV3
+                MENUITEM "isiteshi 4",                     IDM_COL4_AV4
+                MENUITEM "isiteshi 5",                     IDM_COL4_AV5
+                MENUITEM "isiteshi 6",                     IDM_COL4_AV6
+                MENUITEM "isiteshi 7",                     IDM_COL4_AV7
+                MENUITEM "isiteshi 8",                     IDM_COL4_AV8
+                MENUITEM "isiteshi 9",                     IDM_COL4_XV9
+            END
+            POPUP "Ibhalansi.."
+            BEGIN
+                MENUITEM "isiteshi 1",                     IDM_COL4_AP1
+                MENUITEM "isiteshi 2",                     IDM_COL4_AP2
+                MENUITEM "isiteshi 3",                     IDM_COL4_AP3
+                MENUITEM "isiteshi 4",                     IDM_COL4_AP4
+                MENUITEM "isiteshi 5",                     IDM_COL4_AP5
+                MENUITEM "isiteshi 6",                     IDM_COL4_AP6
+                MENUITEM "isiteshi 7",                     IDM_COL4_AP7
+                MENUITEM "isiteshi 8",                     IDM_COL4_AP8
+                MENUITEM "isiteshi 9",                     IDM_COL4_XP9
+            END
+        END
+        POPUP "Izilawuli ohlelweni lwe-“Smart Home”.."
+        BEGIN
+                MENUITEM "izinga 1",              IDM_COL4_AV1
+                MENUITEM "izinga 2",              IDM_COL4_AV2
+                MENUITEM "ileveli 3",              IDM_COL4_AV3
+                MENUITEM "izinga 4",              IDM_COL4_AV4
+                MENUITEM "izinga 5",              IDM_COL4_AV5
+                MENUITEM "ileveli 6",              IDM_COL4_AV6
+                MENUITEM "izinga 7",              IDM_COL4_AV7
+                MENUITEM "ileveli 8",              IDM_COL4_AV8
+                MENUITEM "ileveli 9",              IDM_COL4_XV9
+                MENUITEM "izinga 10",              IDM_COL4_AP1
+                MENUITEM "izinga 11",              IDM_COL4_AP2
+                MENUITEM "izinga 12",              IDM_COL4_AP3
+                MENUITEM "izinga 13",              IDM_COL4_AP4
+                MENUITEM "izinga 14",              IDM_COL4_AP5
+                MENUITEM "izinga 15",              IDM_COL4_AP6
+                MENUITEM "izinga 16",              IDM_COL4_AP7
+                MENUITEM "izinga 17",              IDM_COL4_AP8
+                MENUITEM "izinga 18",              IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Ukulawula kubhekisela kusihlanganisi somsindo", IDM_COL4_VOLUMEMIX
+        MENUITEM "Izilawuli zisebenza ezinkinobho ze-multimedia", IDM_COL4_MEDIAKEY
+        MENUITEM "Ukulawula kusho ikhaya elihlakaniphile", IDM_COL4_MQTTKEY
+	POPUP "Ukulawula kubhekisela ekulawuleni ukukhanya"
+	BEGIN
+	   MENUITEM "Isiteshi esingu-8 bit (okujwayelekile)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Isiteshi esingu-16 bit (inwetshiwe)", IDM_COL4_LIGHTKEY16B
+	END
+    END
+END
+
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
+BEGIN
+    POPUP "__COL4 SLIDER MIXER MENU"
+    BEGIN
+        MENUITEM "Ivolumu (master)",          IDM_COL4_MAV
+        MENUITEM "Isifaki khodi (JOG)",               IDM_COL4_JOG
+        MENUITEM SEPARATOR
+        POPUP "Ivolumu.."
+        BEGIN
+            MENUITEM "isiteshi 1",                     IDM_COL4_AV1
+            MENUITEM "isiteshi 2",                     IDM_COL4_AV2
+            MENUITEM "isiteshi 3",                     IDM_COL4_AV3
+            MENUITEM "isiteshi 4",                     IDM_COL4_AV4
+            MENUITEM "isiteshi 5",                     IDM_COL4_AV5
+            MENUITEM "isiteshi 6",                     IDM_COL4_AV6
+            MENUITEM "isiteshi 7",                     IDM_COL4_AV7
+            MENUITEM "isiteshi 8",                     IDM_COL4_AV8
+            MENUITEM "isiteshi 9",			    IDM_COL4_XV9
+            MENUITEM "isiteshi 10",                    IDM_COL4_AP1
+            MENUITEM "isiteshi 11",                    IDM_COL4_AP2
+            MENUITEM "isiteshi 12",                    IDM_COL4_AP3
+            MENUITEM "isiteshi 13",                    IDM_COL4_AP4
+            MENUITEM "isiteshi 14",                    IDM_COL4_AP5
+            MENUITEM "isiteshi 15",                    IDM_COL4_AP6
+            MENUITEM "isiteshi 16",                    IDM_COL4_AP7
+            MENUITEM "isiteshi 17",                    IDM_COL4_AP8
+            MENUITEM "isiteshi 18",                    IDM_COL4_XP9
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Akunikeziwe",               IDM_COL4_NONE
+    END
+END
+
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN MIXER MENU"
+    BEGIN
+        MENUITEM "Thula (master)",               IDM_COL4_MAM
+        MENUITEM SEPARATOR
+        POPUP "Ayinamsindo.."
+        BEGIN
+            MENUITEM "isiteshi 1",                     IDM_COL4_B21
+            MENUITEM "isiteshi 2",                     IDM_COL4_B22
+            MENUITEM "isiteshi 3",                     IDM_COL4_B23
+            MENUITEM "isiteshi 4",                     IDM_COL4_B24
+            MENUITEM "isiteshi 5",                     IDM_COL4_B25
+            MENUITEM "isiteshi 6",                     IDM_COL4_B26
+            MENUITEM "isiteshi 7",                     IDM_COL4_B27
+            MENUITEM "isiteshi 8",                     IDM_COL4_B28
+            MENUITEM "isiteshi 9",                     IDM_COL4_B29
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Akunikeziwe",               IDM_COL4_NONE
+    END
+END
+
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN MMKEY MENU"
+    BEGIN
+        MENUITEM "Dlala/Misa kancane",                IDM_COL4_SYS_Play
+        MENUITEM "Ima",                        IDM_COL4_SYS_Stop
+        MENUITEM "Ngaphambilini",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Olandelayo",                   IDM_COL4_SYS_Forward
+        MENUITEM "Qopha",                      IDM_COL4_SYS_Record
+        MENUITEM "Phezulu (induku yokudlala)",           IDM_COL4_SYS_Up
+        MENUITEM "Phansi (induku yokudlala)",           IDM_COL4_SYS_Down
+        MENUITEM "Kwesokudla (induku yokudlala)",           IDM_COL4_SYS_Right
+        MENUITEM "Kwesokunxele (induku yokudlala)",           IDM_COL4_SYS_Left
+        MENUITEM "Sondeza isithombe",         IDM_COL4_SYS_Zoom
+        MENUITEM "Ukukhuhla",               IDM_COL4_SYS_Scrub
+        MENUITEM SEPARATOR
+        MENUITEM "Akunikeziwe",               IDM_COL4_NONE
+    END
+END
+
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+BEGIN
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
+    BEGIN
+        MENUITEM "izinga 1",                    IDM_COL4_AV1
+        MENUITEM "izinga 2",                    IDM_COL4_AV2
+        MENUITEM "ileveli 3",                    IDM_COL4_AV3
+        MENUITEM "izinga 4",                    IDM_COL4_AV4
+        MENUITEM "izinga 5",                    IDM_COL4_AV5
+        MENUITEM "ileveli 6",                    IDM_COL4_AV6
+        MENUITEM "izinga 7",                    IDM_COL4_AV7
+        MENUITEM "ileveli 8",                    IDM_COL4_AV8
+        MENUITEM "ileveli 9",                    IDM_COL4_XV9
+        MENUITEM "izinga 10",                    IDM_COL4_AP1
+        MENUITEM "izinga 11",                    IDM_COL4_AP2
+        MENUITEM "izinga 12",                    IDM_COL4_AP3
+        MENUITEM "izinga 13",                    IDM_COL4_AP4
+        MENUITEM "izinga 14",                    IDM_COL4_AP5
+        MENUITEM "izinga 15",                    IDM_COL4_AP6
+        MENUITEM "izinga 16",                    IDM_COL4_AP7
+        MENUITEM "izinga 17",                    IDM_COL4_AP8
+        MENUITEM "izinga 18",                    IDM_COL4_XP9
+        MENUITEM SEPARATOR
+        MENUITEM "Akunikeziwe",                 IDM_COL4_NONE
+    END
+END
+
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SMART HOUSE MENU"
+    BEGIN
+    MENUITEM "vula/cisha 1",                     IDM_COL4_B11
+    MENUITEM "vula/cisha 2",                     IDM_COL4_B12
+    MENUITEM "vula/cisha 3",                     IDM_COL4_B13
+    MENUITEM "vula/vala 4",                     IDM_COL4_B14
+    MENUITEM "vula/vala 5",                     IDM_COL4_B15
+    MENUITEM "vula/cisha 6",                     IDM_COL4_B16
+    MENUITEM "vula/cisha 7",                     IDM_COL4_B17
+    MENUITEM "vula/cisha 8",                     IDM_COL4_B18
+    MENUITEM "vula/cisha 9",                     IDM_COL4_B19
+    MENUITEM "vula/cisha 10",                     IDM_COL4_B21
+    MENUITEM "vula/cisha 11",                     IDM_COL4_B22
+    MENUITEM "vula/cisha 12",                     IDM_COL4_B23
+    MENUITEM "vula/cisha 13",                     IDM_COL4_B24
+    MENUITEM "kuvuliwe/kuvaliwe 14",                     IDM_COL4_B25
+    MENUITEM "kuvuliwe/kuvaliwe 15",                     IDM_COL4_B26
+    MENUITEM "kuvuliwe/kuvaliwe 16",                     IDM_COL4_B27
+    MENUITEM "kuvuliwe/kuvaliwe 17",                     IDM_COL4_B28
+    MENUITEM "kuvuliwe/kuvaliwe 18",                     IDM_COL4_B29
+    MENUITEM "kuvuliwe/kuvaliwe 19",                     IDM_COL4_B31
+    MENUITEM "kuvuliwe/kuvaliwe 20",                     IDM_COL4_B32
+    MENUITEM "kuvuliwe/kuvaliwe 21",                     IDM_COL4_B33
+    MENUITEM "vula/vala 22",                     IDM_COL4_B34
+    MENUITEM "kuvuliwe/kuvaliwe 23",                     IDM_COL4_B35
+    MENUITEM "vula/vala 24",                     IDM_COL4_B36
+    MENUITEM "kuvuliwe/kuvaliwe 25",                     IDM_COL4_B37
+    MENUITEM "vula/vala 26",                     IDM_COL4_B38
+    MENUITEM "kuvuliwe/kuvaliwe 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Akunikeziwe",                   IDM_COL4_NONE
+    END
+END
+

@@ -16,7 +16,7 @@
 #include "SciLexer.h"
 
 #define RGB_(R,G,B) (R | (G << 8) | (B << 16))
-#define RGBA_(R,G,B,A) (R | (G << 8) | (B << 16) | (A << 24))
+#define RGBW_(R,G,B,A) (R | (G << 8) | (B << 16) | (A << 24))
 #define COLORREF_(R,G,B) RGB_(::strtoul(R, nullptr, 16), ::strtoul(G, nullptr, 16), ::strtoul(B, nullptr, 16))
 
 #if defined(_DEBUG_EVENT)
@@ -83,14 +83,14 @@ namespace Common {
 			{ lexer_type::TYPE_SET,  SCI_MARKERSETFORE,  6, RGB_(228, 94, 94) },
 			{ lexer_type::TYPE_SET,  SCI_MARKERSETFORE, 24, RGB_(25, 25, 25) },
 			{ lexer_type::TYPE_SET,  SCI_SETCARETFORE, RGB_(115, 115, 115), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET, RGBA_(192, 192, 192, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET_LINE_BACK, RGBA_(238, 232, 213, 200), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_TEXT, RGBA_(0, 0, 0, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_BACK, RGBA_(0, 0, 0, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST, RGBA_(190, 190, 190, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_BACK, RGBA_(247, 247, 219, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED, RGBA_(0, 255, 255, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED_BACK, RGBA_(126, 121, 121, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET, RGBW_(192, 192, 192, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET_LINE_BACK, RGBW_(238, 232, 213, 200), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_TEXT, RGBW_(0, 0, 0, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_BACK, RGBW_(0, 0, 0, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST, RGBW_(190, 190, 190, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_BACK, RGBW_(247, 247, 219, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED, RGBW_(0, 255, 255, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED_BACK, RGBW_(126, 121, 121, 255), 0 },
 		};
 		constexpr lexer_color lexer_json_color[]{
 			{ lexer_type::TYPE_FORE, 0, SCE_JSON_DEFAULT, RGB_(0, 0, 0) },
@@ -139,14 +139,14 @@ namespace Common {
 			{ lexer_type::TYPE_SET,  SCI_MARKERSETFORE,  6, RGB_(228, 94, 94) },
 			{ lexer_type::TYPE_SET,  SCI_MARKERSETFORE, 24, RGB_(25, 25, 25) },
 			{ lexer_type::TYPE_SET,  SCI_SETCARETFORE, RGB_(115, 115, 115), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET, RGBA_(192, 192, 192, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET_LINE_BACK, RGBA_(238, 232, 213, 200), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_TEXT, RGBA_(0, 0, 0, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_BACK, RGBA_(245, 245, 245, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST, RGBA_(190, 190, 190, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_BACK, RGBA_(247, 247, 219, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED, RGBA_(0, 255, 255, 255), 0 },
-			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED_BACK, RGBA_(245, 245, 245, 255), 0 }
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET, RGBW_(192, 192, 192, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_CARET_LINE_BACK, RGBW_(238, 232, 213, 200), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_TEXT, RGBW_(0, 0, 0, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_SELECTION_BACK, RGBW_(245, 245, 245, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST, RGBW_(190, 190, 190, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_BACK, RGBW_(247, 247, 219, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED, RGBW_(0, 255, 255, 255), 0 },
+			{ lexer_type::TYPE_SET,  SC_ELEMENT_LIST_SELECTED_BACK, RGBW_(245, 245, 245, 255), 0 }
 		};
 		constexpr std::string_view scint_cpp_list_keywords = "BlackOut()?0;FadeIn(dmx_channel, milliseconds)?1;FadeOut(dmx_channel, milliseconds)?2;Pulse(dmx_channel, min_value, max_value, milliseconds)?3;PulseOff(dmx_channel)?4;Value(dmx_channel, 0-255)?5;Off(dmx_channel)?7;SetRed(dmx_channel)?8;SetGreen(dmx_channel)?9;SetBlue(dmx_channel)?10;SetWhite(dmx_channel)?11;Red()?8;Green()?9;Blue()?10;White()?11;ChannelsAvailable()?11;ChannelsBindings()?11;"sv;
 		constexpr std::string_view scint_cpp_ident_keywords = "namespace ;int ;var ;def ;string ;if (bool);else if (bool);else;break;while(bool);eval(string);for();Object();Container();Map();Map_Pair();Range();Const_Range();Vector();Type_Info();Function();true;false;to_string(Object);puts(Object);print(Object);max(Object, Object);min(Object, Object);even(Object);for_each(Range, Function);map(Range, Function);foldl(Range, Function, Object);sum(Range);product(Range);take(Range, int);take_while(Range, Function);drop(Range, int);drop_while(Range, Function);reduce(Range, Function);filter(Container, Function);join(Range, string);reverse(Container);generate_range(Object, Object);concat(Range, Range);collate(Object, Object);zip_with(Function, Range, Range);zip(Range, Range);call_exists(Function, ...);retro(Range);retro(Const_Range);throw(Object);"sv;

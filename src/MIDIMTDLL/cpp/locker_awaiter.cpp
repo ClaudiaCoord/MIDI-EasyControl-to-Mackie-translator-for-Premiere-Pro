@@ -30,62 +30,72 @@
 
 namespace Common {
 
-	void locker_awaiter::wait_lock__() {
-		while (lock__ || (cnt != 0)) {
+	void locker_awaiter::wait_() {
+		while (lock_.load(std::memory_order_acquire)) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(25));
+		}
+	}
+	void locker_awaiter::wait_counter_() {
+		while (lock_.load(std::memory_order_acquire) || (cnt != 0)) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(50));
 		}
 	}
-	void locker_awaiter::wait__() {
-		while (lock__) {
+	void locker_awaiter::wait_onlyone_() {
+		while (onlyone_.load(std::memory_order_acquire) && (!canceled_.load(std::memory_order_acquire)) && (cnt != 0)) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(25));
 		}
 	}
 
-	locker_awaiter::locker_awaiter() noexcept {}
-
-	const bool locker_awaiter::IsLock() const {
-		return lock__ || canceled__;
-	}
-	void locker_awaiter::Wait() noexcept {
-		wait__();
+	void locker_awaiter::Wait() {
+		wait_();
 		(void)InterlockedIncrement__(&cnt);
 	}
-	void locker_awaiter::EndWait() noexcept {
+	void locker_awaiter::WaitOnlyOne() {
+		wait_onlyone_();
+		(void)InterlockedIncrement__(&cnt);
+	}
+	void locker_awaiter::EndWait() {
 		(void)InterlockedDecrement__(&cnt);
 	}
-	void locker_awaiter::Lock() noexcept {
-		wait_lock__();
-		lock__ = true;
+	void locker_awaiter::Lock() {
+		wait_counter_();
+		lock_.store(true, std::memory_order_release);
 	}
-	bool locker_awaiter::LockOnlyOne() noexcept {
-		if (onlyone__) return false;
-		wait_lock__();
-		lock__ = onlyone__ = true;
+	const bool locker_awaiter::IsLock() const {
+		return lock_.load(std::memory_order_acquire) || canceled_.load(std::memory_order_acquire);
+	}
+	const bool locker_awaiter::LockOnlyOne() {
+		if (onlyone_.load(std::memory_order_acquire)) return false;
+		wait_counter_();
+		lock_.store(true, std::memory_order_release);
+		onlyone_.store(true, std::memory_order_release);
 		return true;
 	}
-	const bool locker_awaiter::IsOnlyOne() noexcept {
-		return onlyone__;
+	const bool locker_awaiter::IsOnlyOne() const {
+		return onlyone_.load(std::memory_order_acquire);
 	}
-	void locker_awaiter::UnLock() noexcept {
-		lock__ = onlyone__ = false;
+	const bool locker_awaiter::IsCanceled() const {
+		return canceled_.load(std::memory_order_acquire);
 	}
 
-	const bool locker_awaiter::IsCanceled() noexcept {
-		return canceled__;
+	void locker_awaiter::UnLock() {
+		lock_.store(false, std::memory_order_release); 
+		onlyone_.store(false, std::memory_order_release);
 	}
 
 	void locker_awaiter::reset() {
-		canceled__ = true;
-		lock__ = onlyone__ = false;
+		canceled_.store(true, std::memory_order_release);
+		lock_.store(false, std::memory_order_release);
+		onlyone_.store(false, std::memory_order_release);
 		(void)InterlockedExchange__(&cnt, 0);
 	}
 
 	/* Busy mode */
 
 	void locker_awaiter::Begin() {
-		lock__ = true;
+		lock_.store(true, std::memory_order_release);
 	}
 	void locker_awaiter::End() {
-		lock__ = false;
+		lock_.store(false, std::memory_order_release);
 	}
 }

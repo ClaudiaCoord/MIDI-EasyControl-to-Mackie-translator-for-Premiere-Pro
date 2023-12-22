@@ -18,10 +18,10 @@ namespace Common {
 		class AudioSessionUnit
 		{
 		private:
-			std::forward_list<std::size_t> applist__;
-			MIDI::MidiUnit& unit__;
-			const MIDI::MidiUnitType type__;
-			const uint32_t id__;
+			std::forward_list<std::size_t> applist_;
+			MIDI::MidiUnit& unit_;
+			const MIDI::MidiUnitType type_;
+			const uint32_t id_;
 
 		public:
 
@@ -31,13 +31,16 @@ namespace Common {
 			const uint32_t				GetId() const;
 			const uint8_t				GetVolume();
 			const bool					GetMute();
-			ItemIdPair					GetData();
+			ItemIdPair_t				GetData();
 			const bool					AppFound(std::size_t);
 
 			void						UpdateVolume(uint8_t, bool);
 
 			log_string to_string();
 		};
+
+		typedef std::shared_ptr<AudioSessionUnit> ASUNIT_t;
+		typedef std::vector<ASUNIT_t> AULIST_t;
 	}
 }
 

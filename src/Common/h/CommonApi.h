@@ -12,8 +12,11 @@
 
 #pragma once
 
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <windowsx.h>
+#include <shellapi.h>
 #include <timeapi.h>
 
 #include <atomic>
@@ -37,6 +40,9 @@
 #include <utility>
 #include <format>
 #include <array>
+#include <shared_mutex>
+#include <any>
+#include <type_traits>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include <atlbase.h>
@@ -45,12 +51,18 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
-typedef std::function<void(const std::wstring&)> logFnType;
+#include <commctrl.h>
+#include <comdef.h>
+
+typedef std::function<void(const std::wstring&)> callFromlog_t;
 
 #define EXPORT comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__)
 #define CHECK_LPWSTRING(a) (bool)((a != nullptr) && (wcslen(a) > 0))
-#define _BOOL_TOLOG(A,B) " " << A << "=" << (B) << ","
-#define BOOL_TOLOG(A) _BOOL_TOLOG(#A, A ? "yes" : "no")
+#define BOOL_TOLOG_(A,B) " " << A << "=" << (B) << ","
+#define BOOL_TOLOG(A) BOOL_TOLOG_(#A, A ? "yes" : "no")
+
+#define max_(a,b) (((a) > (b)) ? (a) : (b))
+#define min_(a,b) (((a) < (b)) ? (a) : (b))
 
 #if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__)
 static_assert(sizeof(void*) == 8, "Error: is not 64 bit platform");

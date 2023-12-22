@@ -18,11 +18,11 @@ namespace Common {
 		template<typename T, VolumeKeyType KT>
 		class AudioSessionMixerVolume {
 		private:
-			AudioSessionMixer& mix__;
+			AudioSessionMixer* mix_;
 
 		public:
 
-			AudioSessionMixerVolume();
+			AudioSessionMixerVolume(AudioSessionMixer*);
 
 			FLAG_EXPORT void  SetVolume(const T key, uint8_t v);
 			FLAG_EXPORT void  SetVolume(const T key, float v);
@@ -36,10 +36,11 @@ namespace Common {
 
 		class FLAG_EXPORT AudioSessionMixerVolumeGroup {
 		public:
-			AudioSessionMixerVolume<GUID,			VolumeKeyType::GUID_ID_KEY>		ByGuid{};
-			AudioSessionMixerVolume<uint32_t,		VolumeKeyType::MIDI_ID_KEY>		ByMidiId{};
-			AudioSessionMixerVolume<std::size_t,	VolumeKeyType::APP_ID_KEY>		ByAppId{};
-			AudioSessionMixerVolume<std::wstring,	VolumeKeyType::APP_NAME_KEY>	ByAppName{};
+			AudioSessionMixerVolumeGroup(AudioSessionMixer*);
+			AudioSessionMixerVolume<GUID,			VolumeKeyType::GUID_ID_KEY>		ByGuid;
+			AudioSessionMixerVolume<uint32_t,		VolumeKeyType::MIDI_ID_KEY>		ByMidiId;
+			AudioSessionMixerVolume<std::size_t,	VolumeKeyType::APP_ID_KEY>		ByAppId;
+			AudioSessionMixerVolume<std::wstring,	VolumeKeyType::APP_NAME_KEY>	ByAppName;
 		};
 
 		extern template AudioSessionMixerVolume<GUID,			VolumeKeyType::GUID_ID_KEY>;

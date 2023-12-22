@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
-LANGUAGE LANG_FRISIAN, SUBLANG_DEFAULT
+LANGUAGE LANG_FRISIAN, SUBLANG_FRISIAN_NETHERLANDS
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "MIDI Mackie oersetter"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Ynformaasje", IDM_GO_INFO
-        MENUITEM "&Audiomixer", IDM_GO_MIXER
-        POPUP "& Monitoring"
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Ynformaasje",                 IDM_GO_INFO
+        MENUITEM "&Audiomixer",               IDM_GO_MIXER
+        POPUP "&Monitoring"
         BEGIN
-            MENUITEM "& Monitor", IDM_GO_MONITOR
-            MENUITEM "&Logboekbestân sjen", IDM_GO_VIEWLOG
+            MENUITEM "&Monitor",		IDM_GO_MONITOR
+            MENUITEM "&Logboekbestân sjen",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Ynstellings", IDM_GO_CONFIGURE
+        MENUITEM "&Ynstellings",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "Start", IDM_GO_START
-        MENUITEM "Ophâlde", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "Start",                      IDM_GO_START
+        MENUITEM "Ophâlde",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Útgong", IDM_EXIT
+        MENUITEM "Útgong",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "útgong",					DLG_EXIT
+    MENUITEM "grutter",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "lytser",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "oan it begjin",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "Oan it ein",					DLG_LOGVIEW_MENU_END
+    MENUITEM "opklearje",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "konfiguraasje"
+    BEGIN
+	MENUITEM "lit alle konfiguraasje sjen",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "show MIDI konfiguraasje",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "show MQTT konfiguraasje",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "show MMKEYS konfiguraasje",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "show LIGTS konfiguraasje",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "show DMX512 konfiguraasje",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "show ArtNet konfiguraasje",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "plugins"
+    BEGIN
+	MENUITEM "plugin statistiken",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "start",				DLG_GO_START
+    MENUITEM "ophâlde",				DLG_GO_STOP
+    MENUITEM "bewarje ynstellings",		DLG_SAVE
+    MENUITEM "help",				DLG_GO_HELP
+    POPUP "taal"
+    BEGIN
+	MENUITEM "auto",			DLG_LANG_MENU_0
+    END
+    MENUITEM "lochboek",				DLG_GO_LOG
+    MENUITEM "útgong",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Lokaasje.."
         BEGIN
-            MENUITEM "Fertikaal lofts", IDM_VERT_LEFT
-            MENUITEM "Fertikaal rjochts", IDM_VERT_RIGHT
-            MENUITEM "Horizontaal boppe", IDM_HOR_TOP
-            MENUITEM "Horizontaal ûnder", IDM_HOR_BOTTOM
+            MENUITEM "Fertikaal lofts",	IDM_VERT_LEFT
+            MENUITEM "Fertikaal rjochts",	IDM_VERT_RIGHT
+            MENUITEM "Horizontaal boppe",	IDM_HOR_TOP
+            MENUITEM "Horizontaal ûnder",	IDM_HOR_BOTTOM
         END
         POPUP "Ûnderwerp.."
         BEGIN
-            MENUITEM "Metro", IDM_METRO
-            MENUITEM "Ljocht", IDM_LIGHT
-            MENUITEM "Tsjuster", IDM_DARK
-            MENUITEM "Retro", IDM_RETRO
-            MENUITEM "Modern", IDM_MODERN
+            MENUITEM "Metro",			IDM_METRO
+            MENUITEM "Ljocht",			IDM_LIGHT
+            MENUITEM "Tsjuster",			IDM_DARK
+            MENUITEM "Retro",			IDM_RETRO
+            MENUITEM "Modern",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Ynstelle", IDM_CUSTOM
-            MENUITEM "It opsetten fan in tema", IDM_CALLFORM_COLOR
+            MENUITEM "Oanpasber",		IDM_CUSTOM
+            MENUITEM "It opsetten fan in tema",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animaasje", IDM_ANIMATION
-        MENUITEM "&Applikaasjepaad", IDM_APP_PATH
-        MENUITEM "Binding & MIDI-kontrôles", IDM_MIDI_BIND
-        MENUITEM "Peak & Volume Meter", IDM_PEAK_METER
-        MENUITEM "Unthâld posysje", IDM_SAVE_POS
+        MENUITEM "&Animaasje",			IDM_ANIMATION
+        MENUITEM "&Applikaasjepaad",		IDM_APP_PATH
+        MENUITEM "Binding & MIDI-kontrôles",	IDM_MIDI_BIND
+        MENUITEM "Peak & Volume Meter",IDM_PEAK_METER
+        MENUITEM "Unthâld posysje",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Slute", IDM_CLOSE
+        MENUITEM "&Slute",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "Nije yngong", IDM_LV_NEW
+        MENUITEM "Nije yngong",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "Kopy", IDM_LV_COPY
-        MENUITEM "Ynfoegje", IDM_LV_PASTE, GRAYED
+        MENUITEM "Kopy",                  IDM_LV_COPY
+        MENUITEM "Ynfoegje",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Wiskje", IDM_LV_DELETE
+        MENUITEM "Wiskje",                     IDM_LV_DELETE
         POPUP "Ynstallearje as .."
         BEGIN
             MENUITEM "Kontrôle ferwiist nei audiomixer", IDM_LV_SET_MIXER
             MENUITEM "Kontrôles jilde foar multimediaknoppen", IDM_LV_SET_MMKEY
             MENUITEM "Kontrôle ferwiist nei in tûk hûs", IDM_LV_SET_MQTT
-            POPUP "Kontrôle ferwiist nei ljochtkontrôle"
-            BEGIN
-                MENUITEM "Kanaal 8 bit (standert)", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "Kanaal 16 bit (útwreide)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "Kontrôle ferwiist nei ljochtkontrôle"
+	    BEGIN
+		MENUITEM "Kanaal 8 bit (standert)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "Kanaal 16 bit (útwreide)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "Net tawiisd", IDM_LV_SET_NONE
+            MENUITEM "Net tawiisd",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Lês MIDI-koade ..", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Lês MIDI-koade ..",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
         POPUP "Regulators.."
         BEGIN
-            MENUITEM "Strip Regulator", IDM_COL3_SLIDER
+            MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Strip Regulator mei Inversion", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Circular regulator", IDM_COL3_FADER
+            MENUITEM "Circular regulator",          IDM_COL3_FADER
             MENUITEM "Circular regulator mei inversion", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Encoder", IDM_COL3_KNOB
-            MENUITEM "Encoder mei inversion", IDM_COL3_KNOBINVERT
+            MENUITEM "Encoder",                     IDM_COL3_KNOB
+            MENUITEM "Encoder mei inversion",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Net tawiisd", IDM_COL3_NONE
+            MENUITEM "Net tawiisd",               IDM_COL3_NONE
         END
         POPUP "Knoppen.."
         BEGIN
-            MENUITEM "Knop", IDM_COL3_BTN
+            MENUITEM "Knop",                      IDM_COL3_BTN
             MENUITEM "Switch knop, mei yndikaasje", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Net tawiisd", IDM_COL3_NONE
+            MENUITEM "Net tawiisd",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulators..", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Knoppen..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Regulators..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Knoppen..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontrôle ferwiist nei audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrôles jilde foar multimediaknoppen", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrôle ferwiist nei in tûk hûs", IDM_COL4_MQTTKEY
-        POPUP "Kontrôle ferwiist nei ljochtkontrôle"
-        BEGIN
-            MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrôle ferwiist nei ljochtkontrôle"
+	BEGIN
+	   MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Lûdkontrôle..."
         BEGIN
-            MENUITEM "Stil (master)", IDM_COL4_MAM
-            MENUITEM "Solo (master)", IDM_COL4_MAS
+            MENUITEM "Stil (master)",		IDM_COL4_MAM
+            MENUITEM "Solo (master)",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Geluidleas.."
             BEGIN
-                MENUITEM "kanaal 1", IDM_COL4_B21
-                MENUITEM "kanaal 2", IDM_COL4_B22
-                MENUITEM "kanaal 3", IDM_COL4_B23
-                MENUITEM "kanaal 4", IDM_COL4_B24
-                MENUITEM "kanaal 5", IDM_COL4_B25
-                MENUITEM "kanaal 6", IDM_COL4_B26
-                MENUITEM "kanaal 7", IDM_COL4_B27
-                MENUITEM "kanaal 8", IDM_COL4_B28
-                MENUITEM "kanaal 9", IDM_COL4_B29
+                MENUITEM "kanaal 1",                     IDM_COL4_B21
+                MENUITEM "kanaal 2",                     IDM_COL4_B22
+                MENUITEM "kanaal 3",                     IDM_COL4_B23
+                MENUITEM "kanaal 4",                     IDM_COL4_B24
+                MENUITEM "kanaal 5",                     IDM_COL4_B25
+                MENUITEM "kanaal 6",                     IDM_COL4_B26
+                MENUITEM "kanaal 7",                     IDM_COL4_B27
+                MENUITEM "kanaal 8",                     IDM_COL4_B28
+                MENUITEM "kanaal 9",                     IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "kanaal 1", IDM_COL4_B11
-                MENUITEM "kanaal 2", IDM_COL4_B12
-                MENUITEM "kanaal 3", IDM_COL4_B13
-                MENUITEM "kanaal 4", IDM_COL4_B14
-                MENUITEM "kanaal 5", IDM_COL4_B15
-                MENUITEM "kanaal 6", IDM_COL4_B16
-                MENUITEM "kanaal 7", IDM_COL4_B17
-                MENUITEM "kanaal 8", IDM_COL4_B18
-                MENUITEM "kanaal 9", IDM_COL4_B19
+                MENUITEM "kanaal 1",                     IDM_COL4_B11
+                MENUITEM "kanaal 2",                     IDM_COL4_B12
+                MENUITEM "kanaal 3",                     IDM_COL4_B13
+                MENUITEM "kanaal 4",                     IDM_COL4_B14
+                MENUITEM "kanaal 5",                     IDM_COL4_B15
+                MENUITEM "kanaal 6",                     IDM_COL4_B16
+                MENUITEM "kanaal 7",                     IDM_COL4_B17
+                MENUITEM "kanaal 8",                     IDM_COL4_B18
+                MENUITEM "kanaal 9",                     IDM_COL4_B19
             END
         END
         POPUP "Multimedia knoppen .."
         BEGIN
-            MENUITEM "Play / Pause", IDM_COL4_SYS_Play
-            MENUITEM "Ophâlde", IDM_COL4_SYS_Stop
-            MENUITEM "Foarige", IDM_COL4_SYS_Rewind
-            MENUITEM "Folgjende", IDM_COL4_SYS_Forward
-            MENUITEM "Opnimme", IDM_COL4_SYS_Record
-            MENUITEM "Up (joystick)", IDM_COL4_SYS_Up
-            MENUITEM "Down (joystick)", IDM_COL4_SYS_Down
-            MENUITEM "Rjochts (joystick)", IDM_COL4_SYS_Right
-            MENUITEM "Lofts (joystick)", IDM_COL4_SYS_Left
-            MENUITEM "Zoom yn", IDM_COL4_SYS_Zoom
-            MENUITEM "Skrobjen", IDM_COL4_SYS_Scrub
+            MENUITEM "Play / Pause",                IDM_COL4_SYS_Play
+            MENUITEM "Ophâlde",                        IDM_COL4_SYS_Stop
+            MENUITEM "Foarige",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Folgjende",                   IDM_COL4_SYS_Forward
+            MENUITEM "Opnimme",                      IDM_COL4_SYS_Record
+            MENUITEM "Up (joystick)",            IDM_COL4_SYS_Up
+            MENUITEM "Down (joystick)",             IDM_COL4_SYS_Down
+            MENUITEM "Rjochts (joystick)",           IDM_COL4_SYS_Right
+            MENUITEM "Lofts (joystick)",            IDM_COL4_SYS_Left
+            MENUITEM "Zoom yn",         IDM_COL4_SYS_Zoom
+            MENUITEM "Skrobjen",               IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro funksjes ..."
         BEGIN
             POPUP "Funksjes fan 'e standert knop ..."
             BEGIN
-                MENUITEM "Funksje 1", IDM_COL4_FUN11
-                MENUITEM "Funksje 2", IDM_COL4_FUN12
-                MENUITEM "Funksje 3", IDM_COL4_FUN13
-                MENUITEM "Funksje 4", IDM_COL4_FUN14
-                MENUITEM "Funksje 5", IDM_COL4_FUN15
-                MENUITEM "Funksje 6", IDM_COL4_FUN16
-                MENUITEM "Funksje 7", IDM_COL4_FUN17
-                MENUITEM "Funksje 8", IDM_COL4_FUN18
+                MENUITEM "Funksje 1",                   IDM_COL4_FUN11
+                MENUITEM "Funksje 2",                   IDM_COL4_FUN12
+                MENUITEM "Funksje 3",                   IDM_COL4_FUN13
+                MENUITEM "Funksje 4",                   IDM_COL4_FUN14
+                MENUITEM "Funksje 5",                   IDM_COL4_FUN15
+                MENUITEM "Funksje 6",                   IDM_COL4_FUN16
+                MENUITEM "Funksje 7",                   IDM_COL4_FUN17
+                MENUITEM "Funksje 8",                   IDM_COL4_FUN18
             END
             POPUP "Funksjes fan ien-touch knop ..."
             BEGIN
-                MENUITEM "Funksje 1", IDM_COL4_FUN21
-                MENUITEM "Funksje 2", IDM_COL4_FUN22
-                MENUITEM "Funksje 3", IDM_COL4_FUN23
-                MENUITEM "Funksje 4", IDM_COL4_FUN24
-                MENUITEM "Funksje 5", IDM_COL4_FUN25
-                MENUITEM "Funksje 6", IDM_COL4_FUN26
-                MENUITEM "Funksje 7", IDM_COL4_FUN27
-                MENUITEM "Funksje 8", IDM_COL4_FUN28
+                MENUITEM "Funksje 1",                   IDM_COL4_FUN21
+                MENUITEM "Funksje 2",                   IDM_COL4_FUN22
+                MENUITEM "Funksje 3",                   IDM_COL4_FUN23
+                MENUITEM "Funksje 4",                   IDM_COL4_FUN24
+                MENUITEM "Funksje 5",                   IDM_COL4_FUN25
+                MENUITEM "Funksje 6",                   IDM_COL4_FUN26
+                MENUITEM "Funksje 7",                   IDM_COL4_FUN27
+                MENUITEM "Funksje 8",                   IDM_COL4_FUN28
             END
         END
         POPUP "Knoppen yn it Smart Home-systeem .."
         BEGIN
-            MENUITEM "oan/út 1", IDM_COL4_B11
-            MENUITEM "oan/út 2", IDM_COL4_B12
-            MENUITEM "oan/út 3", IDM_COL4_B13
-            MENUITEM "oan/út 4", IDM_COL4_B14
-            MENUITEM "oan/út 5", IDM_COL4_B15
-            MENUITEM "oan/út 6", IDM_COL4_B16
-            MENUITEM "oan/út 7", IDM_COL4_B17
-            MENUITEM "oan/út 8", IDM_COL4_B18
-            MENUITEM "oan/út 9", IDM_COL4_B19
-            MENUITEM "oan/út 10", IDM_COL4_B21
-            MENUITEM "oan/út 11", IDM_COL4_B22
-            MENUITEM "oan/út 12", IDM_COL4_B23
-            MENUITEM "oan/út 13", IDM_COL4_B24
-            MENUITEM "oan/út 14", IDM_COL4_B25
-            MENUITEM "oan/út 15", IDM_COL4_B26
-            MENUITEM "oan/út 16", IDM_COL4_B27
-            MENUITEM "oan/út 17", IDM_COL4_B28
-            MENUITEM "oan/út 18", IDM_COL4_B29
-            MENUITEM "oan/út 19", IDM_COL4_B31
-            MENUITEM "oan/út 20", IDM_COL4_B32
-            MENUITEM "oan/út 21", IDM_COL4_B33
-            MENUITEM "oan/út 22", IDM_COL4_B34
-            MENUITEM "oan/út 23", IDM_COL4_B35
-            MENUITEM "oan/út 24", IDM_COL4_B36
-            MENUITEM "oan/út 25", IDM_COL4_B37
-            MENUITEM "oan/út 26", IDM_COL4_B38
-            MENUITEM "oan/út 27", IDM_COL4_B39
+                MENUITEM "oan/út 1",                 IDM_COL4_B11
+                MENUITEM "oan/út 2",                 IDM_COL4_B12
+                MENUITEM "oan/út 3",                 IDM_COL4_B13
+                MENUITEM "oan/út 4",                 IDM_COL4_B14
+                MENUITEM "oan/út 5",                 IDM_COL4_B15
+                MENUITEM "oan/út 6",                 IDM_COL4_B16
+                MENUITEM "oan/út 7",                 IDM_COL4_B17
+                MENUITEM "oan/út 8",                 IDM_COL4_B18
+                MENUITEM "oan/út 9",                 IDM_COL4_B19
+                MENUITEM "oan/út 10",                 IDM_COL4_B21
+                MENUITEM "oan/út 11",                 IDM_COL4_B22
+                MENUITEM "oan/út 12",                 IDM_COL4_B23
+                MENUITEM "oan/út 13",                 IDM_COL4_B24
+                MENUITEM "oan/út 14",                 IDM_COL4_B25
+                MENUITEM "oan/út 15",                 IDM_COL4_B26
+                MENUITEM "oan/út 16",                 IDM_COL4_B27
+                MENUITEM "oan/út 17",                 IDM_COL4_B28
+                MENUITEM "oan/út 18",                 IDM_COL4_B29
+                MENUITEM "oan/út 19",                 IDM_COL4_B31
+                MENUITEM "oan/út 20",                 IDM_COL4_B32
+                MENUITEM "oan/út 21",                 IDM_COL4_B33
+                MENUITEM "oan/út 22",                 IDM_COL4_B34
+                MENUITEM "oan/út 23",                 IDM_COL4_B35
+                MENUITEM "oan/út 24",                 IDM_COL4_B36
+                MENUITEM "oan/út 25",                 IDM_COL4_B37
+                MENUITEM "oan/út 26",                 IDM_COL4_B38
+                MENUITEM "oan/út 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontrôle ferwiist nei audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrôles jilde foar multimediaknoppen", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrôle ferwiist nei in tûk hûs", IDM_COL4_MQTTKEY
-        POPUP "Kontrôle ferwiist nei ljochtkontrôle"
-        BEGIN
-            MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrôle ferwiist nei ljochtkontrôle"
+	BEGIN
+	   MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Encoder (frame-by-frame besjen)", IDM_COL4_JOG
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Lûdkontrôle..."
         BEGIN
-            MENUITEM "Volume (master)", IDM_COL4_MAV
-            MENUITEM "Balâns (master)", IDM_COL4_MAP
+            MENUITEM "Volume (master)",          IDM_COL4_MAV
+            MENUITEM "Balâns (master)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Folume.."
             BEGIN
-                MENUITEM "kanaal 1", IDM_COL4_AV1
-                MENUITEM "kanaal 2", IDM_COL4_AV2
-                MENUITEM "kanaal 3", IDM_COL4_AV3
-                MENUITEM "kanaal 4", IDM_COL4_AV4
-                MENUITEM "kanaal 5", IDM_COL4_AV5
-                MENUITEM "kanaal 6", IDM_COL4_AV6
-                MENUITEM "kanaal 7", IDM_COL4_AV7
-                MENUITEM "kanaal 8", IDM_COL4_AV8
-                MENUITEM "kanaal 9", IDM_COL4_XV9
+                MENUITEM "kanaal 1",                     IDM_COL4_AV1
+                MENUITEM "kanaal 2",                     IDM_COL4_AV2
+                MENUITEM "kanaal 3",                     IDM_COL4_AV3
+                MENUITEM "kanaal 4",                     IDM_COL4_AV4
+                MENUITEM "kanaal 5",                     IDM_COL4_AV5
+                MENUITEM "kanaal 6",                     IDM_COL4_AV6
+                MENUITEM "kanaal 7",                     IDM_COL4_AV7
+                MENUITEM "kanaal 8",                     IDM_COL4_AV8
+                MENUITEM "kanaal 9",                     IDM_COL4_XV9
             END
             POPUP "Lykwicht.."
             BEGIN
-                MENUITEM "kanaal 1", IDM_COL4_AP1
-                MENUITEM "kanaal 2", IDM_COL4_AP2
-                MENUITEM "kanaal 3", IDM_COL4_AP3
-                MENUITEM "kanaal 4", IDM_COL4_AP4
-                MENUITEM "kanaal 5", IDM_COL4_AP5
-                MENUITEM "kanaal 6", IDM_COL4_AP6
-                MENUITEM "kanaal 7", IDM_COL4_AP7
-                MENUITEM "kanaal 8", IDM_COL4_AP8
-                MENUITEM "kanaal 9", IDM_COL4_XP9
+                MENUITEM "kanaal 1",                     IDM_COL4_AP1
+                MENUITEM "kanaal 2",                     IDM_COL4_AP2
+                MENUITEM "kanaal 3",                     IDM_COL4_AP3
+                MENUITEM "kanaal 4",                     IDM_COL4_AP4
+                MENUITEM "kanaal 5",                     IDM_COL4_AP5
+                MENUITEM "kanaal 6",                     IDM_COL4_AP6
+                MENUITEM "kanaal 7",                     IDM_COL4_AP7
+                MENUITEM "kanaal 8",                     IDM_COL4_AP8
+                MENUITEM "kanaal 9",                     IDM_COL4_XP9
             END
         END
-        POPUP "Regulators yn it \\Smart Home\\ systeem .."
+        POPUP "Regulators yn it “Smart Home” systeem .."
         BEGIN
-            MENUITEM "nivo 1", IDM_COL4_AV1
-            MENUITEM "nivo 2", IDM_COL4_AV2
-            MENUITEM "nivo 3", IDM_COL4_AV3
-            MENUITEM "nivo 4", IDM_COL4_AV4
-            MENUITEM "nivo 5", IDM_COL4_AV5
-            MENUITEM "nivo 6", IDM_COL4_AV6
-            MENUITEM "nivo 7", IDM_COL4_AV7
-            MENUITEM "nivo 8", IDM_COL4_AV8
-            MENUITEM "nivo 9", IDM_COL4_XV9
-            MENUITEM "nivo 10", IDM_COL4_AP1
-            MENUITEM "nivo 11", IDM_COL4_AP2
-            MENUITEM "nivo 12", IDM_COL4_AP3
-            MENUITEM "nivo 13", IDM_COL4_AP4
-            MENUITEM "nivo 14", IDM_COL4_AP5
-            MENUITEM "nivo 15", IDM_COL4_AP6
-            MENUITEM "nivo 16", IDM_COL4_AP7
-            MENUITEM "nivo 17", IDM_COL4_AP8
-            MENUITEM "nivo 18", IDM_COL4_XP9
+                MENUITEM "nivo 1",              IDM_COL4_AV1
+                MENUITEM "nivo 2",              IDM_COL4_AV2
+                MENUITEM "nivo 3",              IDM_COL4_AV3
+                MENUITEM "nivo 4",              IDM_COL4_AV4
+                MENUITEM "nivo 5",              IDM_COL4_AV5
+                MENUITEM "nivo 6",              IDM_COL4_AV6
+                MENUITEM "nivo 7",              IDM_COL4_AV7
+                MENUITEM "nivo 8",              IDM_COL4_AV8
+                MENUITEM "nivo 9",              IDM_COL4_XV9
+                MENUITEM "nivo 10",              IDM_COL4_AP1
+                MENUITEM "nivo 11",              IDM_COL4_AP2
+                MENUITEM "nivo 12",              IDM_COL4_AP3
+                MENUITEM "nivo 13",              IDM_COL4_AP4
+                MENUITEM "nivo 14",              IDM_COL4_AP5
+                MENUITEM "nivo 15",              IDM_COL4_AP6
+                MENUITEM "nivo 16",              IDM_COL4_AP7
+                MENUITEM "nivo 17",              IDM_COL4_AP8
+                MENUITEM "nivo 18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontrôle ferwiist nei audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrôles jilde foar multimediaknoppen", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrôle ferwiist nei in tûk hûs", IDM_COL4_MQTTKEY
-        POPUP "Kontrôle ferwiist nei ljochtkontrôle"
-        BEGIN
-            MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrôle ferwiist nei ljochtkontrôle"
+	BEGIN
+	   MENUITEM "Kanaal 8 bit (standert)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanaal 16 bit (útwreide)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Volume (master)", IDM_COL4_MAV
-        MENUITEM "Encoder (JOG)", IDM_COL4_JOG
+        MENUITEM "Volume (master)",          IDM_COL4_MAV
+        MENUITEM "Encoder (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Folume.."
         BEGIN
-            MENUITEM "kanaal 1", IDM_COL4_AV1
-            MENUITEM "kanaal 2", IDM_COL4_AV2
-            MENUITEM "kanaal 3", IDM_COL4_AV3
-            MENUITEM "kanaal 4", IDM_COL4_AV4
-            MENUITEM "kanaal 5", IDM_COL4_AV5
-            MENUITEM "kanaal 6", IDM_COL4_AV6
-            MENUITEM "kanaal 7", IDM_COL4_AV7
-            MENUITEM "kanaal 8", IDM_COL4_AV8
-            MENUITEM "kanaal 9", IDM_COL4_XV9
-            MENUITEM "kanaal 10", IDM_COL4_AP1
-            MENUITEM "kanaal 11", IDM_COL4_AP2
-            MENUITEM "kanaal 12", IDM_COL4_AP3
-            MENUITEM "kanaal 13", IDM_COL4_AP4
-            MENUITEM "kanaal 14", IDM_COL4_AP5
-            MENUITEM "kanaal 15", IDM_COL4_AP6
-            MENUITEM "kanaal 16", IDM_COL4_AP7
-            MENUITEM "kanaal 17", IDM_COL4_AP8
-            MENUITEM "kanaal 18", IDM_COL4_XP9
+            MENUITEM "kanaal 1",                     IDM_COL4_AV1
+            MENUITEM "kanaal 2",                     IDM_COL4_AV2
+            MENUITEM "kanaal 3",                     IDM_COL4_AV3
+            MENUITEM "kanaal 4",                     IDM_COL4_AV4
+            MENUITEM "kanaal 5",                     IDM_COL4_AV5
+            MENUITEM "kanaal 6",                     IDM_COL4_AV6
+            MENUITEM "kanaal 7",                     IDM_COL4_AV7
+            MENUITEM "kanaal 8",                     IDM_COL4_AV8
+            MENUITEM "kanaal 9",			    IDM_COL4_XV9
+            MENUITEM "kanaal 10",                    IDM_COL4_AP1
+            MENUITEM "kanaal 11",                    IDM_COL4_AP2
+            MENUITEM "kanaal 12",                    IDM_COL4_AP3
+            MENUITEM "kanaal 13",                    IDM_COL4_AP4
+            MENUITEM "kanaal 14",                    IDM_COL4_AP5
+            MENUITEM "kanaal 15",                    IDM_COL4_AP6
+            MENUITEM "kanaal 16",                    IDM_COL4_AP7
+            MENUITEM "kanaal 17",                    IDM_COL4_AP8
+            MENUITEM "kanaal 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "Stil (master)", IDM_COL4_MAM
+        MENUITEM "Stil (master)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "Geluidleas.."
         BEGIN
-            MENUITEM "kanaal 1", IDM_COL4_B21
-            MENUITEM "kanaal 2", IDM_COL4_B22
-            MENUITEM "kanaal 3", IDM_COL4_B23
-            MENUITEM "kanaal 4", IDM_COL4_B24
-            MENUITEM "kanaal 5", IDM_COL4_B25
-            MENUITEM "kanaal 6", IDM_COL4_B26
-            MENUITEM "kanaal 7", IDM_COL4_B27
-            MENUITEM "kanaal 8", IDM_COL4_B28
-            MENUITEM "kanaal 9", IDM_COL4_B29
+            MENUITEM "kanaal 1",                     IDM_COL4_B21
+            MENUITEM "kanaal 2",                     IDM_COL4_B22
+            MENUITEM "kanaal 3",                     IDM_COL4_B23
+            MENUITEM "kanaal 4",                     IDM_COL4_B24
+            MENUITEM "kanaal 5",                     IDM_COL4_B25
+            MENUITEM "kanaal 6",                     IDM_COL4_B26
+            MENUITEM "kanaal 7",                     IDM_COL4_B27
+            MENUITEM "kanaal 8",                     IDM_COL4_B28
+            MENUITEM "kanaal 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Play / Pause", IDM_COL4_SYS_Play
-        MENUITEM "Ophâlde", IDM_COL4_SYS_Stop
-        MENUITEM "Foarige", IDM_COL4_SYS_Rewind
-        MENUITEM "Folgjende", IDM_COL4_SYS_Forward
-        MENUITEM "Opnimme", IDM_COL4_SYS_Record
-        MENUITEM "Up (joystick)", IDM_COL4_SYS_Up
-        MENUITEM "Down (joystick)", IDM_COL4_SYS_Down
-        MENUITEM "Rjochts (joystick)", IDM_COL4_SYS_Right
-        MENUITEM "Lofts (joystick)", IDM_COL4_SYS_Left
-        MENUITEM "Zoom yn", IDM_COL4_SYS_Zoom
-        MENUITEM "Skrobjen", IDM_COL4_SYS_Scrub
+        MENUITEM "Play / Pause",                IDM_COL4_SYS_Play
+        MENUITEM "Ophâlde",                        IDM_COL4_SYS_Stop
+        MENUITEM "Foarige",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Folgjende",                   IDM_COL4_SYS_Forward
+        MENUITEM "Opnimme",                      IDM_COL4_SYS_Record
+        MENUITEM "Up (joystick)",           IDM_COL4_SYS_Up
+        MENUITEM "Down (joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "Rjochts (joystick)",           IDM_COL4_SYS_Right
+        MENUITEM "Lofts (joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "Zoom yn",         IDM_COL4_SYS_Zoom
+        MENUITEM "Skrobjen",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "nivo 1", IDM_COL4_AV1
-        MENUITEM "nivo 2", IDM_COL4_AV2
-        MENUITEM "nivo 3", IDM_COL4_AV3
-        MENUITEM "nivo 4", IDM_COL4_AV4
-        MENUITEM "nivo 5", IDM_COL4_AV5
-        MENUITEM "nivo 6", IDM_COL4_AV6
-        MENUITEM "nivo 7", IDM_COL4_AV7
-        MENUITEM "nivo 8", IDM_COL4_AV8
-        MENUITEM "nivo 9", IDM_COL4_XV9
-        MENUITEM "nivo 10", IDM_COL4_AP1
-        MENUITEM "nivo 11", IDM_COL4_AP2
-        MENUITEM "nivo 12", IDM_COL4_AP3
-        MENUITEM "nivo 13", IDM_COL4_AP4
-        MENUITEM "nivo 14", IDM_COL4_AP5
-        MENUITEM "nivo 15", IDM_COL4_AP6
-        MENUITEM "nivo 16", IDM_COL4_AP7
-        MENUITEM "nivo 17", IDM_COL4_AP8
-        MENUITEM "nivo 18", IDM_COL4_XP9
+        MENUITEM "nivo 1",                    IDM_COL4_AV1
+        MENUITEM "nivo 2",                    IDM_COL4_AV2
+        MENUITEM "nivo 3",                    IDM_COL4_AV3
+        MENUITEM "nivo 4",                    IDM_COL4_AV4
+        MENUITEM "nivo 5",                    IDM_COL4_AV5
+        MENUITEM "nivo 6",                    IDM_COL4_AV6
+        MENUITEM "nivo 7",                    IDM_COL4_AV7
+        MENUITEM "nivo 8",                    IDM_COL4_AV8
+        MENUITEM "nivo 9",                    IDM_COL4_XV9
+        MENUITEM "nivo 10",                    IDM_COL4_AP1
+        MENUITEM "nivo 11",                    IDM_COL4_AP2
+        MENUITEM "nivo 12",                    IDM_COL4_AP3
+        MENUITEM "nivo 13",                    IDM_COL4_AP4
+        MENUITEM "nivo 14",                    IDM_COL4_AP5
+        MENUITEM "nivo 15",                    IDM_COL4_AP6
+        MENUITEM "nivo 16",                    IDM_COL4_AP7
+        MENUITEM "nivo 17",                    IDM_COL4_AP8
+        MENUITEM "nivo 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+        MENUITEM "Net tawiisd",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "oan/út 1", IDM_COL4_B11
-        MENUITEM "oan/út 2", IDM_COL4_B12
-        MENUITEM "oan/út 3", IDM_COL4_B13
-        MENUITEM "oan/út 4", IDM_COL4_B14
-        MENUITEM "oan/út 5", IDM_COL4_B15
-        MENUITEM "oan/út 6", IDM_COL4_B16
-        MENUITEM "oan/út 7", IDM_COL4_B17
-        MENUITEM "oan/út 8", IDM_COL4_B18
-        MENUITEM "oan/út 9", IDM_COL4_B19
-        MENUITEM "oan/út 10", IDM_COL4_B21
-        MENUITEM "oan/út 11", IDM_COL4_B22
-        MENUITEM "oan/út 12", IDM_COL4_B23
-        MENUITEM "oan/út 13", IDM_COL4_B24
-        MENUITEM "oan/út 14", IDM_COL4_B25
-        MENUITEM "oan/út 15", IDM_COL4_B26
-        MENUITEM "oan/út 16", IDM_COL4_B27
-        MENUITEM "oan/út 17", IDM_COL4_B28
-        MENUITEM "oan/út 18", IDM_COL4_B29
-        MENUITEM "oan/út 19", IDM_COL4_B31
-        MENUITEM "oan/út 20", IDM_COL4_B32
-        MENUITEM "oan/út 21", IDM_COL4_B33
-        MENUITEM "oan/út 22", IDM_COL4_B34
-        MENUITEM "oan/út 23", IDM_COL4_B35
-        MENUITEM "oan/út 24", IDM_COL4_B36
-        MENUITEM "oan/út 25", IDM_COL4_B37
-        MENUITEM "oan/út 26", IDM_COL4_B38
-        MENUITEM "oan/út 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "Net tawiisd", IDM_COL4_NONE
+    MENUITEM "oan/út 1",                     IDM_COL4_B11
+    MENUITEM "oan/út 2",                     IDM_COL4_B12
+    MENUITEM "oan/út 3",                     IDM_COL4_B13
+    MENUITEM "oan/út 4",                     IDM_COL4_B14
+    MENUITEM "oan/út 5",                     IDM_COL4_B15
+    MENUITEM "oan/út 6",                     IDM_COL4_B16
+    MENUITEM "oan/út 7",                     IDM_COL4_B17
+    MENUITEM "oan/út 8",                     IDM_COL4_B18
+    MENUITEM "oan/út 9",                     IDM_COL4_B19
+    MENUITEM "oan/út 10",                     IDM_COL4_B21
+    MENUITEM "oan/út 11",                     IDM_COL4_B22
+    MENUITEM "oan/út 12",                     IDM_COL4_B23
+    MENUITEM "oan/út 13",                     IDM_COL4_B24
+    MENUITEM "oan/út 14",                     IDM_COL4_B25
+    MENUITEM "oan/út 15",                     IDM_COL4_B26
+    MENUITEM "oan/út 16",                     IDM_COL4_B27
+    MENUITEM "oan/út 17",                     IDM_COL4_B28
+    MENUITEM "oan/út 18",                     IDM_COL4_B29
+    MENUITEM "oan/út 19",                     IDM_COL4_B31
+    MENUITEM "oan/út 20",                     IDM_COL4_B32
+    MENUITEM "oan/út 21",                     IDM_COL4_B33
+    MENUITEM "oan/út 22",                     IDM_COL4_B34
+    MENUITEM "oan/út 23",                     IDM_COL4_B35
+    MENUITEM "oan/út 24",                     IDM_COL4_B36
+    MENUITEM "oan/út 25",                     IDM_COL4_B37
+    MENUITEM "oan/út 26",                     IDM_COL4_B38
+    MENUITEM "oan/út 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Net tawiisd",                   IDM_COL4_NONE
     END
 END
 

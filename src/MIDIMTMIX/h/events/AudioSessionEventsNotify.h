@@ -19,11 +19,11 @@ namespace Common {
 		{
 		private:
 			LONG crefAll = 1L;
-			locker_awaiter lock__{};
-			std::function<AudioSessionItem* (IAudioSessionControl*&)> cbBuild;
+			locker_awaiter lock_{};
+			std::function<void(IAudioSessionControl*)> build_cb_;
 
 		public:
-			AudioSessionEventsNotify(std::function<AudioSessionItem* (IAudioSessionControl*&)>);
+			AudioSessionEventsNotify(std::function<void(IAudioSessionControl*)>);
 
 			const bool IsBusy() const;
 

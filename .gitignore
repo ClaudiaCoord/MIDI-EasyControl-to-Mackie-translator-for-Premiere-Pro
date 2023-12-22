@@ -47,7 +47,6 @@ x86/*
 x32/*
 
 /src/MIDIMT*-cache/*
-/src/EASYCTRL9/lib/teVirtualMIDI/*
 /src/MIDIMTLauncher/rc/msi/*
 /src/MIDIMTLauncher/cpp/MIDIMT-Launcher.cpp
 /docs/*.bak

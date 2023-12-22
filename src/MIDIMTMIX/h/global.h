@@ -13,12 +13,16 @@
 #pragma once
 
 #include "MIDIMTApi.h"
+#include "MIDIMTBRApi.h"
 
 #include <mmdeviceapi.h>
 #include <audiopolicy.h>
 #include <endpointvolume.h>
 
+#define FLAG_IMPORT
 #define FLAG_EXPORT __declspec(dllexport)
+#define FLAG_EXTERN extern
+
 #define KEY_DEVIDER 0.007874
 
 namespace Common {

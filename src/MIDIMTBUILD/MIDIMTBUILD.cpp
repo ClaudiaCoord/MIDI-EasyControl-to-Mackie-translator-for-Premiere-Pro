@@ -119,7 +119,7 @@ class writer {
             stream__ << s;
         }
         void write(const char* key, std::wstring s, std::wstring base, int i, int b) {
-            std::wstring w(key, key + strlen(key));
+            std::wstring w(key, key + std::strlen(key));
             std::size_t pos = w.find(s);
             stream__ << L"\t\terr" << w.substr(pos + s.size()) << L" = ";
             if (w._Equal(base))
@@ -154,11 +154,11 @@ class writer {
 
 int main() {
     try {
-        #define D_(A,B,C) w.write(A, B + C)
+        #define D_(A,B,C) w.write(A, B + C);
         #define D(A,B,C) D_(#A,B,C)
         #define TEXT_VERSION() VER_MAJOR << L"." << VER_MINOR << L"." << VER_SUB << L"." << VER_BUILD
 
-        writer w;
+        writer w{};
         std::wstring current_ver{};
         std::wstring publisher_ver{};
         if (w.open(L"Common\\rc\\resource_midimt.h", L"Common\\rc\\template\\resource_midimt_template.h")) {
@@ -176,7 +176,7 @@ int main() {
         if (w.open(L"Common\\rc\\resource_error_enum.h", L"Common\\rc\\template\\resource_error_id_template.h")) {
             w.write(L"\n#pragma once\n\nnamespace Common {\n\n\tenum class FLAG_EXPORT common_error_id : int {\n");
             #undef D_
-            #define D_(A,B,C) w.write(A, L"IDS_ERRORID", L"IDS_ERRORID_BASE", C, B)
+            #define D_(A,B,C) w.write(A, L"IDS_ERRORID", L"IDS_ERRORID_BASE", C, B);
             #include "..\Common\rc\template\resource_error_id_template.h"
             w.write(L"\n\t};\n}\n");
             w.close();

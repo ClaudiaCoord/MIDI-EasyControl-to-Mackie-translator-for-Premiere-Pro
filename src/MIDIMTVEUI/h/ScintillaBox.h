@@ -37,7 +37,6 @@ namespace Common {
 			bool islexer{ false };
 			sptr_t aline = 0, sline = 0, eline = 0;
 
-			std::string trim_(std::string);
 			std::string get_text_(sptr_t, sptr_t);
 			const bool  if_readoly(const bool, bool = false);
 			void buildlexer_style_(lexer_select);
@@ -75,8 +74,6 @@ namespace Common {
 			void buildlist(const std::string_view&, bool = true, uint8_t = 0U);
 			void startnewline();
 
-			std::string trim(std::string);
-
 			void zoomin();
 			void zoomout();
 			void gostart();
@@ -90,6 +87,7 @@ namespace Common {
 			std::string get();
 			void set(const std::string&);
 			void set(const std::wstring&);
+			void append(const std::wstring&);
 
 			void set_annotation(const std::string&);
 			void clear_annotation();

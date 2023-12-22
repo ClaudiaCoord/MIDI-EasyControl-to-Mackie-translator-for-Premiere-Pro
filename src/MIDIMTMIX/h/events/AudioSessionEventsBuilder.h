@@ -18,10 +18,10 @@ namespace Common {
         class AudioSessionEventsBuilder
         {
         private:
-            Common::MIXER::AudioSessionEvents*  ptr_se__;
-            Common::MIXER::AudioEndPointEvents* ptr_ae__;
-            std::atomic<bool> isdelete_se__;
-            std::atomic<bool> isdelete_ae__;
+            Common::MIXER::AudioSessionEvents*  ptr_se_;
+            Common::MIXER::AudioEndPointEvents* ptr_ae_;
+            std::atomic<bool> isdelete_se_;
+            std::atomic<bool> isdelete_ae_;
 
         public:
 

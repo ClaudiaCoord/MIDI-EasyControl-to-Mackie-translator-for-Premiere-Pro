@@ -16,108 +16,393 @@ namespace Common {
 	namespace MIDIMT {
 
 		DialogLogView::DialogLogView() {
-			mcb_.Init(IDC_IEVENT_LOG, IDC_IEVENT_MONITOR);
-			mcb_.HwndCb = [=]() { return hwnd_.get(); };
-		}
-		DialogLogView::~DialogLogView() {
-			mcb_.Clear();
+			CbEvent::GetHwndCb = [=]() { return hwnd_.get(); };
 		}
 
-		const bool DialogLogView::IsRunOnce() {
-			return !hwnd_;
-		}
-		void DialogLogView::SetFocus() {
-			if (hwnd_) (void) ::SetFocus(hwnd_.get());
-		}
-		void DialogLogView::EventLog(CbEventData* data) {
+		void DialogLogView::dispose_() {
 			try {
-				if (data == nullptr)  return;
-				CbEventDataDeleter d = data->GetDeleter();
-				if (!hwnd_ || !editor_) return;
-				if (data->GetType() != CbHWNDType::TYPE_CB_LOG) return;
-				std::wstring ws = (log_string() << data->Get<std::wstring>().c_str() << L"\n").str();
-				editor_->set(ws);
-			} catch (...) {}
-		}
+				IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
+				CbEvent::Init(-1);
 
-		void DialogLogView::InitDialog(HWND h) {
+				editor_.reset();
+				hwed_.reset();
+				hwnd_.reset();
+
+			} catch(...) {}
+			isload_ = false;
+		}
+		void DialogLogView::init_() {
 			try {
 				editor_ = std::make_unique<UI::ScintillaBox>();
 
 				RECT r{};
-				::GetClientRect(h, &r);
+				::GetClientRect(hwnd_, &r);
 
 				HINSTANCE hi = LangInterface::Get().GetMainHinstance();
-				HWND h_ = CreateWindowExW(0,
-					L"Scintilla", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_CLIPCHILDREN,
-					r.left, r.top, r.right - r.left, r.bottom - r.top,
-					h, 0, hi, 0);
+				hwed_.reset(
+					CreateWindowExW(0,
+						L"Scintilla", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_CLIPCHILDREN,
+						r.left, r.top, r.right - r.left, r.bottom - r.top,
+						hwnd_, 0, hi, 0),
+					&DialogLogView::event_edit_,
+					0U,
+					reinterpret_cast<DWORD_PTR>(this)
+				);
 
-				::SetWindowSubclass(h_, &DialogLogView::event_edit_, 0, reinterpret_cast<DWORD_PTR>(this));
-				
-				hwnd_.reset(h_);
+				if (!hwed_) return;
+
 				std::wstring path{};
 				{
-					wchar_t cpath[MAX_PATH + 1]{};
-					if (::GetModuleFileNameW(hi, cpath, MAX_PATH) > 0) {
-						std::filesystem::path p = std::filesystem::path(cpath).parent_path();
+					std::filesystem::path p = std::filesystem::path(Utils::app_dir(LangInterface::Get().GetMainHinstance())).parent_path();
+					if (!p.empty()) {
 						p.append(to_log::Get().logname());
-						if (std::filesystem::exists(p)) path = p.wstring();
+						if (std::filesystem::exists(p))
+							path = p.wstring();
 					}
 				}
-				editor_->init(hwnd_, path);
-				to_log::Get().registred(mcb_.GetCbLog());
-				if (!common_config::Get().Local.IsMidiBridgeRun())
-					mcb_.AddToLog(LangInterface::Get().GetString(IDS_DLG_MSG12));
+
+				editor_->init(hwed_, path);
+				build_MenuPluginList_();
+
+				isload_ = true;
+
+				CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
+				IO::IOBridge::Get().SetCb(*static_cast<CbEvent*>(this));
+
+				if (IO::IOBridge::Get().IsStoped())
+					editor_->set(LangInterface::Get().GetString(STRING_LOGV_MSG1));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		void DialogLogView::EndDialog() {
+		void DialogLogView::build_MenuPluginList_() {
 			try {
-				to_log::Get().unregistred(mcb_.GetCbLog());
-				::RemoveWindowSubclass(hwnd_, &DialogLogView::event_edit_, 0);
-				hwnd_.reset();
-				editor_.reset();
+				if (!hwnd_) return;
+
+				HMENU hm, hmp;
+				if (!(hm = ::GetMenu(hwnd_)) || !(hmp = ::GetSubMenu(hm, 7))) return;
+
+				IO::IOBridge& br = IO::IOBridge::Get();
+				for (uint16_t i = 0, n = 0; i < br.PluginCount(); i++) {
+					try {
+						IO::plugin_t& p = br[i];
+						if (p->empty()) continue;
+
+						IO::PluginInfo& pi = p.get()->GetPluginInfo();
+						uint16_t cmd = (DLG_PLUGSTAT_MENU_0 + n++);
+
+						(void) ::AppendMenuW(hmp, MF_STRING | MF_ENABLED, cmd, (LPCWSTR)pi.Name().c_str());
+						if (!p->started())
+							(void) ::EnableMenuItem(hmp, cmd, MF_GRAYED | MF_BYCOMMAND);
+
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+				}
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
 
-		void DialogLogView::zoomin() {
+		void DialogLogView::zoomin_() {
 			if (editor_) editor_->zoomin();
 		}
-		void DialogLogView::zoomout() {
+		void DialogLogView::zoomout_() {
 			if (editor_) editor_->zoomout();
 		}
-		void DialogLogView::gostart() {
+		void DialogLogView::gostart_() {
 			if (editor_) editor_->gostart();
 		}
-		void DialogLogView::goend() {
+		void DialogLogView::goend_() {
 			if (editor_) editor_->goend();
 		}
-		void DialogLogView::clear() {
+		void DialogLogView::clear_() {
 			if (editor_) editor_->clear();
 		}
 
-		void DialogLogView::sc_event(LPNMHDR hdr) {
-			if (!hwnd_ || !hdr || !editor_) return;
+		IO::PluginUi* DialogLogView::GetUi() {
+			return static_cast<IO::PluginUi*>(this);
+		}
+
+		const bool DialogLogView::IsRunOnce() {
+			return !hwnd_ && !isload_;
+		}
+		void DialogLogView::SetFocus() {
+			if (hwnd_) (void) ::SetFocus(hwnd_);
+		}
+
+		#pragma region Change On events
+		void DialogLogView::event_Log_(CbEventData* data) {
+			event_Text_(data, CbHWNDType::TYPE_CB_LOG);
+		}
+		void DialogLogView::event_Monitor_(CbEventData* data) {
+			event_Text_(data, CbHWNDType::TYPE_CB_MON);
+		}
+		void DialogLogView::event_Text_(CbEventData* data, CbHWNDType t) {
 			try {
-				if (hdr->hwndFrom != hwnd_) return;
+				if (!data) return;
+				CbEventDataDeleter d = data->GetDeleter();
+				if (!hwnd_ || !editor_ || (d.GetData()->GetType() != t)) return;
+				std::wstring ws = (log_string() << d.GetData()->Get<std::wstring>().c_str() << L"\n").str();
+				editor_->set(ws);
+			} catch (...) {}
+		}
+		void DialogLogView::event_Config_(std::wstring title, std::wstring s) {
+			try {
+				if (s.empty() || !hwed_ || !editor_) return;
+				editor_->append(title);
+				editor_->append(s);
+			} catch (...) {}
+		}
+		void DialogLogView::event_Scint_(LPNMHDR hdr) {
+			try {
+				if (!hdr || !hwed_ || !editor_ || (hdr->hwndFrom != hwed_)) return;
 				editor_->sc_event(hdr);
 			} catch (...) {}
 		}
+		void DialogLogView::event_Stat_(uint16_t idx) {
+			try {
+				if (!hwed_ || !editor_ || (idx < DLG_PLUGSTAT_MENU_0)) return;
+
+				IO::IOBridge& br = IO::IOBridge::Get();
+				IO::plugin_t& p = br[(idx - DLG_PLUGSTAT_MENU_0)];
+				if (p->empty()) return;
+
+				IO::PluginInfo& pi = p.get()->GetPluginInfo();
+				log_string ls{};
+				ls << L"\n[" << pi.Name().c_str() << L"]\n";
+
+				auto& list = p.get()->GetDeviceList();
+				if (list.empty())
+					ls << L"\t\t" << LangInterface::Get().GetString(IDS_ERRORID_EMPTY) << L"\n";
+				else {
+					uint16_t i = 1;
+					for (auto& a : list)
+						ls << L"\t" << i++ << L") [" << a.first << L"] - " << a.second.c_str() << L"\n";
+				}
+				editor_->append(ls.str());
+
+			} catch (...) {}
+		}
+		#pragma endregion
+
+		#pragma region Override
+		HWND DialogLogView::BuildDialog(HWND h) {
+			hinst_.reset(LangInterface::Get().GetLangHinstance());
+			return IO::PluginUi::BuildDialog(hinst_, h, MAKEINTRESOURCEW(DLG_LOGVIEW_WINDOW));
+		}
+		LRESULT DialogLogView::CommandDialog(HWND h, UINT m, WPARAM w, LPARAM l) {
+			try {
+				switch (m) {
+					case WM_INITDIALOG: {
+						hwnd_.reset(h, static_cast<SUBCLASSPROC>(&PluginUi::DialogProc_), reinterpret_cast<DWORD_PTR>(this), 0);
+						init_();
+						::ShowWindow(h, SW_SHOW);
+						::SetFocus(::GetDlgItem(h, IDCANCEL));
+						return static_cast<INT_PTR>(1);
+					}
+					case WM_NOTIFY: {
+						NMHDR* hdr = reinterpret_cast<LPNMHDR>(l);
+						event_Scint_(hdr);
+						break;
+					}
+					case WM_HELP: {
+						if (!l) break;
+						UI::UiUtils::ShowHelpPage(DLG_LOGVIEW_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						return static_cast<INT_PTR>(1);
+					}
+					case WM_COMMAND: {
+						if (!isload_) break;
+						uint16_t c{ LOWORD(w) };
+						switch (c) {
+							case DLG_EVENT_LOG: {
+								event_Log_(reinterpret_cast<MIDIMT::CbEventData*>(l));
+								break;
+							}
+							case DLG_EVENT_MONITOR: {
+								event_Monitor_(reinterpret_cast<MIDIMT::CbEventData*>(l));
+								break;
+							}
+							case DLG_LOGVIEW_MENU_ZOOMIN: {
+								zoomin_();
+								break;
+							}
+							case DLG_LOGVIEW_MENU_ZOOMOUT: {
+								zoomout_();
+								break;
+							}
+							case DLG_LOGVIEW_MENU_BEGIN: {
+								gostart_();
+								break;
+							}
+							case DLG_LOGVIEW_MENU_END: {
+								goend_();
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CLEAR: {
+								clear_();
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_ALL: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[";
+									ls << std::vformat(
+										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG2)),
+										 std::make_wformat_args(
+											 conf->config,
+											 conf->builder
+										 )
+									).c_str();
+									ls << L"]\n";
+									event_Config_(ls.str(), conf->Dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_MIDI: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG3) << L"]\n";
+									event_Config_(ls.str(), conf->midiconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_MQTT: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG4) << L"]\n";
+									event_Config_(ls.str(), conf->mqttconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_MMKEYS: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG5) << L"]\n";
+									event_Config_(ls.str(), conf->mmkeyconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_LIGTS: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[";
+									ls << std::vformat(
+										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										 std::make_wformat_args(L"LIGTS")
+									).c_str();
+									ls << L"]\n";
+									event_Config_(ls.str(), conf->lightconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_DMX512: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[";
+									ls << std::vformat(
+										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										 std::make_wformat_args(L"LIGTS/DMX")
+									).c_str();
+									ls << L"]\n";
+									event_Config_(ls.str(), conf->lightconf.dmxconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_ARTNET: {
+								try {
+									log_string ls{};
+									auto& conf = common_config::Get().GetConfig();
+									ls << L"\n[";
+									ls << std::vformat(
+										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										 std::make_wformat_args(L"LIGTS/ARTNET")
+									).c_str();
+									ls << L"]\n";
+									event_Config_(ls.str(), conf->lightconf.artnetconf.dump());
+
+								} catch (...) {
+									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+								}
+								break;
+							}
+							case DLG_PLUGSTAT_MENU: {
+								for (uint16_t i = DLG_PLUGSTAT_MENU_0; i < DLG_PLUGSTAT_MENU_9; i++)
+									event_Stat_(i);
+								break;
+							}
+							case DLG_PLUGSTAT_MENU_0:
+							case DLG_PLUGSTAT_MENU_1:
+							case DLG_PLUGSTAT_MENU_2:
+							case DLG_PLUGSTAT_MENU_3:
+							case DLG_PLUGSTAT_MENU_4:
+							case DLG_PLUGSTAT_MENU_5:
+							case DLG_PLUGSTAT_MENU_6:
+							case DLG_PLUGSTAT_MENU_7:
+							case DLG_PLUGSTAT_MENU_8:
+							case DLG_PLUGSTAT_MENU_9: {
+								event_Stat_(c);
+								break;
+							}
+							case DLG_EXIT:
+							case IDCANCEL: {
+								dispose_();
+								return static_cast<INT_PTR>(1);
+							}
+							default: break;
+						}
+						break;
+					}
+					default: break;
+				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return ::DefSubclassProc(h, m, w, l);
+		}
+		#pragma endregion
 
 		LRESULT CALLBACK DialogLogView::event_edit_(HWND hwnd, UINT m, WPARAM w, LPARAM l, UINT_PTR sc, DWORD_PTR data) {
 			switch (m) {
 				case WM_COMMAND: {
-					switch (LOWORD(w)) {
-						case IDC_IEVENT_LOG: {
+					uint16_t c{ LOWORD(w) };
+					switch (c) {
+						case DLG_EVENT_LOG:
+						case DLG_EVENT_MONITOR: {
+							if (!l || !data) break;
 							DialogLogView* dlgl = reinterpret_cast<DialogLogView*>(data);
-							if (dlgl)
-								dlgl->EventLog(reinterpret_cast<CbEventData*>(l));
-							return true;
+							if (dlgl) {
+								CbEventData* d = reinterpret_cast<CbEventData*>(l);
+								if (!d) break;
+								if (c == DLG_EVENT_LOG) dlgl->event_Log_(d);
+								else dlgl->event_Monitor_(d);
+							}
+							return static_cast<INT_PTR>(1);
 						}
 						default: break;
 					}

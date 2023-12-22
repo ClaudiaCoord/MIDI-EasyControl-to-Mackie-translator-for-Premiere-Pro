@@ -158,7 +158,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4251;4910</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -199,9 +199,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\dllmain.cpp" />
+    <ClCompile Include="cpp\ext\lodepng.cpp" />
     <ClCompile Include="cpp\ScintillaBox.cpp" />
+    <ClCompile Include="cpp\ui\Panel.cpp" />
+    <ClCompile Include="cpp\ui\Sprite.cpp" />
+    <ClCompile Include="cpp\ui\Sprites.cpp" />
+    <ClCompile Include="cpp\ui\ToolTipData.cpp" />
+    <ClCompile Include="cpp\ui\UiImage.cpp" />
+    <ClCompile Include="cpp\ui\UiUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\ext\lodepng.h" />
+    <ClInclude Include="h\ui\Panel.h" />
+    <ClInclude Include="h\ui\Sprite.h" />
+    <ClInclude Include="h\ui\Sprites.h" />
+    <ClInclude Include="h\ui\ToolTipData.h" />
+    <ClInclude Include="h\ui\UiImage.h" />
+    <ClInclude Include="h\ui\UiUtils.h" />
     <ClInclude Include="MIDIMTVEUIApi.h" />
     <ClInclude Include="h\global.h" />
     <ClInclude Include="h\ScintillaBox.h" />
@@ -210,10 +224,11 @@
     <ClInclude Include="h\ScintillaHelperSettings.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc" />
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

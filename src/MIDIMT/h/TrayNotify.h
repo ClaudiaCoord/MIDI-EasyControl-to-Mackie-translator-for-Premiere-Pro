@@ -13,15 +13,12 @@ namespace Common {
 	namespace MIDIMT {
 
 		class TrayNotify {
-			GUID guid__;
-			NOTIFYICONDATA data__ = { sizeof(data__) };
+			NOTIFYICONDATA data_ = { sizeof(data_) };
 
 		public:
 
-			TrayNotify();
-			~TrayNotify();
-
-			static TrayNotify& Get();
+			TrayNotify() = default;
+			~TrayNotify() = default;
 
 			void Init(HWND, uint32_t, std::wstring&);
 			void Install();

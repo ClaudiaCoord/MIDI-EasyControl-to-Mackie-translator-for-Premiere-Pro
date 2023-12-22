@@ -15,10 +15,11 @@
 namespace Common {
     namespace MIXER {
 
-        AudioSessionEventsNotify::AudioSessionEventsNotify(std::function<AudioSessionItem* (IAudioSessionControl*&)> ptr) : cbBuild(ptr) {}
+        AudioSessionEventsNotify::AudioSessionEventsNotify(std::function<void(IAudioSessionControl*)> ptr)
+            : build_cb_(ptr) {}
 
         const bool                  AudioSessionEventsNotify::IsBusy() const {
-            return (bool)lock__.IsLock();
+            return (bool)lock_.IsLock();
         }
         HRESULT STDMETHODCALLTYPE   AudioSessionEventsNotify::QueryInterface(REFIID riid, void** ppv) {
             if (riid == __uuidof(IUnknown)) {
@@ -45,19 +46,12 @@ namespace Common {
             return cRef;
         }
         HRESULT STDMETHODCALLTYPE   AudioSessionEventsNotify::OnSessionCreated(IAudioSessionControl* ptrsc) {
-            lock__.Begin();
+            lock_.Begin();
             try {
-                if (ptrsc != nullptr) {
-                    AudioSessionItem* item = cbBuild(ptrsc);
-                    if (item != nullptr)
-                        to_log::Get() << log_string().to_log_fomat(
-                            __FUNCTIONW__,
-                            common_error_code::Get().get_error(common_error_id::err_SESSIONCREATED),
-                            item->Item.App.get<std::wstring>()
-                        );
-                }
+                if (ptrsc != nullptr) build_cb_(ptrsc);
+
             } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
     }

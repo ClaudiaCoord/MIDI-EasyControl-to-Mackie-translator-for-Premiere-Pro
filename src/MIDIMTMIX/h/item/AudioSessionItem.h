@@ -15,15 +15,14 @@
 namespace Common {
 	namespace MIXER {
 
-		class AudioSessionItem
-		{
+		class AudioSessionItem {
 		private:
 			/* Notify event builder */
-			std::atomic<bool> isregistred_se__{ false };
-			std::atomic<bool> isregistred_ae__{ false };
-			std::unique_ptr<AudioSessionEventsBuilder> evbuilder__;
-			CComPtr<IAudioSessionControl> ptrse__;
-			CComPtr<IAudioEndpointVolume> ptrae__;
+			std::atomic<bool> isregistred_se_{ false };
+			std::atomic<bool> isregistred_ae_{ false };
+			std::unique_ptr<AudioSessionEventsBuilder> evbuilder_;
+			CComPtr<IAudioSessionControl> ptrse_;
+			CComPtr<IAudioEndpointVolume> ptrae_;
 
 		public:
 
@@ -55,9 +54,26 @@ namespace Common {
 			IAudioSessionControl* GetSession();
 			IAudioEndpointVolume* GetEndpointVolume();
 			AudioSessionItemChange GetSessionItemChange(OnChangeType, bool);
+			const bool IsEmpty() const;
 			const bool IsValidSession() const;
 			const bool IsValidEndpointVolume() const;
 
 		};
+
+		typedef std::shared_ptr<AudioSessionItem> ASITEM_t;
+		typedef std::vector<ASITEM_t> ASLIST_t;
+
+		class audiosessionitem_deleter {
+		public:
+			void operator() (AudioSessionItem* i) {
+				try {
+					if (i) {
+						i->RegistrySession(false);
+						delete i;
+					}
+				} catch (...) {}
+			}
+		};
+
 	}
 }

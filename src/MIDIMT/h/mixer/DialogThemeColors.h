@@ -15,37 +15,38 @@
 namespace Common {
 	namespace MIDIMT {
 
-		class DialogThemeColors
-		{
+		class DialogThemeColors : public IO::PluginUi {
 		private:
-			handle_ptr<HWND>   hwnd__;
-			handle_ptr<HWND>   hwndparent__;
-			handle_ptr<HWND>   ctrls__[3];
-			handle_ptr<HBRUSH, default_hgdiobj_deleter<HBRUSH>> brushs__[3]{};
-			std::atomic<bool>  ischanged__ {false};
-			static COLORREF customcolors__[16];
+			hwnd_ptr<empty_deleter>   hwndp_{};
+			hwnd_ptr<empty_deleter>   ctrls_[3]{};
+			handle_ptr<HBRUSH, default_hgdiobj_deleter<HBRUSH>> brushs_[3]{};
+			std::atomic<bool>  ischanged_ {false};
+			static COLORREF customcolors_[16];
 
 			void dispose_();
-			void changebrush_(uint16_t, COLORREF);
-			void changetheme_(ui_theme&);
+			void init_();
+			void change_brush_(uint16_t, COLORREF);
+			void change_theme_(ui_theme&);
+			void change_color_select_(uint16_t);
+			void change_theme_select_(uint16_t);
+			LRESULT event_colors_draw_(LPARAM);
 
 		public:
 
 			DialogThemeColors() = default;
 			~DialogThemeColors();
 
+			IO::PluginUi* GetUi();
+
 			const bool IsRun() const;
-			const bool IsChanged();
+			const bool IsRunOnce() const;
 			void SetFocus();
+
+			const bool IsChanged() const;
 			void SetHWNDParent(HWND);
 
-			void InitDialog(HWND);
-			void EndDialog();
-
-			void ThemeSelector(uint16_t);
-			void ColorSelector(uint16_t);
-			LRESULT ColorsDraw(LPARAM);
-
+			HWND BuildDialog(HWND) override final;
+			LRESULT CommandDialog(HWND, UINT, WPARAM, LPARAM) override final;
 		};
 	}
 }

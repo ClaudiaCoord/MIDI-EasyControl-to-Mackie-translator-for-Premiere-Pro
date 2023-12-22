@@ -13,13 +13,13 @@ namespace Common {
 
 		class TrayMenu {
 
-			GuiImageStateButton<HBITMAP> icons_;
+			UI::ImageStateButton<HBITMAP> icons_;
 			void dispose_();
 			void setitem_(HMENU, uint16_t, uint16_t, bool, bool);
 		public:
 			TrayMenu();
 			~TrayMenu();
-			void EndDialog();
+			void End();
 			void Show(HWND, const POINT);
 		};
 	}

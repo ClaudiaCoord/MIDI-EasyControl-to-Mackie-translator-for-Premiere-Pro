@@ -15,12 +15,12 @@
 namespace Common {
 	namespace MIXER {
 
-		typedef std::function<bool(ItemIdPair&)> compareId;
+		typedef std::function<bool(ItemIdPair_t&)> compareId;
 
-		static bool list_compare_(ItemIdPair& a, ItemIdPair& b) {
+		static bool list_compare_(ItemIdPair_t& a, ItemIdPair_t& b) {
 			return a.second == b.second;
 		}
-		static MIDI::MidiUnitType found_(ItemIdList& list, compareId f) {
+		static MIDI::MidiUnitType found_(ItemIdList_t& list, compareId f) {
 			try {
 				if (!list.empty()) {
 					auto it = std::find_if(list.begin(), list.end(), f);
@@ -33,7 +33,7 @@ namespace Common {
 			try {
 				if (isclear) keys.clear();
 
-				ItemIdList& list = a.get();
+				ItemIdList_t& list = a.get();
 				if (list.empty()) return;
 
 				for (auto& p : list)
@@ -49,6 +49,12 @@ namespace Common {
 		MIDI::MidiUnitType AudioSessionItemId::found(uint32_t k) {
 			return found_(keys, [k](auto& x) {
 				return (x.second == k);
+			});
+		}
+		MIDI::MidiUnitType AudioSessionItemId::found(ItemIdPair_t& p) {
+			MIDI::MidiUnitType t = AudioSessionItemId::normalize_type(p.first);
+			return found_(keys, [p,t](auto& x) {
+				return (x.first == t) && (x.second == p.second);
 			});
 		}
 		MIDI::MidiUnitType AudioSessionItemId::found(uint32_t k, MIDI::MidiUnitType t) {
@@ -68,10 +74,10 @@ namespace Common {
 			} catch (...) {}
 			return false;
 		}
-		const bool AudioSessionItemId::add(ItemIdPair p) {
+		const bool AudioSessionItemId::add(ItemIdPair_t p) {
 			try {
 				if (!keys.empty()) {
-					MIDI::MidiUnitType m = found(p.second, p.first);
+					MIDI::MidiUnitType m = found(p);
 					if (m != MIDI::MidiUnitType::UNITNONE) return false;
 				}
 				keys.push_front(p);
@@ -85,7 +91,7 @@ namespace Common {
 				keys.remove_if([=](auto& x) { return x.second == k; });
 			} catch (...) {}
 		}
-		ItemIdList& AudioSessionItemId::get() {
+		ItemIdList_t& AudioSessionItemId::get() {
 			return std::ref(keys);
 		}
 

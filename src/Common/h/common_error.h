@@ -14,7 +14,6 @@
 
 namespace Common {
 
-    #define throw_common_error(err) throw common_error(err, __FUNCTIONW__, __LINE__)
     #define make_common_error(err) common_error(err, __FUNCTIONW__, __LINE__)
 
     class FLAG_EXPORT common_error_code {

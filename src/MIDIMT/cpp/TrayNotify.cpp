@@ -15,85 +15,112 @@
 namespace Common {
 	namespace MIDIMT {
 
-		static const wchar_t guidString[] = APPGUID;
-		static TrayNotify traynotify_class__{};
-
-		TrayNotify::TrayNotify() : guid__(GUID_NULL) {}
-		TrayNotify::~TrayNotify() {}
-
-		TrayNotify& TrayNotify::Get() {
-			return std::ref(traynotify_class__);
+		static const wchar_t guidString[]{ APPGUID };
+		static inline std::wstring state_bool__(LangInterface& lang, const bool b) {
+			return b ? lang.GetString(STRING_LANG_YES) : lang.GetString(STRING_LANG_NO);
 		}
 
 		void TrayNotify::Init(HWND hwnd, uint32_t id, std::wstring& title) {
-			data__.cbSize = sizeof(NOTIFYICONDATA);
-			data__.hWnd = hwnd;
-			data__.uID = static_cast<UINT>(IDI_SMALL);
-			data__.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-			data__.uVersion = NOTIFYICON_VERSION_4;
-			data__.hIcon = LangInterface::Get().GetIcon(MAKEINTRESOURCE(IDI_SMALL));
-			data__.uCallbackMessage = id;
-			if (::CLSIDFromString(guidString, (LPCLSID)&guid__) == S_OK)
-				data__.guidItem = guid__;
-			::wcscpy_s(data__.szTip, title.c_str());
+			data_.cbSize = sizeof(NOTIFYICONDATA);
+			data_.hWnd = hwnd;
+			data_.uID = static_cast<UINT>(ICON_APP_MIDIMT_SMALL);
+			data_.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+			data_.uVersion = NOTIFYICON_VERSION_4;
+			data_.hIcon = LangInterface::Get().GetIcon(MAKEINTRESOURCE(ICON_APP_MIDIMT_SMALL));
+			data_.uCallbackMessage = id;
+			data_.guidItem = Utils::guid_from_string(guidString);
+			::wcscpy_s(data_.szTip, title.c_str());
 		}
 		void TrayNotify::Install() {
-			::Shell_NotifyIconW(NIM_ADD, &data__);
-			::Shell_NotifyIconW(NIM_SETVERSION, &data__);
+			::Shell_NotifyIconW(NIM_ADD, &data_);
+			::Shell_NotifyIconW(NIM_SETVERSION, &data_);
 		}
 		void TrayNotify::UnInstall() {
-			data__.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-			::Shell_NotifyIconW(NIM_DELETE, &data__);
+			data_.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+			::Shell_NotifyIconW(NIM_DELETE, &data_);
 		}
 		void TrayNotify::Show() {
 			try {
-				data__.uFlags |= NIF_INFO;
-				data__.uTimeout = 1000;
-				data__.dwInfoFlags = 0U;
+				data_.uFlags |= NIF_INFO;
+				data_.uTimeout = 1000;
+				data_.dwInfoFlags = 0U;
 
-				auto& cnf = common_config::Get();
 				auto& lang = LangInterface::Get();
+				auto& br = IO::IOBridge::Get();
 
-				if (cnf.Local.IsMidiBridgeRun()) {
-					::wcscpy_s(data__.szInfoTitle, lang.GetString(IDS_INFO2).c_str());
-					if (cnf.IsConfig()) {
-						std::wstring ws = cnf.GetConfig()->name;
-						if (!ws.empty()) {
+				::wcscpy_s(data_.szInfoTitle, lang.GetString(br.IsStarted() ? STRING_NOTIFY_MSG2 : STRING_NOTIFY_MSG1).c_str());
 
-							log_string ls;
-							ls << lang.GetString(IDS_INFO3).c_str() << L" " << ws.c_str() << L"\r\n";
-							ls << lang.GetString(IDS_INFO4).c_str() << L" " << ws.c_str() << MIDI::MidiHelper::GetSuffixMackieOut().c_str() << L"\r\n";
+				if (br.IsStarted()) {
+					log_string ls{};
 
-							if (cnf.IsProxy()) {
-								uint32_t cnt = cnf.GetConfig()->proxy;
-								ls << lang.GetString(IDS_INFO5).c_str() << L"\r\n";
+					for (uint16_t i = 0; i < br.PluginCount(); i++) {
+						try {
+							IO::plugin_t& p = br[i];
+							if (p->empty()) continue;
 
-								if (cnt == 1)
-									ls << L"\t\t" << ws.c_str() << MIDI::MidiHelper::GetSuffixProxyOut().c_str() << L"1\r\n";
-								else
-									for(uint32_t i = 0; i < cnt; i++)
-										ls << L"\t\t" << ws.c_str() << MIDI::MidiHelper::GetSuffixProxyOut().c_str() << std::to_wstring(i + 1U).c_str() << L"\r\n";
-							}
-							if (cnf.Local.IsAudioMixerRun())
-								ls << lang.GetString(IDS_INFO6).c_str() << L"\r\n";
-							if (cnf.Local.IsMMKeysRun())
-								ls << lang.GetString(IDS_INFO7).c_str() << L"\r\n";
-							if (cnf.Local.IsSmartHomeRun())
-								ls << lang.GetString(IDS_INF13).c_str() << L"\r\n";
-							if (cnf.Local.IsLightsDmxRun())
-								ls << lang.GetString(IDS_INF14).c_str() << L"\r\n";
-							if (cnf.Local.IsLightsArtNetRun())
-								ls << lang.GetString(IDS_INF15).c_str() << L"\r\n";
+							std::wstring name = p.get()->GetPluginInfo().File();
+							if (name.empty()) continue;
+							if (name.starts_with(L"MMTPLUGINx"))
+								name = name.substr(10);
 
-							std::wstring wdata = ls.str();
-							::wcscpy_s(data__.szInfo, _countof(data__.szInfo), wdata.c_str());
+							ls << name.c_str() << L": "
+								<< std::vformat(
+									 std::wstring_view(common_error_code::Get().get_error(common_error_id::err_PLUGIN_LIST_INFO)),
+									 std::make_wformat_args(
+										 state_bool__(lang, p->enabled()),
+										 state_bool__(lang, p->configure()),
+										 state_bool__(lang, p->started())
+									 )
+								).c_str()
+								<< L"\n";
+
+							if (!ls.empty())
+								::wcscpy_s(data_.szInfo, _countof(data_.szInfo), ls.str().c_str());
+
+						} catch (...) {
+							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 						}
 					}
-				} else {
-					::wcscpy_s(data__.szInfoTitle, lang.GetString(IDS_INFO1).c_str());
-					::wcscpy_s(data__.szInfo, L"-");
 				}
-				::Shell_NotifyIconW(NIM_MODIFY, &data__);
+				else if (br.IsLoaded()) {
+					log_string ls{};
+					auto& state = br.GetState();
+
+					ls << std::vformat(
+							 std::wstring_view(common_error_code::Get().get_error(common_error_id::err_BRIDGE_OK_INIT_LOAD)),
+							 std::make_wformat_args(
+								 std::get<0>(state),
+								 std::get<1>(state)
+							 )
+						).c_str()
+						<< L"\n";
+
+					if (!ls.empty())
+						::wcscpy_s(data_.szInfo, _countof(data_.szInfo), ls.str().c_str());
+				}
+				else {
+					log_string ls{};
+					auto& state = br.GetState();
+
+					if (std::get<0>(state) == 0U)
+						ls << common_error_code::Get().get_error(common_error_id::err_BRIDGE_NOT_INIT).c_str()
+						   << L"\n";
+					else
+						ls << std::vformat(
+								 std::wstring_view(common_error_code::Get().get_error(common_error_id::err_BRIDGE_OK_STOP)),
+								 std::make_wformat_args(
+									 std::get<0>(state),
+									 std::get<1>(state),
+									 std::get<2>(state),
+									 std::get<3>(state)
+								 )
+							).c_str()
+							<< L"\n";
+
+					if (!ls.empty())
+						::wcscpy_s(data_.szInfo, _countof(data_.szInfo), ls.str().c_str());
+				}
+				::Shell_NotifyIconW(NIM_MODIFY, &data_);
 			}
 			catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -101,15 +128,16 @@ namespace Common {
 		}
 		void TrayNotify::Warning(std::wstring title, std::wstring body) {
 			try {
-				data__.uFlags |= NIF_INFO;
-				data__.uTimeout = 1000;
-				data__.dwInfoFlags = 0U;
-				std::wstringstream wss;
-				wss << body << L"\r\n";
+				if (body.empty()) return;
 
-				::wcscpy_s(data__.szInfoTitle, title.c_str());
-				::wcscpy_s(data__.szInfo, wss.str().c_str());
-				::Shell_NotifyIconW(NIM_MODIFY, &data__);
+				data_.uFlags |= NIF_INFO;
+				data_.uTimeout = 1000;
+				data_.dwInfoFlags = 0U;
+				std::wstring s = (log_string() << body << L"\r\n");
+
+				::wcscpy_s(data_.szInfoTitle, title.c_str());
+				::wcscpy_s(data_.szInfo, s.c_str());
+				::Shell_NotifyIconW(NIM_MODIFY, &data_);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}

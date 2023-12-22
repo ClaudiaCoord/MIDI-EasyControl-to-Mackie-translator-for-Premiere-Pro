@@ -1,0 +1,16 @@
+#include "windows.h"
+#include "CommCtrl.h"
+#include <SDKDDKVer.h>
+#include "..\..\Common\rc\resource_mackie.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_error_id.h"
+#include "..\..\Common\rc\resource_midimt.h"
+
+#define IDC_STATIC -1
+
+#include "..\..\Common\rc\resource_dll.rc"
+#include "..\..\Common\rc\resource_lang.rc"
+#include "MIDIMT_STRINGxRU.rc"
+#include "MIDIMT_MENUxRU.rc"
+#include "MIDIMT_FORMxRU.rc"
+#include "RibbonDialogEditxRU.rc"

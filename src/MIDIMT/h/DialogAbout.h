@@ -15,18 +15,24 @@
 namespace Common {
 	namespace MIDIMT {
 
-		class DialogAbout
-		{
-			handle_ptr<HWND> hwnd__;
+		class DialogAbout : public IO::PluginUi {
+		private:
+
+			void dispose_();
+			void init_();
 
 		public:
 
 			DialogAbout() = default;
 			~DialogAbout() = default;
 
-			void InitDialog(HWND);
-			void EndDialog();
-		};
+			IO::PluginUi* GetUi();
 
+			const bool IsRunOnce();
+			void SetFocus();
+
+			HWND BuildDialog(HWND) override final;
+			LRESULT CommandDialog(HWND, UINT, WPARAM, LPARAM) override final;
+		};
 	}
 }

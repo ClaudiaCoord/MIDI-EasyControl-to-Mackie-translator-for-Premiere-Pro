@@ -14,65 +14,51 @@
 
 namespace Common {
 
-	typedef std::function<void(std::shared_ptr<Common::MIDI::MidiDevice>&)> callConfigChangeCb;
-
-
 	class FLAG_EXPORT common_config_local {
 	private:
-		std::atomic<bool> midibridgerun_;
-		std::atomic<bool> audiomixerrun_;
-		std::atomic<bool> smarthomerun_;
-		std::atomic<bool> mmkeysrun_;
-		std::atomic<bool> lightsrun_;
-		std::atomic<bool> lightsdmxrun_;
-		std::atomic<bool> lightsartnetrun_;
+		std::atomic<bool> midibridgerun_{ false };
+		std::atomic<bool> audiomixerrun_{ false };
+
 	public:
-		const bool IsMidiBridgeRun();
-		void IsMidiBridgeRun(bool);
+		const bool IsMidiDriverRun();
+		void IsMidiDriverRun(bool);
 
 		const bool IsAudioMixerRun();
 		void IsAudioMixerRun(bool);
-
-		const bool IsMMKeysRun();
-		void IsMMKeysRun(bool);
-
-		const bool IsSmartHomeRun();
-		void IsSmartHomeRun(bool);
-
-		const bool IsLightsRun();
-		void IsLightsRun(bool);
-
-		const bool IsLightsDmxRun();
-		void IsLightsDmxRun(bool);
-
-		const bool IsLightsArtNetRun();
-		void IsLightsArtNetRun(bool);
 	};
 
     class FLAG_EXPORT common_config {
 	private:
 
-		static common_config ctrlcommonconfig__;
+		static common_config ctrlcommonconfig_;
 
 		const wchar_t* LogTag = L"Configuration ";
 
-		time_t config_last_write_time = 0;
-		std::shared_ptr<Common::MIDI::MidiDevice> config_ptr__;
-		Common::common_event<callConfigChangeCb> event__;
+		time_t config_last_write_time{ 0 };
+		std::shared_ptr<Common::JSON::MMTConfig> config_ptr_{};
+		Common::common_event<callConfigCb_t> event_{};
 
-		void updateconf_();
-		
-    public:
+		void update_conf_();
 
-		registry Registry;
-		common_config_local Local;
-		json_recent RecentConfig;
-		ui_themes UiThemes;
+		template<typename T>
+		void update_value_(T n, T& v) {
+			if (v != n) {
+				v = n;
+				update_conf_();
+			}
+		}
+
+	public:
+
+		registry Registry{};
+		common_config_local Local{};
+		JSON::json_recent RecentConfig{};
+		ui_themes UiThemes{};
 
 		common_config();
 		~common_config();
 		static common_config& Get();
-		std::shared_ptr<Common::MIDI::MidiDevice>& GetConfig();
+		std::shared_ptr<Common::JSON::MMTConfig>& GetConfig();
 
 		const bool		IsStart();
 		const bool		IsConfig();
@@ -95,11 +81,14 @@ namespace Common {
 		uint32_t		ButtonOnLongInterval();
 		void			ButtonOnLongInterval(uint32_t);
 
+		std::wstring	GetConfigPath();
+
 		const bool Load(std::wstring = L"");
 		const bool Save(std::wstring = L"");
 
-		uint32_t add(callConfigChangeCb);
-		void remove(callConfigChangeCb);
+		uint32_t add(callConfigCb_t);
+		void add(callConfigCb_t, uint32_t);
+		void remove(callConfigCb_t);
 		void remove(uint32_t);
     };
 }

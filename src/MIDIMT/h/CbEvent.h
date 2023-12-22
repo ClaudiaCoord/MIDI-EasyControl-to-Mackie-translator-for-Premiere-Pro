@@ -24,7 +24,7 @@ namespace Common {
 		class CbEventData;
 		class CbEventDataDeleter {
 		private:
-			CbEventData* cbd__ = nullptr;
+			CbEventData* cbd_ = nullptr;
 		public:
 
 			CbEventDataDeleter(CbEventData*);
@@ -38,9 +38,9 @@ namespace Common {
 
 		class CbEventData {
 		private:
-			std::wstring ws__{};
-			std::pair<DWORD, MIDI::Mackie::MIDIDATA> data__;
-			CbHWNDType type__ = CbHWNDType::TYPE_CB_NONE;
+			std::wstring ws_{};
+			std::pair<DWORD, MIDI::Mackie::MIDIDATA> data_;
+			CbHWNDType type_ = CbHWNDType::TYPE_CB_NONE;
 		public:
 
 			CbEventData(std::wstring);
@@ -52,22 +52,25 @@ namespace Common {
 			T Get();
 		};
 
-		class CbEvent : public MIDI::MidiInstance {
+		class CbEvent : public IO::PluginCb {
 		private:
 			int ILOG = -1, IMON = -1;
 
-			void LogCb(const std::wstring&);
-			const bool MonitorCb(MIDI::Mackie::MIDIDATA&, DWORD&);
+			void log_cb_(const std::wstring&);
+			void monitor_cb_(MIDI::Mackie::MIDIDATA, DWORD);
+			void set_config_cb_(std::shared_ptr<JSON::MMTConfig>&);
 
 		public:
 
-			std::function<HWND()> HwndCb;
+			std::function<HWND()> GetHwndCb;
 
 			CbEvent();
 
+			void Init();
+			void Init(int);
 			void Init(int, int);
 			void Clear();
-			void AddToLog(std::wstring);
+			void AddToLog(const std::wstring);
 			static void ToLog(HWND, CbEventData*, bool);
 			static void ToMonitor(HWND, CbEventData*, bool);
 		};

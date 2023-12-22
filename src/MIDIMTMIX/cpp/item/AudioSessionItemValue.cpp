@@ -72,7 +72,7 @@ namespace Common {
 			OnChangeCb(isup, type, volu, volf, mute);
 		}
 		void AudioSessionItemValue::copy(MIDI::MidiUnit& val) {
-			if (val.IsEmpty()) return;
+			if (val.empty()) return;
 			copy(val.value, val.type);
 		}
 		void AudioSessionItemValue::copy(MIDI::MidiUnitValue& val, MIDI::MidiUnitType t) {

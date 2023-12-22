@@ -134,7 +134,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Save.ico" Symbol="IDI_ICO_UPDATE" Id="54001" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Save.ico" Symbol="ICON_RB_UPDATE" Id="54001" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdExport" Symbol="IDM_DIALOG_EXPORT" Id="55003">
@@ -160,7 +160,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Download.ico" Symbol="IDI_ICO_EXPORT" Id="54002" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Download.ico" Symbol="ICON_RB_EXPORT" Id="54002" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdImport" Symbol="IDM_DIALOG_IMPORT" Id="55004">
@@ -186,7 +186,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Share-box.ico" Symbol="IDI_ICO_IMPORT" Id="54003" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Share-box.ico" Symbol="ICON_RB_IMPORT" Id="54003" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdExit"   Symbol="IDM_DIALOG_EXIT" Id="55001">
@@ -212,7 +212,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Sign-out.ico" Symbol="IDI_ICO_EXIT" Id="54004" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Sign-out.ico" Symbol="ICON_RB_EXIT" Id="54004" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 
@@ -239,7 +239,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Edit.ico" Symbol="IDI_ICO_EDIT_NEW" Id="54005" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Edit.ico" Symbol="ICON_RB_EDIT_NEW" Id="54005" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdCopy" Symbol="IDM_LV_COPY" Id="55006">
@@ -265,7 +265,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Copy.ico" Symbol="IDI_ICO_EDIT_COPY" Id="54006" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Copy.ico" Symbol="ICON_RB_EDIT_COPY" Id="54006" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdPaste" Symbol="IDM_LV_PASTE" Id="55007">
@@ -291,7 +291,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Clipboard.ico" Symbol="IDI_ICO_EDIT_PASTE" Id="54007" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Clipboard.ico" Symbol="ICON_RB_EDIT_PASTE" Id="54007" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdDelete" Symbol="IDM_LV_DELETE" Id="55008">
@@ -317,7 +317,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Trash.ico" Symbol="IDI_ICO_EDIT_DELETE" Id="54008" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Trash.ico" Symbol="ICON_RB_EDIT_DELETE" Id="54008" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		
@@ -344,7 +344,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="IDI_ICO_EDIT_SETMQTT" Id="54009" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="ICON_RB_EDIT_SETMQTT" Id="54009" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSetMMKey" Symbol="IDM_LV_SET_MMKEY" Id="55010">
@@ -370,7 +370,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="IDI_ICO_EDIT_SETMMKEY" Id="54010" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="ICON_RB_EDIT_SETMMKEY" Id="54010" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSetMix" Symbol="IDM_LV_SET_MIXER" Id="55011">
@@ -396,7 +396,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="IDI_ICO_EDIT_SETMIX" Id="54011" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="ICON_RB_EDIT_SETMIX" Id="54011" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		
@@ -423,7 +423,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Settings.ico" Symbol="IDI_ICO_EDIT_READKEY" Id="54012" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Settings.ico" Symbol="ICON_RB_EDIT_READKEY" Id="54012" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 
@@ -590,7 +590,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-X-small.ico" Symbol="IDI_ICO_FILTER_CLEAR" Id="54013" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-X-small.ico" Symbol="ICON_RB_FILTER_CLEAR" Id="54013" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdFilterSet" Symbol="IDM_LV_FILTER_SET" Id="55021">
@@ -616,7 +616,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Triangle-alert.ico" Symbol="IDI_ICO_FILTER_SET" Id="54014" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Triangle-alert.ico" Symbol="ICON_RB_FILTER_SET" Id="54014" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdFilterOn" Symbol="IDM_LV_FILTER_ON" Id="55022">
@@ -642,7 +642,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Zoom-in.ico" Symbol="IDI_ICO_FILTER_ON" Id="54015" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Zoom-in.ico" Symbol="ICON_RB_FILTER_ON" Id="54015" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdFilterOff" Symbol="IDM_LV_FILTER_OFF" Id="55035">
@@ -668,7 +668,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Zoom-out.ico" Symbol="IDI_ICO_FILTER_OFF" Id="54024" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Zoom-out.ico" Symbol="ICON_RB_FILTER_OFF" Id="54024" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 
@@ -695,7 +695,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="IDI_ICO_FILTER_MQTT" Id="54027" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="ICON_RB_FILTER_MQTT" Id="54027" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdFilterMMKey" Symbol="IDM_LV_FILTER_MMKEY" Id="55036">
@@ -721,7 +721,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="IDI_ICO_FILTER_MMKEY" Id="54025" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="ICON_RB_FILTER_MMKEY" Id="54025" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdFilterMix" Symbol="IDM_LV_FILTER_MIXER" Id="55037">
@@ -747,7 +747,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="IDI_ICO_FILTER_MIXER" Id="54026" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="ICON_RB_FILTER_MIXER" Id="54026" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		
@@ -804,7 +804,7 @@
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Filter.ico" Symbol="IDI_ICO_FILTER_TYPEBTN" Id="54028" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Filter.ico" Symbol="ICON_RB_FILTER_TYPEBTN" Id="54028" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 
@@ -894,7 +894,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="IDI_ICO_SORTUP" Id="54016" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP" Id="54016" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortUpScene" Symbol="IDM_LV_SORTUP_SCENE" Id="55025">
@@ -913,7 +913,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="IDI_ICO_SORTUP_SCENE" Id="54017" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP_SCENE" Id="54017" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortUpTarget" Symbol="IDM_LV_SORTUP_TARGET" Id="55026">
@@ -932,7 +932,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="IDI_ICO_SORTUP_TARGET" Id="54018" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP_TARGET" Id="54018" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortUpTargetLong" Symbol="IDM_LV_SORTUP_TARGETLONG" Id="55027">
@@ -951,7 +951,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="IDI_ICO_SORTUP_TARGETLONG" Id="54019" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP_TARGETLONG" Id="54019" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 
@@ -964,7 +964,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="IDI_ICO_SORTDOWN_KEY" Id="54020" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_KEY" Id="54020" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortDownScene" Symbol="IDM_LV_SORTDOWN_SCENE" Id="55029">
@@ -976,7 +976,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="IDI_ICO_SORTDOWN_SCENE" Id="54021" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_SCENE" Id="54021" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortDownTarget" Symbol="IDM_LV_SORTDOWN_TARGET" Id="55030">
@@ -988,7 +988,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="IDI_ICO_SORTDOWN_TARGET" Id="54022" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_TARGET" Id="54022" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 		<Command Name="cmdSortDownTargetLong" Symbol="IDM_LV_SORTDOWN_TARGETLONG" Id="55031">
@@ -1000,7 +1000,7 @@
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
-				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="IDI_ICO_SORTDOWN_TARGETLONG" Id="54023" MinDPI="96" />
+				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_TARGETLONG" Id="54023" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
 

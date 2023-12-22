@@ -3,3 +3,6 @@
 // Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
 #define FLAG_EXPORT __declspec(dllimport)
 #define FLAG_EXPORT __declspec(dllexport)
+#define FLAG_EXTERN
+#define FLAG_IMPORT
+#define FLAG_IMPORT __declspec(dllimport)

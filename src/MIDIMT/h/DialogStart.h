@@ -1,103 +1,52 @@
-/*
-	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	+ Audio session volume/mute mixer.
-	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
-
-	MIDIMT
-
-	See README.md for more details.
-	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!
-*/
 
 #pragma once
 
 namespace Common {
 	namespace MIDIMT {
 
-		class DialogStart
-		{
+		class DialogStart : public IO::PluginUi, public CbEvent {
 		private:
-			handle_ptr<HWND> hwnd__;
-			CbEvent mcb__;
+			int32_t index_plugin_{ 0 };
+			IO::plugin_t& open_plugin_;
+			UI::ImageStateButton<HICON> img_status_{};
 
 			void dispose_();
-			void clear_();
-			void BuildLangComboBox();
-			void BuildDeviceComboBox(const std::wstring);
-			void BuildProxyComboBox(const uint32_t);
-			void BuildSmartHomeLogLevelComboBox(const int32_t);
-			void BuildDmxDevicesComboBox(const int32_t);
-			void BuildArtnetInterfacesComboBox(const std::wstring);
+			void init_();
 
-			void ClearDmxConfig(HWND);
-			void ClearArtnetConfig(HWND);
-			void ShowDmxConfig(HWND, LIGHT::SerialPortConfig&);
-			void ShowArtnetConfig(HWND, LIGHT::ArtnetConfig&);
+			void event_Log_(CbEventData*);
+			void event_Monitor_(CbEventData*);
+			void event_DragAndDrop_(std::wstring);
+			void event_LanguageChange_(uint16_t idx);
+			void event_PluginsReload_();
+			void build_LangCombobox_();
+			void build_PluginListView_(bool = false);
 
-			void SetConfigurationInfo(HWND, std::shared_ptr<Common::MIDI::MidiDevice>&, Common::common_config&);
-			void SetSliderInfo(HWND, uint32_t, uint32_t);
-			void SetSliderValues(HWND, uint32_t , uint32_t, uint32_t, uint32_t, uint32_t);
-			uint32_t GetSliderValue(HWND, uint32_t );
+			void changeMovePlugin_();
+			void changeStateActions_(bool);
+			void changeConfigView_(std::shared_ptr<JSON::MMTConfig>&);
+
+			void changeOnLang_();
+			void changeOnLang_(uint16_t);
+			void changeOnConfigFileOpen_();
+			void changeOnSaveConfig_();
+			void changeOnListViewClick_();
+
+			void start_();
+			void stop_();
 
 		public:
 
 			DialogStart();
 			~DialogStart();
+
+			IO::PluginUi* GetUi();
+
 			const bool IsRunOnce();
 			void SetFocus();
 
-			void InitDialog(HWND);
-			void EndDialog();
-
-			void ChangeOnJogfilter();
-			void ChangeOnLog();
-			void ChangeOnSysAutoStart();
-			void ChangeOnSysAutoRun();
-			void ChangeOnAutoRunConfig();
-			void ChangeOnMixerfastvalue();
-			void ChangeOnMixeroldvalue();
-			void ChangeOnMixerRightClick();
-			void ChangeOnMixerDupAppRemove();
-			void ChangeOnConfigFileOpen();
-			void ChangeOnManualPort();
-			void ChangeOnSliders();
-			void ChangeOnProxy();
-			void ChangeOnLang();
-			void ChangeOnDevice();
-			void ChangeOnMmkeyEnable();
-			void ChangeOnMixerEnable();
-
-			void ChangeOnSmartHouseEnable();
-			void ChangeOnSmartHouseLogLevel();
-			void ChangeOnSmartHouseSsl();
-			void ChangeOnSmartHouseSelfSign();
-			void ChangeOnSmartHouseIpAddress();
-			void ChangeOnSmartHousePort();
-			void ChangeOnSmartHouseLogin();
-			void ChangeOnSmartHousePass();
-			void ChangeOnSmartHousePsk();
-			void ChangeOnSmartHouseCa();
-			void ChangeOnSmartHousePrefix();
-
-			void ChangeOnDmxPool();
-			void ChangeOnDmxEnable();
-			void ChangeOnDmxDevice();
-			void ChangeOnArtnetEnable();
-			void ChangeOnArtnetNetwork();
-			void ChangeOnArtnetPort();
-			void ChangeOnArtnetUniverse();
-
-			void EventLog(CbEventData*);
-			void EventMonitor(CbEventData*);
-
-			void ConfigSave();
-			void AutoStart();
-			void StartFromUi();
-			bool Start(std::wstring = L"");
-			void Stop();
-			bool IsStart();
-			void OpenDragAndDrop(std::wstring);
+			HWND BuildDialog(HWND) override final;
+			LRESULT CommandDialog(HWND, UINT, WPARAM, LPARAM) override final;
 		};
 	}
 }
+

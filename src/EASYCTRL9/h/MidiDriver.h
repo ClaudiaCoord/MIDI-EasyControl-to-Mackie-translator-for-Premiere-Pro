@@ -29,9 +29,9 @@ namespace Common {
 		typedef LPCWSTR (CALLBACK *vMIDIGetDriverVersion)(PWORD, PWORD, PWORD, PWORD);
 		typedef DWORD (CALLBACK *vMIDILogging)(DWORD);
 
-		class MidiDriver {
+		class FLAG_EXPORT MidiDriver {
 		private:
-			HMODULE hdrv__{ nullptr };
+			HMODULE hdrv_{ nullptr };
 
 			void dispose_();
 			void clear_();
@@ -41,6 +41,7 @@ namespace Common {
 			vMIDIGetDriverVersion vGetDriverVer_{ nullptr };
 			vMIDISendData vSendData_{ nullptr };
 			vMIDIClosePort vClosePort_{ nullptr };
+			vMIDIShutdown vShutdownPort_{ nullptr };
 
 		public:
 
@@ -62,19 +63,20 @@ namespace Common {
 			vMIDICreatePortEx3 vCreatePortEx3{ nullptr };
 			vMIDIGetData vGetData{ nullptr };
 			vMIDIGetProcesses vGetProcesses{ nullptr };
-			vMIDIShutdown vShutdown{ nullptr };
 			vMIDIGetVersion vGetVersion{ nullptr };
 			vMIDILogging vLogging{ nullptr };
 
 			MidiDriver();
 			~MidiDriver();
 
+			const bool Init();
 			const bool Check();
 			const bool IsEmpty() const;
 			const bool CheckMMRESULT(std::function<MMRESULT()> f, std::wstring tag);
 
 			/* virtual MIDI API */
 			LPVM_MIDI_PORT vCreatePortEx2(LPCWSTR, LPVM_MIDI_DATA_CB, DWORD_PTR);
+			bool vShutdown(LPVM_MIDI_PORT);
 			void vClosePort(LPVM_MIDI_PORT);
 			bool vSendData(LPVM_MIDI_PORT, LPBYTE, DWORD);
 			LPCWSTR vGetDriverVersion();

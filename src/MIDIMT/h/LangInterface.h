@@ -17,15 +17,15 @@ namespace Common {
 
 		class LangInterface {
 		private:
-			LANGID id__;
-			HINSTANCE main_hinst__;
-			HINSTANCE lang_hinst__;
-			HMODULE dll__;
-			HWND hwndmain__;
-			static LangInterface langinterface__;
+			LANGID id_;
+			HINSTANCE main_hinst_;
+			HINSTANCE lang_hinst_;
+			HMODULE dll_;
+			HWND hwndmain_;
+			static LangInterface langinterface_;
 
-			std::wstring str_class__;
-			std::wstring str_title__;
+			std::wstring str_class_;
+			std::wstring str_title_;
 
 			void Init();
 			void Dispose();
@@ -45,8 +45,11 @@ namespace Common {
 			void SetMainHwnd(HWND);
 			HWND GetMainHwnd();
 
-			void SelectLanguage(std::wstring);
-			std::wstring SelectedLanguage();
+			bool SelectLanguage(const std::wstring&);
+			bool SelectLanguage(const uint32_t);
+			int32_t SelectedLanguageIndex();
+			std::wstring SelectedLanguageName();
+			std::tuple<int32_t, std::wstring> SelectedLanguage();
 			std::forward_list<std::wstring> GetLanguages();
 
 			void    GetDialog(HWND, DLGPROC, LPWSTR, LPARAM = 0L);

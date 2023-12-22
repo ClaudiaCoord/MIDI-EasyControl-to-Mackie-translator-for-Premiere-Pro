@@ -1,0 +1,89 @@
+; ******************************************************************************
+; ******************************************************************************
+; ***                                                                        ***
+; ***  Copyright (c) 2009-2019 Tobias Erichsen. All rights reserved.         ***
+; ***                                                                        ***
+; ******************************************************************************
+; ******************************************************************************
+
+
+[Version]
+CatalogFile=teVirtualMIDI64.cat
+Signature="$Windows NT$"
+Class=MEDIA
+Provider=%TobiasErichsen%
+ClassGUID={4d36e96c-e325-11ce-bfc1-08002be10318}
+DriverVer = 12/08/2019,1.3.0.43
+
+
+[SourceDisksNames.amd64]
+111=%DiskInfo%,,,
+
+[SourceDisksFiles.amd64]
+teVirtualMIDI64.sys=111
+
+
+[Manufacturer]
+%MfgName%=DeviceList,NTAMD64
+
+
+[DeviceList.NTAMD64]
+%teVirtualMIDI.DeviceDesc64%=teVMIDI,teVirtualMIDI
+
+[DestinationDirs]
+teVMIDIDrv64.CopyList=12,
+
+
+
+;======================================================
+; teVMIDI
+;======================================================
+
+[teVMIDIDrv64.CopyList]
+teVirtualMIDI64.sys
+
+
+
+[teVMIDI.AddReg64]
+HKR,,AssociatedFilters,,"wdmaud,swmidi"
+HKR,,Driver,,teVirtualMIDI64.sys
+HKR,Drivers,SubClasses,,"midi"
+HKR,Drivers\midi\wdmaud.drv,Driver,,wdmaud.drv
+HKR,Drivers\midi\wdmaud.drv,Description,,%teVirtualMIDI.DeviceDesc64%
+
+;======================================================
+; teVMIDI.NT
+;======================================================
+
+[teVMIDI.NTamd64]
+Include=ks.inf,wdmaudio.inf
+Needs=KS.Registration, WDMAUDIO.Registration
+CopyFiles=teVMIDIDrv64.CopyList
+AddReg=teVMIDI.AddReg64
+
+
+[teVMIDI.NTamd64.Services]
+include=wdmaudio.inf
+needs=wdmaudio.registration.services
+AddService=teVirtualMIDI64,2,teVMIDI_Service_Inst64
+
+
+[teVMIDI_Service_Inst64]
+DisplayName=%teVirtualMIDI.SvcDesc64%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\teVirtualMIDI64.sys
+
+;======================================================
+; COMMON
+;======================================================
+[Strings]
+TobiasErichsen="Tobias Erichsen"
+MfgName="Tobias Erichsen"
+teVirtualMIDI.DeviceDesc64="teVirtualMIDI - Virtual MIDI Driver x64"
+teVirtualMIDI.SvcDesc64="teVirtualMIDI - Virtual MIDI Driver x64"
+DiskInfo="teVirtualMIDI Driver Disk"
+
+
+

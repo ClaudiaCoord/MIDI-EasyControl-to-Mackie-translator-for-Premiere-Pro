@@ -22,10 +22,10 @@ namespace Common {
 		L"This error not defined"sv,
 
 		/* Common::json_config */
-		L"Write access to the configuration file is denied, \"{0}\""sv,
-		L"Configuration file missing or access denied, \"{0}\""sv,
-		L"Configuration file is empty, \"{0}\""sv,
-		L"MIDI device name not set in ñonfiguration.."sv,
+		L"Write access to the configuration file is denied, '{0}'"sv,
+		L"Configuration file missing or access denied, '{0}'"sv,
+		L"Configuration file is empty, '{0}'"sv,
+		L"MIDI device name not set in configuration.."sv,
 		L"This configuration does not have configured MIDI keys"sv,
 		L"Attention, no MIDI keys are configured in this configuration! the written configuration will not work."sv,
 
@@ -44,10 +44,10 @@ namespace Common {
 		L"Initialize, before call this.."sv,
 		L"Get audio session list failed"sv,
 		L"Audio session list is null!"sv,
-		L"Audio session disconnect, reason=\"{0}\""sv,
-		L"Audio session created, name=\"{0}\""sv,
-		L"Audio session item \"{0}\" - bad \"{1}\" registered state: {2}/{3}"sv,
-		L"The value being set from the CallBack call is an invalid selector."sv,
+		L"Audio session disconnect, reason='{0}'"sv,
+		L"Audio session created, name='{0}'"sv,
+		L"Audio session item '{0}' - bad '{1}' registered state: {2}/{3}"sv,
+		L"The value being set from the Callback call is an invalid selector."sv,
 
 		/* Common::MIDI */
 		L"Setting a callback is only possible after a successful launch of the MIDI bridge."sv,
@@ -55,6 +55,7 @@ namespace Common {
 		L"Configuration loaded.."sv,
 		L"Configuration already loaded.."sv,
 		L"Configuration empty.."sv,
+		L"Configuration for '{0}' module is empty.."sv,
 		L"New configuration version detected.."sv,
 		L"Unsupported implementation in code, method not overridden: {0}"sv,
 
@@ -73,7 +74,12 @@ namespace Common {
 		L"Driver version [{0}]"sv,
 		L"Driver version trouble = [{0}]"sv,
 		L"Device {0} send bad values = {1}"sv,
-		L"The virtual MIDI driver is not installed. You need to install the loopMidi package, or download the full installer and reinstall MIDI-MT. More details: https://claudiacoord.github.io/MIDI-MT/docs/EN/Dependencies.html"sv,
+		L"The virtual MIDI driver is not installed. You need to install the 'Virtual Loop MIDI' package, or download the full installer and reinstall MIDI-MT. More details: https://claudiacoord.github.io/MIDI-MT/docs/EN/Dependencies.html"sv,
+		L"The installed virtual MIDI driver was not found or empty! You must install the 'Virtual Loop MIDI' package to run the MIDI-MT translator. More details: https://claudiacoord.github.io/MIDI-MT/docs/EN/Dependencies.html"sv,
+		L"Upon startup, {0} proxy MIDI ports will be created."sv,
+		L"MIDI proxy ports are disabled."sv,
+		L"Upon startup, {0} output MIDI ports will be created."sv,
+		L"MIDI output ports are disabled."sv,
 
 		/* Common::MMKey */
 		L"The media key control service is running."sv,
@@ -86,11 +92,18 @@ namespace Common {
 		L"Connected to MQTT server:"sv,
 		L"Failed connect to MQTT server:"sv,
 		L"Disconnected from MQTT server:"sv,
-		L"CA certificate file not exists, path=\"{0}\""sv,
+		L"CA certificate file not exists, path='{0}'"sv,
 		L"The Smart-Home control service is running."sv,
 		L"The Smart-Home control service has stopped."sv,
+		L"CA certificate"sv,
+		L"no log is maintained"sv,
+		L"information"sv,
+		L"notifications"sv,
+		L"warnings"sv,
+		L"only errors"sv,
+		L"all messages"sv,
 
-		/* Common::MIDIMT */
+		/* Common::MIDIMT Audio Mixer Panel */
 		L"Audio Mixer Panel - Cannot continue, index entries are incorrect."sv,
 		L"Audio mixer panel - unable to continue, initialization error."sv,
 		L"The audio mixer panel window does not match the status, it is not possible to continue with the next operation."sv,
@@ -102,14 +115,45 @@ namespace Common {
 		L"The DMX lighting control service is not running, the COM{0} device is not connected.."sv,
 		L"The DMX lighting control service is not running and the service configuration is empty."sv,
 		L"The DMX lights control service service has stopped."sv,
+		L"No suitable devices available"sv,
+		L"Select DMX device"sv,
 
 		/* Common::LIGHT::ArtNet */
 		L"The ArtNet lighting control service is running using the broadcast address {0}:{1} on network {2}."sv,
 		L"The ArtNet lights control service is not started, network {0} not found.."sv,
 		L"The ArtNet lighting control service is not running and the service configuration is empty."sv,
 		L"The ArtNet lights control service service has stopped."sv,
+		L"No suitable interfaces available"sv,
+		L"Select ARTNET interface"sv,
 
-		L"-" /* err_NONE */
+		/* Common::IO::Plugins */
+		L"Plugin initialization error, unable to convert CLSID/GUID from specified string."sv,
+		L"Failed to initialize plugins, no compatible plugins were found."sv,
+		L"Failed to load plugins, {0} plugins pre-initialized, loaded 0 plugins."sv,
+		L"Plugins initialized successfully, pre-initialization {0}, loaded {1} plugins."sv,
+		L"Bridge launched successfully, {0} initialized, {1} loaded, running {2} plugins."sv,
+		L"Failed to start the bridge, error when starting plugins, {0} initialized, loaded {1} plugins."sv,
+		L"Bridge stopped successfully, {0} initialized, {1} loaded, {2} running, stopped {3} plugins."sv,
+		L"Failed to stop the bridge, error when starting plugins, {0} initialized, {1} loaded, running {2} plugins."sv,
+		L"Plugins already loaded, reset before reloaded."sv,
+		L"Plugins already started."sv,
+		L"Plugins already stopped."sv,
+		L"Failed to open plugin module. Module is missing or damaged, DLL was not loaded and returned null."sv,
+		L"The module is not a MIDI-MT plugin and lacks the necessary entry points."sv,
+		L"Enable={0},Config={1},Start={2}"sv,
+
+		/* Common::MIDIMT */
+		L"Configuration updated: {0} = {1}{2}"sv,
+		L"No modules found, startup impossible."sv,
+		L"Please edit the configuration before starting."sv,
+		L"Configuration file"sv,
+		L"Configuration loaded from file: {0}"sv,
+		L"Configuration loaded from driver"sv,
+		L"The selected {0} language will be active after the window is restarted."sv,
+		L"Installed Virtual MIDI driver version: {0}"sv,
+
+		/* err_NONE */
+		L"-"sv
 	};
 
 }

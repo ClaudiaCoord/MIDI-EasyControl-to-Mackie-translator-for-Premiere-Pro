@@ -17,16 +17,14 @@
 
 #define FLAG_EXPORT __declspec(dllimport)
 
-class bridge_out_event;
-class bridge_in_event;
 class MidiDriver;
 class MidiControllerBase;
 class MidiControllerVirtual;
-class MidiControllerIn;
-class MidiControllerOut;
-class MidiControllerProxy;
 
-#include "h\MidiBridge.h"
+#include "h\MidiDriver.h"
+#include "h\MidiControllerBase.h"
+#include "h\MidiControllerVirtual.h"
+#include "h\MidiDevices.h"
 
 #undef FLAG_EXPORT
 

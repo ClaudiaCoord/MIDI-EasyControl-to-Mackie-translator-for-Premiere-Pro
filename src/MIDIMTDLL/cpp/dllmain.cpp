@@ -11,25 +11,24 @@
 */
 
 #include "CommonApi.h"
+#pragma comment(lib, "comctl32.lib")
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "version.lib")
 
 #ifdef __cplusplus
 extern "C" { void __cdecl CloseOnExit(); }
 #endif
 
-BOOL APIENTRY DllMain(HMODULE hModule,
-    DWORD  ul_reason_for_call,
-    LPVOID lpReserved
-)
+BOOL APIENTRY DllMain(HMODULE, DWORD r, LPVOID)
 {
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        CloseOnExit();
-        break;
+    switch (r) {
+        case DLL_PROCESS_ATTACH:
+        case DLL_THREAD_ATTACH: break;
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH: {
+            CloseOnExit();
+            break;
+        }
     }
     return TRUE;
 }

@@ -1,29 +1,18 @@
-﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "MIDI Mackie транслятор"
+    POPUP "__TRAYMENU"
     BEGIN
         MENUITEM " ",                           IDM_GO_EMPTY
         MENUITEM "&Информация",                 IDM_GO_INFO
@@ -33,7 +22,7 @@ BEGIN
             MENUITEM "&Монитор",		IDM_GO_MONITOR
             MENUITEM "&Просмотр лог-файла",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Настройка",                  IDM_GO_CONFIGURE
+        MENUITEM "&Настройка",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
         MENUITEM "Ст&арт",                      IDM_GO_START
         MENUITEM "Ст&оп",                       IDM_GO_STOP, CHECKED, GRAYED
@@ -42,19 +31,50 @@ BEGIN
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "выход",					DLG_EXIT
+    MENUITEM "крупнее",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "мельче",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "в начало",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "в конец",					DLG_LOGVIEW_MENU_END
+    MENUITEM "очистить",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "конфигурация"
+    BEGIN
+	MENUITEM "показать всю конфигурацию",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "показать MIDI конфигурацию",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "показать MQTT конфигурацию",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "показать MMKEYS конфигурацию",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "показать LIGTS конфигурацию",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "показать DMX512 конфигурацию",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "показать ArtNet конфигурацию",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "плагины"
+    BEGIN
+	MENUITEM "статистика плагинов",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "старт",				DLG_GO_START
+    MENUITEM "стоп",				DLG_GO_STOP
+    MENUITEM "сохранить настройки",		DLG_SAVE
+    MENUITEM "помощь",				DLG_GO_HELP
+    POPUP "язык"
+    BEGIN
+	MENUITEM "авто",			DLG_LANG_MENU_0
+    END
+    MENUITEM "лог",				DLG_GO_LOG
+    MENUITEM "выход",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Расположение.."
         BEGIN
@@ -68,10 +88,10 @@ BEGIN
             MENUITEM "Метро",			IDM_METRO
             MENUITEM "Светлая",			IDM_LIGHT
             MENUITEM "Тёмная",			IDM_DARK
-            MENUITEM "Рэтро",			IDM_RETRO
+            MENUITEM "Ретро",			IDM_RETRO
             MENUITEM "Современный",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Настраеваямая",		IDM_CUSTOM
+            MENUITEM "Настраиваемая",		IDM_CUSTOM
             MENUITEM "Настройка темы",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
@@ -85,9 +105,9 @@ BEGIN
     END
 END
 
-IDR_LV_MENU MENU
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
         MENUITEM "Новая запись",                IDM_LV_NEW
         MENUITEM SEPARATOR
@@ -106,48 +126,48 @@ BEGIN
 		MENUITEM "Канал 16 бит (расширенный)", IDM_LV_SET_LIGHTKEY16B
 	    END
             MENUITEM SEPARATOR
-            MENUITEM "Неназначенный",		IDM_LV_SET_NONE
+            MENUITEM "Не назначенный",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
         MENUITEM "Читать MIDI код..",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
         POPUP "Регуляторы.."
         BEGIN
             MENUITEM "Полосковый регулятор",        IDM_COL3_SLIDER
             MENUITEM "Полосковый регулятор с инверсией", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Круговый регулятор",          IDM_COL3_FADER
-            MENUITEM "Круговый регулятор с инверсией", IDM_COL3_FADERINVERT
+            MENUITEM "Круговой регулятор",          IDM_COL3_FADER
+            MENUITEM "Круговой регулятор с инверсией", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
             MENUITEM "Энкодер",                     IDM_COL3_KNOB
             MENUITEM "Энкодер с инверсией",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Неназначенный",               IDM_COL3_NONE
+            MENUITEM "Не назначенный",               IDM_COL3_NONE
         END
         POPUP "Кнопки.."
         BEGIN
             MENUITEM "Кнопка",                      IDM_COL3_BTN
             MENUITEM "Кнопка переключать, с индикацией", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Неназначенный",               IDM_COL3_NONE
+            MENUITEM "Не назначенный",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Неназначенный",			IDM_COL4_NONE
+        MENUITEM "Не назначенный",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Регуляторы..",			IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Кнопки..",				IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Регуляторы..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Кнопки..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Контроль относиться к аудио микшеру", IDM_COL4_VOLUMEMIX
         MENUITEM "Контроль относиться к мультимедиа кнопкам", IDM_COL4_MEDIAKEY
@@ -160,11 +180,11 @@ BEGIN
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Неназначенный",		   IDM_COL4_NONE
+        MENUITEM "Не назначенный",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Управление звуком.."
         BEGIN
@@ -277,12 +297,12 @@ BEGIN
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Энкодер (покадровый просмотр)", IDM_COL4_JOG
-        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM "Не назначенный",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Управление звуком.."
         BEGIN
@@ -347,9 +367,9 @@ BEGIN
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
         MENUITEM "Громкость (мастер)",          IDM_COL4_MAV
         MENUITEM "Энкодер (JOG)",               IDM_COL4_JOG
@@ -376,13 +396,13 @@ BEGIN
             MENUITEM "канал 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM "Не назначенный",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
         MENUITEM "Без звука (мастер)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
@@ -399,13 +419,13 @@ BEGIN
             MENUITEM "канал 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM "Не назначенный",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
         MENUITEM "Играть/Пауза",                IDM_COL4_SYS_Play
         MENUITEM "Стоп",                        IDM_COL4_SYS_Stop
@@ -419,13 +439,13 @@ BEGIN
         MENUITEM "Увеличение масштаба",         IDM_COL4_SYS_Zoom
         MENUITEM "Скрабирование",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Неназначенный",               IDM_COL4_NONE
+        MENUITEM "Не назначенный",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
         MENUITEM "уровень 1",                    IDM_COL4_AV1
         MENUITEM "уровень 2",                    IDM_COL4_AV2
@@ -446,13 +466,13 @@ BEGIN
         MENUITEM "уровень 17",                    IDM_COL4_AP8
         MENUITEM "уровень 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Неназначенный",                 IDM_COL4_NONE
+        MENUITEM "Не назначенный",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
     MENUITEM "вкл/выкл 1",                     IDM_COL4_B11
     MENUITEM "вкл/выкл 2",                     IDM_COL4_B12
@@ -482,7 +502,7 @@ BEGIN
     MENUITEM "вкл/выкл 26",                     IDM_COL4_B38
     MENUITEM "вкл/выкл 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "Неназначенный",                   IDM_COL4_NONE
+    MENUITEM "Не назначенный",                   IDM_COL4_NONE
     END
 END
 

@@ -37,11 +37,12 @@ namespace Common {
         }
         log_string SerialPortConfig::dump() {
             log_string ls{};
-            ls << L"Port: COM" << port << L", ";
+            ls << L"\tenable module:" << Utils::BOOL_to_string(enable);
+            ls << L"\n\tPort: COM" << port << L", ";
             ls << L"Baudrate: " << baudrate << L", ";
             ls << L"Stop bits: " << stop_bits;
             if (!name.empty())
-                ls << L", Name: " << name.c_str();
+                ls << L"\n\tDevice name: " << name.c_str();
             ls << L"\n";
             return ls;
         }

@@ -20,20 +20,17 @@ namespace Common {
 
 		bool GetLogWrite();
 		bool GetAutoRun();
-		bool GetSysAutoStart();
+		int  GetLanguageId();
+		bool GetSysAutoBoot();
 		bool GetMixerEnable();
-		bool GetMMKeyEnable();
-		bool GetSmartHomeEnable();
 		bool GetMixerRightClick();
 		bool GetMixerFastValue();
 		bool GetMixerSetOldLevelValue();
 		bool GetMixerDupAppRemove();
-		int  GetLanguageId();
 		bool GetUiShowMidiKeyBind();
 		bool GetUiShowAudioPeakMeter();
 		bool GetUiShowAppPath();
 		bool GetUiAnimation();
-		bool GetDMXPollEnable();
 		ui_themes::ThemeId GetUiTheme();
 		ui_themes::ThemeId GetUiCustomTheme();
 		ui_themes::ThemePlace GetUiPlace();
@@ -44,16 +41,14 @@ namespace Common {
 
 		void SetLogWrite(bool);
 		void SetAutoRun(bool);
-		void SetSysAutoStart(bool);
+		void SetSysAutoBoot(bool);
+		void SetLanguageId(int);
+		void SetConfPath(std::wstring&);
 		void SetMixerEnable(bool);
-		void SetMMKeyEnable(bool);
-		void SetSmartHomeEnable(bool);
 		void SetMixerRightClick(bool);
 		void SetMixerFastValue(bool);
 		void SetMixerSetOldLevelValue(bool);
 		void SetMixerDupAppRemove(bool);
-		void SetLanguageId(int);
-		void SetConfPath(std::wstring&);
 		void SetUiAnimation(bool);
 		void SetUiShowAppPath(bool);
 		void SetUiShowMidiKeyBind(bool);
@@ -66,6 +61,5 @@ namespace Common {
 		void SetUiCustomThemeColorBackground(COLORREF);
 		void SetUiCustomThemeColorBorder(COLORREF);
 		void SetDisplay(RECT&);
-		void SetDMXPollEnable(bool);
 	};
 }

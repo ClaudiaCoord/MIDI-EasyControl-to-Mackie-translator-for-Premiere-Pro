@@ -18,47 +18,47 @@ namespace Common {
 		using namespace std::placeholders;
 
 		CbEventDataDeleter::CbEventDataDeleter(CbEventData* d) {
-			cbd__ = d;
+			cbd_ = d;
 		}
 		CbEventDataDeleter::~CbEventDataDeleter() {
 			try {
-				CbEventData* d = cbd__;
-				cbd__ = nullptr;
-				if (d != nullptr) delete d;
+				CbEventData* d = cbd_;
+				cbd_ = nullptr;
+				if (d) delete d;
 			} catch (...) {}
 		}
 		CbEventData* CbEventDataDeleter::GetData() {
-			return cbd__;
+			return cbd_;
 		}
 		CbHWNDType CbEventDataDeleter::GetType() {
-			if (cbd__ == nullptr) return CbHWNDType::TYPE_CB_NONE;
-			return cbd__->GetType();
+			if (!cbd_) return CbHWNDType::TYPE_CB_NONE;
+			return cbd_->GetType();
 		}
 
 		template <typename T>
 		T CbEventDataDeleter::Get() {
 			if constexpr (std::is_same_v<std::wstring, T>) {
-				if (cbd__ == nullptr) return L"";
-				return cbd__->Get<T>();
+				if (!cbd_) return L"";
+				return cbd_->Get<T>();
 			}
 			if constexpr (std::is_same_v<std::pair<DWORD, Common::MIDI::Mackie::MIDIDATA>, T>) {
-				if (cbd__ == nullptr) std::pair<DWORD, Common::MIDI::Mackie::MIDIDATA>();
-				return cbd__->Get<T>();
+				if (!cbd_) std::pair<DWORD, Common::MIDI::Mackie::MIDIDATA>();
+				return cbd_->Get<T>();
 			}
 		}
 		template std::wstring CbEventDataDeleter::Get<std::wstring>();
 		template std::pair<DWORD, MIDI::Mackie::MIDIDATA> CbEventDataDeleter::Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
 
 		CbEventData::CbEventData(std::wstring s) {
-			type__ = CbHWNDType::TYPE_CB_LOG;
-			ws__ = std::wstring(s.begin(), s.end());
+			type_ = CbHWNDType::TYPE_CB_LOG;
+			ws_ = std::wstring(s.begin(), s.end());
 		}
 		CbEventData::CbEventData(MIDI::Mackie::MIDIDATA& m, DWORD& t) {
-			type__ = CbHWNDType::TYPE_CB_MON;
-			data__ = std::pair<DWORD, MIDI::Mackie::MIDIDATA>(t, m);
+			type_ = CbHWNDType::TYPE_CB_MON;
+			data_ = std::pair<DWORD, MIDI::Mackie::MIDIDATA>(t, m);
 		}
 		CbHWNDType CbEventData::GetType() {
-			return type__;
+			return type_;
 		}
 		CbEventDataDeleter CbEventData::GetDeleter() {
 			return CbEventDataDeleter(this);
@@ -67,15 +67,14 @@ namespace Common {
 		template <typename T>
 		T CbEventData::Get() {
 			if constexpr (std::is_same_v<std::wstring, T>)
-				return ws__;
+				return ws_;
 			if constexpr (std::is_same_v<std::pair<DWORD, Common::MIDI::Mackie::MIDIDATA>, T>)
-				return data__;
+				return data_;
 		}
 		template std::wstring CbEventData::Get<std::wstring>();
 		template std::pair<DWORD, MIDI::Mackie::MIDIDATA> CbEventData::Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
 
-
-		static inline void send_(HWND hwnd, std::wstring ws, bool singleline) {
+		static inline void print__(HWND hwnd, std::wstring ws, bool singleline) {
 			if (singleline)
 				::SendMessageW(hwnd, WM_SETTEXT, (WPARAM)0, reinterpret_cast<LPARAM>(ws.c_str()));
 			else {
@@ -86,66 +85,80 @@ namespace Common {
 		}
 
 		CbEvent::CbEvent()
-			: HwndCb([]() { return nullptr; }) {
-			Set(
-				MIDI::ClassTypes::ClassMonitor,
-				std::bind(static_cast<const bool(CbEvent::*)(Common::MIDI::Mackie::MIDIDATA&, DWORD&)>(&CbEvent::MonitorCb), this, _1, _2),
-				[=](MIDI::MidiUnit&, DWORD&) -> bool { return false; },
-				std::bind(static_cast<void(CbEvent::*)(const std::wstring&)>(&CbEvent::LogCb), this, _1)
-			);
+			: GetHwndCb([]() { return nullptr; }),
+			  PluginCb::PluginCb(
+				  this,
+				  IO::PluginClassTypes::ClassMonitor,
+				  (IO::PluginCbType::Out1Cb | IO::PluginCbType::LogoCb | IO::PluginCbType::ConfCb)) {
+
+			PluginCb::out2_cb_ = [=](MIDI::MidiUnit&, DWORD) {};
+			PluginCb::out1_cb_ = std::bind(static_cast<void(CbEvent::*)(Common::MIDI::Mackie::MIDIDATA, DWORD)>(&CbEvent::monitor_cb_), this, _1, _2);
+			PluginCb::cnf_cb_ = std::bind(static_cast<void(CbEvent::*)(std::shared_ptr<JSON::MMTConfig>&)>(&CbEvent::set_config_cb_), this, _1);
+			PluginCb::logo_cb_ = std::bind(static_cast<void(CbEvent::*)(const std::wstring&)>(&CbEvent::log_cb_), this, _1);
+		}
+		void CbEvent::Init() {
+			ILOG = DLG_EVENT_LOG;
+			IMON = DLG_EVENT_MONITOR;
+		}
+		void CbEvent::Init(int id) {
+			ILOG = IMON = id;
 		}
 		void CbEvent::Init(int l, int m) {
 			ILOG = l; IMON = m;
 		}
 		void CbEvent::Clear() {
-			HwndCb = []() { return nullptr; };
+			GetHwndCb = []() { return nullptr; };
 		}
-		void CbEvent::AddToLog(std::wstring s) {
-			LogCb(s);
+		void CbEvent::AddToLog(const std::wstring s) {
+			log_cb_(s);
 		}
 
-		void CbEvent::LogCb(const std::wstring& s) {
+		void CbEvent::log_cb_(const std::wstring& s) {
 			try {
-				do {
-					if ((ILOG < 0) || s.empty()) break;
-					HWND hwnd = HwndCb();
-					if (hwnd == nullptr) break;
-					::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(ILOG, 0), (LPARAM)reinterpret_cast<LPARAM>(new CbEventData(s)));
-				} while (0);
+				if ((ILOG <= 0) || s.empty()) return;
+				HWND hwnd;
+				if (!(hwnd = GetHwndCb())) return;
+				::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(ILOG, 0), (LPARAM)reinterpret_cast<LPARAM>(new CbEventData(s)));
 			} catch (...) {}
 		}
-		const bool CbEvent::MonitorCb(MIDI::Mackie::MIDIDATA& m, DWORD& t) {
+		void CbEvent::monitor_cb_(MIDI::Mackie::MIDIDATA m, DWORD t) {
 			try {
-				do {
-					if (IMON < 0) break;
-					HWND hwnd = HwndCb();
-					if (hwnd == nullptr) break;
-					::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IMON, 0), (LPARAM)reinterpret_cast<LPARAM>(new CbEventData(m, t)));
-					return true;
-				} while (0);
+				if (IMON <= 0) return;
+				HWND hwnd;
+				if (!(hwnd = GetHwndCb())) return;
+				::PostMessageW(hwnd, WM_COMMAND, MAKEWPARAM(IMON, 0), (LPARAM)reinterpret_cast<LPARAM>(new CbEventData(m, t)));
 			} catch (...) {}
-			return false;
+		}
+		void CbEvent::set_config_cb_(std::shared_ptr<JSON::MMTConfig>& mmt) {
+			try {
+				if (ILOG <= 0) return;
+				log_cb_(log_string().to_log_format(
+					__FUNCTIONW__,
+					common_error_code::Get().get_error(common_error_id::err_MIDIMT_UPCONFIG),
+					mmt->config, L" status: ", Utils::BOOL_to_string(!mmt->empty()))
+				);
+			} catch (...) {}
 		}
 
 		void CbEvent::ToLog(HWND hwnd, CbEventData* data, bool singleline) {
 			try {
-				if ((hwnd == nullptr) || (data == nullptr) || data->GetType() != CbHWNDType::TYPE_CB_LOG) return;
+				if (!hwnd || !data || (data->GetType() != CbHWNDType::TYPE_CB_LOG)) return;
 				std::wstring ws = (singleline) ? data->Get<std::wstring>() :
 					(log_string() << data->Get<std::wstring>().c_str() << L"\r\n").str();
 
-				send_(hwnd, ws, singleline);
+				print__(hwnd, ws, singleline);
 			} catch (...) {}
 		}
 		void CbEvent::ToMonitor(HWND hwnd, CbEventData* data, bool singleline) {
 			try {
-				if ((hwnd == nullptr) || (data == nullptr) || data->GetType() != CbHWNDType::TYPE_CB_MON) return;
+				if (!hwnd || !data || (data->GetType() != CbHWNDType::TYPE_CB_MON)) return;
 				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
 				std::wstring ws = (log_string() << p.second.UiDump()
-												<< L"," << Gui::GetBlank(p.second.value())
-												<< L"\tTime offset: " << Utils::MILLISECONDS_to_string(p.first)
+												<< L"," << UI::UiUtils::GetBlank(p.second.value())
+												<< L"\tCount offset: " << p.first
 												<< (singleline ? L"" : L"\r\n")
 					);
-				send_(hwnd, ws, singleline);
+				print__(hwnd, ws, singleline);
 			} catch (...) {}
 		}
 	}

@@ -27,7 +27,7 @@ namespace MIDIMTLIBTest
 
 		MIDIMTLIBTest() {
 			Common::to_log& log = Common::to_log::Get();
-			log.registred(
+			log.add(
 				std::bind(static_cast<void(MIDIMTLIBTest::*)(const std::wstring&)>(&MIDIMTLIBTest::print), this, _1)
 			);
 		}
@@ -49,9 +49,9 @@ namespace MIDIMTLIBTest
 		TEST_METHOD(TestMethod2) {
 			try {
 				throw Common::make_common_error(
-					Common::log_string().to_log_fomat(
+					Common::log_string().to_log_format(
 						__FUNCTIONW__,
-						Common::common_error_code::Get().get_error(Common::common_error_id::err_COUNT_DEVICES),
+						Common::common_error_code::Get().get_error(Common::common_error_id::err_MIDI_COUNT_DEVICES),
 						1, 2
 					).str()
 				);
@@ -62,9 +62,9 @@ namespace MIDIMTLIBTest
 		TEST_METHOD(TestMethod3) {
 			try {
 				throw Common::make_common_error(
-					Common::log_string().to_log_fomat(
+					Common::log_string().to_log_format(
 						__FUNCTIONW__,
-						Common::common_error_code::Get().get_error(Common::common_error_id::err_COUNT_DEVICES),
+						Common::common_error_code::Get().get_error(Common::common_error_id::err_MIDI_COUNT_DEVICES),
 						1, 2
 					)
 				);
@@ -74,9 +74,9 @@ namespace MIDIMTLIBTest
 		}
 		TEST_METHOD(TestMethod4) {
 			try {
-				Common::to_log::Get() << Common::log_string().to_log_fomat(
+				Common::to_log::Get() << Common::log_string().to_log_format(
 					__FUNCTIONW__,
-					Common::common_error_code::Get().get_error(Common::common_error_id::err_DEVICE_OPEN),
+					Common::common_error_code::Get().get_error(Common::common_error_id::err_MIDI_DEVICE_OPEN),
 					1, 2
 				);
 			} catch (...) {

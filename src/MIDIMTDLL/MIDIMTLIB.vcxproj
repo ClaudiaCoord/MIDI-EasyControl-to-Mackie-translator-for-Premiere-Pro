@@ -113,7 +113,7 @@
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4251;4910</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +139,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4251;4910</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,7 +162,7 @@
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4251;4910</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,7 +186,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ExceptionHandling>Async</ExceptionHandling>
-      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4251;4910</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -204,27 +204,36 @@
     <ClInclude Include="..\Common\h\common_error_string.h" />
     <ClInclude Include="..\Common\h\common_event.h" />
     <ClInclude Include="..\Common\h\common_utils.h" />
+    <ClInclude Include="..\Common\h\hwnd_ptr.h" />
+    <ClInclude Include="..\Common\h\json\main_config.h" />
     <ClInclude Include="..\Common\h\light\ArtnetInterfaceConfig.h" />
     <ClInclude Include="..\Common\h\light\ArtnetPacket.h" />
     <ClInclude Include="..\Common\h\light\DMXPacket.h" />
     <ClInclude Include="..\Common\h\light\DMXSerialPortConfig.h" />
     <ClInclude Include="..\Common\h\handle_ptr.h" />
+    <ClInclude Include="..\Common\h\light\LightsConfig.h" />
     <ClInclude Include="..\Common\h\locker_auto.h" />
     <ClInclude Include="..\Common\h\locker_awaiter.h" />
     <ClInclude Include="..\Common\h\log_string.h" />
-    <ClInclude Include="..\Common\h\json_recent.h" />
+    <ClInclude Include="..\Common\h\json\tiny_json.h" />
+    <ClInclude Include="..\Common\h\json\json_recent.h" />
+    <ClInclude Include="..\Common\h\json\json_config.h" />
     <ClInclude Include="..\Common\h\midi\Midi.h" />
     <ClInclude Include="..\Common\h\midi\MidiHelper.h" />
-    <ClInclude Include="..\Common\h\midi\MidiInstance.h" />
-    <ClInclude Include="..\Common\h\midi\json_config.h" />
     <ClInclude Include="..\Common\h\midi\Mackie.h" />
     <ClInclude Include="..\Common\h\midi\MackieHelper.h" />
     <ClInclude Include="..\Common\h\midi\MidiData.h" />
     <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_cb.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_constant.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_helper.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_info.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_types.h" />
+    <ClInclude Include="..\Common\h\plugins\plugin_ui.h" />
     <ClInclude Include="..\Common\h\registry.h" />
     <ClInclude Include="..\Common\h\seh_exception.h" />
     <ClInclude Include="..\Common\h\common_timer.h" />
-    <ClInclude Include="..\Common\h\tiny_json.h" />
     <ClInclude Include="..\Common\h\ui_themes.h" />
     <ClInclude Include="..\Common\h\worker_background.h" />
     <ClInclude Include="..\Common\rc\resource.h" />
@@ -236,31 +245,38 @@
     <ClCompile Include="cpp\common_config.cpp" />
     <ClCompile Include="cpp\common_error.cpp" />
     <ClCompile Include="cpp\common_utils.cpp" />
+    <ClCompile Include="cpp\hwnd_ptr.cpp" />
+    <ClCompile Include="cpp\json\main_config.cpp" />
     <ClCompile Include="cpp\light\ArtnetInterfaceConfig.cpp" />
     <ClCompile Include="cpp\light\ArtnetPacket.cpp" />
     <ClCompile Include="cpp\light\DMXPacket.cpp" />
     <ClCompile Include="cpp\light\DMXSerialPortConfig.cpp" />
+    <ClCompile Include="cpp\light\LightsConfig.cpp" />
     <ClCompile Include="cpp\locker_auto.cpp" />
     <ClCompile Include="cpp\locker_awaiter.cpp" />
     <ClCompile Include="cpp\log_string.cpp" />
-    <ClCompile Include="cpp\json_recent.cpp" />
-    <ClCompile Include="cpp\midi\json_config.cpp" />
+    <ClCompile Include="cpp\json\tiny_json.cpp" />
+    <ClCompile Include="cpp\json\json_recent.cpp" />
+    <ClCompile Include="cpp\json\json_config.cpp" />
     <ClCompile Include="cpp\midi\Mackie.cpp" />
     <ClCompile Include="cpp\midi\MackieHelper.cpp" />
     <ClCompile Include="cpp\midi\MidiData.cpp" />
     <ClCompile Include="cpp\midi\MidiHelper.cpp" />
-    <ClCompile Include="cpp\midi\MidiInstance.cpp" />
     <ClCompile Include="cpp\mqtt\BrokerConfig.cpp" />
+    <ClCompile Include="cpp\plugins\plugin.cpp" />
+    <ClCompile Include="cpp\plugins\plugin_cb.cpp" />
+    <ClCompile Include="cpp\plugins\plugin_helper.cpp" />
+    <ClCompile Include="cpp\plugins\plugin_info.cpp" />
+    <ClCompile Include="cpp\plugins\plugin_ui.cpp" />
     <ClCompile Include="cpp\registry.cpp" />
     <ClCompile Include="cpp\seh_exception.cpp" />
     <ClCompile Include="cpp\common_timer.cpp" />
     <ClCompile Include="cpp\dllmain.cpp" />
-    <ClCompile Include="cpp\tiny_json.cpp" />
     <ClCompile Include="cpp\ui_themes.cpp" />
     <ClCompile Include="cpp\worker_background.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc" />
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

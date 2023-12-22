@@ -16,38 +16,38 @@ namespace Common {
 	namespace MIXER {
 
 		AudioSessionUnit::AudioSessionUnit(MIDI::MidiUnit& u, bool isinit)
-			: unit__(u), type__(AudioSessionItemId::normalize_type(u.type)), id__((u.scene * 1000) + u.key) {
+			: unit_(u), type_(AudioSessionItemId::normalize_type(u.type)), id_((u.scene * 1000) + u.key) {
 			if (isinit) {
 				for (auto& a : u.appvolume)
-					applist__.push_front(AudioSessionItemApp::hash(a));
+					applist_.push_front(AudioSessionItemApp::hash(a));
 			}
 		}
 
 		const MIDI::MidiUnitType AudioSessionUnit::GetType() const {
-			return type__;
+			return type_;
 		}
 		const uint32_t	AudioSessionUnit::GetId() const {
-			return id__;
+			return id_;
 		}
 		const uint8_t	AudioSessionUnit::GetVolume() {
 			try {
-				return unit__.value.value;
+				return unit_.value.value;
 			} catch (...) {}
 			return 0U;
 		}
 		const bool		AudioSessionUnit::GetMute() {
 			try {
-				return unit__.value.lvalue;
+				return unit_.value.lvalue;
 			} catch (...) {}
 			return false;
 		}
-		ItemIdPair		AudioSessionUnit::GetData() {
-			return std::make_pair(type__, id__);
+		ItemIdPair_t	AudioSessionUnit::GetData() {
+			return std::make_pair(type_, id_);
 		}
 		const bool		AudioSessionUnit::AppFound(std::size_t h) {
 			try {
-				if (!applist__.empty()) {
-					auto it = std::find_if(applist__.begin(), applist__.end(), [=](std::size_t& x) {
+				if (!applist_.empty()) {
+					auto it = std::find_if(applist_.begin(), applist_.end(), [=](std::size_t& x) {
 						#if defined(_DEBUG_AUDIOSESSION)
 						if (x == h) {
 							log_string ls{};
@@ -57,7 +57,7 @@ namespace Common {
 						#endif
 						return x == h;
 					});
-					return (it != applist__.end());
+					return (it != applist_.end());
 				}
 			} catch (...) {}
 			return false;
@@ -65,8 +65,8 @@ namespace Common {
 
 		void			AudioSessionUnit::UpdateVolume(uint8_t v, bool m) {
 			try {
-				unit__.value.value = v;
-				unit__.value.lvalue = m;
+				unit_.value.value = v;
+				unit_.value.lvalue = m;
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 		}
 
@@ -75,13 +75,12 @@ namespace Common {
 				log_string s{};
 				s << L"{ id:" << GetId() << L", volume:" << (uint32_t)GetVolume() << L", mute:" << std::boolalpha << GetMute();
 				s << L"\n\t[app:";
-				for (auto& a : applist__)
+				for (auto& a : applist_)
 					s << a << L", ";
 				s << L"]}\n";
 				return s;
 			} catch (...) {}
 			return log_string();
 		}
-
 	}
 }

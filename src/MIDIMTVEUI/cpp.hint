@@ -1,0 +1,7 @@
+// Файлы указаний помогают среде IDE Visual Studio интерпретировать идентификаторы Visual C++
+// (например, имена функций и макросов).
+// Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
+#define FLAG_EXPORT
+#define FLAG_EXPORT __declspec(dllimport)
+#define FLAG_EXPORT __declspec(dllexport)
+#define FLAG_EXTERN

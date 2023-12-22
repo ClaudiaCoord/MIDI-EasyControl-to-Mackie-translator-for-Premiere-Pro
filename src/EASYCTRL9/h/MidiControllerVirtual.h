@@ -15,21 +15,25 @@
 namespace Common {
     namespace MIDI {
 
-        class MidiControllerVirtual : public MidiControllerBase
-        {
+        using namespace std::string_view_literals;
+
+        class FLAG_EXPORT MidiControllerVirtual : public MidiControllerBase {
         private:
-            const wchar_t* LogTag = L"MIDI virtual device ";
-            LPVM_MIDI_PORT midi_port__;
+            static constexpr std::wstring_view LogTag = L"MIDI virtual device "sv;
+            LPVM_MIDI_PORT midi_port_;
+            void dispose_();
 
         public:
 
             MidiControllerVirtual() = delete;
-            MidiControllerVirtual(std::shared_ptr<MidiDriver>, std::wstring);
+            MidiControllerVirtual(IO::PluginCb&, std::shared_ptr<MidiDriver>&, std::wstring);
             ~MidiControllerVirtual();
-            virtual const bool Start() override;
-            virtual void Stop() override;
-            virtual void Dispose() override;
-            virtual const bool SendToPort(Mackie::MIDIDATA& m, DWORD&) override;
+
+            void       Stop() override final;
+            const bool Start() override final;
+            const bool Start(std::shared_ptr<JSON::MMTConfig>&) override final;
+            void SendToPort(MIDI::Mackie::MIDIDATA& m, DWORD&) override final;
+            void SendToPort(MIDI::MidiUnit&, DWORD&) override final;
         };
     }
 }

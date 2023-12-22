@@ -1,14 +1,33 @@
 {
-	"name":"W-FADER",
-	"config":"MidiController",
-	"autostart":"false",
-	"manualport":"false",
-	"jogscenefilter":"true",
-	"proxy":0,
-	"btninterval":50,
-	"btnlonginterval":500,
+	"config": {
+		"name": "MidiController",
+		"autostart": true,
+		"build": "1.0.6.0"
+	},
+	"midi": {
+		"midictrl": {
+			"enable": true,
+			"jogscenefilter": true,
+			"outsystemport": false,
+			"proxy": 0,
+			"btninterval": 50,
+			"btnlonginterval": 500
+		},
+		"midiin": {
+			"enable": true,
+			"port": [ "W-FADER" ]
+		},
+		"midiout": {
+			"enable": false,
+			"port": []
+		}
+	},
+	"mmkey": {
+		"enable": true
+	},
 	"mqtt": {
-		"host": "192.168.1.1",
+		"enable": true,
+		"host": "192.168.22.1",
 		"login": "ctrl9",
 		"pass": "12345",
 		"prefix": "",
@@ -16,12 +35,13 @@
 		"certcapath": "",
 		"port": 1883,
 		"loglevel": 16,
-		"isssl": "false",
-		"selfsigned": "false"
+		"isssl": false,
+		"selfsigned": false
 	},
 	"lights": {
+		"pool": false,
 		"dmx": {
-			"enable": "true",
+			"enable": false,
 			"port": 5,
 			"baudrate": 250000,
 			"stopbits": 2,
@@ -29,130 +49,1114 @@
 			"name": "USB Serial Port"
 		},
 		"artnet": {
-			"enable": "false",
+			"enable": true,
 			"port": 6454,
 			"universe": 1,
-			"ip": "192.168.0.5",
+			"ip": "192.168.22.106",
 			"mask": "255.255.255.0",
-			"broadcast": "192.168.0.255"
+			"broadcast": "192.168.22.255"
 		}
 	},
-	"units":[
-		{"scene":177,"id":22,"type":0,"target":0,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":13,"type":1,"target":1,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":31,"type":3,"target":3,"longtarget":255,"onoff":"false","value":64},
-		
-		{"scene":177,"id":9,"type":255,"target":13,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":10,"type":2,"target":4,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":1,"type":3,"target":50,"longtarget":55,"onoff":"false","value":64},
-		{"scene":177,"id":2,"type":3,"target":51,"longtarget":55,"onoff":"false","value":64},
-		{"scene":177,"id":64,"type":3,"target":56,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":67,"type":3,"target":57,"longtarget":255,"onoff":"false","value":64},
-		
-		{"scene":177,"id":33,"type":3,"target":54,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":34,"type":3,"target":66,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":35,"type":3,"target":67,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":36,"type":3,"target":68,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":37,"type":3,"target":69,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":38,"type":3,"target":52,"longtarget":255,"onoff":"false","value":64},
-		
-		{"scene":177,"id":14,"type":1,"target":5,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":15,"type":1,"target":6,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":16,"type":1,"target":7,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":17,"type":1,"target":8,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":18,"type":1,"target":9,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":19,"type":1,"target":10,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":20,"type":1,"target":11,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":21,"type":1,"target":12,"longtarget":255,"onoff":"false","value":64},
-		
-		{"scene":177,"id":3,"type":1,"target":14,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":4,"type":1,"target":15,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":5,"type":1,"target":16,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":6,"type":1,"target":17,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":7,"type":1,"target":18,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":8,"type":1,"target":19,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":11,"type":1,"target":20,"longtarget":255,"onoff":"false","value":64},
-		{"scene":177,"id":12,"type":1,"target":21,"longtarget":255,"onoff":"false","value":64},
-		
-		{"scene":177,"id":23,"type":3,"target":23,"longtarget":32,"onoff":"false","value":64},
-		{"scene":177,"id":24,"type":3,"target":24,"longtarget":33,"onoff":"false","value":64},
-		{"scene":177,"id":25,"type":3,"target":25,"longtarget":34,"onoff":"false","value":64},
-		{"scene":177,"id":26,"type":3,"target":26,"longtarget":35,"onoff":"false","value":64},
-		{"scene":177,"id":27,"type":3,"target":27,"longtarget":36,"onoff":"false","value":64},
-		{"scene":177,"id":28,"type":3,"target":28,"longtarget":37,"onoff":"false","value":64},
-		{"scene":177,"id":29,"type":3,"target":29,"longtarget":38,"onoff":"false","value":64},
-		{"scene":177,"id":30,"type":3,"target":30,"longtarget":39,"onoff":"false","value":64},
-
-		{"scene":176,"id":33,"type":3,"target":253,"longtarget":76,"onoff":"false","value":64},
-		{"scene":176,"id":34,"type":3,"target":253,"longtarget":66,"onoff":"false","value":64},
-		{"scene":176,"id":35,"type":3,"target":253,"longtarget":67,"onoff":"false","value":64},
-		{"scene":176,"id":36,"type":3,"target":253,"longtarget":68,"onoff":"false","value":64},
-		{"scene":176,"id":37,"type":3,"target":253,"longtarget":69,"onoff":"false","value":64},
-		{"scene":176,"id":38,"type":3,"target":253,"longtarget":70,"onoff":"false","value":64},
-
-		{"scene":176,"id":23,"type":3,"target":254,"longtarget":32,"onoff":"false","value":64,"apps":["OneTouchMonitor"]},
-		{"scene":176,"id":14,"type":1,"target":254,"longtarget":5,"onoff":"false","value":64,"apps":["OneTouchMonitor"]},
-
-		{"scene":176,"id":24,"type":3,"target":254,"longtarget":33,"onoff":"false","value":64,"apps":["ShellExperienceHost"]},
-		{"scene":176,"id":15,"type":1,"target":254,"longtarget":6,"onoff":"false","value":64,"apps":["ShellExperienceHost"]},
-
-		{"scene":176,"id":25,"type":3,"target":254,"longtarget":34,"onoff":"false","value":64,"apps":["cohost"]},
-		{"scene":176,"id":16,"type":1,"target":254,"longtarget":7,"onoff":"false","value":64,"apps":["cohost"]},
-
-		{"scene":176,"id":26,"type":3,"target":254,"longtarget":35,"onoff":"false","value":64,"apps":["obs64","Crow","reaper"]},
-		{"scene":176,"id":17,"type":1,"target":254,"longtarget":8,"onoff":"false","value":64,"apps":["obs64","Crow","reaper"]},
-
-		{"scene":176,"id":27,"type":3,"target":254,"longtarget":36,"onoff":"false","value":64,"apps":["conhost"]},
-		{"scene":176,"id":18,"type":1,"target":254,"longtarget":9,"onoff":"false","value":64,"apps":["conhost"]},
-
-		{"scene":176,"id":28,"type":3,"target":254,"longtarget":37,"onoff":"false","value":64,"apps":["ocenaudio"]},
-		{"scene":176,"id":19,"type":1,"target":254,"longtarget":10,"onoff":"false","value":64,"apps":["ocenaudio"]},
-
-		{"scene":176,"id":29,"type":3,"target":254,"longtarget":38,"onoff":"false","value":64,"apps":["vlc"]},
-		{"scene":176,"id":20,"type":1,"target":254,"longtarget":11,"onoff":"false","value":64,"apps":["vlc"]},
-
-		{"scene":176,"id":30,"type":3,"target":254,"longtarget":39,"onoff":"false","value":64,"apps":["AtomicHeart-Win64-Shipping", "Wolf2"]},
-		{"scene":176,"id":21,"type":1,"target":254,"longtarget":12,"onoff":"false","value":64,"apps":["AtomicHeart-Win64-Shipping", "Wolf2"]},
-
-		{"scene":176,"id":31,"type":3,"target":254,"longtarget":40,"onoff":"false","value":64,"apps":["master","ShellExperienceHost"]},
-		{"scene":176,"id":22,"type":1,"target":254,"longtarget":13,"onoff":"false","value":64,"apps":["master","ShellExperienceHost"]},
-
-		{"scene":176,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
-		{"scene":177,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
-		{"scene":178,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
-		{"scene":179,"id":9,"type":7,"target":254,"longtarget":13,"onoff":"false","value":41,"apps":["master","ShellExperienceHost"]},
-
-		{"scene":178,"id":23,"type":3,"target":252,"longtarget":23,"onoff":"false","value":0},
-		{"scene":178,"id":14,"type":1,"target":252,"longtarget":5,"onoff":"false","value":0},
-
-		{"scene":178,"id":24,"type":3,"target":252,"longtarget":24,"onoff":"false","value":0},
-		{"scene":178,"id":15,"type":1,"target":252,"longtarget":6,"onoff":"false","value":0},
-
-		{"scene":178,"id":25,"type":3,"target":252,"longtarget":25,"onoff":"false","value":0},
-		{"scene":178,"id":16,"type":1,"target":252,"longtarget":7,"onoff":"false","value":0},
-
-		{"scene":178,"id":26,"type":3,"target":252,"longtarget":26,"onoff":"false","value":0},
-		{"scene":178,"id":17,"type":1,"target":252,"longtarget":8,"onoff":"false","value":0},
-
-		{"scene":178,"id":27,"type":3,"target":252,"longtarget":27,"onoff":"false","value":0},
-		{"scene":178,"id":18,"type":1,"target":252,"longtarget":9,"onoff":"false","value":0},
-
-		{"scene":178,"id":28,"type":3,"target":252,"longtarget":28,"onoff":"false","value":0},
-		{"scene":178,"id":19,"type":1,"target":252,"longtarget":10,"onoff":"false","value":0},
-
-		{"scene":178,"id":29,"type":3,"target":252,"longtarget":29,"onoff":"false","value":0},
-		{"scene":178,"id":20,"type":1,"target":252,"longtarget":11,"onoff":"false","value":0},
-
-		{"scene":178,"id":30,"type":3,"target":252,"longtarget":30,"onoff":"false","value":0},
-		{"scene":178,"id":21,"type":1,"target":252,"longtarget":12,"onoff":"false","value":0},
-
-		{"scene":179,"id":2,"type":3,"target":251,"longtarget":3,"onoff":"false","value":0},
-		{"scene":179,"id":23,"type":3,"target":251,"longtarget":5,"onoff":"false","value":0},
-		{"scene":179,"id":24,"type":3,"target":251,"longtarget":6,"onoff":"false","value":0},
-		{"scene":179,"id":25,"type":3,"target":251,"longtarget":7,"onoff":"false","value":0},
-
-		{"scene":179,"id":14,"type":1,"target":251,"longtarget":5,"onoff":"false","value":11},
-		{"scene":179,"id":15,"type":1,"target":251,"longtarget":6,"onoff":"false","value":33},
-		{"scene":179,"id":16,"type":1,"target":251,"longtarget":7,"onoff":"false","value":22},
+	"units": [
+		{
+			"scene": 176,
+			"id": 1,
+			"type": 3,
+			"target": 252,
+			"longtarget": 33,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 2,
+			"type": 3,
+			"target": 252,
+			"longtarget": 32,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 3,
+			"type": 1,
+			"target": 252,
+			"longtarget": 5,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 4,
+			"type": 1,
+			"target": 252,
+			"longtarget": 6,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 5,
+			"type": 1,
+			"target": 252,
+			"longtarget": 7,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 6,
+			"type": 1,
+			"target": 252,
+			"longtarget": 8,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 7,
+			"type": 1,
+			"target": 252,
+			"longtarget": 9,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 8,
+			"type": 1,
+			"target": 252,
+			"longtarget": 10,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 9,
+			"type": 7,
+			"target": 254,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 176,
+			"id": 11,
+			"type": 1,
+			"target": 252,
+			"longtarget": 11,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 12,
+			"type": 1,
+			"target": 252,
+			"longtarget": 12,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 14,
+			"type": 1,
+			"target": 254,
+			"longtarget": 5,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 15,
+			"type": 1,
+			"target": 254,
+			"longtarget": 6,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "ShellExperienceHost" ]
+		},
+		{
+			"scene": 176,
+			"id": 16,
+			"type": 1,
+			"target": 254,
+			"longtarget": 7,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "cohost" ]
+		},
+		{
+			"scene": 176,
+			"id": 17,
+			"type": 1,
+			"target": 254,
+			"longtarget": 8,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "obs64", "Crow", "reaper" ]
+		},
+		{
+			"scene": 176,
+			"id": 18,
+			"type": 1,
+			"target": 254,
+			"longtarget": 9,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "conhost" ]
+		},
+		{
+			"scene": 176,
+			"id": 19,
+			"type": 1,
+			"target": 254,
+			"longtarget": 10,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "ocenaudio" ]
+		},
+		{
+			"scene": 176,
+			"id": 20,
+			"type": 1,
+			"target": 254,
+			"longtarget": 11,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "vlc" ]
+		},
+		{
+			"scene": 176,
+			"id": 21,
+			"type": 1,
+			"target": 254,
+			"longtarget": 12,
+			"onoff": false,
+			"value": 2,
+			"apps": [ "AtomicHeart-Win64-Shipping", "Wolf2" ]
+		},
+		{
+			"scene": 176,
+			"id": 22,
+			"type": 1,
+			"target": 254,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 176,
+			"id": 23,
+			"type": 3,
+			"target": 254,
+			"longtarget": 32,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 24,
+			"type": 3,
+			"target": 254,
+			"longtarget": 33,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "ShellExperienceHost" ]
+		},
+		{
+			"scene": 176,
+			"id": 25,
+			"type": 3,
+			"target": 254,
+			"longtarget": 34,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "cohost" ]
+		},
+		{
+			"scene": 176,
+			"id": 26,
+			"type": 3,
+			"target": 254,
+			"longtarget": 35,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "obs64", "Crow", "reaper" ]
+		},
+		{
+			"scene": 176,
+			"id": 27,
+			"type": 3,
+			"target": 254,
+			"longtarget": 36,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "conhost" ]
+		},
+		{
+			"scene": 176,
+			"id": 28,
+			"type": 3,
+			"target": 254,
+			"longtarget": 37,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "ocenaudio" ]
+		},
+		{
+			"scene": 176,
+			"id": 29,
+			"type": 3,
+			"target": 254,
+			"longtarget": 38,
+			"onoff": false,
+			"value": 64,
+			"apps": [ "vlc" ]
+		},
+		{
+			"scene": 176,
+			"id": 30,
+			"type": 3,
+			"target": 254,
+			"longtarget": 39,
+			"onoff": false,
+			"value": 2,
+			"apps": [ "AtomicHeart-Win64-Shipping", "Wolf2" ]
+		},
+		{
+			"scene": 176,
+			"id": 31,
+			"type": 3,
+			"target": 254,
+			"longtarget": 40,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 176,
+			"id": 33,
+			"type": 3,
+			"target": 253,
+			"longtarget": 76,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 34,
+			"type": 3,
+			"target": 253,
+			"longtarget": 66,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 35,
+			"type": 3,
+			"target": 253,
+			"longtarget": 67,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 36,
+			"type": 3,
+			"target": 253,
+			"longtarget": 68,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 37,
+			"type": 3,
+			"target": 253,
+			"longtarget": 69,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 38,
+			"type": 3,
+			"target": 253,
+			"longtarget": 70,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 64,
+			"type": 3,
+			"target": 252,
+			"longtarget": 34,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 176,
+			"id": 67,
+			"type": 3,
+			"target": 252,
+			"longtarget": 35,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 1,
+			"type": 3,
+			"target": 50,
+			"longtarget": 55,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 2,
+			"type": 3,
+			"target": 51,
+			"longtarget": 55,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 3,
+			"type": 1,
+			"target": 14,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 4,
+			"type": 1,
+			"target": 15,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 5,
+			"type": 1,
+			"target": 16,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 6,
+			"type": 1,
+			"target": 17,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 7,
+			"type": 1,
+			"target": 18,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 8,
+			"type": 1,
+			"target": 19,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 9,
+			"type": 7,
+			"target": 254,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 177,
+			"id": 10,
+			"type": 2,
+			"target": 4,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 11,
+			"type": 1,
+			"target": 20,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 12,
+			"type": 1,
+			"target": 21,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 13,
+			"type": 1,
+			"target": 1,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 14,
+			"type": 1,
+			"target": 5,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 15,
+			"type": 1,
+			"target": 6,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 16,
+			"type": 1,
+			"target": 7,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 17,
+			"type": 1,
+			"target": 8,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 18,
+			"type": 1,
+			"target": 9,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 19,
+			"type": 1,
+			"target": 10,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 20,
+			"type": 1,
+			"target": 11,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 21,
+			"type": 1,
+			"target": 12,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 22,
+			"type": 0,
+			"target": 0,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 23,
+			"type": 3,
+			"target": 23,
+			"longtarget": 32,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 24,
+			"type": 3,
+			"target": 24,
+			"longtarget": 33,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 25,
+			"type": 3,
+			"target": 25,
+			"longtarget": 34,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 26,
+			"type": 3,
+			"target": 26,
+			"longtarget": 35,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 27,
+			"type": 3,
+			"target": 27,
+			"longtarget": 36,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 28,
+			"type": 3,
+			"target": 28,
+			"longtarget": 37,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 29,
+			"type": 3,
+			"target": 29,
+			"longtarget": 38,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 30,
+			"type": 3,
+			"target": 30,
+			"longtarget": 39,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 31,
+			"type": 3,
+			"target": 3,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 33,
+			"type": 3,
+			"target": 54,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 34,
+			"type": 3,
+			"target": 66,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 35,
+			"type": 3,
+			"target": 67,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 36,
+			"type": 3,
+			"target": 68,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 37,
+			"type": 3,
+			"target": 69,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 38,
+			"type": 3,
+			"target": 52,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 64,
+			"type": 3,
+			"target": 56,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 177,
+			"id": 67,
+			"type": 3,
+			"target": 57,
+			"longtarget": 255,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 1,
+			"type": 3,
+			"target": 252,
+			"longtarget": 32,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 2,
+			"type": 3,
+			"target": 252,
+			"longtarget": 33,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 9,
+			"type": 7,
+			"target": 254,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 178,
+			"id": 14,
+			"type": 1,
+			"target": 252,
+			"longtarget": 5,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 15,
+			"type": 1,
+			"target": 252,
+			"longtarget": 6,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 16,
+			"type": 1,
+			"target": 252,
+			"longtarget": 7,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 17,
+			"type": 1,
+			"target": 252,
+			"longtarget": 8,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 18,
+			"type": 1,
+			"target": 252,
+			"longtarget": 9,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 19,
+			"type": 1,
+			"target": 252,
+			"longtarget": 10,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 20,
+			"type": 1,
+			"target": 252,
+			"longtarget": 11,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 21,
+			"type": 1,
+			"target": 252,
+			"longtarget": 12,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 23,
+			"type": 3,
+			"target": 252,
+			"longtarget": 23,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 24,
+			"type": 3,
+			"target": 252,
+			"longtarget": 24,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 25,
+			"type": 3,
+			"target": 252,
+			"longtarget": 25,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 26,
+			"type": 3,
+			"target": 252,
+			"longtarget": 26,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 27,
+			"type": 3,
+			"target": 252,
+			"longtarget": 27,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 28,
+			"type": 3,
+			"target": 252,
+			"longtarget": 28,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 29,
+			"type": 3,
+			"target": 252,
+			"longtarget": 29,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 30,
+			"type": 3,
+			"target": 252,
+			"longtarget": 30,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 33,
+			"type": 3,
+			"target": 252,
+			"longtarget": 45,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 33,
+			"type": 3,
+			"target": 252,
+			"longtarget": 31,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 64,
+			"type": 3,
+			"target": 252,
+			"longtarget": 34,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 178,
+			"id": 67,
+			"type": 3,
+			"target": 252,
+			"longtarget": 35,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 1,
+			"type": 3,
+			"target": 251,
+			"longtarget": 10,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 2,
+			"type": 3,
+			"target": 251,
+			"longtarget": 11,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 9,
+			"type": 7,
+			"target": 254,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 85,
+			"apps": [ "master", "ShellExperienceHost" ]
+		},
+		{
+			"scene": 179,
+			"id": 14,
+			"type": 1,
+			"target": 251,
+			"longtarget": 1,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 15,
+			"type": 1,
+			"target": 251,
+			"longtarget": 2,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 16,
+			"type": 1,
+			"target": 251,
+			"longtarget": 3,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 17,
+			"type": 1,
+			"target": 251,
+			"longtarget": 6,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 18,
+			"type": 1,
+			"target": 251,
+			"longtarget": 7,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 19,
+			"type": 1,
+			"target": 251,
+			"longtarget": 8,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 20,
+			"type": 1,
+			"target": 251,
+			"longtarget": 9,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 21,
+			"type": 1,
+			"target": 251,
+			"longtarget": 5,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 23,
+			"type": 3,
+			"target": 251,
+			"longtarget": 1,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 24,
+			"type": 3,
+			"target": 251,
+			"longtarget": 2,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 25,
+			"type": 3,
+			"target": 251,
+			"longtarget": 3,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 26,
+			"type": 3,
+			"target": 251,
+			"longtarget": 6,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 27,
+			"type": 3,
+			"target": 251,
+			"longtarget": 7,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 28,
+			"type": 3,
+			"target": 251,
+			"longtarget": 8,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 29,
+			"type": 3,
+			"target": 251,
+			"longtarget": 9,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 30,
+			"type": 3,
+			"target": 251,
+			"longtarget": 5,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 64,
+			"type": 3,
+			"target": 251,
+			"longtarget": 12,
+			"onoff": false,
+			"value": 64
+		},
+		{
+			"scene": 179,
+			"id": 67,
+			"type": 3,
+			"target": 251,
+			"longtarget": 13,
+			"onoff": false,
+			"value": 64
+		}
 	]
-	}
+}

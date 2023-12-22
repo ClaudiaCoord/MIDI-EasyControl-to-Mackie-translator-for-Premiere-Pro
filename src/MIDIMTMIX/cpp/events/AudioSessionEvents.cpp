@@ -18,10 +18,10 @@ namespace Common {
         AudioSessionEvents::AudioSessionEvents(AudioSessionList* ptr, std::function<void()> fdel, std::function<const GUID()> fguid)
             : ptrSessionList(ptr), evDeleted(fdel), evGuid(fguid), crefAll(1L) {
             if (ptr == nullptr)
-                throw_common_error(common_error_id::err_LISTISNULL);
+                throw make_common_error(common_error_id::err_LISTISNULL);
         }
         const bool AudioSessionEvents::IsBusy() const {
-            return (bool)lock__.IsLock();
+            return (bool)lock_.IsLock();
         }
 
         STDMETHODIMP AudioSessionEvents::QueryInterface(REFIID riid, void** ppv)
@@ -52,38 +52,38 @@ namespace Common {
         }
 
         STDMETHODIMP AudioSessionEvents::OnSimpleVolumeChanged(float v, BOOL m, LPCGUID g) {
-            lock__.Begin();
+            lock_.Begin();
             ptrSessionList->VolumeChange(g, v, m);
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnDisplayNameChanged(LPCWSTR s, LPCGUID g) {
-            lock__.Begin();
+            lock_.Begin();
             ptrSessionList->DisplayNameChange(g, s);
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnIconPathChanged(LPCWSTR s, LPCGUID g) {
-            lock__.Begin();
+            lock_.Begin();
             ptrSessionList->IconPathChange(g, s);
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnChannelVolumeChanged(DWORD cnt, float f[], DWORD idx, LPCGUID g) {
-            lock__.Begin();
+            lock_.Begin();
             if ((idx > 0U) && (idx < cnt))
                 ptrSessionList->VolumeChange(g, f[idx - 1], false);
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnGroupingParamChanged(LPCGUID gn, LPCGUID go) {
-            lock__.Begin();
+            lock_.Begin();
             ptrSessionList->GuidChange(go, gn);
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnStateChanged(AudioSessionState s) {
-            lock__.Begin();
+            lock_.Begin();
             switch (s) {
                 
                 case AudioSessionState::AudioSessionStateExpired: {
@@ -98,11 +98,11 @@ namespace Common {
                 case AudioSessionState::AudioSessionStateInactive:
                 default: break;
             }
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
         STDMETHODIMP AudioSessionEvents::OnSessionDisconnected(AudioSessionDisconnectReason t) {
-            to_log::Get() << log_string().to_log_fomat(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_SESSIONDISCONNECTED), AudioSessionHelper::DisconnectReasonHelper(t));
+            to_log::Get() << log_string().to_log_format(__FUNCTIONW__, common_error_code::Get().get_error(common_error_id::err_SESSIONDISCONNECTED), AudioSessionHelper::DisconnectReasonHelper(t));
             return S_OK;
         }
     }

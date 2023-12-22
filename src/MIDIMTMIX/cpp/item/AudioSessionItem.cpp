@@ -16,38 +16,38 @@ namespace Common {
 	namespace MIXER {
 
 		AudioSessionItem::AudioSessionItem(TypeItems t, DWORD pid, GUID guid, std::wstring name, CComPtr<IAudioSessionControl> ptr, CComPtr<IAudioEndpointVolume> ptrae, float vol, bool m)
-			: ptrse__(ptr), ptrae__(ptrae) {
+			: ptrse_(ptr), ptrae_(ptrae) {
 			Item.SetType(t);
 			Item.Volume.setall(vol, m);
 			Item.App.set(name, guid, pid, L"", L"", L"");
-			evbuilder__ = std::make_unique<AudioSessionEventsBuilder>();
+			evbuilder_ = std::make_unique<AudioSessionEventsBuilder>();
 		}
 		AudioSessionItem::AudioSessionItem(TypeItems t, DWORD pid, GUID guid, std::wstring name, CComPtr<IAudioSessionControl> ptrsc, CComPtr<IAudioEndpointVolume> ptrae, std::wstring desc, float vol, bool m)
-			: ptrse__(ptrsc), ptrae__(ptrae) {
+			: ptrse_(ptrsc), ptrae_(ptrae) {
 			Item.SetType(t);
 			Item.Volume.setall(vol, m);
 			Item.App.set(name, guid, pid, L"", Utils::to_string(desc), L"");
-			evbuilder__ = std::make_unique<AudioSessionEventsBuilder>();
+			evbuilder_ = std::make_unique<AudioSessionEventsBuilder>();
 		}
 		AudioSessionItem::AudioSessionItem(TypeItems t, DWORD pid, GUID guid, std::wstring name, CComPtr<IAudioSessionControl> ptrsc, CComPtr<IAudioEndpointVolume> ptrae, std::wstring desc, std::wstring ico, float vol, bool m)
-			: ptrse__(ptrsc), ptrae__(ptrae) {
+			: ptrse_(ptrsc), ptrae_(ptrae) {
 			Item.SetType(t);
 			Item.Volume.setall(vol, m);
 			Item.App.set(name, guid, pid, L"", Utils::to_string(desc), Utils::to_string(ico));
-			evbuilder__ = std::make_unique<AudioSessionEventsBuilder>();
+			evbuilder_ = std::make_unique<AudioSessionEventsBuilder>();
 		}
 		AudioSessionItem::AudioSessionItem(TypeItems t, DWORD pid, GUID guid, std::wstring name, std::wstring path, CComPtr<IAudioSessionControl> ptrsc, CComPtr<IAudioEndpointVolume> ptrae, LPWSTR desc, LPWSTR ico, float vol, bool m)
-			: ptrse__(ptrsc), ptrae__(ptrae) {
+			: ptrse_(ptrsc), ptrae_(ptrae) {
 			Item.SetType(t);
 			Item.Volume.setall(vol, m);
 			Item.App.set(name, guid, pid, path, Utils::to_string(desc), Utils::to_string(ico));
-			evbuilder__ = std::make_unique<AudioSessionEventsBuilder>();
+			evbuilder_ = std::make_unique<AudioSessionEventsBuilder>();
 		}
 		AudioSessionItem::~AudioSessionItem() {
 			try {
-				evbuilder__.reset();
-				if (ptrse__) ptrse__.Release();
-				if (ptrae__) ptrae__.Release();
+				evbuilder_.reset();
+				if (ptrse_) ptrse_.Release();
+				if (ptrae_) ptrae_.Release();
 			} catch (...) {}
 		}
 
@@ -62,41 +62,41 @@ namespace Common {
 					return;
 				}
 
-				if (ptrse__) {
+				if (ptrse_) {
 					AudioSessionEvents* ev;
 
-					if (b && !isregistred_se__) {
-						if (evbuilder__ && evbuilder__->IsValidSe()) return;
-						ev = evbuilder__->GetSe(aslist, std::bind(&AudioSessionItemBase::GetGuid, &this->Item));
+					if (b && !isregistred_se_) {
+						if (evbuilder_ && evbuilder_->IsValidSe()) return;
+						ev = evbuilder_->GetSe(aslist, std::bind(&AudioSessionItemBase::GetGuid, &this->Item));
 						if (ev != nullptr) {
-							h = ptrse__->RegisterAudioSessionNotification(ev);
-							isregistred_se__ = (h == S_OK);
+							h = ptrse_->RegisterAudioSessionNotification(ev);
+							isregistred_se_ = (h == S_OK);
 						}
 					} else {
-						to_log::Get() << log_string().to_log_fomat(
+						to_log::Get() << log_string().to_log_format(
 							__FUNCTIONW__,
 							common_error_code::Get().get_error(common_error_id::err_ITEM_SC_AE),
 							Item.App.get<std::wstring>(), L"SC",
-							isregistred_se__.load(), b
+							isregistred_se_.load(), b
 						);
 					}
 				}
-				if (ptrae__) {
+				if (ptrae_) {
 					AudioEndPointEvents* ev;
 
-					if (b && !isregistred_ae__) {
-						if (evbuilder__ && evbuilder__->IsValidAe()) return;
-						ev = evbuilder__->GetAe(aslist, std::bind(&AudioSessionItemBase::GetGuid, &this->Item));
+					if (b && !isregistred_ae_) {
+						if (evbuilder_ && evbuilder_->IsValidAe()) return;
+						ev = evbuilder_->GetAe(aslist, std::bind(&AudioSessionItemBase::GetGuid, &this->Item));
 						if (ev != nullptr) {
-							h = ptrae__->RegisterControlChangeNotify(ev);
-							isregistred_ae__ = (h == S_OK);
+							h = ptrae_->RegisterControlChangeNotify(ev);
+							isregistred_ae_ = (h == S_OK);
 						}
 					} else {
-						to_log::Get() << log_string().to_log_fomat(
+						to_log::Get() << log_string().to_log_format(
 							__FUNCTIONW__,
 							common_error_code::Get().get_error(common_error_id::err_ITEM_SC_AE),
 							Item.App.get<std::wstring>(), L"AE",
-							isregistred_ae__.load(), b
+							isregistred_ae_.load(), b
 						);
 					}
 				}
@@ -106,41 +106,41 @@ namespace Common {
 			try {
 				HRESULT h = S_FALSE;
 
-				if (ptrse__) {
+				if (ptrse_) {
 					AudioSessionEvents* ev;
 
-					if (!b && isregistred_se__) {
-						if (!evbuilder__ || !evbuilder__->IsValidSe()) return;
-						ev = evbuilder__->GetSe();
+					if (!b && isregistred_se_) {
+						if (!evbuilder_ || !evbuilder_->IsValidSe()) return;
+						ev = evbuilder_->GetSe();
 						if (ev != nullptr) {
-							h = ptrse__->UnregisterAudioSessionNotification(ev);
-							isregistred_se__ = !(h == S_OK);
+							h = ptrse_->UnregisterAudioSessionNotification(ev);
+							isregistred_se_ = !(h == S_OK);
 						}
 					} else {
-						to_log::Get() << log_string().to_log_fomat(
+						to_log::Get() << log_string().to_log_format(
 							__FUNCTIONW__,
 							common_error_code::Get().get_error(common_error_id::err_ITEM_SC_AE),
 							Item.App.get<std::wstring>(), L"SC",
-							isregistred_se__.load(), b
+							isregistred_se_.load(), b
 						);
 					}
 				}
-				if (ptrae__) {
+				if (ptrae_) {
 					AudioEndPointEvents* ev;
 
-					if (!b && isregistred_ae__) {
-						if (!evbuilder__ || !evbuilder__->IsValidAe()) return;
-						ev = evbuilder__->GetAe();
+					if (!b && isregistred_ae_) {
+						if (!evbuilder_ || !evbuilder_->IsValidAe()) return;
+						ev = evbuilder_->GetAe();
 						if (ev != nullptr) {
-							h = ptrae__->UnregisterControlChangeNotify(ev);
-							isregistred_ae__ = !(h == S_OK);
+							h = ptrae_->UnregisterControlChangeNotify(ev);
+							isregistred_ae_ = !(h == S_OK);
 						}
 					} else {
-						to_log::Get() << log_string().to_log_fomat(
+						to_log::Get() << log_string().to_log_format(
 							__FUNCTIONW__,
 							common_error_code::Get().get_error(common_error_id::err_ITEM_SC_AE),
 							Item.App.get<std::wstring>(), L"AE",
-							isregistred_ae__.load(), b
+							isregistred_ae_.load(), b
 						);
 					}
 				}
@@ -148,19 +148,22 @@ namespace Common {
 		}
 
 		IAudioSessionControl* AudioSessionItem::GetSession() {
-			return ptrse__.p;
+			return ptrse_.p;
 		}
 		IAudioEndpointVolume* AudioSessionItem::GetEndpointVolume() {
-			return ptrae__.p;
+			return ptrae_.p;
 		}
 		AudioSessionItemChange AudioSessionItem::GetSessionItemChange(OnChangeType t, bool isevent) {
 			return AudioSessionItemChange(this, t, isevent);
 		}
+		const bool AudioSessionItem::IsEmpty() const {
+			return ((!Item.GetPid() && (Item.GetType() != TypeItems::TypeMaster)) || (Item.GetGuid() == GUID_NULL) || (Item.GetType() == TypeItems::TypeNone));
+		}
 		const bool AudioSessionItem::IsValidSession() const {
-			return (ptrse__.p != nullptr);
+			return (ptrse_.p != nullptr);
 		}
 		const bool AudioSessionItem::IsValidEndpointVolume() const {
-			return (ptrae__.p != nullptr);
+			return (ptrae_.p != nullptr);
 		}
 
 		log_string AudioSessionItem::to_string() {

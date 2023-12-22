@@ -26,7 +26,7 @@
     <ClCompile Include="..\..\Common\rc\dll_lang_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resourcePG.rc" />
+    <ResourceCompile Include="resourcexPG.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

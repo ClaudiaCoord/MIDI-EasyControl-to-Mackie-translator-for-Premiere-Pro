@@ -1,0 +1,123 @@
+1.0.0.5  (2010-02-xx)
+	Fixed issue where closing of private port would clear all private buffers - some of those would still be used by the miniport - now parts used from miniport moved into storage of miniport
+1.0.1.6  (2010-08-08)
+	Fixed issue where closing of private port would kill all other currently open ports because "RemovePortByPtr" did not compare actual pointers, but just checked if not nil!
+	Fixed issue where disabling the driver did not free the private control-device-port, thus not unloading the driver-module from memory
+	Fixed issue where disabling the driver while containing active virtual MIDI-ports caused a BSOD
+1.0.2.7  (2010-08-12)
+	Fixed issue where the render-pin could overflow the transmit-fifo.
+	Fixed issue where the private-interface could overflow the receive-fifo undetected.
+	Reworked internal diagnostics and debugging support
+1.0.3.8
+	Fixed some things found with Driver Verifier
+	Fixed some locking & race-condition-issues.
+	Removed the ability for multiple concurrent ports
+1.0.3.9  (2010-08-17)
+	Reworked the handling of ::Notify which caused a system-freeze on Windows XP SMP-systems due to a locking-hierarchy-problem in the MS PortCls-driver
+1.0.3.10 (2010-08-18)
+	Switched render-path over to take messages atomically into a queue
+	Render-Path now also using GetBuffer for large packets instead of filling up simple 4/8 octet events.
+1.0.4.11 (2010-08-23)
+	Driver code-signed
+1.0.4.12 (2010-09-06)
+	virtualMIDI32.dll & virtualMIDI64.dll now have registry-override "NoOSCheck" to disable check for OS-versions having support for dynamic topologies	
+1.0.5.13 (2010-10-27)
+	fixed issue where reference-time for MIDI-events was not correctly set producing user-space MIDI-events in the past with Direct Music
+1.0.6.14 (2010-11-15)
+	Introduced usage of ntstrsafe.lib to be able to load driver even under W2K
+	Changed virtualMIDIxx.dll that it checks for W2K SP4, Hotfix 888111 (hdaprop.dll-Version: 5.10.1.5013 or higher)
+	virtualMIDIxx.dll now checks if driver-version and dll-version match.
+	Added virtualMIDICreateEx to be able to get preparsed MIDI-commands in the callback
+	Added virtualMIDIGetVersion to be able to retrieve the version of the DLL.
+	Recompiled 32bit driver install-executable to be able to install driver on W2K
+	Changed naming of driver, dlls and created device-ports to fix issues with installer merge-module and possibly other virtual-MIDI-driver in the market
+	Adapted details in driver-inf-file and fixed some minor issues
+	Adapted teDevInst to be able to run on W2K.  Added some additional functionality and diagnostics for installation
+	Callback in DLL now receives one last invocation when the device-driver is being disabled (to notify application) with midiDataBytes==NULL and length==0
+	Changed virtualMIDIClosePort to not deadlock in case it is invoked from within the callback.
+1.0.6.15 (2011-06-17)
+	Introduced Logging to DbgView configurable via Registry
+1.0.6.16 (2011-06-19)
+	Logging now configurable via API
+1.0.6.17 (2011-06-19)
+	Information about sysex-parser inserted into logging
+1.0.6.18 (2011-06-19)
+	Fixed issue where the max-length of the sysex-buffer was not correctly initialized, thus omitting sysex-data from the stream when using virtualMIDICreatePortEx
+1.0.7.19 (2011-06-26)
+	Added virtualMIDIGetData() to be able to retrieve MIDI-data (or commands) without callbacks.
+1.0.8.20 (2012-01-28)
+	Some cleaning-up to centralize literals into includes
+	Added support for more than 16 virtual ports, configurable via registry-key, default now 32 ports
+1.1.0.21 (2012-03-30)
+	Capture now supports multiple instances (8)
+1.1.0.22 (2012-04-06)
+	Render now supports multiple instances (8)
+1.1.0.23 (2012-04-22)
+	Fixed issue where virtualMIDIGetData failed due to a wrong condition-check
+	Fixed issue where virtualMIDIGetData would start parsing data from wrong index
+	Fixed logging issue in virtualMIDIGetData
+	Added virtualMIDIShutdown function to be able to close the port thus shutting down virtualMIDIGetData (for managed environments with garbage collection)
+1.1.1.24 (2012-07-22)
+	The driver-internal buffer-size of the Sysex-parser for the merger can now be specified when opening a port (min 0x01ff0, max 0xffff0)
+	Default Sysex-Size for MIDI-Parser can now be read from registry
+	Added virtualMIDICreateEx2 to be able to specify the sysex-buffer-size of the driver-buffer & still be able not to get the data parsed to the application
+	Fixed issue where virtualMIDIGetData would not work correctly if it was called first without a buffer (to retrieve the size) and then with a buffer
+	Added JNI-interface to driver-interface-DLL
+1.1.2.25 (2012-08-15)
+	Removed timeBeginPeriod & timeEndPeriod from interface-dll - the application should do this if it wishes for higher timer-resolution
+1.1.3.26 (2013-02-08)
+	Fixed access-violation in debug-logging of interface-DLL
+	Fixed JNI-interface to use package de.tobiaserichsen
+	Interface-DLL now printing path to dll in debug-log
+	Interface-DLL no printing name of executable having opened the dll
+	Fixed some small issues of Delphi-wrapper in SDK
+1.2.0.27 (2013-03-01)
+	Implemented unidirectional (read-Only and write-Only) MIDI-ports
+	Implemented the ability to override teVirtualMIDI's standard manufacturer & product guids which can be retrieved via midiInGetDevCaps(MIDIINCAPS2) and midiOutGetDevCaps(MIDIOUTCAPS2)
+1.2.1.28 (2013-08-18)
+	Fixed missing init of global logging-variable in DLL.
+1.2.1.29 (2013-08-19)
+	Reinstated version check to test if dll & driver match (now temporarily disabling file-system redirection for WOW64 32-bit processes )
+	Changed C#-wrapper to load the teVirtualMIDI.dll which should now make the class 32bit and 64bit usable out of the box...
+	Changed Java-wrapper to first check if it can load the teVirtualMIDI.dll (without 32 or 64 decoration)
+	Moved java-package from de.tobiaserichsen to de.tobiaserichsen.tevm (made changes in driver-dlls necessary)
+1.2.2.30 (2013-09-10)
+	The check if the teVirtualMIDI.dll version is too new for driver installed now works correctly with 64bit dll and 32bit dll both on 32bit & 64bit systems.
+1.2.3.31 (2013-10-13)
+	Fixed in issue to abort correctly if the driver was instantiated a second time (which should not happen)
+1.2.4.32 (2013-10-26)
+	Added ability to also retrieve the version of the driver (which should not but might differ from the dlls version)
+	Fixed some issues that driver-verifier "criticized" (some code-segments that were pageable that should not have been)
+1.2.5.33 (2014-01-08)
+	Fixed issue with filter-topology for render-only / capture-only ports
+	Raised virtual device limit to 128 for Vista & above
+	Added ability to parse outgoing MIDI-data as well, so the application can send unstructured data
+	Port-creation now checks the flags specified for validity
+1.2.6.34 (2014-02-23)
+	Fixed some copyright notices to point to this year
+1.2.7.35 (2014-03-11)
+	Added ability to retrieve the process-ids of all applications using a specific port
+1.2.8.36 (2015-03-08)
+	Fixed some copyright notices to point to this year
+	Added ability to retrieve the process id of processes using the public interface of a specific virtual midi port from Java binding
+	Fixed a logging-buffer-issue, where buffer-reallocation for large midi-blocks was not done correctly, causing heap-overrun ( only applicable when virtualMIDILogging was used )
+	Removed some unnecessary diag output
+1.2.9.37 (2015-06-08)
+	Fixed issue where enabling of user access auditing on Windows 8.1 and 10 would cause a bluescreen in ks.sys
+1.2.10.38 (2015-07-12)
+	Raised limits for number of virtual port creation (for Vista & higher)
+1.2.10.39 (2016-05-24)
+	Now waiting for port-names to disappear before returning from virtualMIDIClosePort
+1.2.10.40 (2016-07-28)
+	Removed any mme apis for checking of existing ports, as they will lock the ports for process and thus not allow fast re-instantiation
+	Added a retry to port creation when ERROR_ALIAS_EXISTS was returned (up to a timeout of around 128 msecs)
+1.2.11.41 (2016-08-31)
+	sysex not being terminated with a F7 was never handed to the other side - this has been corrected
+	wrapped up new version with fix for port-shutdown delay
+1.2.12.42 (2016-12-26)
+	fixed issue where the new Windows 10 UWP api did not show the correct name for ports generated due to not explicitely handling KSPROPERTY_PIN_NAME
+1.3.0.43 (2019-12-02)
+	The driver now supplies the MIDI-subsystem with the correct name GUID which is then returned when calling midiInGetDevCaps with MIDIINCAPS2 & midiOutGetDevCaps with MIDIOUTCAPS2
+	MSI packages now show correct name during standalone install
+	First version of driver signed with EV certificate
+	Check to make sure attestation signed driver is only installed on W10 or above

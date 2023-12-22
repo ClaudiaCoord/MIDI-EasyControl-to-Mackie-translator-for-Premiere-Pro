@@ -115,7 +115,7 @@ namespace Common {
 				ClickUnknown = 255
 			};
 
-			static bool SelectorTarget(MidiUnit& unit, MIDIDATA& m, ClassTypes t);
+			static bool SelectorTarget(MidiUnit& unit, MIDIDATA& m, IO::PluginClassTypes t);
 			static void SetFunctionOnce(Function id, MIDIDATA& m);
 			static void SetFunction(Function id, bool status, MIDIDATA& m);
 			static void SetVolume(int value, MIDIDATA& m);

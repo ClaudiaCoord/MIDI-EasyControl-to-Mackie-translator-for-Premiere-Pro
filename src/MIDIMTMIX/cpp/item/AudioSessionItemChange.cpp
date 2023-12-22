@@ -19,23 +19,23 @@ namespace Common {
 		/* #define _DEBUG_AUDIOSESSIONITEMCHANGE 1 */
 		#endif
 
-		AudioSessionItemChange::AudioSessionItemChange(AudioSessionItem* item, OnChangeType t, bool isevent) : isevent__(isevent) {
-			if (item == nullptr) return;
+		AudioSessionItemChange::AudioSessionItemChange(AudioSessionItem* item, OnChangeType t, bool isevent) : isevent_(isevent) {
+			if (!item) return;
 
 			switch (selector_type(t)) {
 				case OnChangeType::OnChangeUpdateData: {
 					copychangedata_(*item);
-					isinit__ = (!Item.App.empty() && !Item.App.guid_empty() && !Item.Id.empty() && (Item.GetType() != TypeItems::TypeNone));
+					isinit_ = (!Item.App.empty() && !Item.App.guid_empty() && !Item.Id.empty() && (Item.GetType() != TypeItems::TypeNone));
 					break;
 				}
 				case OnChangeType::OnChangeUpdateAllValues: {
 					copychangevalue_(*item);
-					isinit__ = (!Item.App.update_empty() && (Item.GetType() != TypeItems::TypeNone));
+					isinit_ = (!Item.App.update_empty() && (Item.GetType() != TypeItems::TypeNone));
 					break;
 				}
 				case OnChangeType::OnChangeRemove: {
 					copychangeremove_(*item);
-					isinit__ = (!Item.App.update_empty() && !Item.App.guid_empty());
+					isinit_ = (!Item.App.update_empty() && !Item.App.guid_empty());
 					break;
 				}
 				default: return;
@@ -45,16 +45,16 @@ namespace Common {
 			log_string ls{};
 			ls  << L"* AudioSessionItemChange + { name=" << item->Item.App.get<std::wstring>() << L", hash=" << item->Item.App.get<std::size_t>()
 				<< L",\n\tonchage=" << AudioSessionHelper::OnChangeTypeHelper(t) << L"/" << AudioSessionHelper::OnChangeTypeHelper(selector_type(t))
-				<< L",\n\tinit=" << std::boolalpha << isinit__ << L"/" << AudioSessionItemChange::filter_cb(t) << L" }\n";
+				<< L",\n\tinit=" << std::boolalpha << isinit_ << L"/" << AudioSessionItemChange::filter_cb(t) << L" }\n";
 			::OutputDebugStringW(ls.str().c_str());
 			#endif
 
-			if (isinit__) {
-				actiontype__ = AudioSessionItemChange::filter_type(t);
-				iscallaudiocb__ = AudioSessionItemChange::filter_cb(t);
+			if (isinit_) {
+				actiontype_ = AudioSessionItemChange::filter_type(t);
+				iscallaudiocb_ = AudioSessionItemChange::filter_cb(t);
 			} else {
-				actiontype__ = OnChangeType::OnChangeNone;
-				iscallaudiocb__ = false;
+				actiontype_ = OnChangeType::OnChangeNone;
+				iscallaudiocb_ = false;
 			}
 		}
 		AudioSessionItemChange::~AudioSessionItemChange() {
@@ -63,7 +63,7 @@ namespace Common {
 
 		template<typename T>
 		void AudioSessionItemChange::copychangedata_(T& item) {
-			iscallaudiocb__ = false;
+			iscallaudiocb_ = false;
 			Item.SetType(item.Item.GetType());
 			if (!item.Item.Id.empty()) Item.Id.copy(item.Item.Id);
 			if (!item.Item.App.empty()) Item.App.copy(item.Item.App);
@@ -77,7 +77,7 @@ namespace Common {
 
 		template<typename T>
 		void AudioSessionItemChange::copychangevalue_(T& item) {
-			iscallaudiocb__ = false;
+			iscallaudiocb_ = false;
 			Item.SetType(item.Item.GetType());
 			if (!item.Item.App.update_empty()) Item.App.copy(item.Item.App);
 			if constexpr (std::is_same_v<T, AudioSessionItemChange>)
@@ -90,7 +90,7 @@ namespace Common {
 
 		template<typename T>
 		void AudioSessionItemChange::copychangeremove_(T& item) {
-			iscallaudiocb__ = false;
+			iscallaudiocb_ = false;
 			Item.SetType(item.Item.GetType());
 			Item.App.copy_id(item.Item.App);
 			Item.App.Guid = item.Item.App.Guid;
@@ -99,20 +99,20 @@ namespace Common {
 		template void AudioSessionItemChange::copychangeremove_(AudioSessionItemChange& item);
 
 		const bool AudioSessionItemChange::IsEvent() {
-			return isevent__;
+			return isevent_;
 		}
 		const bool AudioSessionItemChange::IsCallAudioCb() {
-			return iscallaudiocb__;
+			return iscallaudiocb_;
 		}
 		const bool AudioSessionItemChange::IsValid() {
-			return (isinit__ && !Item.App.empty() && !Item.Id.empty() && (Item.GetType() != TypeItems::TypeNone));
+			return (isinit_ && !Item.App.empty() && !Item.Id.empty() && (Item.GetType() != TypeItems::TypeNone));
 		}
 		const bool AudioSessionItemChange::IsUpdateValid() {
 			try {
-				switch (selector_type(actiontype__)) {
+				switch (selector_type(actiontype_)) {
 					case OnChangeType::OnChangeUpdateData: return IsValid();
-					case OnChangeType::OnChangeUpdateAllValues: return (isinit__ && !Item.App.update_empty() && (Item.GetType() != TypeItems::TypeNone));
-					case OnChangeType::OnChangeRemove:return (isinit__ && !Item.App.update_empty());
+					case OnChangeType::OnChangeUpdateAllValues: return (isinit_ && !Item.App.update_empty() && (Item.GetType() != TypeItems::TypeNone));
+					case OnChangeType::OnChangeRemove:return (isinit_ && !Item.App.update_empty());
 					default: return false;
 				}
 			} catch (...) {
@@ -121,20 +121,20 @@ namespace Common {
 			return false;
 		}
 		const OnChangeType AudioSessionItemChange::GetAction() {
-			return actiontype__;
+			return actiontype_;
 		}
 
 		void AudioSessionItemChange::Copy(AudioSessionItemChange& item, bool isclear) {
 			try {
-				actiontype__ = item.GetAction();
-				iscallaudiocb__ = false;
+				actiontype_ = item.GetAction();
+				iscallaudiocb_ = false;
 				if (isclear) {
 					Item.App = AudioSessionItemApp();
 					Item.Id = AudioSessionItemId();
 					Item.Volume = AudioSessionItemValue();
 				}
 				copychangedata_(item);
-				isinit__ = (!Item.App.empty() && !Item.App.guid_empty() && (Item.GetType() != TypeItems::TypeNone));
+				isinit_ = (!Item.App.empty() && !Item.App.guid_empty() && (Item.GetType() != TypeItems::TypeNone));
 
 			} catch(...) {}
 		}
@@ -194,8 +194,8 @@ namespace Common {
 					s << L"*[" << Item.App.get<std::wstring>() << L"/" << Item.App.Pid << L"/" << Utils::to_string(Item.App.Guid) << L"], cmd:["
 						<< AudioSessionHelper::OnChangeTypeHelper(GetAction()) << L"/"
 						<< AudioSessionHelper::TypeItemsHelper(Item.GetType()) << L"]"
-						<< L", callcb=" << std::boolalpha << iscallaudiocb__
-						<< L", init=" << isinit__
+						<< L", callcb=" << std::boolalpha << iscallaudiocb_
+						<< L", init=" << isinit_
 						<< L", " << Item.Volume.to_string();
 					if (Item.Id)
 						s << L",\n" << Item.Id.to_string() << L"\n";

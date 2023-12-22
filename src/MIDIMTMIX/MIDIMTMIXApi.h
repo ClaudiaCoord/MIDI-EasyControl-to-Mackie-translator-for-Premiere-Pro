@@ -14,14 +14,16 @@
 
 #include "CommonApi.h"
 
+#define FLAG_IMPORT __declspec(dllimport)
 #define FLAG_EXPORT __declspec(dllimport)
+#define FLAG_EXTERN
 
 namespace Common {
     namespace MIXER {
+        class FLAG_EXPORT AudioSessionMixer;
         class AudioSessionUnit;
         class AudioSessionItem;
         class AudioSessionList;
-        class AudioSessionMixer;
         class AudioSessionEvents;
         class AudioSessionEventsNotify;
         class AudioSessionEventsBuilder;
@@ -45,10 +47,13 @@ struct IAudioMeterInformation;
 #include "h\item\AudioSessionItemBase.h"
 #include "h\item\AudioSessionItemChange.h"
 #include "h\item\AudioSessionItem.h"
+#include "h\AudioSessionUnit.h"
 #include "h\AudioSessionMixerVolume.h"
 #include "h\AudioSessionMixer.h"
 #include "h\AudioSessionHelper.h"
 
 #undef FLAG_EXPORT
+#undef FLAG_IMPORT
+#undef FLAG_EXTERN
 
 

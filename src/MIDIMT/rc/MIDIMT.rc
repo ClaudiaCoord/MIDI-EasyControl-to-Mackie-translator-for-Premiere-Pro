@@ -1,132 +1,70 @@
 
-// Microsoft Visual C++ generated resource script.
-//
-#include "resource.h"
-
-#define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 2 resource.
-//
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+#include "resource.h"
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
 #include "..\..\Common\rc\resource_lang.rc"
-#include "..\..\Languages\MIDIMTxRU\RibbonDialogConfigxRU.rc"
+
+#include "..\..\Languages\MIDIMTxRU\RibbonDialogEditxRU.rc"
 #include "..\..\Languages\MIDIMTxRU\MIDIMT_STRINGxRU.rc"
 #include "..\..\Languages\MIDIMTxRU\MIDIMT_MENUxRU.rc"
-#include "..\..\Languages\MIDIMTxRU\MIDIMTxRU.rc"
-#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "..\..\Languages\MIDIMTxRU\MIDIMT_FORMxRU.rc"
 
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(65001)
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MIDIMT_ACCEL ACCELERATORS
+BEGIN
+    "?",            IDM_GO_ABOUT,           ASCII,  ALT
+    "/",            IDM_GO_ABOUT,           ASCII,  ALT
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
 //
-IDI_MIDIMT              ICON                    "ico\\MIDIMT.ico"
 
-IDI_SMALL               ICON                    "ico\\MIDIMTsmall.ico"
-
-IDI_ICON_FOLDER         ICON                    "ico\\AkarFolder.ico"
-
-IDI_ICON_RUNAPP         ICON                    "ico\\AkarFolderplus.ico"
-
-IDI_ICON_REMOVE         ICON                    "ico\\AkarCirclex.ico"
-
-IDI_ICON_SOUNDON        ICON                    "ico\\AkarSoundon.ico"
-
-IDI_ICON_SOUNDOFF       ICON                    "ico\\AkarSoundoff.ico"
-
-IDI_ICON_SETUP1         ICON                    "ico\\AkarDots.ico"
-
-IDI_ICON_SETUP2         ICON                    "ico\\AkarFile.ico"
-
-IDI_ICON_SETUP3         ICON                    "ico\\AkarSliderHorizontal.ico"
-
-IDI_ICON_MENUH_LIGHT    ICON                    "ico\\AkarMenuLight.ico"
-
-IDI_ICON_MENUH_DARK     ICON                    "ico\\AkarMenuDark.ico"
-
-IDI_ICON_INFO           ICON                    "ico\\AkarInfo.ico"
-
-IDI_ICON_LV1            ICON                    "ico\\LV1.ico"
-
-IDI_ICON_LV2            ICON                    "ico\\LV2.ico"
-
-IDI_ICON_LV3            ICON                    "ico\\LV3.ico"
-
-IDI_ICON_LV4            ICON                    "ico\\LV4.ico"
-
-IDI_ICON_LV5            ICON                    "ico\\LV5.ico"
-
-IDI_ICON_LV6            ICON                    "ico\\LV6.ico"
-
-IDI_ICON_LV7            ICON                    "ico\\LV7.ico"
-
-IDI_ICON_LV8            ICON                    "ico\\LV8.ico"
-
-IDI_MMENU_I0            ICON                    "ico\\AkarMenuNone.ico"
-
-IDI_MMENU_I1            ICON                    "ico\\AkarMenuNotify.ico"
-
-IDI_MMENU_I2            ICON                    "ico\\AkarMenuMixer.ico"
-
-IDI_MMENU_I3            ICON                    "ico\\AkarMenuMonitor.ico"
-
-IDI_MMENU_I4            ICON                    "ico\\AkarMenuMidiSetup.ico"
-
-IDI_MMENU_I6            ICON                    "ico\\AkarMenuPlay.ico"
-
-IDI_MMENU_I7            ICON                    "ico\\AkarMenuStop.ico"
-
-IDI_MMENU_I9            ICON                    "ico\\AkarMenuExit.ico"
-
-IDI_MMENU_I10           ICON                    "ico\\AkarStatisticUp.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#ifndef APSTUDIO_INVOKED\r\n"
-    "#include <SDKDDKVer.h>\r\n"
-    "#endif\r\n"
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#include ""CommCtrl.h""\r\n"
-    "#include ""..\\..\\Common\\rc\\resource_midimt.h""\r\n"
-    "#include ""..\\..\\Common\\rc\\resource_mackie.h""\r\n"
-    "#include ""..\\..\\Common\\rc\\resource_version.h""\r\n"
-    "#include ""..\\..\\Common\\rc\\resource_error_id.h""\r\n"
-    "#include ""..\\..\\Common\\rc\\resource_lang.rc""\r\n"
-    "#include ""..\\..\\Languages\\MIDIMTxRU\\RibbonDialogConfigRU.rc""\r\n"
-    "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMT_STRINGxRU.rc""\r\n"
-    "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMT_MENUxRU.rc""\r\n"
-    "#include ""..\\..\\Languages\\MIDIMTxRU\\MIDIMTxRU.rc""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    ""
-    "\0"
-END
-
-/////////////////////////////////////////////////////////////////////////////
+ICON_APP_MIDIMT			ICON	"ico\\MIDIMT.ico"
+ICON_APP_MIDIMT_SMALL		ICON	"ico\\MIDIMTsmall.ico"
+ICON_APP_ICON_FOLDER		ICON	"ico\\AkarFolder.ico"
+ICON_APP_ICON_RUNAPP		ICON	"ico\\AkarFolderplus.ico"
+ICON_APP_ICON_REMOVE		ICON	"ico\\AkarCirclex.ico"
+ICON_APP_ICON_SOUNDON		ICON	"ico\\AkarSoundon.ico"
+ICON_APP_ICON_SOUNDOFF		ICON	"ico\\AkarSoundoff.ico"
+ICON_APP_ICON_SETUP1		ICON	"ico\\AkarDots.ico"
+ICON_APP_ICON_SETUP2		ICON	"ico\\AkarFile.ico"
+ICON_APP_ICON_SETUP3		ICON	"ico\\AkarSliderHorizontal.ico"
+ICON_APP_ICON_MENUH_LIGHT	ICON	"ico\\AkarMenuLight.ico"
+ICON_APP_ICON_MENUH_DARK	ICON	"ico\\AkarMenuDark.ico"
+ICON_APP_ICON_INFO		ICON	"ico\\AkarInfo.ico"
+ICON_APP_ICON_LV1		ICON	"ico\\LV1.ico"
+ICON_APP_ICON_LV2		ICON	"ico\\LV2.ico"
+ICON_APP_ICON_LV3		ICON	"ico\\LV3.ico"
+ICON_APP_ICON_LV4		ICON	"ico\\LV4.ico"
+ICON_APP_ICON_LV5		ICON	"ico\\LV5.ico"
+ICON_APP_ICON_LV6		ICON	"ico\\LV6.ico"
+ICON_APP_ICON_LV7		ICON	"ico\\LV7.ico"
+ICON_APP_ICON_LV8		ICON	"ico\\LV8.ico"
+ICON_APP_MMENU_I0		ICON	"ico\\AkarMenuNone.ico"
+ICON_APP_MMENU_I1		ICON	"ico\\AkarMenuNotify.ico"
+ICON_APP_MMENU_I2		ICON	"ico\\AkarMenuMixer.ico"
+ICON_APP_MMENU_I3		ICON	"ico\\AkarMenuMonitor.ico"
+ICON_APP_MMENU_I4		ICON	"ico\\AkarMenuMidiSetup.ico"
+ICON_APP_MMENU_I6		ICON	"ico\\AkarMenuPlay.ico"
+ICON_APP_MMENU_I7		ICON	"ico\\AkarMenuStop.ico"
+ICON_APP_MMENU_I9		ICON	"ico\\AkarMenuExit.ico"
+ICON_APP_MMENU_I10		ICON	"ico\\AkarStatisticUp.ico"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
@@ -164,24 +102,15 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 
-IDB_KNOB_METRO_ENABLED  PNG                    "sprites\\metro-enabled.png"
-
-IDB_KNOB_METRO_DISABLED PNG                    "sprites\\metro-disabled.png"
-
-IDB_KNOB_DARK_ENABLED   PNG                    "sprites\\dark-enabled.png"
-
-IDB_KNOB_DARK_DISABLED  PNG                    "sprites\\dark-disabled.png"
-
-IDB_KNOB_LIGHT_ENABLED  PNG                    "sprites\\light-enabled.png"
-
-IDB_KNOB_LIGHT_DISABLED PNG                    "sprites\\light-disabled.png"
-
-IDB_KNOB_MODERN_ENABLED  PNG                   "sprites\\modern-enabled.png"
-
-IDB_KNOB_MODERN_DISABLED PNG                   "sprites\\modern-disabled.png"
-
-IDB_KNOB_RETRO_ENABLED  PNG                    "sprites\\retro-enabled.png"
-
-IDB_KNOB_RETRO_DISABLED PNG                    "sprites\\retro-disabled.png"
+SPRITE_KNOB_METRO_ENABLED	PNG	"sprites\\metro-enabled.png"
+SPRITE_KNOB_METRO_DISABLED	PNG	"sprites\\metro-disabled.png"
+SPRITE_KNOB_DARK_ENABLED	PNG	"sprites\\dark-enabled.png"
+SPRITE_KNOB_DARK_DISABLED	PNG	"sprites\\dark-disabled.png"
+SPRITE_KNOB_LIGHT_ENABLED	PNG	"sprites\\light-enabled.png"
+SPRITE_KNOB_LIGHT_DISABLED	PNG	"sprites\\light-disabled.png"
+SPRITE_KNOB_MODERN_ENABLED	PNG	"sprites\\modern-enabled.png"
+SPRITE_KNOB_MODERN_DISABLED	PNG	"sprites\\modern-disabled.png"
+SPRITE_KNOB_RETRO_ENABLED	PNG	"sprites\\retro-enabled.png"
+SPRITE_KNOB_RETRO_DISABLED	PNG	"sprites\\retro-disabled.png"
 
 /////////////////////////////////////////////////////////////////////////////

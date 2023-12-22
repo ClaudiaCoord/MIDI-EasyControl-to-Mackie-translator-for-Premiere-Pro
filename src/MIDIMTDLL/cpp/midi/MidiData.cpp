@@ -15,17 +15,34 @@
 namespace Common {
 	namespace MIDI {
 
-		MidiUnit MidiUnitRef::midiunitdefault__{};
+		MidiUnit MidiUnitRef::midiunitdefault_{};
 
-		MidiUnitValue::MidiUnitValue() : value(255), time(0), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
-		MidiUnitValue::MidiUnitValue(uint8_t v, uint32_t t) { value = v; time = t; lvalue = false; type = Mackie::ClickType::ClickUnknown; }
-		const bool MidiUnitValue::IsEmpty() const {
-			return (value == 255U) && (time == 0) && !lvalue && (type == Mackie::ClickType::ClickUnknown);
+		template<class T1, class T2>
+		static inline void copy_data__(T1& s, T2& m) {
+			if constexpr (std::is_same_v<MixerUnit, T1> && std::is_same_v<MidiUnit, T2>)
+				s.id = m.GetMixerId();
+			else if constexpr (std::is_same_v<MixerUnit, T1> && std::is_same_v<MixerUnit, T2>)
+				s.id = m.id;
+			s.key = m.key;
+			s.scene = m.scene;
+			s.type = m.type;
+			s.target = m.target;
+			s.longtarget = m.longtarget;
+			s.appvolume.assign(
+				m.appvolume.begin(),
+				m.appvolume.end()
+			);
+			s.value.copy(m.value);
 		}
-		void MidiUnitValue::Copy(MidiUnitValue& muv) {
-			value = muv.value; time = muv.time; lvalue = muv.lvalue; type = muv.type;
+
+		MidiUnitValue::MidiUnitValue()
+			: value(255), time({}), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
+		MidiUnitValue::MidiUnitValue(uint8_t v, uint32_t)
+			: value(v), time(std::chrono::high_resolution_clock::now()), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
+		const bool MidiUnitValue::empty() const {
+			return (value == 255U) && !lvalue && (type == Mackie::ClickType::ClickUnknown) && (time == time.min());
 		}
-		std::wstring MidiUnitValue::Dump() {
+		std::wstring MidiUnitValue::dump() {
 			log_string ls;
 			ls << L"\tclick type: " << MackieHelper::GetClickType(type)
 				<< L"\n\tvalue: " << static_cast<int>(value)
@@ -33,40 +50,27 @@ namespace Common {
 				<< L"\n\ttime: " << Utils::MILLISECONDS_to_string(time);
 			return ls.str();
 		}
+		void MidiUnitValue::copy(MidiUnitValue& m) {
+			value = m.value; time = m.time; lvalue = m.lvalue; type = m.type;
+		}
 
-		MidiUnit::MidiUnit() : scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
-		const bool MidiUnit::IsEmpty() const {
+		MidiUnit::MidiUnit()
+			: scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
+		MidiUnit::MidiUnit(MixerUnit& m)
+			: scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {
+			copy_data__(*this, m);
+		}
+		const bool MidiUnit::empty() const {
 			return ((scene == 255U) && (key == 255)) || (type == MidiUnitType::UNITNONE) ||
 				((target == Mackie::Target::NOTARGET) || (longtarget == Mackie::Target::NOTARGET));
 		}
-		void MidiUnit::Copy(MidiUnit& mu) {
-			key = mu.key;
-			scene = mu.scene;
-			type = mu.type;
-			target = mu.target;
-			longtarget = mu.longtarget;
-			appvolume.assign(mu.appvolume.begin(), mu.appvolume.end());
-			value.Copy(mu.value);
-		}
-		void MidiUnit::Copy(MixerUnit& mu) {
-			key = mu.key;
-			scene = mu.scene;
-			type = mu.type;
-			target = mu.target;
-			longtarget = mu.longtarget;
-			for (auto& s : mu.appvolume)
-				appvolume.push_back(std::wstring(s.cbegin(), s.cend()));
-			value.Copy(mu.value);
-		}
 		const uint32_t MidiUnit::GetMixerId() {
-			return (scene * 1000) + key;
+			return (scene * 1000U) + key;
 		}
 		MixerUnit MidiUnit::GetMixerUnit() {
-			MixerUnit mu{};
-			mu.Copy(*this);
-			return mu;
+			return MixerUnit(*this);
 		}
-		std::wstring MidiUnit::Dump() {
+		std::wstring MidiUnit::dump() {
 			std::wstringstream ws;
 			for (auto& s : appvolume)
 				ws << s << L", ";
@@ -90,51 +94,40 @@ namespace Common {
 				<< L"\n\t\tapps: [" << ws.str().c_str() << L"]";
 			return ls.str();
 		}
-
-		MidiUnitRef::MidiUnitRef() : isbegin__(false), type__(ClassTypes::ClassNone), m__(midiunitdefault__) {}
-		MidiUnit& MidiUnitRef::get() {
-			return m__;
+		void MidiUnit::copy(MidiUnit& m) {
+			copy_data__(*this, m);
 		}
-		void MidiUnitRef::set(MidiUnit& m, ClassTypes t) {
-			m__ = m;
-			type__ = t;
+		void MidiUnit::copy(MixerUnit& m) {
+			copy_data__(*this, m);
+		}
+
+		MidiUnitRef::MidiUnitRef()
+			: isbegin_(false), type_(IO::PluginClassTypes::ClassNone), m_(midiunitdefault_) {}
+		MidiUnit& MidiUnitRef::get() {
+			return m_;
+		}
+		void MidiUnitRef::set(MidiUnit& m, IO::PluginClassTypes t) {
+			m_ = m;
+			type_ = t;
 		}
 		void MidiUnitRef::begin() {
-			isbegin__ = true;
+			isbegin_ = true;
 		}
-		const ClassTypes MidiUnitRef::type() {
-			return type__;
+		const IO::PluginClassTypes MidiUnitRef::type() {
+			return type_;
 		}
 		const bool MidiUnitRef::isbegin() {
-			return isbegin__;
+			return isbegin_;
 		}
 		const bool MidiUnitRef::isvalid() {
-			return isbegin__ && !m__.IsEmpty();
+			return isbegin_ && !m_.empty();
 		}
 
-		MixerUnit::MixerUnit() : id(0U), key(255U), scene(255U), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {
-		}
-		void MixerUnit::Copy(MidiUnit& mu) {
-			id = mu.GetMixerId();
-			key = mu.key;
-			scene = mu.scene;
-			type = mu.type;
-			target = mu.target;
-			longtarget = mu.longtarget;
-			appvolume.clear();
-			for (auto& s : mu.appvolume)
-				appvolume.push_back(std::wstring(s.cbegin(), s.cend()));
-			value.Copy(mu.value);
-		}
-		void MixerUnit::Copy(MixerUnit& mu) {
-			id = mu.id;
-			key = mu.key;
-			scene = mu.scene;
-			type = mu.type;
-			target = mu.target;
-			longtarget = mu.longtarget;
-			appvolume.assign(mu.appvolume.begin(), mu.appvolume.end());
-			value.Copy(mu.value);
+		MixerUnit::MixerUnit()
+			: id(0U), key(255U), scene(255U), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
+		MixerUnit::MixerUnit(MidiUnit& m)
+			: id(0U), key(255U), scene(255U), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {
+			copy_data__(*this, m);
 		}
 		void MixerUnit::ToNull(bool b) {
 			key = scene = 0U;
@@ -142,20 +135,20 @@ namespace Common {
 			id = static_cast<uint32_t>(b);
 		}
 		bool MixerUnit::EqualsOR(MixerUnit& u) {
-				 if ((key > 0U) && (u.key == key)) return true;
+			if ((key > 0U) && (u.key == key)) return true;
 			else if ((scene > 0U) && (u.scene == scene)) return true;
 			else if ((target > Mackie::Target::MAV) && (u.target == target)) return true;
 			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget == longtarget)) return true;
 			return false;
 		}
 		bool MixerUnit::EqualsAND(MixerUnit& u) {
-				 if ((key > 0U) && (u.key != key)) return false;
+			if ((key > 0U) && (u.key != key)) return false;
 			else if ((scene > 0U) && (u.scene != scene)) return false;
 			else if ((target > Mackie::Target::MAV) && (u.target != target)) return false;
 			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget != longtarget)) return false;
 			return true;
 		}
-		std::wstring MixerUnit::Dump() {
+		std::wstring MixerUnit::dump() {
 			std::wstringstream ws;
 			for (auto& s : appvolume)
 				ws << s << L", ";
@@ -170,54 +163,91 @@ namespace Common {
 				<< L"\n\t\tvalue - time: " << Utils::MILLISECONDS_to_string(value.time)
 				<< L"\n\t\tapps: [" << ws.str() << L"]");
 		}
-
-		MidiDevice::MidiDevice() : name({}), config({}), autostart(false), manualport(false), proxy(0), btninterval(100U), btnlonginterval(1500U), jogscenefilter(true) {}
-		MidiDevice::~MidiDevice() { Clear(); }
-		bool MidiDevice::IsEmpty() { return units.empty(); }
-		void MidiDevice::Init() { Clear(); }
-		void MidiDevice::Clear() {
-			if (!units.empty()) units.clear();
+		void MixerUnit::copy(MidiUnit& m) {
+			copy_data__(*this, m);
 		}
-		void MidiDevice::Add(MidiUnit mu) {
-			units.push_back(mu);
-		}
-		MidiDevice* MidiDevice::get() {
-			return this;
-		}
-		std::wstring MidiDevice::Dump() {
-			json_config jsc;
-			return jsc.Dump(this);
-		}
-		void MidiDevice::copysettings__(MidiDevice* cnf) {
-			if (cnf == nullptr) return;
-			name = std::wstring(cnf->name);
-			config = std::wstring(cnf->config);
-			autostart = cnf->autostart;
-			manualport = cnf->manualport;
-			jogscenefilter = cnf->jogscenefilter;
-			proxy = cnf->proxy;
-			btninterval = cnf->btninterval;
-			btnlonginterval = cnf->btnlonginterval;
-			mqttconf.Copy(cnf->mqttconf);
-			artnetconf.Copy(cnf->artnetconf);
-			dmxconf.Copy(cnf->dmxconf);
+		void MixerUnit::copy(MixerUnit& m) {
+			copy_data__(*this, m);
 		}
 
-		bool MidiSetter::ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, DWORD& t, const uint32_t& btninterval) {
-			do {
+		const bool MidiConfig::empty() const {
+			return midi_in_devices.empty();
+		}
+		void MidiConfig::copysettings_(MidiConfig& mc) {
+			try {
+				enable = mc.enable;
+				out_system_port = mc.out_system_port;
+				jog_scene_filter = mc.jog_scene_filter;
+				out_count = mc.out_count;
+				proxy_count = mc.proxy_count;
+				btn_interval = mc.btn_interval;
+				btn_long_interval = mc.btn_long_interval;
+				midi_in_devices.assign(mc.midi_in_devices.begin(), mc.midi_in_devices.end());
+				midi_out_devices.assign(mc.midi_out_devices.begin(), mc.midi_out_devices.end());
+			} catch(...) {}
+		}
+		void MidiConfig::Copy(MidiConfig& mc) {
+			copysettings_(mc);
+		}
+		std::wstring MidiConfig::dump() {
+			std::wstring s_in{}, s_out{};
+			{
+				std::wstringstream w_in{}, w_out{};
+				for (auto& s : midi_in_devices)
+					w_in << s << L", ";
+				s_in = w_in.str();
+				if (!s_in.empty()) s_in.resize(s_in.length() - 2);
+
+				for (auto& s : midi_out_devices)
+					w_out << s << L", ";
+				s_out = w_out.str();
+				if (!s_out.empty()) s_out.resize(s_out.length() - 2);
+			}
+
+			return (log_string() << L"\tenable module:" << Utils::BOOL_to_string(enable)
+				<< L"\n\tuse system output port: " << Utils::BOOL_to_string(out_system_port)
+				<< L"\n\tuse scene filter: " << Utils::BOOL_to_string(jog_scene_filter)
+				<< L"\n\tMIDI Mackie count: " << out_count
+				<< L"\n\tMIDI Proxy count: " << proxy_count
+				<< L"\n\tbutton interval: " << btn_interval
+				<< L"\n\tbutton long interval: " << btn_long_interval
+				<< L"\n\tMIDI IN devices: [ " << s_in << L" ]"
+				<< L"\n\tMIDI OUT devices: [ " << s_out << L" ]");
+		}
+		std::chrono::milliseconds MidiConfig::get_interval() const {
+			return std::chrono::milliseconds(btn_interval);
+		}
+		std::chrono::milliseconds MidiConfig::get_long_interval() const {
+			return std::chrono::milliseconds(btn_long_interval);
+		}
+
+		const bool MMKeyConfig::empty() const {
+			return !enable;
+		}
+		void MMKeyConfig::Copy(MMKeyConfig& mc) {
+			enable = mc.enable;
+		}
+		std::wstring MMKeyConfig::dump() {
+			return (log_string() << L"\tenable module:" << Utils::BOOL_to_string(enable));
+		}
+
+		bool MidiSetter::ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::milliseconds& btninterval) {
+			return ÑhatterButton(u, m, std::chrono::high_resolution_clock::now(), btninterval);
+		}
+		bool MidiSetter::ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::steady_clock::time_point t, const std::chrono::milliseconds& btninterval) {
+			try {
 				if (m.value() > 0) {
 					u.value.time = t;
-					break;
+					return false;
 				}
-				uint32_t ctime = (t - u.value.time);
-				if (ctime < btninterval) {
+				if (std::chrono::duration_cast<std::chrono::milliseconds>(t - u.value.time) < btninterval) {
 					u.value.time = t;
-					break;
+					return false;
 				}
 				u.value.time = t;
 				return true;
 
-			} while (0);
+			} catch (...) {}
 			return false;
 		}
 		void MidiSetter::SetButton(MidiUnit& u) {
@@ -225,15 +255,22 @@ namespace Common {
 			u.value.lvalue = !u.value.lvalue;
 			u.value.value = u.value.lvalue ? 127U : 0U;
 		}
-		bool MidiSetter::SetVolume(MidiUnit& u, DWORD& t, uint8_t val) {
-			u.value.time = t;
-			bool b = (u.type == MidiUnitType::SLIDERINVERT) || (u.type == MidiUnitType::FADERINVERT) || (u.type == MidiUnitType::KNOBINVERT);
-			uint8_t v = b ? (127 - val) : val;
-			if (u.value.value == v)
-				return false;
-			u.value.lvalue = b ? (val < u.value.value) : (val > u.value.value);
-			u.value.value = v;
-			return true;
+		bool MidiSetter::SetVolume(MidiUnit& u, uint8_t val) {
+			return SetVolume(u, std::chrono::high_resolution_clock::now(), val);
+		}
+		bool MidiSetter::SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val) {
+			try {
+				u.value.time = t;
+				bool b = (u.type == MidiUnitType::SLIDERINVERT) || (u.type == MidiUnitType::FADERINVERT) || (u.type == MidiUnitType::KNOBINVERT);
+				uint8_t v = b ? (127 - val) : val;
+				if (u.value.value == v)
+					return false;
+				u.value.lvalue = b ? (val < u.value.value) : (val > u.value.value);
+				u.value.value = v;
+				return true;
+
+			} catch (...) {}
+			return false;
 		}
 		bool MidiSetter::ValidTarget(MidiUnit& u) {
 			switch (u.target) {

@@ -18,10 +18,10 @@ namespace Common {
         AudioEndPointEvents::AudioEndPointEvents(AudioSessionList* ptr, std::function<void()> fdel, std::function<const GUID()> fguid)
             : ptrSessionList(ptr), evDeleted(fdel), evGuid(fguid), crefAll(1L) {
             if (ptr == nullptr)
-                throw_common_error(common_error_id::err_LISTISNULL);
+                throw make_common_error(common_error_id::err_LISTISNULL);
         }
         const bool AudioEndPointEvents::IsBusy() const {
-            return (bool)lock__.IsLock();
+            return (bool)lock_.IsLock();
         }
 
         STDMETHODIMP AudioEndPointEvents::QueryInterface(REFIID riid, void** ppv) {
@@ -51,7 +51,7 @@ namespace Common {
         }
         HRESULT STDMETHODCALLTYPE AudioEndPointEvents::OnNotify(PAUDIO_VOLUME_NOTIFICATION_DATA data) {
             if (data == nullptr) return E_INVALIDARG;
-            lock__.Begin();
+            lock_.Begin();
 
             try {
                 const GUID g = evGuid();
@@ -59,7 +59,7 @@ namespace Common {
                 ptrSessionList->VolumeChange(static_cast<LPCGUID>(&data->guidEventContext), data->fMasterVolume, data->bMuted);
             } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 
-            lock__.End();
+            lock_.End();
             return S_OK;
         }
     }

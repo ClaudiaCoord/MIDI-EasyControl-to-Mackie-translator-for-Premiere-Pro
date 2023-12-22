@@ -15,31 +15,31 @@
 namespace Common {
 	namespace MIDIMT {
 
-		class DialogMonitor
-		{
-			handle_ptr<HWND> hwnd__;
-			CbEvent mcb__;
+		class DialogMonitor : public IO::PluginUi, public CbEvent {
+		private:
 
 			void dispose_();
+			void init_();
+
+			void eventLog_(CbEventData*);
+			void eventMonitor_(CbEventData*);
+
 			void clear_();
+			void start_();
+			void stop_();
 
 		public:
 
 			DialogMonitor();
-			~DialogMonitor();
+			~DialogMonitor() = default;
+
+			IO::PluginUi* GetUi();
+
 			const bool IsRunOnce();
 			void SetFocus();
 
-			void EventLog(CbEventData*);
-			void EventMonitor(CbEventData*);
-
-			void InitDialog(HWND);
-			void EndDialog();
-
-			void Start();
-			void Stop();
-			void Clear();
-
+			HWND BuildDialog(HWND) override final;
+			LRESULT CommandDialog(HWND, UINT, WPARAM, LPARAM) override final;
 		};
 
 	}

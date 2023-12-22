@@ -34,6 +34,18 @@
     <Filter Include="Исходные файлы\mqtt">
       <UniqueIdentifier>{892ceceb-5673-4ade-bd33-276eeb808137}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\plugins">
+      <UniqueIdentifier>{5aaa7d2e-31c9-46f9-8428-52cfe4ec111f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\plugins">
+      <UniqueIdentifier>{38a201ab-d4f1-4ec3-ae99-bf7c9cde51d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\json">
+      <UniqueIdentifier>{0e1161ca-25ec-47a3-a5e3-443eb4c2f2fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\json">
+      <UniqueIdentifier>{23471283-f6d5-4f96-8401-11ef7796a071}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -43,15 +55,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\common_timer.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\tiny_json.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\midi\json_config.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\h\json_recent.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\log_string.h">
@@ -111,9 +114,6 @@
     <ClInclude Include="..\Common\h\midi\MidiHelper.h">
       <Filter>Файлы заголовков\midi</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\h\midi\MidiInstance.h">
-      <Filter>Файлы заголовков\midi</Filter>
-    </ClInclude>
     <ClInclude Include="h\global.h">
       <Filter>Файлы заголовков\globals</Filter>
     </ClInclude>
@@ -138,6 +138,45 @@
     <ClInclude Include="..\Common\h\light\ArtnetInterfaceConfig.h">
       <Filter>Файлы заголовков\light</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_constant.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_helper.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_types.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_cb.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_info.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\json\json_config.h">
+      <Filter>Файлы заголовков\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\json\json_recent.h">
+      <Filter>Файлы заголовков\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\json\tiny_json.h">
+      <Filter>Файлы заголовков\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\json\main_config.h">
+      <Filter>Файлы заголовков\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\plugins\plugin_ui.h">
+      <Filter>Файлы заголовков\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\hwnd_ptr.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\light\LightsConfig.h">
+      <Filter>Файлы заголовков\light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -150,15 +189,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\dllmain.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\tiny_json.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\midi\json_config.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\json_recent.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\log_string.cpp">
@@ -197,9 +227,6 @@
     <ClCompile Include="cpp\midi\MidiHelper.cpp">
       <Filter>Исходные файлы\midi</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\midi\MidiInstance.cpp">
-      <Filter>Исходные файлы\midi</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\mqtt\BrokerConfig.cpp">
       <Filter>Исходные файлы\mqtt</Filter>
     </ClCompile>
@@ -215,9 +242,42 @@
     <ClCompile Include="cpp\light\ArtnetInterfaceConfig.cpp">
       <Filter>Исходные файлы\light</Filter>
     </ClCompile>
+    <ClCompile Include="cpp\plugins\plugin_helper.cpp">
+      <Filter>Исходные файлы\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\plugins\plugin_cb.cpp">
+      <Filter>Исходные файлы\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\plugins\plugin_info.cpp">
+      <Filter>Исходные файлы\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\plugins\plugin.cpp">
+      <Filter>Исходные файлы\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\json\json_config.cpp">
+      <Filter>Исходные файлы\json</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\json\json_recent.cpp">
+      <Filter>Исходные файлы\json</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\json\tiny_json.cpp">
+      <Filter>Исходные файлы\json</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\json\main_config.cpp">
+      <Filter>Исходные файлы\json</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\plugins\plugin_ui.cpp">
+      <Filter>Исходные файлы\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\hwnd_ptr.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\LightsConfig.cpp">
+      <Filter>Исходные файлы\light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc">
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>

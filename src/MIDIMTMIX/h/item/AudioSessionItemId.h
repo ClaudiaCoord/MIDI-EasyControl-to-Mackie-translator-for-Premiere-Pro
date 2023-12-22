@@ -15,13 +15,13 @@
 namespace Common {
 	namespace MIXER {
 
-		typedef std::pair<MIDI::MidiUnitType, uint32_t> ItemIdPair;
-		typedef std::forward_list<ItemIdPair> ItemIdList;
+		typedef std::pair<MIDI::MidiUnitType, uint32_t> ItemIdPair_t;
+		typedef std::forward_list<ItemIdPair_t> ItemIdList_t;
 
 		class FLAG_EXPORT AudioSessionItemId
 		{
 		private:
-			ItemIdList keys;
+			ItemIdList_t keys;
 
 			void copy_(AudioSessionItemId&, bool);
 
@@ -32,13 +32,14 @@ namespace Common {
 			AudioSessionItemId() = default;
 
 			MIDI::MidiUnitType found(uint32_t);
+			MIDI::MidiUnitType found(ItemIdPair_t&);
 			MIDI::MidiUnitType found(uint32_t, MIDI::MidiUnitType);
 
 			const bool		 empty();
 			const bool		 add(MIDI::MidiUnit&);
 			const bool		 add(MIDI::MidiUnitType, uint32_t);
-			const bool		 add(ItemIdPair);
-			ItemIdList&		 get();
+			const bool		 add(ItemIdPair_t);
+			ItemIdList_t&	 get();
 
 			void remove(uint32_t);
 

@@ -55,14 +55,14 @@ namespace Common {
 			ListMixerContainer(ListMixerContainer*);
 			ListMixerContainer(MIDI::MixerUnit);
 			ListMixerContainer(MIDI::MidiUnit&);
-			ListMixerContainer(MIDI::MidiUnit&, DWORD&);
-			ListMixerContainer(MIDI::Mackie::MIDIDATA&, DWORD&);
+			ListMixerContainer(MIDI::MidiUnit&, DWORD);
+			ListMixerContainer(MIDI::Mackie::MIDIDATA, DWORD);
 			~ListMixerContainer();
 			MIDI::MidiUnit GetMidiUnit();
 		};
 
 		class LISTVIEWSORT {
-			int  column;
+			int  column{ -1 };
 			bool ascending[6]{};
 		public:
 			LISTVIEWSORT();
@@ -75,13 +75,13 @@ namespace Common {
 			void Reset();
 		};
 		class LISTVIEWPASTE {
-			int  item, column;
-			ListMixerContainer* cont;
+			int  item{ -1 }, column{ -1 };
+			ListMixerContainer* cont{ nullptr };
 
 			void sendnotify_(HWND, EditorNotify);
 		public:
 			LISTVIEWPASTE();
-			const bool operator==(const LISTVIEWPASTE& x);
+			const bool operator==(const LISTVIEWPASTE&);
 			const bool IsValueEmpty();
 			const bool IsValuesEmpty();
 			const bool IsItemEmpty();
@@ -94,12 +94,12 @@ namespace Common {
 		};
 
 		class ListEdit {
-			handle_ptr<HWND> hwndLv__;
-			std::function<void(std::wstring)> ErrorFn;
-			HIMAGELIST icons__;
+			hwnd_ptr<empty_deleter> hwndLv_{};
+			std::function<void(std::wstring)> ErrorFn = [](std::wstring) {};
+			HIMAGELIST icons_{ nullptr };
 
-			std::shared_ptr<LISTVIEWSORT> lvsort;
-			std::shared_ptr<LISTVIEWPASTE> lvpaste;
+			std::shared_ptr<LISTVIEWSORT> lvsort{};
+			std::shared_ptr<LISTVIEWPASTE> lvpaste{};
 
 			void dispose_();
 
@@ -125,10 +125,11 @@ namespace Common {
 
 			void ListViewInit(HWND);
 			void ListViewEnd();
+			void ListViewClear();
 			void ListViewFilterEmbed(bool);
-			void ListViewLoad(std::shared_ptr<MIDI::MidiDevice>&);
+			void ListViewLoad(std::shared_ptr<JSON::MMTConfig>&);
 			int  ListViewInsertItem(ListMixerContainer*);
-			bool ListViewGetList(std::shared_ptr<MIDI::MidiDevice>&);
+			bool ListViewGetList(std::shared_ptr<JSON::MMTConfig>&);
 			ListMixerContainer* ListViewGetSelectedRow(LPNMHDR);
 
 			bool ListViewMenu(uint32_t);

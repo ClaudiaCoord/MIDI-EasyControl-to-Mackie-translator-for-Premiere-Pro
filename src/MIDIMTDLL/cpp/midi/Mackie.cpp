@@ -15,172 +15,181 @@
 namespace Common {
 	namespace MIDI {
 
-		bool Mackie::SelectorTarget(MidiUnit& unit, MIDIDATA& m, ClassTypes t) {
+		bool Mackie::SelectorTarget(MidiUnit& unit, MIDIDATA& m, IO::PluginClassTypes t) {
 
 			switch (t) {
-				case ClassTypes::ClassProxy:
-				case ClassTypes::ClassMonitor:
-				case ClassTypes::ClassOutMidi:
-				case ClassTypes::ClassVirtualMidi:   return true;
-				case ClassTypes::ClassMixer:         return (unit.target & Target::VOLUMEMIX);
-				case ClassTypes::ClassMediaKey:      return (unit.target & Target::MEDIAKEY);
-				case ClassTypes::ClassMqttKey:       return (unit.target & Target::MQTTKEY);
-				case ClassTypes::ClassLightKey:      return ((unit.target & Target::LIGHTKEY8B) || (unit.target & Target::LIGHTKEY16B));
-				case ClassTypes::ClassOutMidiMackie: break;
-				case ClassTypes::ClassNone:
-				case ClassTypes::ClassInMidi:
+				using enum IO::PluginClassTypes;
+				case ClassIn:
+				case ClassOut:
+				case ClassOut1:
+				case ClassOut2:
+				case ClassSys:
+				case ClassProxy:
+				case ClassMonitor:
+				case ClassOutMidi:
+				case ClassVirtualMidi:   return true;
+				case ClassMixer:         return (unit.target & Target::VOLUMEMIX);
+				case ClassMediaKey:      return (unit.target & Target::MEDIAKEY);
+				case ClassMqttKey:       return (unit.target & Target::MQTTKEY);
+				case ClassLightKey:      return ((unit.target & Target::LIGHTKEY8B) || (unit.target & Target::LIGHTKEY16B));
+				case ClassOutMidiMackie: break;
+				case ClassNone:
+				case ClassInMidi:
 				default: return false;
 			}
 			switch (unit.target) {
-				case Target::NOTARGET: {
+				using enum Target;
+				case NOTARGET: {
 					if (unit.longtarget & Target::NOTARGET)
 						return false;
 					break;
 				}
-				case Target::LIGHTKEY8B:
-				case Target::LIGHTKEY16B:
-				case Target::MEDIAKEY:
-				case Target::VOLUMEMIX: return false;
+				case LIGHTKEY8B:
+				case LIGHTKEY16B:
+				case MEDIAKEY:
+				case VOLUMEMIX: return false;
 				default: break;
 			}
 			switch (unit.type) {
+				using enum MidiUnitType;
 				case BTN:
 				case BTNTOGGLE: {
 					switch (unit.target) {
-						case Target::MAM:
-						case Target::MAS:
-						case Target::B11:
-						case Target::B12:
-						case Target::B13:
-						case Target::B14:
-						case Target::B15:
-						case Target::B16:
-						case Target::B17:
-						case Target::B18:
-						case Target::B21:
-						case Target::B22:
-						case Target::B23:
-						case Target::B24:
-						case Target::B25:
-						case Target::B26:
-						case Target::B27:
-						case Target::B28:
-						case Target::B31:
-						case Target::B32:
-						case Target::B33:
-						case Target::B34:
-						case Target::B35:
-						case Target::B36:
-						case Target::B37:
-						case Target::B38: {
-							int num;
+						using enum Target;
+						case MAM:
+						case MAS:
+						case B11:
+						case B12:
+						case B13:
+						case B14:
+						case B15:
+						case B16:
+						case B17:
+						case B18:
+						case B21:
+						case B22:
+						case B23:
+						case B24:
+						case B25:
+						case B26:
+						case B27:
+						case B28:
+						case B31:
+						case B32:
+						case B33:
+						case B34:
+						case B35:
+						case B36:
+						case B37:
+						case B38: {
+							int32_t num;
 							Button btn;
-							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target)
-							{
-								case Target::B21: btn = Button::Mute; num = 0; break;
-								case Target::B11: btn = Button::Solo; num = 0; break;
-								case Target::B31: btn = Button::Select; num = 0; break;
-								case Target::B22: btn = Button::Mute; num = 1; break;
-								case Target::B12: btn = Button::Solo; num = 1; break;
-								case Target::B32: btn = Button::Select; num = 1; break;
-								case Target::B23: btn = Button::Mute; num = 2; break;
-								case Target::B13: btn = Button::Solo; num = 2; break;
-								case Target::B33: btn = Button::Select; num = 2; break;
-								case Target::B24: btn = Button::Mute; num = 3; break;
-								case Target::B14: btn = Button::Solo; num = 3; break;
-								case Target::B34: btn = Button::Select; num = 3; break;
-								case Target::B25: btn = Button::Mute; num = 4; break;
-								case Target::B15: btn = Button::Solo; num = 4; break;
-								case Target::B35: btn = Button::Select; num = 4; break;
-								case Target::B26: btn = Button::Mute; num = 5; break;
-								case Target::B16: btn = Button::Solo; num = 5; break;
-								case Target::B36: btn = Button::Select; num = 5; break;
-								case Target::B27: btn = Button::Mute; num = 6; break;
-								case Target::B17: btn = Button::Solo; num = 6; break;
-								case Target::B37: btn = Button::Select; num = 6; break;
-								case Target::B28: btn = Button::Mute; num = 7; break;
-								case Target::B18: btn = Button::Solo; num = 7; break;
-								case Target::B38: btn = Button::Select; num = 7; break;
-								case Target::MAM: btn = Button::Mute; num = 8; break;
-								case Target::MAS: btn = Button::Select; num = 8; break;
+							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target) {
+								using enum Target;
+								case B21: btn = Button::Mute; num = 0; break;
+								case B11: btn = Button::Solo; num = 0; break;
+								case B31: btn = Button::Select; num = 0; break;
+								case B22: btn = Button::Mute; num = 1; break;
+								case B12: btn = Button::Solo; num = 1; break;
+								case B32: btn = Button::Select; num = 1; break;
+								case B23: btn = Button::Mute; num = 2; break;
+								case B13: btn = Button::Solo; num = 2; break;
+								case B33: btn = Button::Select; num = 2; break;
+								case B24: btn = Button::Mute; num = 3; break;
+								case B14: btn = Button::Solo; num = 3; break;
+								case B34: btn = Button::Select; num = 3; break;
+								case B25: btn = Button::Mute; num = 4; break;
+								case B15: btn = Button::Solo; num = 4; break;
+								case B35: btn = Button::Select; num = 4; break;
+								case B26: btn = Button::Mute; num = 5; break;
+								case B16: btn = Button::Solo; num = 5; break;
+								case B36: btn = Button::Select; num = 5; break;
+								case B27: btn = Button::Mute; num = 6; break;
+								case B17: btn = Button::Solo; num = 6; break;
+								case B37: btn = Button::Select; num = 6; break;
+								case B28: btn = Button::Mute; num = 7; break;
+								case B18: btn = Button::Solo; num = 7; break;
+								case B38: btn = Button::Select; num = 7; break;
+								case MAM: btn = Button::Mute; num = 8; break;
+								case MAS: btn = Button::Select; num = 8; break;
 								default: return false;
 							}
 							Mackie::SetButton(btn, num, unit.value.lvalue, m);
 							break;
 						}
-						case Target::FUN11:
-						case Target::FUN12:
-						case Target::FUN13:
-						case Target::FUN14:
-						case Target::FUN15:
-						case Target::FUN16:
-						case Target::FUN17:
-						case Target::FUN18: {
+						case FUN11:
+						case FUN12:
+						case FUN13:
+						case FUN14:
+						case FUN15:
+						case FUN16:
+						case FUN17:
+						case FUN18: {
 							Function fn;
-							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target)
-							{
-								case Target::FUN11: fn = Function::F1; break;
-								case Target::FUN12: fn = Function::F2; break;
-								case Target::FUN13: fn = Function::F3; break;
-								case Target::FUN14: fn = Function::F4; break;
-								case Target::FUN15: fn = Function::F5; break;
-								case Target::FUN16: fn = Function::F6; break;
-								case Target::FUN17: fn = Function::F7; break;
-								case Target::FUN18: fn = Function::F8; break;
+							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target) {
+								using enum Target;
+								case FUN11: fn = Function::F1; break;
+								case FUN12: fn = Function::F2; break;
+								case FUN13: fn = Function::F3; break;
+								case FUN14: fn = Function::F4; break;
+								case FUN15: fn = Function::F5; break;
+								case FUN16: fn = Function::F6; break;
+								case FUN17: fn = Function::F7; break;
+								case FUN18: fn = Function::F8; break;
 								default: return false;
 							}
 							Mackie::SetFunction(fn, unit.value.lvalue, m);
 							break;
 						}
-						case Target::FUN21:
-						case Target::FUN22:
-						case Target::FUN23:
-						case Target::FUN24:
-						case Target::FUN25:
-						case Target::FUN26:
-						case Target::FUN27:
-						case Target::FUN28: {
+						case FUN21:
+						case FUN22:
+						case FUN23:
+						case FUN24:
+						case FUN25:
+						case FUN26:
+						case FUN27:
+						case FUN28: {
 							Function fn;
-							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target)
-							{
-								case Target::FUN21: fn = Function::F1; break;
-								case Target::FUN22: fn = Function::F2; break;
-								case Target::FUN23: fn = Function::F3; break;
-								case Target::FUN24: fn = Function::F4; break;
-								case Target::FUN25: fn = Function::F5; break;
-								case Target::FUN26: fn = Function::F6; break;
-								case Target::FUN27: fn = Function::F7; break;
-								case Target::FUN28: fn = Function::F8; break;
+							switch (unit.value.type & ClickType::ClickLong ? unit.longtarget : unit.target) {
+								using enum Target;
+								case FUN21: fn = Function::F1; break;
+								case FUN22: fn = Function::F2; break;
+								case FUN23: fn = Function::F3; break;
+								case FUN24: fn = Function::F4; break;
+								case FUN25: fn = Function::F5; break;
+								case FUN26: fn = Function::F6; break;
+								case FUN27: fn = Function::F7; break;
+								case FUN28: fn = Function::F8; break;
 								default: return false;
 							}
 							Mackie::SetFunctionOnce(fn, m);
 							break;
 						}
-						case Target::SYS_Rewind:
-						case Target::SYS_Forward:
-						case Target::SYS_Stop:
-						case Target::SYS_Play:
-						case Target::SYS_Record:
-						case Target::SYS_Up:
-						case Target::SYS_Down:
-						case Target::SYS_Left:
-						case Target::SYS_Right:
-						case Target::SYS_Zoom:
-						case Target::SYS_Scrub: {
+						case SYS_Rewind:
+						case SYS_Forward:
+						case SYS_Stop:
+						case SYS_Play:
+						case SYS_Record:
+						case SYS_Up:
+						case SYS_Down:
+						case SYS_Left:
+						case SYS_Right:
+						case SYS_Zoom:
+						case SYS_Scrub: {
 							Control ctrl;
-							switch (unit.value.type & ClickLong ? unit.longtarget : unit.target)
-							{
-								case Target::SYS_Rewind: ctrl = Control::Rewind; break;
-								case Target::SYS_Forward: ctrl = Control::Forward; break;
-								case Target::SYS_Stop: ctrl = Control::Stop; break;
-								case Target::SYS_Play: ctrl = Control::Play; break;
-								case Target::SYS_Record: ctrl = Control::Record; break;
-								case Target::SYS_Up: ctrl = Control::Up; break;
-								case Target::SYS_Down: ctrl = Control::Down; break;
-								case Target::SYS_Left: ctrl = Control::Left; break;
-								case Target::SYS_Right: ctrl = Control::Right; break;
-								case Target::SYS_Zoom: ctrl = Control::Zoom; break;
-								case Target::SYS_Scrub: ctrl = Control::Scrub; break;
+							switch (unit.value.type & ClickLong ? unit.longtarget : unit.target) {
+								using enum Target;
+								case SYS_Rewind:	ctrl = Control::Rewind; break;
+								case SYS_Forward:	ctrl = Control::Forward; break;
+								case SYS_Stop:		ctrl = Control::Stop; break;
+								case SYS_Play:		ctrl = Control::Play; break;
+								case SYS_Record:	ctrl = Control::Record; break;
+								case SYS_Up:		ctrl = Control::Up; break;
+								case SYS_Down:		ctrl = Control::Down; break;
+								case SYS_Left:		ctrl = Control::Left; break;
+								case SYS_Right:		ctrl = Control::Right; break;
+								case SYS_Zoom:		ctrl = Control::Zoom; break;
+								case SYS_Scrub:		ctrl = Control::Scrub; break;
 								default: return false;
 							}
 							Mackie::SetButton(ctrl, unit.value.lvalue, m);
@@ -193,59 +202,60 @@ namespace Common {
 				case FADER:
 				case SLIDER: {
 					switch (unit.target) {
-					case Target::MAV:
-					case Target::AV1:
-					case Target::AV2:
-					case Target::AV3:
-					case Target::AV4:
-					case Target::AV5:
-					case Target::AV6:
-					case Target::AV7:
-					case Target::AV8: {
-						int num;
-						switch (unit.target)
-						{
-							case Target::AV1: num = 0; break;
-							case Target::AV2: num = 1; break;
-							case Target::AV3: num = 2; break;
-							case Target::AV4: num = 3; break;
-							case Target::AV5: num = 4; break;
-							case Target::AV6: num = 5; break;
-							case Target::AV7: num = 6; break;
-							case Target::AV8: num = 7; break;
-							case Target::MAV: num = 8; break;
-							default: return false;
+						using enum Target;
+						case MAV:
+						case AV1:
+						case AV2:
+						case AV3:
+						case AV4:
+						case AV5:
+						case AV6:
+						case AV7:
+						case AV8: {
+							int32_t num;
+							switch (unit.target) {
+								using enum Target;
+								case AV1: num = 0; break;
+								case AV2: num = 1; break;
+								case AV3: num = 2; break;
+								case AV4: num = 3; break;
+								case AV5: num = 4; break;
+								case AV6: num = 5; break;
+								case AV7: num = 6; break;
+								case AV8: num = 7; break;
+								case MAV: num = 8; break;
+								default: return false;
+							}
+							Mackie::SetVolume(num, unit.value.value, m);
+							break;
 						}
-						Mackie::SetVolume(num, unit.value.value, m);
-						break;
-					}
-					case Target::MAP:
-					case Target::AP1:
-					case Target::AP2:
-					case Target::AP3:
-					case Target::AP4:
-					case Target::AP5:
-					case Target::AP6:
-					case Target::AP7:
-					case Target::AP8: {
-						int num;
-						switch (unit.target)
-						{
-							case Target::AP1: num = 0; break;
-							case Target::AP2: num = 1; break;
-							case Target::AP3: num = 2; break;
-							case Target::AP4: num = 3; break;
-							case Target::AP5: num = 4; break;
-							case Target::AP6: num = 5; break;
-							case Target::AP7: num = 6; break;
-							case Target::AP8: num = 7; break;
-							case Target::MAP: num = 8; break;
-							default: return false;
+						case MAP:
+						case AP1:
+						case AP2:
+						case AP3:
+						case AP4:
+						case AP5:
+						case AP6:
+						case AP7:
+						case AP8: {
+							int num;
+							switch (unit.target) {
+								using enum Target;
+								case AP1: num = 0; break;
+								case AP2: num = 1; break;
+								case AP3: num = 2; break;
+								case AP4: num = 3; break;
+								case AP5: num = 4; break;
+								case AP6: num = 5; break;
+								case AP7: num = 6; break;
+								case AP8: num = 7; break;
+								case MAP: num = 8; break;
+								default: return false;
+							}
+							Mackie::SetPan(num, unit.value.lvalue, m);
+							break;
 						}
-						Mackie::SetPan(num, unit.value.lvalue, m);
-						break;
-					}
-					default: return false;
+						default: return false;
 					}
 					break;
 				}
@@ -255,7 +265,7 @@ namespace Common {
 					Mackie::SetWheel(unit.value.lvalue, m);
 					break;
 				}
-				case Target::NOTARGET:
+				case UNITNONE:
 				default: return false;
 			}
 			return true;

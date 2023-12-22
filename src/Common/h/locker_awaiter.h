@@ -18,29 +18,34 @@ namespace Common {
 	{
 	private:
 		#if defined(PX64__)
-		volatile LONG64 cnt = 0;
+		volatile LONG64 cnt{ 0 };
 		#elif defined(PX32__)
-		volatile LONG cnt = 0;
+		volatile LONG cnt{ 0 };
 		#endif
-		std::atomic<bool> lock__ = false;
-		std::atomic<bool> onlyone__ = false;
-		std::atomic<bool> canceled__ = false;
+		std::atomic<bool> lock_{ false };
+		std::atomic<bool> onlyone_{ false };
+		std::atomic<bool> canceled_{ false };
 
-		void wait_lock__();
-		void wait__();
+		void wait_counter_();
+		void wait_onlyone_();
+		void wait_();
 
 	public:
 
-		locker_awaiter() noexcept;
+		locker_awaiter() = default;
+		~locker_awaiter() = default;
+
+		void Wait();
+		void EndWait();
+		void Lock();
+		void UnLock();
 
 		const bool IsLock() const;
-		void Wait() noexcept;
-		void EndWait() noexcept;
-		void Lock() noexcept;
-		bool LockOnlyOne() noexcept;
-		const bool IsOnlyOne() noexcept;
-		void UnLock() noexcept;
-		const bool IsCanceled() noexcept;
+		const bool IsCanceled() const;
+		const bool IsOnlyOne() const;
+		const bool LockOnlyOne();
+		void WaitOnlyOne();
+
 		void reset();
 
 		/* Busy mode */

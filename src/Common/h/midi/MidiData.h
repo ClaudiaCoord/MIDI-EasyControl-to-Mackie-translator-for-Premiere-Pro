@@ -17,16 +17,16 @@ namespace Common {
 
         class FLAG_EXPORT MidiUnitValue {
         public:
-            bool lvalue;
-            uint8_t value;
-            uint32_t time;
-            Mackie::ClickType type;
+            bool lvalue{ false };
+            uint8_t value{ 0U };
+            std::chrono::steady_clock::time_point time{};
+            Mackie::ClickType type{ Mackie::ClickType::ClickUnknown };
 
             MidiUnitValue();
             MidiUnitValue(uint8_t v, uint32_t t);
-            const bool IsEmpty() const;
-            void Copy(MidiUnitValue&);
-            std::wstring Dump();
+            const bool empty() const;
+            std::wstring dump();
+            void copy(MidiUnitValue&);
         };
 
         class FLAG_EXPORT MixerUnit {
@@ -41,12 +41,13 @@ namespace Common {
             std::vector<std::wstring> appvolume;
 
             MixerUnit();
-            void Copy(MidiUnit&);
-            void Copy(MixerUnit&);
+            MixerUnit(MidiUnit&);
             void ToNull(bool = false);
             bool EqualsOR(MixerUnit&);
             bool EqualsAND(MixerUnit&);
-            std::wstring Dump();
+            std::wstring dump();
+            void copy(MidiUnit&);
+            void copy(MixerUnit&);
         };
 
         class FLAG_EXPORT MidiUnit {
@@ -60,73 +61,74 @@ namespace Common {
             std::vector<std::wstring> appvolume;
 
             MidiUnit();
-            void Copy(MidiUnit&);
-            void Copy(MixerUnit&);
-            const bool IsEmpty() const;
+            MidiUnit(MixerUnit&);
+            const bool empty() const;
             const uint32_t GetMixerId();
             MixerUnit GetMixerUnit();
-            std::wstring Dump();
+            std::wstring dump();
+            void copy(MidiUnit&);
+            void copy(MixerUnit&);
         };
 
         class FLAG_EXPORT MidiUnitRef {
         private:
-            static MidiUnit midiunitdefault__;
-            MidiUnit& m__;
-            ClassTypes type__;
-            bool isbegin__;
+            static MidiUnit midiunitdefault_;
+            MidiUnit& m_;
+            IO::PluginClassTypes type_;
+            bool isbegin_;
 
         public:
             MidiUnitRef();
             MidiUnit& get();
-            void set(MidiUnit&, ClassTypes);
+            void set(MidiUnit&, IO::PluginClassTypes);
             void begin();
-            const ClassTypes type();
+            const IO::PluginClassTypes type();
             const bool isbegin();
             const bool isvalid();
+
+            friend void copy_data(MidiUnitRef&, MidiUnit&);
+            friend void copy_data(MidiUnitRef&, MixerUnit&);
         };
 
-#       pragma warning( push )
-#       pragma warning( disable : 4251 )
-        class FLAG_EXPORT MidiDevice {
+        class FLAG_EXPORT MidiConfig {
         private:
-            void copysettings__(MidiDevice*);
+            void copysettings_(MidiConfig&);
         public:
-            std::wstring name;
-            std::wstring config;
-            bool autostart;
-            bool manualport;
-            bool jogscenefilter;
-            uint32_t proxy;
-            uint32_t btninterval;
-            uint32_t btnlonginterval;
-            std::vector<MidiUnit> units;
-            MQTT::BrokerConfig<std::wstring> mqttconf{};
-            LIGHT::ArtnetConfig artnetconf{};
-            LIGHT::SerialPortConfig dmxconf{};
+            bool enable{ false };
+            bool out_system_port{ false };
+            bool jog_scene_filter{ true };
+            uint32_t out_count{};
+            uint32_t proxy_count{};
+            uint32_t btn_interval{};
+            uint32_t btn_long_interval{};
+            std::vector<std::wstring> midi_in_devices{};
+            std::vector<std::wstring> midi_out_devices{};
 
-            MidiDevice* get();
+            std::chrono::milliseconds get_interval() const;
+            std::chrono::milliseconds get_long_interval() const;
 
-            MidiDevice();
-            ~MidiDevice();
-            bool IsEmpty();
-            void Init();
-            void Add(MidiUnit);
-            void Clear();
-            std::wstring Dump();
-
-            template <class T1>
-            void CopySettings(T1& ptr) {
-                copysettings__(ptr.get());
-            }
+            const bool empty() const;
+            void Copy(MidiConfig&);
+            std::wstring dump();
         };
-#       pragma warning( pop )
+
+        class FLAG_EXPORT MMKeyConfig {
+        public:
+            bool enable{ false };
+
+            const bool empty() const;
+            void Copy(MMKeyConfig&);
+            std::wstring dump();
+        };
 
         class FLAG_EXPORT MidiSetter {
         public:
             static bool ValidTarget(MidiUnit& u);
-            static bool ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, DWORD& t, const uint32_t& btninterval);
+            static bool ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::milliseconds& btninterval);
+            static bool ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::steady_clock::time_point t, const std::chrono::milliseconds& btninterval);
             static void SetButton(MidiUnit& u);
-            static bool SetVolume(MidiUnit& u, DWORD& t, uint8_t val);
+            static bool SetVolume(MidiUnit& u, uint8_t val);
+            static bool SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val);
         };
     }
 }

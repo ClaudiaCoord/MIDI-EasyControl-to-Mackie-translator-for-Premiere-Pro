@@ -15,55 +15,46 @@
 namespace Common {
     namespace MIDI {
 
-        class MidiControllerBase
-        {
+        class FLAG_EXPORT MidiControllerBase {
         protected:
-            bool isenable__;
-            bool isconnect__;
-            uint32_t id__;
+            bool isenable_{ false };
+            bool isconnect_{ false };
 
-            callMidiInCb eventin__;
-            std::wstring active_device__;
-            std::vector<std::wstring> device_list__;
-            ClassTypes this_type__;
-            std::shared_ptr<MidiDriver> mdrv__{};
+            std::wstring active_device_{};
+            std::shared_ptr<MidiDriver>& mdrv_;
+            IO::PluginCb& cb_;
+            std::shared_mutex mtx_{};
 
-            virtual bool BuildDeviceList(uint32_t&);
-
-            MidiControllerBase(std::shared_ptr<MidiDriver>);
+            MidiControllerBase(IO::PluginCb&, std::shared_ptr<MIDI::MidiDriver>&);
+            MidiControllerBase(IO::PluginCb&, std::shared_ptr<MIDI::MidiDriver>&, std::wstring);
         public:
 
-            ~MidiControllerBase();
-            virtual const bool Start();
-            virtual const bool Start(std::shared_ptr<MidiDevice>& cnf);
-            virtual void Stop();
-            virtual void Dispose();
+            #pragma region VIRTUAL
+            virtual ~MidiControllerBase() = default;
+            virtual void       Stop() = 0;
+            virtual const bool Start() = 0;
+            virtual const bool Start(std::shared_ptr<JSON::MMTConfig>& cnf) = 0;
 
-            std::wstring& DeviceName();
-            std::vector<std::wstring>& GetDeviceList();
+            #pragma region CALLBACK TO PORT
+            virtual void SendToPort(MIDI::Mackie::MIDIDATA&, DWORD&) = 0;
+            virtual void SendToPort(MIDI::MidiUnit&, DWORD&) = 0;
+            #pragma endregion
+
+            #pragma endregion
+
+            std::wstring& GetActiveDevice();
 
             const bool IsEmpty();
             const bool IsEnable();
             const bool IsConnected();
 
-            void InCallbackSet(callMidiInCb f);
-            void InCallbackRemove();
 
-            uint32_t   GetId();
-            ClassTypes GetType();
-
-            // CALLBACK OUT GETTER //
-            callMidiOut1Cb GetCbOut1();
-            callMidiOut2Cb GetCbOut2();
-
-            // CALLBACK TO PORT //
-            virtual const bool SendToPort(Mackie::MIDIDATA& m, DWORD&);
-            virtual const bool SendToPort(MidiUnit&, DWORD&);
-
-            // CALLBACK TO INPUT-OUTPUT //
-            static void CALLBACK MidiInProc(HMIDIIN, UINT, DWORD_PTR, DWORD, DWORD);
-            static void CALLBACK MidiOutProc(HMIDIOUT, UINT, DWORD_PTR, DWORD, DWORD);
-            static void MidiProc(UINT, DWORD_PTR, DWORD, DWORD);
+        protected:
+            #pragma region CALLBACK TO INPUT-OUTPUT
+            static void CALLBACK MidiInProc_(HMIDIIN, UINT, DWORD_PTR, DWORD, DWORD);
+            static void CALLBACK MidiOutProc_(HMIDIOUT, UINT, DWORD_PTR, DWORD, DWORD);
+            static void CALLBACK MidiProc_(UINT, DWORD_PTR, DWORD, DWORD);
+            #pragma endregion
         };
     }
 }

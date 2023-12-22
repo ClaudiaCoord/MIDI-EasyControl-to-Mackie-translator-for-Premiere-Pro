@@ -74,25 +74,25 @@
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\MIDIMTBR\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\MIDIMTBR\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\MIDIMTBR\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\h\item;$(MSBuildProjectDirectory)\h\events;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\..\MIDIMTBR\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -229,12 +229,15 @@
     <ClInclude Include="MIDIMTMIXApi.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MIDIMTBR\MIDIMTBR.vcxproj">
+      <Project>{21308f11-0fb2-4742-bb73-704c015c794d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MIDIMTDLL\MIDIMTLIB.vcxproj">
       <Project>{93f0fdf9-7136-45ce-b098-541379d35070}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc" />
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

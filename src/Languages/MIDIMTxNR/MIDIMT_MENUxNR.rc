@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_NORWEGIAN, SUBLANG_DEFAULT
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "MIDI Mackie-oversetter"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Informasjon", IDM_GO_INFO
-        MENUITEM "&Lydmikser", IDM_GO_MIXER
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Informasjon",                 IDM_GO_INFO
+        MENUITEM "&Lydmikser",               IDM_GO_MIXER
         POPUP "&Overvåkning"
         BEGIN
-            MENUITEM "&Observere", IDM_GO_MONITOR
-            MENUITEM "&Vis loggfil", IDM_GO_VIEWLOG
+            MENUITEM "&Observere",		IDM_GO_MONITOR
+            MENUITEM "&Vis loggfil",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Innstillinger", IDM_GO_CONFIGURE
+        MENUITEM "&Innstillinger",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "Start", IDM_GO_START
-        MENUITEM "Stoppe", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "Start",                      IDM_GO_START
+        MENUITEM "Stoppe",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Exit", IDM_EXIT
+        MENUITEM "Exit",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "exit",					DLG_EXIT
+    MENUITEM "større",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "mindre",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "til begynnelsen",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "Til slutt",					DLG_LOGVIEW_MENU_END
+    MENUITEM "klar",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "konfigurasjon"
+    BEGIN
+	MENUITEM "vis all konfigurasjon",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "vis MIDI-konfigurasjon",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "vis MQTT-konfigurasjon",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "vis MMKEYS-konfigurasjon",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "vis LIGTS-konfigurasjon",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "vis DMX512-konfigurasjon",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "vis ArtNet-konfigurasjonen",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "plugins"
+    BEGIN
+	MENUITEM "plugin-statistikk",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "start",				DLG_GO_START
+    MENUITEM "Stoppe",				DLG_GO_STOP
+    MENUITEM "lagre innstillinger",		DLG_SAVE
+    MENUITEM "hjelp",				DLG_GO_HELP
+    POPUP "Språk"
+    BEGIN
+	MENUITEM "auto",			DLG_LANG_MENU_0
+    END
+    MENUITEM "Logg",				DLG_GO_LOG
+    MENUITEM "exit",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Plassering.."
         BEGIN
-            MENUITEM "Vertikal venstre", IDM_VERT_LEFT
-            MENUITEM "Vertikal høyre", IDM_VERT_RIGHT
-            MENUITEM "Horisontalt på toppen", IDM_HOR_TOP
-            MENUITEM "Horisontalt under", IDM_HOR_BOTTOM
+            MENUITEM "Vertikal venstre",	IDM_VERT_LEFT
+            MENUITEM "Vertikal høyre",	IDM_VERT_RIGHT
+            MENUITEM "Horisontalt på toppen",	IDM_HOR_TOP
+            MENUITEM "Horisontalt under",	IDM_HOR_BOTTOM
         END
         POPUP "Emne.."
         BEGIN
-            MENUITEM "Metro", IDM_METRO
-            MENUITEM "Lys", IDM_LIGHT
-            MENUITEM "Mørk", IDM_DARK
-            MENUITEM "Retro", IDM_RETRO
-            MENUITEM "Moderne", IDM_MODERN
+            MENUITEM "Metro",			IDM_METRO
+            MENUITEM "Lys",			IDM_LIGHT
+            MENUITEM "Mørk",			IDM_DARK
+            MENUITEM "Retro",			IDM_RETRO
+            MENUITEM "Moderne",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Setter opp", IDM_CUSTOM
-            MENUITEM "Sette opp et tema", IDM_CALLFORM_COLOR
+            MENUITEM "Tilpassbar",		IDM_CUSTOM
+            MENUITEM "Sette opp et tema",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animasjon", IDM_ANIMATION
-        MENUITEM "&Søknadsbane", IDM_APP_PATH
-        MENUITEM "Binding & MIDI-kontroller", IDM_MIDI_BIND
-        MENUITEM "Topp- og volummåler", IDM_PEAK_METER
-        MENUITEM "Husk posisjon", IDM_SAVE_POS
+        MENUITEM "&Animasjon",			IDM_ANIMATION
+        MENUITEM "&Søknadsbane",		IDM_APP_PATH
+        MENUITEM "Binding & MIDI-kontroller",	IDM_MIDI_BIND
+        MENUITEM "Topp- og volummåler",IDM_PEAK_METER
+        MENUITEM "Husk posisjon",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Lukk", IDM_CLOSE
+        MENUITEM "&Lukk",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "Ny inngang", IDM_LV_NEW
+        MENUITEM "Ny inngang",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "Kopiere", IDM_LV_COPY
-        MENUITEM "Sett inn", IDM_LV_PASTE, GRAYED
+        MENUITEM "Kopiere",                  IDM_LV_COPY
+        MENUITEM "Sett inn",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Slett", IDM_LV_DELETE
+        MENUITEM "Slett",                     IDM_LV_DELETE
         POPUP "Installer som.."
         BEGIN
             MENUITEM "Kontroll refererer til lydmikser", IDM_LV_SET_MIXER
             MENUITEM "Kontrollene gjelder for multimedieknapper", IDM_LV_SET_MMKEY
             MENUITEM "Kontroll refererer til et smart hjem", IDM_LV_SET_MQTT
-            POPUP "Kontroll refererer til lysstyring"
-            BEGIN
-                MENUITEM "Kanal 8 bit (standard)", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "Kanal 16 bit (utvidet)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "Kontroll refererer til lysstyring"
+	    BEGIN
+		MENUITEM "Kanal 8 bit (standard)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "Kanal 16 bit (utvidet)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "Ikke tilordnet", IDM_LV_SET_NONE
+            MENUITEM "Ikke tilordnet",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Les MIDI-koden..", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Les MIDI-koden..",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulatorer..."
+        POPUP "Regulatorer.."
         BEGIN
-            MENUITEM "Strip Regulator", IDM_COL3_SLIDER
+            MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Strip Regulator med inversjon", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Sirkulær regulator", IDM_COL3_FADER
+            MENUITEM "Sirkulær regulator",          IDM_COL3_FADER
             MENUITEM "Sirkulær regulator med inversjon", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Enkoder", IDM_COL3_KNOB
-            MENUITEM "Enkoder med inversjon", IDM_COL3_KNOBINVERT
+            MENUITEM "Enkoder",                     IDM_COL3_KNOB
+            MENUITEM "Enkoder med inversjon",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Ikke tilordnet", IDM_COL3_NONE
+            MENUITEM "Ikke tilordnet",               IDM_COL3_NONE
         END
         POPUP "Knapper.."
         BEGIN
-            MENUITEM "Knapp", IDM_COL3_BTN
+            MENUITEM "Knapp",                      IDM_COL3_BTN
             MENUITEM "Bryterknapp, med indikasjon", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Ikke tilordnet", IDM_COL3_NONE
+            MENUITEM "Ikke tilordnet",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatorer...", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Knapper..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Regulatorer..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Knapper..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontroll refererer til lydmikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollene gjelder for multimedieknapper", IDM_COL4_MEDIAKEY
         MENUITEM "Kontroll refererer til et smart hjem", IDM_COL4_MQTTKEY
-        POPUP "Kontroll refererer til lysstyring"
-        BEGIN
-            MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontroll refererer til lysstyring"
+	BEGIN
+	   MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Lydkontroll..."
         BEGIN
-            MENUITEM "Stille (mester)", IDM_COL4_MAM
-            MENUITEM "Solo (mester)", IDM_COL4_MAS
+            MENUITEM "Stille (mester)",		IDM_COL4_MAM
+            MENUITEM "Solo (mester)",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "lydløst.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B21
-                MENUITEM "kanal 2", IDM_COL4_B22
-                MENUITEM "kanal 3", IDM_COL4_B23
-                MENUITEM "kanal 4", IDM_COL4_B24
-                MENUITEM "kanal 5", IDM_COL4_B25
-                MENUITEM "kanal 6", IDM_COL4_B26
-                MENUITEM "kanal 7", IDM_COL4_B27
-                MENUITEM "kanal 8", IDM_COL4_B28
-                MENUITEM "kanal 9", IDM_COL4_B29
+                MENUITEM "kanal 1",                     IDM_COL4_B21
+                MENUITEM "kanal 2",                     IDM_COL4_B22
+                MENUITEM "kanal 3",                     IDM_COL4_B23
+                MENUITEM "kanal 4",                     IDM_COL4_B24
+                MENUITEM "kanal 5",                     IDM_COL4_B25
+                MENUITEM "kanal 6",                     IDM_COL4_B26
+                MENUITEM "kanal 7",                     IDM_COL4_B27
+                MENUITEM "kanal 8",                     IDM_COL4_B28
+                MENUITEM "kanal 9",                     IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B11
-                MENUITEM "kanal 2", IDM_COL4_B12
-                MENUITEM "kanal 3", IDM_COL4_B13
-                MENUITEM "kanal 4", IDM_COL4_B14
-                MENUITEM "kanal 5", IDM_COL4_B15
-                MENUITEM "kanal 6", IDM_COL4_B16
-                MENUITEM "kanal 7", IDM_COL4_B17
-                MENUITEM "kanal 8", IDM_COL4_B18
-                MENUITEM "kanal 9", IDM_COL4_B19
+                MENUITEM "kanal 1",                     IDM_COL4_B11
+                MENUITEM "kanal 2",                     IDM_COL4_B12
+                MENUITEM "kanal 3",                     IDM_COL4_B13
+                MENUITEM "kanal 4",                     IDM_COL4_B14
+                MENUITEM "kanal 5",                     IDM_COL4_B15
+                MENUITEM "kanal 6",                     IDM_COL4_B16
+                MENUITEM "kanal 7",                     IDM_COL4_B17
+                MENUITEM "kanal 8",                     IDM_COL4_B18
+                MENUITEM "kanal 9",                     IDM_COL4_B19
             END
         END
         POPUP "Multimedieknapper.."
         BEGIN
-            MENUITEM "Spill av/pause", IDM_COL4_SYS_Play
-            MENUITEM "Stoppe", IDM_COL4_SYS_Stop
-            MENUITEM "Tidligere", IDM_COL4_SYS_Rewind
-            MENUITEM "Neste", IDM_COL4_SYS_Forward
-            MENUITEM "Ta opp", IDM_COL4_SYS_Record
-            MENUITEM "Opp (joystick)", IDM_COL4_SYS_Up
-            MENUITEM "Ned (joystick)", IDM_COL4_SYS_Down
-            MENUITEM "Høyre (joystick)", IDM_COL4_SYS_Right
-            MENUITEM "Venstre (joystick)", IDM_COL4_SYS_Left
-            MENUITEM "Zoom inn", IDM_COL4_SYS_Zoom
-            MENUITEM "Skrubbing", IDM_COL4_SYS_Scrub
+            MENUITEM "Spill av/pause",                IDM_COL4_SYS_Play
+            MENUITEM "Stoppe",                        IDM_COL4_SYS_Stop
+            MENUITEM "Tidligere",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Neste",                   IDM_COL4_SYS_Forward
+            MENUITEM "Ta opp",                      IDM_COL4_SYS_Record
+            MENUITEM "Opp (joystick)",            IDM_COL4_SYS_Up
+            MENUITEM "Ned (joystick)",             IDM_COL4_SYS_Down
+            MENUITEM "Høyre (joystick)",           IDM_COL4_SYS_Right
+            MENUITEM "Venstre (joystick)",            IDM_COL4_SYS_Left
+            MENUITEM "Zoom inn",         IDM_COL4_SYS_Zoom
+            MENUITEM "Skrubbing",               IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro-funksjoner..."
         BEGIN
-            POPUP "Funksjoner til standardknappen..."
+            POPUP "Standard knappefunksjoner..."
             BEGIN
-                MENUITEM "Funksjon 1", IDM_COL4_FUN11
-                MENUITEM "Funksjon 2", IDM_COL4_FUN12
-                MENUITEM "Funksjon 3", IDM_COL4_FUN13
-                MENUITEM "Funksjon 4", IDM_COL4_FUN14
-                MENUITEM "Funksjon 5", IDM_COL4_FUN15
-                MENUITEM "Funksjon 6", IDM_COL4_FUN16
-                MENUITEM "Funksjon 7", IDM_COL4_FUN17
-                MENUITEM "Funksjon 8", IDM_COL4_FUN18
+                MENUITEM "Funksjon 1",                   IDM_COL4_FUN11
+                MENUITEM "Funksjon 2",                   IDM_COL4_FUN12
+                MENUITEM "Funksjon 3",                   IDM_COL4_FUN13
+                MENUITEM "Funksjon 4",                   IDM_COL4_FUN14
+                MENUITEM "Funksjon 5",                   IDM_COL4_FUN15
+                MENUITEM "Funksjon 6",                   IDM_COL4_FUN16
+                MENUITEM "Funksjon 7",                   IDM_COL4_FUN17
+                MENUITEM "Funksjon 8",                   IDM_COL4_FUN18
             END
             POPUP "Ett-trykks knappfunksjoner..."
             BEGIN
-                MENUITEM "Funksjon 1", IDM_COL4_FUN21
-                MENUITEM "Funksjon 2", IDM_COL4_FUN22
-                MENUITEM "Funksjon 3", IDM_COL4_FUN23
-                MENUITEM "Funksjon 4", IDM_COL4_FUN24
-                MENUITEM "Funksjon 5", IDM_COL4_FUN25
-                MENUITEM "Funksjon 6", IDM_COL4_FUN26
-                MENUITEM "Funksjon 7", IDM_COL4_FUN27
-                MENUITEM "Funksjon 8", IDM_COL4_FUN28
+                MENUITEM "Funksjon 1",                   IDM_COL4_FUN21
+                MENUITEM "Funksjon 2",                   IDM_COL4_FUN22
+                MENUITEM "Funksjon 3",                   IDM_COL4_FUN23
+                MENUITEM "Funksjon 4",                   IDM_COL4_FUN24
+                MENUITEM "Funksjon 5",                   IDM_COL4_FUN25
+                MENUITEM "Funksjon 6",                   IDM_COL4_FUN26
+                MENUITEM "Funksjon 7",                   IDM_COL4_FUN27
+                MENUITEM "Funksjon 8",                   IDM_COL4_FUN28
             END
         END
         POPUP "Knapper i Smart Home-systemet.."
         BEGIN
-            MENUITEM "av/på 1", IDM_COL4_B11
-            MENUITEM "av/på 2", IDM_COL4_B12
-            MENUITEM "av/på 3", IDM_COL4_B13
-            MENUITEM "av/på 4", IDM_COL4_B14
-            MENUITEM "av/på 5", IDM_COL4_B15
-            MENUITEM "av/på 6", IDM_COL4_B16
-            MENUITEM "av/på 7", IDM_COL4_B17
-            MENUITEM "av/på 8", IDM_COL4_B18
-            MENUITEM "av/på 9", IDM_COL4_B19
-            MENUITEM "av/på 10", IDM_COL4_B21
-            MENUITEM "av/på 11", IDM_COL4_B22
-            MENUITEM "av/på 12", IDM_COL4_B23
-            MENUITEM "av/på 13", IDM_COL4_B24
-            MENUITEM "av/på 14", IDM_COL4_B25
-            MENUITEM "av/på 15", IDM_COL4_B26
-            MENUITEM "av/på 16", IDM_COL4_B27
-            MENUITEM "av/på 17", IDM_COL4_B28
-            MENUITEM "av/på 18", IDM_COL4_B29
-            MENUITEM "av/på 19", IDM_COL4_B31
-            MENUITEM "av/på 20", IDM_COL4_B32
-            MENUITEM "av/på 21", IDM_COL4_B33
-            MENUITEM "av/på 22", IDM_COL4_B34
-            MENUITEM "av/på 23", IDM_COL4_B35
-            MENUITEM "av/på 24", IDM_COL4_B36
-            MENUITEM "av/på 25", IDM_COL4_B37
-            MENUITEM "av/på 26", IDM_COL4_B38
-            MENUITEM "av/på 27", IDM_COL4_B39
+                MENUITEM "av/på 1",                 IDM_COL4_B11
+                MENUITEM "av/på 2",                 IDM_COL4_B12
+                MENUITEM "av/på 3",                 IDM_COL4_B13
+                MENUITEM "av/på 4",                 IDM_COL4_B14
+                MENUITEM "av/på 5",                 IDM_COL4_B15
+                MENUITEM "av/på 6",                 IDM_COL4_B16
+                MENUITEM "av/på 7",                 IDM_COL4_B17
+                MENUITEM "av/på 8",                 IDM_COL4_B18
+                MENUITEM "av/på 9",                 IDM_COL4_B19
+                MENUITEM "av/på 10",                 IDM_COL4_B21
+                MENUITEM "av/på 11",                 IDM_COL4_B22
+                MENUITEM "av/på 12",                 IDM_COL4_B23
+                MENUITEM "av/på 13",                 IDM_COL4_B24
+                MENUITEM "av/på 14",                 IDM_COL4_B25
+                MENUITEM "av/på 15",                 IDM_COL4_B26
+                MENUITEM "av/på 16",                 IDM_COL4_B27
+                MENUITEM "av/på 17",                 IDM_COL4_B28
+                MENUITEM "av/på 18",                 IDM_COL4_B29
+                MENUITEM "av/på 19",                 IDM_COL4_B31
+                MENUITEM "av/på 20",                 IDM_COL4_B32
+                MENUITEM "av/på 21",                 IDM_COL4_B33
+                MENUITEM "av/på 22",                 IDM_COL4_B34
+                MENUITEM "av/på 23",                 IDM_COL4_B35
+                MENUITEM "av/på 24",                 IDM_COL4_B36
+                MENUITEM "av/på 25",                 IDM_COL4_B37
+                MENUITEM "av/på 26",                 IDM_COL4_B38
+                MENUITEM "av/på 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontroll refererer til lydmikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollene gjelder for multimedieknapper", IDM_COL4_MEDIAKEY
         MENUITEM "Kontroll refererer til et smart hjem", IDM_COL4_MQTTKEY
-        POPUP "Kontroll refererer til lysstyring"
-        BEGIN
-            MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontroll refererer til lysstyring"
+	BEGIN
+	   MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Enkoder (bilde-for-bilde-visning)", IDM_COL4_JOG
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Lydkontroll..."
         BEGIN
-            MENUITEM "Volum (master)", IDM_COL4_MAV
-            MENUITEM "Balanse (master)", IDM_COL4_MAP
+            MENUITEM "Volum (master)",          IDM_COL4_MAV
+            MENUITEM "Balanse (master)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Volum.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AV1
-                MENUITEM "kanal 2", IDM_COL4_AV2
-                MENUITEM "kanal 3", IDM_COL4_AV3
-                MENUITEM "kanal 4", IDM_COL4_AV4
-                MENUITEM "kanal 5", IDM_COL4_AV5
-                MENUITEM "kanal 6", IDM_COL4_AV6
-                MENUITEM "kanal 7", IDM_COL4_AV7
-                MENUITEM "kanal 8", IDM_COL4_AV8
-                MENUITEM "kanal 9", IDM_COL4_XV9
+                MENUITEM "kanal 1",                     IDM_COL4_AV1
+                MENUITEM "kanal 2",                     IDM_COL4_AV2
+                MENUITEM "kanal 3",                     IDM_COL4_AV3
+                MENUITEM "kanal 4",                     IDM_COL4_AV4
+                MENUITEM "kanal 5",                     IDM_COL4_AV5
+                MENUITEM "kanal 6",                     IDM_COL4_AV6
+                MENUITEM "kanal 7",                     IDM_COL4_AV7
+                MENUITEM "kanal 8",                     IDM_COL4_AV8
+                MENUITEM "kanal 9",                     IDM_COL4_XV9
             END
             POPUP "Balansere.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AP1
-                MENUITEM "kanal 2", IDM_COL4_AP2
-                MENUITEM "kanal 3", IDM_COL4_AP3
-                MENUITEM "kanal 4", IDM_COL4_AP4
-                MENUITEM "kanal 5", IDM_COL4_AP5
-                MENUITEM "kanal 6", IDM_COL4_AP6
-                MENUITEM "kanal 7", IDM_COL4_AP7
-                MENUITEM "kanal 8", IDM_COL4_AP8
-                MENUITEM "kanal 9", IDM_COL4_XP9
+                MENUITEM "kanal 1",                     IDM_COL4_AP1
+                MENUITEM "kanal 2",                     IDM_COL4_AP2
+                MENUITEM "kanal 3",                     IDM_COL4_AP3
+                MENUITEM "kanal 4",                     IDM_COL4_AP4
+                MENUITEM "kanal 5",                     IDM_COL4_AP5
+                MENUITEM "kanal 6",                     IDM_COL4_AP6
+                MENUITEM "kanal 7",                     IDM_COL4_AP7
+                MENUITEM "kanal 8",                     IDM_COL4_AP8
+                MENUITEM "kanal 9",                     IDM_COL4_XP9
             END
         END
-        POPUP "Regulatorer i \\Smart Home\\-systemet.."
+        POPUP "Regulatorer i “Smart Home”-systemet.."
         BEGIN
-            MENUITEM "nivå 1", IDM_COL4_AV1
-            MENUITEM "nivå 2", IDM_COL4_AV2
-            MENUITEM "nivå 3", IDM_COL4_AV3
-            MENUITEM "nivå 4", IDM_COL4_AV4
-            MENUITEM "nivå 5", IDM_COL4_AV5
-            MENUITEM "nivå 6", IDM_COL4_AV6
-            MENUITEM "nivå 7", IDM_COL4_AV7
-            MENUITEM "nivå 8", IDM_COL4_AV8
-            MENUITEM "nivå 9", IDM_COL4_XV9
-            MENUITEM "nivå 10", IDM_COL4_AP1
-            MENUITEM "nivå 11", IDM_COL4_AP2
-            MENUITEM "nivå 12", IDM_COL4_AP3
-            MENUITEM "nivå 13", IDM_COL4_AP4
-            MENUITEM "nivå 14", IDM_COL4_AP5
-            MENUITEM "nivå 15", IDM_COL4_AP6
-            MENUITEM "nivå 16", IDM_COL4_AP7
-            MENUITEM "nivå 17", IDM_COL4_AP8
-            MENUITEM "nivå 18", IDM_COL4_XP9
+                MENUITEM "nivå 1",              IDM_COL4_AV1
+                MENUITEM "nivå 2",              IDM_COL4_AV2
+                MENUITEM "nivå 3",              IDM_COL4_AV3
+                MENUITEM "nivå 4",              IDM_COL4_AV4
+                MENUITEM "nivå 5",              IDM_COL4_AV5
+                MENUITEM "nivå 6",              IDM_COL4_AV6
+                MENUITEM "nivå 7",              IDM_COL4_AV7
+                MENUITEM "nivå 8",              IDM_COL4_AV8
+                MENUITEM "nivå 9",              IDM_COL4_XV9
+                MENUITEM "nivå 10",              IDM_COL4_AP1
+                MENUITEM "nivå 11",              IDM_COL4_AP2
+                MENUITEM "nivå 12",              IDM_COL4_AP3
+                MENUITEM "nivå 13",              IDM_COL4_AP4
+                MENUITEM "nivå 14",              IDM_COL4_AP5
+                MENUITEM "nivå 15",              IDM_COL4_AP6
+                MENUITEM "nivå 16",              IDM_COL4_AP7
+                MENUITEM "nivå 17",              IDM_COL4_AP8
+                MENUITEM "nivå 18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontroll refererer til lydmikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollene gjelder for multimedieknapper", IDM_COL4_MEDIAKEY
         MENUITEM "Kontroll refererer til et smart hjem", IDM_COL4_MQTTKEY
-        POPUP "Kontroll refererer til lysstyring"
-        BEGIN
-            MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontroll refererer til lysstyring"
+	BEGIN
+	   MENUITEM "Kanal 8 bit (standard)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "Kanal 16 bit (utvidet)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Volum (master)", IDM_COL4_MAV
-        MENUITEM "Enkoder (JOG)", IDM_COL4_JOG
+        MENUITEM "Volum (master)",          IDM_COL4_MAV
+        MENUITEM "Enkoder (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Volum.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_AV1
-            MENUITEM "kanal 2", IDM_COL4_AV2
-            MENUITEM "kanal 3", IDM_COL4_AV3
-            MENUITEM "kanal 4", IDM_COL4_AV4
-            MENUITEM "kanal 5", IDM_COL4_AV5
-            MENUITEM "kanal 6", IDM_COL4_AV6
-            MENUITEM "kanal 7", IDM_COL4_AV7
-            MENUITEM "kanal 8", IDM_COL4_AV8
-            MENUITEM "kanal 9", IDM_COL4_XV9
-            MENUITEM "kanal 10", IDM_COL4_AP1
-            MENUITEM "kanal 11", IDM_COL4_AP2
-            MENUITEM "kanal 12", IDM_COL4_AP3
-            MENUITEM "kanal 13", IDM_COL4_AP4
-            MENUITEM "kanal 14", IDM_COL4_AP5
-            MENUITEM "kanal 15", IDM_COL4_AP6
-            MENUITEM "kanal 16", IDM_COL4_AP7
-            MENUITEM "kanal 17", IDM_COL4_AP8
-            MENUITEM "kanal 18", IDM_COL4_XP9
+            MENUITEM "kanal 1",                     IDM_COL4_AV1
+            MENUITEM "kanal 2",                     IDM_COL4_AV2
+            MENUITEM "kanal 3",                     IDM_COL4_AV3
+            MENUITEM "kanal 4",                     IDM_COL4_AV4
+            MENUITEM "kanal 5",                     IDM_COL4_AV5
+            MENUITEM "kanal 6",                     IDM_COL4_AV6
+            MENUITEM "kanal 7",                     IDM_COL4_AV7
+            MENUITEM "kanal 8",                     IDM_COL4_AV8
+            MENUITEM "kanal 9",			    IDM_COL4_XV9
+            MENUITEM "kanal 10",                    IDM_COL4_AP1
+            MENUITEM "kanal 11",                    IDM_COL4_AP2
+            MENUITEM "kanal 12",                    IDM_COL4_AP3
+            MENUITEM "kanal 13",                    IDM_COL4_AP4
+            MENUITEM "kanal 14",                    IDM_COL4_AP5
+            MENUITEM "kanal 15",                    IDM_COL4_AP6
+            MENUITEM "kanal 16",                    IDM_COL4_AP7
+            MENUITEM "kanal 17",                    IDM_COL4_AP8
+            MENUITEM "kanal 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "Stille (mester)", IDM_COL4_MAM
+        MENUITEM "Stille (mester)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "lydløst.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_B21
-            MENUITEM "kanal 2", IDM_COL4_B22
-            MENUITEM "kanal 3", IDM_COL4_B23
-            MENUITEM "kanal 4", IDM_COL4_B24
-            MENUITEM "kanal 5", IDM_COL4_B25
-            MENUITEM "kanal 6", IDM_COL4_B26
-            MENUITEM "kanal 7", IDM_COL4_B27
-            MENUITEM "kanal 8", IDM_COL4_B28
-            MENUITEM "kanal 9", IDM_COL4_B29
+            MENUITEM "kanal 1",                     IDM_COL4_B21
+            MENUITEM "kanal 2",                     IDM_COL4_B22
+            MENUITEM "kanal 3",                     IDM_COL4_B23
+            MENUITEM "kanal 4",                     IDM_COL4_B24
+            MENUITEM "kanal 5",                     IDM_COL4_B25
+            MENUITEM "kanal 6",                     IDM_COL4_B26
+            MENUITEM "kanal 7",                     IDM_COL4_B27
+            MENUITEM "kanal 8",                     IDM_COL4_B28
+            MENUITEM "kanal 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Spill av/pause", IDM_COL4_SYS_Play
-        MENUITEM "Stoppe", IDM_COL4_SYS_Stop
-        MENUITEM "Tidligere", IDM_COL4_SYS_Rewind
-        MENUITEM "Neste", IDM_COL4_SYS_Forward
-        MENUITEM "Ta opp", IDM_COL4_SYS_Record
-        MENUITEM "Opp (joystick)", IDM_COL4_SYS_Up
-        MENUITEM "Ned (joystick)", IDM_COL4_SYS_Down
-        MENUITEM "Høyre (joystick)", IDM_COL4_SYS_Right
-        MENUITEM "Venstre (joystick)", IDM_COL4_SYS_Left
-        MENUITEM "Zoom inn", IDM_COL4_SYS_Zoom
-        MENUITEM "Skrubbing", IDM_COL4_SYS_Scrub
+        MENUITEM "Spill av/pause",                IDM_COL4_SYS_Play
+        MENUITEM "Stoppe",                        IDM_COL4_SYS_Stop
+        MENUITEM "Tidligere",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Neste",                   IDM_COL4_SYS_Forward
+        MENUITEM "Ta opp",                      IDM_COL4_SYS_Record
+        MENUITEM "Opp (joystick)",           IDM_COL4_SYS_Up
+        MENUITEM "Ned (joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "Høyre (joystick)",           IDM_COL4_SYS_Right
+        MENUITEM "Venstre (joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "Zoom inn",         IDM_COL4_SYS_Zoom
+        MENUITEM "Skrubbing",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "nivå 1", IDM_COL4_AV1
-        MENUITEM "nivå 2", IDM_COL4_AV2
-        MENUITEM "nivå 3", IDM_COL4_AV3
-        MENUITEM "nivå 4", IDM_COL4_AV4
-        MENUITEM "nivå 5", IDM_COL4_AV5
-        MENUITEM "nivå 6", IDM_COL4_AV6
-        MENUITEM "nivå 7", IDM_COL4_AV7
-        MENUITEM "nivå 8", IDM_COL4_AV8
-        MENUITEM "nivå 9", IDM_COL4_XV9
-        MENUITEM "nivå 10", IDM_COL4_AP1
-        MENUITEM "nivå 11", IDM_COL4_AP2
-        MENUITEM "nivå 12", IDM_COL4_AP3
-        MENUITEM "nivå 13", IDM_COL4_AP4
-        MENUITEM "nivå 14", IDM_COL4_AP5
-        MENUITEM "nivå 15", IDM_COL4_AP6
-        MENUITEM "nivå 16", IDM_COL4_AP7
-        MENUITEM "nivå 17", IDM_COL4_AP8
-        MENUITEM "nivå 18", IDM_COL4_XP9
+        MENUITEM "nivå 1",                    IDM_COL4_AV1
+        MENUITEM "nivå 2",                    IDM_COL4_AV2
+        MENUITEM "nivå 3",                    IDM_COL4_AV3
+        MENUITEM "nivå 4",                    IDM_COL4_AV4
+        MENUITEM "nivå 5",                    IDM_COL4_AV5
+        MENUITEM "nivå 6",                    IDM_COL4_AV6
+        MENUITEM "nivå 7",                    IDM_COL4_AV7
+        MENUITEM "nivå 8",                    IDM_COL4_AV8
+        MENUITEM "nivå 9",                    IDM_COL4_XV9
+        MENUITEM "nivå 10",                    IDM_COL4_AP1
+        MENUITEM "nivå 11",                    IDM_COL4_AP2
+        MENUITEM "nivå 12",                    IDM_COL4_AP3
+        MENUITEM "nivå 13",                    IDM_COL4_AP4
+        MENUITEM "nivå 14",                    IDM_COL4_AP5
+        MENUITEM "nivå 15",                    IDM_COL4_AP6
+        MENUITEM "nivå 16",                    IDM_COL4_AP7
+        MENUITEM "nivå 17",                    IDM_COL4_AP8
+        MENUITEM "nivå 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+        MENUITEM "Ikke tilordnet",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "av/på 1", IDM_COL4_B11
-        MENUITEM "av/på 2", IDM_COL4_B12
-        MENUITEM "av/på 3", IDM_COL4_B13
-        MENUITEM "av/på 4", IDM_COL4_B14
-        MENUITEM "av/på 5", IDM_COL4_B15
-        MENUITEM "av/på 6", IDM_COL4_B16
-        MENUITEM "av/på 7", IDM_COL4_B17
-        MENUITEM "av/på 8", IDM_COL4_B18
-        MENUITEM "av/på 9", IDM_COL4_B19
-        MENUITEM "av/på 10", IDM_COL4_B21
-        MENUITEM "av/på 11", IDM_COL4_B22
-        MENUITEM "av/på 12", IDM_COL4_B23
-        MENUITEM "av/på 13", IDM_COL4_B24
-        MENUITEM "av/på 14", IDM_COL4_B25
-        MENUITEM "av/på 15", IDM_COL4_B26
-        MENUITEM "av/på 16", IDM_COL4_B27
-        MENUITEM "av/på 17", IDM_COL4_B28
-        MENUITEM "av/på 18", IDM_COL4_B29
-        MENUITEM "av/på 19", IDM_COL4_B31
-        MENUITEM "av/på 20", IDM_COL4_B32
-        MENUITEM "av/på 21", IDM_COL4_B33
-        MENUITEM "av/på 22", IDM_COL4_B34
-        MENUITEM "av/på 23", IDM_COL4_B35
-        MENUITEM "av/på 24", IDM_COL4_B36
-        MENUITEM "av/på 25", IDM_COL4_B37
-        MENUITEM "av/på 26", IDM_COL4_B38
-        MENUITEM "av/på 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "Ikke tilordnet", IDM_COL4_NONE
+    MENUITEM "av/på 1",                     IDM_COL4_B11
+    MENUITEM "av/på 2",                     IDM_COL4_B12
+    MENUITEM "av/på 3",                     IDM_COL4_B13
+    MENUITEM "av/på 4",                     IDM_COL4_B14
+    MENUITEM "av/på 5",                     IDM_COL4_B15
+    MENUITEM "av/på 6",                     IDM_COL4_B16
+    MENUITEM "av/på 7",                     IDM_COL4_B17
+    MENUITEM "av/på 8",                     IDM_COL4_B18
+    MENUITEM "av/på 9",                     IDM_COL4_B19
+    MENUITEM "av/på 10",                     IDM_COL4_B21
+    MENUITEM "av/på 11",                     IDM_COL4_B22
+    MENUITEM "av/på 12",                     IDM_COL4_B23
+    MENUITEM "av/på 13",                     IDM_COL4_B24
+    MENUITEM "av/på 14",                     IDM_COL4_B25
+    MENUITEM "av/på 15",                     IDM_COL4_B26
+    MENUITEM "av/på 16",                     IDM_COL4_B27
+    MENUITEM "av/på 17",                     IDM_COL4_B28
+    MENUITEM "av/på 18",                     IDM_COL4_B29
+    MENUITEM "av/på 19",                     IDM_COL4_B31
+    MENUITEM "av/på 20",                     IDM_COL4_B32
+    MENUITEM "av/på 21",                     IDM_COL4_B33
+    MENUITEM "av/på 22",                     IDM_COL4_B34
+    MENUITEM "av/på 23",                     IDM_COL4_B35
+    MENUITEM "av/på 24",                     IDM_COL4_B36
+    MENUITEM "av/på 25",                     IDM_COL4_B37
+    MENUITEM "av/på 26",                     IDM_COL4_B38
+    MENUITEM "av/på 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Ikke tilordnet",                   IDM_COL4_NONE
     END
 END
 

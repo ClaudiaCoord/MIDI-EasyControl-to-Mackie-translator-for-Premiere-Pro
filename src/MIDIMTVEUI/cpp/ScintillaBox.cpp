@@ -206,21 +206,12 @@ namespace Common {
 						tr.chrg.cpMax = static_cast<uint32_t>(end);
 						tr.lpstrText = new char[tr.chrg.cpMin + tr.chrg.cpMax + 1] {};
 						sptr_t x = send(SCI_GETTEXTRANGE, 0, reinterpret_cast<sptr_t>(&tr));
-						if (x) s = trim_(std::string(tr.lpstrText));
+						if (x) s = Utils::trim(std::string(tr.lpstrText));
 					} catch (...) {}
 					if (tr.lpstrText) delete[] tr.lpstrText;
 				}
 			} catch (...) {}
 			return s;
-		}
-		std::string ScintillaBox::trim_(std::string s) {
-			static const char* t = " \t\n\r\f\v";
-			s.erase(0, s.find_first_not_of(t));
-			s.erase(s.find_last_not_of(t) + 1);
-			return s;
-		}
-		std::string ScintillaBox::trim(std::string s) {
-			return trim_(s);
 		}
 
 		#pragma region Init*
@@ -429,7 +420,7 @@ namespace Common {
 						ss << sub << " ";
 				}
 				(void)send(SCI_AUTOCSETMAXWIDTH, maxsize + 2);
-				std::string str = trim_(ss.str());
+				std::string str = Utils::trim(ss.str());
 				if (!str.empty())
 					(void)send(SCI_SETKEYWORDS, static_cast<uptr_t>(num), reinterpret_cast<sptr_t>(str.c_str()));
 			} catch (...) {}
@@ -613,34 +604,38 @@ namespace Common {
 				(void)if_readoly(ro, true);
 			} catch (...) {}
 		}
-		void ScintillaBox::set(const std::wstring& w) {
+		void ScintillaBox::set(const std::wstring& s) {
 			try {
 				clear_annotation();
-				if (w.empty()) return;
+				if (s.empty()) return;
 
 				size_t sz = ::WideCharToMultiByte(
 					CP_UTF8, 0,
-					w.data(), static_cast<int>(w.length()),
+					s.data(), static_cast<int>(s.length()),
 					nullptr, 0, nullptr, nullptr);
 
-				std::string s(sz, 0);
+				std::string s_(sz, 0);
 				(void) ::WideCharToMultiByte(
-					CP_UTF8, 0, w.data(), static_cast<int>(w.length()),
-					s.data(), static_cast<int>(sz),
+					CP_UTF8, 0, s.data(), static_cast<int>(s.length()),
+					s_.data(), static_cast<int>(sz),
 					nullptr, nullptr);
 
 				const bool ro = if_readoly(false);
-				(void)send(SCI_ADDTEXT, s.length(), reinterpret_cast<sptr_t>(s.c_str()));
+				(void)send(SCI_ADDTEXT, s_.length(), reinterpret_cast<sptr_t>(s_.c_str()));
 				(void)send(SCI_GOTOPOS, send(SCI_GETLENGTH));
 				(void)if_readoly(ro, true);
 
 			} catch (...) {}
 		}
+		void ScintillaBox::append(const std::wstring& s) {
+			(void)send(SCI_GOTOPOS, send(SCI_GETLENGTH));
+			set(s);
+		}
 		#pragma endregion
 
 		void ScintillaBox::set_annotation(const std::string& s) {
 			try {
-				answer_.push_back(trim_(s));
+				answer_.push_back(Utils::trimRef(s));
 
 				std::stringstream ss{};
 				for (auto& a : answer_) ss << "\t" << a.data() << "\r\n";

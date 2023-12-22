@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "MIDI Mackie トランスレーター"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "＆情報", IDM_GO_INFO
-        MENUITEM "オーディオミキサー(&A)", IDM_GO_MIXER
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "＆情報",                 IDM_GO_INFO
+        MENUITEM "オーディオミキサー(&A)",               IDM_GO_MIXER
         POPUP "＆監視"
         BEGIN
-            MENUITEM "＆モニター", IDM_GO_MONITOR
-            MENUITEM "ログファイルを表示(&V)", IDM_GO_VIEWLOG
+            MENUITEM "＆モニター",		IDM_GO_MONITOR
+            MENUITEM "ログファイルを表示(&V)",	IDM_GO_VIEWLOG
         END
-        MENUITEM "＆設定", IDM_GO_CONFIGURE
+        MENUITEM "＆設定",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "始める", IDM_GO_START
-        MENUITEM "停止", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "始める",                      IDM_GO_START
+        MENUITEM "停止",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "出口", IDM_EXIT
+        MENUITEM "出口",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "出口",					DLG_EXIT
+    MENUITEM "より大きな",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "小さい",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "最初へ",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "最後に",					DLG_LOGVIEW_MENU_END
+    MENUITEM "クリア",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "構成"
+    BEGIN
+	MENUITEM "すべての設定を表示",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "MIDI設定を表示",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "MQTT 構成を表示",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "MMKEYS 設定を表示",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "LIGTS 構成を表示",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "DMX512 構成を表示",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "ArtNet 構成を表示",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "プラグイン"
+    BEGIN
+	MENUITEM "プラグインの統計",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "始める",				DLG_GO_START
+    MENUITEM "停止",				DLG_GO_STOP
+    MENUITEM "設定を保存する",		DLG_SAVE
+    MENUITEM "ヘルプ",				DLG_GO_HELP
+    POPUP "言語"
+    BEGIN
+	MENUITEM "自動",			DLG_LANG_MENU_0
+    END
+    MENUITEM "ログ",				DLG_GO_LOG
+    MENUITEM "出口",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "位置.."
         BEGIN
-            MENUITEM "縦左", IDM_VERT_LEFT
-            MENUITEM "縦右", IDM_VERT_RIGHT
-            MENUITEM "上部に水平に", IDM_HOR_TOP
-            MENUITEM "水平下", IDM_HOR_BOTTOM
+            MENUITEM "縦左",	IDM_VERT_LEFT
+            MENUITEM "縦右",	IDM_VERT_RIGHT
+            MENUITEM "上部に水平に",	IDM_HOR_TOP
+            MENUITEM "水平下",	IDM_HOR_BOTTOM
         END
         POPUP "主題.."
         BEGIN
-            MENUITEM "メトロ", IDM_METRO
-            MENUITEM "ライト", IDM_LIGHT
-            MENUITEM "暗い", IDM_DARK
-            MENUITEM "レトロ", IDM_RETRO
-            MENUITEM "モダンな", IDM_MODERN
+            MENUITEM "メトロ",			IDM_METRO
+            MENUITEM "ライト",			IDM_LIGHT
+            MENUITEM "暗い",			IDM_DARK
+            MENUITEM "レトロ",			IDM_RETRO
+            MENUITEM "モダンな",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "セットアップ中", IDM_CUSTOM
-            MENUITEM "テーマの設定", IDM_CALLFORM_COLOR
+            MENUITEM "カスタマイズ可能",		IDM_CUSTOM
+            MENUITEM "テーマの設定",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "＆アニメーション", IDM_ANIMATION
-        MENUITEM "アプリケーションパス(&A)", IDM_APP_PATH
-        MENUITEM "MIDI コントロールをバインドする(&M)", IDM_MIDI_BIND
-        MENUITEM "ピーク&ボリュームメーター", IDM_PEAK_METER
-        MENUITEM "位置を記憶", IDM_SAVE_POS
+        MENUITEM "＆アニメーション",			IDM_ANIMATION
+        MENUITEM "アプリケーションパス(&A)",		IDM_APP_PATH
+        MENUITEM "MIDI コントロールをバインドする(&M)",	IDM_MIDI_BIND
+        MENUITEM "ピーク&ボリュームメーター",IDM_PEAK_METER
+        MENUITEM "位置を記憶",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "＆近い", IDM_CLOSE
+        MENUITEM "＆近い",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "新規エントリー", IDM_LV_NEW
+        MENUITEM "新規エントリー",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "コピー", IDM_LV_COPY
-        MENUITEM "入れる", IDM_LV_PASTE, GRAYED
+        MENUITEM "コピー",                  IDM_LV_COPY
+        MENUITEM "入れる",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "消去", IDM_LV_DELETE
+        MENUITEM "消去",                     IDM_LV_DELETE
         POPUP "としてインストールします。"
         BEGIN
             MENUITEM "コントロールとはオーディオミキサーを指します", IDM_LV_SET_MIXER
             MENUITEM "コントロールはマルチメディア ボタンに適用されます", IDM_LV_SET_MMKEY
             MENUITEM "コントロールとはスマートホームを指します", IDM_LV_SET_MQTT
-            POPUP "コントロールとは光のコントロールのこと"
-            BEGIN
-                MENUITEM "チャンネル8ビット（標準）", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "チャンネル16ビット(拡張)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "コントロールとは光のコントロールのこと"
+	    BEGIN
+		MENUITEM "チャンネル8ビット（標準）", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "チャンネル16ビット(拡張)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "未割り当て", IDM_LV_SET_NONE
+            MENUITEM "未割り当て",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "MIDIコードを読み取ってください。", IDM_LV_READ_MIDI_CODE
+        MENUITEM "MIDIコードを読み取ってください。",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "レギュレーター.."
+        POPUP "レギュレーター..."
         BEGIN
-            MENUITEM "ストリップレギュレータ", IDM_COL3_SLIDER
+            MENUITEM "ストリップレギュレータ",        IDM_COL3_SLIDER
             MENUITEM "反転機能付きストリップレギュレータ", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "サーキュラーレギュレーター", IDM_COL3_FADER
+            MENUITEM "サーキュラーレギュレーター",          IDM_COL3_FADER
             MENUITEM "反転機能付きサーキュラーレギュレーター", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "エンコーダ", IDM_COL3_KNOB
-            MENUITEM "反転機能付きエンコーダ", IDM_COL3_KNOBINVERT
+            MENUITEM "エンコーダ",                     IDM_COL3_KNOB
+            MENUITEM "反転機能付きエンコーダ",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "未割り当て", IDM_COL3_NONE
+            MENUITEM "未割り当て",               IDM_COL3_NONE
         END
         POPUP "ボタン.."
         BEGIN
-            MENUITEM "ボタン", IDM_COL3_BTN
+            MENUITEM "ボタン",                      IDM_COL3_BTN
             MENUITEM "切替ボタン、表示付", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "未割り当て", IDM_COL3_NONE
+            MENUITEM "未割り当て",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "レギュレーター..", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "ボタン..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "レギュレーター...",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "ボタン..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "コントロールとはオーディオミキサーを指します", IDM_COL4_VOLUMEMIX
         MENUITEM "コントロールはマルチメディア ボタンに適用されます", IDM_COL4_MEDIAKEY
         MENUITEM "コントロールとはスマートホームを指します", IDM_COL4_MQTTKEY
-        POPUP "コントロールとは光のコントロールのこと"
-        BEGIN
-            MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
-            MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "コントロールとは光のコントロールのこと"
+	BEGIN
+	   MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "サウンドコントロール..."
         BEGIN
-            MENUITEM "サイレント（マスター）", IDM_COL4_MAM
-            MENUITEM "ソロ（マスター）", IDM_COL4_MAS
+            MENUITEM "サイレント（マスター）",		IDM_COL4_MAM
+            MENUITEM "ソロ（マスター）",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "無音.."
             BEGIN
-                MENUITEM "チャンネル1", IDM_COL4_B21
-                MENUITEM "チャンネル2", IDM_COL4_B22
-                MENUITEM "チャンネル3", IDM_COL4_B23
-                MENUITEM "チャンネル4", IDM_COL4_B24
-                MENUITEM "チャンネル5", IDM_COL4_B25
-                MENUITEM "チャンネル6", IDM_COL4_B26
-                MENUITEM "チャンネル7", IDM_COL4_B27
-                MENUITEM "チャンネル8", IDM_COL4_B28
-                MENUITEM "チャンネル9", IDM_COL4_B29
+                MENUITEM "チャンネル1",                     IDM_COL4_B21
+                MENUITEM "チャンネル2",                     IDM_COL4_B22
+                MENUITEM "チャンネル3",                     IDM_COL4_B23
+                MENUITEM "チャンネル4",                     IDM_COL4_B24
+                MENUITEM "チャンネル5",                     IDM_COL4_B25
+                MENUITEM "チャンネル6",                     IDM_COL4_B26
+                MENUITEM "チャンネル7",                     IDM_COL4_B27
+                MENUITEM "チャンネル8",                     IDM_COL4_B28
+                MENUITEM "チャンネル9",                     IDM_COL4_B29
             END
             POPUP "ソロ.."
             BEGIN
-                MENUITEM "チャンネル1", IDM_COL4_B11
-                MENUITEM "チャンネル2", IDM_COL4_B12
-                MENUITEM "チャンネル3", IDM_COL4_B13
-                MENUITEM "チャンネル4", IDM_COL4_B14
-                MENUITEM "チャンネル5", IDM_COL4_B15
-                MENUITEM "チャンネル6", IDM_COL4_B16
-                MENUITEM "チャンネル7", IDM_COL4_B17
-                MENUITEM "チャンネル8", IDM_COL4_B18
-                MENUITEM "チャンネル9", IDM_COL4_B19
+                MENUITEM "チャンネル1",                     IDM_COL4_B11
+                MENUITEM "チャンネル2",                     IDM_COL4_B12
+                MENUITEM "チャンネル3",                     IDM_COL4_B13
+                MENUITEM "チャンネル4",                     IDM_COL4_B14
+                MENUITEM "チャンネル5",                     IDM_COL4_B15
+                MENUITEM "チャンネル6",                     IDM_COL4_B16
+                MENUITEM "チャンネル7",                     IDM_COL4_B17
+                MENUITEM "チャンネル8",                     IDM_COL4_B18
+                MENUITEM "チャンネル9",                     IDM_COL4_B19
             END
         END
         POPUP "マルチメディア ボタン。"
         BEGIN
-            MENUITEM "再生/一時停止", IDM_COL4_SYS_Play
-            MENUITEM "停止", IDM_COL4_SYS_Stop
-            MENUITEM "前の", IDM_COL4_SYS_Rewind
-            MENUITEM "次", IDM_COL4_SYS_Forward
-            MENUITEM "記録", IDM_COL4_SYS_Record
-            MENUITEM "上（ジョイスティック）", IDM_COL4_SYS_Up
-            MENUITEM "下（ジョイスティック）", IDM_COL4_SYS_Down
-            MENUITEM "右（ジョイスティック）", IDM_COL4_SYS_Right
-            MENUITEM "左 (ジョイスティック)", IDM_COL4_SYS_Left
-            MENUITEM "ズームイン", IDM_COL4_SYS_Zoom
-            MENUITEM "スクラブ", IDM_COL4_SYS_Scrub
+            MENUITEM "再生/一時停止",                IDM_COL4_SYS_Play
+            MENUITEM "停止",                        IDM_COL4_SYS_Stop
+            MENUITEM "前の",                  IDM_COL4_SYS_Rewind
+            MENUITEM "次",                   IDM_COL4_SYS_Forward
+            MENUITEM "記録",                      IDM_COL4_SYS_Record
+            MENUITEM "上（ジョイスティック）",            IDM_COL4_SYS_Up
+            MENUITEM "下（ジョイスティック）",             IDM_COL4_SYS_Down
+            MENUITEM "右（ジョイスティック）",           IDM_COL4_SYS_Right
+            MENUITEM "左 (ジョイスティック)",            IDM_COL4_SYS_Left
+            MENUITEM "ズームイン",         IDM_COL4_SYS_Zoom
+            MENUITEM "ゴシゴシ",               IDM_COL4_SYS_Scrub
         END
         POPUP "プレミアプロの機能..."
         BEGIN
             POPUP "標準ボタンの機能は・・・"
             BEGIN
-                MENUITEM "機能1", IDM_COL4_FUN11
-                MENUITEM "機能2", IDM_COL4_FUN12
-                MENUITEM "機能3", IDM_COL4_FUN13
-                MENUITEM "機能4", IDM_COL4_FUN14
-                MENUITEM "機能5", IDM_COL4_FUN15
-                MENUITEM "機能6", IDM_COL4_FUN16
-                MENUITEM "機能7", IDM_COL4_FUN17
-                MENUITEM "機能8", IDM_COL4_FUN18
+                MENUITEM "機能1",                   IDM_COL4_FUN11
+                MENUITEM "機能2",                   IDM_COL4_FUN12
+                MENUITEM "機能3",                   IDM_COL4_FUN13
+                MENUITEM "機能4",                   IDM_COL4_FUN14
+                MENUITEM "機能5",                   IDM_COL4_FUN15
+                MENUITEM "機能6",                   IDM_COL4_FUN16
+                MENUITEM "機能7",                   IDM_COL4_FUN17
+                MENUITEM "機能8",                   IDM_COL4_FUN18
             END
             POPUP "ワンタッチボタンの機能..."
             BEGIN
-                MENUITEM "機能1", IDM_COL4_FUN21
-                MENUITEM "機能2", IDM_COL4_FUN22
-                MENUITEM "機能3", IDM_COL4_FUN23
-                MENUITEM "機能4", IDM_COL4_FUN24
-                MENUITEM "機能5", IDM_COL4_FUN25
-                MENUITEM "機能6", IDM_COL4_FUN26
-                MENUITEM "機能7", IDM_COL4_FUN27
-                MENUITEM "機能8", IDM_COL4_FUN28
+                MENUITEM "機能1",                   IDM_COL4_FUN21
+                MENUITEM "機能2",                   IDM_COL4_FUN22
+                MENUITEM "機能3",                   IDM_COL4_FUN23
+                MENUITEM "機能4",                   IDM_COL4_FUN24
+                MENUITEM "機能5",                   IDM_COL4_FUN25
+                MENUITEM "機能6",                   IDM_COL4_FUN26
+                MENUITEM "機能7",                   IDM_COL4_FUN27
+                MENUITEM "機能8",                   IDM_COL4_FUN28
             END
         END
         POPUP "スマート ホーム システムのボタン。"
         BEGIN
-            MENUITEM "オン/オフ1", IDM_COL4_B11
-            MENUITEM "オン/オフ2", IDM_COL4_B12
-            MENUITEM "オン/オフ 3", IDM_COL4_B13
-            MENUITEM "オン/オフ4", IDM_COL4_B14
-            MENUITEM "オン/オフ5", IDM_COL4_B15
-            MENUITEM "オン/オフ6", IDM_COL4_B16
-            MENUITEM "オン/オフ 7", IDM_COL4_B17
-            MENUITEM "オン/オフ 8", IDM_COL4_B18
-            MENUITEM "オン/オフ9", IDM_COL4_B19
-            MENUITEM "オン/オフ10", IDM_COL4_B21
-            MENUITEM "オン/オフ 11", IDM_COL4_B22
-            MENUITEM "オン/オフ 12", IDM_COL4_B23
-            MENUITEM "オン/オフ 13", IDM_COL4_B24
-            MENUITEM "オン/オフ 14", IDM_COL4_B25
-            MENUITEM "オン/オフ 15", IDM_COL4_B26
-            MENUITEM "オン/オフ 16", IDM_COL4_B27
-            MENUITEM "オン/オフ 17", IDM_COL4_B28
-            MENUITEM "オン/オフ 18", IDM_COL4_B29
-            MENUITEM "オン/オフ 19", IDM_COL4_B31
-            MENUITEM "オン/オフ 20", IDM_COL4_B32
-            MENUITEM "オン/オフ 21", IDM_COL4_B33
-            MENUITEM "オン/オフ 22", IDM_COL4_B34
-            MENUITEM "オン/オフ 23", IDM_COL4_B35
-            MENUITEM "オン/オフ 24", IDM_COL4_B36
-            MENUITEM "オン/オフ 25", IDM_COL4_B37
-            MENUITEM "オン/オフ 26", IDM_COL4_B38
-            MENUITEM "オン/オフ 27", IDM_COL4_B39
+                MENUITEM "オン/オフ1",                 IDM_COL4_B11
+                MENUITEM "オン/オフ2",                 IDM_COL4_B12
+                MENUITEM "オン/オフ 3",                 IDM_COL4_B13
+                MENUITEM "オン/オフ 4",                 IDM_COL4_B14
+                MENUITEM "オン/オフ5",                 IDM_COL4_B15
+                MENUITEM "オン/オフ6",                 IDM_COL4_B16
+                MENUITEM "オン/オフ 7",                 IDM_COL4_B17
+                MENUITEM "オン/オフ 8",                 IDM_COL4_B18
+                MENUITEM "オン/オフ9",                 IDM_COL4_B19
+                MENUITEM "オン/オフ10",                 IDM_COL4_B21
+                MENUITEM "オン/オフ 11",                 IDM_COL4_B22
+                MENUITEM "オン/オフ 12",                 IDM_COL4_B23
+                MENUITEM "オン/オフ 13",                 IDM_COL4_B24
+                MENUITEM "オン/オフ 14",                 IDM_COL4_B25
+                MENUITEM "オン/オフ 15",                 IDM_COL4_B26
+                MENUITEM "オン/オフ 16",                 IDM_COL4_B27
+                MENUITEM "オン/オフ 17",                 IDM_COL4_B28
+                MENUITEM "オン/オフ 18",                 IDM_COL4_B29
+                MENUITEM "オン/オフ 19",                 IDM_COL4_B31
+                MENUITEM "オン/オフ 20",                 IDM_COL4_B32
+                MENUITEM "オン/オフ 21",                 IDM_COL4_B33
+                MENUITEM "オン/オフ 22",                 IDM_COL4_B34
+                MENUITEM "オン/オフ 23",                 IDM_COL4_B35
+                MENUITEM "オン/オフ 24",                 IDM_COL4_B36
+                MENUITEM "オン/オフ 25",                 IDM_COL4_B37
+                MENUITEM "オン/オフ 26",                 IDM_COL4_B38
+                MENUITEM "オン/オフ 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "コントロールとはオーディオミキサーを指します", IDM_COL4_VOLUMEMIX
         MENUITEM "コントロールはマルチメディア ボタンに適用されます", IDM_COL4_MEDIAKEY
         MENUITEM "コントロールとはスマートホームを指します", IDM_COL4_MQTTKEY
-        POPUP "コントロールとは光のコントロールのこと"
-        BEGIN
-            MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
-            MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "コントロールとは光のコントロールのこと"
+	BEGIN
+	   MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "エンコーダ (フレームごとの表示)", IDM_COL4_JOG
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "サウンドコントロール..."
         BEGIN
-            MENUITEM "ボリューム（マスター）", IDM_COL4_MAV
-            MENUITEM "バランス（マスター）", IDM_COL4_MAP
+            MENUITEM "ボリューム（マスター）",          IDM_COL4_MAV
+            MENUITEM "バランス（マスター）",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "音量.."
             BEGIN
-                MENUITEM "チャンネル1", IDM_COL4_AV1
-                MENUITEM "チャンネル2", IDM_COL4_AV2
-                MENUITEM "チャンネル3", IDM_COL4_AV3
-                MENUITEM "チャンネル4", IDM_COL4_AV4
-                MENUITEM "チャンネル5", IDM_COL4_AV5
-                MENUITEM "チャンネル6", IDM_COL4_AV6
-                MENUITEM "チャンネル7", IDM_COL4_AV7
-                MENUITEM "チャンネル8", IDM_COL4_AV8
-                MENUITEM "チャンネル9", IDM_COL4_XV9
+                MENUITEM "チャンネル1",                     IDM_COL4_AV1
+                MENUITEM "チャンネル2",                     IDM_COL4_AV2
+                MENUITEM "チャンネル3",                     IDM_COL4_AV3
+                MENUITEM "チャンネル4",                     IDM_COL4_AV4
+                MENUITEM "チャンネル5",                     IDM_COL4_AV5
+                MENUITEM "チャンネル6",                     IDM_COL4_AV6
+                MENUITEM "チャンネル7",                     IDM_COL4_AV7
+                MENUITEM "チャンネル8",                     IDM_COL4_AV8
+                MENUITEM "チャンネル9",                     IDM_COL4_XV9
             END
             POPUP "バランス.."
             BEGIN
-                MENUITEM "チャンネル1", IDM_COL4_AP1
-                MENUITEM "チャンネル2", IDM_COL4_AP2
-                MENUITEM "チャンネル3", IDM_COL4_AP3
-                MENUITEM "チャンネル4", IDM_COL4_AP4
-                MENUITEM "チャンネル5", IDM_COL4_AP5
-                MENUITEM "チャンネル6", IDM_COL4_AP6
-                MENUITEM "チャンネル7", IDM_COL4_AP7
-                MENUITEM "チャンネル8", IDM_COL4_AP8
-                MENUITEM "チャンネル9", IDM_COL4_XP9
+                MENUITEM "チャンネル1",                     IDM_COL4_AP1
+                MENUITEM "チャンネル2",                     IDM_COL4_AP2
+                MENUITEM "チャンネル3",                     IDM_COL4_AP3
+                MENUITEM "チャンネル4",                     IDM_COL4_AP4
+                MENUITEM "チャンネル5",                     IDM_COL4_AP5
+                MENUITEM "チャンネル6",                     IDM_COL4_AP6
+                MENUITEM "チャンネル7",                     IDM_COL4_AP7
+                MENUITEM "チャンネル8",                     IDM_COL4_AP8
+                MENUITEM "チャンネル9",                     IDM_COL4_XP9
             END
         END
         POPUP "「スマートホーム」システムのレギュレーター.."
         BEGIN
-            MENUITEM "レベル1", IDM_COL4_AV1
-            MENUITEM "レベル2", IDM_COL4_AV2
-            MENUITEM "レベル3", IDM_COL4_AV3
-            MENUITEM "レベル4", IDM_COL4_AV4
-            MENUITEM "レベル5", IDM_COL4_AV5
-            MENUITEM "レベル6", IDM_COL4_AV6
-            MENUITEM "レベル7", IDM_COL4_AV7
-            MENUITEM "レベル8", IDM_COL4_AV8
-            MENUITEM "レベル9", IDM_COL4_XV9
-            MENUITEM "レベル10", IDM_COL4_AP1
-            MENUITEM "レベル11", IDM_COL4_AP2
-            MENUITEM "レベル12", IDM_COL4_AP3
-            MENUITEM "レベル13", IDM_COL4_AP4
-            MENUITEM "レベル14", IDM_COL4_AP5
-            MENUITEM "レベル15", IDM_COL4_AP6
-            MENUITEM "レベル16", IDM_COL4_AP7
-            MENUITEM "レベル17", IDM_COL4_AP8
-            MENUITEM "レベル18", IDM_COL4_XP9
+                MENUITEM "レベル1",              IDM_COL4_AV1
+                MENUITEM "レベル2",              IDM_COL4_AV2
+                MENUITEM "レベル3",              IDM_COL4_AV3
+                MENUITEM "レベル4",              IDM_COL4_AV4
+                MENUITEM "レベル5",              IDM_COL4_AV5
+                MENUITEM "レベル6",              IDM_COL4_AV6
+                MENUITEM "レベル7",              IDM_COL4_AV7
+                MENUITEM "レベル8",              IDM_COL4_AV8
+                MENUITEM "レベル9",              IDM_COL4_XV9
+                MENUITEM "レベル10",              IDM_COL4_AP1
+                MENUITEM "レベル11",              IDM_COL4_AP2
+                MENUITEM "レベル12",              IDM_COL4_AP3
+                MENUITEM "レベル13",              IDM_COL4_AP4
+                MENUITEM "レベル14",              IDM_COL4_AP5
+                MENUITEM "レベル15",              IDM_COL4_AP6
+                MENUITEM "レベル16",              IDM_COL4_AP7
+                MENUITEM "レベル17",              IDM_COL4_AP8
+                MENUITEM "レベル18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "コントロールとはオーディオミキサーを指します", IDM_COL4_VOLUMEMIX
         MENUITEM "コントロールはマルチメディア ボタンに適用されます", IDM_COL4_MEDIAKEY
         MENUITEM "コントロールとはスマートホームを指します", IDM_COL4_MQTTKEY
-        POPUP "コントロールとは光のコントロールのこと"
-        BEGIN
-            MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
-            MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "コントロールとは光のコントロールのこと"
+	BEGIN
+	   MENUITEM "チャンネル8ビット（標準）", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "チャンネル16ビット(拡張)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "ボリューム（マスター）", IDM_COL4_MAV
-        MENUITEM "エンコーダ(JOG)", IDM_COL4_JOG
+        MENUITEM "ボリューム（マスター）",          IDM_COL4_MAV
+        MENUITEM "エンコーダ(JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "音量.."
         BEGIN
-            MENUITEM "チャンネル1", IDM_COL4_AV1
-            MENUITEM "チャンネル2", IDM_COL4_AV2
-            MENUITEM "チャンネル3", IDM_COL4_AV3
-            MENUITEM "チャンネル4", IDM_COL4_AV4
-            MENUITEM "チャンネル5", IDM_COL4_AV5
-            MENUITEM "チャンネル6", IDM_COL4_AV6
-            MENUITEM "チャンネル7", IDM_COL4_AV7
-            MENUITEM "チャンネル8", IDM_COL4_AV8
-            MENUITEM "チャンネル9", IDM_COL4_XV9
-            MENUITEM "チャンネル10", IDM_COL4_AP1
-            MENUITEM "チャンネル11", IDM_COL4_AP2
-            MENUITEM "チャンネル12", IDM_COL4_AP3
-            MENUITEM "チャンネル13", IDM_COL4_AP4
-            MENUITEM "チャンネル14", IDM_COL4_AP5
-            MENUITEM "チャンネル15", IDM_COL4_AP6
-            MENUITEM "チャンネル16", IDM_COL4_AP7
-            MENUITEM "チャンネル17", IDM_COL4_AP8
-            MENUITEM "チャンネル18", IDM_COL4_XP9
+            MENUITEM "チャンネル1",                     IDM_COL4_AV1
+            MENUITEM "チャンネル2",                     IDM_COL4_AV2
+            MENUITEM "チャンネル3",                     IDM_COL4_AV3
+            MENUITEM "チャンネル4",                     IDM_COL4_AV4
+            MENUITEM "チャンネル5",                     IDM_COL4_AV5
+            MENUITEM "チャンネル6",                     IDM_COL4_AV6
+            MENUITEM "チャンネル7",                     IDM_COL4_AV7
+            MENUITEM "チャンネル8",                     IDM_COL4_AV8
+            MENUITEM "チャンネル9",			    IDM_COL4_XV9
+            MENUITEM "チャンネル10",                    IDM_COL4_AP1
+            MENUITEM "チャンネル11",                    IDM_COL4_AP2
+            MENUITEM "チャンネル12",                    IDM_COL4_AP3
+            MENUITEM "チャンネル13",                    IDM_COL4_AP4
+            MENUITEM "チャンネル14",                    IDM_COL4_AP5
+            MENUITEM "チャンネル15",                    IDM_COL4_AP6
+            MENUITEM "チャンネル16",                    IDM_COL4_AP7
+            MENUITEM "チャンネル17",                    IDM_COL4_AP8
+            MENUITEM "チャンネル18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "サイレント（マスター）", IDM_COL4_MAM
+        MENUITEM "サイレント（マスター）",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "無音.."
         BEGIN
-            MENUITEM "チャンネル1", IDM_COL4_B21
-            MENUITEM "チャンネル2", IDM_COL4_B22
-            MENUITEM "チャンネル3", IDM_COL4_B23
-            MENUITEM "チャンネル4", IDM_COL4_B24
-            MENUITEM "チャンネル5", IDM_COL4_B25
-            MENUITEM "チャンネル6", IDM_COL4_B26
-            MENUITEM "チャンネル7", IDM_COL4_B27
-            MENUITEM "チャンネル8", IDM_COL4_B28
-            MENUITEM "チャンネル9", IDM_COL4_B29
+            MENUITEM "チャンネル1",                     IDM_COL4_B21
+            MENUITEM "チャンネル2",                     IDM_COL4_B22
+            MENUITEM "チャンネル3",                     IDM_COL4_B23
+            MENUITEM "チャンネル4",                     IDM_COL4_B24
+            MENUITEM "チャンネル5",                     IDM_COL4_B25
+            MENUITEM "チャンネル6",                     IDM_COL4_B26
+            MENUITEM "チャンネル7",                     IDM_COL4_B27
+            MENUITEM "チャンネル8",                     IDM_COL4_B28
+            MENUITEM "チャンネル9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "再生/一時停止", IDM_COL4_SYS_Play
-        MENUITEM "停止", IDM_COL4_SYS_Stop
-        MENUITEM "前の", IDM_COL4_SYS_Rewind
-        MENUITEM "次", IDM_COL4_SYS_Forward
-        MENUITEM "記録", IDM_COL4_SYS_Record
-        MENUITEM "上（ジョイスティック）", IDM_COL4_SYS_Up
-        MENUITEM "下（ジョイスティック）", IDM_COL4_SYS_Down
-        MENUITEM "右（ジョイスティック）", IDM_COL4_SYS_Right
-        MENUITEM "左 (ジョイスティック)", IDM_COL4_SYS_Left
-        MENUITEM "ズームイン", IDM_COL4_SYS_Zoom
-        MENUITEM "スクラブ", IDM_COL4_SYS_Scrub
+        MENUITEM "再生/一時停止",                IDM_COL4_SYS_Play
+        MENUITEM "停止",                        IDM_COL4_SYS_Stop
+        MENUITEM "前の",                  IDM_COL4_SYS_Rewind
+        MENUITEM "次",                   IDM_COL4_SYS_Forward
+        MENUITEM "記録",                      IDM_COL4_SYS_Record
+        MENUITEM "上（ジョイスティック）",           IDM_COL4_SYS_Up
+        MENUITEM "下（ジョイスティック）",           IDM_COL4_SYS_Down
+        MENUITEM "右（ジョイスティック）",           IDM_COL4_SYS_Right
+        MENUITEM "左 (ジョイスティック)",           IDM_COL4_SYS_Left
+        MENUITEM "ズームイン",         IDM_COL4_SYS_Zoom
+        MENUITEM "ゴシゴシ",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "レベル1", IDM_COL4_AV1
-        MENUITEM "レベル2", IDM_COL4_AV2
-        MENUITEM "レベル3", IDM_COL4_AV3
-        MENUITEM "レベル4", IDM_COL4_AV4
-        MENUITEM "レベル5", IDM_COL4_AV5
-        MENUITEM "レベル6", IDM_COL4_AV6
-        MENUITEM "レベル7", IDM_COL4_AV7
-        MENUITEM "レベル8", IDM_COL4_AV8
-        MENUITEM "レベル9", IDM_COL4_XV9
-        MENUITEM "レベル10", IDM_COL4_AP1
-        MENUITEM "レベル11", IDM_COL4_AP2
-        MENUITEM "レベル12", IDM_COL4_AP3
-        MENUITEM "レベル13", IDM_COL4_AP4
-        MENUITEM "レベル14", IDM_COL4_AP5
-        MENUITEM "レベル15", IDM_COL4_AP6
-        MENUITEM "レベル16", IDM_COL4_AP7
-        MENUITEM "レベル17", IDM_COL4_AP8
-        MENUITEM "レベル18", IDM_COL4_XP9
+        MENUITEM "レベル1",                    IDM_COL4_AV1
+        MENUITEM "レベル2",                    IDM_COL4_AV2
+        MENUITEM "レベル3",                    IDM_COL4_AV3
+        MENUITEM "レベル4",                    IDM_COL4_AV4
+        MENUITEM "レベル5",                    IDM_COL4_AV5
+        MENUITEM "レベル6",                    IDM_COL4_AV6
+        MENUITEM "レベル7",                    IDM_COL4_AV7
+        MENUITEM "レベル8",                    IDM_COL4_AV8
+        MENUITEM "レベル9",                    IDM_COL4_XV9
+        MENUITEM "レベル10",                    IDM_COL4_AP1
+        MENUITEM "レベル11",                    IDM_COL4_AP2
+        MENUITEM "レベル12",                    IDM_COL4_AP3
+        MENUITEM "レベル13",                    IDM_COL4_AP4
+        MENUITEM "レベル14",                    IDM_COL4_AP5
+        MENUITEM "レベル15",                    IDM_COL4_AP6
+        MENUITEM "レベル16",                    IDM_COL4_AP7
+        MENUITEM "レベル17",                    IDM_COL4_AP8
+        MENUITEM "レベル18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "未割り当て", IDM_COL4_NONE
+        MENUITEM "未割り当て",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "オン/オフ1", IDM_COL4_B11
-        MENUITEM "オン/オフ2", IDM_COL4_B12
-        MENUITEM "オン/オフ 3", IDM_COL4_B13
-        MENUITEM "オン/オフ4", IDM_COL4_B14
-        MENUITEM "オン/オフ5", IDM_COL4_B15
-        MENUITEM "オン/オフ6", IDM_COL4_B16
-        MENUITEM "オン/オフ 7", IDM_COL4_B17
-        MENUITEM "オン/オフ 8", IDM_COL4_B18
-        MENUITEM "オン/オフ9", IDM_COL4_B19
-        MENUITEM "オン/オフ10", IDM_COL4_B21
-        MENUITEM "オン/オフ 11", IDM_COL4_B22
-        MENUITEM "オン/オフ 12", IDM_COL4_B23
-        MENUITEM "オン/オフ 13", IDM_COL4_B24
-        MENUITEM "オン/オフ 14", IDM_COL4_B25
-        MENUITEM "オン/オフ 15", IDM_COL4_B26
-        MENUITEM "オン/オフ 16", IDM_COL4_B27
-        MENUITEM "オン/オフ 17", IDM_COL4_B28
-        MENUITEM "オン/オフ 18", IDM_COL4_B29
-        MENUITEM "オン/オフ 19", IDM_COL4_B31
-        MENUITEM "オン/オフ 20", IDM_COL4_B32
-        MENUITEM "オン/オフ 21", IDM_COL4_B33
-        MENUITEM "オン/オフ 22", IDM_COL4_B34
-        MENUITEM "オン/オフ 23", IDM_COL4_B35
-        MENUITEM "オン/オフ 24", IDM_COL4_B36
-        MENUITEM "オン/オフ 25", IDM_COL4_B37
-        MENUITEM "オン/オフ 26", IDM_COL4_B38
-        MENUITEM "オン/オフ 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "未割り当て", IDM_COL4_NONE
+    MENUITEM "オン/オフ1",                     IDM_COL4_B11
+    MENUITEM "オン/オフ2",                     IDM_COL4_B12
+    MENUITEM "オン/オフ 3",                     IDM_COL4_B13
+    MENUITEM "オン/オフ 4",                     IDM_COL4_B14
+    MENUITEM "オン/オフ5",                     IDM_COL4_B15
+    MENUITEM "オン/オフ6",                     IDM_COL4_B16
+    MENUITEM "オン/オフ 7",                     IDM_COL4_B17
+    MENUITEM "オン/オフ 8",                     IDM_COL4_B18
+    MENUITEM "オン/オフ9",                     IDM_COL4_B19
+    MENUITEM "オン/オフ10",                     IDM_COL4_B21
+    MENUITEM "オン/オフ 11",                     IDM_COL4_B22
+    MENUITEM "オン/オフ 12",                     IDM_COL4_B23
+    MENUITEM "オン/オフ 13",                     IDM_COL4_B24
+    MENUITEM "オン/オフ 14",                     IDM_COL4_B25
+    MENUITEM "オン/オフ 15",                     IDM_COL4_B26
+    MENUITEM "オン/オフ 16",                     IDM_COL4_B27
+    MENUITEM "オン/オフ 17",                     IDM_COL4_B28
+    MENUITEM "オン/オフ 18",                     IDM_COL4_B29
+    MENUITEM "オン/オフ 19",                     IDM_COL4_B31
+    MENUITEM "オン/オフ 20",                     IDM_COL4_B32
+    MENUITEM "オン/オフ 21",                     IDM_COL4_B33
+    MENUITEM "オン/オフ 22",                     IDM_COL4_B34
+    MENUITEM "オン/オフ 23",                     IDM_COL4_B35
+    MENUITEM "オン/オフ 24",                     IDM_COL4_B36
+    MENUITEM "オン/オフ 25",                     IDM_COL4_B37
+    MENUITEM "オン/オフ 26",                     IDM_COL4_B38
+    MENUITEM "オン/オフ 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "未割り当て",                   IDM_COL4_NONE
     END
 END
 

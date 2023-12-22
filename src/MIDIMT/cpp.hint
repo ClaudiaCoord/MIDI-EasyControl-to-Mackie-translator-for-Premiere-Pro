@@ -7,3 +7,4 @@
 // Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
 #define FLAG_EXPORT __declspec(dllimport)
 #define FLAG_EXPORT __declspec(dllexport)
+#define APPGUID

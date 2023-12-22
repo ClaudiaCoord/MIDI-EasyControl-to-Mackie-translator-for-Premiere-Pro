@@ -4,43 +4,42 @@
 namespace Common {
 	namespace MIDIMT {
 
-
-		struct hwnd_ptr_deleter {
-			void operator()(HWND h) {
-				try {
-					if (h)
-						::DestroyWindow(h);
-				} catch (...) {}
-			}
-		};
-
-		class DialogLogView {
+		class DialogLogView : public IO::PluginUi, public CbEvent {
 		private:
-			handle_ptr<HWND, hwnd_ptr_deleter> hwnd_{};
+			hwnd_ptr<hwnd_deleter> hwed_{};
 			std::unique_ptr<UI::ScintillaBox> editor_{};
-			CbEvent mcb_{};
+
+			void dispose_();
+			void init_();
+			void build_MenuPluginList_();
+
+			void event_Log_(CbEventData*);
+			void event_Monitor_(CbEventData*);
+			void event_Text_(CbEventData*, CbHWNDType);
+			void event_Config_(std::wstring, std::wstring);
+			void event_Scint_(LPNMHDR);
+			void event_Stat_(uint16_t);
+
+			void zoomin_();
+			void zoomout_();
+			void gostart_();
+			void goend_();
+			void clear_();
 
 			static LRESULT CALLBACK event_edit_(HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 
 		public:
 
 			DialogLogView();
-			~DialogLogView();
+			~DialogLogView() = default;
+
+			IO::PluginUi* GetUi();
 
 			const bool IsRunOnce();
 			void SetFocus();
-			void EventLog(CbEventData*);
 
-			void InitDialog(HWND);
-			void EndDialog();
-
-			void zoomin();
-			void zoomout();
-			void gostart();
-			void goend();
-			void clear();
-
-			void sc_event(LPNMHDR);
+			HWND BuildDialog(HWND) override final;
+			LRESULT CommandDialog(HWND, UINT, WPARAM, LPARAM) override final;
 		};
 	}
 }

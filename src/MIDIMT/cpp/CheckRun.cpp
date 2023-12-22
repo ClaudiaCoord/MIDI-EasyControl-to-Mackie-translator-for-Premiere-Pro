@@ -63,18 +63,23 @@ namespace Common {
                     if (s.starts_with(L"--conf=") && s.ends_with(L".cnf")) {
                         confpath__ = s.substr(7);
                     }
+                    else if (s.starts_with(L"--autostart=")) {
+                        conf.Registry.SetSysAutoBoot(check_boolean_string_(s));
+                    }
                     else if (s.starts_with(L"--autorun=")) {
                         conf.Registry.SetAutoRun(check_boolean_string_(s));
                     }
                     else if (s.starts_with(L"--mixer=")) {
                         conf.Registry.SetMixerEnable(check_boolean_string_(s));
                     }
+                    /*
                     else if (s.starts_with(L"--mmkey=")) {
                         conf.Registry.SetMMKeyEnable(check_boolean_string_(s));
                     }
                     else if (s.starts_with(L"--mqtt=")) {
                         conf.Registry.SetSmartHomeEnable(check_boolean_string_(s));
                     }
+                    */
                     else if (s.starts_with(L"--log=")) {
                         conf.Registry.SetLogWrite(check_boolean_string_(s));
                     }
@@ -104,8 +109,8 @@ namespace Common {
                 if (confpath__.empty() && !parse_()) return;
                 LangInterface& lang = LangInterface::Get();
                 if (::MessageBoxW(0,
-                        log_string::format(lang.GetString(IDS_DLG_MSG13), confpath__).c_str(),
-                        lang.GetString(IDS_START_EXT_FILTER).c_str(),
+                        log_string::format(lang.GetString(STRING_CHKR_MSG1), confpath__).c_str(),
+                        lang.GetString(STRING_CHKR_MSG2).c_str(),
                         MB_YESNO | MB_ICONQUESTION) == IDYES)
                     common_config::Get().Registry.SetConfPath(confpath__);
             } catch (...) {
@@ -126,7 +131,7 @@ namespace Common {
                 COPYDATASTRUCT* data = CheckRun::build(msgid__, confpath__);
                 if (!data) return;
                 ::SendMessageW(hwnd, WM_COPYDATA, 0, reinterpret_cast<LPARAM>(data));
-                delete[] data->lpData;
+                delete [] data->lpData;
                 delete data;
 
             } catch (...) {

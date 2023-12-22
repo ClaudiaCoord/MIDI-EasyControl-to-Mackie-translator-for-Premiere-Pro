@@ -19,7 +19,7 @@ namespace Common {
         {
         private:
             LONG crefAll;
-            locker_awaiter lock__{};
+            locker_awaiter lock_{};
             AudioSessionList* ptrSessionList;
             std::function<void()> evDeleted;
             std::function<const GUID()> evGuid;

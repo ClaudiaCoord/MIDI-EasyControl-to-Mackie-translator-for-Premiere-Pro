@@ -28,6 +28,7 @@ namespace Common {
 
 	using namespace std::placeholders;
 	using namespace std::string_view_literals;
+
 	constexpr wchar_t DEFAULT_LOG_NAME[] = L"MIDIMT.log";
 
 	std::wstring operator"" _logw(const char8_t* s, std::size_t z) {
@@ -39,36 +40,50 @@ namespace Common {
 
 	to_log to_log::tolog__;
 
+	void log_string::to_buffer_() {
+		if (buffer_.empty())
+			buffer_ = ss_.str();
+	}
+
 	void log_string::reset() {
-		ss__.clear();
-		ss__.str(std::wstring());
-		buffer__ = std::wstring();
+		std::wstring s{};
+		ss_.clear();
+		ss_.str(s);
+		buffer_ = s;
 	}
 	void log_string::reset_buffer() {
-		buffer__ = std::wstring();
+		buffer_ = std::wstring();
 	}
 
 	log_string::operator std::wstring() const {
-		return ss__.str();
+		return ss_.str();
+	}
+	std::wstring log_string::get() {
+		to_buffer_();
+		return buffer_;
 	}
 	std::wstring log_string::str() const {
-		return ss__.str();
+		return buffer_.empty() ? ss_.str() : buffer_;
 	}
 	const wchar_t* log_string::c_str() {
-		buffer__ = ss__.str();
-		return buffer__.c_str();
+		to_buffer_();
+		return buffer_.c_str();
+	}
+	const bool log_string::empty() {
+		to_buffer_();
+		return buffer_.empty();
 	}
 
 	log_string& log_string::to_log_method(const wchar_t* s, int i) {
-		const std::wstring w = std::regex_replace(s, std::wregex(L"::"), L".");
-		ss__ << L"[" << (w.starts_with(L"Common.") ? w.substr(7).c_str() : w.c_str());
-		if (i > 0) ss__ << L"|" << i;
-		ss__ << L"]: ";
+		const std::wstring w = std::regex_replace(std::regex_replace(s, std::wregex(L"::"), L"."), std::wregex(L"_+$"), L"");
+		ss_ << L"[" << (w.starts_with(L"Common.") ? w.substr(7).c_str() : w.c_str());
+		if (i > 0) ss_ << L"|" << i;
+		ss_ << L"]: ";
 		return *this;
 	}
 	log_string& log_string::to_log_method(const wchar_t* s1, const wchar_t* s2) {
 		to_log_method(s1, -1);
-		ss__ << L"->";
+		ss_ << L"->";
 		to_log_method(s2, -1);
 		return *this;
 	}
@@ -105,94 +120,94 @@ namespace Common {
 	template<>
 	log_string& log_string::operator<< (common_error err) {
 		if ((err.code() == 0) && (err.message().empty())) return *this;
-		ss__ << err.what();
+		ss_ << err.what();
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::wstringstream wss) {
-		if (wss.tellp() != std::streampos(0)) ss__ << wss.str();
+		if (wss.tellp() != std::streampos(0)) ss_ << wss.str();
 		return *this;
 	}
 	template<>
-	log_string& log_string::operator<< (Common::MIDI::ClassTypes t) {
-		ss__ << Utils::to_string(t);
+	log_string& log_string::operator<< (IO::PluginClassTypes t) {
+		ss_ << Utils::to_string(t);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (Common::MIDI::MidiUnitType t) {
-		ss__ << Utils::to_string(t);
+		ss_ << Utils::to_string(t);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (Common::MIDI::MidiUnitScene t) {
-		ss__ << Utils::to_string(t);
+		ss_ << Utils::to_string(t);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::exception err) {
-		ss__ << Utils::to_string(err);
+		ss_ << Utils::to_string(err);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::runtime_error err) {
-		ss__ << Utils::to_string(err);
+		ss_ << Utils::to_string(err);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::error_code err) {
-		ss__ << Utils::to_string(err);
+		ss_ << Utils::to_string(err);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::future_error err) {
-		ss__ << Utils::to_string(err);
+		ss_ << Utils::to_string(err);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::filesystem::filesystem_error err) {
-		ss__ << Utils::to_string(err);
+		ss_ << Utils::to_string(err);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::string s) {
-		if (!s.empty()) ss__ << Utils::to_string(s);
+		if (!s.empty()) ss_ << Utils::to_string(s);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (std::wstring s) {
-		if (!s.empty()) ss__ << s;
+		if (!s.empty()) ss_ << s;
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (log_string ls) {
-		ss__ << ls.str();
+		ss_ << ls.str();
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (GUID g) {
-		ss__ << Utils::to_string(g);
+		ss_ << Utils::to_string(g);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (uint8_t u) {
-		ss__ << (int)static_cast<int>(u);
+		ss_ << (int)static_cast<int>(u);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (uint16_t u) {
-		ss__ << (long)static_cast<long>(u);
+		ss_ << (long)static_cast<long>(u);
 		return *this;
 	}
 	template<>
 	log_string& log_string::operator<< (uint32_t u) {
-		ss__ << (unsigned long)static_cast<unsigned long>(u);
+		ss_ << (unsigned long)static_cast<unsigned long>(u);
 		return *this;
 	}
 
 	template log_string& log_string::operator<< (std::nullptr_t);
 	template log_string& log_string::operator<< (common_error);
 	template log_string& log_string::operator<< (std::wstringstream);
-	template log_string& log_string::operator<< (Common::MIDI::ClassTypes);
+	template log_string& log_string::operator<< (IO::PluginClassTypes);
 	template log_string& log_string::operator<< (Common::MIDI::MidiUnitType);
 	template log_string& log_string::operator<< (Common::MIDI::MidiUnitScene);
 
@@ -210,97 +225,127 @@ namespace Common {
 	template log_string& log_string::operator<< (uint16_t);
 	template log_string& log_string::operator<< (uint32_t);
 
-	to_log::to_log() {
-		filelog_fun__ = std::bind(static_cast<void(to_log::*)(const std::wstring&)>(&to_log::logtofile), this, _1);
+	to_log::to_log() : id_(Utils::random_hash(this)) {
+		filelog_fun_ = std::bind(static_cast<void(to_log::*)(const std::wstring&)>(&to_log::logtofile_), this, _1);
 	}
 	to_log::~to_log() {
-		closelog();
+		closelog_();
 	}
 
-	std::wstring to_log::logname() {
-		return DEFAULT_LOG_NAME;
+	std::wstring to_log::getlogpath_(HINSTANCE h) {
+		try {
+			if (h) {
+				auto t = Utils::app_path(h);
+				if (std::get<0>(t)) {
+					std::filesystem::path p(std::get<1>(t));
+					p.append(std::get<2>(t));
+					logname_ = (log_string() << p.wstring().c_str() << L".log").str();
+				}
+			}
+			if (logname_.empty()) {
+				std::filesystem::path p(Utils::runing_dir());
+				p.append(DEFAULT_LOG_NAME);
+				logname_ = p.wstring();
+			}
+		} catch (...) {}
+		return std::wstring(DEFAULT_LOG_NAME);
 	}
 
-	static uint32_t filelog_cb_id__ = 0U;
 	to_log& to_log::Get() {
 		return std::ref(to_log::tolog__);
 	}
 
-	uint32_t to_log::registred(logFnType fn) {
-		return event__.add(fn);
+	uint32_t to_log::add(callFromlog_t fn) {
+		return event_.add(fn);
 	}
-	void to_log::unregistred(uint32_t idx) {
-		event__.remove(idx);
+	void to_log::add(callFromlog_t fn, uint32_t id) {
+		event_.add(fn, id);
 	}
-	void to_log::unregistred(logFnType fn) {
-		event__.remove(fn);
+	void to_log::remove(uint32_t idx) {
+		event_.remove(idx);
 	}
-
+	void to_log::remove(callFromlog_t fn) {
+		event_.remove(fn);
+	}
+	std::wstring to_log::logname() {
+		if (logname_.empty()) getlogpath_();
+		return logname_;
+	}
 	void to_log::end() {
 		try {
-			closelog();
-			event__.clear();
+			closelog_();
+			event_.clear();
 		} catch (...) {}
 	}
 
 	void to_log::flush() {
 		try {
-			if (filelog__.is_open())
-				filelog__.flush();
+			if (filelog_.is_open())
+				filelog_.flush();
 		} catch (...) {}
 	}
 	bool to_log::filelog() {
 		bool b = Common::common_config::Get().Registry.GetLogWrite();
-		if (b) filelog(b, DEFAULT_LOG_NAME);
+		if (b) filelog(b, logname_);
 		return b;
 	}
-	void to_log::filelog(bool b) {
-		filelog(b, DEFAULT_LOG_NAME);
+	bool to_log::filelog(HINSTANCE h) {
+		bool b = Common::common_config::Get().Registry.GetLogWrite();
+		if (!b) return false;
+		getlogpath_(h);
+		filelog(b, logname_);
+		return b;
+	}
+	void to_log::filelog(bool b, HINSTANCE h) {
+		if (h) getlogpath_(h);
+		filelog(b, logname_);
 	}
 	void to_log::filelog(bool b, const std::wstring ws) {
 		try {
+			if (b && !filelog_.is_open()) {
+				if (logname_.empty()) getlogpath_();
 
-			if (b && !filelog__.is_open()) {
-				filelog__ = std::wofstream(ws, std::ios_base::trunc);
-				filelog__.imbue(std::locale(""));
-				filelog_cb_id__ = registred(filelog_fun__);
-				logtofile((log_string() << VER_GUI_EN << L" | " << VER_COPYRIGHT));
-			} else if (!b && filelog__.is_open()) closelog();
+				filelog_ = std::wofstream(ws, std::ios_base::trunc);
+				filelog_.imbue(std::locale(""));
+				add(filelog_fun_, id_);
+				logtofile_((log_string() << VER_GUI_EN << L" | " << VER_COPYRIGHT));
+				logtofile_(logname_);
+
+			} else if (!b && filelog_.is_open()) closelog_();
 			Common::common_config::Get().Registry.SetLogWrite(b);
 
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-	void to_log::closelog() {
+
+	void to_log::closelog_() {
 		try {
-			if (filelog_cb_id__ > 0U) unregistred(filelog_cb_id__);
-			else					  unregistred(filelog_fun__);
-			if (filelog__.is_open()) {
+			if (id_) remove(id_);
+			if (filelog_.is_open()) {
 				pushlog_(L"log close.");
-				filelog__.flush();
-				filelog__.close();
-				filelog_cb_id__ = 0U;
+				filelog_.flush();
+				filelog_.close();
 			}
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
 	}
-	void to_log::logtofile(const std::wstring& s) {
+	void to_log::logtofile_(const std::wstring& s) {
 		try {
 			#if defined(_DEBUG)
 			std::wstringstream ws;
-			ws << L"* [FILE] FLOG=" << std::boolalpha << filelog__.is_open() << L", MSG = [" << s << L"]\n";
+			ws << L"* [FILE] FLOG=" << std::boolalpha << filelog_.is_open() << L", MSG = [" << s << L"]\n";
 			OutputDebugStringW(ws.str().c_str());
 			#endif
 
-			if (filelog__.is_open()) {
+			if (filelog_.is_open()) {
 				auto dat = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 				std::tm buf{};
 				::localtime_s(&buf, &dat);
 
-				filelog__ << std::put_time(&buf, L"[%m-%d -> %H:%M:%S] ") << s.c_str() << L"\n";
-				filelog__.flush();
+				filelog_ << std::put_time(&buf, L"[%m-%d -> %H:%M:%S] ") << s.c_str() << L"\n";
+				filelog_.flush();
 			}
 		} catch (...) {}
 	}
@@ -316,10 +361,10 @@ namespace Common {
 			return;
 		}
 		std::wstringstream w2;
-		w2 << L"* [PUSH] FLOG=" << std::boolalpha << filelog__.is_open() << L", MSG = [" << s << L"]\n";
+		w2 << L"* [PUSH] FLOG=" << std::boolalpha << filelog_.is_open() << L", MSG = [" << s << L"]\n";
 		OutputDebugStringW(w2.str().c_str());
 		#endif
-		event__.send(s);
+		event_.send(s);
 	}
 
 	to_log& to_log::operator<< (std::wstringstream& wss) {
@@ -402,10 +447,10 @@ namespace Common {
 	template to_log& to_log::operator<< (const std::wstring_view&);
 	template to_log& to_log::operator<< (const GUID&);
 
-	log_auto::log_auto(logFnType fn) : fun__(fn) {
-		to_log::Get().registred(fun__);
+	log_auto::log_auto(callFromlog_t fn) : fun_(fn), id_(Utils::random_hash(this)) {
+		to_log::Get().add(fun_, id_);
 	}
 	log_auto::~log_auto() {
-		to_log::Get().unregistred(fun__);
+		if (id_) to_log::Get().remove(id_);
 	}
 }

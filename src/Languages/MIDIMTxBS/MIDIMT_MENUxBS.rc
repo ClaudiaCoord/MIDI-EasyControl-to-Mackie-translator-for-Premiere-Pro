@@ -1,488 +1,509 @@
-﻿﻿
-#define APSTUDIO_READONLY_SYMBOLS
-#ifndef APSTUDIO_INVOKED
-#include <SDKDDKVer.h>
-#endif
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "windows.h"
 #include "CommCtrl.h"
+#include <SDKDDKVer.h>
+
 #include "..\..\Common\rc\resource_midimt.h"
 #include "..\..\Common\rc\resource_mackie.h"
 #include "..\..\Common\rc\resource_version.h"
 #include "..\..\Common\rc\resource_error_id.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#undef APSTUDIO_READONLY_SYMBOLS
 
 LANGUAGE LANG_BOSNIAN, SUBLANG_DEFAULT
+
 #pragma code_page(65001)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_TRAY_MENU MENU 
+DLG_TRAY_MENU MENU
 BEGIN
-    POPUP "MIDI Mackie prevodilac"
+    POPUP "__TRAYMENU"
     BEGIN
-        MENUITEM " ", IDM_GO_EMPTY
-        MENUITEM "&Informacije", IDM_GO_INFO
-        MENUITEM "&Audio mikser", IDM_GO_MIXER
+        MENUITEM " ",                           IDM_GO_EMPTY
+        MENUITEM "&Informacije",                 IDM_GO_INFO
+        MENUITEM "&Audio mikser",               IDM_GO_MIXER
         POPUP "&Monitoring"
         BEGIN
-            MENUITEM "&Monitor", IDM_GO_MONITOR
-            MENUITEM "&Prikaži datoteku dnevnika", IDM_GO_VIEWLOG
+            MENUITEM "&Monitor",		IDM_GO_MONITOR
+            MENUITEM "&Prikaži datoteku dnevnika",	IDM_GO_VIEWLOG
         END
-        MENUITEM "&Postavke", IDM_GO_CONFIGURE
+        MENUITEM "&Postavke",                  IDM_GO_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "Počni", IDM_GO_START
-        MENUITEM "Stani", IDM_GO_STOP, CHECKED, GRAYED
+        MENUITEM "Počni",                      IDM_GO_START
+        MENUITEM "Stani",                       IDM_GO_STOP, CHECKED, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Izlaz", IDM_EXIT
+        MENUITEM "Izlaz",                      IDM_EXIT
     END
 END
 
-IDR_LOG_VIEW_MENU MENU
+DLG_LOGVIEW_MENU MENU
 BEGIN
-    MENUITEM "выход",                       IDM_DIALOG_EXIT
-    MENUITEM "крупнее",                     IDM_LOGV_ZOOMIN
-    MENUITEM "мельче",                      IDM_LOGV_ZOOMOUT
-    MENUITEM "в начало",                    IDM_LOGV_BEGIN
-    MENUITEM "в конец",                     IDM_LOGV_END
-    MENUITEM "очистить",                    IDM_LOGV_CLEAR
+    MENUITEM "Izlaz",					DLG_EXIT
+    MENUITEM "veći",					DLG_LOGVIEW_MENU_ZOOMIN
+    MENUITEM "manji",					DLG_LOGVIEW_MENU_ZOOMOUT
+    MENUITEM "do početka",				DLG_LOGVIEW_MENU_BEGIN
+    MENUITEM "Na kraju",					DLG_LOGVIEW_MENU_END
+    MENUITEM "jasno",				DLG_LOGVIEW_MENU_CLEAR
+    POPUP "konfiguraciju"
+    BEGIN
+	MENUITEM "prikaži sve konfiguracije",		DLG_LOGVIEW_MENU_CONF_ALL
+        MENUITEM SEPARATOR
+	MENUITEM "prikaži MIDI konfiguraciju",		DLG_LOGVIEW_MENU_CONF_MIDI
+	MENUITEM "prikaži MQTT konfiguraciju",		DLG_LOGVIEW_MENU_CONF_MQTT
+	MENUITEM "prikaži MMKEYS konfiguraciju",	DLG_LOGVIEW_MENU_CONF_MMKEYS
+	MENUITEM "prikaži LIGTS konfiguraciju",		DLG_LOGVIEW_MENU_CONF_LIGTS
+        MENUITEM SEPARATOR
+	MENUITEM "prikaži konfiguraciju DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
+	MENUITEM "prikaži ArtNet konfiguraciju",	DLG_LOGVIEW_MENU_CONF_ARTNET
+    END
+    POPUP "dodaci"
+    BEGIN
+	MENUITEM "statistika dodataka",			DLG_PLUGSTAT_MENU
+        MENUITEM SEPARATOR
+    END
 END
 
-IDR_MIXER_CTRL_MENU MENU 
+DLG_START_MENU MENU
 BEGIN
-    POPUP "MIXPANELMENU"
+    MENUITEM "počni",				DLG_GO_START
+    MENUITEM "stani",				DLG_GO_STOP
+    MENUITEM "sačuvajte postavke",		DLG_SAVE
+    MENUITEM "pomoć",				DLG_GO_HELP
+    POPUP "jezik"
+    BEGIN
+	MENUITEM "auto",			DLG_LANG_MENU_0
+    END
+    MENUITEM "log",				DLG_GO_LOG
+    MENUITEM "Izlaz",				DLG_EXIT
+END
+
+DLG_MIXER_CTRL_MENU MENU
+BEGIN
+    POPUP "__MIXPANELMENU"
     BEGIN
         POPUP "Lokacija.."
         BEGIN
-            MENUITEM "Vertikalno lijevo", IDM_VERT_LEFT
-            MENUITEM "Vertikalna desna", IDM_VERT_RIGHT
-            MENUITEM "Horizontalno na vrhu", IDM_HOR_TOP
-            MENUITEM "Horizontalno ispod", IDM_HOR_BOTTOM
+            MENUITEM "Vertikalno lijevo",	IDM_VERT_LEFT
+            MENUITEM "Vertikalna desna",	IDM_VERT_RIGHT
+            MENUITEM "Horizontalno na vrhu",	IDM_HOR_TOP
+            MENUITEM "Horizontalno ispod",	IDM_HOR_BOTTOM
         END
         POPUP "Predmet.."
         BEGIN
-            MENUITEM "Metro", IDM_METRO
-            MENUITEM "Light", IDM_LIGHT
-            MENUITEM "Dark", IDM_DARK
-            MENUITEM "Retro", IDM_RETRO
-            MENUITEM "Moderna", IDM_MODERN
+            MENUITEM "Metro",			IDM_METRO
+            MENUITEM "Light",			IDM_LIGHT
+            MENUITEM "Dark",			IDM_DARK
+            MENUITEM "Retro",			IDM_RETRO
+            MENUITEM "Moderna",		IDM_MODERN
             MENUITEM SEPARATOR
-            MENUITEM "Postavljanje", IDM_CUSTOM
-            MENUITEM "Postavljanje teme", IDM_CALLFORM_COLOR
+            MENUITEM "Prilagodljivo",		IDM_CUSTOM
+            MENUITEM "Postavljanje teme",		IDM_CALLFORM_COLOR
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Animacija", IDM_ANIMATION
-        MENUITEM "&Putanja aplikacije", IDM_APP_PATH
-        MENUITEM "Povezivanje &MIDI kontrola", IDM_MIDI_BIND
-        MENUITEM "Peak & Volume Meter", IDM_PEAK_METER
-        MENUITEM "Zapamtite poziciju", IDM_SAVE_POS
+        MENUITEM "&Animacija",			IDM_ANIMATION
+        MENUITEM "&Putanja aplikacije",		IDM_APP_PATH
+        MENUITEM "Povezivanje &MIDI kontrola",	IDM_MIDI_BIND
+        MENUITEM "Peak & Volume Meter",IDM_PEAK_METER
+        MENUITEM "Zapamtite poziciju",		IDM_SAVE_POS
         MENUITEM SEPARATOR
-        MENUITEM "&Zatvori", IDM_CLOSE
+        MENUITEM "&Zatvori",			IDM_CLOSE
     END
 END
 
-IDR_LV_MENU MENU 
+DLG_EDIT_LV_MENU MENU
 BEGIN
-    POPUP "LV MENU"
+    POPUP "__LVMENU"
     BEGIN
-        MENUITEM "Novi ulaz", IDM_LV_NEW
+        MENUITEM "Novi ulaz",                IDM_LV_NEW
         MENUITEM SEPARATOR
-        MENUITEM "Kopiraj", IDM_LV_COPY
-        MENUITEM "Insert", IDM_LV_PASTE, GRAYED
+        MENUITEM "Kopiraj",                  IDM_LV_COPY
+        MENUITEM "Insert",                    IDM_LV_PASTE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Izbriši", IDM_LV_DELETE
+        MENUITEM "Izbriši",                     IDM_LV_DELETE
         POPUP "Instaliraj kao.."
         BEGIN
             MENUITEM "Kontrola se odnosi na audio mikser", IDM_LV_SET_MIXER
             MENUITEM "Kontrole se odnose na dugmad za multimediju", IDM_LV_SET_MMKEY
             MENUITEM "Kontrola se odnosi na pametni dom", IDM_LV_SET_MQTT
-            POPUP "Kontrola se odnosi na kontrolu svjetla"
-            BEGIN
-                MENUITEM "8-bitni kanal (standardno)", IDM_LV_SET_LIGHTKEY8B
-                MENUITEM "16-bitni kanal (prošireni)", IDM_LV_SET_LIGHTKEY16B
-            END
+	    POPUP "Kontrola se odnosi na kontrolu svjetla"
+	    BEGIN
+		MENUITEM "8-bitni kanal (standardno)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "16-bitni kanal (prošireni)", IDM_LV_SET_LIGHTKEY16B
+	    END
             MENUITEM SEPARATOR
-            MENUITEM "Nedodijeljeno", IDM_LV_SET_NONE
+            MENUITEM "Nedodijeljeno",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Pročitaj MIDI kod..", IDM_LV_READ_MIDI_CODE
+        MENUITEM "Pročitaj MIDI kod..",		IDM_LV_READ_MIDI_CODE
     END
 END
 
-IDR_COL3_TYPE_MENU MENU 
+DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "COL3 TYPE MENU"
+    POPUP "__COL3TYPEMENU"
     BEGIN
         POPUP "Regulatori.."
         BEGIN
-            MENUITEM "Strip Regulator", IDM_COL3_SLIDER
+            MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Regulator trake sa inverzijom", IDM_COL3_SLIDERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Kružni regulator", IDM_COL3_FADER
+            MENUITEM "Kružni regulator",          IDM_COL3_FADER
             MENUITEM "Kružni regulator sa inverzijom", IDM_COL3_FADERINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Encoder", IDM_COL3_KNOB
-            MENUITEM "Enkoder sa inverzijom", IDM_COL3_KNOBINVERT
+            MENUITEM "Encoder",                     IDM_COL3_KNOB
+            MENUITEM "Enkoder sa inverzijom",         IDM_COL3_KNOBINVERT
             MENUITEM SEPARATOR
-            MENUITEM "Nedodijeljeno", IDM_COL3_NONE
+            MENUITEM "Nedodijeljeno",               IDM_COL3_NONE
         END
         POPUP "Dugmad.."
         BEGIN
-            MENUITEM "Dugme", IDM_COL3_BTN
+            MENUITEM "Dugme",                      IDM_COL3_BTN
             MENUITEM "Dugme za uključivanje, sa indikacijom", IDM_COL3_BTNTOGGLE
             MENUITEM SEPARATOR
-            MENUITEM "Nedodijeljeno", IDM_COL3_NONE
+            MENUITEM "Nedodijeljeno",               IDM_COL3_NONE
         END
     END
 END
 
-IDR_COL4_ALL_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_ALL_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 ALL APPENDED TARGET MENU"
+    POPUP "__COL4 ALL APPENDED TARGET MENU"
     BEGIN
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatori..", IDR_COL5_MENU_REPLACE_FIELD1
-        MENUITEM "Dugmad..", IDR_COL5_MENU_REPLACE_FIELD2
+        MENUITEM "Regulatori..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Dugmad..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontrola se odnosi na audio mikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrole se odnose na dugmad za multimediju", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrola se odnosi na pametni dom", IDM_COL4_MQTTKEY
-        POPUP "Kontrola se odnosi na kontrolu svjetla"
-        BEGIN
-            MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrola se odnosi na kontrolu svjetla"
+	BEGIN
+	   MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_BTN_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 BTN TARGET MENU"
+    POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",		   IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Kontrola zvuka..."
         BEGIN
-            MENUITEM "tihi (majstor)", IDM_COL4_MAM
-            MENUITEM "solo (majstor)", IDM_COL4_MAS
+            MENUITEM "tihi (majstor)",		IDM_COL4_MAM
+            MENUITEM "solo (majstor)",			IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Bez zvuka.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B21
-                MENUITEM "kanal 2", IDM_COL4_B22
-                MENUITEM "kanal 3", IDM_COL4_B23
-                MENUITEM "kanal 4", IDM_COL4_B24
-                MENUITEM "kanal 5", IDM_COL4_B25
-                MENUITEM "kanal 6", IDM_COL4_B26
-                MENUITEM "kanal 7", IDM_COL4_B27
-                MENUITEM "kanal 8", IDM_COL4_B28
-                MENUITEM "kanal 9", IDM_COL4_B29
+                MENUITEM "kanal 1",                     IDM_COL4_B21
+                MENUITEM "kanal 2",                     IDM_COL4_B22
+                MENUITEM "kanal 3",                     IDM_COL4_B23
+                MENUITEM "kanal 4",                     IDM_COL4_B24
+                MENUITEM "kanal 5",                     IDM_COL4_B25
+                MENUITEM "kanal 6",                     IDM_COL4_B26
+                MENUITEM "kanal 7",                     IDM_COL4_B27
+                MENUITEM "kanal 8",                     IDM_COL4_B28
+                MENUITEM "kanal 9",                     IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_B11
-                MENUITEM "kanal 2", IDM_COL4_B12
-                MENUITEM "kanal 3", IDM_COL4_B13
-                MENUITEM "kanal 4", IDM_COL4_B14
-                MENUITEM "kanal 5", IDM_COL4_B15
-                MENUITEM "kanal 6", IDM_COL4_B16
-                MENUITEM "kanal 7", IDM_COL4_B17
-                MENUITEM "kanal 8", IDM_COL4_B18
-                MENUITEM "kanal 9", IDM_COL4_B19
+                MENUITEM "kanal 1",                     IDM_COL4_B11
+                MENUITEM "kanal 2",                     IDM_COL4_B12
+                MENUITEM "kanal 3",                     IDM_COL4_B13
+                MENUITEM "kanal 4",                     IDM_COL4_B14
+                MENUITEM "kanal 5",                     IDM_COL4_B15
+                MENUITEM "kanal 6",                     IDM_COL4_B16
+                MENUITEM "kanal 7",                     IDM_COL4_B17
+                MENUITEM "kanal 8",                     IDM_COL4_B18
+                MENUITEM "kanal 9",                     IDM_COL4_B19
             END
         END
         POPUP "Multimedijalna dugmad.."
         BEGIN
-            MENUITEM "Pusti/Pauza", IDM_COL4_SYS_Play
-            MENUITEM "Stani", IDM_COL4_SYS_Stop
-            MENUITEM "Prethodno", IDM_COL4_SYS_Rewind
-            MENUITEM "Sljedeći", IDM_COL4_SYS_Forward
-            MENUITEM "Zapis", IDM_COL4_SYS_Record
-            MENUITEM "gore (džojstik)", IDM_COL4_SYS_Up
-            MENUITEM "dolje (džojstik)", IDM_COL4_SYS_Down
-            MENUITEM "desno (džojstik)", IDM_COL4_SYS_Right
-            MENUITEM "Lijevo (džojstik)", IDM_COL4_SYS_Left
-            MENUITEM "Priblizi", IDM_COL4_SYS_Zoom
-            MENUITEM "Čišćenje", IDM_COL4_SYS_Scrub
+            MENUITEM "Pusti/Pauza",                IDM_COL4_SYS_Play
+            MENUITEM "Stani",                        IDM_COL4_SYS_Stop
+            MENUITEM "Prethodno",                  IDM_COL4_SYS_Rewind
+            MENUITEM "Sljedeći",                   IDM_COL4_SYS_Forward
+            MENUITEM "Zapis",                      IDM_COL4_SYS_Record
+            MENUITEM "gore (džojstik)",            IDM_COL4_SYS_Up
+            MENUITEM "dolje (džojstik)",             IDM_COL4_SYS_Down
+            MENUITEM "desno (džojstik)",           IDM_COL4_SYS_Right
+            MENUITEM "Lijevo (džojstik)",            IDM_COL4_SYS_Left
+            MENUITEM "Priblizi",         IDM_COL4_SYS_Zoom
+            MENUITEM "Čišćenje",               IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro ima..."
         BEGIN
-            POPUP "Funkcije standardnog dugmeta..."
+            POPUP "Standardne funkcije dugmadi..."
             BEGIN
-                MENUITEM "Funkcija 1", IDM_COL4_FUN11
-                MENUITEM "Funkcija 2", IDM_COL4_FUN12
-                MENUITEM "Funkcija 3", IDM_COL4_FUN13
-                MENUITEM "Funkcija 4", IDM_COL4_FUN14
-                MENUITEM "Funkcija 5", IDM_COL4_FUN15
-                MENUITEM "Funkcija 6", IDM_COL4_FUN16
-                MENUITEM "Funkcija 7", IDM_COL4_FUN17
-                MENUITEM "Funkcija 8", IDM_COL4_FUN18
+                MENUITEM "Funkcija 1",                   IDM_COL4_FUN11
+                MENUITEM "Funkcija 2",                   IDM_COL4_FUN12
+                MENUITEM "Funkcija 3",                   IDM_COL4_FUN13
+                MENUITEM "Funkcija 4",                   IDM_COL4_FUN14
+                MENUITEM "Funkcija 5",                   IDM_COL4_FUN15
+                MENUITEM "Funkcija 6",                   IDM_COL4_FUN16
+                MENUITEM "Funkcija 7",                   IDM_COL4_FUN17
+                MENUITEM "Funkcija 8",                   IDM_COL4_FUN18
             END
             POPUP "Funkcije dugmeta jednim dodirom..."
             BEGIN
-                MENUITEM "Funkcija 1", IDM_COL4_FUN21
-                MENUITEM "Funkcija 2", IDM_COL4_FUN22
-                MENUITEM "Funkcija 3", IDM_COL4_FUN23
-                MENUITEM "Funkcija 4", IDM_COL4_FUN24
-                MENUITEM "Funkcija 5", IDM_COL4_FUN25
-                MENUITEM "Funkcija 6", IDM_COL4_FUN26
-                MENUITEM "Funkcija 7", IDM_COL4_FUN27
-                MENUITEM "Funkcija 8", IDM_COL4_FUN28
+                MENUITEM "Funkcija 1",                   IDM_COL4_FUN21
+                MENUITEM "Funkcija 2",                   IDM_COL4_FUN22
+                MENUITEM "Funkcija 3",                   IDM_COL4_FUN23
+                MENUITEM "Funkcija 4",                   IDM_COL4_FUN24
+                MENUITEM "Funkcija 5",                   IDM_COL4_FUN25
+                MENUITEM "Funkcija 6",                   IDM_COL4_FUN26
+                MENUITEM "Funkcija 7",                   IDM_COL4_FUN27
+                MENUITEM "Funkcija 8",                   IDM_COL4_FUN28
             END
         END
         POPUP "Dugmad u sistemu Smart Home.."
         BEGIN
-            MENUITEM "uključivanje/isključivanje 1", IDM_COL4_B11
-            MENUITEM "uključivanje/isključivanje 2", IDM_COL4_B12
-            MENUITEM "uključivanje/isključivanje 3", IDM_COL4_B13
-            MENUITEM "uključivanje/isključivanje 4", IDM_COL4_B14
-            MENUITEM "uključivanje/isključivanje 5", IDM_COL4_B15
-            MENUITEM "uključivanje/isključivanje 6", IDM_COL4_B16
-            MENUITEM "uključivanje/isključivanje 7", IDM_COL4_B17
-            MENUITEM "uključivanje/isključivanje 8", IDM_COL4_B18
-            MENUITEM "uključivanje/isključivanje 9", IDM_COL4_B19
-            MENUITEM "uključeno/isključeno 10", IDM_COL4_B21
-            MENUITEM "uključivanje/isključivanje 11", IDM_COL4_B22
-            MENUITEM "uključen/isključen 12", IDM_COL4_B23
-            MENUITEM "uključivanje/isključivanje 13", IDM_COL4_B24
-            MENUITEM "uključen/isključen 14", IDM_COL4_B25
-            MENUITEM "uključeno/isključeno 15", IDM_COL4_B26
-            MENUITEM "uključeno/isključeno 16", IDM_COL4_B27
-            MENUITEM "uključeno/isključeno 17", IDM_COL4_B28
-            MENUITEM "uključeno/isključeno 18", IDM_COL4_B29
-            MENUITEM "uključeno/isključeno 19", IDM_COL4_B31
-            MENUITEM "uključen/isključen 20", IDM_COL4_B32
-            MENUITEM "uključeno/isključeno 21", IDM_COL4_B33
-            MENUITEM "uključeno/isključeno 22", IDM_COL4_B34
-            MENUITEM "uključeno/isključeno 23", IDM_COL4_B35
-            MENUITEM "uključeno/isključeno 24", IDM_COL4_B36
-            MENUITEM "uključeno/isključeno 25", IDM_COL4_B37
-            MENUITEM "uključen/isključen 26", IDM_COL4_B38
-            MENUITEM "uključeno/isključeno 27", IDM_COL4_B39
+                MENUITEM "uključivanje/isključivanje 1",                 IDM_COL4_B11
+                MENUITEM "uključivanje/isključivanje 2",                 IDM_COL4_B12
+                MENUITEM "uključivanje/isključivanje 3",                 IDM_COL4_B13
+                MENUITEM "uključivanje/isključivanje 4",                 IDM_COL4_B14
+                MENUITEM "uključivanje/isključivanje 5",                 IDM_COL4_B15
+                MENUITEM "uključivanje/isključivanje 6",                 IDM_COL4_B16
+                MENUITEM "uključivanje/isključivanje 7",                 IDM_COL4_B17
+                MENUITEM "uključivanje/isključivanje 8",                 IDM_COL4_B18
+                MENUITEM "uključivanje/isključivanje 9",                 IDM_COL4_B19
+                MENUITEM "uključeno/isključeno 10",                 IDM_COL4_B21
+                MENUITEM "uključivanje/isključivanje 11",                 IDM_COL4_B22
+                MENUITEM "uključen/isključen 12",                 IDM_COL4_B23
+                MENUITEM "uključivanje/isključivanje 13",                 IDM_COL4_B24
+                MENUITEM "uključen/isključen 14",                 IDM_COL4_B25
+                MENUITEM "uključeno/isključeno 15",                 IDM_COL4_B26
+                MENUITEM "uključeno/isključeno 16",                 IDM_COL4_B27
+                MENUITEM "uključeno/isključeno 17",                 IDM_COL4_B28
+                MENUITEM "uključeno/isključeno 18",                 IDM_COL4_B29
+                MENUITEM "uključeno/isključeno 19",                 IDM_COL4_B31
+                MENUITEM "uključeno/isključeno 20",                 IDM_COL4_B32
+                MENUITEM "uključeno/isključeno 21",                 IDM_COL4_B33
+                MENUITEM "uključeno/isključeno 22",                 IDM_COL4_B34
+                MENUITEM "uključeno/isključeno 23",                 IDM_COL4_B35
+                MENUITEM "uključeno/isključeno 24",                 IDM_COL4_B36
+                MENUITEM "uključeno/isključeno 25",                 IDM_COL4_B37
+                MENUITEM "uključen/isključen 26",                 IDM_COL4_B38
+                MENUITEM "uključeno/isključeno 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontrola se odnosi na audio mikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrole se odnose na dugmad za multimediju", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrola se odnosi na pametni dom", IDM_COL4_MQTTKEY
-        POPUP "Kontrola se odnosi na kontrolu svjetla"
-        BEGIN
-            MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrola se odnosi na kontrolu svjetla"
+	BEGIN
+	   MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL4_SLIDER_TARGET_MENU MENU 
+DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER TARGET MENU"
+    POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
         MENUITEM "Encoder (gledanje okvir po kadar)", IDM_COL4_JOG
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Kontrola zvuka..."
         BEGIN
-            MENUITEM "Volumen (master)", IDM_COL4_MAV
-            MENUITEM "bilans (master)", IDM_COL4_MAP
+            MENUITEM "Volumen (master)",          IDM_COL4_MAV
+            MENUITEM "bilans (master)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Volumen.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AV1
-                MENUITEM "kanal 2", IDM_COL4_AV2
-                MENUITEM "kanal 3", IDM_COL4_AV3
-                MENUITEM "kanal 4", IDM_COL4_AV4
-                MENUITEM "kanal 5", IDM_COL4_AV5
-                MENUITEM "kanal 6", IDM_COL4_AV6
-                MENUITEM "kanal 7", IDM_COL4_AV7
-                MENUITEM "kanal 8", IDM_COL4_AV8
-                MENUITEM "kanal 9", IDM_COL4_XV9
+                MENUITEM "kanal 1",                     IDM_COL4_AV1
+                MENUITEM "kanal 2",                     IDM_COL4_AV2
+                MENUITEM "kanal 3",                     IDM_COL4_AV3
+                MENUITEM "kanal 4",                     IDM_COL4_AV4
+                MENUITEM "kanal 5",                     IDM_COL4_AV5
+                MENUITEM "kanal 6",                     IDM_COL4_AV6
+                MENUITEM "kanal 7",                     IDM_COL4_AV7
+                MENUITEM "kanal 8",                     IDM_COL4_AV8
+                MENUITEM "kanal 9",                     IDM_COL4_XV9
             END
             POPUP "Balans.."
             BEGIN
-                MENUITEM "kanal 1", IDM_COL4_AP1
-                MENUITEM "kanal 2", IDM_COL4_AP2
-                MENUITEM "kanal 3", IDM_COL4_AP3
-                MENUITEM "kanal 4", IDM_COL4_AP4
-                MENUITEM "kanal 5", IDM_COL4_AP5
-                MENUITEM "kanal 6", IDM_COL4_AP6
-                MENUITEM "kanal 7", IDM_COL4_AP7
-                MENUITEM "kanal 8", IDM_COL4_AP8
-                MENUITEM "kanal 9", IDM_COL4_XP9
+                MENUITEM "kanal 1",                     IDM_COL4_AP1
+                MENUITEM "kanal 2",                     IDM_COL4_AP2
+                MENUITEM "kanal 3",                     IDM_COL4_AP3
+                MENUITEM "kanal 4",                     IDM_COL4_AP4
+                MENUITEM "kanal 5",                     IDM_COL4_AP5
+                MENUITEM "kanal 6",                     IDM_COL4_AP6
+                MENUITEM "kanal 7",                     IDM_COL4_AP7
+                MENUITEM "kanal 8",                     IDM_COL4_AP8
+                MENUITEM "kanal 9",                     IDM_COL4_XP9
             END
         END
-        POPUP "Regulatori u sistemu \\Pametna kuća\\."
+        POPUP "Regulatori u sistemu “Pametna kuća”."
         BEGIN
-            MENUITEM "nivo 1", IDM_COL4_AV1
-            MENUITEM "nivo 2", IDM_COL4_AV2
-            MENUITEM "nivo 3", IDM_COL4_AV3
-            MENUITEM "nivo 4", IDM_COL4_AV4
-            MENUITEM "nivo 5", IDM_COL4_AV5
-            MENUITEM "nivo 6", IDM_COL4_AV6
-            MENUITEM "nivo 7", IDM_COL4_AV7
-            MENUITEM "nivo 8", IDM_COL4_AV8
-            MENUITEM "nivo 9", IDM_COL4_XV9
-            MENUITEM "nivo 10", IDM_COL4_AP1
-            MENUITEM "nivo 11", IDM_COL4_AP2
-            MENUITEM "nivo 12", IDM_COL4_AP3
-            MENUITEM "nivo 13", IDM_COL4_AP4
-            MENUITEM "nivo 14", IDM_COL4_AP5
-            MENUITEM "nivo 15", IDM_COL4_AP6
-            MENUITEM "nivo 16", IDM_COL4_AP7
-            MENUITEM "nivo 17", IDM_COL4_AP8
-            MENUITEM "nivo 18", IDM_COL4_XP9
+                MENUITEM "nivo 1",              IDM_COL4_AV1
+                MENUITEM "nivo 2",              IDM_COL4_AV2
+                MENUITEM "nivo 3",              IDM_COL4_AV3
+                MENUITEM "nivo 4",              IDM_COL4_AV4
+                MENUITEM "nivo 5",              IDM_COL4_AV5
+                MENUITEM "nivo 6",              IDM_COL4_AV6
+                MENUITEM "nivo 7",              IDM_COL4_AV7
+                MENUITEM "nivo 8",              IDM_COL4_AV8
+                MENUITEM "nivo 9",              IDM_COL4_XV9
+                MENUITEM "nivo 10",              IDM_COL4_AP1
+                MENUITEM "nivo 11",              IDM_COL4_AP2
+                MENUITEM "nivo 12",              IDM_COL4_AP3
+                MENUITEM "nivo 13",              IDM_COL4_AP4
+                MENUITEM "nivo 14",              IDM_COL4_AP5
+                MENUITEM "nivo 15",              IDM_COL4_AP6
+                MENUITEM "nivo 16",              IDM_COL4_AP7
+                MENUITEM "nivo 17",              IDM_COL4_AP8
+                MENUITEM "nivo 18",              IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
         MENUITEM "Kontrola se odnosi na audio mikser", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrole se odnose na dugmad za multimediju", IDM_COL4_MEDIAKEY
         MENUITEM "Kontrola se odnosi na pametni dom", IDM_COL4_MQTTKEY
-        POPUP "Kontrola se odnosi na kontrolu svjetla"
-        BEGIN
-            MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
-            MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
-        END
+	POPUP "Kontrola se odnosi na kontrolu svjetla"
+	BEGIN
+	   MENUITEM "8-bitni kanal (standardno)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "16-bitni kanal (prošireni)", IDM_COL4_LIGHTKEY16B
+	END
     END
 END
 
-IDR_COL5_SLIDER_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
-    POPUP "COL4 SLIDER MIXER MENU"
+    POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Volumen (master)", IDM_COL4_MAV
-        MENUITEM "enkoder (JOG)", IDM_COL4_JOG
+        MENUITEM "Volumen (master)",          IDM_COL4_MAV
+        MENUITEM "koder (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Volumen.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_AV1
-            MENUITEM "kanal 2", IDM_COL4_AV2
-            MENUITEM "kanal 3", IDM_COL4_AV3
-            MENUITEM "kanal 4", IDM_COL4_AV4
-            MENUITEM "kanal 5", IDM_COL4_AV5
-            MENUITEM "kanal 6", IDM_COL4_AV6
-            MENUITEM "kanal 7", IDM_COL4_AV7
-            MENUITEM "kanal 8", IDM_COL4_AV8
-            MENUITEM "kanal 9", IDM_COL4_XV9
-            MENUITEM "kanal 10", IDM_COL4_AP1
-            MENUITEM "kanal 11", IDM_COL4_AP2
-            MENUITEM "kanal 12", IDM_COL4_AP3
-            MENUITEM "kanal 13", IDM_COL4_AP4
-            MENUITEM "kanal 14", IDM_COL4_AP5
-            MENUITEM "kanal 15", IDM_COL4_AP6
-            MENUITEM "kanal 16", IDM_COL4_AP7
-            MENUITEM "kanal 17", IDM_COL4_AP8
-            MENUITEM "kanal 18", IDM_COL4_XP9
+            MENUITEM "kanal 1",                     IDM_COL4_AV1
+            MENUITEM "kanal 2",                     IDM_COL4_AV2
+            MENUITEM "kanal 3",                     IDM_COL4_AV3
+            MENUITEM "kanal 4",                     IDM_COL4_AV4
+            MENUITEM "kanal 5",                     IDM_COL4_AV5
+            MENUITEM "kanal 6",                     IDM_COL4_AV6
+            MENUITEM "kanal 7",                     IDM_COL4_AV7
+            MENUITEM "kanal 8",                     IDM_COL4_AV8
+            MENUITEM "kanal 9",			    IDM_COL4_XV9
+            MENUITEM "kanal 10",                    IDM_COL4_AP1
+            MENUITEM "kanal 11",                    IDM_COL4_AP2
+            MENUITEM "kanal 12",                    IDM_COL4_AP3
+            MENUITEM "kanal 13",                    IDM_COL4_AP4
+            MENUITEM "kanal 14",                    IDM_COL4_AP5
+            MENUITEM "kanal 15",                    IDM_COL4_AP6
+            MENUITEM "kanal 16",                    IDM_COL4_AP7
+            MENUITEM "kanal 17",                    IDM_COL4_AP8
+            MENUITEM "kanal 18",                    IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MIX_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MIX_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MIXER MENU"
+    POPUP "__COL5 BTN MIXER MENU"
     BEGIN
-        MENUITEM "tihi (majstor)", IDM_COL4_MAM
+        MENUITEM "tihi (majstor)",               IDM_COL4_MAM
         MENUITEM SEPARATOR
         POPUP "Bez zvuka.."
         BEGIN
-            MENUITEM "kanal 1", IDM_COL4_B21
-            MENUITEM "kanal 2", IDM_COL4_B22
-            MENUITEM "kanal 3", IDM_COL4_B23
-            MENUITEM "kanal 4", IDM_COL4_B24
-            MENUITEM "kanal 5", IDM_COL4_B25
-            MENUITEM "kanal 6", IDM_COL4_B26
-            MENUITEM "kanal 7", IDM_COL4_B27
-            MENUITEM "kanal 8", IDM_COL4_B28
-            MENUITEM "kanal 9", IDM_COL4_B29
+            MENUITEM "kanal 1",                     IDM_COL4_B21
+            MENUITEM "kanal 2",                     IDM_COL4_B22
+            MENUITEM "kanal 3",                     IDM_COL4_B23
+            MENUITEM "kanal 4",                     IDM_COL4_B24
+            MENUITEM "kanal 5",                     IDM_COL4_B25
+            MENUITEM "kanal 6",                     IDM_COL4_B26
+            MENUITEM "kanal 7",                     IDM_COL4_B27
+            MENUITEM "kanal 8",                     IDM_COL4_B28
+            MENUITEM "kanal 9",                     IDM_COL4_B29
         END
         MENUITEM SEPARATOR
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_MMKEY_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
-    POPUP "COL5 BTN MMKEY MENU"
+    POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Pusti/Pauza", IDM_COL4_SYS_Play
-        MENUITEM "Stani", IDM_COL4_SYS_Stop
-        MENUITEM "Prethodno", IDM_COL4_SYS_Rewind
-        MENUITEM "Sljedeći", IDM_COL4_SYS_Forward
-        MENUITEM "Zapis", IDM_COL4_SYS_Record
-        MENUITEM "gore (džojstik)", IDM_COL4_SYS_Up
-        MENUITEM "dolje (džojstik)", IDM_COL4_SYS_Down
-        MENUITEM "desno (džojstik)", IDM_COL4_SYS_Right
-        MENUITEM "Lijevo (džojstik)", IDM_COL4_SYS_Left
-        MENUITEM "Priblizi", IDM_COL4_SYS_Zoom
-        MENUITEM "Čišćenje", IDM_COL4_SYS_Scrub
+        MENUITEM "Pusti/Pauza",                IDM_COL4_SYS_Play
+        MENUITEM "Stani",                        IDM_COL4_SYS_Stop
+        MENUITEM "Prethodno",                  IDM_COL4_SYS_Rewind
+        MENUITEM "Sljedeći",                   IDM_COL4_SYS_Forward
+        MENUITEM "Zapis",                      IDM_COL4_SYS_Record
+        MENUITEM "gore (džojstik)",           IDM_COL4_SYS_Up
+        MENUITEM "dolje (džojstik)",           IDM_COL4_SYS_Down
+        MENUITEM "desno (džojstik)",           IDM_COL4_SYS_Right
+        MENUITEM "Lijevo (džojstik)",           IDM_COL4_SYS_Left
+        MENUITEM "Priblizi",         IDM_COL4_SYS_Zoom
+        MENUITEM "Čišćenje",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",               IDM_COL4_NONE
     END
 END
 
-IDR_COL5_SLIDER_SM_MENU MENU 
+DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 SLIDER SMART HOUSE MENU"
+    POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "nivo 1", IDM_COL4_AV1
-        MENUITEM "nivo 2", IDM_COL4_AV2
-        MENUITEM "nivo 3", IDM_COL4_AV3
-        MENUITEM "nivo 4", IDM_COL4_AV4
-        MENUITEM "nivo 5", IDM_COL4_AV5
-        MENUITEM "nivo 6", IDM_COL4_AV6
-        MENUITEM "nivo 7", IDM_COL4_AV7
-        MENUITEM "nivo 8", IDM_COL4_AV8
-        MENUITEM "nivo 9", IDM_COL4_XV9
-        MENUITEM "nivo 10", IDM_COL4_AP1
-        MENUITEM "nivo 11", IDM_COL4_AP2
-        MENUITEM "nivo 12", IDM_COL4_AP3
-        MENUITEM "nivo 13", IDM_COL4_AP4
-        MENUITEM "nivo 14", IDM_COL4_AP5
-        MENUITEM "nivo 15", IDM_COL4_AP6
-        MENUITEM "nivo 16", IDM_COL4_AP7
-        MENUITEM "nivo 17", IDM_COL4_AP8
-        MENUITEM "nivo 18", IDM_COL4_XP9
+        MENUITEM "nivo 1",                    IDM_COL4_AV1
+        MENUITEM "nivo 2",                    IDM_COL4_AV2
+        MENUITEM "nivo 3",                    IDM_COL4_AV3
+        MENUITEM "nivo 4",                    IDM_COL4_AV4
+        MENUITEM "nivo 5",                    IDM_COL4_AV5
+        MENUITEM "nivo 6",                    IDM_COL4_AV6
+        MENUITEM "nivo 7",                    IDM_COL4_AV7
+        MENUITEM "nivo 8",                    IDM_COL4_AV8
+        MENUITEM "nivo 9",                    IDM_COL4_XV9
+        MENUITEM "nivo 10",                    IDM_COL4_AP1
+        MENUITEM "nivo 11",                    IDM_COL4_AP2
+        MENUITEM "nivo 12",                    IDM_COL4_AP3
+        MENUITEM "nivo 13",                    IDM_COL4_AP4
+        MENUITEM "nivo 14",                    IDM_COL4_AP5
+        MENUITEM "nivo 15",                    IDM_COL4_AP6
+        MENUITEM "nivo 16",                    IDM_COL4_AP7
+        MENUITEM "nivo 17",                    IDM_COL4_AP8
+        MENUITEM "nivo 18",                    IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+        MENUITEM "Nedodijeljeno",                 IDM_COL4_NONE
     END
 END
 
-IDR_COL5_BTN_SM_MENU MENU 
+DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
 BEGIN
-    POPUP "COL5 BTN SMART HOUSE MENU"
+    POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-        MENUITEM "uključivanje/isključivanje 1", IDM_COL4_B11
-        MENUITEM "uključivanje/isključivanje 2", IDM_COL4_B12
-        MENUITEM "uključivanje/isključivanje 3", IDM_COL4_B13
-        MENUITEM "uključivanje/isključivanje 4", IDM_COL4_B14
-        MENUITEM "uključivanje/isključivanje 5", IDM_COL4_B15
-        MENUITEM "uključivanje/isključivanje 6", IDM_COL4_B16
-        MENUITEM "uključivanje/isključivanje 7", IDM_COL4_B17
-        MENUITEM "uključivanje/isključivanje 8", IDM_COL4_B18
-        MENUITEM "uključivanje/isključivanje 9", IDM_COL4_B19
-        MENUITEM "uključeno/isključeno 10", IDM_COL4_B21
-        MENUITEM "uključivanje/isključivanje 11", IDM_COL4_B22
-        MENUITEM "uključen/isključen 12", IDM_COL4_B23
-        MENUITEM "uključivanje/isključivanje 13", IDM_COL4_B24
-        MENUITEM "uključen/isključen 14", IDM_COL4_B25
-        MENUITEM "uključeno/isključeno 15", IDM_COL4_B26
-        MENUITEM "uključeno/isključeno 16", IDM_COL4_B27
-        MENUITEM "uključeno/isključeno 17", IDM_COL4_B28
-        MENUITEM "uključeno/isključeno 18", IDM_COL4_B29
-        MENUITEM "uključeno/isključeno 19", IDM_COL4_B31
-        MENUITEM "uključen/isključen 20", IDM_COL4_B32
-        MENUITEM "uključeno/isključeno 21", IDM_COL4_B33
-        MENUITEM "uključeno/isključeno 22", IDM_COL4_B34
-        MENUITEM "uključeno/isključeno 23", IDM_COL4_B35
-        MENUITEM "uključeno/isključeno 24", IDM_COL4_B36
-        MENUITEM "uključeno/isključeno 25", IDM_COL4_B37
-        MENUITEM "uključen/isključen 26", IDM_COL4_B38
-        MENUITEM "uključeno/isključeno 27", IDM_COL4_B39
-        MENUITEM SEPARATOR
-        MENUITEM "Nedodijeljeno", IDM_COL4_NONE
+    MENUITEM "uključivanje/isključivanje 1",                     IDM_COL4_B11
+    MENUITEM "uključivanje/isključivanje 2",                     IDM_COL4_B12
+    MENUITEM "uključivanje/isključivanje 3",                     IDM_COL4_B13
+    MENUITEM "uključivanje/isključivanje 4",                     IDM_COL4_B14
+    MENUITEM "uključivanje/isključivanje 5",                     IDM_COL4_B15
+    MENUITEM "uključivanje/isključivanje 6",                     IDM_COL4_B16
+    MENUITEM "uključivanje/isključivanje 7",                     IDM_COL4_B17
+    MENUITEM "uključivanje/isključivanje 8",                     IDM_COL4_B18
+    MENUITEM "uključivanje/isključivanje 9",                     IDM_COL4_B19
+    MENUITEM "uključeno/isključeno 10",                     IDM_COL4_B21
+    MENUITEM "uključivanje/isključivanje 11",                     IDM_COL4_B22
+    MENUITEM "uključen/isključen 12",                     IDM_COL4_B23
+    MENUITEM "uključivanje/isključivanje 13",                     IDM_COL4_B24
+    MENUITEM "uključen/isključen 14",                     IDM_COL4_B25
+    MENUITEM "uključeno/isključeno 15",                     IDM_COL4_B26
+    MENUITEM "uključeno/isključeno 16",                     IDM_COL4_B27
+    MENUITEM "uključeno/isključeno 17",                     IDM_COL4_B28
+    MENUITEM "uključeno/isključeno 18",                     IDM_COL4_B29
+    MENUITEM "uključeno/isključeno 19",                     IDM_COL4_B31
+    MENUITEM "uključeno/isključeno 20",                     IDM_COL4_B32
+    MENUITEM "uključeno/isključeno 21",                     IDM_COL4_B33
+    MENUITEM "uključeno/isključeno 22",                     IDM_COL4_B34
+    MENUITEM "uključeno/isključeno 23",                     IDM_COL4_B35
+    MENUITEM "uključeno/isključeno 24",                     IDM_COL4_B36
+    MENUITEM "uključeno/isključeno 25",                     IDM_COL4_B37
+    MENUITEM "uključen/isključen 26",                     IDM_COL4_B38
+    MENUITEM "uključeno/isključeno 27",                     IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Nedodijeljeno",                   IDM_COL4_NONE
     END
 END
 

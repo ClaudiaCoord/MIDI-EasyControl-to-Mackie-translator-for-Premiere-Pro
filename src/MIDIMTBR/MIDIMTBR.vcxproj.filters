@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\Plugins">
+      <UniqueIdentifier>{1d5da422-504c-4437-ab14-821dddbfbd7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Plugins">
+      <UniqueIdentifier>{eacb8383-2454-44a2-b466-d0c6adc9c72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\IO">
+      <UniqueIdentifier>{1594ba85-dfe2-45aa-9983-a41c65bf4fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\IO">
+      <UniqueIdentifier>{784ecd96-3f5b-4356-ac82-0c087c59a1ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cpp\dllmain.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\IOBridge.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\Plugins.cpp">
+      <Filter>Исходные файлы\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\bridge_in_event.cpp">
+      <Filter>Исходные файлы\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\bridge_out_event.cpp">
+      <Filter>Исходные файлы\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\bridge_sys.cpp">
+      <Filter>Исходные файлы\IO</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\global.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MIDIMTBRApi.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\IOBridge.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\Plugins.h">
+      <Filter>Файлы заголовков\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="h\bridge_out_event.h">
+      <Filter>Файлы заголовков\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="h\bridge_in_event.h">
+      <Filter>Файлы заголовков\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="h\bridge_sys.h">
+      <Filter>Файлы заголовков\IO</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+  </ItemGroup>
+</Project>

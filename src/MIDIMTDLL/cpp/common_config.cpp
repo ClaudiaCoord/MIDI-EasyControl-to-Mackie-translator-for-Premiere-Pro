@@ -17,7 +17,7 @@ namespace Common {
 	using namespace std::string_view_literals;
 	constexpr std::wstring_view DEFAULT_CNF_FILE = L"MidiController.cnf"sv;
 
-	common_config common_config::ctrlcommonconfig__;
+	common_config common_config::ctrlcommonconfig_;
 
 	static time_t getConfigFileModify__(std::wstring& s) {
 		__try {
@@ -45,25 +45,24 @@ namespace Common {
 	}
 
 	common_config::common_config() {
-		config_ptr__ = std::make_shared<Common::MIDI::MidiDevice>();
+		config_ptr_ = std::make_shared<JSON::MMTConfig>();
 	}
 	common_config::~common_config() {
-		config_ptr__.reset();
+		config_ptr_.reset();
 	}
 
 	common_config& common_config::Get() {
-		return std::ref(common_config::ctrlcommonconfig__);
+		return std::ref(common_config::ctrlcommonconfig_);
 	}
-	std::shared_ptr<Common::MIDI::MidiDevice>& common_config::GetConfig() {
-		return std::ref(config_ptr__);
+	std::shared_ptr<JSON::MMTConfig>& common_config::GetConfig() {
+		return std::ref(config_ptr_);
 	}
-
 
 	const bool		common_config::IsStart() {
-		return IsConfig() && Local.IsMidiBridgeRun();
+		return IsConfig() && Local.IsMidiDriverRun();
 	}
 	const bool		common_config::IsConfig() {
-		return (config_ptr__ && (!config_ptr__->IsEmpty()));
+		return (config_ptr_ && !config_ptr_->empty());
 	}
 	const bool		common_config::IsNewConfig() {
 		try {
@@ -75,46 +74,51 @@ namespace Common {
 				if (ft == 0) break;
 				if (config_last_write_time != ft) return true;
 			} while (0);
-			return !config_ptr__;
+			return !config_ptr_;
 		} catch (...) {}
 		return true;
 	}
 
 	const bool		common_config::IsConfigEmpty() {
-		return (!config_ptr__) || config_ptr__->IsEmpty();
+		return (!config_ptr_) || config_ptr_->empty();
 	}
 	const bool		common_config::IsProxy() {
-		return config_ptr__ ? (config_ptr__->proxy > 0) : false;
-	}
-	void			common_config::NumProxy(uint32_t cnt) {
-		if (config_ptr__) config_ptr__->proxy = (cnt < 16) ? cnt : 15;
+		return config_ptr_ ? (config_ptr_->midiconf.proxy_count > 0) : false;
 	}
 	const uint32_t	common_config::NumProxy() {
-		return config_ptr__ ? config_ptr__->proxy : 0;
+		return config_ptr_ ? config_ptr_->midiconf.proxy_count : 0U;
+	}
+	void			common_config::NumProxy(uint32_t cnt) {
+		if (config_ptr_) update_value_(((cnt < 16) ? cnt : 15), config_ptr_->midiconf.proxy_count);
 	}
 	const bool		common_config::IsAutoStart() {
-		return config_ptr__ ? config_ptr__->autostart : false;
+		return config_ptr_ ? config_ptr_->auto_start : false;
 	}
 	void			common_config::IsAutoStart(bool b) {
-		if (config_ptr__) config_ptr__->autostart = b;
+		if (config_ptr_) update_value_(b, config_ptr_->auto_start);
 	}
 	uint32_t		common_config::ButtonOnInterval() {
-		return config_ptr__ ? config_ptr__->btninterval : 0;
+		return config_ptr_ ? config_ptr_->midiconf.btn_interval : 0;
 	}
 	void			common_config::ButtonOnInterval(uint32_t i) {
-		if (config_ptr__) config_ptr__->btninterval = i;
+		if (config_ptr_) update_value_(i, config_ptr_->midiconf.btn_interval);
 	}
 	uint32_t		common_config::ButtonOnLongInterval() {
-		return config_ptr__ ? config_ptr__->btnlonginterval : 0;
+		return config_ptr_ ? config_ptr_->midiconf.btn_long_interval : 0;
 	}
 	void			common_config::ButtonOnLongInterval(uint32_t i) {
-		if (config_ptr__) config_ptr__->btnlonginterval = i;
+		if (config_ptr_) update_value_(i, config_ptr_->midiconf.btn_long_interval);
 	}
 	const bool		common_config::IsJogSceneFilter() {
-		return config_ptr__ ? config_ptr__->jogscenefilter : false;
+		return config_ptr_ ? config_ptr_->midiconf.jog_scene_filter : false;
 	}
 	void			common_config::IsJogSceneFilter(bool b) {
-		if (config_ptr__) config_ptr__->jogscenefilter = b;
+		if (config_ptr_) update_value_(b, config_ptr_->midiconf.jog_scene_filter);
+	}
+	std::wstring	common_config::GetConfigPath() {
+		std::wstring cnfpath{};
+		getDefaultConfig_(cnfpath);
+		return cnfpath;
 	}
 
 	const bool		common_config::Load(std::wstring cnfpath) {
@@ -123,10 +127,10 @@ namespace Common {
 			getDefaultConfig_(cnfpath);
 			
 			bool b = false;
-			auto a = new Common::MIDI::MidiDevice();
-			auto f = std::async(std::launch::async, [=](Common::MIDI::MidiDevice* md_, std::wstring& cnf_) -> bool {
-				Common::MIDI::json_config js;
-				return js.Read(md_, cnf_);
+			auto a = new JSON::MMTConfig();
+			auto f = std::async(std::launch::async, [=](JSON::MMTConfig* md_, std::wstring& cnf_) -> bool {
+				JSON::json_config js;
+				return js.Read(md_, cnf_, true);
 				}, a, std::ref(cnfpath));
 
 			try {
@@ -135,8 +139,8 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 			if (b) {
-				config_ptr__.reset(std::move(a));
-				updateconf_();
+				config_ptr_.reset(std::move(a));
+				update_conf_();
 				config_last_write_time = getConfigFileModify_(cnfpath);
 			} else delete a;
 			return b;
@@ -154,8 +158,8 @@ namespace Common {
 
 			bool b = false;
 			auto f = std::async(std::launch::async, [=]() -> bool {
-				Common::MIDI::json_config js;
-				return js.Write(config_ptr__, cnfpath);
+				JSON::json_config js;
+				return js.Write(config_ptr_, cnfpath, true);
 				});
 
 			try {
@@ -164,7 +168,7 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 			if (b) {
-				updateconf_();
+				update_conf_();
 				config_last_write_time = getConfigFileModify_(cnfpath);
 			}
 			return b;
@@ -175,18 +179,18 @@ namespace Common {
 		return false;
 	}
 
-	uint32_t		common_config::add(callConfigChangeCb cb) {
+	uint32_t		common_config::add(callConfigCb_t cb) {
 		try {
-			uint32_t id = event__.add(cb);
-			if (config_ptr__ && (!config_ptr__->IsEmpty())) {
-				Common::worker_background::Get().to_async(
-					std::async(std::launch::async, [=](callConfigChangeCb c, std::shared_ptr<Common::MIDI::MidiDevice>& md) {
+			uint32_t id = event_.add(cb);
+			if (config_ptr_ && (!config_ptr_->empty())) {
+				worker_background::Get().to_async(
+					std::async(std::launch::async, [=](callConfigCb_t c, std::shared_ptr<JSON::MMTConfig>& md) {
 						try {
 							c(md);
 						} catch (...) {
 							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 						}
-					}, cb, std::ref(config_ptr__))
+					}, cb, std::ref(config_ptr_))
 				);
 			}
 			return id;
@@ -195,23 +199,41 @@ namespace Common {
 		}
 		return 0U;
 	}
-	void			common_config::remove(callConfigChangeCb cb) {
-		event__.remove(cb);
+	void			common_config::add(callConfigCb_t cb, uint32_t id) {
+		try {
+			event_.add(cb, id);
+			if (config_ptr_ && (!config_ptr_->empty())) {
+				worker_background::Get().to_async(
+					std::async(std::launch::async, [=](callConfigCb_t c, std::shared_ptr<JSON::MMTConfig>& md) {
+					try {
+						c(md);
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+				}, cb, std::ref(config_ptr_))
+				);
+			}
+		} catch (...) {
+			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+		}
+	}
+	void			common_config::remove(callConfigCb_t cb) {
+		event_.remove(cb);
 	}
 	void			common_config::remove(uint32_t id) {
-		event__.remove(id);
+		event_.remove(id);
 	}
 
-	void			common_config::updateconf_() {
-		event__.send_async(std::ref(config_ptr__));
+	void			common_config::update_conf_() {
+		event_.send_async(std::ref(config_ptr_));
 	}
 
 	/* CONFIG LOCAL */
 
-	const bool		common_config_local::IsMidiBridgeRun() {
+	const bool		common_config_local::IsMidiDriverRun() {
 		return midibridgerun_;
 	}
-	void			common_config_local::IsMidiBridgeRun(bool b) {
+	void			common_config_local::IsMidiDriverRun(bool b) {
 		midibridgerun_ = b;
 	}
 
@@ -220,40 +242,5 @@ namespace Common {
 	}
 	void			common_config_local::IsAudioMixerRun(bool b) {
 		audiomixerrun_ = b;
-	}
-
-	const bool		common_config_local::IsMMKeysRun() {
-		return mmkeysrun_;
-	}
-	void			common_config_local::IsMMKeysRun(bool b) {
-		mmkeysrun_ = b;
-	}
-
-	const bool		common_config_local::IsSmartHomeRun() {
-		return smarthomerun_;
-	}
-	void			common_config_local::IsSmartHomeRun(bool b) {
-		smarthomerun_ = b;
-	}
-
-	const bool		common_config_local::IsLightsRun() {
-		return lightsrun_;
-	}
-	void			common_config_local::IsLightsRun(bool b) {
-		lightsrun_ = b;
-	}
-
-	const bool		common_config_local::IsLightsDmxRun() {
-		return lightsdmxrun_;
-	}
-	void			common_config_local::IsLightsDmxRun(bool b) {
-		lightsdmxrun_ = b;
-	}
-
-	const bool		common_config_local::IsLightsArtNetRun() {
-		return lightsartnetrun_;
-	}
-	void			common_config_local::IsLightsArtNetRun(bool b) {
-		lightsartnetrun_ = b;
 	}
 }

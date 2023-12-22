@@ -10,8 +10,9 @@
 */
 
 #include "CommonApi.h"
-#pragma comment(lib, "MIDIMTLIB.lib")
+#pragma comment(lib, "comctl32.lib")
 #pragma comment(lib, "Imm32.lib")
+#pragma comment(lib, "MIDIMTLIB.lib")
 #pragma comment(lib, "Scintilla.lib")
 #pragma comment(lib, "Lexilla.lib")
 

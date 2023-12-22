@@ -82,8 +82,7 @@ namespace Common {
 	void     worker_background::pack_() {
 		try {
 			locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-			if (locker.IsOnlyOne() || !locker.Begin()) return;
-			if (locker.IsCanceled() || asyncreq__.empty()) return;
+			if (!locker.Begin() || asyncreq__.empty()) return;
 
 			repack_();
 		} catch (...) {

@@ -15,31 +15,10 @@
 namespace Common {
 
     locker_auto::locker_auto(std::shared_ptr<locker_awaiter>& a, locker_auto::LockType t) : aw(a), type(t) {
-        switch (type) {
-            case locker_auto::LockType::TypeLock:
-            case locker_auto::LockType::TypeLockWait: {
-                Begin();
-                break;
-            }
-            case locker_auto::LockType::TypeLockOnlyOne:
-            default: break;
-        }
+        (void) Begin(t == locker_auto::LockType::TypeLockOnlyOne);
     }
     locker_auto::~locker_auto() {
-        if (isbegin) {
-            switch (type) {
-                case locker_auto::LockType::TypeLockOnlyOne:
-                case locker_auto::LockType::TypeLock: {
-                    aw->UnLock();
-                    break;
-                }
-                case locker_auto::LockType::TypeLockWait: {
-                    aw->EndWait();
-                    break;
-                }
-                default: break;
-            }
-        }
+        End();
     }
 
     const bool locker_auto::IsCanceled() const {
@@ -47,28 +26,39 @@ namespace Common {
     }
     const bool locker_auto::IsOnlyOne() const {
         switch (type) {
-            case locker_auto::LockType::TypeLockOnlyOne:
-                return aw->IsOnlyOne();
-            case locker_auto::LockType::TypeLock:
-            case locker_auto::LockType::TypeLockWait:
+            using enum locker_auto::LockType;
+            case TypeWaitOnlyOne:
+            case TypeLockOnlyOne: return aw->IsOnlyOne();
+            case TypeLock:
+            case TypeLockWait:
             default: return false;
         }
     }
-    const bool locker_auto::Begin() {
+    const bool locker_auto::Begin(bool noinit) {
         if (isbegin) return true;
 
-        bool b = true;
+        bool b{ true };
         switch (type) {
-            case locker_auto::LockType::TypeLockOnlyOne: {
-                b = aw->LockOnlyOne();
+            using enum locker_auto::LockType;
+            case TypeLockOnlyOne: {
+                if (noinit) {
+                    b = false;
+                    break;
+                }
+                b = (aw->IsOnlyOne() || aw->IsCanceled()) ? false : aw->LockOnlyOne();
                 break;
             }
-            case locker_auto::LockType::TypeLock: {
+            case TypeLock: {
                 aw->Lock();
                 break;
             }
-            case locker_auto::LockType::TypeLockWait: {
+            case TypeLockWait: {
                 aw->Wait();
+                break;
+            }
+            case TypeWaitOnlyOne: {
+                aw->WaitOnlyOne();
+                b = true;
                 break;
             }
             default: {
@@ -79,5 +69,23 @@ namespace Common {
         isbegin = b;
         return b;
     }
-
+    void locker_auto::End() {
+        if (isbegin) {
+            isbegin = false;
+            switch (type) {
+                using enum locker_auto::LockType;
+                case TypeLock:
+                case TypeLockOnlyOne: {
+                    aw->UnLock();
+                    break;
+                }
+                case TypeLockWait:
+                case TypeWaitOnlyOne: {
+                    aw->EndWait();
+                    break;
+                }
+                default: break;
+            }
+        }
+    }
 }

@@ -22,13 +22,11 @@ namespace Common {
 			static const std::wstring GetSuffixMackieOut();
 			static const std::wstring GetSuffixProxyOut();
 
-			static std::wstring_view GetClassTypes(ClassTypes&);
-			
-			static std::wstring_view GetType(Common::MIDI::MidiUnitType&);
+			static std::wstring_view GetType(MIDI::MidiUnitType&);
 			static std::wstring_view GetType(uint8_t&);
 			static std::wstring_view GetType(uint32_t);
 			
-			static std::wstring_view GetScene(Common::MIDI::MidiUnitScene&);
+			static std::wstring_view GetScene(MIDI::MidiUnitScene&);
 			static std::wstring_view GetScene(uint8_t&);
 			static std::wstring_view GetScene(uint32_t);
 		};

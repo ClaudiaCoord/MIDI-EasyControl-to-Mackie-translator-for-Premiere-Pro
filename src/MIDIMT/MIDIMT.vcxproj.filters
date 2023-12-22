@@ -36,7 +36,7 @@
     <ClInclude Include="h\TrayMenu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\DialogConfig.h">
+    <ClInclude Include="h\DialogEdit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\ListEdit.h">
@@ -54,25 +54,13 @@
     <ClInclude Include="h\LangInterface.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\GuiUtils.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="h\DialogAbout.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\ext\lodepng.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\mixer\AudioMixerPanel.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\mixer\AudioMixerPanels.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\mixer\Sprite.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\mixer\Sprites.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\mixer\DialogThemeColors.h">
@@ -84,10 +72,16 @@
     <ClInclude Include="h\RToolBarBase.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="h\RToolBarDialogConfig.h">
+    <ClInclude Include="h\RToolBarDialogEdit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\DialogLogView.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\ClassStorage.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\DialogEditInfo.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,7 +101,7 @@
     <ClCompile Include="cpp\TrayMenu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\DialogConfig.cpp">
+    <ClCompile Include="cpp\DialogEdit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\ListEdit.cpp">
@@ -119,25 +113,13 @@
     <ClCompile Include="cpp\LangInterface.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\GuiUtils.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\DialogAbout.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\ext\lodepng.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\mixer\AudioMixerPanel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\mixer\AudioMixerPanels.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\mixer\Sprite.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\mixer\Sprites.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\mixer\DialogThemeColors.cpp">
@@ -149,10 +131,16 @@
     <ClCompile Include="cpp\RToolBarBase.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\RToolBarDialogConfig.cpp">
+    <ClCompile Include="cpp\RToolBarDialogEdit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\DialogLogView.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\ClassStorage.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\DialogEditInfo.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

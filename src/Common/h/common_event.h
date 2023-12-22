@@ -17,8 +17,8 @@ namespace Common {
     template <typename T1>
     class common_event {
     private:
-        std::forward_list<std::pair<uint32_t, T1>> list__;
-        std::shared_ptr<locker_awaiter> lock__;
+        std::forward_list<std::pair<uint32_t, T1>> list_{};
+        std::shared_ptr<locker_awaiter> lock_{ std::make_shared<locker_awaiter>() };
     public:
 
         common_event() = default;
@@ -28,8 +28,9 @@ namespace Common {
         void send(T3&&... args) {
             if (empty()) return;
             try {
-                locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-                for (auto& a : list__) a.second(args...);
+                locker_auto locker(lock_, locker_auto::LockType::TypeLockWait);
+
+                for (auto& a : list_) a.second(args...);
             } catch (...) {}
         }
 
@@ -44,8 +45,9 @@ namespace Common {
         void sends(std::initializer_list<T2> il) {
             if (empty()) return;
             try {
-                locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-                for (auto& a : list__)
+                locker_auto locker(lock_, locker_auto::LockType::TypeLockWait);
+
+                for (auto& a : list_)
                     for (auto& p : il) a.second(p);
             } catch (...) {}
         }
@@ -54,25 +56,26 @@ namespace Common {
         void sends_async(std::initializer_list<T2> il) {
             if (empty()) return;
             worker_background::Get().to_async(
-                std::async(std::launch::async, [=](std::initializer_list<T2> il__) { sends(il__); }));
+                std::async(std::launch::async, [=](std::initializer_list<T2> il_) { sends(il_); }, il));
         }
 
         std::forward_list<std::pair<uint32_t, T1>>& get() {
-            return std::ref(list__);
+            return std::ref(list_);
         }
         std::vector<uint32_t> list() {
             std::vector<uint32_t> v;
             try {
-                locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-                for (auto& a : list__) v.push_back(a.first);
+                locker_auto locker(lock_, locker_auto::LockType::TypeLockWait);
+
+                for (auto& a : list_) v.push_back(a.first);
             } catch (...) {}
             return v;
         }
         void clear() {
-            list__.clear();
+            list_.clear();
         }
         const bool empty() {
-            return list__.empty();
+            return list_.empty();
         }
         uint32_t add(T1 fn) {
             try {
@@ -84,12 +87,12 @@ namespace Common {
         }
         void add(T1 fn, uint32_t id) {
             try {
-                locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
                 if (!Utils::random_isvalid(id)) return;
+                locker_auto locker(lock_, locker_auto::LockType::TypeLock);
 
-                auto it = std::find_if(list__.begin(), list__.end(), [&](std::pair<uint32_t, T1>& a) -> bool { return a.first == id; });
-                if (it != list__.end()) return;
-                list__.push_front(std::pair<uint32_t, T1>(id, fn));
+                auto it = std::find_if(list_.begin(), list_.end(), [&](std::pair<uint32_t, T1>& a) -> bool { return a.first == id; });
+                if (it != list_.end()) return;
+                list_.push_front(std::pair<uint32_t, T1>(id, fn));
             } catch (...) {}
         }
         void remove(T1 fn) {
@@ -100,9 +103,10 @@ namespace Common {
         }
         void remove(uint32_t id) {
             try {
-                locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
                 if (!Utils::random_isvalid(id)) return;
-                list__.remove_if([&](std::pair<uint32_t, T1>& a) -> bool { return a.first == id; });
+                locker_auto locker(lock_, locker_auto::LockType::TypeLock);
+
+                list_.remove_if([&](std::pair<uint32_t, T1>& a) -> bool { return a.first == id; });
             } catch (...) {}
         }
     };

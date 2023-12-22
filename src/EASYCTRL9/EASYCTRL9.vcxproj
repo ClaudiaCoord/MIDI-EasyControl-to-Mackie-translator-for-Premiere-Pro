@@ -199,33 +199,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\bridge_in_event.cpp" />
-    <ClCompile Include="cpp\bridge_out_event.cpp" />
     <ClCompile Include="cpp\dllmain.cpp" />
     <ClCompile Include="cpp\MidiControllerBase.cpp" />
-    <ClCompile Include="cpp\MidiControllerIn.cpp" />
-    <ClCompile Include="cpp\MidiControllerOut.cpp" />
-    <ClCompile Include="cpp\MidiControllerProxy.cpp" />
     <ClCompile Include="cpp\MidiControllerVirtual.cpp" />
-    <ClCompile Include="cpp\MidiBridge.cpp" />
+    <ClCompile Include="cpp\MidiDevices.cpp" />
     <ClCompile Include="cpp\MidiDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EASYCTRL9Api.h" />
-    <ClInclude Include="h\bridge_in_event.h" />
-    <ClInclude Include="h\bridge_out_event.h" />
     <ClInclude Include="h\global.h" />
     <ClInclude Include="h\MidiControllerBase.h" />
-    <ClInclude Include="h\MidiControllerIn.h" />
-    <ClInclude Include="h\MidiControllerOut.h" />
-    <ClInclude Include="h\MidiControllerProxy.h" />
     <ClInclude Include="h\teVirtualMIDI.h" />
     <ClInclude Include="h\MidiControllerVirtual.h" />
-    <ClInclude Include="h\MidiBridge.h" />
+    <ClInclude Include="h\MidiDevices.h" />
     <ClInclude Include="h\MidiDriver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Common\rc\resource.rc" />
+    <ResourceCompile Include="..\Common\rc\resource_dll.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

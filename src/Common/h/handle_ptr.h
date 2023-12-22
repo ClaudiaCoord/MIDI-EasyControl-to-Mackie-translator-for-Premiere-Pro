@@ -53,7 +53,7 @@ namespace Common {
 		}
 	};
 	template <typename T1>
-	struct default_hwnd_deleter {
+	struct [[deprecated("Using hwnd_ptr<DELETER>!")]] default_hwnd_deleter {
 		void operator()(T1 h) {
 			if (h != nullptr) ::DestroyWindow(h);
 		}
@@ -66,39 +66,38 @@ namespace Common {
 	};
 
 	template <typename T1, class T2 = default_empty_deleter<T1>>
-	class handle_ptr
-	{
+	class handle_ptr {
 	private:
-		T1 h__;
+		T1 h_;
 	public:
 
-		handle_ptr() : h__(nullptr) {
+		handle_ptr() : h_(nullptr) {
 		}
 		~handle_ptr() {
 			reset();
 		}
 		operator bool() const {
-			return h__ != nullptr;
+			return h_ != nullptr;
 		}
 		operator T1() const {
-			return h__;
+			return h_;
 		}
-		T1 operator->() {
-			return h__;
+		T1 operator->() const {
+			return h_;
 		}
 		bool equals(T1 h) {
-			return h == h__;
+			return h == h_;
 		}
 		T1 get() const {
-			return h__;
+			return h_;
 		}
 		void reset(T1 h = nullptr) {
-			T2 d{}; d(h__);
-			h__ = h;
+			T2 d{}; d(h_);
+			h_ = h;
 		}
 		T1 release() {
-			T1 h = h__;
-			h__ = nullptr;
+			T1 h = h_;
+			h_ = nullptr;
 			return h;
 		}
 	};

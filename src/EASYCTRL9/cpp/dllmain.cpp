@@ -4,7 +4,7 @@
 	+ MultiMedia Key translator.
 	(c) CC 2023, MIT
 
-	EASYCTRL9
+	EASYCTRL9 - All MIDI drivers
 
 	See README.md for more details.
 	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!
@@ -13,31 +13,27 @@
 #include "CommonApi.h"
 #pragma comment(lib, "MIDIMTLIB.lib")
 #pragma comment(lib, "winmm.lib")
+
 #ifndef _LOAD_MIDIDRV_DYNAMIC
-#pragma comment(lib, "tevirtualmidi.lib")
+#   pragma comment(lib, "tevirtualmidi.lib")
 #endif
 
-#ifdef __cplusplus
-extern "C" { void __cdecl CloseOnExit(); }
-#endif
+extern "C" void __cdecl CloseOnExit();
 
-BOOL APIENTRY DllMain(HMODULE hModule,
-    DWORD  ul_reason_for_call,
-    LPVOID lpReserved
-)
-{
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        CloseOnExit();
-        break;
+BOOL APIENTRY DllMain(HMODULE, DWORD r, LPVOID){
+    switch (r) {
+        case DLL_THREAD_ATTACH:
+        case DLL_PROCESS_ATTACH:
+        case DLL_THREAD_DETACH:  break;
+        case DLL_PROCESS_DETACH: {
+            CloseOnExit();
+            break;
+        }
+        default: break;
     }
     return TRUE;
 }
 
-void __cdecl CloseOnExit() {
-#pragma EXPORT
+extern "C" void __cdecl CloseOnExit() {
+    #pragma EXPORT
 }

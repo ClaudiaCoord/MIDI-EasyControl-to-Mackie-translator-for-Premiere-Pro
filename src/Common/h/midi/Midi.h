@@ -15,20 +15,6 @@
 namespace Common {
     namespace MIDI {
 
-        enum class ClassTypes : int {
-            ClassNone = 0,
-            ClassProxy,
-            ClassMixer,
-            ClassMonitor,
-            ClassMediaKey,
-            ClassMqttKey,
-            ClassLightKey,
-            ClassInMidi,
-            ClassOutMidi,
-            ClassOutMidiMackie,
-            ClassVirtualMidi
-        };
-
         enum FLAG_EXPORT MidiUnitType : uint8_t {
             FADER,
             SLIDER,
