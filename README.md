@@ -7,7 +7,7 @@
 [![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.1/MIDIMT_x86.msi)
 [![Download x64](https://img.shields.io/badge/Download-x64%2Fportable-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.1/MIDIMT_x64_Portable.zip)
 
-# MIDI EasyControl 9 - MIDI-MT is High Level Application Driver for USB MIDI Control Surface
+# MIDI-MT is High Level Application Driver for USB MIDI Control Surface
 
 MIDI-MT supports any control panels that work with a standard MIDI port of the device.
 For example, such as __WORDLE__, __Pyle Audio PMIDIPD30__, __LAUDIO__, __KORG__, produced by __FEGOO__ and other compatible __USB MIDI__ Control Surface.  
