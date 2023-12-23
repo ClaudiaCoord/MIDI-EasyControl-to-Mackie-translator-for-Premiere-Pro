@@ -53,7 +53,7 @@ You can create a "common port" that will receive commands from __all MIDI device
 #### Use MIDI-MT as a Mixer of audio sessions of running applications
 <details>  
 
-Application Audio Session Management:  
+Advanced applications Audio Session Management:  
 You can control audio sessions of running applications from a __MIDI Control Surface__, or from the built-in Audio panel.
 
 It is especially important to use the [built-in audio mixer](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN-Mixer) to control sound in __Windows 11__, where the usual sound controls have been removed, and access to existing ones involves a long journey through the settings menu.
