@@ -106,7 +106,7 @@ __MIDI-MT__ supports [both](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-
 
 ## About dependencies
 
-The application uses the MIDI driver Tobias Erichsen v1.3.0.43 dated 2019-12-02, to install the drivers visit the site,  
+The application uses the MIDI driver Tobias Erichsen `v1.3.0.43` dated `2019-12-02`, to install the drivers visit the site,  
 and install [loopmidi](https://www.tobias-erichsen.de/software/loopmidi.html) or [rtpmidi](https://www.tobias-erichsen.de/software/rtpmidi.html)  
 These distributions include the drivers necessary for operation.  
 The loopMIDI application itself is useful, allowing you to experiment with connecting and switching MIDI equipment.  
