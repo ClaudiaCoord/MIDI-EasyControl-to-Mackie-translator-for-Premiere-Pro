@@ -12,7 +12,7 @@
 MIDI-MT supports any control panels that work with a standard MIDI port of the device.
 For example, such as __WORDLE__, __Pyle Audio PMIDIPD30__, __LAUDIO__, __KORG__, produced by __FEGOO__ and other compatible __USB MIDI__ Control Surface.  
 
-Compatible x64/x86 Windows 10,11.  
+Compatible `x64/x86` `Windows 10/11`.  
 
 ![MIDI EasyControl 9 MIDI-MT](https://claudiacoord.github.io/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/Images/web-logo.png)  
 
