@@ -86,7 +86,7 @@ The __DMX512__ protocol is designed to control lighting fixtures. It allows you 
 
 The __ArtNet__ protocol is a network version of the __DMX512__ protocol. Distributed over a local network by sending to broadcast addresses. In this case, the end equipment must support the __ArtNet__ protocol, or a gate must be installed to convert __ArtNet__ network packets to the __DMX512__ protocol.
 
-__MIDI-MT__ supports both of these protocols, both simultaneous and separate operation is possible.
+__MIDI-MT__ supports [both](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/EN-Lighting-control) of these protocols, both simultaneous and separate operation is possible.
 </details>
 
 ## EASYCONTROL 9 - USB MIDI Control Surface features:
