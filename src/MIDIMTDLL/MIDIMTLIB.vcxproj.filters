@@ -46,6 +46,12 @@
     <Filter Include="Файлы заголовков\json">
       <UniqueIdentifier>{23471283-f6d5-4f96-8401-11ef7796a071}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\remote">
+      <UniqueIdentifier>{38e3b3e0-4045-4b24-b987-107a74030988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\remote">
+      <UniqueIdentifier>{720ad308-2880-479e-96e1-ee29d2511a3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -125,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="..\Common\h\mqtt\BrokerConfig.h">
       <Filter>Файлы заголовков\mqtt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\remote\RemoteConfig.h">
+      <Filter>Файлы заголовков\remote</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\h\light\ArtnetPacket.h">
       <Filter>Файлы заголовков\light</Filter>
@@ -274,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="cpp\light\LightsConfig.cpp">
       <Filter>Исходные файлы\light</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\remote\RemoteConfig.cpp">
+      <Filter>Исходные файлы\remote</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

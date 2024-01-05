@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON::JSON
 
@@ -29,6 +29,7 @@ namespace Common {
 			void ReadMqttConfig(Tiny::TinyJson&, MQTT::BrokerConfig<std::wstring>&);
 			void ReadMMkeyConfig(Tiny::TinyJson&, MIDI::MMKeyConfig&);
 			void ReadLightConfig(Tiny::TinyJson&, LIGHT::LightsConfig&);
+			void ReadRemoteConfig(Tiny::TinyJson&, REMOTE::RemoteConfig<std::wstring>&);
 			void ReadLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void ReadLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);
 
@@ -39,6 +40,7 @@ namespace Common {
 			void WriteMidiConfig(Tiny::TinyJson&, MIDI::MidiConfig&);
 			void WriteMqttConfig(Tiny::TinyJson&, MQTT::BrokerConfig<std::wstring>&);
 			void WriteMMkeyConfig(Tiny::TinyJson&, MIDI::MMKeyConfig&);
+			void WriteRemoteConfig(Tiny::TinyJson&, REMOTE::RemoteConfig<std::wstring>&);
 			void WriteLightConfig(Tiny::TinyJson&, LIGHT::LightsConfig&);
 			void WriteLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void WriteLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);

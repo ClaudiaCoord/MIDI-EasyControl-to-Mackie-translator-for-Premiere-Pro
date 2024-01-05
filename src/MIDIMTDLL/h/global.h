@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMTLIB DLL
 
@@ -44,6 +44,7 @@ class common_event;
 #include "..\..\Common\h\light\ArtnetInterfaceConfig.h"
 #include "..\..\Common\h\light\LightsConfig.h"
 #include "..\..\Common\h\mqtt\BrokerConfig.h"
+#include "..\..\Common\h\remote\RemoteConfig.h"
 #include "..\..\Common\h\midi\Mackie.h"
 #include "..\..\Common\h\midi\MackieHelper.h"
 #include "..\..\Common\h\midi\MidiData.h"

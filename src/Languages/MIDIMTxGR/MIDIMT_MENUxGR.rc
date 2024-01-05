@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "MQTT კონფიგურაციის ჩვენება",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "აჩვენე MMKEYS კონფიგურაცია",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "LIGTS კონფიგურაციის ჩვენება",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "დისტანციური კონფიგურაციის ჩვენება",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "აჩვენე DMX512 კონფიგურაცია",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ArtNet კონფიგურაციის ჩვენება",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -98,7 +99,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&ანიმაცია",			IDM_ANIMATION
         MENUITEM "&აპლიკაციის გზა",		IDM_APP_PATH
-        MENUITEM "დამაგრება & MIDI კონტროლი",	IDM_MIDI_BIND
+        MENUITEM "დაკავშირება &MIDI კონტროლი",	IDM_MIDI_BIND
         MENUITEM "პიკის და მოცულობის მრიცხველი",IDM_PEAK_METER
         MENUITEM "დაიმახსოვრე პოზიცია",		IDM_SAVE_POS
         MENUITEM SEPARATOR

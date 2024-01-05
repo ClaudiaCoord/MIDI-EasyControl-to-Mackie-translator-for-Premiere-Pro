@@ -19,4 +19,8 @@ constexpr std::wstring_view debug_trace_header_ = L"\t* Plugin call: "sv;
 #	define TRACE_CALLX(A)
 #endif
 
+extern "C" {
+	extern HMODULE GetCurrentDllHinstance();
+}
+
 #include "..\..\Common\rc\resource_midimt.h"

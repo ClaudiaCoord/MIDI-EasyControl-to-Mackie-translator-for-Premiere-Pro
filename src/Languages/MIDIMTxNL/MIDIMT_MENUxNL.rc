@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "toon MQTT-configuratie",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "toon MMKEYS-configuratie",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "toon LIGTS-configuratie",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "toon REMOTE-configuratie",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "toon de DMX512-configuratie",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "toon ArtNet-configuratie",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Toezichthouders.."
+        POPUP "Toezichthouders..."
         BEGIN
             MENUITEM "Stripregelaar",        IDM_COL3_SLIDER
             MENUITEM "Stripregelaar met inversie", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Niet toegewezen",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Toezichthouders..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Toezichthouders...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Toetsen..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Controle verwijst naar audiomixer", IDM_COL4_VOLUMEMIX

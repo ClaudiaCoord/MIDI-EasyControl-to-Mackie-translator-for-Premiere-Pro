@@ -42,7 +42,7 @@ CAPTION "MIDI команден монитор"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     GROUPBOX        "Команден монитор",IDC_STATIC,9,4,285,54
-    LTEXT           "MIDI Command Monitor ще ви помогне да определите как е конфигуриран контролерът. За да започнете тестването, щракнете върху бутона “Старт”. Използвайки различните контроли на вашия контролер, ще получавате съобщения за сцената, номера и текущата стойност.",IDC_STATIC,15,18,274,34
+    LTEXT           "MIDI Command Monitor ще ви помогне да определите как е конфигуриран контролерът. За да започнете тестването, щракнете върху бутона “Старт”. Като използвате различните контроли на вашия контролер, ще получавате съобщения за сцената, номера и текущата стойност.",IDC_STATIC,15,18,274,34
     PUSHBUTTON      "Спри се",DLG_MONITOR_STOP,7,61,95,14,BS_FLAT | WS_DISABLED
     PUSHBUTTON      "Започнете",DLG_MONITOR_START,103,61,192,14,BS_FLAT
     EDITTEXT        DLG_MONITOR_BOX,7,78,287,160,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,WS_EX_CLIENTEDGE
@@ -163,7 +163,7 @@ BEGIN
     GROUPBOX        "Модул",IDC_STATIC,354,10,346,320
     ICON            ICON_PLUGIN_MODULES,DLG_START_PLACE_PLUGIN,357,19,340,308,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
     PUSHBUTTON      "&Старт",DLG_GO_START,5,319,184,16,BS_FLAT
-    PUSHBUTTON      "Запазете &настройките",DLG_SAVE,5,335,184,16,BS_FLAT
+    PUSHBUTTON      "Запазване на &настройките",DLG_SAVE,5,335,184,16,BS_FLAT
     PUSHBUTTON      "&За програмата..",DLG_GO_ABOUT,5,351,184,16,BS_FLAT
     PUSHBUTTON      "Актуализации",DLG_GO_UPDATE,5,367,184,16,BS_FLAT
     PUSHBUTTON      "&Близо",IDCANCEL,5,383,184,16,BS_FLAT
@@ -215,7 +215,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     GROUPBOX        "Мултимедийна клавиатура",IDC_STATIC,4,2,332,302
     CONTROL         "Включени",DLG_PLUG_MMKEY_ISENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,16,22,50,10
-    CONTROL         "Превод на MIDI входни команди в мултимедийни клавиатурни команди. Контролирайте възпроизвеждането на мултимедийни програми на трети страни.",IDC_STATIC,"Static",SS_SIMPLE | SS_PATHELLIPSIS | WS_GROUP,16,40,273,61
+    CONTROL         "Превод на MIDI входни команди в мултимедийни клавиатурни команди. Контролирайте възпроизвеждането на мултимедийни програми на трети страни.",IDC_STATIC,"Static",SS_SIMPLE | SS_REALSIZECONTROL | WS_GROUP,16,40,273,34,WS_EX_TRANSPARENT
     PUSHBUTTON      "&Запазване на настройките",DLG_PLUG_SAVE,188,285,86,16,BS_FLAT | WS_DISABLED
     PUSHBUTTON      "&Близо",IDCANCEL,274,285,58,16,BS_FLAT
 END
@@ -256,7 +256,7 @@ BEGIN
 END
 
 DLG_PLUG_LIGHT_WINDOW DIALOGEX 0, 0, 340, 308
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_SETFOREGROUND | DS_CONTROL | WS_POPUP
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_POPUP
 EXSTYLE WS_EX_CONTROLPARENT | WS_EX_NOACTIVATE
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -291,6 +291,40 @@ BEGIN
     CONTROL         "-",DLG_PLUG_LIGHT_ARTNET_BCAST,"Static",SS_SIMPLE | WS_GROUP,263,246,55,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
     ICON            ICON_PLUGIN_ARTNET,IDC_STATIC,44,206,48,48,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
     CONTROL         "Активиране на DMX пул (стандартно поведение)",DLG_PLUG_LIGHT_POLL,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,12,271,184,10
+    PUSHBUTTON      "&Запазване на настройките",DLG_PLUG_SAVE,188,285,86,16,BS_FLAT | WS_DISABLED
+    PUSHBUTTON      "&Близо",IDCANCEL,274,285,58,16,BS_FLAT
+END
+
+DLG_PLUG_REMOTE_WINDOW DIALOGEX 0, 0, 340, 308
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_POPUP
+EXSTYLE WS_EX_CONTROLPARENT | WS_EX_NOACTIVATE
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Контролен панел",IDC_STATIC,4,2,332,302
+    CONTROL         "Включени",DLG_PLUG_REMOTE_ISENABLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,11,17,50,10
+    GROUPBOX        "Мрежови настройки",IDC_STATIC,11,32,317,46
+    CONTROL         "Интерфейс:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,44,69,8,WS_EX_TRANSPARENT
+    COMBOBOX        DLG_PLUG_REMOTE_IFACE_COMBO,18,53,208,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "порт:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,233,44,40,8,WS_EX_TRANSPARENT
+    EDITTEXT        DLG_PLUG_REMOTE_PORT,232,53,60,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    ICON            ICON_PLUGIN_REMOTENET,IDC_STATIC,290,43,32,32,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
+    GROUPBOX        "Мрежов адрес на контролния панел",IDC_STATIC,11,83,317,49
+    CONTROL         "<a>http://localhost:8888</a>",DLG_PLUG_REMOTE_SYSLINK,"SysLink",WS_TABSTOP,18,96,272,13
+    CONTROL         "За достъп до контролния панел отворете този адрес в браузъра си след стартиране.",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,110,272,18,WS_EX_TRANSPARENT
+    PUSHBUTTON      "",DLG_PLUG_REMOTE_COPY_ADDR,296,95,24,24,BS_ICON | BS_FLAT
+    GROUPBOX        "Настроики",IDC_STATIC,11,138,317,141
+    CONTROL         "изчакване на връзката:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,158,85,8,WS_EX_TRANSPARENT
+    EDITTEXT        DLG_PLUG_REMOTE_TMC,119,155,31,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "таймаут за изчакване:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,174,85,8,WS_EX_TRANSPARENT
+    EDITTEXT        DLG_PLUG_REMOTE_TMI,119,172,32,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "използвайте IPv6",DLG_PLUG_REMOTE_ISIPV6,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,182,157,137,10
+    CONTROL         "бързо отваряне на гнездото",DLG_PLUG_REMOTE_ISFASTSOCK,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,182,171,137,10
+    CONTROL         "повторно използване на адреса",DLG_PLUG_REMOTE_ISREUSE,"Button",BS_AUTO3STATE | BS_FLAT | WS_TABSTOP,182,185,137,10
+    CONTROL         "ниво на регистриране на клиентска сесия:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,207,167,8,WS_EX_TRANSPARENT
+    COMBOBOX        DLG_PLUG_REMOTE_LOGLEVEL_COMBO,18,217,175,54,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Име и версия на сървъра:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,18,236,167,8,WS_EX_TRANSPARENT
+    CONTROL         "-",DLG_PLUG_REMOTE_UA,"Static",SS_SIMPLE | WS_GROUP,18,247,301,8,WS_EX_TRANSPARENT
+    ICON            ICON_PLUGIN_REMOTEOPT,IDC_STATIC,290,216,32,32,SS_CENTERIMAGE | SS_REALSIZEIMAGE,WS_EX_TRANSPARENT
     PUSHBUTTON      "&Запазване на настройките",DLG_PLUG_SAVE,188,285,86,16,BS_FLAT | WS_DISABLED
     PUSHBUTTON      "&Близо",IDCANCEL,274,285,58,16,BS_FLAT
 END

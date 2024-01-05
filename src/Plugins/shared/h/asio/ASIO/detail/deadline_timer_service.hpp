@@ -59,9 +59,9 @@ public:
   struct implementation_type
     : private asio::detail::noncopyable
   {
-    time_type expiry;
-    bool might_have_pending_waits;
-    typename timer_queue<Time_Traits>::per_timer_data timer_data;
+      time_type expiry{};
+      bool might_have_pending_waits{};
+      typename timer_queue<Time_Traits>::per_timer_data timer_data;
   };
 
   // Constructor.

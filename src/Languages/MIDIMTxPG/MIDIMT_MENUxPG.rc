@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "mostrar configuração MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "mostrar configuração MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "mostrar configuração LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "mostrar configuração REMOTA",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "mostrar configuração DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "mostrar configuração ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -130,7 +131,7 @@ BEGIN
             MENUITEM "Não atribuído",		IDM_LV_SET_NONE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Leia o código MIDI..",		IDM_LV_READ_MIDI_CODE
+        MENUITEM "Leia o código MIDI.",		IDM_LV_READ_MIDI_CODE
     END
 END
 
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Recursos do Premiere Pro..."
         BEGIN
-            POPUP "Funções do botão padrão..."
+            POPUP "Funções de botão padrão..."
             BEGIN
                 MENUITEM "Função 1",                   IDM_COL4_FUN11
                 MENUITEM "Função 2",                   IDM_COL4_FUN12

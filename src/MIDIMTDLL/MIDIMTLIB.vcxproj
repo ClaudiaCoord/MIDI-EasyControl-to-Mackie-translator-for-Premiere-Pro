@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(SolutionDir)Common\h\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -83,19 +83,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(SolutionDir)Common\h\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(SolutionDir)Common\h\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(SolutionDir)Common\h\</ExternalIncludePath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
@@ -232,6 +232,7 @@
     <ClInclude Include="..\Common\h\plugins\plugin_types.h" />
     <ClInclude Include="..\Common\h\plugins\plugin_ui.h" />
     <ClInclude Include="..\Common\h\registry.h" />
+    <ClInclude Include="..\Common\h\remote\RemoteConfig.h" />
     <ClInclude Include="..\Common\h\seh_exception.h" />
     <ClInclude Include="..\Common\h\common_timer.h" />
     <ClInclude Include="..\Common\h\ui_themes.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="cpp\midi\MidiData.cpp" />
     <ClCompile Include="cpp\midi\MidiHelper.cpp" />
     <ClCompile Include="cpp\mqtt\BrokerConfig.cpp" />
+    <ClCompile Include="cpp\remote\RemoteConfig.cpp" />
     <ClCompile Include="cpp\plugins\plugin.cpp" />
     <ClCompile Include="cpp\plugins\plugin_cb.cpp" />
     <ClCompile Include="cpp\plugins\plugin_helper.cpp" />

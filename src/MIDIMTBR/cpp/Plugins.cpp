@@ -1,7 +1,7 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ In/Out Event bridge.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMTBR DLL
 
@@ -141,7 +141,7 @@ namespace Common {
 
 						try {
 							auto obj = PluginObject::Build(f.path().wstring());
-							if (obj->empty()) continue;
+							if (!obj || obj->empty()) continue;
 							IO::PluginCb& pcb = obj->plugin()->GetPluginCb();
 							if (pcb.empty()) continue;
 
@@ -170,7 +170,7 @@ namespace Common {
 
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 					if (!p) continue;
 
@@ -196,7 +196,7 @@ namespace Common {
 
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 
 					if (p->started()) {
@@ -221,7 +221,7 @@ namespace Common {
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 
 					if (p->started()) (void) p->stop();
@@ -245,7 +245,7 @@ namespace Common {
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 
 					if (p->enabled()) {
@@ -263,7 +263,7 @@ namespace Common {
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 
 					if (p->enabled()) {
@@ -284,7 +284,7 @@ namespace Common {
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 
 				for (auto& obj : plugins_) {
-					if (obj->empty()) continue;
+					if (!obj || obj->empty()) continue;
 					IO::Plugin* p = obj->plugin();
 
 					if (p->enabled() && p->configure()) return true;

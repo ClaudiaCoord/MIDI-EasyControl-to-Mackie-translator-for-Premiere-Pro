@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "visa MQTT-konfiguration",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "visa MMKEYS-konfiguration",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "visa LIGTS-konfiguration",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "visa FJÄRR-konfiguration",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "visa DMX512-konfiguration",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "visa ArtNet-konfigurationen",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Premiere Pro-funktioner..."
         BEGIN
-            POPUP "Standardknappfunktioner..."
+            POPUP "Funktioner för standardknappen..."
             BEGIN
                 MENUITEM "Funktion 1",                   IDM_COL4_FUN11
                 MENUITEM "Funktion 2",                   IDM_COL4_FUN12

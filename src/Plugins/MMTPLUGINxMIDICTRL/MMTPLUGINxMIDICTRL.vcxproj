@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{856364ff-cb6e-464c-9041-f18758158c48}</ProjectGuid>
+    <ProjectGuid>{856364ff-cb6e-464c-9044-f18758158c02}</ProjectGuid>
     <RootNamespace>Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -71,25 +71,25 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)EASYCTRL9\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>

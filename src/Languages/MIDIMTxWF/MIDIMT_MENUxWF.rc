@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "show MQTT konfiguraasje",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "show MMKEYS konfiguraasje",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "show LIGTS konfiguraasje",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "show REMOTE konfiguraasje",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "show DMX512 konfiguraasje",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "show ArtNet konfiguraasje",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulators.."
+        POPUP "Regulators..."
         BEGIN
             MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Strip Regulator mei Inversion", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Net tawiisd",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulators..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Regulators...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Knoppen..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontrôle ferwiist nei audiomixer", IDM_COL4_VOLUMEMIX

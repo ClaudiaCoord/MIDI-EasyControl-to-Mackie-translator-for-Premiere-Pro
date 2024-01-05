@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "zobraziť konfiguráciu MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "zobraziť konfiguráciu MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "zobraziť konfiguráciu LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "zobraziť DIAĽKOVÚ konfiguráciu",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "zobraziť konfiguráciu DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "zobraziť konfiguráciu ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Funkcie Premiere Pro..."
         BEGIN
-            POPUP "Funkcie štandardného tlačidla..."
+            POPUP "Štandardné funkcie tlačidiel..."
             BEGIN
                 MENUITEM "Funkcia 1",                   IDM_COL4_FUN11
                 MENUITEM "Funkcia 2",                   IDM_COL4_FUN12

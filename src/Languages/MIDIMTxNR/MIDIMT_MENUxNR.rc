@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "vis MQTT-konfigurasjon",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "vis MMKEYS-konfigurasjon",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "vis LIGTS-konfigurasjon",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "vis REMOTE-konfigurasjonen",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "vis DMX512-konfigurasjon",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "vis ArtNet-konfigurasjonen",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulatorer.."
+        POPUP "Regulatorer..."
         BEGIN
             MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Strip Regulator med inversjon", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Ikke tilordnet",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatorer..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Regulatorer...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Knapper..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontroll refererer til lydmikser", IDM_COL4_VOLUMEMIX

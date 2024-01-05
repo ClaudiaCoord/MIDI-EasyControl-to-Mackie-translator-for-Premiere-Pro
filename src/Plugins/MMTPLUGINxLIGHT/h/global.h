@@ -1,7 +1,7 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ In/Out Event bridge.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MMTPLUGINx* DLL (LightKeysPlugin)
 
@@ -13,12 +13,12 @@
 
 #include "MIDIMTApi.h"
 #include "MIDIMTVEUIApi.h"
-#include "../../shared/h/dllmacro.h"
+#include "..\..\shared\h\dllmacro.h"
 
 #define FLAG_EXPORT __declspec(dllexport)
 
-#include "asio.h"
-#include "enumser\enumser.h"
+#include "..\..\shared\h\asio\asio.h"
+#include "..\..\shared\h\enumser\enumser.h"
 #include "DeviceClassInterface.h"
 #include "DMXClassInterface.h"
 #include "UdpPort.h"

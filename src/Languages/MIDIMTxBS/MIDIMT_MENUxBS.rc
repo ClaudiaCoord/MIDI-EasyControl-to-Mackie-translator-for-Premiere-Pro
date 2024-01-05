@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "prikaži MQTT konfiguraciju",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "prikaži MMKEYS konfiguraciju",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "prikaži LIGTS konfiguraciju",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "prikaži REMOTE konfiguraciju",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "prikaži konfiguraciju DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "prikaži ArtNet konfiguraciju",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -61,7 +62,7 @@ END
 
 DLG_START_MENU MENU
 BEGIN
-    MENUITEM "počni",				DLG_GO_START
+    MENUITEM "start",				DLG_GO_START
     MENUITEM "stani",				DLG_GO_STOP
     MENUITEM "sačuvajte postavke",		DLG_SAVE
     MENUITEM "pomoć",				DLG_GO_HELP
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulatori.."
+        POPUP "Regulatori..."
         BEGIN
             MENUITEM "Strip Regulator",        IDM_COL3_SLIDER
             MENUITEM "Regulator trake sa inverzijom", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Nedodijeljeno",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatori..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Regulatori...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Dugmad..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Kontrola se odnosi na audio mikser", IDM_COL4_VOLUMEMIX
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Premiere Pro ima..."
         BEGIN
-            POPUP "Standardne funkcije dugmadi..."
+            POPUP "Funkcije standardnog dugmeta..."
             BEGIN
                 MENUITEM "Funkcija 1",                   IDM_COL4_FUN11
                 MENUITEM "Funkcija 2",                   IDM_COL4_FUN12
@@ -277,7 +278,7 @@ BEGIN
                 MENUITEM "uključeno/isključeno 17",                 IDM_COL4_B28
                 MENUITEM "uključeno/isključeno 18",                 IDM_COL4_B29
                 MENUITEM "uključeno/isključeno 19",                 IDM_COL4_B31
-                MENUITEM "uključeno/isključeno 20",                 IDM_COL4_B32
+                MENUITEM "uključen/isključen 20",                 IDM_COL4_B32
                 MENUITEM "uključeno/isključeno 21",                 IDM_COL4_B33
                 MENUITEM "uključeno/isključeno 22",                 IDM_COL4_B34
                 MENUITEM "uključeno/isključeno 23",                 IDM_COL4_B35
@@ -494,7 +495,7 @@ BEGIN
     MENUITEM "uključeno/isključeno 17",                     IDM_COL4_B28
     MENUITEM "uključeno/isključeno 18",                     IDM_COL4_B29
     MENUITEM "uključeno/isključeno 19",                     IDM_COL4_B31
-    MENUITEM "uključeno/isključeno 20",                     IDM_COL4_B32
+    MENUITEM "uključen/isključen 20",                     IDM_COL4_B32
     MENUITEM "uključeno/isključeno 21",                     IDM_COL4_B33
     MENUITEM "uključeno/isključeno 22",                     IDM_COL4_B34
     MENUITEM "uključeno/isključeno 23",                     IDM_COL4_B35

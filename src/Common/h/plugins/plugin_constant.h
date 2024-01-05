@@ -1,7 +1,7 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ In/Out Event bridge.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMMT DLL + MIDIMTBR DLL
 
@@ -38,6 +38,7 @@ namespace Common {
 			ClassMediaKey,
 			ClassMqttKey,
 			ClassLightKey,
+			ClassRemote,
 			ClassInMidi,
 			ClassOutMidi,
 			ClassOutMidiMackie,

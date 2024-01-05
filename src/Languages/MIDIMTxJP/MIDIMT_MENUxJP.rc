@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "MQTT 構成を表示",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "MMKEYS 設定を表示",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "LIGTS 構成を表示",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "REMOTE設定を表示",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "DMX512 構成を表示",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ArtNet 構成を表示",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -229,7 +230,7 @@ BEGIN
             MENUITEM "右（ジョイスティック）",           IDM_COL4_SYS_Right
             MENUITEM "左 (ジョイスティック)",            IDM_COL4_SYS_Left
             MENUITEM "ズームイン",         IDM_COL4_SYS_Zoom
-            MENUITEM "ゴシゴシ",               IDM_COL4_SYS_Scrub
+            MENUITEM "スクラブ",               IDM_COL4_SYS_Scrub
         END
         POPUP "プレミアプロの機能..."
         BEGIN
@@ -438,7 +439,7 @@ BEGIN
         MENUITEM "右（ジョイスティック）",           IDM_COL4_SYS_Right
         MENUITEM "左 (ジョイスティック)",           IDM_COL4_SYS_Left
         MENUITEM "ズームイン",         IDM_COL4_SYS_Zoom
-        MENUITEM "ゴシゴシ",               IDM_COL4_SYS_Scrub
+        MENUITEM "スクラブ",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
         MENUITEM "未割り当て",               IDM_COL4_NONE
     END

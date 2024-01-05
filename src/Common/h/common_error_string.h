@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON
 
@@ -96,6 +96,8 @@ namespace Common {
 		L"The Smart-Home control service is running."sv,
 		L"The Smart-Home control service has stopped."sv,
 		L"CA certificate"sv,
+
+		/* Common::MIDIMT log level */
 		L"no log is maintained"sv,
 		L"information"sv,
 		L"notifications"sv,
@@ -151,6 +153,18 @@ namespace Common {
 		L"Configuration loaded from driver"sv,
 		L"The selected {0} language will be active after the window is restarted."sv,
 		L"Installed Virtual MIDI driver version: {0}"sv,
+
+		/* Common::Remote */
+		L"The remote control service is running."sv,
+		L"The remote control service has stopped."sv,
+		L"New client {0}/{1} connected."sv,
+		L"Client {0}/{1} error, {2}."sv,
+		L"Client {0}/{1} closed, status: {2} - {3}."sv,
+
+		/* All other */
+		L"Link copied to clipboard."sv,
+		L"No network interfaces.."sv,
+		L"Select network interface.."sv,
 
 		/* err_NONE */
 		L"-"sv

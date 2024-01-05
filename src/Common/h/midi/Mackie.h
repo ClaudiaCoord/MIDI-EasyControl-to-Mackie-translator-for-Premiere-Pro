@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON::MIDI
 
@@ -17,20 +17,8 @@ namespace Common {
 
 		class FLAG_EXPORT MidiUnit;
 
-		class FLAG_EXPORT Mackie
-		{
+		class FLAG_EXPORT Mackie {
 		public:
-			union FLAG_EXPORT MIDIDATA {
-				uint8_t data[4];
-				DWORD send;
-				void Set(uint8_t type, uint8_t id, uint8_t val, uint8_t ext = 0x0);
-				void SetValue(bool b);
-				uint8_t scene();
-				uint8_t key();
-				uint8_t value();
-				std::wstring Dump();
-				std::wstring UiDump();
-			};
 
 			enum class Types : uint8_t {
 				NoteOn = 0x90,
@@ -113,6 +101,22 @@ namespace Common {
 				ClickTrigger,
 				ClickSlider,
 				ClickUnknown = 255
+			};
+
+			union FLAG_EXPORT MIDIDATA {
+				uint8_t data[4]{};
+				DWORD send;
+
+				void Set(uint8_t type, uint8_t id, uint8_t val, uint8_t ext = 0x0);
+				void SetValue(bool b);
+				uint8_t scene() const;
+				uint8_t key() const;
+				uint8_t value() const;
+				Target target() const;
+				std::wstring dump();
+				std::wstring dump_ui();
+				const bool empty() const;
+				const bool equals(MIDIDATA&) const;
 			};
 
 			static bool SelectorTarget(MidiUnit& unit, MIDIDATA& m, IO::PluginClassTypes t);

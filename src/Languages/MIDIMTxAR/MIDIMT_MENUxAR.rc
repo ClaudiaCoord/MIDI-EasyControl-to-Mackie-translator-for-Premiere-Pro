@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "ցույց տալ MQTT կոնֆիգուրացիան",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "ցույց տալ MMKEYS կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "ցույց տալ LIGTS կոնֆիգուրացիան",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "ցույց տալ REMOTE կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "ցույց տալ DMX512 կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ցույց տալ ArtNet-ի կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -123,7 +124,7 @@ BEGIN
             MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_LV_SET_MQTT
 	    POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	    BEGIN
-		MENUITEM "8 բիթ ալիք (ստանդարտ)", IDM_LV_SET_LIGHTKEY8B
+		MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_LV_SET_LIGHTKEY8B
 		MENUITEM "16 բիթ ալիք (ընդլայնված)", IDM_LV_SET_LIGHTKEY16B
 	    END
             MENUITEM SEPARATOR
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Կարգավորողներ.."
+        POPUP "Կարգավորող..."
         BEGIN
             MENUITEM "Շերտի կարգավորիչ",        IDM_COL3_SLIDER
             MENUITEM "Շերտի կարգավորիչ ինվերսիայով", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Չնշանակված",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Կարգավորողներ..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Կարգավորող...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Կոճակներ..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Վերահսկումը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
@@ -175,7 +176,7 @@ BEGIN
         MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
-	   MENUITEM "8 բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "16 բիթ ալիք (ընդլայնված)", IDM_COL4_LIGHTKEY16B
 	END
     END
@@ -200,7 +201,7 @@ BEGIN
                 MENUITEM "ալիք 4",                     IDM_COL4_B24
                 MENUITEM "ալիք 5",                     IDM_COL4_B25
                 MENUITEM "ալիք 6",                     IDM_COL4_B26
-                MENUITEM "ալիք 7",                     IDM_COL4_B27
+                MENUITEM "7-րդ ալիք",                     IDM_COL4_B27
                 MENUITEM "ալիք 8",                     IDM_COL4_B28
                 MENUITEM "ալիք 9",                     IDM_COL4_B29
             END
@@ -212,7 +213,7 @@ BEGIN
                 MENUITEM "ալիք 4",                     IDM_COL4_B14
                 MENUITEM "ալիք 5",                     IDM_COL4_B15
                 MENUITEM "ալիք 6",                     IDM_COL4_B16
-                MENUITEM "ալիք 7",                     IDM_COL4_B17
+                MENUITEM "7-րդ ալիք",                     IDM_COL4_B17
                 MENUITEM "ալիք 8",                     IDM_COL4_B18
                 MENUITEM "ալիք 9",                     IDM_COL4_B19
             END
@@ -224,7 +225,7 @@ BEGIN
             MENUITEM "Նախորդ",                  IDM_COL4_SYS_Rewind
             MENUITEM "Հաջորդը",                   IDM_COL4_SYS_Forward
             MENUITEM "Գրառում",                      IDM_COL4_SYS_Record
-            MENUITEM "Վերև (ջոյստիկ)",            IDM_COL4_SYS_Up
+            MENUITEM "Վերև (ջոյսթիկ)",            IDM_COL4_SYS_Up
             MENUITEM "Ներքև (ջոյսթիկ)",             IDM_COL4_SYS_Down
             MENUITEM "Աջ (ջոյսթիկ)",           IDM_COL4_SYS_Right
             MENUITEM "Ձախ (ջոյստիկ)",            IDM_COL4_SYS_Left
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Premiere Pro-ի առանձնահատկությունները..."
         BEGIN
-            POPUP "Ստանդարտ կոճակի գործառույթները..."
+            POPUP "Ստանդարտ կոճակների գործառույթներ..."
             BEGIN
                 MENUITEM "Գործառույթ 1",                   IDM_COL4_FUN11
                 MENUITEM "Գործառույթ 2",                   IDM_COL4_FUN12
@@ -292,7 +293,7 @@ BEGIN
         MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
-	   MENUITEM "8 բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "16 բիթ ալիք (ընդլայնված)", IDM_COL4_LIGHTKEY16B
 	END
     END
@@ -307,7 +308,7 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Ձայնային կառավարում..."
         BEGIN
-            MENUITEM "Ծավալ (գլխավոր)",          IDM_COL4_MAV
+            MENUITEM "Ծավալը (գլխավոր)",          IDM_COL4_MAV
             MENUITEM "Մնացորդ (վարպետ)",             IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Ծավալը.."
@@ -318,7 +319,7 @@ BEGIN
                 MENUITEM "ալիք 4",                     IDM_COL4_AV4
                 MENUITEM "ալիք 5",                     IDM_COL4_AV5
                 MENUITEM "ալիք 6",                     IDM_COL4_AV6
-                MENUITEM "ալիք 7",                     IDM_COL4_AV7
+                MENUITEM "7-րդ ալիք",                     IDM_COL4_AV7
                 MENUITEM "ալիք 8",                     IDM_COL4_AV8
                 MENUITEM "ալիք 9",                     IDM_COL4_XV9
             END
@@ -330,7 +331,7 @@ BEGIN
                 MENUITEM "ալիք 4",                     IDM_COL4_AP4
                 MENUITEM "ալիք 5",                     IDM_COL4_AP5
                 MENUITEM "ալիք 6",                     IDM_COL4_AP6
-                MENUITEM "ալիք 7",                     IDM_COL4_AP7
+                MENUITEM "7-րդ ալիք",                     IDM_COL4_AP7
                 MENUITEM "ալիք 8",                     IDM_COL4_AP8
                 MENUITEM "ալիք 9",                     IDM_COL4_XP9
             END
@@ -362,7 +363,7 @@ BEGIN
         MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
-	   MENUITEM "8 բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
+	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "16 բիթ ալիք (ընդլայնված)", IDM_COL4_LIGHTKEY16B
 	END
     END
@@ -372,7 +373,7 @@ DLG_EDIT_LV_COL5_SLIDER_MIX_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER MIXER MENU"
     BEGIN
-        MENUITEM "Ծավալ (գլխավոր)",          IDM_COL4_MAV
+        MENUITEM "Ծավալը (գլխավոր)",          IDM_COL4_MAV
         MENUITEM "Կոդավորիչ (JOG)",               IDM_COL4_JOG
         MENUITEM SEPARATOR
         POPUP "Ծավալը.."
@@ -383,7 +384,7 @@ BEGIN
             MENUITEM "ալիք 4",                     IDM_COL4_AV4
             MENUITEM "ալիք 5",                     IDM_COL4_AV5
             MENUITEM "ալիք 6",                     IDM_COL4_AV6
-            MENUITEM "ալիք 7",                     IDM_COL4_AV7
+            MENUITEM "7-րդ ալիք",                     IDM_COL4_AV7
             MENUITEM "ալիք 8",                     IDM_COL4_AV8
             MENUITEM "ալիք 9",			    IDM_COL4_XV9
             MENUITEM "ալիք 10",                    IDM_COL4_AP1
@@ -415,7 +416,7 @@ BEGIN
             MENUITEM "ալիք 4",                     IDM_COL4_B24
             MENUITEM "ալիք 5",                     IDM_COL4_B25
             MENUITEM "ալիք 6",                     IDM_COL4_B26
-            MENUITEM "ալիք 7",                     IDM_COL4_B27
+            MENUITEM "7-րդ ալիք",                     IDM_COL4_B27
             MENUITEM "ալիք 8",                     IDM_COL4_B28
             MENUITEM "ալիք 9",                     IDM_COL4_B29
         END
@@ -433,7 +434,7 @@ BEGIN
         MENUITEM "Նախորդ",                  IDM_COL4_SYS_Rewind
         MENUITEM "Հաջորդը",                   IDM_COL4_SYS_Forward
         MENUITEM "Գրառում",                      IDM_COL4_SYS_Record
-        MENUITEM "Վերև (ջոյստիկ)",           IDM_COL4_SYS_Up
+        MENUITEM "Վերև (ջոյսթիկ)",           IDM_COL4_SYS_Up
         MENUITEM "Ներքև (ջոյսթիկ)",           IDM_COL4_SYS_Down
         MENUITEM "Աջ (ջոյսթիկ)",           IDM_COL4_SYS_Right
         MENUITEM "Ձախ (ջոյստիկ)",           IDM_COL4_SYS_Left

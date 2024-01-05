@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMMT DLL - main config read/write
 
@@ -41,6 +41,7 @@ namespace Common {
 			static constexpr std::wstring_view APPS = L"apps"sv;
 			static constexpr std::wstring_view VALUE = L"value"sv;
 			static constexpr std::wstring_view ONOF = L"onoff"sv;
+			static constexpr std::wstring_view LOGLEVEL = L"loglevel"sv;
 
 			static constexpr std::wstring_view MIDI = L"midi"sv;
 			static constexpr std::wstring_view MIDICTRL = L"midictrl"sv;
@@ -63,7 +64,14 @@ namespace Common {
 			static constexpr std::wstring_view MQTT_PREF = L"prefix"sv;
 			static constexpr std::wstring_view MQTT_CAPATH = L"certcapath"sv;
 			static constexpr std::wstring_view MQTT_SSIGN = L"selfsigned"sv;
-			static constexpr std::wstring_view MQTT_LLEVEL = L"loglevel"sv;
+
+			static constexpr std::wstring_view REMOTE = L"remote"sv;
+			static constexpr std::wstring_view NET_UA = L"ua"sv;
+			static constexpr std::wstring_view TIMEOUT_REQ = L"tmreq"sv;
+			static constexpr std::wstring_view TIMEOUT_IDLE = L"tmidle"sv;
+			static constexpr std::wstring_view NET_IPV6 = L"ipv6"sv;
+			static constexpr std::wstring_view NET_REUSEADDR = L"reuseaddr"sv;
+			static constexpr std::wstring_view NET_FASTSOCK = L"fastsock"sv;
 
 			static constexpr std::wstring_view LIGHTS = L"lights"sv;
 			static constexpr std::wstring_view LIGHTS_DMX = L"dmx"sv;
@@ -92,6 +100,7 @@ namespace Common {
 						ReadMqttConfig(pjson, mmt->mqttconf);
 						ReadMMkeyConfig(pjson, mmt->mmkeyconf);
 						ReadLightConfig(pjson, mmt->lightconf);
+						ReadRemoteConfig(pjson, mmt->remoteconf);
 
 						if (issetreg)
 							common_config::Get().Registry.SetConfPath(confname);
@@ -326,7 +335,7 @@ namespace Common {
 				cnf.sslpsk = mdata.Get<std::wstring>(JsonNames::MQTT_SSLPSK.data());
 				cnf.certcapath = mdata.Get<std::wstring>(JsonNames::MQTT_CAPATH.data());
 				cnf.port = mdata.Get<uint32_t>(JsonNames::PORT.data(), 0);
-				cnf.loglevel = mdata.Get<int32_t>(JsonNames::MQTT_LLEVEL.data(), 0);
+				cnf.loglevel = mdata.Get<int32_t>(JsonNames::LOGLEVEL.data(), 0);
 				cnf.isssl = mdata.Get<bool>(JsonNames::MQTT_ISSSL.data(), false);
 				cnf.isselfsigned = mdata.Get<bool>(JsonNames::MQTT_SSIGN.data(), true);
 
@@ -355,6 +364,35 @@ namespace Common {
 						__FUNCTIONW__,
 						common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY_NAME),
 						JsonNames::MMKEY.data()
+					);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void json_config::ReadRemoteConfig(Tiny::TinyJson& root, REMOTE::RemoteConfig<std::wstring>& cnf) {
+			try {
+				Tiny::xobject mdata = root.Get<Tiny::xobject>(JsonNames::REMOTE.data());
+				if (!mdata.Count()) return;
+
+				mdata.Enter();
+
+				cnf.enable = mdata.Get<bool>(JsonNames::ENABLE.data(), false);
+				cnf.host = mdata.Get<std::wstring>(JsonNames::HOST.data());
+				cnf.server_ua = mdata.Get<std::wstring>(JsonNames::NET_UA.data());
+				cnf.port = mdata.Get<uint32_t>(JsonNames::PORT.data(), 8888);
+				cnf.timeoutreq = mdata.Get<int32_t>(JsonNames::TIMEOUT_REQ.data(), 0);
+				cnf.timeoutidle = mdata.Get<int32_t>(JsonNames::TIMEOUT_IDLE.data(), 0);
+				cnf.loglevel = mdata.Get<uint16_t>(JsonNames::LOGLEVEL.data(), 1);
+				cnf.isipv6 = mdata.Get<bool>(JsonNames::NET_IPV6.data(), false);
+				cnf.isreuseaddr = mdata.Get<bool>(JsonNames::NET_REUSEADDR.data(), true);
+				cnf.isfastsocket = mdata.Get<bool>(JsonNames::NET_FASTSOCK.data(), false);
+
+				if (cnf.empty())
+					to_log::Get() << log_string().to_log_format(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY_NAME),
+						JsonNames::REMOTE.data()
 					);
 
 			} catch (...) {
@@ -441,11 +479,12 @@ namespace Common {
 
 				return WriteFile(filepath,
 					[=](TinyJson& rjson, std::wstring& confname) -> bool {
-						if (!WriteUnitConfig(rjson, mmt)) return false;
 						WriteMidiConfig(rjson, mmt->midiconf);
 						WriteMqttConfig(rjson, mmt->mqttconf);
 						WriteMMkeyConfig(rjson, mmt->mmkeyconf);
 						WriteLightConfig(rjson, mmt->lightconf);
+						WriteRemoteConfig(rjson, mmt->remoteconf);
+						if (!WriteUnitConfig(rjson, mmt)) return false;
 
 						if (issetreg)
 							common_config::Get().Registry.SetConfPath(confname);
@@ -545,27 +584,31 @@ namespace Common {
 				mjson[JsonNames::MIDICTRL.data()].Set(std::move(cjson));
 
 				try {
-					TinyJson injson{};
+					TinyJson inmidi{};
+					inmidi[JsonNames::ENABLE.data()].Set<bool>(!cnf.midi_in_devices.empty());
 					if (!cnf.midi_in_devices.empty()) {
-						TinyJson mjin{};
+						TinyJson injdev{};
+						TinyJson din{};
 						for (auto& s : cnf.midi_in_devices)
-							mjin[JsonNames::EMPTY.data()].Set(s);
-						injson.Push(std::move(mjin));
+							din[JsonNames::EMPTY.data()].Set(s);
+						injdev.Push(std::move(din));
+						inmidi[JsonNames::PORT.data()].Set(std::move(injdev));
 					}
-					injson[JsonNames::ENABLE.data()].Set<bool>(!cnf.midi_in_devices.empty());
-					mjson[JsonNames::MIDI_DEV_IN.data()].Set(std::move(injson));
+					mjson[JsonNames::MIDI_DEV_IN.data()].Set(std::move(inmidi));
 				} catch (...) {}
 
 				try {
-					TinyJson outjson{};
+					TinyJson outmidi{};
+					outmidi[JsonNames::ENABLE.data()].Set<bool>(!cnf.midi_out_devices.empty());
 					if (!cnf.midi_out_devices.empty()) {
-						TinyJson mjout{};
+						TinyJson outjdev{};
+						TinyJson dout{};
 						for (auto& s : cnf.midi_out_devices)
-							mjout[JsonNames::EMPTY.data()].Set(s);
-						outjson.Push(std::move(mjout));
+							dout[JsonNames::EMPTY.data()].Set(s);
+						outjdev.Push(std::move(dout));
+						outmidi[JsonNames::PORT.data()].Set(std::move(outjdev));
 					}
-					outjson[JsonNames::ENABLE.data()].Set<bool>(!cnf.midi_out_devices.empty());
-					mjson[JsonNames::MIDI_DEV_OUT.data()].Set(std::move(outjson));
+					mjson[JsonNames::MIDI_DEV_OUT.data()].Set(std::move(outmidi));
 				} catch (...) {}
 
 				root[JsonNames::MIDI.data()].Set(std::move(mjson));
@@ -586,10 +629,31 @@ namespace Common {
 				mjson[JsonNames::MQTT_SSLPSK.data()].Set(cnf.sslpsk);
 				mjson[JsonNames::MQTT_CAPATH.data()].Set(cnf.certcapath);
 				mjson[JsonNames::PORT.data()].Set<uint32_t>(cnf.port);
-				mjson[JsonNames::MQTT_LLEVEL.data()].Set<int32_t>(cnf.loglevel);
+				mjson[JsonNames::LOGLEVEL.data()].Set<int32_t>(cnf.loglevel);
 				mjson[JsonNames::MQTT_ISSSL.data()].Set<bool>(cnf.isssl);
 				mjson[JsonNames::MQTT_SSIGN.data()].Set<bool>(cnf.isselfsigned);
 				root[JsonNames::MQTT.data()].Set(std::move(mjson));
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void json_config::WriteRemoteConfig(Tiny::TinyJson& root, REMOTE::RemoteConfig<std::wstring>& cnf) {
+			try {
+				if (cnf.empty()) return;
+				Tiny::TinyJson mjson{};
+				mjson[JsonNames::ENABLE.data()].Set<bool>(cnf.enable);
+				mjson[JsonNames::PORT.data()].Set<uint32_t>(cnf.port);
+				mjson[JsonNames::HOST.data()].Set(cnf.host);
+				mjson[JsonNames::NET_UA.data()].Set(cnf.server_ua);
+
+				mjson[JsonNames::TIMEOUT_REQ.data()].Set<int32_t>(cnf.timeoutreq);
+				mjson[JsonNames::TIMEOUT_IDLE.data()].Set<int32_t>(cnf.timeoutidle);
+				mjson[JsonNames::LOGLEVEL.data()].Set<int16_t>(cnf.loglevel);
+				mjson[JsonNames::NET_IPV6.data()].Set<bool>(cnf.isipv6);
+				mjson[JsonNames::NET_REUSEADDR.data()].Set<bool>(cnf.isreuseaddr);
+				mjson[JsonNames::NET_FASTSOCK.data()].Set<bool>(cnf.isfastsocket);
+				root[JsonNames::REMOTE.data()].Set(std::move(mjson));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -669,6 +733,9 @@ namespace Common {
 
 			ls << L"* " << JsonNames::LIGHTS << L" :: " << JsonNames::LIGHTS_DMX << L" :: " << JsonNames::LIGHTS_ARTNET << L":\n";
 			ls << mmt->lightconf.dump() << L"\n";
+
+			ls << L"* " << JsonNames::REMOTE << L":\n";
+			ls << mmt->remoteconf.dump() << L"\n\n";
 
 			ls << L"* " << JsonNames::UNITS << L":\n";
 			for (auto& u : mmt->units) {

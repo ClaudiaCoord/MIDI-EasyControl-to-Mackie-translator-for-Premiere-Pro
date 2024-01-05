@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMMT DLL
 
@@ -204,7 +204,7 @@ namespace Common
 		return getnumber_<bool>(RegNames::MixerFastValue, false);
 	}
 	bool		 registry::GetMixerSetOldLevelValue() {
-		return getnumber_<bool>(RegNames::MixerSetAudioLevelOldvalue, true);
+		return getnumber_<bool>(RegNames::MixerSetAudioLevelOldvalue, false);
 	}
 	bool		 registry::GetMixerDupAppRemove() {
 		return getnumber_<bool>(RegNames::MixerDupAppRemove, false);

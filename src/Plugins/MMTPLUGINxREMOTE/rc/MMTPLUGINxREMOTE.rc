@@ -1,0 +1,14 @@
+
+#include <windows.h>
+#include <CommCtrl.h>
+#include <SDKDDKVer.h>
+#include "MMTPLUGINxREMOTExRC.h"
+
+#include "..\..\Common\rc\resource_midimt.h"
+#include "..\..\Common\rc\resource_version.h"
+#include "..\..\Common\rc\resource_plugins.rc"
+
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(65001)
+
+IDR_ROOT_HTML	HTML	"html\\MMTPLUGINxREMOTE.html"

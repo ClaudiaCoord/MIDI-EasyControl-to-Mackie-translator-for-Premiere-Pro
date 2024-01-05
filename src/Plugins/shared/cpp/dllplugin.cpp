@@ -1,6 +1,6 @@
 ﻿/*
 	MIDI-MT plugins part.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	TEMPLATE MMTPLUGINx* DLL
 
@@ -22,10 +22,14 @@
 #pragma comment(lib, "comctl32.lib")
 
 extern "C" {
+	static HMODULE dll_hinstance_{ nullptr };
+	HMODULE GetCurrentDllHinstance();
 	void CloseOnExit();
 }
 
-BOOL APIENTRY DllMain(HMODULE, DWORD r, LPVOID) {
+BOOL APIENTRY DllMain(HMODULE h, DWORD r, LPVOID) {
+	dll_hinstance_ = h;
+
 	switch (r) {
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
@@ -48,8 +52,14 @@ BOOL APIENTRY DllMain(HMODULE, DWORD r, LPVOID) {
 	}
 #	endif
 
-extern "C" void CloseOnExit() {
-	#pragma EXPORT
+extern "C" {
+	void CloseOnExit() {
+		#pragma EXPORT
+	}
+	HMODULE GetCurrentDllHinstance() {
+		#pragma EXPORT
+		return dll_hinstance_;
+	}
 }
 
 #endif

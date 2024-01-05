@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON
 
@@ -99,7 +99,7 @@ namespace Common {
 		}
 		template<> inline void Value::Set(bool v) {
 			std::wostringstream oss;
-			std::wstring val = v == true ? L"\"true\"" : L"\"false\"";
+			std::wstring val = v == true ? L"true" : L"false";
 			if (nokey_)	oss << val;
 			else		oss << L"\"" << value_ << L"\"" << L":" << val;
 			value_ = oss.str();
@@ -161,8 +161,8 @@ namespace Common {
 			bool ReadJson(std::wstring json);
 			void Push(TinyJson item);
 			bool get_nokey();
-			std::wstring WriteJson();
-			std::wstring WriteJson(int type);
+			std::wstring WriteJson(const std::wstring& = L"");
+			std::wstring WriteJson(int type, const std::wstring & = L"");
 		};
 
 		FLAG_EXPORT std::wostream& operator << (std::wostream& os, TinyJson& ob);

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков\WS">
+      <UniqueIdentifier>{8e1f557f-270b-4b80-b7ef-b89c1b3e90c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HTML">
+      <UniqueIdentifier>{1d84ab17-8d8f-440c-b33d-bce6d4ea9b20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\global.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\MMTPLUGINxREMOTE.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\plugininfo.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\SetupDialog.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\WS\WSAKEY.h">
+      <Filter>Файлы заголовков\WS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\WS\WSASIO.h">
+      <Filter>Файлы заголовков\WS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\WS\WSSERVER.h">
+      <Filter>Файлы заголовков\WS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\WS\WSSTATUS.h">
+      <Filter>Файлы заголовков\WS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\WS\WSUTILITY.h">
+      <Filter>Файлы заголовков\WS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\ws.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\shared\cpp\dllplugin.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\MMTPLUGINxREMOTE.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\SetupDialog.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" />
+    <None Include="rc\html\index.scss">
+      <Filter>HTML</Filter>
+    </None>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="rc\MMTPLUGINxREMOTE.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

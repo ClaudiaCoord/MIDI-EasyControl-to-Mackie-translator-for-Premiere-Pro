@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "MQTT konfiguráció megjelenítése",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "MMKEYS konfiguráció megjelenítése",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "mutasd a LIGTS konfigurációt",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "a REMOTE konfiguráció megjelenítése",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "Mutasd a DMX512 konfigurációt",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "mutasd meg az ArtNet konfigurációját",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Szabályozók..."
+        POPUP "Szabályozók.."
         BEGIN
             MENUITEM "Szalagszabályzó",        IDM_COL3_SLIDER
             MENUITEM "Inverziós szalagszabályzó", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Nincs hozzárendelve",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Szabályozók...",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Szabályozók..",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Gombok..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "A vezérlés az audiokeverőre vonatkozik", IDM_COL4_VOLUMEMIX
@@ -390,7 +391,7 @@ BEGIN
             MENUITEM "11. csatorna",                    IDM_COL4_AP2
             MENUITEM "12. csatorna",                    IDM_COL4_AP3
             MENUITEM "csatorna 13",                    IDM_COL4_AP4
-            MENUITEM "csatorna 14",                    IDM_COL4_AP5
+            MENUITEM "14-es csatorna",                    IDM_COL4_AP5
             MENUITEM "15. csatorna",                    IDM_COL4_AP6
             MENUITEM "16-os csatorna",                    IDM_COL4_AP7
             MENUITEM "17-es csatorna",                    IDM_COL4_AP8

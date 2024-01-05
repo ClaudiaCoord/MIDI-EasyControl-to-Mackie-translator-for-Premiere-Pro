@@ -3,9 +3,9 @@
 [![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/wiki/RU)
 [![GitHub release](https://img.shields.io/github/release/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro.svg)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/)
 [![GitHub code size](https://img.shields.io/github/languages/code-size/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro)
-[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.1/MIDIMT_x64.msi)
-[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.1/MIDIMT_x86.msi)
-[![Download x64](https://img.shields.io/badge/Download-x64%2Fportable-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.1/MIDIMT_x64_Portable.zip)
+[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.2/MIDIMT_x64.msi)
+[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.2/MIDIMT_x86.msi)
+[![Download x64](https://img.shields.io/badge/Download-x64%2Fportable-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.2/MIDIMT_x64_Portable.zip)
 
 # MIDI EasyControl 9 - MIDI-MT is High Level Application Driver for USB MIDI Control Surface
 
@@ -51,6 +51,14 @@ Any __Smart Home__ control environments that are based on the MQTT exchange prot
     <summary> Smart House controls </summary>
     In the Smart Home system, the MQTT protocol must be at least level `5.0`,
     it is possible to work with earlier versions, but stability and full performance for all commands are not guaranteed.
+</details>
+
+#### Remote interactive control using a Web application  
+<details>
+
+Remote interactive control using the built-in __Web application__ is possible on any operating system. With its help, you can remotely manage all the controls that are defined in your configuration. The number of connected remote control panels is unlimited.  
+
+Any changes made using the `MIDI keyboard`, `control panels` and other input devices are immediately reflected on all control panels. For example, this can help control lighting fixtures with a team of operators. Also, when setting up sound in a studio, it is convenient to be able to regulate sound channels remotely, changing the sound level locally.  
 </details>
 
 ## EASYCONTROL 9 - usb midi controller features

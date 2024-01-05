@@ -18,6 +18,12 @@
     <ClInclude Include="h\global.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\h\enumser\enumser.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\h\asio\asio.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="h\MMTPLUGINxLIGHT.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -25,12 +31,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\SetupDialog.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\enumser\enumser.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="h\asio.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\DeviceClassInterface.h">
@@ -56,13 +56,13 @@
     <ClCompile Include="..\shared\cpp\dllplugin.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\cpp\enumser\enumser.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="cpp\MMTPLUGINxLIGHT.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\SetupDialog.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\enumser\enumser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpp\DMXArtnet.cpp">

@@ -1,7 +1,7 @@
 ﻿/*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ In/Out Event bridge.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MMTPLUGINx* DLL (MidiCtrlPlugin)
 
@@ -228,11 +228,11 @@ namespace Common {
 					return std::ref(export_list_);
 
 				for (auto& a : dev_in_list_)
-					export_list_.push_back(std::make_pair(1U, a->GetActiveDevice()));
+					export_list_.push_back(std::make_pair((uint16_t)1U, a->GetActiveDevice()));
 				for (auto& a : dev_out_list_)
-					export_list_.push_back(std::make_pair(2U, a->GetActiveDevice()));
+					export_list_.push_back(std::make_pair((uint16_t)2U, a->GetActiveDevice()));
 				for (auto& s : MIDI::MidiDevices::Get().GetMidiProxyDeviceList())
-					export_list_.push_back(std::make_pair(3U, std::wstring(s)));
+					export_list_.push_back(std::make_pair((uint16_t)3U, std::wstring(s)));
 
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 			return std::ref(export_list_);

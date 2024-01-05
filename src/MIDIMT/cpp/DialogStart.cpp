@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMT
 
@@ -51,7 +51,7 @@ namespace Common {
 		}
 
 		DialogStart::DialogStart()
-			: open_plugin_(IO::IOBridge::Get().GetEmptyPlugin()), index_plugin_(-1) {
+			: open_plugin_(IO::IOBridge::Get().GetEmptyPlugin()), last_selected_plugin_(-1) {
 			CbEvent::GetHwndCb = [=]() { return hwnd_.get(); };
 
 			uint16_t status_icos[]{ ICON_PLUGIN_MODULES, ICON_PLUGIN_STARTED };
@@ -251,14 +251,14 @@ namespace Common {
 					);
 					ListView_SetView(hi, LV_VIEW_TILE);
 
-					constexpr int width__ = 220;
+					static constexpr int width__ = 220;
 
 					LVCOLUMNW lvc{};
 					lvc.mask = LVCF_FMT | LVCF_WIDTH;
 					lvc.fmt = LVCFMT_LEFT;
 					lvc.cx = width__;
-					for (int32_t i = 0; i < 3; i++)
-						ListView_InsertColumn(hi, i, &lvc);
+					for (int32_t n = 0; n < 3; n++)
+						ListView_InsertColumn(hi, n, &lvc);
 
 					LVTILEVIEWINFO lvi{};
 					lvi.cbSize = sizeof(LVTILEVIEWINFO);
@@ -282,9 +282,10 @@ namespace Common {
 						IO::PluginInfo& pi = p.get()->GetPluginInfo();
 
 						LVITEMW lvi{};
-						lvi.mask = LVIF_COLUMNS | LVIF_TEXT | LVIF_STATE;
-						lvi.pszText = (LPWSTR)pi.Name().c_str();
+						lvi.mask = LVIF_COLUMNS | LVIF_STATE | LVIF_PARAM | LVIF_DI_SETITEM;
+						lvi.lParam = (LPARAM)i;
 						lvi.cColumns = 0;
+						lvi.state = 0;
 
 						int32_t idx;
 						if ((idx = ListView_InsertItem(hi, &lvi)) == -1) break;
@@ -299,14 +300,14 @@ namespace Common {
 							)
 						);
 
-						ListView_SetItemText(hi, i, 0, (LPWSTR)pi.Name().c_str());
-						ListView_SetItemText(hi, i, 1, (LPWSTR)state.c_str());
-						ListView_SetItemText(hi, i, 2, (LPWSTR)pi.Desc().c_str());
+						ListView_SetItemText(hi, idx, 0, (LPWSTR)pi.Name().c_str());
+						ListView_SetItemText(hi, idx, 1, (LPWSTR)state.c_str());
+						ListView_SetItemText(hi, idx, 2, (LPWSTR)pi.Desc().c_str());
 
 						LVTILEINFO lvt{};
 						lvt.cbSize = sizeof(LVTILEINFO);
 						lvt.cColumns = 3;
-						lvt.iItem = i;
+						lvt.iItem = idx;
 						lvt.puColumns = cols;
 						ListView_SetTileInfo(hi, &lvt);
 
@@ -605,20 +606,29 @@ namespace Common {
 				if (!(hi = ::GetDlgItem(hwnd_, DLG_START_PLUGINS_LIST))) return;
 				if (!ListView_GetItemCount(hi)) return;
 
-				int32_t idx = ListView_GetNextItem(hi, -1, LVNI_SELECTED);
-				if (idx == -1) return;
-				if (index_plugin_ == idx) return;
+				int32_t sel = ListView_GetNextItem(hi, -1, LVNI_SELECTED);
+				if (sel == -1) return;
+				if (last_selected_plugin_ == sel) return;
 
 				if (open_plugin_ && !open_plugin_.get()->empty())
 					open_plugin_->GetPluginUi().CloseDialog();
 
+				LVITEMW lvi{};
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = sel;
+
+				if (!ListView_GetItem(hi, &lvi)) return;
+
+				int32_t pidx = static_cast<int32_t>(lvi.lParam);
+				if (pidx < 0) return;
+
 				IO::IOBridge& br = IO::IOBridge::Get();
-				IO::plugin_t& p = br[idx];
+				IO::plugin_t& p = br[pidx];
 
 				if (!p.get()->empty()) {
 
 					open_plugin_ = p;
-					index_plugin_ = idx;
+					last_selected_plugin_ = sel;
 
 					HWND hp{ nullptr }, h = ::GetDlgItem(hwnd_, DLG_START_PLACE_PLUGIN);
 					uint32_t id = p->GetPluginInfo().DialogId();
@@ -639,7 +649,7 @@ namespace Common {
 
 				} else {
 					open_plugin_ = br.GetEmptyPlugin();
-					index_plugin_ = 0;
+					last_selected_plugin_ = -1;
 					::SetDlgItemTextW(hwnd_, DLG_START_PLUGINS_DESC, L"");
 				}
 			} catch (...) {
@@ -682,7 +692,10 @@ namespace Common {
 							case (UINT)DLG_START_PLUGINS_LIST: {
 								#pragma warning( push )
 								#pragma warning( disable : 26454 )
-								if (lpmh->code == static_cast<UINT>(LVN_ITEMCHANGED))
+								if (lpmh->code == static_cast<UINT>(NM_DBLCLK)) {
+									last_selected_plugin_ = -1;
+									changeOnListViewClick_();
+								} else if (lpmh->code == static_cast<UINT>(LVN_ITEMCHANGED))
 									changeOnListViewClick_();
 								#pragma warning( pop )
 								break;

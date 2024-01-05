@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMMT DLL
 
@@ -25,6 +25,7 @@ namespace Common {
 				case ClassOut2:
 				case ClassSys:
 				case ClassProxy:
+				case ClassRemote:
 				case ClassMonitor:
 				case ClassOutMidi:
 				case ClassVirtualMidi:   return true;
@@ -317,20 +318,29 @@ namespace Common {
 		void Mackie::MIDIDATA::SetValue(bool b) {
 			data[2] = b ? 0x7f : 0x40;
 		}
-		uint8_t Mackie::MIDIDATA::scene() {
+		uint8_t Mackie::MIDIDATA::scene() const {
 			return data[0];
 		}
-		uint8_t Mackie::MIDIDATA::key() {
+		uint8_t Mackie::MIDIDATA::key() const {
 			return data[1];
 		}
-		uint8_t Mackie::MIDIDATA::value() {
+		uint8_t Mackie::MIDIDATA::value() const {
 			return data[2];
 		}
-		std::wstring Mackie::MIDIDATA::Dump() {
+		Mackie::Target Mackie::MIDIDATA::target() const {
+			return static_cast<Mackie::Target>(data[3]);
+		}
+		std::wstring Mackie::MIDIDATA::dump() {
 			return (log_string() << L"\ttype:" << data[0] << L", id:" << data[1] << L", value:" << data[2]);
 		}
-		std::wstring Mackie::MIDIDATA::UiDump() {
+		std::wstring Mackie::MIDIDATA::dump_ui() {
 			return (log_string() << L"Scene: " << MidiHelper::GetScene(data[0]) << L"/" << data[0] << L",\tKey:" << data[1] << L",\tValue:" << data[2]);
+		}
+		const bool Mackie::MIDIDATA::empty() const {
+			return (data[0] == 255U) || (data[1] == 255U) || (data[3] == 255U);
+		}
+		const bool Mackie::MIDIDATA::equals(MIDIDATA& m) const {
+			return (data[0] == m.data[0]) && (data[1] == m.data[1]) && (data[2] == m.data[2]) && (data[3] == m.data[3]);
 		}
 	}
 }

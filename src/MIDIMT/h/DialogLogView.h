@@ -16,7 +16,8 @@ namespace Common {
 			void event_Log_(CbEventData*);
 			void event_Monitor_(CbEventData*);
 			void event_Text_(CbEventData*, CbHWNDType);
-			void event_Config_(std::wstring, std::wstring);
+			void event_Config_(const std::wstring&, const std::wstring&);
+			void event_Config_Show_(const std::wstring&, const std::wstring&);
 			void event_Scint_(LPNMHDR);
 			void event_Stat_(uint16_t);
 

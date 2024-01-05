@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\scintilla\include</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(ProjectDir)scintilla\include\;$(SolutionDir)Common\h;$(SolutionDir)MIDIMTDLL\</ExternalIncludePath>
     <PublicModuleDirectories>
     </PublicModuleDirectories>
     <AllProjectBMIsArePublic>false</AllProjectBMIsArePublic>
@@ -80,20 +80,20 @@
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(MSBuildProjectDirectory)\lib\$(PlatformShortName)\$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\scintilla\include</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(ProjectDir)scintilla\include\;$(SolutionDir)Common\h;$(SolutionDir)MIDIMTDLL\</ExternalIncludePath>
     <AllProjectBMIsArePublic>false</AllProjectBMIsArePublic>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(MSBuildProjectDirectory)\lib\$(PlatformShortName)\$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\scintilla\include</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(ProjectDir)scintilla\include\;$(SolutionDir)Common\h;$(SolutionDir)MIDIMTDLL\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(MSBuildProjectDirectory)\lib\$(PlatformShortName)\$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuildProjectDirectory);$(PublicIncludeDirectories);$(MSBuildProjectDirectory)\h;$(MSBuildProjectDirectory)\..\Common\h;$(MSBuildProjectDirectory)\..\MIDIMTDLL\;$(MSBuildProjectDirectory)\scintilla\include</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PublicIncludeDirectories);$(ProjectDir);$(ProjectDir)h\;$(ProjectDir)scintilla\include\;$(SolutionDir)Common\h;$(SolutionDir)MIDIMTDLL\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(MSBuildProjectDirectory)\lib\$(PlatformShortName)\$(Configuration)</LibraryPath>

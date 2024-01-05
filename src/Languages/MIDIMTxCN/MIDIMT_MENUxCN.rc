@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "显示 MQTT 配置",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "显示 MMKEYS 配置",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "显示 LIGTS 配置",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "显示远程配置",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "显示DMX512配置",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "显示 ArtNet 配置",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -200,7 +201,7 @@ BEGIN
                 MENUITEM "频道4",                     IDM_COL4_B24
                 MENUITEM "频道5",                     IDM_COL4_B25
                 MENUITEM "频道6",                     IDM_COL4_B26
-                MENUITEM "7频道",                     IDM_COL4_B27
+                MENUITEM "频道7",                     IDM_COL4_B27
                 MENUITEM "频道8",                     IDM_COL4_B28
                 MENUITEM "频道 9",                     IDM_COL4_B29
             END
@@ -212,7 +213,7 @@ BEGIN
                 MENUITEM "频道4",                     IDM_COL4_B14
                 MENUITEM "频道5",                     IDM_COL4_B15
                 MENUITEM "频道6",                     IDM_COL4_B16
-                MENUITEM "7频道",                     IDM_COL4_B17
+                MENUITEM "频道7",                     IDM_COL4_B17
                 MENUITEM "频道8",                     IDM_COL4_B18
                 MENUITEM "频道 9",                     IDM_COL4_B19
             END
@@ -318,7 +319,7 @@ BEGIN
                 MENUITEM "频道4",                     IDM_COL4_AV4
                 MENUITEM "频道5",                     IDM_COL4_AV5
                 MENUITEM "频道6",                     IDM_COL4_AV6
-                MENUITEM "7频道",                     IDM_COL4_AV7
+                MENUITEM "频道7",                     IDM_COL4_AV7
                 MENUITEM "频道8",                     IDM_COL4_AV8
                 MENUITEM "频道 9",                     IDM_COL4_XV9
             END
@@ -330,7 +331,7 @@ BEGIN
                 MENUITEM "频道4",                     IDM_COL4_AP4
                 MENUITEM "频道5",                     IDM_COL4_AP5
                 MENUITEM "频道6",                     IDM_COL4_AP6
-                MENUITEM "7频道",                     IDM_COL4_AP7
+                MENUITEM "频道7",                     IDM_COL4_AP7
                 MENUITEM "频道8",                     IDM_COL4_AP8
                 MENUITEM "频道 9",                     IDM_COL4_XP9
             END
@@ -383,13 +384,13 @@ BEGIN
             MENUITEM "频道4",                     IDM_COL4_AV4
             MENUITEM "频道5",                     IDM_COL4_AV5
             MENUITEM "频道6",                     IDM_COL4_AV6
-            MENUITEM "7频道",                     IDM_COL4_AV7
+            MENUITEM "频道7",                     IDM_COL4_AV7
             MENUITEM "频道8",                     IDM_COL4_AV8
             MENUITEM "频道 9",			    IDM_COL4_XV9
             MENUITEM "频道10",                    IDM_COL4_AP1
             MENUITEM "11频道",                    IDM_COL4_AP2
             MENUITEM "12频道",                    IDM_COL4_AP3
-            MENUITEM "13频道",                    IDM_COL4_AP4
+            MENUITEM "频道 13",                    IDM_COL4_AP4
             MENUITEM "14频道",                    IDM_COL4_AP5
             MENUITEM "频道 15",                    IDM_COL4_AP6
             MENUITEM "16频道",                    IDM_COL4_AP7
@@ -415,7 +416,7 @@ BEGIN
             MENUITEM "频道4",                     IDM_COL4_B24
             MENUITEM "频道5",                     IDM_COL4_B25
             MENUITEM "频道6",                     IDM_COL4_B26
-            MENUITEM "7频道",                     IDM_COL4_B27
+            MENUITEM "频道7",                     IDM_COL4_B27
             MENUITEM "频道8",                     IDM_COL4_B28
             MENUITEM "频道 9",                     IDM_COL4_B29
         END

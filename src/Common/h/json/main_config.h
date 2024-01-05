@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON::JSON
 
@@ -17,7 +17,8 @@ namespace Common {
 
 		class FLAG_EXPORT MMTConfig {
 		private:
-			void copysettings_(MMTConfig*);
+			void copy_settings_(MMTConfig*);
+			void copy_units_(MMTConfig*);
 		public:
 			bool								auto_start{ false };
 			std::wstring						config{};
@@ -25,8 +26,9 @@ namespace Common {
 			std::vector<MIDI::MidiUnit>			units{};
 			MIDI::MidiConfig					midiconf{};
 			MIDI::MMKeyConfig					mmkeyconf{};
-			MQTT::BrokerConfig<std::wstring>	mqttconf{};
 			LIGHT::LightsConfig					lightconf{};
+			MQTT::BrokerConfig<std::wstring>	mqttconf{};
+			REMOTE::RemoteConfig<std::wstring>  remoteconf{};
 
 			MMTConfig* get();
 
@@ -36,11 +38,20 @@ namespace Common {
 			void Init();
 			void Add(MIDI::MidiUnit);
 			void Clear();
+			void Copy(MMTConfig*);
 			std::wstring Dump();
 
 			template <class T1>
 			void CopySettings(T1& ptr) {
-				copysettings_(ptr.get());
+				copy_settings_(ptr.get());
+			}
+			template <class T1>
+			void Copy(T1& ptr) {
+				auto mmt = ptr.get();
+				if (!mmt) return;
+
+				copy_settings_(mmt);
+				copy_units_(mmt);
 			}
 		};
 	}

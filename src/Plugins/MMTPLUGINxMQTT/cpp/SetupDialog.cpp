@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MMTPLUGINx* DLL (SmartHomeKeysPlugin)
 
@@ -364,7 +364,9 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		#pragma endregion
 
+		#pragma region Builds events
 		void SmartHomeSetupDialog::buildLogLevelComboBox_(const int32_t n) {
 			try {
 				if (!hwnd_) return;
@@ -373,8 +375,8 @@ namespace Common {
 
 				ComboBox_ResetContent(hi);
 
-				for (int32_t i = static_cast<uint32_t>(common_error_id::err_MQTT_LOG_NONE);
-							 i <= static_cast<uint32_t>(common_error_id::err_MQTT_LOG_DEBUG);
+				for (int32_t i = static_cast<uint32_t>(common_error_id::err_LOG_LEVEL_NONE);
+							 i <= static_cast<uint32_t>(common_error_id::err_LOG_LEVEL_DEBUG);
 							 i++)
 					ComboBox_AddString(hi, common_error_code::Get().get_error(static_cast<common_error_id>(i)).c_str());
 

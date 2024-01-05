@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MMTPLUGINx* DLL (SmartHomeKeysPlugin) MQTT Broker
 
@@ -441,11 +441,14 @@ namespace Common {
 						break; 
 					}
 					case MOSQ_ERR_ERRNO: {
-						_com_error e(::GetLastError());
-						to_log::Get() << log_string().to_log_string(
-							__FUNCTIONW__,
-							Utils::to_string(e.ErrorMessage())
-						);
+						uint32_t le = ::GetLastError();
+						if (le != 10014) {
+							_com_error e(le);
+							to_log::Get() << log_string().to_log_string(
+								__FUNCTIONW__,
+								Utils::to_string(e.ErrorMessage())
+							);
+						}
 						if (!broker_) break;
 						(void)reconnect_((mosquitto*)broker_.get(), err);
 						break;

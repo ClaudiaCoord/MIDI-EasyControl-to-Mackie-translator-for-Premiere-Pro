@@ -1,7 +1,7 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ UI/Viewer/Editor interface.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMTVEUI DLL
 

@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "mostrar la configuración MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "mostrar configuración MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "mostrar configuración de LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "mostrar configuración REMOTA",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "mostrar configuración DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "mostrar la configuración de ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Funciones de Premiere Pro..."
         BEGIN
-            POPUP "Funciones de un botón estándar..."
+            POPUP "Funciones del botón estándar..."
             BEGIN
                 MENUITEM "Función 1",                   IDM_COL4_FUN11
                 MENUITEM "Función 2",                   IDM_COL4_FUN12

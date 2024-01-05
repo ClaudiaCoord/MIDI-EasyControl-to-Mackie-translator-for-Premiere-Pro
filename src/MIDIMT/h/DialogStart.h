@@ -6,7 +6,7 @@ namespace Common {
 
 		class DialogStart : public IO::PluginUi, public CbEvent {
 		private:
-			int32_t index_plugin_{ 0 };
+			int32_t last_selected_plugin_{ -1 };
 			IO::plugin_t& open_plugin_;
 			UI::ImageStateButton<HICON> img_status_{};
 

@@ -1,7 +1,7 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ In/Out Event bridge.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMMT DLL + MIDIMTBR DLL
 
@@ -32,6 +32,7 @@ namespace Common {
 			static constexpr std::wstring_view TypeClassMqtt = L"Class Smart Home"sv;
 			static constexpr std::wstring_view TypeClassMonitor = L"Class Monitor"sv;
 			static constexpr std::wstring_view TypeClassMediaKey = L"Class Media Key"sv;
+			static constexpr std::wstring_view TypeClassRemote = L"Class Remote controls"sv;
 			static constexpr std::wstring_view TypeClassInMidi = L"Class In Midi"sv;
 			static constexpr std::wstring_view TypeClassOutMidi = L"Class Out Midi"sv;
 			static constexpr std::wstring_view TypeClassOutMidiMackie = L"Class Out Midi Mackie"sv;
@@ -47,6 +48,7 @@ namespace Common {
 			static constexpr std::wstring_view TypeTologMqtt = L"IO/MQTT"sv;
 			static constexpr std::wstring_view TypeTologMonitor = L"IO/Monitor"sv;
 			static constexpr std::wstring_view TypeTologMediaKey = L"IO/Media Key"sv;
+			static constexpr std::wstring_view TypeTologRemote = L"IO/Remote"sv;
 			static constexpr std::wstring_view TypeTologMidi = L"IO/MIDI"sv;
 			#pragma endregion
 		};
@@ -80,6 +82,7 @@ namespace Common {
 				case ClassSys: return ClassTypeNames::TypeClassSys;
 				case ClassProxy: return ClassTypeNames::TypeClassProxy;
 				case ClassMixer: return ClassTypeNames::TypeClassMixer;
+				case ClassRemote: return ClassTypeNames::TypeClassRemote;
 				case ClassMqttKey: return ClassTypeNames::TypeClassMqtt;
 				case ClassMonitor: return ClassTypeNames::TypeClassMonitor;
 				case ClassMediaKey: return ClassTypeNames::TypeClassMediaKey;
@@ -104,6 +107,7 @@ namespace Common {
 				case ClassMqttKey: return ClassTypeNames::TypeTologMqtt;
 				case ClassMonitor: return ClassTypeNames::TypeTologMonitor;
 				case ClassMediaKey: return ClassTypeNames::TypeTologMediaKey;
+				case ClassRemote: return ClassTypeNames::TypeTologRemote;
 				case ClassInMidi:
 				case ClassOutMidi:
 				case ClassOutMidiMackie:

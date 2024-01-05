@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMT
 
@@ -144,16 +144,27 @@ namespace Common {
 				if (!data) return;
 				CbEventDataDeleter d = data->GetDeleter();
 				if (!hwnd_ || !editor_ || (d.GetData()->GetType() != t)) return;
-				std::wstring ws = (log_string() << d.GetData()->Get<std::wstring>().c_str() << L"\n").str();
-				editor_->set(ws);
+				std::wstring ws = d.GetData()->Get<std::wstring>();
+				if (ws.empty()) return;
+				editor_->set((log_string() << ws.c_str() << L"\n").str());
 			} catch (...) {}
 		}
-		void DialogLogView::event_Config_(std::wstring title, std::wstring s) {
+		void DialogLogView::event_Config_(const std::wstring& title, const std::wstring& s) {
 			try {
 				if (s.empty() || !hwed_ || !editor_) return;
 				editor_->append(title);
 				editor_->append(s);
 			} catch (...) {}
+		}
+		void DialogLogView::event_Config_Show_(const std::wstring& t, const std::wstring& s) {
+			try {
+				log_string ls{};
+				ls << L"\n[" << t.c_str() << L"]\n";
+				event_Config_(ls.str(), s);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
 		void DialogLogView::event_Scint_(LPNMHDR hdr) {
 			try {
@@ -167,7 +178,7 @@ namespace Common {
 
 				IO::IOBridge& br = IO::IOBridge::Get();
 				IO::plugin_t& p = br[(idx - DLG_PLUGSTAT_MENU_0)];
-				if (p->empty()) return;
+				if (!p || p->empty()) return;
 
 				IO::PluginInfo& pi = p.get()->GetPluginInfo();
 				log_string ls{};
@@ -245,114 +256,74 @@ namespace Common {
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_ALL: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[";
-									ls << std::vformat(
-										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG2)),
-										 std::make_wformat_args(
-											 conf->config,
-											 conf->builder
-										 )
-									).c_str();
-									ls << L"]\n";
-									event_Config_(ls.str(), conf->Dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(
+									std::vformat(
+										std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG2)),
+										std::make_wformat_args(
+											conf->config,
+											conf->builder
+										)
+									),
+									conf->Dump()
+								);
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_MIDI: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG3) << L"]\n";
-									event_Config_(ls.str(), conf->midiconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG3), conf->midiconf.dump());
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_MQTT: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG4) << L"]\n";
-									event_Config_(ls.str(), conf->mqttconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG4), conf->mqttconf.dump());
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_MMKEYS: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[" << LangInterface::Get().GetString(STRING_LOGV_MSG5) << L"]\n";
-									event_Config_(ls.str(), conf->mmkeyconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG5), conf->mmkeyconf.dump());
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_LIGTS: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[";
-									ls << std::vformat(
-										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
-										 std::make_wformat_args(L"LIGTS")
-									).c_str();
-									ls << L"]\n";
-									event_Config_(ls.str(), conf->lightconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(
+									std::vformat(
+										std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										std::make_wformat_args(L"LIGTS")
+									),
+									conf->lightconf.dump()
+								);
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_DMX512: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[";
-									ls << std::vformat(
-										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
-										 std::make_wformat_args(L"LIGTS/DMX")
-									).c_str();
-									ls << L"]\n";
-									event_Config_(ls.str(), conf->lightconf.dmxconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(
+									std::vformat(
+										std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										std::make_wformat_args(L"LIGTS/DMX")
+									),
+									conf->lightconf.dmxconf.dump()
+								);
 								break;
 							}
 							case DLG_LOGVIEW_MENU_CONF_ARTNET: {
-								try {
-									log_string ls{};
-									auto& conf = common_config::Get().GetConfig();
-									ls << L"\n[";
-									ls << std::vformat(
-										 std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
-										 std::make_wformat_args(L"LIGTS/ARTNET")
-									).c_str();
-									ls << L"]\n";
-									event_Config_(ls.str(), conf->lightconf.artnetconf.dump());
-
-								} catch (...) {
-									Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-								}
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(
+									std::vformat(
+										std::wstring_view(LangInterface::Get().GetString(STRING_LOGV_MSG6)),
+										std::make_wformat_args(L"LIGTS/ARTNET")
+									),
+									conf->lightconf.artnetconf.dump()
+								);
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_REMOTE: {
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG7), conf->remoteconf.dump());
 								break;
 							}
 							case DLG_PLUGSTAT_MENU: {
-								for (uint16_t i = DLG_PLUGSTAT_MENU_0; i < DLG_PLUGSTAT_MENU_9; i++)
+								for (uint16_t i = DLG_PLUGSTAT_MENU_0; i <= DLG_PLUGSTAT_MENU_9; i++)
 									event_Stat_(i);
 								break;
 							}
@@ -400,7 +371,7 @@ namespace Common {
 								CbEventData* d = reinterpret_cast<CbEventData*>(l);
 								if (!d) break;
 								if (c == DLG_EVENT_LOG) dlgl->event_Log_(d);
-								else dlgl->event_Monitor_(d);
+								else if (c == DLG_EVENT_MONITOR) dlgl->event_Monitor_(d);
 							}
 							return static_cast<INT_PTR>(1);
 						}

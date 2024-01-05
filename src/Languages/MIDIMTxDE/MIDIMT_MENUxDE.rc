@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "MQTT-Konfiguration anzeigen",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "MMKEYS-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "LIGTS-Konfiguration anzeigen",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "REMOTE-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "DMX512-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ArtNet-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Aufsichtsbehörden.."
+        POPUP "Aufsichtsbehörden..."
         BEGIN
             MENUITEM "Streifenregler",        IDM_COL3_SLIDER
             MENUITEM "Streifenregler mit Inversion", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Nicht zugewiesen",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Aufsichtsbehörden..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Aufsichtsbehörden...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Tasten..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Steuerung bezieht sich auf den Audiomixer", IDM_COL4_VOLUMEMIX

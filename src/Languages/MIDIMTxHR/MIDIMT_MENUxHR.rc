@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "prikaži MQTT konfiguraciju",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "prikaži konfiguraciju MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "pokazati LIGTS konfiguraciju",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "prikaži konfiguraciju DALJINSKOG",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "prikaži DMX512 konfiguraciju",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "prikaži ArtNet konfiguraciju",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -219,7 +220,7 @@ BEGIN
         END
         POPUP "Multimedijske tipke.."
         BEGIN
-            MENUITEM "Reprodukcija/Pauza",                IDM_COL4_SYS_Play
+            MENUITEM "Reproduciraj/Pauziraj",                IDM_COL4_SYS_Play
             MENUITEM "Stop",                        IDM_COL4_SYS_Stop
             MENUITEM "Prethodno",                  IDM_COL4_SYS_Rewind
             MENUITEM "Sljedeći",                   IDM_COL4_SYS_Forward
@@ -260,16 +261,16 @@ BEGIN
         BEGIN
                 MENUITEM "uključeno/isključeno 1",                 IDM_COL4_B11
                 MENUITEM "uključeno/isključeno 2",                 IDM_COL4_B12
-                MENUITEM "uključeno/isključeno 3",                 IDM_COL4_B13
+                MENUITEM "uključivanje/isključivanje 3",                 IDM_COL4_B13
                 MENUITEM "uključivanje/isključivanje 4",                 IDM_COL4_B14
                 MENUITEM "uključeno/isključeno 5",                 IDM_COL4_B15
                 MENUITEM "uključivanje/isključivanje 6",                 IDM_COL4_B16
-                MENUITEM "uključivanje/isključivanje 7",                 IDM_COL4_B17
+                MENUITEM "uključeno/isključeno 7",                 IDM_COL4_B17
                 MENUITEM "uključivanje/isključivanje 8",                 IDM_COL4_B18
                 MENUITEM "uključeno/isključeno 9",                 IDM_COL4_B19
                 MENUITEM "uključeno/isključeno 10",                 IDM_COL4_B21
                 MENUITEM "uključeno/isključeno 11",                 IDM_COL4_B22
-                MENUITEM "uključeno/isključeno 12",                 IDM_COL4_B23
+                MENUITEM "uključivanje/isključivanje 12",                 IDM_COL4_B23
                 MENUITEM "uključeno/isključeno 13",                 IDM_COL4_B24
                 MENUITEM "uključeno/isključeno 14",                 IDM_COL4_B25
                 MENUITEM "uključeno/isključeno 15",                 IDM_COL4_B26
@@ -302,7 +303,7 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "Koder (prikaz kadar po kadar)", IDM_COL4_JOG
+        MENUITEM "Enkoder (prikaz kadar po kadar)", IDM_COL4_JOG
         MENUITEM "Nedodijeljeno",               IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Kontrola zvuka..."
@@ -428,7 +429,7 @@ DLG_EDIT_LV_COL5_BTN_MMKEY_MENU MENU
 BEGIN
     POPUP "__COL5 BTN MMKEY MENU"
     BEGIN
-        MENUITEM "Reprodukcija/Pauza",                IDM_COL4_SYS_Play
+        MENUITEM "Reproduciraj/Pauziraj",                IDM_COL4_SYS_Play
         MENUITEM "Stop",                        IDM_COL4_SYS_Stop
         MENUITEM "Prethodno",                  IDM_COL4_SYS_Rewind
         MENUITEM "Sljedeći",                   IDM_COL4_SYS_Forward
@@ -477,16 +478,16 @@ BEGIN
     BEGIN
     MENUITEM "uključeno/isključeno 1",                     IDM_COL4_B11
     MENUITEM "uključeno/isključeno 2",                     IDM_COL4_B12
-    MENUITEM "uključeno/isključeno 3",                     IDM_COL4_B13
+    MENUITEM "uključivanje/isključivanje 3",                     IDM_COL4_B13
     MENUITEM "uključivanje/isključivanje 4",                     IDM_COL4_B14
     MENUITEM "uključeno/isključeno 5",                     IDM_COL4_B15
     MENUITEM "uključivanje/isključivanje 6",                     IDM_COL4_B16
-    MENUITEM "uključivanje/isključivanje 7",                     IDM_COL4_B17
+    MENUITEM "uključeno/isključeno 7",                     IDM_COL4_B17
     MENUITEM "uključivanje/isključivanje 8",                     IDM_COL4_B18
     MENUITEM "uključeno/isključeno 9",                     IDM_COL4_B19
     MENUITEM "uključeno/isključeno 10",                     IDM_COL4_B21
     MENUITEM "uključeno/isključeno 11",                     IDM_COL4_B22
-    MENUITEM "uključeno/isključeno 12",                     IDM_COL4_B23
+    MENUITEM "uključivanje/isključivanje 12",                     IDM_COL4_B23
     MENUITEM "uključeno/isključeno 13",                     IDM_COL4_B24
     MENUITEM "uključeno/isključeno 14",                     IDM_COL4_B25
     MENUITEM "uključeno/isključeno 15",                     IDM_COL4_B26

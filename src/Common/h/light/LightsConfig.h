@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ DMX protocol.
 	+ Art-Net protocol.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	COMMON
 

@@ -42,12 +42,13 @@ BEGIN
     MENUITEM "ясно",				DLG_LOGVIEW_MENU_CLEAR
     POPUP "конфигурация"
     BEGIN
-	MENUITEM "покажи цялата конфигурация",		DLG_LOGVIEW_MENU_CONF_ALL
+	MENUITEM "покажете цялата конфигурация",		DLG_LOGVIEW_MENU_CONF_ALL
         MENUITEM SEPARATOR
 	MENUITEM "покажете MIDI конфигурация",		DLG_LOGVIEW_MENU_CONF_MIDI
 	MENUITEM "покажете MQTT конфигурация",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "покажете конфигурацията на MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "покажете конфигурацията на LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "покажете ДИСТАНЦИОННА конфигурация",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "покажете DMX512 конфигурация",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "покажете конфигурацията на ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET

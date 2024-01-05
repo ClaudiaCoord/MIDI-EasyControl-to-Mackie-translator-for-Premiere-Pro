@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMT
 
@@ -153,7 +153,7 @@ namespace Common {
 			try {
 				if (!hwnd || !data || (data->GetType() != CbHWNDType::TYPE_CB_MON)) return;
 				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
-				std::wstring ws = (log_string() << p.second.UiDump()
+				std::wstring ws = (log_string() << p.second.dump_ui()
 												<< L"," << UI::UiUtils::GetBlank(p.second.value())
 												<< L"\tCount offset: " << p.first
 												<< (singleline ? L"" : L"\r\n")

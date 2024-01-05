@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMT
 
@@ -60,7 +60,7 @@ namespace Common {
 			{   LANG_ARMENIAN, L"AR\0",   L"Armenian\0",	{ L"hy-AM\0", L'\0'}}, /* 1067 */
 			{   LANG_GEORGIAN, L"GR\0",   L"Georgian\0",	{ L"ka-GE\0", L'\0'}}, /* 1079 */
 			{  LANG_UKRAINIAN, L"RU\0",   L"Ukrainian\0",	{ L"uk-UA\0", L'\0'}}, /* 1049 */
-			{   LANG_ROMANIAN, L"RO\0",   L"Frisian\0",		{ L"ro-RO\0", L"ro-MD\0", L"rm-CH\0", L'\0'}}, /* 1048 */
+			{   LANG_ROMANIAN, L"RO\0",   L"Romanian\0",	{ L"ro-RO\0", L"ro-MD\0", L"rm-CH\0", L'\0'}}, /* 1048 */
 			{    LANG_ENGLISH, L"EN\0",   L"English\0",		{ L"en-US\0", L"en-GB\0", L"en-AU\0", L"en-CA\0", L"en-NZ\0", L"en-IE\0", L"en-ZA\0", L"en-JM\0", L"en-BZ\0", L"en-TT\0", L"en-ZW\0", L"en-PH\0", L"en-ID\0", L"en-HK\0", L"en-IN\0", L"en-MY\0", L"en-SG\0", L"en-029\0", L'\0'}}, /* 1033 */
 			{     LANG_GERMAN, L"DE\0",   L"German\0",		{ L"de-DE\0", L"de-CH\0", L"de-AT\0", L"de-LU\0", L"de-LI\0", L'\0'}}, /* 1031 */
 			{     LANG_FRENCH, L"FR\0",   L"French\0",		{ L"fr-FR\0", L"fr-FR\0", L"fr-BE\0", L"fr-CA\0", L"fr-CH\0", L"fr-LU\0", L"fr-MC\0", L"fr-RE\0", L"fr-CG\0", L"fr-SN\0", L"fr-CM\0", L"fr-CI\0", L"fr-ML\0", L"fr-MA\0", L"fr-FR\0", L"fr-FR\0", L"fr-HT\0", L"fr-029\0", L"fr-015\0", L'\0'}}, /* 1036 */

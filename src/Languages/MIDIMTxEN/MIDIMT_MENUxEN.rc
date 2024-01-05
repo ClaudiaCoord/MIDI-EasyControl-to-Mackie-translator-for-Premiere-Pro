@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "show MQTT configuration",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "show MMKEYS configuration",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "show LIGTS configuration",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "show REMOTE configuration",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "show DMX512 configuration",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "show ArtNet configuration",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Premiere Pro features..."
         BEGIN
-            POPUP "Standard button functions..."
+            POPUP "Functions of the standard button..."
             BEGIN
                 MENUITEM "Function 1",                   IDM_COL4_FUN11
                 MENUITEM "Function 2",                   IDM_COL4_FUN12

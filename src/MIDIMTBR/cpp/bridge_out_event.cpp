@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ Audio session volume/mute mixer.
 	+ MultiMedia Key translator.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	EASYCTRL9
 
@@ -127,6 +127,7 @@ namespace Common {
                             }
                             case ClassOut2:
                             case ClassMixer:
+                            case ClassRemote:
                             case ClassMqttKey:
                             case ClassMediaKey:
                             case ClassLightKey:
@@ -170,6 +171,44 @@ namespace Common {
 
                     switch (ctype) {
                         using enum PluginClassTypes;
+                        case ClassRemote: {
+
+                            for (auto& u : cnf_->units) {
+
+                                if (u.key == m.key() && u.scene == m.scene()) { // && u.target == m.target()) {
+
+                                    if ((u.target == MIDI::Mackie::Target::VOLUMEMIX) && u.appvolume.empty())
+                                        continue;
+
+                                    if (!MIDI::MidiSetter::ValidTarget(u))
+                                        continue;
+
+                                    if ((u.type == MIDI::MidiUnitType::BTN) || (u.type == MIDI::MidiUnitType::BTNTOGGLE))
+                                        MIDI::MidiSetter::SetButton(u);
+
+                                    else if (
+                                        (u.type == MIDI::MidiUnitType::SLIDER) ||
+                                        (u.type == MIDI::MidiUnitType::FADER) ||
+                                        (u.type == MIDI::MidiUnitType::KNOB) ||
+                                        (u.type == MIDI::MidiUnitType::SLIDERINVERT) ||
+                                        (u.type == MIDI::MidiUnitType::FADERINVERT) ||
+                                        (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
+                                        if (!MIDI::MidiSetter::SetVolume(u, m.value()))
+                                            continue;
+                                    }
+                                    else continue;
+
+                                    try {
+                                        callOut2Cb_t f = pcb->GetCbOut2();
+                                        if (f) f(u, t);
+                                    } catch (std::bad_function_call& e) {
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, pcb);
+                                    }
+                                    if (remote_once) break;
+                                }
+                            }
+                            break;
+                        }
                         case ClassMixer: {
 
                             for (auto& u : cnf_->units) {

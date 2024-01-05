@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "arată configurația MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "arată configurația MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "arată configurația LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "afișează configurația REMOTE",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "arată configurația DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "arată configurația ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Regulatori..."
+        POPUP "Regulatori.."
         BEGIN
             MENUITEM "Regulator de bandă",        IDM_COL3_SLIDER
             MENUITEM "Regulator de bandă cu inversare", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Nealocat",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Regulatori...",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Regulatori..",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Butoane..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Controlul se referă la mixerul audio", IDM_COL4_VOLUMEMIX
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Caracteristicile Premiere Pro..."
         BEGIN
-            POPUP "Funcțiile unui buton standard..."
+            POPUP "Funcțiile butonului standard..."
             BEGIN
                 MENUITEM "Funcția 1",                   IDM_COL4_FUN11
                 MENUITEM "Funcția 2",                   IDM_COL4_FUN12
@@ -244,7 +245,7 @@ BEGIN
                 MENUITEM "Funcția 7",                   IDM_COL4_FUN17
                 MENUITEM "Funcția 8",                   IDM_COL4_FUN18
             END
-            POPUP "Funcții de buton cu o singură atingere..."
+            POPUP "Funcții butoane cu o singură atingere..."
             BEGIN
                 MENUITEM "Funcția 1",                   IDM_COL4_FUN21
                 MENUITEM "Funcția 2",                   IDM_COL4_FUN22

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{856364ff-cb6e-464c-9042-f18758158c48}</ProjectGuid>
+    <ProjectGuid>{856364ff-cb6e-464c-9044-f18758158c03}</ProjectGuid>
     <RootNamespace>Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -71,25 +71,25 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
     <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
     <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
@@ -98,7 +98,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_PLUGIN32;_USRDLL;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN32;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -121,7 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_PLUGIN32;_USRDLL;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN32;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -143,7 +143,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_PLUGIN64;_USRDLL;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN64;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -167,7 +167,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_PLUGIN64;_USRDLL;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>

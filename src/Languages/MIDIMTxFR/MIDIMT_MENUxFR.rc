@@ -48,6 +48,7 @@ BEGIN
 	MENUITEM "afficher la configuration MQTT",		DLG_LOGVIEW_MENU_CONF_MQTT
 	MENUITEM "afficher la configuration des clés MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "afficher la configuration LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
+	MENUITEM "afficher la configuration à distance",	DLG_LOGVIEW_MENU_CONF_REMOTE
         MENUITEM SEPARATOR
 	MENUITEM "afficher la configuration DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "afficher la configuration d'ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -138,7 +139,7 @@ DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
     POPUP "__COL3TYPEMENU"
     BEGIN
-        POPUP "Les régulateurs.."
+        POPUP "Les régulateurs..."
         BEGIN
             MENUITEM "Régulateur de bande",        IDM_COL3_SLIDER
             MENUITEM "Régulateur de bande avec inversion", IDM_COL3_SLIDERINVERT
@@ -167,7 +168,7 @@ BEGIN
     BEGIN
         MENUITEM "Non attribué",			IDM_COL4_NONE
         MENUITEM SEPARATOR
-        MENUITEM "Les régulateurs..",			IDM_COL5_MENU_REPLACE_FIELD1
+        MENUITEM "Les régulateurs...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Boutons..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
         MENUITEM "Le contrôle fait référence au mixeur audio", IDM_COL4_VOLUMEMIX
@@ -233,7 +234,7 @@ BEGIN
         END
         POPUP "Fonctionnalités de Premiere Pro..."
         BEGIN
-            POPUP "Fonctions du bouton standard..."
+            POPUP "Fonctions des boutons standards..."
             BEGIN
                 MENUITEM "Fonction 1",                   IDM_COL4_FUN11
                 MENUITEM "Fonction 2",                   IDM_COL4_FUN12

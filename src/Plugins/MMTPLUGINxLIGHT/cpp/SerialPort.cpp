@@ -3,7 +3,7 @@
 	+ DMX protocol, support USB Open DMX and USB RS485 dongle.
 	+ Art-Net protocol, support UDP local network broadcast.
 	+ serial compatible ENTTEC OPEN DMX == (standart RS-485 USB Chinese Dongle)
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MIDIMTLIGHT DLL
 

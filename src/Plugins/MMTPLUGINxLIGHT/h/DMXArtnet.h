@@ -2,7 +2,7 @@
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
 	+ DMX protocol, support USB Open DMX and USB RS485 dongle.
 	+ Art-Net protocol, support UDP local network broadcast.
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	MMTPLUGINx* DLL (LightKeysPlugin)
 

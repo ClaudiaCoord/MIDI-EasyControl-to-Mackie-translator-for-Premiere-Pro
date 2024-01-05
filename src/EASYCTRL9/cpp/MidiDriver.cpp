@@ -4,7 +4,7 @@
 	+ MultiMedia Key translator.
 	+ Smart House controls.
 	+ Lighting controls (DMX, Artnet).
-	(c) CC 2023, MIT
+	(c) CC 2023-2024, MIT
 
 	EASYCTRL9
 
