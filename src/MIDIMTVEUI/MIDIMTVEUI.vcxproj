@@ -207,6 +207,7 @@
     <ClCompile Include="cpp\ui\ToolTipData.cpp" />
     <ClCompile Include="cpp\ui\UiImage.cpp" />
     <ClCompile Include="cpp\ui\UiUtils.cpp" />
+    <ClCompile Include="cpp\ui\WindowToTop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\ext\lodepng.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="h\ui\ToolTipData.h" />
     <ClInclude Include="h\ui\UiImage.h" />
     <ClInclude Include="h\ui\UiUtils.h" />
+    <ClInclude Include="h\ui\WindowToTop.h" />
     <ClInclude Include="MIDIMTVEUIApi.h" />
     <ClInclude Include="h\global.h" />
     <ClInclude Include="h\ScintillaBox.h" />

@@ -62,6 +62,7 @@ namespace Common {
 
             MidiUnit();
             MidiUnit(MixerUnit&);
+            ~MidiUnit() = default;
             const bool empty() const;
             const uint32_t GetMixerId();
             MixerUnit GetMixerUnit();
@@ -74,8 +75,8 @@ namespace Common {
         private:
             static MidiUnit midiunitdefault_;
             MidiUnit& m_;
-            IO::PluginClassTypes type_;
-            bool isbegin_;
+            IO::PluginClassTypes type_{ IO::PluginClassTypes::ClassNone };
+            bool isbegin_{ false };
 
         public:
             MidiUnitRef();
@@ -127,8 +128,8 @@ namespace Common {
             static bool ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::milliseconds& btninterval);
             static bool ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::steady_clock::time_point t, const std::chrono::milliseconds& btninterval);
             static void SetButton(MidiUnit& u);
-            static bool SetVolume(MidiUnit& u, uint8_t val);
-            static bool SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val);
+            static bool SetVolume(MidiUnit& u, uint8_t val, bool = true);
+            static bool SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val, bool = true);
         };
     }
 }

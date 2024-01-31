@@ -19,6 +19,7 @@ namespace Common {
 		class FLAG_EXPORT RemotePlugin : public IO::Plugin {
 		private:
 			std::atomic<bool> started_{ false };
+			std::atomic<bool> wakepos_{ false };
 			std::atomic<uint16_t> loglevel_{ 1 };
 			std::atomic<MIDI::Mackie::MIDIDATA> m_{ MIDI::Mackie::MIDIDATA() };
 			std::vector<std::pair<uint16_t, std::wstring>> export_list_{};
@@ -37,7 +38,7 @@ namespace Common {
 
 		public:
 
-			RemotePlugin(std::wstring);
+			RemotePlugin(std::wstring, HWND);
 			~RemotePlugin();
 
 			bool load(std::shared_ptr<JSON::MMTConfig>&) override;

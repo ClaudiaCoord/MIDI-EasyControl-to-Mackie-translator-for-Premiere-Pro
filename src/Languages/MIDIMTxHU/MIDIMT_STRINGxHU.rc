@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Multimédiás billentyűzet beállításai (MMKEYS)"
     STRING_LOGV_MSG6	"Fényvezérlési beállítások ({0})"
     STRING_LOGV_MSG7	"Távvezérlő panel beállításai (REMOTE)"
+    STRING_LOGV_MSG8	"Gamepad/Joystick vezérlési beállításai (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI gomb lenyomva:"
+    STRING_LOGV_MSG10	"Cédula sorszám:"
 
     STRING_CHKR_MSG1	"Indításkor a konfigurációs fájl megadva volt: '{0}'. Beállítja konfigurációként a következő futtatásokhoz?"
     STRING_CHKR_MSG2	"MIDI-MT konfiguráció"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Új ügyfél ({0}/{1}) csatlakozik."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Ügyfélhiba: {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"A(z) {0}/{1} ügyfél leválasztva, állapota: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Nincs joystick vagy gamepad illesztőprogram."
+	IDS_ERRORID_JOY_INVALIDPARAM		"A megadott joystick azonosító érvénytelen."
+	IDS_ERRORID_JOY_NOCANDO			"A joystick bemenet nem írható, és a szükséges szolgáltatás nem érhető el."
+	IDS_ERRORID_JOY_UNPLUGGED		"A megadott joystick nincs csatlakoztatva a rendszerhez."
+	IDS_ERRORID_JOY_START			"A Gamepad/Joystick vezérlőszolgáltatás fut, aktív eszközök: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"A Gamepad/Joystick vezérlőszolgáltatás leállt."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"A vezérlőjelenetet a játékvezérlő vagy a joystick a következőre módosította: {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"A {0}/{1} vezérlőt a játékvezérlővel vagy a joystickkal lehet kiválasztani."
+
 	IDS_ERRORID_COPY_LINK			"Link a vágólapra másolva."
 	IDS_ERRORID_NET_IFACE_NONE		"Nincs hálózati interfész"
 	IDS_ERRORID_NET_IFACE_SELECT		"Válassza ki a hálózati interfészt"

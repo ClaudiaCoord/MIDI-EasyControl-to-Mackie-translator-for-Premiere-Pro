@@ -26,17 +26,17 @@ namespace Common {
 		}
 
 		#pragma region PluginObject
-		std::unique_ptr<PluginObject> PluginObject::Build(std::wstring s) {
-			return std::unique_ptr<PluginObject>(new PluginObject(s));
+		std::unique_ptr<PluginObject> PluginObject::Build(std::wstring s, HWND h) {
+			return std::unique_ptr<PluginObject>(new PluginObject(s, h));
 		}
-		PluginObject::PluginObject(std::wstring& s) {
-			load_(s);
+		PluginObject::PluginObject(std::wstring& s, HWND h) {
+			load_(s, h);
 		}
 		PluginObject::~PluginObject() {
 			dispose_();
 		}
 
-		void PluginObject::load_(std::wstring& s) {
+		void PluginObject::load_(std::wstring& s, HWND h) {
 			_set_se_translator(seh_exception_catch);
 			try {
 				handle_.reset(get_dll(s.c_str()));
@@ -46,7 +46,7 @@ namespace Common {
 				if (!f) throw make_common_error(common_error_id::err_PLUGIN_DLL_NOT_PLUGIN);
 
 				call_pluginopen p = reinterpret_cast<call_pluginopen>(f);
-				plug_ = p(s);
+				plug_ = p(s, h);
 				if (!plug_) throw make_common_error(common_error_id::err_PLUGIN_DLL_NOT_PLUGIN);
 
 			} catch (...) {
@@ -122,7 +122,7 @@ namespace Common {
 			} catch (...) {}
 		}
 
-		const uint32_t Plugins::init(event_sys_t& ev_sys, event_in_t& ev_in, event_out_t& ev_out) {
+		const uint32_t Plugins::init(event_sys_t& ev_sys, event_in_t& ev_in, event_out_t& ev_out, HWND hwnd) {
 			_set_se_translator(seh_exception_catch);
 			try {
 				if (!plugins_.empty()) {
@@ -140,7 +140,7 @@ namespace Common {
 							!f.path().filename().wstring().starts_with(Plugins::PluginsName.data())) continue;
 
 						try {
-							auto obj = PluginObject::Build(f.path().wstring());
+							auto obj = PluginObject::Build(f.path().wstring(), hwnd);
 							if (!obj || obj->empty()) continue;
 							IO::PluginCb& pcb = obj->plugin()->GetPluginCb();
 							if (pcb.empty()) continue;

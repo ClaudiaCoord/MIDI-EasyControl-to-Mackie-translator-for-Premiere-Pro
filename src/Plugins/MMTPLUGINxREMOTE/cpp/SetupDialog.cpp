@@ -15,20 +15,21 @@ namespace Common {
 
 		typedef asio::ip::address_v4 IpAddr;
 
-		RemoteSetupDialog::RemoteSetupDialog(IO::PluginCb& cb) : cb_(cb) {
+		RemoteSetupDialog::RemoteSetupDialog(IO::PluginCb& cb, HWND mhwnd) : cb_(cb) {
+			mhwnd_.reset(mhwnd);
 		}
 		RemoteSetupDialog::~RemoteSetupDialog() {
 			dispose_();
 		}
 
 		void RemoteSetupDialog::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 			btn_copy_.Release();
 		}
 		void RemoteSetupDialog::init_() {
 			try {
-				isload_ = false;
+				isload_.store(false);
 				auto f = std::async(std::launch::async, [=]() ->bool {
 					auto& mmt = common_config::Get().GetConfig();
 					config_.Copy(mmt->remoteconf);
@@ -65,7 +66,7 @@ namespace Common {
 				else
 					::SetDlgItemTextW(hwnd_, DLG_PLUG_REMOTE_SYSLINK, buildServerUrl_(config_.host, config_.port).c_str());
 
-				isload_ = true;
+				isload_.store(true);
 
 				buildLogLevelComboBox_(config_.loglevel);
 				buildNetInterfaceComboBox_(config_.host);
@@ -352,6 +353,10 @@ namespace Common {
 						hwnd_.reset(h, static_cast<SUBCLASSPROC>(&PluginUi::DialogProc_), reinterpret_cast<DWORD_PTR>(this), 0);
 						init_();
 						return static_cast<INT_PTR>(1);
+					}
+					case WM_HELP: {
+						if (!l || !mhwnd_) break;
+						return ::SendMessageW(mhwnd_, m, DLG_PLUG_REMOTE_WINDOW, l);
 					}
 					case WM_NOTIFY: {
 						if (!isload_ || (!l)) break;

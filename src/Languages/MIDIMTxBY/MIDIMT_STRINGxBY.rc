@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Настройкі мультымедыя клавіятуры (MMKEYS)"
     STRING_LOGV_MSG6	"Налады кіравання асвятленнем ({0})"
     STRING_LOGV_MSG7	"Налады панэлі дыстанцыйнага кіравання (REMOTE)"
+    STRING_LOGV_MSG8	"Налады кіравання Геймпада/Джойсціка (GAMEPAD)"
+    STRING_LOGV_MSG9	"Націснутая MIDI клавіша:"
+    STRING_LOGV_MSG10	"Нумар пазнакі:"
 
     STRING_CHKR_MSG1	"Пры запуску быў паказаны файл канфігурацыі: '{0}'. Усталяваць яго як канфігурацыю для наступных запускаў?"
     STRING_CHKR_MSG2	"MIDI-MT Канфігурацыя"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Падлучаны новы кліент {0}/{1}."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Памылка кліента {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Кліент {0}/{1} адключыўся, статус: {2} – {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Драйвер джойсціка ці геймпада адсутнічае."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Указаны ідэнтыфікатар джойсціка недапушчальны."
+	IDS_ERRORID_JOY_NOCANDO			"Немагчыма запісаць уваходныя дадзеныя джойсціка, патрабаваная служба недаступная."
+	IDS_ERRORID_JOY_UNPLUGGED		"Указаны джойсцік не падлучаны да сістэмы."
+	IDS_ERRORID_JOY_START			"Служба кіравання Геймпадам/Джойсцікам запушчана, актыўна прылад: {0}, анлайн: {1}."
+	IDS_ERRORID_JOY_STOP			"Служба кіравання Геймпадам/Джойсцікам спынена."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Сцэна кіравання зменена геймпадам або джойсцікам на {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Геймпадам або джойсцікам абраны элемент кіравання {0}/{1}."
+
 	IDS_ERRORID_COPY_LINK			"Спасылка скапіявана ў буфер абмену."
 	IDS_ERRORID_NET_IFACE_NONE		"Сеткавыя інтэрфейсы адсутнічаюць"
 	IDS_ERRORID_NET_IFACE_SELECT		"Абярыце сеткавы інтэрфейс"

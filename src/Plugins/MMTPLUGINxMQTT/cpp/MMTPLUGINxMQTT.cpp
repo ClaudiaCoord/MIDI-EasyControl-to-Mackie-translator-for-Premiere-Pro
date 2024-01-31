@@ -20,8 +20,8 @@ namespace Common {
 		using namespace Common::IO;
 		using namespace std::placeholders;
 
-		MQTTPlugin::MQTTPlugin(std::wstring path)
-			: plugin_ui_(*static_cast<PluginCb*>(this)),
+		MQTTPlugin::MQTTPlugin(std::wstring path, HWND hwnd)
+			: plugin_ui_(*static_cast<PluginCb*>(this), hwnd),
 			  IO::Plugin(
 				Utils::to_hash(path), DLG_PLUG_MQTT_WINDOW,
 				Plugin::GuidFromString(_PLUGINGUID),
@@ -30,7 +30,8 @@ namespace Common {
 				PLUG_DESCRIPTION,
 				this,
 				IO::PluginClassTypes::ClassMqttKey,
-				(IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb)
+				(IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb),
+				hwnd
 			  ) {
 			PluginCb::out2_cb_ = std::bind(static_cast<void(MQTTPlugin::*)(MIDI::MidiUnit&, DWORD)>(&MQTTPlugin::cb_out_call_), this, _1, _2);
 			PluginCb::cnf_cb_  = std::bind(static_cast<void(MQTTPlugin::*)(std::shared_ptr<JSON::MMTConfig>&)>(&MQTTPlugin::set_config_cb_), this, _1);

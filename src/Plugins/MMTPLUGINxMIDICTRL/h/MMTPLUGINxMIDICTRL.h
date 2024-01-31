@@ -32,7 +32,7 @@ namespace Common {
 
 		public:
 
-			MidiCtrlPlugin(std::wstring);
+			MidiCtrlPlugin(std::wstring, HWND);
 			~MidiCtrlPlugin();
 
 			bool load(std::shared_ptr<JSON::MMTConfig>&) override;

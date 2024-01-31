@@ -23,16 +23,46 @@ namespace Common {
 
 			static constexpr std::wstring_view help_fmt = L"https://claudiacoord.github.io/MIDI-MT/docs/{0}/{1}.html"sv;
 			static constexpr std::wstring_view page_index = L"index"sv;
-			static constexpr std::wstring_view page_mixer = L"Mixer"sv;
-			static constexpr std::wstring_view page_launch = L"Launch"sv;
-			static constexpr std::wstring_view page_lights = L"Lighting-control"sv;
-			static constexpr std::wstring_view page_settings = L"Settings"sv;
-			static constexpr std::wstring_view page_smarthome = L"Smart-House"sv;
+			static constexpr std::wstring_view page_mixer = L"Audio-Mixer"sv;
 			static constexpr std::wstring_view page_languages = L"Broadcast-into-different-languages"sv;
-			static constexpr std::wstring_view page_installation = L"Installation"sv;
+			static constexpr std::wstring_view page_cmdlineopt = L"Command-Line-Options"sv;
+			static constexpr std::wstring_view page_potablev = L"Portable-version"sv;
 			static constexpr std::wstring_view page_dependencies = L"Dependencies"sv;
+			static constexpr std::wstring_view page_installation = L"Installation"sv;
+			static constexpr std::wstring_view page_launch = L"Launch"sv;
+			static constexpr std::wstring_view page_settings = L"Settings"sv;
+			static constexpr std::wstring_view page_settings_config = L"Settings-Configuration-files"sv;
+			static constexpr std::wstring_view page_settings_gamepad = L"Settings-Module-Gamepad"sv;
+			static constexpr std::wstring_view page_settings_midi = L"Settings-Module-MIDI"sv;
+			static constexpr std::wstring_view page_settings_mmkeys = L"Settings-Module-Multimedia-keys"sv;
+			static constexpr std::wstring_view page_settings_remote = L"Settings-Module-Remote"sv;
+			static constexpr std::wstring_view page_settings_smarthouse = L"Settings-Module-Smart-House"sv;
+			static constexpr std::wstring_view page_settings_ppro = L"Settings-Premiere-Pro"sv;
+			static constexpr std::wstring_view page_settings_lights = L"Settings-Module-Lights"sv;
+			static constexpr std::wstring_view page_settings_lights_repeaters = L"Light-Repeaters-DMX512-ARTNET-MQTT"sv;
 		};
 		const wchar_t* UIValues::blanks[] = {L"", L"  ", L"    "};
+
+		class AsyncExecDeleter {
+		private:
+			std::function<void()>* f_ = nullptr;
+		public:
+			AsyncExecDeleter(LPARAM l) : f_(reinterpret_cast<std::function<void()>*>(l)) {
+			}
+			AsyncExecDeleter(std::function<void()>* f) : f_(f) {
+			}
+			~AsyncExecDeleter() {
+				std::function<void()>* f = f_;
+				f_ = nullptr;
+				if (f) delete f;
+			}
+			std::function<void()>* Get() {
+				return f_;
+			}
+			const bool empty() const {
+				return !f_;
+			}
+		};
 
 		static std::wstring_view select_LightPage__(const uint16_t id) {
 			switch (id) {
@@ -50,7 +80,7 @@ namespace Common {
 				case DLG_PLUG_LIGHT_ARTNET_IP:
 				case DLG_PLUG_LIGHT_ARTNET_MASK:
 				case DLG_PLUG_LIGHT_ARTNET_BCAST:
-				case DLG_PLUG_LIGHT_POLL: return UIValues::page_lights;
+				case DLG_PLUG_LIGHT_POLL: return UIValues::page_settings_lights;
 				default: return L""sv;
 			}
 		}
@@ -67,7 +97,7 @@ namespace Common {
 				case DLG_PLUG_MQTT_PREFIX:
 				case DLG_PLUG_MQTT_ISENABLE:
 				case DLG_PLUG_MQTT_LOGLEVEL:
-				case DLG_PLUG_MQTT_ISSELFSIGN: return UIValues::page_smarthome;
+				case DLG_PLUG_MQTT_ISSELFSIGN: return UIValues::page_settings_smarthouse;
 				default: return L""sv;
 			}
 		}
@@ -89,10 +119,45 @@ namespace Common {
 				case DLG_PLUG_MIDI_SLIDER2_VAL:
 				case DLG_PLUG_MIDI_PROXY_COMBO:
 				case DLG_PLUG_MIDI_ISJOGFILTER:
-				case DLG_PLUG_MIDI_ISOUTSYSPORT: return UIValues::page_settings;
+				case DLG_PLUG_MIDI_ISOUTSYSPORT: return UIValues::page_settings_midi;
 				case DLG_PLUG_MIDI_VMDRV_VER:
 				case DLG_PLUG_MIDI_VMDRV_CHECK:
 				case DLG_PLUG_MIDI_INSTALL_VMDRV: return UIValues::page_dependencies;
+				default: return L""sv;
+			}
+		}
+		static std::wstring_view select_RemotePage__(const uint16_t id) {
+			switch (id) {
+				case DLG_PLUG_REMOTE_ISENABLE:
+				case DLG_PLUG_REMOTE_ISIPV6:
+				case DLG_PLUG_REMOTE_ISFASTSOCK:
+				case DLG_PLUG_REMOTE_ISREUSE:
+				case DLG_PLUG_REMOTE_SYSLINK:
+				case DLG_PLUG_REMOTE_IFACE_COMBO:
+				case DLG_PLUG_REMOTE_LOGLEVEL_COMBO:
+				case DLG_PLUG_REMOTE_PORT:
+				case DLG_PLUG_REMOTE_COPY_ADDR:
+				case DLG_PLUG_REMOTE_TMC:
+				case DLG_PLUG_REMOTE_TMI:
+				case DLG_PLUG_REMOTE_UA: return UIValues::page_settings_remote;
+				default: return L""sv;
+			}
+		}
+		static std::wstring_view select_GamePadPage__(const uint16_t id) {
+			switch (id) {
+				case DLG_PLUG_GAMEPAD_ISENABLE:
+				case DLG_PLUG_GAMEPAD_DEVICES:
+				case DLG_PLUG_GAMEPAD_TOTAL:
+				case DLG_PLUG_GAMEPAD_CONNECT:
+				case DLG_PLUG_GAMEPAD_SCENE:
+				case DLG_PLUG_GAMEPAD_STEPINT:
+				case DLG_PLUG_GAMEPAD_SLIDER1:
+				case DLG_PLUG_GAMEPAD_RTYPE1:
+				case DLG_PLUG_GAMEPAD_RTYPE2:
+				case DLG_PLUG_GAMEPAD_RTYPE_COMBO:
+				case DLG_PLUG_GAMEPAD_POLL:
+				case DLG_PLUG_GAMEPAD_ASBTN:
+				case DLG_PLUG_GAMEPAD_ISJOG: return UIValues::page_settings_gamepad;
 				default: return L""sv;
 			}
 		}
@@ -148,11 +213,11 @@ namespace Common {
 			return UIValues::blanks[i];
 		}
 
-		void UiUtils::ShowHelpPage(uint32_t dlgid, HELPINFO* h) {
+		void UiUtils::ShowHelpPage(const std::wstring& lang, uint32_t dlgid, HELPINFO* h) {
 			if (!h) return;
-			UiUtils::ShowHelpPage(dlgid, h->iCtrlId);
+			UiUtils::ShowHelpPage(lang, dlgid, h->iCtrlId);
 		}
-		void UiUtils::ShowHelpPage(const uint16_t dlgid, const uint16_t eleid) {
+		void UiUtils::ShowHelpPage(const std::wstring& lang, const uint16_t dlgid, const uint16_t eleid) {
 			try {
 				std::wstring page{};
 
@@ -164,7 +229,7 @@ namespace Common {
 							case DLG_START_MIXER_OLD_VALUE:
 							case DLG_START_MIXER_FAST_VALUE:
 							case DLG_START_MIXER_RIGHT_CLICK: page = UIValues::page_mixer; break;
-							case DLG_PLUG_MMKEY_ISENABLE: page = UIValues::page_settings; break;
+							case DLG_START_PLACE_PLUGIN: page = UIValues::page_settings; break;
 							case DLG_GO_STOP:
 							case DLG_GO_START: page = UIValues::page_launch; break;
 							case DLG_GO_ABOUT: page = UIValues::page_dependencies; break;
@@ -175,6 +240,10 @@ namespace Common {
 								if (!page.empty()) break;
 								page = select_MidiPage__(eleid);
 								if (!page.empty()) break;
+								page = select_RemotePage__(eleid);
+								if (!page.empty()) break;
+								page = select_GamePadPage__(eleid);
+								if (!page.empty()) break;
 								page = UIValues::page_index; break;
 							}
 						}
@@ -183,36 +252,46 @@ namespace Common {
 					case DLG_PLUG_MQTT_WINDOW: {
 						page = select_MqttPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_smarthome;
+						page = UIValues::page_settings_smarthouse;
 						break;
 					}
 					case DLG_PLUG_MIDI_WINDOW: {
 						page = select_MidiPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_launch;
+						page = UIValues::page_settings_midi;
 						break;
 					}
 					case DLG_PLUG_MMKEY_WINDOW: {
-						page = UIValues::page_mixer;
+						page = UIValues::page_settings_mmkeys;
 						break;
 					}
 					case DLG_PLUG_LIGHT_WINDOW: {
 						page = select_LightPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_lights;
+						page = UIValues::page_settings_lights;
 						break;
 					}
-
+					case DLG_PLUG_REMOTE_WINDOW: {
+						page = select_RemotePage__(eleid);
+						if (!page.empty()) break;
+						page = UIValues::page_settings_remote;
+						break;
+					}
+					case DLG_PLUG_GAMEPAD_WINDOW: {
+						page = select_GamePadPage__(eleid);
+						if (!page.empty()) break;
+						page = UIValues::page_settings_gamepad;
+						break;
+					}
 					case DLG_EDIT_WINDOW:
-					case DLG_EDIT_INFO_WINDOW: page = UIValues::page_settings; break;
+					case DLG_EDIT_INFO_WINDOW: page = UIValues::page_settings_config; break;
 					case DLG_ABOUT_WINDOW: page = UIValues::page_languages; break;
 					case DLG_COLOR_WINDOW: page = UIValues::page_mixer; break;
-					
-					case DLG_LOGVIEW_WINDOW:
+					case DLG_LOGVIEW_WINDOW: page = UIValues::page_settings; break;
 					case DLG_MONITOR_WINDOW: page = UIValues::page_installation; break;
 					default: page = UIValues::page_index; break;
 				}
-				std::wstring url{}; //= log_string::format(UIValues::help_fmt.data(), LangInterface::Get().GetLangId(), page);
+				std::wstring url = log_string::format(UIValues::help_fmt.data(), lang, page);
 				if (!url.empty())
 					::ShellExecuteW(0, 0, url.c_str(), 0, 0, SW_SHOW);
 
@@ -241,6 +320,32 @@ namespace Common {
 				::DragFinish(h);
 			} catch (...) {}
 			return cnf;
+		}
+
+		const bool UiUtils::IsUIThread() {
+			(void) ::GetLastError();
+			if (!::IsGUIThread(1)) return false;
+			if (::GetLastError() == ERROR_NOT_ENOUGH_MEMORY) return false;
+			return true;
+		}
+		void UiUtils::Post(HWND h, const std::function<void()>& f) {
+			try {
+				if (!h) return;
+				auto func = new std::function<void()>(f);
+				::PostMessageW(h, WM_APP + 2, 0, (LPARAM)func);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void UiUtils::PostExec(LPARAM l) {
+			try {
+				if (!l) return;
+				AsyncExecDeleter d = AsyncExecDeleter(l);
+				if (!d.empty()) (*d.Get())();
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
 		}
 	}
 }

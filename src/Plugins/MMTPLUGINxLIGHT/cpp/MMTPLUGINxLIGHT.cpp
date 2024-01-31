@@ -20,11 +20,12 @@ namespace Common {
 		using namespace Common::IO;
 		using namespace std::placeholders;
 
-		LightsPlugin::LightsPlugin(std::wstring path)
+		LightsPlugin::LightsPlugin(std::wstring path, HWND hwnd)
 			: plugin_ui_(
 				*static_cast<PluginCb*>(this),
 				[=]() -> LIGHT::SerialPortConfigs& { return dmx_->GetDivices(); },
-				[=]() -> LIGHT::ArtnetConfigs& { return artnet_->GetInterfaces(); }
+				[=]() -> LIGHT::ArtnetConfigs& { return artnet_->GetInterfaces(); },
+				hwnd
 			  ),
 			  IO::Plugin(
 				Utils::to_hash(path), DLG_PLUG_LIGHT_WINDOW,
@@ -34,7 +35,8 @@ namespace Common {
 				PLUG_DESCRIPTION,
 				this,
 				IO::PluginClassTypes::ClassLightKey,
-				(IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | IO::PluginCbType::LogsCb | IO::PluginCbType::ConfCb)
+				(IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | IO::PluginCbType::LogsCb | IO::PluginCbType::ConfCb),
+				hwnd
 			  ) {
 
 			PluginCb::out2_cb_ = std::bind(static_cast<void(LightsPlugin::*)(MIDI::MidiUnit&, DWORD)>(&LightsPlugin::cb_out_call_), this, _1, _2);
@@ -133,7 +135,8 @@ namespace Common {
 					(packet_id_.load(std::memory_order_acquire) >= t)) return;
 
 				packet_id_ = t;
-				switch (m.value.value) {
+				uint8_t val = m.value.value;
+				switch (val) {
 					case 0:
 					case 127: {
 						if (lock_->IsCanceled()) return;
@@ -148,8 +151,7 @@ namespace Common {
 				locker_auto locker(lock_, locker_auto::LockType::TypeLockOnlyOne);
 				if (!locker.Begin()) return;
 
-				uint8_t val = m.value.value,
-						target = m.target;
+				uint8_t target = m.target;
 				uint16_t did = static_cast<uint16_t>(m.longtarget);
 
 				if ((m.type == MIDI::MidiUnitType::BTN) || (m.type == MIDI::MidiUnitType::BTNTOGGLE))

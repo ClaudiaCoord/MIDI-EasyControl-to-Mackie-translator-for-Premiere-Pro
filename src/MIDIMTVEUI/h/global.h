@@ -40,4 +40,5 @@
 #include "ui/Sprites.h"
 #include "ui/ToolTipData.h"
 #include "ui/Panel.h"
+#include "ui/WindowToTop.h"
 

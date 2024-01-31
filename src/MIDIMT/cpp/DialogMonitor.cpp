@@ -35,7 +35,7 @@ namespace Common {
 		}
 
 		void DialogMonitor::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
 			CbEvent::Init(-1);
 			hwnd_.reset();
@@ -45,7 +45,7 @@ namespace Common {
 				set_controls__(hwnd_, false, IO::IOBridge::Get().IsStarted());
 
 				CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
-				isload_ = true;
+				isload_.store(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -125,7 +125,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_MONITOR_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_MONITOR_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_COMMAND: {
@@ -169,6 +169,5 @@ namespace Common {
 			return ::DefSubclassProc(h, m, w, l);
 		}
 		#pragma endregion
-
 	}
 }

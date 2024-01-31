@@ -12,7 +12,7 @@ namespace Common {
 	namespace MIDIMT {
 
 		void DialogAbout::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 		}
 		void DialogAbout::init_() {
@@ -24,7 +24,7 @@ namespace Common {
 				if ((h = ::GetDlgItem(hwnd_, DLG_ABOUT_ABOUT_COPY)))	::BringWindowToTop(h);
 				if ((h = ::GetDlgItem(hwnd_, DLG_ABOUT_ABOUT_VERSION)))	::BringWindowToTop(h);
 
-				isload_ = true;
+				isload_.store(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -59,7 +59,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_ABOUT_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_ABOUT_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_COMMAND: {

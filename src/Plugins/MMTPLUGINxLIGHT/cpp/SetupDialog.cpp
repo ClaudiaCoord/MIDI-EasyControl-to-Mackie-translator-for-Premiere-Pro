@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	+ Audio session volume/mute mixer.
+	+ Audio session values/mute mixer.
 	+ MultiMedia Key translator.
 	(c) CC 2023-2024, MIT
 
@@ -36,20 +36,21 @@ namespace Common {
 			return (std::find(v.begin(), v.end(), s) != v.end());
 		}
 
-		LightsSetupDialog::LightsSetupDialog(IO::PluginCb& cb, std::function<LIGHT::SerialPortConfigs& ()> f1, std::function<LIGHT::ArtnetConfigs& ()> f2)
+		LightsSetupDialog::LightsSetupDialog(IO::PluginCb& cb, std::function<LIGHT::SerialPortConfigs& ()> f1, std::function<LIGHT::ArtnetConfigs& ()> f2, HWND mhwnd)
 			: cb_(cb), get_serial_devices_(f1), get_network_interfaces_(f2) {
+			mhwnd_.reset(mhwnd);
 		}
 		LightsSetupDialog::~LightsSetupDialog() {
 			dispose_();
 		}
 
 		void LightsSetupDialog::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 		}
 		void LightsSetupDialog::init_() {
 			try {
-				isload_ = false;
+				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
 				config_.Copy(mmt->lightconf);
 				::CheckDlgButton(hwnd_, DLG_PLUG_LIGHT_POLL, CHECKBTN(config_.ispool));
@@ -60,7 +61,7 @@ namespace Common {
 				showDmxConfig_();
 				showArtnetConfig_();
 
-				isload_ = true;
+				isload_.store(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -79,6 +80,10 @@ namespace Common {
 						hwnd_.reset(h, static_cast<SUBCLASSPROC>(&PluginUi::DialogProc_), reinterpret_cast<DWORD_PTR>(this), 0);
 						init_();
 						return static_cast<INT_PTR>(1);
+					}
+					case WM_HELP: {
+						if (!l || !mhwnd_) break;
+						return ::SendMessageW(mhwnd_, m, DLG_PLUG_LIGHT_WINDOW, l);
 					}
 					case WM_COMMAND: {
 						if (!isload_) break;

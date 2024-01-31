@@ -82,7 +82,7 @@ namespace Common {
 
 				IO::IOBridge& br = IO::IOBridge::Get();
 				if (!br.IsLoaded()) {
-					br.Reload();
+					br.Reload(LangInterface::Get().GetMainHwnd());
 					if (!br.IsLoaded()) return false;
 				}
 				return br.Start();

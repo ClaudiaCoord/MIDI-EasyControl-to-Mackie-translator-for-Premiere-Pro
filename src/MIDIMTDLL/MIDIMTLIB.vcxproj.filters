@@ -52,6 +52,12 @@
     <Filter Include="Файлы заголовков\remote">
       <UniqueIdentifier>{720ad308-2880-479e-96e1-ee29d2511a3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\joystick">
+      <UniqueIdentifier>{fad97c15-0bbc-45db-8a95-9baf104cfaff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\joystick">
+      <UniqueIdentifier>{a6a3b84c-d4d3-4fee-8570-4f459e2f5014}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -186,6 +192,9 @@
     <ClInclude Include="..\Common\h\light\LightsConfig.h">
       <Filter>Файлы заголовков\light</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\joystick\JoystickConfig.h">
+      <Filter>Файлы заголовков\joystick</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -286,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="cpp\remote\RemoteConfig.cpp">
       <Filter>Исходные файлы\remote</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\joystick\JoystickConfig.cpp">
+      <Filter>Исходные файлы\joystick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

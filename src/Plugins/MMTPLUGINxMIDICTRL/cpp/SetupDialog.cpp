@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	+ Audio session volume/mute mixer.
+	+ Audio session values/mute mixer.
 	+ MultiMedia Key translator.
 	(c) CC 2023-2024, MIT
 
@@ -36,19 +36,20 @@ namespace Common {
 			::CheckDlgButton(hwnd_, DLG_PLUG_MIDI_ISOUT, CHECKBTN((val)));
 		}
 
-		MidiCtrlSetupDialog::MidiCtrlSetupDialog(IO::PluginCb& cb) : cb_(cb) {
+		MidiCtrlSetupDialog::MidiCtrlSetupDialog(IO::PluginCb& cb, HWND mhwnd) : cb_(cb) {
+			mhwnd_.reset(mhwnd);
 		}
 		MidiCtrlSetupDialog::~MidiCtrlSetupDialog() {
 			dispose_();
 		}
 
 		void MidiCtrlSetupDialog::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 		}
 		void MidiCtrlSetupDialog::init_() {
 			try {
-				isload_ = false;
+				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
 				auto ft = std::async(std::launch::async, [=]() ->bool {
 					config_.Copy(mmt->midiconf);
@@ -96,7 +97,7 @@ namespace Common {
 				UI::UiUtils::SetSliderValues(hwnd_, DLG_PLUG_MIDI_SLIDER2, DLG_PLUG_MIDI_SLIDER2_VAL, 100U, 1500U, i2);
 
 				buildDeviceListBox_(true, true);
-				isload_ = true;
+				isload_.store(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -118,7 +119,7 @@ namespace Common {
 					}
 					case WM_HSCROLL: {
 
-						if (!isload_ || (!l)) break;
+						if (!isload_) break;
 
 						switch (LOWORD(w)) {
 							case SB_LINELEFT:
@@ -147,6 +148,10 @@ namespace Common {
 							default: break;
 						}
 						break;
+					}
+					case WM_HELP: {
+						if (!l || !mhwnd_) break;
+						return ::SendMessageW(mhwnd_, m, DLG_PLUG_MIDI_WINDOW, l);
 					}
 					case WM_COMMAND: {
 						if (!isload_) break;
@@ -187,7 +192,14 @@ namespace Common {
 								break;
 							}
 							case DLG_PLUG_MIDI_INSTALL_VMDRV: {
-								UI::UiUtils::ShowHelpPage(DLG_PLUG_MIDI_WINDOW, DLG_PLUG_MIDI_INSTALL_VMDRV); /* virtual drivers install -> Action */
+								if (mhwnd_) {
+									HELPINFO hi{};
+									hi.cbSize = sizeof(hi);
+									hi.dwContextId = DLG_PLUG_MIDI_WINDOW;
+									hi.iCtrlId = DLG_PLUG_MIDI_INSTALL_VMDRV;
+									::SendMessageW(mhwnd_, m, DLG_PLUG_MIDI_WINDOW, reinterpret_cast<LPARAM>(&hi));
+									/* virtual drivers install -> Action */
+								}
 								dispose_();
 								return static_cast<INT_PTR>(1);
 							}
@@ -416,7 +428,7 @@ namespace Common {
 
 				HWND hi;
 				if (!(hi = ::GetDlgItem(hwnd_, DLG_PLUG_MIDI_LIST))) return;
-				isload_ = false;
+				isload_.store(false);
 
 				if (isinit)
 					(void) ListView_SetExtendedListViewStyle(hi,
@@ -451,7 +463,7 @@ namespace Common {
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			isload_ = oldload;
+			isload_.store(oldload);
 		}
 		void MidiCtrlSetupDialog::buildProxyComboBox_(const uint32_t n) {
 			try {

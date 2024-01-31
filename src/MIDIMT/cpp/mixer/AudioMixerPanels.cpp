@@ -441,7 +441,7 @@ namespace Common {
 		}
 		bool	AudioMixerPanels::add_(MIXER::AudioSessionItemChange item) {
 			try {
-				if (!::IsGUIThread(true))
+				if (!UI::UiUtils::IsUIThread())
 					throw make_common_error(LangInterface::Get().GetString(STRING_AMIX_MSG5));
 
 				common_config& cnf = common_config::Get();

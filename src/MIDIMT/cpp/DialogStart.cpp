@@ -69,11 +69,15 @@ namespace Common {
 		}
 
 		void DialogStart::dispose_() {
+			isload_.store(false, std::memory_order_release);
+			try {
+				IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
+				CbEvent::Init(-1);
+
+			} catch (...) {}
 			try {
 				if (open_plugin_ && !open_plugin_.get()->empty())
 					open_plugin_->GetPluginUi().CloseDialog();
-
-				isload_ = false;
 
 				hwnd_.reset();
 				img_status_.Reset();
@@ -81,7 +85,28 @@ namespace Common {
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			isload_ = false;
+		}
+		void DialogStart::ui_lock_(std::function<bool()> f, const bool t) {
+			isbusy_.store(true);
+			try {
+				if (open_plugin_ && !open_plugin_.get()->empty())
+					open_plugin_->GetPluginUi().CloseAnimateDialog();
+
+				HMENU hm{ nullptr };
+				if ((hm = ::GetSystemMenu(hwnd_, false))) ::EnableMenuItem(hm, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+				HWND hi{ nullptr };
+				if ((hi = ::GetDlgItem(hwnd_, IDCANCEL))) ::EnableWindow(hi, false);
+
+				const bool b = f();
+				changeStateActions_(t ? !b : b);
+
+				if (hm)	::EnableMenuItem(hm, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
+				if (hi)	::EnableWindow(hi, true);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			isbusy_.store(false);
 		}
 		void DialogStart::init_() {
 			try {
@@ -130,7 +155,7 @@ namespace Common {
 				CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
 				IO::IOBridge::Get().SetCb(*static_cast<CbEvent*>(this));
 
-				isload_ = true;
+				isload_.store(true, std::memory_order_release);
 
 				CbEvent::AddToLog((log_string() << VER_GUI_EN << L" | " << VER_COPYRIGHT).str());
 				{
@@ -167,21 +192,20 @@ namespace Common {
 		void DialogStart::start_() {
 			try {
 				if (!hwnd_) return;
-				IO::IOBridge& br = IO::IOBridge::Get();
-				if (!br.IsLoaded()) {
-					to_log::Get() << log_string().to_log_string(
-						__FUNCTIONW__,
-						common_error_code::Get().get_error(common_error_id::err_MIDIMT_NOPLUGINS)
-					);
-					return;
-				}
-				if (br.IsStarted()) return;
 
-				if (open_plugin_ && !open_plugin_.get()->empty())
-					open_plugin_->GetPluginUi().CloseAnimateDialog();
+				ui_lock_([=]() -> bool {
+					IO::IOBridge& br = IO::IOBridge::Get();
+					if (!br.IsLoaded()) {
+						to_log::Get() << log_string().to_log_string(
+							__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_MIDIMT_NOPLUGINS)
+						);
+						return false;
+					}
+					if (br.IsStarted()) return false;
+					return ClassStorage::Get().StartAsync();
 
-				const bool b = ClassStorage::Get().StartAsync();
-				changeStateActions_(!b);
+				}, true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -191,8 +215,9 @@ namespace Common {
 			try {
 				if (!hwnd_ || IO::IOBridge::Get().IsStoped()) return;
 
-				const bool b = ClassStorage::Get().StopAsync();
-				changeStateActions_(b);
+				ui_lock_([=]() -> bool {
+					return ClassStorage::Get().StopAsync();
+				}, false);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -428,6 +453,25 @@ namespace Common {
 
 				if (open_plugin_ && !open_plugin_.get()->empty())
 					open_plugin_->GetPluginUi().CloseAnimateDialog();
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogStart::event_Help_(LPARAM l) {
+			try {
+				if (!l || !hwnd_) return;
+
+				uint16_t did{ 0 };
+				HELPINFO* hi = reinterpret_cast<HELPINFO*>(l);
+				if (!hi) return;
+				if ((hi->iCtrlId == DLG_START_PLACE_PLUGIN) && (open_plugin_ && !open_plugin_.get()->empty()))
+					did = open_plugin_->GetPluginInfo().DialogId();
+
+				if (did)
+					UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), did, (uint16_t)0);
+				else
+					UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_START_WINDOW, hi);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -685,7 +729,7 @@ namespace Common {
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_NOTIFY: {
-						if (!isload_ || (!l)) break;
+						if (!isload_.load() || (!l)) break;
 
 						LPNMHDR lpmh = (LPNMHDR)l;
 						switch (lpmh->idFrom) {
@@ -711,7 +755,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_START_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						event_Help_(l);
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_MOVE: {
@@ -719,7 +763,7 @@ namespace Common {
 						break;
 					}
 					case WM_COMMAND: {
-						if (!isload_) break;
+						if (!isload_.load()) break;
 						uint16_t c{ LOWORD(w) };
 						switch (c) {
 							case DLG_EVENT_LOG: {
@@ -735,7 +779,7 @@ namespace Common {
 								return static_cast<INT_PTR>(1);
 							}
 							case DLG_GO_HELP: {
-								UI::UiUtils::ShowHelpPage(DLG_START_WINDOW, static_cast<uint16_t>(0U));
+								UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_START_WINDOW, static_cast<uint16_t>(0U));
 								return static_cast<INT_PTR>(1);
 							}
 							case DLG_GO_START: {
@@ -818,8 +862,7 @@ namespace Common {
 							}
 							case DLG_EXIT:
 							case IDCANCEL: {
-								IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
-								CbEvent::Init(-1);
+								if (isbusy_.load()) return static_cast<INT_PTR>(0);
 								dispose_();
 								return static_cast<INT_PTR>(1);
 							}

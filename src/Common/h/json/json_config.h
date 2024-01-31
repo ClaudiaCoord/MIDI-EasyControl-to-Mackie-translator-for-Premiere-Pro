@@ -30,6 +30,7 @@ namespace Common {
 			void ReadMMkeyConfig(Tiny::TinyJson&, MIDI::MMKeyConfig&);
 			void ReadLightConfig(Tiny::TinyJson&, LIGHT::LightsConfig&);
 			void ReadRemoteConfig(Tiny::TinyJson&, REMOTE::RemoteConfig<std::wstring>&);
+			void ReadGamepadConfig(Tiny::TinyJson&, GAMEPAD::JoystickConfig&);
 			void ReadLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void ReadLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);
 
@@ -41,6 +42,7 @@ namespace Common {
 			void WriteMqttConfig(Tiny::TinyJson&, MQTT::BrokerConfig<std::wstring>&);
 			void WriteMMkeyConfig(Tiny::TinyJson&, MIDI::MMKeyConfig&);
 			void WriteRemoteConfig(Tiny::TinyJson&, REMOTE::RemoteConfig<std::wstring>&);
+			void WriteGamepadConfig(Tiny::TinyJson&, GAMEPAD::JoystickConfig&);
 			void WriteLightConfig(Tiny::TinyJson&, LIGHT::LightsConfig&);
 			void WriteLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void WriteLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);

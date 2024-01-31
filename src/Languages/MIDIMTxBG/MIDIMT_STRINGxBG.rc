@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Настройки на мултимедийната клавиатура (MMKEYS)"
     STRING_LOGV_MSG6	"Настройки за управление на осветлението ({0})"
     STRING_LOGV_MSG7	"Настройки на панела за дистанционно управление (REMOTE)"
+    STRING_LOGV_MSG8	"Настройки за управление на геймпад/джойстик (GAMEPAD)"
+    STRING_LOGV_MSG9	"Натиснат клавиш MIDI:"
+    STRING_LOGV_MSG10	"Номер на етикета:"
 
     STRING_CHKR_MSG1	"При стартиране конфигурационният файл беше посочен: '{0}'. Да го задам като конфигурация за следващи изпълнения?"
     STRING_CHKR_MSG2	"MIDI-MT конфигурация"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Нов клиент {0}/{1} е свързан."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Грешка на клиента {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Клиентът {0}/{1} е прекъснат, състояние: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Няма драйвер за джойстик или геймпад."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Посоченият ID на джойстика е невалиден."
+	IDS_ERRORID_JOY_NOCANDO			"Въвеждането с джойстик не може да се запише и необходимата услуга не е налична."
+	IDS_ERRORID_JOY_UNPLUGGED		"Посоченият джойстик не е свързан към системата."
+	IDS_ERRORID_JOY_START			"Услугата за управление на геймпад/джойстик работи, активни устройства: {0}, онлайн: {1}."
+	IDS_ERRORID_JOY_STOP			"Услугата за управление на геймпада/джойстика е спряна."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Контролната сцена е променена от геймпада или джойстика на {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Контролът {0}/{1} се избира с геймпада или джойстика."
+
 	IDS_ERRORID_COPY_LINK			"Връзката е копирана в клипборда."
 	IDS_ERRORID_NET_IFACE_NONE		"Няма мрежови интерфейси"
 	IDS_ERRORID_NET_IFACE_SELECT		"Изберете мрежов интерфейс"

@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"マルチメディア キーボード設定 (MMKEYS)"
     STRING_LOGV_MSG6	"照明制御設定 ({0})"
     STRING_LOGV_MSG7	"リモコンの設定（REMOTE）"
+    STRING_LOGV_MSG8	"ゲームパッド/ジョイスティック制御設定（GAMEPAD）"
+    STRING_LOGV_MSG9	"MIDI キーが押されました:"
+    STRING_LOGV_MSG10	"タグ番号："
 
     STRING_CHKR_MSG1	"起動時に、構成ファイルが指定されました: '{0}'。以降の実行の構成として設定しますか?"
     STRING_CHKR_MSG2	"MIDI-MTの設定"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"新しいクライアント {0}/{1} が接続されました。"
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"クライアント エラー {0}/{1}、{2}。"
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"クライアント {0}/{1} が切断されました。ステータス: {2} - {3}。"
+
+	IDS_ERRORID_JOY_NODRIVER		"ジョイスティックやゲームパッドのドライバーはありません。"
+	IDS_ERRORID_JOY_INVALIDPARAM		"指定されたジョイスティック ID は無効です。"
+	IDS_ERRORID_JOY_NOCANDO			"ジョイスティック入力を書き込むことができず、必要なサービスが利用できません。"
+	IDS_ERRORID_JOY_UNPLUGGED		"指定されたジョイスティックはシステムに接続されていません。"
+	IDS_ERRORID_JOY_START			"ゲームパッド/ジョイスティック コントロール サービスが実行中です。アクティブなデバイス: {0}、オンライン: {1}。"
+	IDS_ERRORID_JOY_STOP			"ゲームパッド/ジョイスティック制御サービスが停止しました。"
+	IDS_ERRORID_JOY_CHANGE_SCENE		"ゲームパッドまたはジョイスティックによってコントロール シーンが {0} に変更されました。"
+	IDS_ERRORID_JOY_CHANGE_CTRL		"{0}/{1} コントロールはゲームパッドまたはジョイスティックで選択します。"
+
 	IDS_ERRORID_COPY_LINK			"リンクがクリップボードにコピーされました。"
 	IDS_ERRORID_NET_IFACE_NONE		"ネットワークインターフェースがありません"
 	IDS_ERRORID_NET_IFACE_SELECT		"ネットワークインターフェースの選択"

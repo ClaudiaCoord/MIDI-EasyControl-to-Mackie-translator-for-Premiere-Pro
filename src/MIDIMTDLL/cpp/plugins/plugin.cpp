@@ -29,11 +29,13 @@ namespace Common {
 			if (p) delete p;
 		}
 
-		Plugin::Plugin(uint32_t id, uint32_t did, GUID g, std::wstring p, std::wstring_view n, std::wstring_view d, void* clz, PluginClassTypes t, PluginCbType cbt)
+		Plugin::Plugin(uint32_t id, uint32_t did, GUID g, std::wstring p, std::wstring_view n, std::wstring_view d, void* clz, PluginClassTypes t, PluginCbType cbt, HWND h)
 			: plugin_info_(PluginInfo(id, did, g, p, n, d)), PluginCb::PluginCb(clz, t, cbt) {
+			mhwnd_.reset(h);
 		}
-		Plugin::Plugin(uint32_t id, uint32_t did, GUID g, std::wstring p, std::string_view n, std::string_view d, void* clz, PluginClassTypes t, PluginCbType cbt)
+		Plugin::Plugin(uint32_t id, uint32_t did, GUID g, std::wstring p, std::string_view n, std::string_view d, void* clz, PluginClassTypes t, PluginCbType cbt, HWND h)
 			: plugin_info_(PluginInfo(id, did, g, p, Utils::to_string(n), Utils::to_string(d))), PluginCb::PluginCb(clz, t, cbt) {
+			mhwnd_.reset(h);
 		}
 
 		const bool Plugin::configure() {
@@ -51,6 +53,9 @@ namespace Common {
 		}
 		IO::PluginInfo& Plugin::GetPluginInfo() {
 			return std::ref(plugin_info_);
+		}
+		HWND Plugin::GetMainHWWND() {
+			return mhwnd_.get();
 		}
 	}
 }

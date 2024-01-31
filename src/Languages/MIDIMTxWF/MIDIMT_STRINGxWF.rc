@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Ynstellings foar multimedia toetseboerd (MMKEYS)"
     STRING_LOGV_MSG6	"Ynstellings foar ljochtkontrôle ({0})"
     STRING_LOGV_MSG7	"Ynstellings foar kontrôlepaniel op ôfstân (REMOTE)"
+    STRING_LOGV_MSG8	"Ynstellings foar gamepad/joystick-kontrôle (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI toets yndrukt:"
+    STRING_LOGV_MSG10	"Label nûmer:"
 
     STRING_CHKR_MSG1	"By it opstarten waard it konfiguraasjetriem oantsjutte: '{0}'. Set it as in konfiguraasje foar folgjende runs?"
     STRING_CHKR_MSG2	"MIDI-MT konfiguraasje"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Nije klant {0}/{1} is ferbûn."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Client flater {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Klant {0}/{1} loskeppele, status: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"D'r is gjin joystick of gamepad-bestjoerder."
+	IDS_ERRORID_JOY_INVALIDPARAM		"De oantsjutte joystick-ID is ûnjildich."
+	IDS_ERRORID_JOY_NOCANDO			"De joystick-ynfier kin net skreaun wurde en de fereaske tsjinst is net beskikber."
+	IDS_ERRORID_JOY_UNPLUGGED		"De oantsjutte joystick is net ferbûn mei it systeem."
+	IDS_ERRORID_JOY_START			"De Gamepad/Joystick-kontrôletsjinst wurket, aktive apparaten: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"De Gamepad/Joystick-kontrôletsjinst is stoppe."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"De kontrôlesêne is troch gamepad of joystick feroare yn {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"De kontrôle {0}/{1} wurdt selektearre mei it gamepad of joystick."
+
 	IDS_ERRORID_COPY_LINK			"Link kopiearre nei klamboerd."
 	IDS_ERRORID_NET_IFACE_NONE		"Gjin netwurk ynterfaces"
 	IDS_ERRORID_NET_IFACE_SELECT		"Selektearje netwurkynterface"

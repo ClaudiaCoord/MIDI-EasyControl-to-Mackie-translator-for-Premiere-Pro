@@ -32,6 +32,7 @@ namespace Common {
             SC2 = 177,
             SC3 = 178,
             SC4 = 179,
+            SC101 = 101,
             SC1KNOB = 192,
             SC2KNOB = 193,
             SC3KNOB = 194,

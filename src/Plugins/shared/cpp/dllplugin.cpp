@@ -42,13 +42,13 @@ BOOL APIENTRY DllMain(HMODULE h, DWORD r, LPVOID) {
 #	ifdef __cplusplus
 
 	#if defined (_PLUGIN64)
-	#	pragma comment(linker, "/export:OpenPlugin=?OpenPlugin@@YA?AV?$shared_ptr@VPlugin@IO@Common@@@std@@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@2@@Z")
+	#	pragma comment(linker, "/export:OpenPlugin=?OpenPlugin@@YA?AV?$shared_ptr@VPlugin@IO@Common@@@std@@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@2@PEAUHWND__@@@Z")
 	#elif defined (_PLUGIN32)
-	#	pragma comment(linker, "/export:OpenPlugin=?OpenPlugin@@YA?AV?$shared_ptr@VPlugin@IO@Common@@@std@@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@2@@Z")
+	#	pragma comment(linker, "/export:OpenPlugin=?OpenPlugin@@YA?AV?$shared_ptr@VPlugin@IO@Common@@@std@@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@2@PAUHWND__@@@Z")
 	#endif
 
-	FLAG_EXPORT Common::IO::plugin_t OpenPlugin(std::wstring path) {
-		return std::make_shared<ThisPluginClass>(path);
+	FLAG_EXPORT Common::IO::plugin_t OpenPlugin(std::wstring path, HWND h) {
+		return std::make_shared<ThisPluginClass>(path, h);
 	}
 #	endif
 

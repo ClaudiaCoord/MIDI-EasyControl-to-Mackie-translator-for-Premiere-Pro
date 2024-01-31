@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Nastavení multimediální klávesnice (MMKEYS)"
     STRING_LOGV_MSG6	"Nastavení ovládání osvětlení ({0})"
     STRING_LOGV_MSG7	"Nastavení dálkového ovládacího panelu (REMOTE)"
+    STRING_LOGV_MSG8	"Nastavení ovládání gamepadem/joystickem (GAMEPAD)"
+    STRING_LOGV_MSG9	"Stisknuta klávesa MIDI:"
+    STRING_LOGV_MSG10	"Označ číslo:"
 
     STRING_CHKR_MSG1	"Při spuštění byl zadán konfigurační soubor: '{0}'. Nastavit to jako konfiguraci pro další běhy?"
     STRING_CHKR_MSG2	"Konfigurace MIDI-MT"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Nový klient {0}/{1} je připojen."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Chyba klienta {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Klient {0}/{1} odpojen, stav: {2} – {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Nechybí ovladač joysticku ani gamepadu."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Zadané ID joysticku je neplatné."
+	IDS_ERRORID_JOY_NOCANDO			"Vstup joysticku nelze zapsat a požadovaná služba není dostupná."
+	IDS_ERRORID_JOY_UNPLUGGED		"Zadaný joystick není připojen k systému."
+	IDS_ERRORID_JOY_START			"Služba ovládání Gamepad/Joystick je spuštěna, aktivní zařízení: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"Služba ovládání gamepadu/joysticku byla zastavena."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Ovládací scéna byla změněna gamepadem nebo joystickem na {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Ovládací prvek {0}/{1} se vybírá pomocí gamepadu nebo joysticku."
+
 	IDS_ERRORID_COPY_LINK			"Odkaz zkopírován do schránky."
 	IDS_ERRORID_NET_IFACE_NONE		"Žádná síťová rozhraní"
 	IDS_ERRORID_NET_IFACE_SELECT		"Vyberte síťové rozhraní"

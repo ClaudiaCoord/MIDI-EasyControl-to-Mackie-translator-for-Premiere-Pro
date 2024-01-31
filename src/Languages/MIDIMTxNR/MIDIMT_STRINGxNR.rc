@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Multimedietastaturinnstillinger (MMKEYS)"
     STRING_LOGV_MSG6	"Innstillinger for lysstyring ({0})"
     STRING_LOGV_MSG7	"Innstillinger for fjernkontrollpanel (REMOTE)"
+    STRING_LOGV_MSG8	"Innstillinger for styrekontroll/styrespak (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI-tast trykket:"
+    STRING_LOGV_MSG10	"Tag nummer:"
 
     STRING_CHKR_MSG1	"Ved oppstart ble konfigurasjonsfilen spesifisert: '{0}'. Vil du angi det som en konfigurasjon for påfølgende kjøringer?"
     STRING_CHKR_MSG2	"MIDI-MT konfigurasjon"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Ny klient {0}/{1} er tilkoblet."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Klientfeil {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Klient {0}/{1} frakoblet, status: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Det er ingen joystick eller gamepad-driver."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Den angitte joystick-ID-en er ugyldig."
+	IDS_ERRORID_JOY_NOCANDO			"Joystick-inngangen kan ikke skrives, og den nødvendige tjenesten er ikke tilgjengelig."
+	IDS_ERRORID_JOY_UNPLUGGED		"Den angitte styrespaken er ikke koblet til systemet."
+	IDS_ERRORID_JOY_START			"Tjenesten for styrekontroll/styrespak kjører, aktive enheter: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"Tjenesten for Gamepad/Joystick-kontroll har stoppet."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Kontrollscenen er endret til {0} med gamepad eller joystick."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"{0}/{1}-kontrollen velges med håndkontrolleren eller styrespaken."
+
 	IDS_ERRORID_COPY_LINK			"Linken er kopiert til utklippstavlen."
 	IDS_ERRORID_NET_IFACE_NONE		"Ingen nettverksgrensesnitt"
 	IDS_ERRORID_NET_IFACE_SELECT		"Velg nettverksgrensesnitt"

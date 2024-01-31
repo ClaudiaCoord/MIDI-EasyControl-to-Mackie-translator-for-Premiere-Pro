@@ -46,6 +46,7 @@ x64/*
 x86/*
 x32/*
 
+/_TRASH/*
 /src/MIDIMT*-cache/*
 /src/MIDIMTLauncher/rc/msi/*
 /src/MIDIMTLauncher/cpp/MIDIMT-Launcher.cpp

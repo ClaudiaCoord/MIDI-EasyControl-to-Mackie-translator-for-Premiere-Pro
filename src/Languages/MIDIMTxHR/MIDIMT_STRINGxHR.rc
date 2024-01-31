@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Postavke multimedijske tipkovnice (MMKEYS)"
     STRING_LOGV_MSG6	"Postavke upravljanja rasvjetom ({0})"
     STRING_LOGV_MSG7	"Postavke daljinske upravljačke ploče (REMOTE)"
+    STRING_LOGV_MSG8	"Postavke kontrole gamepada/džojstika (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI tipka pritisnuta:"
+    STRING_LOGV_MSG10	"Broj oznake:"
 
     STRING_CHKR_MSG1	"Prilikom pokretanja, konfiguracijska datoteka je navedena: '{0}'. Postaviti to kao konfiguraciju za sljedeća izvođenja?"
     STRING_CHKR_MSG2	"MIDI-MT konfiguracija"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Novi klijent {0}/{1} je povezan."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Pogreška klijenta {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Klijent {0}/{1} isključen, status: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Ne postoji upravljački program za joystick ili gamepad."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Navedeni ID joysticka nije valjan."
+	IDS_ERRORID_JOY_NOCANDO			"Unos joysticka ne može se napisati i potrebna usluga nije dostupna."
+	IDS_ERRORID_JOY_UNPLUGGED		"Navedeni joystick nije spojen na sustav."
+	IDS_ERRORID_JOY_START			"Usluga kontrole Gamepad/Joystick je pokrenuta, aktivni uređaji: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"Usluga kontrole gamepada/joysticka je zaustavljena."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Kontrolna scena promijenjena je pomoću gamepada ili joysticka u {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Kontrola {0}/{1} odabire se pomoću gamepada ili joysticka."
+
 	IDS_ERRORID_COPY_LINK			"Veza je kopirana u međuspremnik."
 	IDS_ERRORID_NET_IFACE_NONE		"Nema mrežnih sučelja"
 	IDS_ERRORID_NET_IFACE_SELECT		"Odaberite mrežno sučelje"

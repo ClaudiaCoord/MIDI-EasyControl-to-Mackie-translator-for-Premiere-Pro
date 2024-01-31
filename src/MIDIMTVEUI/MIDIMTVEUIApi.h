@@ -31,6 +31,7 @@ class SCNotification;
 #include "h/ui/Sprites.h"
 #include "h/ui/ToolTipData.h"
 #include "h/ui/Panel.h"
+#include "h/ui/WindowToTop.h"
 
 #undef FLAG_IMPORT
 #undef FLAG_EXPORT

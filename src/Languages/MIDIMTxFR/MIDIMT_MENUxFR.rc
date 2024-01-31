@@ -49,6 +49,7 @@ BEGIN
 	MENUITEM "afficher la configuration des clés MMKEYS",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "afficher la configuration LIGTS",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "afficher la configuration à distance",	DLG_LOGVIEW_MENU_CONF_REMOTE
+	MENUITEM "afficher la configuration du GAMEPAD",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
         MENUITEM SEPARATOR
 	MENUITEM "afficher la configuration DMX512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "afficher la configuration d'ArtNet",	DLG_LOGVIEW_MENU_CONF_ARTNET

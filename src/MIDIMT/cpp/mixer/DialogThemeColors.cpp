@@ -25,7 +25,7 @@ namespace Common {
 
 		void DialogThemeColors::dispose_() {
 			try {
-				isload_ = false;
+				isload_.store(false);
 
 				if (ischanged_.load()) {
 					worker_background::Get().to_async(std::async(std::launch::async, [=]() {
@@ -55,7 +55,8 @@ namespace Common {
 				hwndp_.reset();
 				hwnd_.reset();
 			} catch (...) {}
-			isload_ = ischanged_ = false;
+			isload_.store(false);
+			ischanged_.store(false);
 		}
 		void DialogThemeColors::init_() {
 			try {
@@ -78,8 +79,8 @@ namespace Common {
 
 				(void) ::CheckRadioButton(hwnd_, DLG_COLOR_RADIO_LIGHT, DLG_COLOR_RADIO_RETRO, idx);
 
-				ischanged_ = false;
-				isload_ = true;
+				ischanged_.store(false);
+				isload_.store(true);
 
 			} catch (...) {}
 		}
@@ -217,7 +218,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_COLOR_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_COLOR_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_CTLCOLORSTATIC: {
@@ -259,6 +260,5 @@ namespace Common {
 			return ::DefSubclassProc(h, m, w, l);
 		}
 		#pragma endregion
-
 	}
 }

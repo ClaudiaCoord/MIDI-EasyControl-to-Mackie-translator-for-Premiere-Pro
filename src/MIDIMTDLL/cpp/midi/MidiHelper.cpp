@@ -76,6 +76,7 @@ namespace Common {
 				case SC2: return L"2"sv;
 				case SC3: return L"3"sv;
 				case SC4: return L"4"sv;
+				case SC101: return L"101"sv;
 				case SC1KNOB: return L"1"sv;
 				case SC2KNOB: return L"2"sv;
 				case SC3KNOB: return L"3"sv;

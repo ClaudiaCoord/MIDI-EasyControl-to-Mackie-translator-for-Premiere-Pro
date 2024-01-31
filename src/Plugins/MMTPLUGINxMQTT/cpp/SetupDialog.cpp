@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	+ Audio session volume/mute mixer.
+	+ Audio session values/mute mixer.
 	+ MultiMedia Key translator.
 	(c) CC 2023-2024, MIT
 
@@ -46,19 +46,20 @@ namespace Common {
 			}
 		}
 
-		SmartHomeSetupDialog::SmartHomeSetupDialog(IO::PluginCb& cb) : cb_(cb) {
+		SmartHomeSetupDialog::SmartHomeSetupDialog(IO::PluginCb& cb, HWND mhwnd) : cb_(cb) {
+			mhwnd_.reset(mhwnd);
 		}
 		SmartHomeSetupDialog::~SmartHomeSetupDialog() {
 			dispose_();
 		}
 
 		void SmartHomeSetupDialog::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 		}
 		void SmartHomeSetupDialog::init_() {
 			try {
-				isload_ = false;
+				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
 				auto ft = std::async(std::launch::async, [=]() ->bool {
 					config_.Copy(mmt->mqttconf);
@@ -83,7 +84,7 @@ namespace Common {
 
 				buildLogLevelComboBox_(config_.loglevel);
 
-				isload_ = true;
+				isload_.store(true);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -102,6 +103,10 @@ namespace Common {
 						hwnd_.reset(h, static_cast<SUBCLASSPROC>(&PluginUi::DialogProc_), reinterpret_cast<DWORD_PTR>(this), 0);
 						init_();
 						return static_cast<INT_PTR>(1);
+					}
+					case WM_HELP: {
+						if (!l || !mhwnd_) break;
+						return ::SendMessageW(mhwnd_, m, DLG_PLUG_MQTT_WINDOW, l);
 					}
 					case WM_COMMAND: {
 						if (!isload_) break;

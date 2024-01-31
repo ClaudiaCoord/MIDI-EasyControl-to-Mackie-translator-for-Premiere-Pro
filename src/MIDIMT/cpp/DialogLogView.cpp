@@ -16,7 +16,7 @@ namespace Common {
 	namespace MIDIMT {
 
 		DialogLogView::DialogLogView() {
-			CbEvent::GetHwndCb = [=]() { return hwnd_.get(); };
+			CbEvent::GetHwndCb = [=]() { return hwed_.get(); };
 		}
 
 		void DialogLogView::dispose_() {
@@ -29,7 +29,7 @@ namespace Common {
 				hwnd_.reset();
 
 			} catch(...) {}
-			isload_ = false;
+			isload_.store(false);
 		}
 		void DialogLogView::init_() {
 			try {
@@ -40,13 +40,12 @@ namespace Common {
 
 				HINSTANCE hi = LangInterface::Get().GetMainHinstance();
 				hwed_.reset(
-					CreateWindowExW(0,
+					::CreateWindowExW(0,
 						L"Scintilla", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_CLIPCHILDREN,
 						r.left, r.top, r.right - r.left, r.bottom - r.top,
 						hwnd_, 0, hi, 0),
 					&DialogLogView::event_edit_,
-					0U,
-					reinterpret_cast<DWORD_PTR>(this)
+					reinterpret_cast<DWORD_PTR>(this), 1U
 				);
 
 				if (!hwed_) return;
@@ -64,7 +63,7 @@ namespace Common {
 				editor_->init(hwed_, path);
 				build_MenuPluginList_();
 
-				isload_ = true;
+				isload_.store(true);
 
 				CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
 				IO::IOBridge::Get().SetCb(*static_cast<CbEvent*>(this));
@@ -144,9 +143,26 @@ namespace Common {
 				if (!data) return;
 				CbEventDataDeleter d = data->GetDeleter();
 				if (!hwnd_ || !editor_ || (d.GetData()->GetType() != t)) return;
-				std::wstring ws = d.GetData()->Get<std::wstring>();
-				if (ws.empty()) return;
-				editor_->set((log_string() << ws.c_str() << L"\n").str());
+				log_string ls{};
+
+				switch (t) {
+					using enum MIDIMT::CbHWNDType;
+					case TYPE_CB_LOG: {
+						std::wstring ws = CbEvent::ToLog(d.GetData());
+						if (ws.empty()) return;
+						ls << ws.c_str() << L"\n";
+						break;
+					}
+					case TYPE_CB_MON: {
+						std::wstring ws = CbEvent::ToMonitor(d.GetData());
+						if (ws.empty()) return;
+						ls << L"-\t" << LangInterface::Get().GetString(STRING_LOGV_MSG9) << L"\t\t" << ws.c_str() << L"\n";
+						break;
+					}
+					default: return;
+				}
+				
+				editor_->set(ls.str());
 			} catch (...) {}
 		}
 		void DialogLogView::event_Config_(const std::wstring& title, const std::wstring& s) {
@@ -179,6 +195,13 @@ namespace Common {
 				IO::IOBridge& br = IO::IOBridge::Get();
 				IO::plugin_t& p = br[(idx - DLG_PLUGSTAT_MENU_0)];
 				if (!p || p->empty()) return;
+				event_Stat_(p);
+
+			} catch (...) {}
+		}
+		void DialogLogView::event_Stat_(IO::plugin_t& p) {
+			try {
+				if (!p || p->empty()) return;
 
 				IO::PluginInfo& pi = p.get()->GetPluginInfo();
 				log_string ls{};
@@ -194,6 +217,24 @@ namespace Common {
 				}
 				editor_->append(ls.str());
 
+			} catch (...) {}
+		}
+		void DialogLogView::event_Stats_() {
+			try {
+				if (!hwed_ || !editor_) return;
+
+				GUID guid{ GUID_NULL };
+				IO::IOBridge& br = IO::IOBridge::Get();
+
+				for (uint16_t i = DLG_PLUGSTAT_MENU_0; i <= DLG_PLUGSTAT_MENU_9; i++) {
+					IO::plugin_t& p = br[(i - DLG_PLUGSTAT_MENU_0)];
+					if (!p || p->empty()) continue;
+
+					const GUID& pguid = p.get()->GetPluginInfo().Guid();
+					if (guid == pguid) continue;
+					guid = pguid;
+					event_Stat_(p);
+				}
 			} catch (...) {}
 		}
 		#pragma endregion
@@ -220,21 +261,13 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_LOGVIEW_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_LOGVIEW_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_COMMAND: {
 						if (!isload_) break;
 						uint16_t c{ LOWORD(w) };
 						switch (c) {
-							case DLG_EVENT_LOG: {
-								event_Log_(reinterpret_cast<MIDIMT::CbEventData*>(l));
-								break;
-							}
-							case DLG_EVENT_MONITOR: {
-								event_Monitor_(reinterpret_cast<MIDIMT::CbEventData*>(l));
-								break;
-							}
 							case DLG_LOGVIEW_MENU_ZOOMIN: {
 								zoomin_();
 								break;
@@ -322,9 +355,13 @@ namespace Common {
 								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG7), conf->remoteconf.dump());
 								break;
 							}
+							case DLG_LOGVIEW_MENU_CONF_GAMEPAD: {
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG8), conf->gamepadconf.dump());
+								break;
+							}
 							case DLG_PLUGSTAT_MENU: {
-								for (uint16_t i = DLG_PLUGSTAT_MENU_0; i <= DLG_PLUGSTAT_MENU_9; i++)
-									event_Stat_(i);
+								event_Stats_();
 								break;
 							}
 							case DLG_PLUGSTAT_MENU_0:

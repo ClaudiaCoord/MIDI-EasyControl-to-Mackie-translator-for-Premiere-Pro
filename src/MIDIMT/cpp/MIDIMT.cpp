@@ -21,13 +21,15 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "propsys.lib")
 #pragma comment(lib, "gdiplus.lib")
+
 #pragma comment(lib, "MIDIMTLIB.lib")
 #pragma comment(lib, "EASYCTRL9.lib")
 #pragma comment(lib, "MIDIMTBR.lib")
 #pragma comment(lib, "MIDIMTMIX.lib")
 #pragma comment(lib, "MIDIMTVEUI.lib")
 
-UINT const WMAPP_SHELLICON = WM_APP + 101;
+UINT const WMAPP_SHELLICON = WM_APP + 1;
+UINT const WMAPP_ASYNC_RUN = WM_APP + 2;
 Gdiplus::GdiplusStartupInput gdiplusStartupInput{};
 ULONG_PTR					 gdiplusToken{};
 
@@ -50,11 +52,29 @@ LRESULT CALLBACK    wnd_proc_(HWND, UINT, WPARAM, LPARAM);
 	}
 	#pragma endregion
 
+LONG WINAPI uexception_handler(PEXCEPTION_POINTERS ep) {
+	if ((ep) && (ep->ExceptionRecord))
+		Common::to_log::Get() << (Common::log_string() << __FUNCTIONW__ << L", Unhandled exception: " << std::hex << ep->ExceptionRecord->ExceptionCode);
+	return EXCEPTION_CONTINUE_SEARCH;
+}
+
 int APIENTRY wWinMain(
 	_In_ HINSTANCE HINST_,
 	_In_opt_ HINSTANCE,
 	_In_ LPWSTR,
 	_In_ int) {
+
+	::SetUnhandledExceptionFilter(uexception_handler);
+	std::set_terminate([]() {
+		try {
+			Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+		} catch (...) {
+			Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+		}
+		#if defined(_DEBUG)
+		std::abort();
+		#endif
+	});
 
 	Common::MIDIMT::LangInterface& lang = Common::MIDIMT::LangInterface::Get();
 	lang.SetMainHinstance(HINST_);
@@ -114,7 +134,7 @@ int APIENTRY wWinMain(
 				isrun = false;
 			}
 			Common::IO::IOBridge& br = Common::IO::IOBridge::Get();
-			if (!br.Init() || !br.IsLoaded()) return;
+			if (!br.Init(lang.GetMainHwnd()) || !br.IsLoaded()) return;
 
 			if (isrun)
 				(void) Common::MIDIMT::ClassStorage::Get().Start(true);
@@ -195,11 +215,16 @@ bool init_instance_() {
 
 LRESULT CALLBACK wnd_proc_(HWND h, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
+		case WM_HELP: {
+			if (!l) break;
+			Common::UI::UiUtils::ShowHelpPage(Common::MIDIMT::LangInterface::Get().GetHelpLangId(), static_cast<uint16_t>(w), reinterpret_cast<HELPINFO*>(l));
+			return static_cast<INT_PTR>(1);
+		}
 		case WM_COMMAND: {
 			switch (LOWORD(w)) {
 				case IDM_GO_EMPTY: {
 					if (!Common::MIDI::MidiDevices::Get().CheckVirtualDriver())
-						Common::UI::UiUtils::ShowHelpPage(DLG_START_WINDOW, DLG_GO_ABOUT);
+						Common::UI::UiUtils::ShowHelpPage(Common::MIDIMT::LangInterface::Get().GetHelpLangId(), DLG_START_WINDOW, DLG_GO_ABOUT);
 					break;
 				}
 				case IDM_GO_STOP: {
@@ -248,10 +273,13 @@ LRESULT CALLBACK wnd_proc_(HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 				case IDM_EXIT: {
 					try {
-						Common::MIDIMT::ClassStorage::Get().Stop();
+						try {
+							Common::MIDIMT::ClassStorage::Get().Stop();
+						} catch (...) {}
+						::DestroyWindow(h);
+						return static_cast<INT_PTR>(1);
 					} catch (...) {}
-					::DestroyWindow(h);
-					return static_cast<INT_PTR>(1);
+					return static_cast<INT_PTR>(0);
 				}
 				default: return DefWindowProcW(h, m, w, l);
 			}
@@ -280,12 +308,11 @@ LRESULT CALLBACK wnd_proc_(HWND h, UINT m, WPARAM w, LPARAM l) {
 			}
 			break;
 		}
+		case WMAPP_ASYNC_RUN: {
+			Common::UI::UiUtils::PostExec(l);
+			return static_cast<INT_PTR>(0);
+		}
 		case WM_PAINT: {
-			/*
-			PAINTSTRUCT ps;
-			HDC hdc = ::BeginPaint(h, &ps);
-			::EndPaint(h, &ps);
-			*/
 			break;
 		}
 		case WM_DESTROY: {

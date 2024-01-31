@@ -1,6 +1,6 @@
 /*
 	MIDI EasyControl9 to MIDI-Mackie translator for Adobe Premiere Pro Control Surfaces.
-	+ Audio session volume/mute mixer.
+	+ Audio session values/mute mixer.
 	+ MultiMedia Key translator.
 	(c) CC 2023-2024, MIT
 

@@ -64,22 +64,9 @@ namespace Common {
 		const bool		IsConfig();
 		const bool		IsNewConfig();
 		const bool		IsConfigEmpty();
-		const bool		IsProxy();
-
-		const bool		IsJogSceneFilter();
-		void			IsJogSceneFilter(bool);
 
 		const bool		IsAutoStart();
 		void			IsAutoStart(bool);
-
-		void			NumProxy(uint32_t);
-		const uint32_t	NumProxy();
-
-		uint32_t		ButtonOnInterval();
-		void			ButtonOnInterval(uint32_t);
-
-		uint32_t		ButtonOnLongInterval();
-		void			ButtonOnLongInterval(uint32_t);
 
 		std::wstring	GetConfigPath();
 

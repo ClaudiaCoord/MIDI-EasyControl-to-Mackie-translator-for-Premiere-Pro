@@ -15,27 +15,21 @@
 namespace Common {
 	namespace MIDI {
 
-		bool Mackie::SelectorTarget(MidiUnit& unit, MIDIDATA& m, IO::PluginClassTypes t) {
+		bool Mackie::SelectorTarget(const MidiUnit& unit, MIDIDATA& m, const IO::PluginClassTypes t) {
 
 			switch (t) {
 				using enum IO::PluginClassTypes;
 				case ClassIn:
 				case ClassOut:
-				case ClassOut1:
-				case ClassOut2:
 				case ClassSys:
-				case ClassProxy:
 				case ClassRemote:
-				case ClassMonitor:
-				case ClassOutMidi:
-				case ClassVirtualMidi:   return true;
+				case ClassMonitor:		 return true;
 				case ClassMixer:         return (unit.target & Target::VOLUMEMIX);
 				case ClassMediaKey:      return (unit.target & Target::MEDIAKEY);
 				case ClassMqttKey:       return (unit.target & Target::MQTTKEY);
 				case ClassLightKey:      return ((unit.target & Target::LIGHTKEY8B) || (unit.target & Target::LIGHTKEY16B));
-				case ClassOutMidiMackie: break;
+				case ClassMidi: break;
 				case ClassNone:
-				case ClassInMidi:
 				default: return false;
 			}
 			switch (unit.target) {
@@ -48,6 +42,7 @@ namespace Common {
 				case LIGHTKEY8B:
 				case LIGHTKEY16B:
 				case MEDIAKEY:
+				case MQTTKEY:
 				case VOLUMEMIX: return false;
 				default: break;
 			}
@@ -271,46 +266,46 @@ namespace Common {
 			}
 			return true;
 		}
-		void Mackie::SetFunctionOnce(Function id, MIDIDATA& m) {
+		void Mackie::SetFunctionOnce(const Function id, MIDIDATA& m) {
 			SetFunction(id, true, m);
 		}
-		void Mackie::SetFunction(Function id, bool status, MIDIDATA& m) {
+		void Mackie::SetFunction(const Function id, const bool status, MIDIDATA& m) {
 			m.Set(
 				status ? static_cast<uint8_t>(Types::NoteOn) : static_cast<uint8_t>(Types::NoteOff),
 				static_cast<uint8_t>(id),
 				status ? 0x7f : 0x40
 			);
 		}
-		void Mackie::SetVolume(int value, MIDIDATA& m) {
+		void Mackie::SetVolume(const int value, MIDIDATA& m) {
 			SetVolume(8, value, m);
 		}
-		void Mackie::SetVolume(int number, int value, MIDIDATA& m) {
+		void Mackie::SetVolume(const int number, const int value, MIDIDATA& m) {
 			m.Set(
 				static_cast<uint8_t>(Types::PitchBend) | static_cast<uint8_t>(number),
 				0x0,
 				static_cast<uint8_t>(value)
 			);
 		}
-		void Mackie::SetPan(bool value, MIDIDATA& m) {
+		void Mackie::SetPan(const bool value, MIDIDATA& m) {
 			SetPan(24, value, m);
 		}
-		void Mackie::SetPan(int number, bool value, MIDIDATA& m) {
+		void Mackie::SetPan(const int number, const bool value, MIDIDATA& m) {
 			m.Set(
 				static_cast<uint8_t>(Types::ControlChange),
 				static_cast<uint8_t>(Control::PanFade) + static_cast<uint8_t>(number),
 				value ? 0x41 : 0x01
 			);
 		}
-		void Mackie::SetWheel(bool value, MIDIDATA& m) {
+		void Mackie::SetWheel(const bool value, MIDIDATA& m) {
 			m.Set(
 				static_cast<uint8_t>(Types::ControlChange),
 				static_cast<uint8_t>(Control::JogWheel),
-				value ? 0x41 : 0x01
+				value ? 0x01 : 0x41
 			);
 		}
 
-		void Mackie::MIDIDATA::Set(uint8_t type, uint8_t id, uint8_t val, uint8_t ext) {
-			data[0] = type;
+		void Mackie::MIDIDATA::Set(uint8_t sc, uint8_t id, uint8_t val, uint8_t ext) {
+			data[0] = sc;
 			data[1] = id;
 			data[2] = val;
 			data[3] = ext;
@@ -341,6 +336,12 @@ namespace Common {
 		}
 		const bool Mackie::MIDIDATA::equals(MIDIDATA& m) const {
 			return (data[0] == m.data[0]) && (data[1] == m.data[1]) && (data[2] == m.data[2]) && (data[3] == m.data[3]);
+		}
+		void Mackie::MIDIDATA::clear() {
+			data[0] = 255U;
+			data[1] = 255U;
+			data[2] = 255U;
+			data[3] = 255U;
 		}
 	}
 }

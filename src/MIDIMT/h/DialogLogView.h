@@ -20,6 +20,8 @@ namespace Common {
 			void event_Config_Show_(const std::wstring&, const std::wstring&);
 			void event_Scint_(LPNMHDR);
 			void event_Stat_(uint16_t);
+			void event_Stat_(IO::plugin_t&);
+			void event_Stats_();
 
 			void zoomin_();
 			void zoomout_();

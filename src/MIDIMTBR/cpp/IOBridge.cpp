@@ -97,15 +97,17 @@ namespace Common {
 			return plugins_->count_out();
 		}
 
-		const bool   IOBridge::Init() {
+		const bool   IOBridge::Init(HWND hwnd) {
 			try {
+				if (!mhwnd_ && hwnd) mhwnd_.reset(hwnd);
+
 				if (!plugins_->empty()) {
 					to_log::Get() << log_string().to_log_string(__FUNCTIONW__,
 						common_error_code::Get().get_error(common_error_id::err_PLUGIN_ALREADY_LOADED));
 					return true;
 				}
 				state_.fill(0U);
-				state_.at(0) = plugins_->init(event_sys_, event_in_, event_out_);
+				state_.at(0) = plugins_->init(event_sys_, event_in_, event_out_, mhwnd_.get());
 				if (!state_.at(0)) {
 					to_log::Get() << log_string().to_log_string(__FUNCTIONW__,
 						common_error_code::Get().get_error(common_error_id::err_BRIDGE_NOT_INIT));
@@ -171,7 +173,7 @@ namespace Common {
 			}
 			return false;
 		}
-		const bool   IOBridge::Reload() {
+		const bool   IOBridge::Reload(HWND hwnd) {
 			try {
 				if (IsStarted()) Stop();
 				dispose_();
@@ -185,7 +187,7 @@ namespace Common {
 				event_in_->GetCb().SetCb(event_sys_->GetCb());
 				event_out_->GetCb().SetCb(event_sys_->GetCb());
 
-				return Init();
+				return Init(hwnd);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}

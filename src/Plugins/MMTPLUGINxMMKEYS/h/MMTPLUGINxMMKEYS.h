@@ -29,7 +29,7 @@ namespace Common {
 
 		public:
 
-			MMKeysPlugin(std::wstring);
+			MMKeysPlugin(std::wstring, HWND);
 			~MMKeysPlugin();
 
 			bool load(std::shared_ptr<JSON::MMTConfig>&) override;

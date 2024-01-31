@@ -32,19 +32,13 @@ namespace Common {
 			ClassSys,       // system class (log, pid etc)
 			ClassIn,        // bridge IN (system) class
 			ClassOut,       // bridge OUT (system) class
-			ClassProxy,
-			ClassMixer,
-			ClassMonitor,
+			ClassMidi,
+			ClassLightKey,
 			ClassMediaKey,
 			ClassMqttKey,
-			ClassLightKey,
 			ClassRemote,
-			ClassInMidi,
-			ClassOutMidi,
-			ClassOutMidiMackie,
-			ClassVirtualMidi,
-			ClassOut1,
-			ClassOut2,
+			ClassMixer,
+			ClassMonitor
 		};
 		enum class PluginTypeId : int {
 			BY_NONE = 0,

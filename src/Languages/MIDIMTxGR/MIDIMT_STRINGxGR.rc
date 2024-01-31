@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"მულტიმედიური კლავიატურის პარამეტრები (MMKEYS)"
     STRING_LOGV_MSG6	"განათების კონტროლის პარამეტრები ({0})"
     STRING_LOGV_MSG7	"დისტანციური მართვის პანელის პარამეტრები (REMOTE)"
+    STRING_LOGV_MSG8	"Gamepad/Joystick-ის კონტროლის პარამეტრები (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI ღილაკი დაჭერილია:"
+    STRING_LOGV_MSG10	"Მონიშნე ნომერი:"
 
     STRING_CHKR_MSG1	"გაშვებისას კონფიგურაციის ფაილი იყო მითითებული: „{0}“. დააყენოთ ის, როგორც კონფიგურაცია შემდგომი გაშვებებისთვის?"
     STRING_CHKR_MSG2	"MIDI-MT კონფიგურაცია"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"ახალი კლიენტი {0}/{1} დაკავშირებულია."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"კლიენტის შეცდომა {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"კლიენტი {0}/{1} გათიშულია, სტატუსი: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"არ არის ჯოისტიკი ან გეიმპადის დრაივერი."
+	IDS_ERRORID_JOY_INVALIDPARAM		"მითითებული ჯოისტიკის ID არასწორია."
+	IDS_ERRORID_JOY_NOCANDO			"ჯოისტიკის შეყვანის ჩაწერა შეუძლებელია და საჭირო სერვისი მიუწვდომელია."
+	IDS_ERRORID_JOY_UNPLUGGED		"მითითებული ჯოისტიკი არ არის დაკავშირებული სისტემასთან."
+	IDS_ERRORID_JOY_START			"გაშვებულია Gamepad/Joystick მართვის სერვისი, აქტიური მოწყობილობები: {0}, ონლაინ: {1}."
+	IDS_ERRORID_JOY_STOP			"Gamepad/ჯოისტიკის მართვის სერვისი შეჩერებულია."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"საკონტროლო სცენა გეიმპადის ან ჯოისტიკის მიერ შეიცვალა {0}-ით."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"კონტროლი {0}/{1} შეირჩევა გეიმპედით ან ჯოისტიკით."
+
 	IDS_ERRORID_COPY_LINK			"ბმული კოპირებულია ბუფერში."
 	IDS_ERRORID_NET_IFACE_NONE		"ქსელის ინტერფეისები არ არის"
 	IDS_ERRORID_NET_IFACE_SELECT		"აირჩიეთ ქსელის ინტერფეისი"

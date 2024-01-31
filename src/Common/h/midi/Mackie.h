@@ -107,7 +107,7 @@ namespace Common {
 				uint8_t data[4]{};
 				DWORD send;
 
-				void Set(uint8_t type, uint8_t id, uint8_t val, uint8_t ext = 0x0);
+				void Set(uint8_t sc, uint8_t id, uint8_t val, uint8_t ext = 0x0);
 				void SetValue(bool b);
 				uint8_t scene() const;
 				uint8_t key() const;
@@ -117,27 +117,28 @@ namespace Common {
 				std::wstring dump_ui();
 				const bool empty() const;
 				const bool equals(MIDIDATA&) const;
+				void clear();
 			};
 
-			static bool SelectorTarget(MidiUnit& unit, MIDIDATA& m, IO::PluginClassTypes t);
-			static void SetFunctionOnce(Function id, MIDIDATA& m);
-			static void SetFunction(Function id, bool status, MIDIDATA& m);
-			static void SetVolume(int value, MIDIDATA& m);
-			static void SetVolume(int number, int value, MIDIDATA& m);
-			static void SetPan(bool value, MIDIDATA& m);
-			static void SetPan(int number, bool value, MIDIDATA& m);
-			static void SetWheel(bool value, MIDIDATA& m);
+			static bool SelectorTarget(const MidiUnit& unit, MIDIDATA& m, const IO::PluginClassTypes t);
+			static void SetFunctionOnce(const Function id, MIDIDATA& m);
+			static void SetFunction(const Function id, const bool status, MIDIDATA& m);
+			static void SetVolume(const int value, MIDIDATA& m);
+			static void SetVolume(const int number, const int value, MIDIDATA& m);
+			static void SetPan(const bool value, MIDIDATA& m);
+			static void SetPan(const int number, const bool value, MIDIDATA& m);
+			static void SetWheel(const bool value, MIDIDATA& m);
 
 			template<typename T>
-			static void SetButton(T id, bool status, MIDIDATA& m) {
+			static void SetButton(const T id, const bool status, MIDIDATA& m) {
 				SetButton(id, 0, status, m);
 			}
 			template<typename T>
-			static void SetButton(T id, int number, MIDIDATA& m) {
+			static void SetButton(const T id, const int number, MIDIDATA& m) {
 				SetButton(id, number, true, m);
 			}
 			template<typename T>
-			static void SetButton(T id, int number, bool status, MIDIDATA& m) {
+			static void SetButton(const T id, const int number, const bool status, MIDIDATA& m) {
 				m.Set(
 					status ? static_cast<uint8_t>(Types::NoteOn) : static_cast<uint8_t>(Types::NoteOff),
 					static_cast<uint8_t>(id) | static_cast<uint8_t>(number),

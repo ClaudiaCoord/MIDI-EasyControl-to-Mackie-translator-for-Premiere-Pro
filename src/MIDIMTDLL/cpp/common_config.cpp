@@ -17,17 +17,23 @@ namespace Common {
 	using namespace std::string_view_literals;
 	constexpr std::wstring_view DEFAULT_CNF_FILE = L"MidiController.cnf"sv;
 
-	common_config common_config::ctrlcommonconfig_;
+	common_config common_config::ctrlcommonconfig_{};
 
-	static time_t getConfigFileModify__(std::wstring& s) {
+	static time_t getConfigFileModify__(const std::wstring& s) {
 		__try {
-			struct _stat64 fileInfo;
-			if (_wstat64(s.c_str(), &fileInfo) == 0)
-				return fileInfo.st_mtime;
+			#if defined (_WIN64)
+			struct _stat64 fi{};
+			if (_wstat64(s.c_str(), &fi) == 0)
+				return fi.st_mtime;
+			#else
+			struct _stat fi{};
+			if (_wstat(s.c_str(), &fi) == 0)
+				return fi.st_mtime;
+			#endif
 		} __except (EXCEPTION_EXECUTE_HANDLER) {}
 		return 0;
 	}
-	time_t getConfigFileModify_(std::wstring& s) {
+	time_t getConfigFileModify_(const std::wstring& s) {
 		_set_se_translator(seh_exception_catch);
 		try {
 			return getConfigFileModify__(s);
@@ -66,54 +72,30 @@ namespace Common {
 	}
 	const bool		common_config::IsNewConfig() {
 		try {
-			do {
-				if (config_last_write_time == 0) break;
-				std::wstring p = Registry.GetConfPath();
-				if (p.empty()) break;
-				time_t ft = getConfigFileModify_(p);
-				if (ft == 0) break;
-				if (config_last_write_time != ft) return true;
-			} while (0);
-			return !config_ptr_;
+			std::wstring p = Registry.GetConfPath();
+			if (p.empty()) return false;
+
+			time_t ft = getConfigFileModify_(p);
+
+			if ((ft == 0) || (config_last_write_time == 0)) {
+				config_last_write_time = ft;
+			}
+			else if (config_last_write_time != ft) {
+				config_last_write_time = ft;
+				return true;
+			}
 		} catch (...) {}
-		return true;
+		return false;
 	}
 
 	const bool		common_config::IsConfigEmpty() {
 		return (!config_ptr_) || config_ptr_->empty();
-	}
-	const bool		common_config::IsProxy() {
-		return config_ptr_ ? (config_ptr_->midiconf.proxy_count > 0) : false;
-	}
-	const uint32_t	common_config::NumProxy() {
-		return config_ptr_ ? config_ptr_->midiconf.proxy_count : 0U;
-	}
-	void			common_config::NumProxy(uint32_t cnt) {
-		if (config_ptr_) update_value_(((cnt < 16) ? cnt : 15), config_ptr_->midiconf.proxy_count);
 	}
 	const bool		common_config::IsAutoStart() {
 		return config_ptr_ ? config_ptr_->auto_start : false;
 	}
 	void			common_config::IsAutoStart(bool b) {
 		if (config_ptr_) update_value_(b, config_ptr_->auto_start);
-	}
-	uint32_t		common_config::ButtonOnInterval() {
-		return config_ptr_ ? config_ptr_->midiconf.btn_interval : 0;
-	}
-	void			common_config::ButtonOnInterval(uint32_t i) {
-		if (config_ptr_) update_value_(i, config_ptr_->midiconf.btn_interval);
-	}
-	uint32_t		common_config::ButtonOnLongInterval() {
-		return config_ptr_ ? config_ptr_->midiconf.btn_long_interval : 0;
-	}
-	void			common_config::ButtonOnLongInterval(uint32_t i) {
-		if (config_ptr_) update_value_(i, config_ptr_->midiconf.btn_long_interval);
-	}
-	const bool		common_config::IsJogSceneFilter() {
-		return config_ptr_ ? config_ptr_->midiconf.jog_scene_filter : false;
-	}
-	void			common_config::IsJogSceneFilter(bool b) {
-		if (config_ptr_) update_value_(b, config_ptr_->midiconf.jog_scene_filter);
 	}
 	std::wstring	common_config::GetConfigPath() {
 		std::wstring cnfpath{};

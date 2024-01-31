@@ -28,7 +28,7 @@ namespace Common {
 			hwnd_.reset();
 		}
 		void Panel::refresh_() {
-			if (hwnd_ && ::IsGUIThread(true))
+			if (hwnd_ && UiUtils::IsUIThread())
 				::SetWindowPos(hwnd_.get(), HWND_TOP, x, y, 0, 0, SWP_NOSIZE);
 		}
 

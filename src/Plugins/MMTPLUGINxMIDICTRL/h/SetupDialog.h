@@ -21,6 +21,7 @@ namespace Common {
         private:
             MIDI::MidiConfig config_{};
             IO::PluginCb& cb_;
+            hwnd_ptr<empty_deleter> mhwnd_{};
 
             void dispose_();
             void init_();
@@ -42,7 +43,7 @@ namespace Common {
         public:
 
             MidiCtrlSetupDialog(const MidiCtrlSetupDialog&) = default;
-            MidiCtrlSetupDialog(IO::PluginCb&);
+            MidiCtrlSetupDialog(IO::PluginCb&, HWND);
             ~MidiCtrlSetupDialog();
 
             IO::PluginUi* GetPluginUi();

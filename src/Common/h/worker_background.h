@@ -20,8 +20,8 @@ namespace Common {
 
     class FLAG_EXPORT worker_background {
 	private:
-		common_timer t__{};
-		std::forward_list<pairWorkerCb> list__;
+		common_timer t_{};
+		std::forward_list<pairWorkerCb> list_{};
 
 		void dispose_();
 		void worker_();

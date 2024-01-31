@@ -158,7 +158,7 @@ namespace Common {
 			return Start();
 		}
 
-		void MidiControllerVirtual::SendToPort(Mackie::MIDIDATA& m, DWORD& t) {
+		void MidiControllerVirtual::SendToPort(Mackie::MIDIDATA& m, DWORD&) {
 			_set_se_translator(seh_exception_catch);
 			try {
 				if (!midi_port_) return;

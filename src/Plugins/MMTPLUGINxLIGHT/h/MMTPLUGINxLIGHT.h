@@ -41,7 +41,7 @@ namespace Common {
 
 		public:
 
-			LightsPlugin(std::wstring);
+			LightsPlugin(std::wstring, HWND);
 			~LightsPlugin();
 
 			bool load(std::shared_ptr<JSON::MMTConfig>&) override;

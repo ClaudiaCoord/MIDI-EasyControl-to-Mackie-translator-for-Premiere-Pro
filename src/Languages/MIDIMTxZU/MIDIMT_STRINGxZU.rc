@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Izilungiselelo zekhibhodi ye-Multimedia (MMKEYS)"
     STRING_LOGV_MSG6	"Izilungiselelo zokulawula ukukhanya ({0})"
     STRING_LOGV_MSG7	"Izilungiselelo zephaneli yesilawuli kude (REMOTE)"
+    STRING_LOGV_MSG8	"Izilungiselelo zokulawula i-Gamepad/Joystick (GAMEPAD)"
+    STRING_LOGV_MSG9	"Ukhiye we-MIDI ucindezelwe:"
+    STRING_LOGV_MSG10	"Inombolo yethegi:"
 
     STRING_CHKR_MSG1	"Ekuqaleni, ifayela lokumisa lashiwo: '{0}'. Isethe njengokucushwa kokugijima okulandelayo?"
     STRING_CHKR_MSG2	"Ukucushwa kwe-MIDI-MT"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Iklayenti elisha {0}/{1} lixhunyiwe."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Iphutha leklayenti {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Iklayenti {0}/{1} linqanyuliwe, isimo: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Akukho umshayeli we-joystick noma we-gamepad."
+	IDS_ERRORID_JOY_INVALIDPARAM		"I-ID ye-joystick eshiwo ayivumelekile."
+	IDS_ERRORID_JOY_NOCANDO			"Okokufaka kwenduku yokudlala akukwazi ukubhalwa futhi isevisi edingekayo ayitholakali."
+	IDS_ERRORID_JOY_UNPLUGGED		"I-joystick eshiwo ayixhunyiwe ohlelweni."
+	IDS_ERRORID_JOY_START			"Isevisi yokulawula i-Gamepad/Joystick iyasebenza, amadivayisi asebenzayo: {0}, ku-inthanethi: {1}."
+	IDS_ERRORID_JOY_STOP			"Isevisi yokulawula i-Gamepad/Joystick imisiwe."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Isigcawu sokulawula sishintshwe i-gamepad noma induku yokudlala yaba {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Isilawuli se-{0}/{1} sikhethwa nge-gamepad noma i-joystick."
+
 	IDS_ERRORID_COPY_LINK			"Isixhumanisi sikopishelwe ebhodini lokunamathisela."
 	IDS_ERRORID_NET_IFACE_NONE		"Azikho izixhumanisi zenethiwekhi"
 	IDS_ERRORID_NET_IFACE_SELECT		"Khetha isixhumi esibonakalayo senethiwekhi"

@@ -22,7 +22,10 @@ namespace Common {
 		bool MMTConfig::empty() { return units.empty(); }
 		void MMTConfig::Init() { Clear(); }
 		void MMTConfig::Clear() {
-			if (!units.empty()) units.clear();
+			if (!units.empty()) {
+				std::unique_lock<std::shared_mutex> lock(mtx_);
+				units.clear();
+			}
 		}
 		void MMTConfig::Add(MidiUnit mu) {
 			units.push_back(std::move(mu));
@@ -32,6 +35,7 @@ namespace Common {
 		}
 		std::wstring MMTConfig::Dump() {
 			JSON::json_config jsc;
+			std::unique_lock<std::shared_mutex> lock(mtx_);
 			return jsc.Dump(this);
 		}
 		void MMTConfig::copy_units_(MMTConfig* cnf) {
@@ -55,6 +59,7 @@ namespace Common {
 				mmkeyconf.Copy(cnf->mmkeyconf);
 				lightconf.Copy(cnf->lightconf);
 				remoteconf.Copy(cnf->remoteconf);
+				gamepadconf.Copy(cnf->gamepadconf);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

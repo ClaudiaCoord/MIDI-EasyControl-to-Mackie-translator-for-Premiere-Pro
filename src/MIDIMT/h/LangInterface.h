@@ -62,7 +62,7 @@ namespace Common {
 			HICON   GetIcon256x256(LPWSTR);
 			HBITMAP GetImageIcon(LPWSTR);
 			HACCEL  GetAccelerators(LPWSTR);
-			std::wstring GetLangId();
+			std::wstring GetHelpLangId();
 
 			std::wstring GetString(uint32_t);
 			std::wstring& GetMainClass();

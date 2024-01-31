@@ -20,7 +20,7 @@ namespace Common {
 		typedef std::shared_ptr<bridge_in_event> event_in_t;
 		typedef std::shared_ptr<bridge_sys> event_sys_t;
 
-		typedef plugin_t (__cdecl* call_pluginopen)(std::wstring);
+		typedef plugin_t (__cdecl* call_pluginopen)(std::wstring, HWND);
 
 		template <typename T1>
 		struct default_hmodule_deleter {
@@ -36,12 +36,12 @@ namespace Common {
 			plugin_t plug_;
 
 			void dispose_();
-			void load_(std::wstring&);
-			PluginObject(std::wstring&);
+			void load_(std::wstring&, HWND);
+			PluginObject(std::wstring&, HWND);
 
 		public:
 
-			static std::unique_ptr<PluginObject> Build(std::wstring);
+			static std::unique_ptr<PluginObject> Build(std::wstring, HWND);
 			~PluginObject();
 
 			void release();
@@ -75,7 +75,7 @@ namespace Common {
 			Plugins();
 			~Plugins();
 
-			const uint32_t init(event_sys_t&, event_in_t&, event_out_t&);
+			const uint32_t init(event_sys_t&, event_in_t&, event_out_t&, HWND = nullptr);
 			const uint32_t load(std::shared_ptr<JSON::MMTConfig>&);
 			const uint32_t stop();
 			const uint32_t start();

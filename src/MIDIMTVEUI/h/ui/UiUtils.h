@@ -31,10 +31,14 @@ namespace Common {
 
 			static std::wstring GetBlank(uint32_t);
 
-			static void ShowHelpPage(uint32_t, HELPINFO*);
-			static void ShowHelpPage(const uint16_t, const uint16_t);
+			static void ShowHelpPage(const std::wstring&, uint32_t, HELPINFO*);
+			static void ShowHelpPage(const std::wstring&, const uint16_t, const uint16_t);
 
 			static std::wstring GetDragAndDrop(HDROP);
+
+			static const bool IsUIThread();
+			static void Post(HWND, const std::function<void()>&);
+			static void PostExec(LPARAM);
 		};
 	}
 }

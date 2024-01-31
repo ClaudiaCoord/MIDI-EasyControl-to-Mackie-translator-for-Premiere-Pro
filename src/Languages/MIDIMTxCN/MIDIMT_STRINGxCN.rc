@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"多媒体键盘设置 (MMKEYS)"
     STRING_LOGV_MSG6	"照明控制设置 ({0})"
     STRING_LOGV_MSG7	"远程控制面板设置（REMOTE）"
+    STRING_LOGV_MSG8	"游戏手柄/操纵杆控制设置 (GAMEPAD)"
+    STRING_LOGV_MSG9	"按下 MIDI 键："
+    STRING_LOGV_MSG10	"标签号码："
 
     STRING_CHKR_MSG1	"启动时，指定了配置文件：“{0}”。将其设置为后续运行的配置？"
     STRING_CHKR_MSG2	"MIDI-MT 配置"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"新客户端 {0}/{1} 已连接。"
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"客户端错误 {0}/{1}，{2}。"
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"客户端 {0}/{1} 已断开连接，状态：{2} - {3}。"
+
+	IDS_ERRORID_JOY_NODRIVER		"没有操纵杆或游戏手柄驱动程序。"
+	IDS_ERRORID_JOY_INVALIDPARAM		"指定的操纵杆 ID 无效。"
+	IDS_ERRORID_JOY_NOCANDO			"无法写入操纵杆输入，并且所需的服务不可用。"
+	IDS_ERRORID_JOY_UNPLUGGED		"指定的操纵杆未连接到系统。"
+	IDS_ERRORID_JOY_START			"游戏手柄/操纵杆控制服务正在运行，活动设备：{0}，在线：{1}。"
+	IDS_ERRORID_JOY_STOP			"游戏手柄/操纵杆控制服务已停止。"
+	IDS_ERRORID_JOY_CHANGE_SCENE		"控制场景已通过游戏手柄或操纵杆更改为 {0}。"
+	IDS_ERRORID_JOY_CHANGE_CTRL		"使用游戏手柄或操纵杆选择 {0}/{1} 控件。"
+
 	IDS_ERRORID_COPY_LINK			"链接已复制到剪贴板。"
 	IDS_ERRORID_NET_IFACE_NONE		"无网络接口"
 	IDS_ERRORID_NET_IFACE_SELECT		"选择网络接口"

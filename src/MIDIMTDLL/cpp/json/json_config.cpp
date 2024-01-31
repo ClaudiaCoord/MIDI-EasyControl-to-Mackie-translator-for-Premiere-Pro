@@ -42,6 +42,8 @@ namespace Common {
 			static constexpr std::wstring_view VALUE = L"value"sv;
 			static constexpr std::wstring_view ONOF = L"onoff"sv;
 			static constexpr std::wstring_view LOGLEVEL = L"loglevel"sv;
+			static constexpr std::wstring_view POLLING = L"polling"sv;
+			static constexpr std::wstring_view STEP = L"step"sv;
 
 			static constexpr std::wstring_view MIDI = L"midi"sv;
 			static constexpr std::wstring_view MIDICTRL = L"midictrl"sv;
@@ -55,6 +57,10 @@ namespace Common {
 			static constexpr std::wstring_view MIDI_DEV_OUT = L"midiout"sv;
 
 			static constexpr std::wstring_view MMKEY = L"mmkey"sv;
+			static constexpr std::wstring_view GAMEPAD = L"gamepad"sv;
+			static constexpr std::wstring_view RCONTROLS = L"rcontrols"sv;
+			static constexpr std::wstring_view DIRASBUTTON = L"directasbutton"sv;
+			static constexpr std::wstring_view HORIZONTALMODE = L"horizontalmode"sv;
 
 			static constexpr std::wstring_view MQTT = L"mqtt"sv;
 			static constexpr std::wstring_view MQTT_LOGIN = L"login"sv;
@@ -99,6 +105,7 @@ namespace Common {
 						ReadMidiConfig(pjson, mmt->midiconf);
 						ReadMqttConfig(pjson, mmt->mqttconf);
 						ReadMMkeyConfig(pjson, mmt->mmkeyconf);
+						ReadGamepadConfig(pjson, mmt->gamepadconf);
 						ReadLightConfig(pjson, mmt->lightconf);
 						ReadRemoteConfig(pjson, mmt->remoteconf);
 
@@ -370,6 +377,33 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void json_config::ReadGamepadConfig(Tiny::TinyJson& root, GAMEPAD::JoystickConfig& cnf) {
+			try {
+				Tiny::xobject mdata = root.Get<Tiny::xobject>(JsonNames::GAMEPAD.data());
+				if (!mdata.Count()) return;
+
+				mdata.Enter();
+
+				cnf.enable = mdata.Get<bool>(JsonNames::ENABLE.data(), false);
+				cnf.rcontrols = mdata.Get<bool>(JsonNames::RCONTROLS.data(), false);
+				cnf.directasbutton = mdata.Get<bool>(JsonNames::DIRASBUTTON.data(), false);
+				cnf.horizontalmode = mdata.Get<bool>(JsonNames::HORIZONTALMODE.data(), false);
+				cnf.scene = static_cast<uint8_t>(mdata.Get<uint16_t>(JsonNames::SCENE.data(), 0U));
+				cnf.step = static_cast<uint8_t>(mdata.Get<uint16_t>(JsonNames::STEP.data(), 1U));
+				cnf.polling = mdata.Get<uint16_t>(JsonNames::POLLING.data(), 500U);
+				cnf.type = static_cast<GAMEPAD::JoystickControlsType>(mdata.Get<uint16_t>(JsonNames::TYPE.data(), 0U));
+
+				if (cnf.empty())
+					to_log::Get() << log_string().to_log_format(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY_NAME),
+						JsonNames::GAMEPAD.data()
+					);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		void json_config::ReadRemoteConfig(Tiny::TinyJson& root, REMOTE::RemoteConfig<std::wstring>& cnf) {
 			try {
 				Tiny::xobject mdata = root.Get<Tiny::xobject>(JsonNames::REMOTE.data());
@@ -484,6 +518,7 @@ namespace Common {
 						WriteMMkeyConfig(rjson, mmt->mmkeyconf);
 						WriteLightConfig(rjson, mmt->lightconf);
 						WriteRemoteConfig(rjson, mmt->remoteconf);
+						WriteGamepadConfig(rjson, mmt->gamepadconf);
 						if (!WriteUnitConfig(rjson, mmt)) return false;
 
 						if (issetreg)
@@ -669,6 +704,23 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void json_config::WriteGamepadConfig(Tiny::TinyJson& root, GAMEPAD::JoystickConfig& cnf) {
+			try {
+				Tiny::TinyJson mjson{};
+				mjson[JsonNames::ENABLE.data()].Set<bool>(cnf.enable);
+				mjson[JsonNames::RCONTROLS.data()].Set<bool>(cnf.rcontrols);
+				mjson[JsonNames::DIRASBUTTON.data()].Set<bool>(cnf.directasbutton);
+				mjson[JsonNames::HORIZONTALMODE.data()].Set<bool>(cnf.horizontalmode);
+				mjson[JsonNames::SCENE.data()].Set<uint16_t>(static_cast<uint16_t>(cnf.scene));
+				mjson[JsonNames::STEP.data()].Set<uint16_t>(static_cast<uint16_t>(cnf.step));
+				mjson[JsonNames::POLLING.data()].Set<uint16_t>(cnf.polling);
+				mjson[JsonNames::TYPE.data()].Set<uint16_t>(static_cast<uint16_t>(cnf.type));
+				root[JsonNames::GAMEPAD.data()].Set(std::move(mjson));
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		void json_config::WriteLightConfig(Tiny::TinyJson& root, LIGHT::LightsConfig& cnf) {
 			if (cnf.empty()) return;
 			Tiny::TinyJson rjson{};
@@ -736,6 +788,9 @@ namespace Common {
 
 			ls << L"* " << JsonNames::REMOTE << L":\n";
 			ls << mmt->remoteconf.dump() << L"\n\n";
+
+			ls << L"* " << JsonNames::GAMEPAD << L":\n";
+			ls << mmt->gamepadconf.dump() << L"\n\n";
 
 			ls << L"* " << JsonNames::UNITS << L":\n";
 			for (auto& u : mmt->units) {

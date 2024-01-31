@@ -49,6 +49,7 @@ BEGIN
 	MENUITEM "MMKEYS konfiguráció megjelenítése",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "mutasd a LIGTS konfigurációt",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "a REMOTE konfiguráció megjelenítése",	DLG_LOGVIEW_MENU_CONF_REMOTE
+	MENUITEM "GAMEPAD konfiguráció megjelenítése",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
         MENUITEM SEPARATOR
 	MENUITEM "Mutasd a DMX512 konfigurációt",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "mutasd meg az ArtNet konfigurációját",	DLG_LOGVIEW_MENU_CONF_ARTNET

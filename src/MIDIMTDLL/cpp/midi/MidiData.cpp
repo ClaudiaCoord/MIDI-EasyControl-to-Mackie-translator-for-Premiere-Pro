@@ -61,7 +61,7 @@ namespace Common {
 			copy_data__(*this, m);
 		}
 		const bool MidiUnit::empty() const {
-			return ((scene == 255U) && (key == 255)) || (type == MidiUnitType::UNITNONE) ||
+			return ((scene == 255U) && (key == 255U)) || (type == MidiUnitType::UNITNONE) ||
 				((target == Mackie::Target::NOTARGET) || (longtarget == Mackie::Target::NOTARGET));
 		}
 		const uint32_t MidiUnit::GetMixerId() {
@@ -255,16 +255,15 @@ namespace Common {
 			u.value.lvalue = !u.value.lvalue;
 			u.value.value = u.value.lvalue ? 127U : 0U;
 		}
-		bool MidiSetter::SetVolume(MidiUnit& u, uint8_t val) {
-			return SetVolume(u, std::chrono::high_resolution_clock::now(), val);
+		bool MidiSetter::SetVolume(MidiUnit& u, uint8_t val, bool ischeck) {
+			return SetVolume(u, std::chrono::high_resolution_clock::now(), val, ischeck);
 		}
-		bool MidiSetter::SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val) {
+		bool MidiSetter::SetVolume(MidiUnit& u, const std::chrono::steady_clock::time_point t, uint8_t val, bool ischeck) {
 			try {
 				u.value.time = t;
 				bool b = (u.type == MidiUnitType::SLIDERINVERT) || (u.type == MidiUnitType::FADERINVERT) || (u.type == MidiUnitType::KNOBINVERT);
 				uint8_t v = b ? (127 - val) : val;
-				if (u.value.value == v)
-					return false;
+				if (ischeck && (u.value.value == v)) return false;
 				u.value.lvalue = b ? (val < u.value.value) : (val > u.value.value);
 				u.value.value = v;
 				return true;

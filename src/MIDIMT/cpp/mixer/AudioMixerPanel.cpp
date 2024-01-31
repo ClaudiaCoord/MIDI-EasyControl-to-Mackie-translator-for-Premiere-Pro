@@ -156,7 +156,7 @@ namespace Common {
 		void AudioMixerPanel::valueknob_(UI::Panel& panel, bool mute, bool state) {
 			try {
 
-				if (!::IsGUIThread(true)) {
+				if (!UI::UiUtils::IsUIThread()) {
 					to_log::Get() << log_string().to_log_string(
 						__FUNCTIONW__,
 						common_error_code::Get().get_error(common_error_id::err_PANEL_NOT_UI_THREAD)
@@ -361,7 +361,7 @@ namespace Common {
 
 			try {
 				do {
-					if ((!item.IsValid()) || (!::IsGUIThread(true))) return nullptr;
+					if (!item.IsValid() || !UI::UiUtils::IsUIThread()) return nullptr;
 
 					Theme = theme;
 					RECT r = GetSize();

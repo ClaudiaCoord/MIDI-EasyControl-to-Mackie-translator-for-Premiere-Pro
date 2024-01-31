@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Instellingen multimediatoetsenbord (MMKEYS)"
     STRING_LOGV_MSG6	"Instellingen voor lichtregeling ({0})"
     STRING_LOGV_MSG7	"Instellingen op afstandsbedieningspaneel (REMOTE)"
+    STRING_LOGV_MSG8	"Instellingen voor gamepad/joystickbediening (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI-toets ingedrukt:"
+    STRING_LOGV_MSG10	"Etiket nummer:"
 
     STRING_CHKR_MSG1	"Bij het opstarten werd het configuratiebestand opgegeven: '{0}'. Instellen als configuratie voor volgende runs?"
     STRING_CHKR_MSG2	"MIDI-MT-configuratie"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Nieuwe klant {0}/{1} is verbonden."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Clientfout {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Client {0}/{1} verbinding verbroken, status: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Er is geen joystick- of gamepad-stuurprogramma."
+	IDS_ERRORID_JOY_INVALIDPARAM		"De opgegeven joystick-ID is ongeldig."
+	IDS_ERRORID_JOY_NOCANDO			"De joystickinvoer kan niet worden geschreven en de vereiste service is niet beschikbaar."
+	IDS_ERRORID_JOY_UNPLUGGED		"De opgegeven joystick is niet met het systeem verbonden."
+	IDS_ERRORID_JOY_START			"De gamepad-/joystickbedieningsservice is actief, actieve apparaten: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"De gamepad-/joystickbedieningsservice is gestopt."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"De besturingsscène is per gamepad of joystick gewijzigd naar {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"De besturing {0}/{1} wordt geselecteerd met de gamepad of joystick."
+
 	IDS_ERRORID_COPY_LINK			"Link gekopieerd naar klembord."
 	IDS_ERRORID_NET_IFACE_NONE		"Geen netwerkinterfaces"
 	IDS_ERRORID_NET_IFACE_SELECT		"Selecteer netwerkinterface"

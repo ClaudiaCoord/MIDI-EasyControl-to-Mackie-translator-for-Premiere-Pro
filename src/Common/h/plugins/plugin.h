@@ -32,12 +32,13 @@ namespace Common {
 		class FLAG_EXPORT Plugin : public PluginCb {
 		protected:
 			bool is_config_{ false }, is_enable_{ false }, is_started_{ false };
+			hwnd_ptr<empty_deleter> mhwnd_{};
 			PluginInfo plugin_info_;
 
 		public:
 
-			Plugin(uint32_t, uint32_t, GUID, std::wstring, std::wstring_view, std::wstring_view, void*, PluginClassTypes, PluginCbType);
-			Plugin(uint32_t, uint32_t, GUID, std::wstring, std::string_view, std::string_view, void*, PluginClassTypes, PluginCbType);
+			Plugin(uint32_t, uint32_t, GUID, std::wstring, std::wstring_view, std::wstring_view, void*, PluginClassTypes, PluginCbType, HWND = nullptr);
+			Plugin(uint32_t, uint32_t, GUID, std::wstring, std::string_view, std::string_view, void*, PluginClassTypes, PluginCbType, HWND = nullptr);
 			Plugin(const Plugin&) = default;
 			virtual ~Plugin() = default;
 
@@ -57,6 +58,7 @@ namespace Common {
 
 			IO::PluginCb& GetPluginCb();
 			IO::PluginInfo& GetPluginInfo();
+			HWND GetMainHWWND();
 
 			static CLSID GuidFromString(const char*);
 		};

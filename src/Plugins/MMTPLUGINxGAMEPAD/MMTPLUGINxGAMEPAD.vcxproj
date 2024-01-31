@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{352d260e-a1c3-49eb-b0e2-003a3cc72f76}</ProjectGuid>
-    <RootNamespace>MIDIMTCHECKRES</RootNamespace>
+    <ProjectGuid>{856364ff-cb6e-464c-9044-f18758158c06}</ProjectGuid>
+    <RootNamespace>Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,34 +70,49 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
+    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
-    <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\</OutDir>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)h\;$(SolutionDir)Common\h\;$(SolutionDir)MIDIMTDLL\;$(SolutionDir)MIDIMTVEUI\</ExternalIncludePath>
+    <OutDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\Plugins\</OutDir>
     <IntDir>$(SolutionDir)_BUILD\$(Configuration)\$(PlatformShortName)\$(MSBuildProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ProjectDir);$(ProjectDir)h\;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BUILDROOT=R"($(SolutionDir))";_CONSOLE;%(PreprocessorDefinitions);WIN32;_DEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN32;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,30 +121,44 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BUILDROOT=R"($(SolutionDir))";_CONSOLE;%(PreprocessorDefinitions);WIN32;NDEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN32;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BUILDROOT=R"($(SolutionDir))";_CONSOLE;%(PreprocessorDefinitions);WIN64;_DEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN64;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>false</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,20 +167,57 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BUILDROOT=R"($(SolutionDir))";_CONSOLE;%(PreprocessorDefinitions);WIN64;_NDEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLUGIN_DLL;_PLUGINGUID=R"($(ProjectGuid))";_USRDLL;_PLUGIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MIDIMTCHECKRES.cpp" />
+    <ClInclude Include="h\global.h" />
+    <ClInclude Include="h\JoistickControl.h" />
+    <ClInclude Include="h\JoistickData.h" />
+    <ClInclude Include="h\JoistickInput.h" />
+    <ClInclude Include="h\MMTPLUGINxGAMEPAD.h" />
+    <ClInclude Include="h\plugininfo.h" />
+    <ClInclude Include="h\SetupDialog.h" />
+    <ClInclude Include="h\JoisticksBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\shared\cpp\dllplugin.cpp" />
+    <ClCompile Include="cpp\JoistickControl.cpp" />
+    <ClCompile Include="cpp\JoistickData.cpp" />
+    <ClCompile Include="cpp\JoistickInput.cpp" />
+    <ClCompile Include="cpp\MMTPLUGINxGAMEPAD.cpp" />
+    <ClCompile Include="cpp\SetupDialog.cpp" />
+    <ClCompile Include="cpp\JoisticksBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Common\rc\resource_plugins.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" />
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MIDIMTDLL\MIDIMTLIB.vcxproj">
+      <Project>{93f0fdf9-7136-45ce-b098-541379d35070}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MIDIMTVEUI\MIDIMTVEUI.vcxproj">
+      <Project>{4c0cc943-4aeb-48b3-a433-a8aa864f41b0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

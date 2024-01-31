@@ -49,6 +49,7 @@ BEGIN
 	MENUITEM "ցույց տալ MMKEYS կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "ցույց տալ LIGTS կոնֆիգուրացիան",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "ցույց տալ REMOTE կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_REMOTE
+	MENUITEM "ցույց տալ GAMEPAD-ի կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
         MENUITEM SEPARATOR
 	MENUITEM "ցույց տալ DMX512 կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ցույց տալ ArtNet-ի կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_ARTNET

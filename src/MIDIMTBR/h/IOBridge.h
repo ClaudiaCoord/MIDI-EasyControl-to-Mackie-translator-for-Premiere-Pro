@@ -26,6 +26,7 @@ namespace Common {
 		class FLAG_EXPORT IOBridge {
 		private:
 			std::array<uint32_t, 4> state_{};
+			hwnd_ptr<empty_deleter> mhwnd_{};
 			plugins_t   plugins_;
 			event_sys_t event_sys_;
 			event_out_t event_out_;
@@ -42,10 +43,10 @@ namespace Common {
 			IOBridge();
 			~IOBridge();
 
-			const bool Init();
+			const bool Init(HWND = nullptr);
 			const bool Start();
 			const bool Stop();
-			const bool Reload();
+			const bool Reload(HWND = nullptr);
 
 			const bool IsLoaded() const;
 			const bool IsStarted() const;

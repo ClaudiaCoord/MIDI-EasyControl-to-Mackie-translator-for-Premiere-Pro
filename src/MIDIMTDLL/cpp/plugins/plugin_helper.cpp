@@ -23,27 +23,20 @@ namespace Common {
 			#pragma region Class Type Names
 			static constexpr std::wstring_view TypeClassIn = L"Class Input"sv;
 			static constexpr std::wstring_view TypeClassOut = L"Class Output (auto)"sv;
-			static constexpr std::wstring_view TypeClassOut1 = L"Class Output 1"sv;
-			static constexpr std::wstring_view TypeClassOut2 = L"Class Output 2"sv;
 			static constexpr std::wstring_view TypeClassSys = L"Class System"sv;
 
-			static constexpr std::wstring_view TypeClassProxy = L"Class Proxy"sv;
 			static constexpr std::wstring_view TypeClassMixer = L"Class Mixer"sv;
 			static constexpr std::wstring_view TypeClassMqtt = L"Class Smart Home"sv;
 			static constexpr std::wstring_view TypeClassMonitor = L"Class Monitor"sv;
 			static constexpr std::wstring_view TypeClassMediaKey = L"Class Media Key"sv;
 			static constexpr std::wstring_view TypeClassRemote = L"Class Remote controls"sv;
-			static constexpr std::wstring_view TypeClassInMidi = L"Class In Midi"sv;
-			static constexpr std::wstring_view TypeClassOutMidi = L"Class Out Midi"sv;
-			static constexpr std::wstring_view TypeClassOutMidiMackie = L"Class Out Midi Mackie"sv;
-			static constexpr std::wstring_view TypeClassVirtualMidi = L"Class Virtual Midi"sv;
+			static constexpr std::wstring_view TypeClassMidi = L"Class Midi"sv;
 			static constexpr std::wstring_view TypeClassNone = L"Class None"sv;
 
 			static constexpr std::wstring_view TypeTologIn = L"IO/Input"sv;
 			static constexpr std::wstring_view TypeTologOut = L"IO/Output"sv;
 			static constexpr std::wstring_view TypeTologSys = L"System"sv;
 
-			static constexpr std::wstring_view TypeTologProxy = L"IO/Proxy"sv;
 			static constexpr std::wstring_view TypeTologMixer = L"IO/Mixer"sv;
 			static constexpr std::wstring_view TypeTologMqtt = L"IO/MQTT"sv;
 			static constexpr std::wstring_view TypeTologMonitor = L"IO/Monitor"sv;
@@ -72,51 +65,39 @@ namespace Common {
 
 		#define IS_CBVALUE_(A,B) uint16_t x = static_cast<uint16_t>(B); ((A & x) == x)
 
-		static std::wstring_view getClassTypes(PluginClassTypes t) {
+		static std::wstring_view getClassTypes(const PluginClassTypes t) {
 			switch (t) {
 				using enum PluginClassTypes;
 				case ClassIn: return ClassTypeNames::TypeClassIn;
 				case ClassOut: return ClassTypeNames::TypeClassOut;
-				case ClassOut1: return ClassTypeNames::TypeClassOut1;
-				case ClassOut2: return ClassTypeNames::TypeClassOut2;
 				case ClassSys: return ClassTypeNames::TypeClassSys;
-				case ClassProxy: return ClassTypeNames::TypeClassProxy;
 				case ClassMixer: return ClassTypeNames::TypeClassMixer;
 				case ClassRemote: return ClassTypeNames::TypeClassRemote;
 				case ClassMqttKey: return ClassTypeNames::TypeClassMqtt;
 				case ClassMonitor: return ClassTypeNames::TypeClassMonitor;
 				case ClassMediaKey: return ClassTypeNames::TypeClassMediaKey;
-				case ClassInMidi: return ClassTypeNames::TypeClassInMidi;
-				case ClassOutMidi: return ClassTypeNames::TypeClassOutMidi;
-				case ClassOutMidiMackie: return ClassTypeNames::TypeClassOutMidiMackie;
-				case ClassVirtualMidi: return ClassTypeNames::TypeClassVirtualMidi;
+				case ClassMidi: return ClassTypeNames::TypeClassMidi;
 				case ClassNone:
 				default: return ClassTypeNames::TypeClassNone;
 			}
 		}
-		static std::wstring_view getToLogTypes(PluginClassTypes t) {
+		static std::wstring_view getToLogTypes(const PluginClassTypes t) {
 			switch (t) {
 				using enum PluginClassTypes;
 				case ClassIn: return ClassTypeNames::TypeTologIn;
-				case ClassOut:
-				case ClassOut1:
-				case ClassOut2: return ClassTypeNames::TypeTologOut;
+				case ClassOut: return ClassTypeNames::TypeTologOut;
 				case ClassSys: return ClassTypeNames::TypeTologSys;
-				case ClassProxy: return ClassTypeNames::TypeTologProxy;
 				case ClassMixer: return ClassTypeNames::TypeTologMixer;
 				case ClassMqttKey: return ClassTypeNames::TypeTologMqtt;
 				case ClassMonitor: return ClassTypeNames::TypeTologMonitor;
 				case ClassMediaKey: return ClassTypeNames::TypeTologMediaKey;
 				case ClassRemote: return ClassTypeNames::TypeTologRemote;
-				case ClassInMidi:
-				case ClassOutMidi:
-				case ClassOutMidiMackie:
-				case ClassVirtualMidi: return ClassTypeNames::TypeTologMidi;
+				case ClassMidi: return ClassTypeNames::TypeTologMidi;
 				case ClassNone:
 				default: return ClassTypeNames::TypeClassNone;
 			}
 		}
-		static log_string getCbTypes(PluginCbType t) {
+		static log_string getCbTypes(const PluginCbType t) {
 
 			uint32_t k = static_cast<uint32_t>(t);
 			log_string ls{};
@@ -146,13 +127,13 @@ namespace Common {
 
 			return ls;
 		}
-		std::wstring_view PluginHelper::GetClassTypes(PluginClassTypes& t) {
+		std::wstring_view PluginHelper::GetClassTypes(const PluginClassTypes& t) {
 			return getClassTypes(t);
 		}
-		std::wstring_view PluginHelper::GetTologTypes(PluginClassTypes& t) {
+		std::wstring_view PluginHelper::GetTologTypes(const PluginClassTypes& t) {
 			return getToLogTypes(t);
 		}
-		log_string PluginHelper::GetCbType(PluginCbType& t) {
+		log_string PluginHelper::GetCbType(const PluginCbType& t) {
 			return getCbTypes(t);
 		}
 	}

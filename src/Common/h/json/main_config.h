@@ -17,6 +17,8 @@ namespace Common {
 
 		class FLAG_EXPORT MMTConfig {
 		private:
+			std::shared_mutex mtx_{};
+
 			void copy_settings_(MMTConfig*);
 			void copy_units_(MMTConfig*);
 		public:
@@ -29,6 +31,7 @@ namespace Common {
 			LIGHT::LightsConfig					lightconf{};
 			MQTT::BrokerConfig<std::wstring>	mqttconf{};
 			REMOTE::RemoteConfig<std::wstring>  remoteconf{};
+			GAMEPAD::JoystickConfig				gamepadconf{};
 
 			MMTConfig* get();
 
@@ -38,15 +41,25 @@ namespace Common {
 			void Init();
 			void Add(MIDI::MidiUnit);
 			void Clear();
-			void Copy(MMTConfig*);
 			std::wstring Dump();
 
 			template <class T1>
 			void CopySettings(T1& ptr) {
-				copy_settings_(ptr.get());
+
+				if (!ptr) return;
+				std::unique_lock<std::shared_mutex> lock(mtx_);
+
+				auto mmt = ptr.get();
+				if (!mmt) return;
+
+				copy_settings_(mmt);
 			}
 			template <class T1>
 			void Copy(T1& ptr) {
+
+				if (!ptr) return;
+				std::unique_lock<std::shared_mutex> lock(mtx_);
+
 				auto mmt = ptr.get();
 				if (!mmt) return;
 

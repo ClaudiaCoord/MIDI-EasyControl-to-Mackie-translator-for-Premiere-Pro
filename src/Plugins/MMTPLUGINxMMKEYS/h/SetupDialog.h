@@ -19,6 +19,7 @@ namespace Common {
 
         class MMKeysSetupDialog : public IO::PluginUi {
         private:
+            hwnd_ptr<empty_deleter> mhwnd_{};
             MIDI::MMKeyConfig config_{};
             IO::PluginCb& cb_;
 
@@ -30,7 +31,7 @@ namespace Common {
 
         public:
 
-            MMKeysSetupDialog(IO::PluginCb&);
+            MMKeysSetupDialog(IO::PluginCb&, HWND);
             MMKeysSetupDialog(const MMKeysSetupDialog&) = default;
             ~MMKeysSetupDialog();
 

@@ -19,6 +19,7 @@ namespace Common {
 
         class SmartHomeSetupDialog : public IO::PluginUi {
         private:
+            hwnd_ptr<empty_deleter> mhwnd_{};
             MQTT::BrokerConfig<std::wstring> config_{};
             IO::PluginCb& cb_;
 
@@ -42,7 +43,7 @@ namespace Common {
 
         public:
 
-            SmartHomeSetupDialog(IO::PluginCb&);
+            SmartHomeSetupDialog(IO::PluginCb&, HWND);
             SmartHomeSetupDialog(const SmartHomeSetupDialog&) = default;
             ~SmartHomeSetupDialog();
 

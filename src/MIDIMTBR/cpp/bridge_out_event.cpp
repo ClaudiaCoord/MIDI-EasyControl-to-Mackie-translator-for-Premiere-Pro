@@ -26,10 +26,18 @@ namespace Common {
         
         static inline void to_log__(const wchar_t* f, const char* s, const std::wstring_view& v, PluginCb* cb) {
             try {
+                log_string ls{};
+                ls.to_log_method(f);
+                ls << PluginHelper::GetTologTypes(cb->GetType()) << v.data() << cb->GetId();
+                if (s) ls << L", " << Utils::to_string(s);
+                to_log::Get() << ls.str();
+            } catch (...) {}
+        }
+        static inline void to_log__(const wchar_t* f, const std::wstring_view& v, PluginCb* cb) {
+            try {
                 log_string ls;
                 ls.to_log_method(f);
-                ls << cb->GetType() << v.data() << cb->GetId();
-                if (s) ls << L", " << Utils::to_string(s);
+                ls << L"AHTUNG! " << v.data() << L" is null! ID:" << cb->GetId() << L", TYPE:" << PluginHelper::GetTologTypes(cb->GetType());
                 to_log::Get() << ls.str();
             } catch (...) {}
         }
@@ -104,70 +112,50 @@ namespace Common {
                     to_log::Get() << L"\t\t\t\t" << m.Dump();
                     #endif
 
+                    if (pcb->IsCbType(PluginCbType::Out1Cb)) {
+                        try {
+                            callOut1Cb_t f = pcb->GetCbOut1();
+                            if (f) f(m, t);
+                            #if defined (_DEBUG)
+                            else to_log__(__FUNCTIONW__, L"callOut1Cb_t", pcb);
+                            #endif
+                        } catch (...) {
+                            Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+                        }
+                    }
+
                     if (unitref.isbegin()) {
                         if (!unitref.isvalid()) continue;
 
-                        PluginClassTypes utype = unitref.type();
-                        utype = (pcb->IsCbType(PluginCbType::Out1Cb)) ? PluginClassTypes::ClassOut1 :
-                                 ((pcb->IsCbType(PluginCbType::Out2Cb)) ? PluginClassTypes::ClassOut2 : utype);
-
-                        switch (utype) {
-                            using enum PluginClassTypes;
-                            case ClassOut1:
-                            case ClassProxy:
-                            case ClassMonitor: {
-                                try {
-                                    callOut1Cb_t f = pcb->GetCbOut1();
-                                    if (f) f(m, t);
-                                }
-                                catch (std::bad_function_call& e) {
-                                    to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB1, pcb);
-                                }
-                                break;
+                        if (pcb->IsCbType(PluginCbType::Out2Cb)) {
+                            try {
+                                callOut2Cb_t f = pcb->GetCbOut2();
+                                if (f) f(unitref.get(), t);
+                                #if defined (_DEBUG)
+                                else to_log__(__FUNCTIONW__, L"callOut2Cb_t", pcb);
+                                #endif
+                            } catch (std::bad_function_call& e) {
+                                to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, pcb);
                             }
-                            case ClassOut2:
-                            case ClassMixer:
-                            case ClassRemote:
-                            case ClassMqttKey:
-                            case ClassMediaKey:
-                            case ClassLightKey:
-                            case ClassOutMidiMackie: {
-                                try {
-                                    callOut2Cb_t f = pcb->GetCbOut2();
-                                    if (f) f(unitref.get(), t);
-                                }
-                                catch (std::bad_function_call& e) {
-                                    to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, pcb);
-                                }
-                                break;
-                            }
-                            default: break;
                         }
                         continue;
                     }
 
+                    if (cnf_->units.empty()) continue;
                     PluginClassTypes ctype = pcb->GetType();
-                    ctype = (pcb->IsCbType(PluginCbType::Out1Cb)) ? PluginClassTypes::ClassOut1 : ctype;
-
                     switch (ctype) {
                         using enum PluginClassTypes;
-                        case ClassOut1:
-                        case ClassProxy:
-                        case ClassMonitor: {
-                            try {
-                                callOut1Cb_t f = pcb->GetCbOut1();
-                                if (f) f(m, t);
-                            } catch (...) {
-                                Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-                            }
-                            break;
-                        }
+                        case ClassRemote:
+                        case ClassMixer:
+                        case ClassLightKey:
+                        case ClassMqttKey:
+                        case ClassMediaKey:
+                        case ClassMidi: break;
+                        default: continue;
                     }
 
                     locker_auto locker(lock__, locker_auto::LockType::TypeWaitOnlyOne);
                     if (locker.IsCanceled()) return;
-
-                    if (cnf_->units.empty()) return;
 
                     switch (ctype) {
                         using enum PluginClassTypes;
@@ -193,7 +181,7 @@ namespace Common {
                                         (u.type == MIDI::MidiUnitType::SLIDERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::FADERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
-                                        if (!MIDI::MidiSetter::SetVolume(u, m.value()))
+                                        if (!MIDI::MidiSetter::SetVolume(u, m.value(), false))
                                             continue;
                                     }
                                     else continue;
@@ -237,7 +225,7 @@ namespace Common {
                                         (u.type == MIDI::MidiUnitType::SLIDERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::FADERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
-                                        if (!MIDI::MidiSetter::SetVolume(u, m.value()))
+                                        if (!MIDI::MidiSetter::SetVolume(u, m.value(), false))
                                             break;
                                     }
                                     else break;
@@ -285,7 +273,7 @@ namespace Common {
                                         (u.type == MIDI::MidiUnitType::SLIDERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::FADERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
-                                        if (!MIDI::MidiSetter::SetVolume(u, m.value()))
+                                        if (!MIDI::MidiSetter::SetVolume(u, m.value(), false))
                                             break;
                                     }
                                     else break;
@@ -332,7 +320,7 @@ namespace Common {
                                         (u.type == MIDI::MidiUnitType::SLIDERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::FADERINVERT) ||
                                         (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
-                                        if (!MIDI::MidiSetter::SetVolume(u, m.value()))
+                                        if (!MIDI::MidiSetter::SetVolume(u, m.value(), false))
                                             break;
                                     }
                                     else break;
@@ -383,19 +371,20 @@ namespace Common {
                             }
                             break;
                         }
-                        case ClassOutMidiMackie: {
+                        case ClassMidi: {
 
                             for (auto& u : cnf_->units) {
                                 if (u.key == m.key() && u.scene == m.scene()) {
                                     
-                                    unitref.begin();
-
                                     #if !defined(DEBUG_NO_TARGET)
                                     bool check = false;
                                     switch (u.target) {
                                         using enum MIDI::Mackie::Target;
                                         case VOLUMEMIX:
                                         case MEDIAKEY:
+                                        case MQTTKEY:
+                                        case LIGHTKEY8B:
+                                        case LIGHTKEY16B:
                                         case NOTARGET: {
                                             break;
                                         }
@@ -407,6 +396,8 @@ namespace Common {
                                     }
                                     if (!check) break;
                                     #endif
+
+                                    unitref.begin();
 
                                     uint8_t newvalue = m.value();
                                     auto tm = std::chrono::high_resolution_clock::now();
@@ -453,6 +444,15 @@ namespace Common {
                                             case AP6:
                                             case AP7:
                                             case AP8:
+                                            case AV1:
+                                            case AV2:
+                                            case AV3:
+                                            case AV4:
+                                            case AV5:
+                                            case AV6:
+                                            case AV7:
+                                            case AV8:
+                                            case XV9:
                                             case XP9: {
                                                 u.value.lvalue = (u.value.value > newvalue);
                                                 break;
@@ -465,6 +465,14 @@ namespace Common {
                                         if (u.value.value == newvalue) break;
                                         switch (u.target) {
                                             using enum MIDI::Mackie::Target;
+                                            case AP1:
+                                            case AP2:
+                                            case AP3:
+                                            case AP4:
+                                            case AP5:
+                                            case AP6:
+                                            case AP7:
+                                            case AP8:
                                             case AV1:
                                             case AV2:
                                             case AV3:
@@ -474,14 +482,6 @@ namespace Common {
                                             case AV7:
                                             case AV8:
                                             case XV9:
-                                            case AP1:
-                                            case AP2:
-                                            case AP3:
-                                            case AP4:
-                                            case AP5:
-                                            case AP6:
-                                            case AP7:
-                                            case AP8:
                                             case XP9: {
                                                 u.value.lvalue = (u.value.value < newvalue);
                                                 break;
@@ -490,8 +490,17 @@ namespace Common {
                                         }
                                     }
                                     else if ((u.type == MIDI::MidiUnitType::KNOB) || (u.type == MIDI::MidiUnitType::KNOBINVERT)) {
-                                        if (u.value.value == newvalue) break;
-                                        u.value.lvalue = (u.type == MIDI::MidiUnitType::KNOBINVERT) ? (newvalue > u.value.value) : (newvalue < u.value.value);
+                                        if (u.target == MIDI::Mackie::Target::JOG) {
+                                            if (!u.value.value) u.value.lvalue = false;
+                                            else if (u.value.value >= 127) u.value.lvalue = true;
+                                            else if (u.value.value == newvalue)  break;
+                                            else u.value.lvalue = bool(newvalue > u.value.value);
+                                            u.value.lvalue = (u.type == MIDI::MidiUnitType::KNOBINVERT) ? !u.value.lvalue : u.value.lvalue;
+
+                                        } else {
+                                            if (u.value.value == newvalue) break;
+                                            u.value.lvalue = (u.type == MIDI::MidiUnitType::KNOBINVERT) ? (newvalue > u.value.value) : (newvalue < u.value.value);
+                                        }
                                     }
                                     u.value.value = newvalue;
                                     u.value.time  = tm;

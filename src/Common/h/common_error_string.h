@@ -161,6 +161,16 @@ namespace Common {
 		L"Client {0}/{1} error, {2}."sv,
 		L"Client {0}/{1} closed, status: {2} - {3}."sv,
 
+		/* Common::JOISTICK */
+		L"There is no joystick or gamepad driver."sv,
+		L"The specified joystick ID is invalid."sv,
+		L"The joystick input cannot be written and the required service is not available."sv,
+		L"The specified joystick is not connected to the system."sv,
+		L"The gamepad/joystick control service is running, active devices: {0}, online: {1}."sv,
+		L"The gamepad/joystick control service has stopped."sv,
+		L"The control scene has been changed by gamepad or joystick to {0}."sv,
+		L"Control element {0}/{1} is selected with a gamepad or joystick."sv,
+
 		/* All other */
 		L"Link copied to clipboard."sv,
 		L"No network interfaces.."sv,

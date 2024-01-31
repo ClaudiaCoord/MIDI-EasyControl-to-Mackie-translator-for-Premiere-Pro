@@ -38,7 +38,6 @@ namespace Common {
 		}
 
 		DialogEdit::DialogEdit() {
-			CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
 			CbEvent::GetHwndCb = [=]() { return hwnd_.get(); };
 
 			try {
@@ -102,10 +101,11 @@ namespace Common {
 		void DialogEdit::clear_() {
 			try {
 				IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
+				CbEvent::Init(-1, -1);
 				ConfigDevice = ConfigStatus::None;
 				confpath_ = std::wstring();
 
-				isload_ = false;
+				isload_.store(false);
 				hwnd_.reset();
 
 				if (lv_) {
@@ -167,7 +167,8 @@ namespace Common {
 				::CheckRadioButton(hwnd_, DLG_EDIT_SETUP_RADIO1, DLG_EDIT_SETUP_RADIO4, DLG_EDIT_SETUP_RADIO1);
 				helpcategory_selected_(DLG_EDIT_SETUP_RADIO1);
 
-				isload_ = true;
+				CbEvent::Init(DLG_EVENT_LOG, DLG_EVENT_MONITOR);
+				isload_.store(true);
 
 				tb_->SetEditorNotify(isstarted ? EditorNotify::ReadMidiEnable : EditorNotify::ReadMidiDisable);
 				tb_->SetEditorNotify(EditorNotify::ItemEmpty);
@@ -319,7 +320,7 @@ namespace Common {
 				try {
 					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER);
 					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.cnf"}
+						{ filter.c_str(), L"*.exe"}
 					};
 					do {
 						HRESULT h = CoCreateInstance(
@@ -1138,7 +1139,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_EDIT_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_EDIT_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_COMMAND: {
@@ -1154,7 +1155,7 @@ namespace Common {
 								break;
 							}
 							case DLG_GO_HELP: {
-								UI::UiUtils::ShowHelpPage(DLG_EDIT_WINDOW, static_cast<uint16_t>(0U));
+								UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_EDIT_WINDOW, static_cast<uint16_t>(0U));
 								break;
 							}
 
@@ -1278,7 +1279,6 @@ namespace Common {
 							case DLG_EXIT:
 							case IDCANCEL: {
 								IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
-								CbEvent::Init(-1);
 								clear_();
 								return static_cast<INT_PTR>(1);
 							}

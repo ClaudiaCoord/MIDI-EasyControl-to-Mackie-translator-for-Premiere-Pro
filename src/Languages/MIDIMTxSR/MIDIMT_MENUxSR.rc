@@ -49,6 +49,7 @@ BEGIN
 	MENUITEM "прикажи ММКЕИС конфигурацију",	DLG_LOGVIEW_MENU_CONF_MMKEYS
 	MENUITEM "прикажи ЛИГТС конфигурацију",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "прикажи РЕМОТЕ конфигурацију",	DLG_LOGVIEW_MENU_CONF_REMOTE
+	MENUITEM "прикажи конфигурацију ГАМЕПАД-а",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
         MENUITEM SEPARATOR
 	MENUITEM "прикажи конфигурацију ДМКС512",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "прикажи АртНет конфигурацију",	DLG_LOGVIEW_MENU_CONF_ARTNET

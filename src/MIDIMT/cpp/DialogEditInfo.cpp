@@ -17,11 +17,11 @@ namespace Common {
 	namespace MIDIMT {
 
 		void DialogEditInfo::dispose_() {
-			isload_ = false;
+			isload_.store(false);
 			hwnd_.reset();
 		}
 		void DialogEditInfo::init_() {
-			isload_ = true;
+			isload_.store(true);
 		}
 
 		IO::PluginUi* DialogEditInfo::GetUi() {
@@ -51,7 +51,7 @@ namespace Common {
 					}
 					case WM_HELP: {
 						if (!l) break;
-						UI::UiUtils::ShowHelpPage(DLG_EDIT_INFO_WINDOW, reinterpret_cast<HELPINFO*>(l));
+						UI::UiUtils::ShowHelpPage(LangInterface::Get().GetHelpLangId(), DLG_EDIT_INFO_WINDOW, reinterpret_cast<HELPINFO*>(l));
 						return static_cast<INT_PTR>(1);
 					}
 					case WM_COMMAND: {

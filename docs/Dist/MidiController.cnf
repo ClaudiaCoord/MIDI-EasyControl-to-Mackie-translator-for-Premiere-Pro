@@ -58,7 +58,7 @@
     "enable": true,
     "port": 8888,
     "host": "192.168.1.105",
-    "ua": "MIDI-MT, Version 1.0.6.2 (x64) Debug, (Windows 10.0.22621.0)",
+    "ua": "MIDI-MT, Version 1.0.6.3 (x64) Debug, (Windows 10.0.22621.0)",
     "tmreq": 5,
     "tmidle": 0,
     "loglevel": 4,
@@ -66,36 +66,37 @@
     "reuseaddr": true,
     "fastsock": false
   },
+  "gamepad": {
+    "enable": true,
+    "rcontrols": true,
+    "directasbutton": false,
+    "horizontalmode": true,
+    "scene": 101,
+    "step": 10,
+    "polling": 50,
+    "type": 6
+  },
   "config": {
     "name": "MidiController",
     "autostart": true,
-    "build": "1.0.6.2"
+    "build": "1.0.6.3"
   },
   "units": [
-    {
-      "scene": 179,
-      "id": 1,
-      "type": 3,
-      "target": 251,
-      "longtarget": 10,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 178,
-      "id": 1,
-      "type": 3,
-      "target": 252,
-      "longtarget": 32,
-      "onoff": false,
-      "value": 64
-    },
     {
       "scene": 177,
       "id": 1,
       "type": 3,
       "target": 50,
       "longtarget": 55,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 179,
+      "id": 1,
+      "type": 3,
+      "target": 251,
+      "longtarget": 10,
       "onoff": false,
       "value": 64
     },
@@ -109,20 +110,11 @@
       "value": 64
     },
     {
-      "scene": 179,
-      "id": 2,
-      "type": 3,
-      "target": 251,
-      "longtarget": 11,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 178,
-      "id": 2,
+      "id": 1,
       "type": 3,
       "target": 252,
-      "longtarget": 33,
+      "longtarget": 32,
       "onoff": false,
       "value": 64
     },
@@ -136,11 +128,29 @@
       "value": 64
     },
     {
+      "scene": 179,
+      "id": 2,
+      "type": 3,
+      "target": 251,
+      "longtarget": 11,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 176,
       "id": 2,
       "type": 3,
       "target": 252,
       "longtarget": 32,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 178,
+      "id": 2,
+      "type": 3,
+      "target": 252,
+      "longtarget": 33,
       "onoff": false,
       "value": 64
     },
@@ -253,20 +263,7 @@
       "value": 64
     },
     {
-      "scene": 179,
-      "id": 9,
-      "type": 7,
-      "target": 254,
-      "longtarget": 13,
-      "onoff": false,
-      "value": 85,
-      "apps": [
-        "master",
-        "ShellExperienceHost"
-      ]
-    },
-    {
-      "scene": 178,
+      "scene": 176,
       "id": 9,
       "type": 7,
       "target": 254,
@@ -292,7 +289,20 @@
       ]
     },
     {
-      "scene": 176,
+      "scene": 178,
+      "id": 9,
+      "type": 7,
+      "target": 254,
+      "longtarget": 13,
+      "onoff": false,
+      "value": 85,
+      "apps": [
+        "master",
+        "ShellExperienceHost"
+      ]
+    },
+    {
+      "scene": 179,
       "id": 9,
       "type": 7,
       "target": 254,
@@ -359,13 +369,22 @@
       "value": 64
     },
     {
+      "scene": 177,
+      "id": 14,
+      "type": 1,
+      "target": 5,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 14,
       "type": 1,
       "target": 251,
       "longtarget": 1,
       "onoff": false,
-      "value": 64
+      "value": 47
     },
     {
       "scene": 178,
@@ -373,15 +392,6 @@
       "type": 1,
       "target": 252,
       "longtarget": 5,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 14,
-      "type": 1,
-      "target": 5,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -395,13 +405,22 @@
       "value": 64
     },
     {
+      "scene": 177,
+      "id": 15,
+      "type": 1,
+      "target": 6,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 15,
       "type": 1,
       "target": 251,
       "longtarget": 2,
-      "onoff": false,
-      "value": 64
+      "onoff": true,
+      "value": 75
     },
     {
       "scene": 178,
@@ -409,15 +428,6 @@
       "type": 1,
       "target": 252,
       "longtarget": 6,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 15,
-      "type": 1,
-      "target": 6,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -434,13 +444,22 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 16,
+      "type": 1,
+      "target": 7,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 16,
       "type": 1,
       "target": 251,
       "longtarget": 3,
-      "onoff": false,
-      "value": 64
+      "onoff": true,
+      "value": 75
     },
     {
       "scene": 178,
@@ -448,15 +467,6 @@
       "type": 1,
       "target": 252,
       "longtarget": 7,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 16,
-      "type": 1,
-      "target": 7,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -473,13 +483,22 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 17,
+      "type": 1,
+      "target": 8,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 17,
       "type": 1,
       "target": 251,
       "longtarget": 6,
-      "onoff": false,
-      "value": 64
+      "onoff": true,
+      "value": 20
     },
     {
       "scene": 178,
@@ -487,15 +506,6 @@
       "type": 1,
       "target": 252,
       "longtarget": 8,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 17,
-      "type": 1,
-      "target": 8,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -514,13 +524,22 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 18,
+      "type": 1,
+      "target": 9,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 18,
       "type": 1,
       "target": 251,
       "longtarget": 7,
       "onoff": false,
-      "value": 64
+      "value": 60
     },
     {
       "scene": 178,
@@ -530,15 +549,6 @@
       "longtarget": 9,
       "onoff": false,
       "value": 0
-    },
-    {
-      "scene": 177,
-      "id": 18,
-      "type": 1,
-      "target": 9,
-      "longtarget": 255,
-      "onoff": false,
-      "value": 64
     },
     {
       "scene": 176,
@@ -549,26 +559,9 @@
       "onoff": false,
       "value": 16,
       "apps": [
-        "conhost"
+        "Microsoft.Media.Player.exe",
+        "Video.UI.exe"
       ]
-    },
-    {
-      "scene": 179,
-      "id": 19,
-      "type": 1,
-      "target": 251,
-      "longtarget": 8,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 178,
-      "id": 19,
-      "type": 1,
-      "target": 252,
-      "longtarget": 10,
-      "onoff": false,
-      "value": 0
     },
     {
       "scene": 177,
@@ -578,6 +571,24 @@
       "longtarget": 255,
       "onoff": false,
       "value": 64
+    },
+    {
+      "scene": 179,
+      "id": 19,
+      "type": 1,
+      "target": 251,
+      "longtarget": 8,
+      "onoff": true,
+      "value": 77
+    },
+    {
+      "scene": 178,
+      "id": 19,
+      "type": 1,
+      "target": 252,
+      "longtarget": 10,
+      "onoff": false,
+      "value": 0
     },
     {
       "scene": 176,
@@ -592,6 +603,15 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 20,
+      "type": 1,
+      "target": 11,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 20,
       "type": 1,
@@ -610,15 +630,6 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 20,
-      "type": 1,
-      "target": 11,
-      "longtarget": 255,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 20,
       "type": 1,
@@ -629,6 +640,15 @@
       "apps": [
         "vlc"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 21,
+      "type": 1,
+      "target": 12,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -647,15 +667,6 @@
       "longtarget": 12,
       "onoff": false,
       "value": 0
-    },
-    {
-      "scene": 177,
-      "id": 21,
-      "type": 1,
-      "target": 12,
-      "longtarget": 255,
-      "onoff": false,
-      "value": 64
     },
     {
       "scene": 176,
@@ -693,6 +704,15 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 23,
+      "type": 3,
+      "target": 23,
+      "longtarget": 32,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 23,
       "type": 3,
@@ -711,20 +731,20 @@
       "value": 64
     },
     {
-      "scene": 177,
-      "id": 23,
-      "type": 3,
-      "target": 23,
-      "longtarget": 32,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 23,
       "type": 3,
       "target": 254,
       "longtarget": 32,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 177,
+      "id": 24,
+      "type": 3,
+      "target": 24,
+      "longtarget": 33,
       "onoff": false,
       "value": 64
     },
@@ -747,25 +767,25 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 24,
-      "type": 3,
-      "target": 24,
-      "longtarget": 33,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 24,
       "type": 3,
       "target": 254,
       "longtarget": 33,
-      "onoff": false,
-      "value": 64,
+      "onoff": true,
+      "value": 127,
       "apps": [
         "ShellExperienceHost"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 25,
+      "type": 3,
+      "target": 25,
+      "longtarget": 34,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -786,25 +806,25 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 25,
-      "type": 3,
-      "target": 25,
-      "longtarget": 34,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 25,
       "type": 3,
       "target": 254,
       "longtarget": 34,
-      "onoff": false,
-      "value": 64,
+      "onoff": true,
+      "value": 127,
       "apps": [
         "cohost"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 26,
+      "type": 3,
+      "target": 26,
+      "longtarget": 35,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -825,15 +845,6 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 26,
-      "type": 3,
-      "target": 26,
-      "longtarget": 35,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 26,
       "type": 3,
@@ -846,6 +857,15 @@
         "Crow",
         "reaper"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 27,
+      "type": 3,
+      "target": 27,
+      "longtarget": 36,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -866,25 +886,25 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 27,
-      "type": 3,
-      "target": 27,
-      "longtarget": 36,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 27,
       "type": 3,
       "target": 254,
       "longtarget": 36,
-      "onoff": true,
-      "value": 127,
+      "onoff": false,
+      "value": 0,
       "apps": [
         "conhost"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 28,
+      "type": 3,
+      "target": 28,
+      "longtarget": 37,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -905,15 +925,6 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 28,
-      "type": 3,
-      "target": 28,
-      "longtarget": 37,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 28,
       "type": 3,
@@ -924,6 +935,15 @@
       "apps": [
         "ocenaudio"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 29,
+      "type": 3,
+      "target": 29,
+      "longtarget": 38,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -944,15 +964,6 @@
       "value": 0
     },
     {
-      "scene": 177,
-      "id": 29,
-      "type": 3,
-      "target": 29,
-      "longtarget": 38,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 29,
       "type": 3,
@@ -963,6 +974,15 @@
       "apps": [
         "vlc"
       ]
+    },
+    {
+      "scene": 177,
+      "id": 30,
+      "type": 3,
+      "target": 30,
+      "longtarget": 39,
+      "onoff": false,
+      "value": 64
     },
     {
       "scene": 179,
@@ -979,15 +999,6 @@
       "type": 3,
       "target": 252,
       "longtarget": 30,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 30,
-      "type": 3,
-      "target": 30,
-      "longtarget": 39,
       "onoff": false,
       "value": 64
     },
@@ -1027,20 +1038,20 @@
       ]
     },
     {
+      "scene": 177,
+      "id": 33,
+      "type": 3,
+      "target": 57,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 178,
       "id": 33,
       "type": 3,
       "target": 252,
       "longtarget": 31,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 33,
-      "type": 3,
-      "target": 54,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -1129,7 +1140,7 @@
       "scene": 177,
       "id": 38,
       "type": 3,
-      "target": 52,
+      "target": 54,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1144,11 +1155,29 @@
       "value": 64
     },
     {
+      "scene": 177,
+      "id": 64,
+      "type": 3,
+      "target": 53,
+      "longtarget": 255,
+      "onoff": false,
+      "value": 64
+    },
+    {
       "scene": 179,
       "id": 64,
       "type": 3,
       "target": 251,
       "longtarget": 12,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 176,
+      "id": 64,
+      "type": 3,
+      "target": 252,
+      "longtarget": 34,
       "onoff": false,
       "value": 64
     },
@@ -1163,19 +1192,10 @@
     },
     {
       "scene": 177,
-      "id": 64,
+      "id": 67,
       "type": 3,
-      "target": 56,
+      "target": 52,
       "longtarget": 255,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 176,
-      "id": 64,
-      "type": 3,
-      "target": 252,
-      "longtarget": 34,
       "onoff": false,
       "value": 64
     },
@@ -1189,7 +1209,7 @@
       "value": 64
     },
     {
-      "scene": 178,
+      "scene": 176,
       "id": 67,
       "type": 3,
       "target": 252,
@@ -1198,16 +1218,7 @@
       "value": 64
     },
     {
-      "scene": 177,
-      "id": 67,
-      "type": 3,
-      "target": 57,
-      "longtarget": 255,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 176,
+      "scene": 178,
       "id": 67,
       "type": 3,
       "target": 252,

@@ -16,9 +16,9 @@ namespace Common {
 
 		class FLAG_EXPORT PluginHelper {
 		public:
-			static log_string GetCbType(PluginCbType&);
-			static std::wstring_view GetClassTypes(PluginClassTypes&);
-			static std::wstring_view GetTologTypes(PluginClassTypes&);
+			static log_string GetCbType(const PluginCbType&);
+			static std::wstring_view GetClassTypes(const PluginClassTypes&);
+			static std::wstring_view GetTologTypes(const PluginClassTypes&);
 		};
 	}
 }

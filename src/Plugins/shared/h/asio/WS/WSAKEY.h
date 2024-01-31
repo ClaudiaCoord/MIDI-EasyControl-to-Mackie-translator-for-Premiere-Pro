@@ -136,25 +136,27 @@ namespace Common {
 					hash[hashByte] = (result[hashByte >> 2] >> (((3 - hashByte) & 0x3) << 3)) & 0xff;
 				}
 			}
-			static inline std::string b64_encode_(unsigned char const* input, size_t len) {
-				std::string ret;
+
+			template <typename T>
+			static inline std::string b64_encode_(const T *input, size_t len) {
+				std::string ret{};
 				int i = 0;
 				int j = 0;
-				unsigned char char_array_3[3];
-				unsigned char char_array_4[4];
+				T ca_3[3]{ 0 };
+				T ca_4[4]{ 0 };
 
 				while (len--) {
-					char_array_3[i++] = *(input++);
+					ca_3[i++] = *(input++);
 					if (i == 3) {
-						char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-						char_array_4[1] = ((char_array_3[0] & 0x03) << 4) +
-							((char_array_3[1] & 0xf0) >> 4);
-						char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) +
-							((char_array_3[2] & 0xc0) >> 6);
-						char_array_4[3] = char_array_3[2] & 0x3f;
+						ca_4[0] = (ca_3[0] & 0xfc) >> 2;
+						ca_4[1] = ((ca_3[0] & 0x03) << 4) +
+							((ca_3[1] & 0xf0) >> 4);
+						ca_4[2] = ((ca_3[1] & 0x0f) << 2) +
+							((ca_3[2] & 0xc0) >> 6);
+						ca_4[3] = ca_3[2] & 0x3f;
 
 						for (i = 0; (i < 4); i++) {
-							ret += base64_chars_[char_array_4[i]];
+							ret += base64_chars_[ca_4[i]];
 						}
 						i = 0;
 					}
@@ -162,25 +164,24 @@ namespace Common {
 
 				if (i) {
 					for (j = i; j < 3; j++) {
-						char_array_3[j] = '\0';
+						ca_3[j] = '\0';
 					}
 
-					char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-					char_array_4[1] = ((char_array_3[0] & 0x03) << 4) +
-						((char_array_3[1] & 0xf0) >> 4);
-					char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) +
-						((char_array_3[2] & 0xc0) >> 6);
-					char_array_4[3] = char_array_3[2] & 0x3f;
+					ca_4[0] = (ca_3[0] & 0xfc) >> 2;
+					ca_4[1] = ((ca_3[0] & 0x03) << 4) +
+						((ca_3[1] & 0xf0) >> 4);
+					ca_4[2] = ((ca_3[1] & 0x0f) << 2) +
+						((ca_3[2] & 0xc0) >> 6);
+					ca_4[3] = ca_3[2] & 0x3f;
 
 					for (j = 0; (j < i + 1); j++) {
-						ret += base64_chars_[char_array_4[j]];
+						ret += base64_chars_[ca_4[j]];
 					}
 
 					while ((i++ < 3)) {
 						ret += '=';
 					}
 				}
-
 				return ret;
 			}
 
@@ -191,6 +192,29 @@ namespace Common {
 				const std::string key_ = key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 				sha1_(key_.c_str(), key_.length(), m);
 				return b64_encode_(m, std::size(m));
+			}
+
+			template <typename T>
+			static const std::string b64_encode(const T* v, size_t sz) {
+				return b64_encode_<T>(v, sz);
+			}
+			template <typename T>
+			static const std::string b64_encode(const T& s) {
+				return b64_encode_(s.data(), s.length());
+			}
+
+			static const std::wstring path_escaped(const std::wstring& s) {
+				try {
+					std::wstring w(s);
+					size_t p{ 0 };
+					while ((p = w.find(L'\\', p)) != std::wstring::npos) {
+						w.replace(p, 1, L"\\\\");
+						p += 3;
+						if (p >= w.length()) break;
+					}
+					return w;
+				} catch (...) {}
+				return std::wstring();
 			}
 		};
 	}

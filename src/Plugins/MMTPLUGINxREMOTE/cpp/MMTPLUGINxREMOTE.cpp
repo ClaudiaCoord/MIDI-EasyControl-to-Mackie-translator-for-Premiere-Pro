@@ -45,12 +45,18 @@ namespace Common {
 			static constexpr std::wstring_view JSON_TARGET = L"target"sv;
 			static constexpr std::wstring_view JSON_LTARGET = L"longtarget"sv;
 			static constexpr std::wstring_view JSON_ONOFF = L"onoff"sv;
+			static constexpr std::wstring_view JSON_NAME = L"name"sv;
+			static constexpr std::wstring_view JSON_LOG = L"log"sv;
+			static constexpr std::wstring_view JSON_PATH = L"path"sv;
 
 			static constexpr std::wstring_view JSON_WAKEUP = L"wakeup"sv;
+			static constexpr std::wstring_view JSON_WINTOP = L"windowtotop"sv;
+			static constexpr std::wstring_view JSON_GETLOG = L"getlog"sv;
+			static constexpr std::wstring_view _EXE = L".exe"sv;
 		};
 
-		RemotePlugin::RemotePlugin(std::wstring path)
-			: plugin_ui_(*static_cast<PluginCb*>(this)),
+		RemotePlugin::RemotePlugin(std::wstring path, HWND hwnd)
+			: plugin_ui_(*static_cast<PluginCb*>(this), hwnd),
 			  IO::Plugin(
 				Utils::to_hash(path), DLG_PLUG_REMOTE_WINDOW,
 				Plugin::GuidFromString(_PLUGINGUID),
@@ -59,7 +65,8 @@ namespace Common {
 				PLUG_DESCRIPTION,
 				this,
 				IO::PluginClassTypes::ClassRemote,
-				(IO::PluginCbType::In2Cb | IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb)
+				(IO::PluginCbType::In2Cb | IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb),
+				hwnd
 			  ), wse_(ws_.endpoint[Names::ENDPOINT.data()]) {
 			PluginCb::out2_cb_ = std::bind(static_cast<void(RemotePlugin::*)(MIDI::MidiUnit&, DWORD)>(&RemotePlugin::cb_out_call_), this, _1, _2);
 			PluginCb::cnf_cb_ = std::bind(static_cast<void(RemotePlugin::*)(std::shared_ptr<JSON::MMTConfig>&)>(&RemotePlugin::set_config_cb_), this, _1);
@@ -157,7 +164,11 @@ namespace Common {
 						});
 					}
 					else if (action._Equal(Names::JSON_WAKEUP.data())) {
-						::PostMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, (LPARAM)1);
+
+						wakepos_.store(!wakepos_.load());
+						::mouse_event(MOUSEEVENTF_MOVE, 0, static_cast<DWORD>(wakepos_.load() ? 1 : -1), 0, 0);
+						/*::PostMessage(IO::Plugin::mhwnd_.get(), WM_SYSCOMMAND, (WPARAM)SC_MONITORPOWER, (LPARAM)-1); // Not property work in w11 */
+
 						if (loglevel_.load() > 1)
 							PluginCb::ToLogRef(log_string().to_log_string(Names::SOURCE.data(),
 								(log_string()
@@ -165,7 +176,95 @@ namespace Common {
 									<< L" -> system wake-up!").str()
 							));
 					}
+					else if (action._Equal(Names::JSON_WINTOP.data())) {
 
+						auto name = root.Get<std::wstring>(Names::JSON_NAME.data());
+						if (name.empty()) return;
+						if (!name.ends_with(Names::_EXE))
+							(void) name.append(Names::_EXE);
+
+						UI::WindowToTop top{};
+						(void) top.set(name);
+
+						if (loglevel_.load() > 1)
+							PluginCb::ToLogRef(log_string().to_log_string(Names::SOURCE.data(),
+								(log_string()
+									<< Utils::to_string(conn->remote_endpoint_address()).c_str()
+									<< L" -> set application '" << name << L"' to Top window.").str()
+							));
+					}
+					else if (action._Equal(Names::JSON_GETLOG.data())) {
+
+						std::wstring plog{};
+						{
+							std::filesystem::path p = std::filesystem::path(Utils::app_dir()).parent_path();
+							if (!p.empty()) {
+								p.append(to_log::Get().logname());
+								if (std::filesystem::exists(p))
+									plog = p.wstring();
+							}
+						}
+						if (plog.empty()) return;
+
+						auto ft = std::async(std::launch::async, [=]() -> std::string {
+							try {
+								std::wifstream f(plog, std::ios::in | std::ios::binary | std::ios::ate);
+								if (f.is_open()) {
+									f.imbue(std::locale(""));
+									std::streampos size = f.tellg();
+									if (size != 0U) {
+
+										#pragma warning( push )
+										#pragma warning( disable : 4244 )
+										std::wstring wlog(size, 0);
+										#pragma warning( pop )
+
+										try {
+											f.seekg(0, std::ios::beg);
+											f.read(wlog.data(), size);
+											f.close();
+										} catch (...) {
+											Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+											return std::string();
+										}
+										std::size_t sz = ::WideCharToMultiByte(
+											CP_UTF8, 0,
+											wlog.data(), static_cast<int>(wlog.length()),
+											nullptr, 0, nullptr, nullptr);
+
+										std::string slog(sz, 0);
+										::WideCharToMultiByte(
+											CP_UTF8, 0, wlog.data(), static_cast<int>(wlog.length()),
+											slog.data(), static_cast<int>(sz),
+											nullptr, nullptr);
+
+										return WS::AKEY::b64_encode(slog);
+									}
+								}
+							} catch (...) {
+								Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+							}
+							return std::string();
+						});
+
+						std::string slog = ft.get();
+						if (slog.empty()) return;
+
+						Tiny::TinyJson root{};
+						root[Names::JSON_ACTION.data()].Set<std::wstring>(Names::JSON_GETLOG.data());
+						root[Names::JSON_PATH.data()].Set<std::wstring>(WS::AKEY::path_escaped(plog));
+						root[Names::JSON_LOG.data()].Set<std::wstring>(std::wstring(slog.begin(), slog.end()));
+
+						conn->send(Utils::from_string(root.WriteJson()), [=](const WS::error_code& ec) {
+							if (ec && (loglevel_.load() > 0))
+								PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+									common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_ERR),
+									Utils::random_hash(conn.get()),
+									Utils::to_string(conn->remote_endpoint_address()),
+									Utils::to_string(ec))
+								);
+						});
+					}
 				} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 			};
 			wse_.on_error = [=](std::shared_ptr<WSS::Connection> conn, const WS::error_code& ec) {

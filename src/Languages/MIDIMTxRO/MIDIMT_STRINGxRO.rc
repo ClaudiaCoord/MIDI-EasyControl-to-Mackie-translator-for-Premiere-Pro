@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Setări tastatură multimedia (MMKEYS)"
     STRING_LOGV_MSG6	"Setări de control al luminii ({0})"
     STRING_LOGV_MSG7	"Setările panoului de control de la distanță (REMOTE)"
+    STRING_LOGV_MSG8	"Setări de control Gamepad/Joystick (GAMEPAD)"
+    STRING_LOGV_MSG9	"Tasta MIDI apăsată:"
+    STRING_LOGV_MSG10	"Numărul etichetei:"
 
     STRING_CHKR_MSG1	"La pornire, a fost specificat fișierul de configurare: „{0}”. Setați-o ca configurație pentru rulările ulterioare?"
     STRING_CHKR_MSG2	"Configurare MIDI-MT"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Client nou {0}/{1} este conectat."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Eroare client {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Client {0}/{1} deconectat, stare: {2} - {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Nu există joystick sau driver pentru gamepad."
+	IDS_ERRORID_JOY_INVALIDPARAM		"ID-ul joystick-ului specificat este nevalid."
+	IDS_ERRORID_JOY_NOCANDO			"Intrarea joystick-ului nu poate fi scrisă și serviciul necesar nu este disponibil."
+	IDS_ERRORID_JOY_UNPLUGGED		"Joystick-ul specificat nu este conectat la sistem."
+	IDS_ERRORID_JOY_START			"Serviciul de control Gamepad/Joystick rulează, dispozitive active: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"Serviciul de control Gamepad/Joystick s-a oprit."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Scena de control a fost schimbată de gamepad sau joystick la {0}."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Controlul {0}/{1} este selectat cu gamepad sau joystick."
+
 	IDS_ERRORID_COPY_LINK			"Link copiat în clipboard."
 	IDS_ERRORID_NET_IFACE_NONE		"Fără interfețe de rețea"
 	IDS_ERRORID_NET_IFACE_SELECT		"Selectați interfața de rețea"

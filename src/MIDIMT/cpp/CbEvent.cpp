@@ -75,8 +75,10 @@ namespace Common {
 		template std::pair<DWORD, MIDI::Mackie::MIDIDATA> CbEventData::Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
 
 		static inline void print__(HWND hwnd, std::wstring ws, bool singleline) {
-			if (singleline)
+			if (singleline) {
 				::SendMessageW(hwnd, WM_SETTEXT, (WPARAM)0, reinterpret_cast<LPARAM>(ws.c_str()));
+				/* InvalidateRect(hwnd, nullptr, 1); */
+			}
 			else {
 				::SendMessageW(hwnd, EM_SETSEL, 0, -1);
 				::SendMessageW(hwnd, EM_SETSEL, -1, -1);
@@ -140,24 +142,32 @@ namespace Common {
 			} catch (...) {}
 		}
 
+		std::wstring CbEvent::ToLog(CbEventData* data, bool singleline) {
+			return (singleline) ? data->Get<std::wstring>() :
+				(log_string() << data->Get<std::wstring>().c_str() << L"\r\n").str();
+		}
+		std::wstring CbEvent::ToMonitor(CbEventData* data, bool singleline) {
+			std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
+			return (log_string() << p.second.dump_ui()
+								 << L"," << UI::UiUtils::GetBlank(p.second.value())
+								 << L"\t" << LangInterface::Get().GetString(STRING_LOGV_MSG10) << L" " << p.first
+								 << (singleline ? L"" : L"\r\n")
+				);
+		}
+
 		void CbEvent::ToLog(HWND hwnd, CbEventData* data, bool singleline) {
 			try {
 				if (!hwnd || !data || (data->GetType() != CbHWNDType::TYPE_CB_LOG)) return;
-				std::wstring ws = (singleline) ? data->Get<std::wstring>() :
-					(log_string() << data->Get<std::wstring>().c_str() << L"\r\n").str();
-
+				std::wstring ws = ToLog(data, singleline);
+				if (ws.empty()) return;
 				print__(hwnd, ws, singleline);
 			} catch (...) {}
 		}
 		void CbEvent::ToMonitor(HWND hwnd, CbEventData* data, bool singleline) {
 			try {
 				if (!hwnd || !data || (data->GetType() != CbHWNDType::TYPE_CB_MON)) return;
-				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
-				std::wstring ws = (log_string() << p.second.dump_ui()
-												<< L"," << UI::UiUtils::GetBlank(p.second.value())
-												<< L"\tCount offset: " << p.first
-												<< (singleline ? L"" : L"\r\n")
-					);
+				std::wstring ws = ToMonitor(data, singleline);
+				if (ws.empty()) return;
 				print__(hwnd, ws, singleline);
 			} catch (...) {}
 		}

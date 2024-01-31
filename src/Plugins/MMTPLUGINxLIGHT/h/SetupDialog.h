@@ -19,6 +19,7 @@ namespace Common {
 
         class LightsSetupDialog : public IO::PluginUi {
         private:
+            hwnd_ptr<empty_deleter> mhwnd_{};
             LIGHT::LightsConfig config_{};
             IO::PluginCb& cb_;
 
@@ -53,7 +54,7 @@ namespace Common {
             LightsSetupDialog(
                 IO::PluginCb&,
                 std::function<LIGHT::SerialPortConfigs & ()>,
-                std::function<LIGHT::ArtnetConfigs & ()>);
+                std::function<LIGHT::ArtnetConfigs & ()>, HWND);
             ~LightsSetupDialog();
 
             IO::PluginUi* GetPluginUi();

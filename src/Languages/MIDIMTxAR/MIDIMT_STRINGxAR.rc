@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Մուլտիմեդիա ստեղնաշարի կարգավորումներ (MMKEYS)"
     STRING_LOGV_MSG6	"Լուսավորության կառավարման կարգավորումներ ({0})"
     STRING_LOGV_MSG7	"Հեռակառավարման վահանակի կարգավորումներ (REMOTE)"
+    STRING_LOGV_MSG8	"Gamepad/Joystick-ի կառավարման կարգավորումներ (GAMEPAD)"
+    STRING_LOGV_MSG9	"Սեղմված MIDI ստեղնը՝"
+    STRING_LOGV_MSG10	"Պիտակի համարը:"
 
     STRING_CHKR_MSG1	"Գործարկման ժամանակ կազմաձևման ֆայլը նշվեց՝ «{0}»: Սահմանե՞լ այն որպես կոնֆիգուրացիա հետագա գործարկումների համար:"
     STRING_CHKR_MSG2	"MIDI-MT կոնֆիգուրացիա"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Նոր հաճախորդ՝ {0}/{1} միացված է:"
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Հաճախորդի սխալ {0}/{1}, {2}:"
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Հաճախորդը {0}/{1} անջատված է, կարգավիճակը՝ {2} - {3}:"
+
+	IDS_ERRORID_JOY_NODRIVER		"Չկա joystick կամ gamepad վարորդ:"
+	IDS_ERRORID_JOY_INVALIDPARAM		"Նշված joystick ID-ն անվավեր է:"
+	IDS_ERRORID_JOY_NOCANDO			"Ջոյստիքի մուտքագրումը հնարավոր չէ գրել, և անհրաժեշտ ծառայությունը հասանելի չէ:"
+	IDS_ERRORID_JOY_UNPLUGGED		"Նշված joystick-ը միացված չէ համակարգին:"
+	IDS_ERRORID_JOY_START			"Գործում է Gamepad/Joystick կառավարման ծառայությունը, ակտիվ սարքերը՝ {0}, առցանց՝ {1}:"
+	IDS_ERRORID_JOY_STOP			"Gamepad/Joystick կառավարման ծառայությունը դադարեցվել է:"
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Կառավարման տեսարանը gamepad-ի կամ joystick-ի միջոցով փոխվել է {0}-ի:"
+	IDS_ERRORID_JOY_CHANGE_CTRL		"«{0}/{1}» կառավարումն ընտրվում է խաղային վահանակի կամ ջոյստիկի միջոցով:"
+
 	IDS_ERRORID_COPY_LINK			"Հղումը պատճենվեց սեղմատախտակին:"
 	IDS_ERRORID_NET_IFACE_NONE		"Ցանցային ինտերֆեյս չկա"
 	IDS_ERRORID_NET_IFACE_SELECT		"Ընտրեք ցանցային ինտերֆեյս"

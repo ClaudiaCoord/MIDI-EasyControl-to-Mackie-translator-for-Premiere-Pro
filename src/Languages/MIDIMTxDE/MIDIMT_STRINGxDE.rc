@@ -53,6 +53,9 @@ BEGIN
     STRING_LOGV_MSG5	"Multimedia-Tastatureinstellungen (MMKEYS)"
     STRING_LOGV_MSG6	"Beleuchtungssteuerungseinstellungen ({0})"
     STRING_LOGV_MSG7	"Einstellungen des Fernbedienungspanels (REMOTE)"
+    STRING_LOGV_MSG8	"Gamepad-/Joystick-Steuerungseinstellungen (GAMEPAD)"
+    STRING_LOGV_MSG9	"MIDI-Taste gedrückt:"
+    STRING_LOGV_MSG10	"Tag-Nummer:"
 
     STRING_CHKR_MSG1	"Beim Start wurde die Konfigurationsdatei angegeben: „{0}“. Als Konfiguration für nachfolgende Läufe festlegen?"
     STRING_CHKR_MSG2	"MIDI-MT-Konfiguration"
@@ -315,6 +318,16 @@ BEGIN
 	IDS_ERRORID_REMOTE_CLIENT_NEW		"Der neue Client {0}/{1} ist verbunden."
 	IDS_ERRORID_REMOTE_CLIENT_ERR		"Clientfehler {0}/{1}, {2}."
 	IDS_ERRORID_REMOTE_CLIENT_CLOSE		"Verbindung zum Client {0}/{1} getrennt, Status: {2} – {3}."
+
+	IDS_ERRORID_JOY_NODRIVER		"Es gibt keinen Joystick- oder Gamepad-Treiber."
+	IDS_ERRORID_JOY_INVALIDPARAM		"Die angegebene Joystick-ID ist ungültig."
+	IDS_ERRORID_JOY_NOCANDO			"Die Joystick-Eingabe kann nicht geschrieben werden und der erforderliche Dienst ist nicht verfügbar."
+	IDS_ERRORID_JOY_UNPLUGGED		"Der angegebene Joystick ist nicht mit dem System verbunden."
+	IDS_ERRORID_JOY_START			"Der Gamepad-/Joystick-Steuerungsdienst läuft, aktive Geräte: {0}, online: {1}."
+	IDS_ERRORID_JOY_STOP			"Der Gamepad-/Joystick-Steuerungsdienst wurde gestoppt."
+	IDS_ERRORID_JOY_CHANGE_SCENE		"Die Steuerungsszene wurde per Gamepad oder Joystick auf {0} geändert."
+	IDS_ERRORID_JOY_CHANGE_CTRL		"Die Steuerung {0}/{1} wird mit dem Gamepad oder Joystick ausgewählt."
+
 	IDS_ERRORID_COPY_LINK			"Link in die Zwischenablage kopiert."
 	IDS_ERRORID_NET_IFACE_NONE		"Keine Netzwerkschnittstellen"
 	IDS_ERRORID_NET_IFACE_SELECT		"Wählen Sie die Netzwerkschnittstelle aus"

@@ -38,11 +38,11 @@ namespace Common {
             return ::CreateDialogParamW(h, s, p, static_cast<DLGPROC>(&PluginUi::BuildDialogProc_), reinterpret_cast<LPARAM>(this));
         }
         void PluginUi::CloseDialog() {
-            isload_ = false;
+            isload_.store(false);
             hwnd_.reset();
         }
         void PluginUi::CloseAnimateDialog() {
-            isload_ = false;
+            isload_.store(false);
             (void) ::AnimateWindow(
                 hwnd_,
                 400,

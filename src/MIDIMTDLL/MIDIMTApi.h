@@ -47,6 +47,7 @@ class common_event;
 #include "..\Common\h\light\LightsConfig.h"
 #include "..\Common\h\mqtt\BrokerConfig.h"
 #include "..\Common\h\remote\RemoteConfig.h"
+#include "..\Common\h\joystick\JoystickConfig.h"
 #include "..\Common\h\midi\Mackie.h"
 #include "..\Common\h\midi\MackieHelper.h"
 #include "..\Common\h\midi\MidiData.h"

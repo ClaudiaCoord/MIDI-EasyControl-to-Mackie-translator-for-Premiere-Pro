@@ -30,7 +30,7 @@ namespace Common {
 
 		public:
 
-			MQTTPlugin(std::wstring);
+			MQTTPlugin(std::wstring, HWND);
 			~MQTTPlugin();
 
 			bool load(std::shared_ptr<JSON::MMTConfig>&) override;

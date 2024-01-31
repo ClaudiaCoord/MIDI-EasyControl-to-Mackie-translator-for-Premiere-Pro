@@ -23,8 +23,8 @@ namespace Common {
 		static constexpr std::wstring_view MidiMackiePort = L"MIDI-MT-Mackie-Out"sv;
 		static constexpr std::wstring_view MidiProxyPort = L"MIDI-MT-Proxy-Out-"sv;
 
-		MidiCtrlPlugin::MidiCtrlPlugin(std::wstring path)
-			: plugin_ui_(*static_cast<PluginCb*>(this)),
+		MidiCtrlPlugin::MidiCtrlPlugin(std::wstring path, HWND hwnd)
+			: plugin_ui_(*static_cast<PluginCb*>(this), hwnd),
 			  IO::Plugin(
 				Utils::to_hash(path), DLG_PLUG_MIDI_WINDOW,
 				Plugin::GuidFromString(_PLUGINGUID),
@@ -32,8 +32,9 @@ namespace Common {
 				PLUG_HEADER,
 				PLUG_DESCRIPTION,
 				this,
-				IO::PluginClassTypes::ClassInMidi,
-				(IO::PluginCbType::In1Cb | IO::PluginCbType::Out1Cb | IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb)
+				IO::PluginClassTypes::ClassMidi,
+				(IO::PluginCbType::In1Cb | IO::PluginCbType::Out1Cb | IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb),
+				hwnd
 			  ) {
 			PluginCb::out1_cb_ = std::bind(static_cast<void(MidiCtrlPlugin::*)(MIDI::Mackie::MIDIDATA, DWORD)>(&MidiCtrlPlugin::cb_out_call_), this, _1, _2);
 			PluginCb::out2_cb_ = std::bind(static_cast<void(MidiCtrlPlugin::*)(MIDI::MidiUnit&, DWORD)>(&MidiCtrlPlugin::cb_out_call_), this, _1, _2);
@@ -105,7 +106,7 @@ namespace Common {
 		}
 		void MidiCtrlPlugin::cb_out_call_(MIDI::MidiUnit& m, DWORD t) {
 			try {
-				if (!dev_out_list_.empty()) return;
+				if (dev_out_list_.empty()) return;
 				for (auto& a : dev_out_list_)
 					if ((a) && a->IsConnected()) a->SendToPort(m, t);
 

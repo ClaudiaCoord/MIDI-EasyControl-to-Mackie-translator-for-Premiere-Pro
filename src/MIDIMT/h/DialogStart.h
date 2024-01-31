@@ -7,17 +7,20 @@ namespace Common {
 		class DialogStart : public IO::PluginUi, public CbEvent {
 		private:
 			int32_t last_selected_plugin_{ -1 };
+			std::atomic<bool> isbusy_{ false };
 			IO::plugin_t& open_plugin_;
 			UI::ImageStateButton<HICON> img_status_{};
 
 			void dispose_();
 			void init_();
+			void ui_lock_(std::function<bool()>, const bool);
 
 			void event_Log_(CbEventData*);
 			void event_Monitor_(CbEventData*);
 			void event_DragAndDrop_(std::wstring);
 			void event_LanguageChange_(uint16_t idx);
 			void event_PluginsReload_();
+			void event_Help_(LPARAM);
 			void build_LangCombobox_();
 			void build_PluginListView_(bool = false);
 

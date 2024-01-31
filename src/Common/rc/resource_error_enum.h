@@ -131,10 +131,18 @@ namespace Common {
 		err_REMOTE_CLIENT_NEW = 113,
 		err_REMOTE_CLIENT_ERR = 114,
 		err_REMOTE_CLIENT_CLOSE = 115,
-		err_COPY_LINK = 116,
-		err_NET_IFACE_NONE = 117,
-		err_NET_IFACE_SELECT = 118,
-		err_NONE = 119,
+		err_JOY_NODRIVER = 116,
+		err_JOY_INVALIDPARAM = 117,
+		err_JOY_NOCANDO = 118,
+		err_JOY_UNPLUGGED = 119,
+		err_JOY_START = 120,
+		err_JOY_STOP = 121,
+		err_JOY_CHANGE_SCENE = 122,
+		err_JOY_CHANGE_CTRL = 123,
+		err_COPY_LINK = 124,
+		err_NET_IFACE_NONE = 125,
+		err_NET_IFACE_SELECT = 126,
+		err_NONE = 127,
 
 	};
 }

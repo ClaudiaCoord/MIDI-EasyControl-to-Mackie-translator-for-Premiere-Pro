@@ -48,6 +48,9 @@
     <ClCompile Include="cpp\ui\UiUtils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="cpp\ui\WindowToTop.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\global.h">
@@ -87,6 +90,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="h\ui\UiUtils.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\ui\WindowToTop.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

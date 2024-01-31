@@ -45,8 +45,6 @@ namespace Common {
 				using enum PluginClassTypes;
 				case ClassIn:
 				case ClassOut:
-				case ClassOut1:
-				case ClassOut2:
 				case ClassSys:
 				case ClassMixer: return true;
 				default: return false;

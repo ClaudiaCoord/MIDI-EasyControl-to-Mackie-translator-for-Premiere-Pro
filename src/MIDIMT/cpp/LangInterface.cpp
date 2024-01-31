@@ -445,7 +445,7 @@ namespace Common {
 			return L"";
 		}
 
-		std::wstring	LangInterface::GetLangId() {
+		std::wstring	LangInterface::GetHelpLangId() {
 			try {
 				switch (id_) {
 					case LANG_CZECH:

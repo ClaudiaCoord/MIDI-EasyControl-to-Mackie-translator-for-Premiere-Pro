@@ -18,6 +18,7 @@ namespace Common {
 
         class RemoteSetupDialog : public IO::PluginUi {
         private:
+            hwnd_ptr<empty_deleter> mhwnd_{};
             REMOTE::RemoteConfig<std::wstring> config_{};
             IO::PluginCb& cb_;
             UI::ImageStateButton<HICON> btn_copy_{};
@@ -44,7 +45,7 @@ namespace Common {
 
         public:
 
-            RemoteSetupDialog(IO::PluginCb&);
+            RemoteSetupDialog(IO::PluginCb&, HWND);
             RemoteSetupDialog(const RemoteSetupDialog&) = default;
             ~RemoteSetupDialog();
 

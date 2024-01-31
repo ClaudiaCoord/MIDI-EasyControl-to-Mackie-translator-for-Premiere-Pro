@@ -73,6 +73,8 @@ namespace Common {
 			void AddToLog(const std::wstring);
 			static void ToLog(HWND, CbEventData*, bool);
 			static void ToMonitor(HWND, CbEventData*, bool);
+			static std::wstring ToLog(CbEventData*, bool = true);
+			static std::wstring ToMonitor(CbEventData*, bool = true);
 		};
 	}
 }
