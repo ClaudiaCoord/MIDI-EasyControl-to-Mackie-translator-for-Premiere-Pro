@@ -277,7 +277,7 @@ LRESULT CALLBACK wnd_proc_(HWND h, UINT m, WPARAM w, LPARAM l) {
 							Common::MIDIMT::ClassStorage::Get().Stop();
 						} catch (...) {}
 						::DestroyWindow(h);
-						return static_cast<INT_PTR>(1);
+						return static_cast<INT_PTR>(0);
 					} catch (...) {}
 					return static_cast<INT_PTR>(0);
 				}

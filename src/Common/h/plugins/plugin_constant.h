@@ -38,7 +38,8 @@ namespace Common {
 			ClassMqttKey,
 			ClassRemote,
 			ClassMixer,
-			ClassMonitor
+			ClassMonitor,
+			ClassVmScript
 		};
 		enum class PluginTypeId : int {
 			BY_NONE = 0,

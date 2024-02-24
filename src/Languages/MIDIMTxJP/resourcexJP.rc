@@ -11,7 +11,8 @@
 
 #include "..\..\Common\rc\resource_dll.rc"
 #include "..\..\Common\rc\resource_lang.rc"
-#include "MIDIMT_STRINGxJP.rc"
+
 #include "MIDIMT_MENUxJP.rc"
 #include "MIDIMT_FORMxJP.rc"
+#include "MIDIMT_STRINGxJP.rc"
 #include "RibbonDialogEditxJP.rc"

@@ -23,11 +23,12 @@ namespace Common {
 				case ClassOut:
 				case ClassSys:
 				case ClassRemote:
-				case ClassMonitor:		 return true;
-				case ClassMixer:         return (unit.target & Target::VOLUMEMIX);
-				case ClassMediaKey:      return (unit.target & Target::MEDIAKEY);
-				case ClassMqttKey:       return (unit.target & Target::MQTTKEY);
-				case ClassLightKey:      return ((unit.target & Target::LIGHTKEY8B) || (unit.target & Target::LIGHTKEY16B));
+				case ClassMonitor:		return true;
+				case ClassMixer:        return (unit.target & Target::VOLUMEMIX);
+				case ClassMediaKey:     return (unit.target & Target::MEDIAKEY);
+				case ClassMqttKey:      return (unit.target & Target::MQTTKEY);
+				case ClassVmScript:		return (unit.target & Target::VMSCRIPT);
+				case ClassLightKey:     return ((unit.target & Target::LIGHTKEY8B) || (unit.target & Target::LIGHTKEY16B));
 				case ClassMidi: break;
 				case ClassNone:
 				default: return false;
@@ -39,11 +40,12 @@ namespace Common {
 						return false;
 					break;
 				}
-				case LIGHTKEY8B:
-				case LIGHTKEY16B:
-				case MEDIAKEY:
 				case MQTTKEY:
-				case VOLUMEMIX: return false;
+				case VMSCRIPT:
+				case MEDIAKEY:
+				case VOLUMEMIX:
+				case LIGHTKEY8B:
+				case LIGHTKEY16B: return false;
 				default: break;
 			}
 			switch (unit.type) {
@@ -304,13 +306,13 @@ namespace Common {
 			);
 		}
 
-		void Mackie::MIDIDATA::Set(uint8_t sc, uint8_t id, uint8_t val, uint8_t ext) {
+		void Mackie::MIDIDATA::Set(const uint8_t sc, const uint8_t id, const uint8_t val, const uint8_t ext) {
 			data[0] = sc;
 			data[1] = id;
 			data[2] = val;
 			data[3] = ext;
 		}
-		void Mackie::MIDIDATA::SetValue(bool b) {
+		void Mackie::MIDIDATA::SetValue(const bool b) {
 			data[2] = b ? 0x7f : 0x40;
 		}
 		uint8_t Mackie::MIDIDATA::scene() const {
@@ -325,16 +327,16 @@ namespace Common {
 		Mackie::Target Mackie::MIDIDATA::target() const {
 			return static_cast<Mackie::Target>(data[3]);
 		}
-		std::wstring Mackie::MIDIDATA::dump() {
+		std::wstring Mackie::MIDIDATA::dump() const {
 			return (log_string() << L"\ttype:" << data[0] << L", id:" << data[1] << L", value:" << data[2]);
 		}
-		std::wstring Mackie::MIDIDATA::dump_ui() {
+		std::wstring Mackie::MIDIDATA::dump_ui() const {
 			return (log_string() << L"Scene: " << MidiHelper::GetScene(data[0]) << L"/" << data[0] << L",\tKey:" << data[1] << L",\tValue:" << data[2]);
 		}
 		const bool Mackie::MIDIDATA::empty() const {
 			return (data[0] == 255U) || (data[1] == 255U) || (data[3] == 255U);
 		}
-		const bool Mackie::MIDIDATA::equals(MIDIDATA& m) const {
+		const bool Mackie::MIDIDATA::equals(const MIDIDATA& m) const {
 			return (data[0] == m.data[0]) && (data[1] == m.data[1]) && (data[2] == m.data[2]) && (data[3] == m.data[3]);
 		}
 		void Mackie::MIDIDATA::clear() {

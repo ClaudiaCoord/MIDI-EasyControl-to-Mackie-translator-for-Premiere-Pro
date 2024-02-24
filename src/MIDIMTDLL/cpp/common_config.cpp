@@ -17,8 +17,6 @@ namespace Common {
 	using namespace std::string_view_literals;
 	constexpr std::wstring_view DEFAULT_CNF_FILE = L"MidiController.cnf"sv;
 
-	common_config common_config::ctrlcommonconfig_{};
-
 	static time_t getConfigFileModify__(const std::wstring& s) {
 		__try {
 			#if defined (_WIN64)
@@ -58,7 +56,7 @@ namespace Common {
 	}
 
 	common_config& common_config::Get() {
-		return std::ref(common_config::ctrlcommonconfig_);
+		return std::ref(common_static::commonconfig_empty);
 	}
 	std::shared_ptr<JSON::MMTConfig>& common_config::GetConfig() {
 		return std::ref(config_ptr_);

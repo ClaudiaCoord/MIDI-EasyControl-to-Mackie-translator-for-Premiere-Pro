@@ -30,8 +30,6 @@ namespace Common {
     class FLAG_EXPORT common_config {
 	private:
 
-		static common_config ctrlcommonconfig_;
-
 		const wchar_t* LogTag = L"Configuration ";
 
 		time_t config_last_write_time{ 0 };

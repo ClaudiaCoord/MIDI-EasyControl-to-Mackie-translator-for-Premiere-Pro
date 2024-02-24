@@ -40,6 +40,5 @@ namespace Common {
             SC4BTN = 243,
             SCNONE = 255
         };
-
     }
 }

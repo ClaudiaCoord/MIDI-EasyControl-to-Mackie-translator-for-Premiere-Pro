@@ -144,7 +144,7 @@ namespace Common {
 							is_config_ = !mc.empty();
 							is_enable_ = (is_config_ && (IO::Plugin::mhwnd_) && mc.enable);
 						}
-						if (is_config_ && is_enable_) common_config::Get().GetConfig()->gamepadconf.Copy(mc);
+						if (is_config_ && is_enable_) common_config::Get().GetConfig()->gamepadconf.copy(mc);
 
 					} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 				}, s));

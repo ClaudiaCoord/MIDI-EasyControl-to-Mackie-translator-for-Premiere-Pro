@@ -45,6 +45,7 @@
 #include <regex>
 #include <type_traits>
 #include <unordered_set>
+#include <queue>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include <atlbase.h>

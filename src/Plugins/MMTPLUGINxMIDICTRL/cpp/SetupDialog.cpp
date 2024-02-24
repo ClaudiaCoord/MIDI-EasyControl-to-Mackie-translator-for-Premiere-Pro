@@ -52,7 +52,7 @@ namespace Common {
 				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
 				auto ft = std::async(std::launch::async, [=]() ->bool {
-					config_.Copy(mmt->midiconf);
+					config_.copy(mmt->midiconf);
 					return MIDI::MidiDevices::Get().CheckVirtualDriver();
 				});
 				bool chkd{ false };
@@ -246,7 +246,7 @@ namespace Common {
 					config_.midi_out_devices.clear();
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->midiconf.Copy(config_);
+				mmt->midiconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

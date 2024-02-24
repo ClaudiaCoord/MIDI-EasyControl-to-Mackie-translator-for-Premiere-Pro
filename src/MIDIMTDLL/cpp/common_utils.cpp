@@ -16,24 +16,26 @@
 
 namespace Common {
 
-    constexpr UINT CODE_PAGE_ = CP_ACP; // CP_UTF8;
-    constexpr DWORD CONV_FLAGS_ = 0; // MB_ERR_INVALID_CHARS;
-
     using namespace std::string_view_literals;
-    constexpr std::wstring_view default_seh_error__ = L"SEH runtime error: "sv;
-    constexpr std::wstring_view default_found_seh_error__ = L"SEH exception execution detected";
-    constexpr std::wstring_view default_runtime_error__ = L"unknown runtime error"sv;
-    constexpr std::wstring_view default_code_error__ = L"error code: "sv;
-    constexpr wchar_t default_no__[] = L"no";
-    constexpr wchar_t default_yes__[] = L"yes";
 
-    static std::wstring app_name{};
+    class UtilsLocal {
+    public:
+        /* CODE_PAGE = CP_ACP ? CP_UTF8 */
+        static constexpr auto CONV_FLAGS = 0; // MB_ERR_INVALID_CHARS;
+        
+        static constexpr std::wstring_view default_seh_error = L"SEH runtime error: "sv;
+        static constexpr std::wstring_view default_found_seh_error = L"SEH exception execution detected"sv;
+        static constexpr std::wstring_view default_runtime_error = L"unknown runtime error"sv;
+        static constexpr std::wstring_view default_code_error = L"error code: "sv;
+        static constexpr std::wstring_view default_no = L"no"sv;
+        static constexpr std::wstring_view default_yes = L"yes"sv;
+    };
 
     const std::wstring_view Utils::DefaulRuntimeError() {
-        return default_runtime_error__;
+        return UtilsLocal::default_runtime_error;
     }
     const std::wstring_view Utils::DefaulSehErrorFound() {
-        return default_found_seh_error__;
+        return UtilsLocal::default_found_seh_error;
     }
 
     uint32_t operator"" _hash(const wchar_t* s, std::size_t n) {
@@ -42,7 +44,69 @@ namespace Common {
         return Utils::to_hash(w);
     }
 
-    static void exception_(std::exception_ptr ptr, std::wstring f) {
+    template<typename T1, UINT CODE_PAGE = CP_ACP>
+    static std::wstring string_convert_(const T1 s) {
+        try {
+            do {
+                size_t sz{ 0U }, rsz{ 0U };
+                const char* c;
+                if constexpr (std::is_same_v<const std::string, T1> || std::is_same_v<const std::string_view, T1>) {
+                    if (s.empty()) break;
+                    c = s.data();
+                    sz = s.size();
+                }
+                else if constexpr (std::is_same_v<const char*, T1>) {
+                    if (!s) break;
+                    c = s;
+                    sz = ::strlen(c);
+                }
+                else if constexpr (true) break;
+
+                int size = (sz ? (int)sz : -1);
+                rsz = ::MultiByteToWideChar(CODE_PAGE, UtilsLocal::CONV_FLAGS, c, size, 0, 0);
+                if (!rsz) break;
+
+                std::vector<wchar_t> v(sz + 1);
+                ::MultiByteToWideChar(CODE_PAGE, UtilsLocal::CONV_FLAGS, c, size, &v[0], (int)rsz);
+                size_t off = (v[rsz] == L'\0') ? 1 : 0;
+                return std::wstring(v.begin(), v.end() - off);
+            } while (0);
+        } catch (...) {}
+        return std::wstring();
+    }
+
+    template<typename T1, UINT CODE_PAGE = CP_ACP>
+    static std::string wstring_convert_(const T1 s) {
+        try {
+            do {
+                size_t sz{ 0U }, rsz{ 0U };
+                const wchar_t* c;
+                if constexpr (std::is_same_v<const std::wstring, T1> || std::is_same_v<const std::wstring_view, T1>) {
+                    if (s.empty()) break;
+                    c = s.data();
+                    sz = s.size();
+                }
+                else if constexpr (std::is_same_v<const wchar_t*, T1>) {
+                    if (!s) break;
+                    c = s;
+                    sz = ::wcslen(c);
+                }
+                else if constexpr (true) break;
+
+                int size = (sz ? (int)sz : -1);
+                rsz = ::WideCharToMultiByte(CODE_PAGE, UtilsLocal::CONV_FLAGS, c, size, 0, 0, 0, 0);
+                if (!rsz) break;
+
+                std::vector<char> v(sz + 1);
+                ::WideCharToMultiByte(CODE_PAGE, UtilsLocal::CONV_FLAGS, c, size, &v[0], (int)rsz, 0, 0);
+                size_t off = (v[rsz] == L'\0') ? 1 : 0;
+                return std::string(v.begin(), v.end() - off);
+            } while (0);
+        } catch (...) {}
+        return std::string();
+    }
+
+    static void  exception_(std::exception_ptr ptr, std::wstring f) {
         if (!ptr) return;
 
         std::wstring we{};
@@ -52,7 +116,7 @@ namespace Common {
         }
         catch (const seh_exception& e) {
             log_string ls;
-            ls << default_seh_error__ << std::to_wstring(e.error());
+            ls << UtilsLocal::default_seh_error << std::to_wstring(e.error());
             we = ls.str();
         }
         catch (const common_error& e) {
@@ -63,7 +127,7 @@ namespace Common {
         catch (const winreg::RegException& e) {
             log_string ls;
             std::error_code c = e.code();
-            ls << Utils::CHARS_to_string(e.what()) << L", " << default_code_error__ << c.value();
+            ls << string_convert_<const char*>(e.what()) << L", " << UtilsLocal::default_code_error << c.value();
             we = ls.str();
         } 
         catch (const std::future_error& e) {
@@ -93,11 +157,11 @@ namespace Common {
         } catch (...) {
             log_string ls;
             ls.to_log_method(__FUNCTIONW__, f.c_str());
-            ls << default_runtime_error__;
+            ls << UtilsLocal::default_runtime_error;
             to_log::Get() << ls.str();
         }
     }
-    static CLSID build_GUID_from_Chars_(const char* s) {
+    static CLSID build_GUID_(const char* s) {
         CLSID clsid{};
         if (::CLSIDFromString(ATL::CComBSTR(s), &clsid) == NOERROR) return clsid;
         return GUID_NULL;
@@ -138,22 +202,6 @@ namespace Common {
         __try {
             (void) ::midiOutGetErrorTextW(r, wc, sz);
         } __except (EXCEPTION_EXECUTE_HANDLER) {}
-    }
-    static std::wstring build_Chars_(const char* c) {
-        try {
-            do {
-                if (c == nullptr) break;
-                size_t sz = ::strlen(c),
-                       wsz = ::MultiByteToWideChar(CODE_PAGE_, CONV_FLAGS_, c, (sz ? (int)sz : -1), 0, 0);
-                if (!wsz) break;
-
-                std::vector<wchar_t> v(wsz + 1);
-                ::MultiByteToWideChar(CODE_PAGE_, CONV_FLAGS_, c, -1, &v[0], (int)wsz);
-                return std::wstring(v.begin(), (v.begin() + wsz));
-
-            } while (0);
-        } catch (...) {}
-        return L"";
     }
 
     std::string Utils::trim_(std::string_view& sv) {
@@ -291,8 +339,15 @@ namespace Common {
         build_MMRESULT_(r, wc, (DWORD)std::size(wc));
         return Utils::to_string(wc);
     }
+    std::wstring Utils::NANOSECONDS_to_string(const uint64_t& nanos) {
+        ULARGE_INTEGER ui{ .QuadPart = nanos };
+        return to_string(std::ref(ui));
+    }
     std::wstring Utils::MILLISECONDS_to_string(const DWORD& millis) {
-        return std::format(L"%T", std::chrono::floor<std::chrono::milliseconds>(std::chrono::milliseconds(millis)));
+        return MILLISECONDS_to_string(static_cast<uint64_t>(millis));
+    }
+    std::wstring Utils::MILLISECONDS_to_string(const uint64_t& millis) {
+        return std::format(L"{:%T}", std::chrono::floor<std::chrono::milliseconds>(std::chrono::milliseconds(millis)));
     }
     std::wstring Utils::MILLISECONDS_to_string(const std::chrono::steady_clock::time_point& millis) {
         auto t = std::chrono::high_resolution_clock::now();
@@ -300,10 +355,7 @@ namespace Common {
         return std::format(L"{:%T}", std::chrono::floor<std::chrono::milliseconds>(p));
     }
     std::wstring Utils::BOOL_to_string(const bool b) {
-        return b ? default_yes__ : default_no__;
-    }
-    std::wstring Utils::CHARS_to_string(const char* s) {
-        return build_Chars_(s);
+        return b ? UtilsLocal::default_yes.data() : UtilsLocal::default_no.data();
     }
     std::wstring Utils::to_string(const std::wstring_view v) {
         return std::wstring(v);
@@ -313,18 +365,7 @@ namespace Common {
         return Utils::to_string(s);
     }
     std::wstring Utils::to_string(const std::string s) {
-        try {
-            do {
-                if (s.empty()) break;
-                size_t sz = ::MultiByteToWideChar(CODE_PAGE_, CONV_FLAGS_, s.data(), (int)s.size(), 0, 0);
-                if (!sz) break;
-
-                std::vector<wchar_t> v(sz + 1);
-                ::MultiByteToWideChar(CODE_PAGE_, CONV_FLAGS_, s.data(), (int)s.size(), &v[0], (int)sz);
-                return std::wstring(v.begin(), v.end());
-            } while (0);
-        } catch (...) {}
-        return L"";
+        return string_convert_<const std::string>(s);
     }
     std::wstring Utils::to_string(LPWSTR s) {
         if (CHECK_LPWSTRING(s)) return std::wstring(s);
@@ -337,22 +378,22 @@ namespace Common {
         return Utils::to_string(wc);
     }
     std::wstring Utils::to_string(const std::runtime_error& err) {
-        return build_Chars_(err.what());
+        return string_convert_<const char*>(err.what());
     }
     std::wstring Utils::to_string(const std::exception& err) {
-        return build_Chars_(err.what());
+        return string_convert_<const char*>(err.what());
     }
     std::wstring Utils::to_string(const std::error_code& err) {
         std::wstringstream ws{};
-        ws << default_code_error__ << err.value();
+        ws << UtilsLocal::default_code_error << err.value();
         if (!err.message().empty()) ws << L", " << Utils::to_string(err.message());
         return ws.str();
     }
     std::wstring Utils::to_string(const std::future_error& err) {
-        return build_Chars_(err.what());
+        return string_convert_<const char*>(err.what());
     }
     std::wstring Utils::to_string(const std::filesystem::filesystem_error& err) {
-        return build_Chars_(err.what());
+        return string_convert_<const char*>(err.what());
     }
     std::wstring Utils::to_string(char8_t const* s, std::size_t z) {
         return std::wstring(s, s + z);
@@ -361,41 +402,52 @@ namespace Common {
         return L"(null)";
     }
     std::wstring Utils::to_string(const char s[]) {
-        return build_Chars_(s);
+        return string_convert_<const char*>(s);
     }
     std::wstring Utils::to_string(unsigned int& u) {
         return std::to_wstring(static_cast<unsigned long>(u));
     }
-    std::wstring Utils::to_string(IO::PluginClassTypes t) {
+    std::wstring Utils::to_string(const IO::PluginClassTypes& t) {
         return Utils::to_string(IO::PluginHelper::GetClassTypes(t));
     }
-    std::wstring Utils::to_string(MIDI::MidiUnitType t) {
+    std::wstring Utils::to_string(const MIDI::MidiUnitType& t) {
         return Utils::to_string(Common::MIDI::MidiHelper::GetType(t));
     }
-    std::wstring Utils::to_string(MIDI::MidiUnitScene t) {
+    std::wstring Utils::to_string(const MIDI::MidiUnitScene& t) {
         return Utils::to_string(Common::MIDI::MidiHelper::GetScene(t));
+    }
+    std::wstring Utils::to_string(const ULARGE_INTEGER& t) {
+        FILETIME ft{ .dwLowDateTime{ t.LowPart }, .dwHighDateTime{ t.HighPart } };
+        return to_string(std::ref(ft));
+    }
+    std::wstring Utils::to_string(const FILETIME& t) {
+        SYSTEMTIME st{};
+        ::FileTimeToSystemTime(&t, &st);
+        return to_string(std::ref(st));
+    }
+    std::wstring Utils::to_string(const SYSTEMTIME& t) {
+        return (log_string()
+            << std::setw(2) << std::setfill(L'0') << t.wDay << L'-'
+            << std::setw(2) << std::setfill(L'0') << t.wMonth << L'-'
+            << std::setw(2) << std::setfill(L'0') << t.wYear << L' '
+            << std::setw(2) << std::setfill(L'0') << t.wHour << L':'
+            << std::setw(2) << std::setfill(L'0') << t.wMinute << L':'
+            << std::setw(2) << std::setfill(L'0') << t.wSecond
+            );
     }
 
     std::string Utils::from_string(const std::wstring& s) {
-        try {
-            do {
-                if (s.empty()) break;
-                size_t sz = ::WideCharToMultiByte(CODE_PAGE_, CONV_FLAGS_, s.data(), (int)s.size(), 0, 0, 0, 0);
-                if (!sz) break;
-
-                std::vector<char> v(sz + 1);
-                ::WideCharToMultiByte(CODE_PAGE_, CONV_FLAGS_, s.data(), (int)s.size(), &v[0], (int)sz, 0, 0);
-                size_t off = (v[sz] == '\0') ? 1 : 0;
-                return std::string(v.begin(), v.end() - off);
-            } while (0);
-        } catch (...) {}
-        return std::string();
+        return wstring_convert_<const std::wstring>(s);
     }
+    std::string Utils::from_string(const wchar_t* s) {
+        return wstring_convert_<const wchar_t*>(s);
+    }
+
     CLSID       Utils::guid_from_string(const char* s) {
-        return build_GUID_from_Chars_(s);
+        return build_GUID_(s);
     }
     CLSID       Utils::guid_from_string(const wchar_t* s) {
-        return build_GUID_from_Chars_(from_string(s).c_str());
+        return build_GUID_(wstring_convert_<const wchar_t*>(s).c_str());
     }
 
     void Utils::get_exception(std::exception_ptr ptr, const char* f) {

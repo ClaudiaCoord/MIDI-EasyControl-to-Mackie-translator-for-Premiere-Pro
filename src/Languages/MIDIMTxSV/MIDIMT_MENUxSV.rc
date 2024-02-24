@@ -50,6 +50,7 @@ BEGIN
 	MENUITEM "visa LIGTS-konfiguration",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "visa FJÄRR-konfiguration",	DLG_LOGVIEW_MENU_CONF_REMOTE
 	MENUITEM "visa GAMEPAD-konfiguration",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
+	MENUITEM "visa VMSCRIPT-konfiguration",	DLG_LOGVIEW_MENU_CONF_SCRIPT
         MENUITEM SEPARATOR
 	MENUITEM "visa DMX512-konfiguration",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "visa ArtNet-konfigurationen",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -120,9 +121,10 @@ BEGIN
         MENUITEM "Radera",                     IDM_LV_DELETE
         POPUP "Installera som.."
         BEGIN
+            MENUITEM "Kontroll avser ett smart hem", IDM_LV_SET_MQTT
             MENUITEM "Kontroll avser ljudmixer", IDM_LV_SET_MIXER
             MENUITEM "Kontrollerna gäller multimediaknappar", IDM_LV_SET_MMKEY
-            MENUITEM "Kontroll avser ett smart hem", IDM_LV_SET_MQTT
+            MENUITEM "Kontroll avser skripthantering", IDM_LV_SET_VMSCRIPT
 	    POPUP "Styrning avser ljusstyrning"
 	    BEGIN
 		MENUITEM "Kanal 8 bitar (standard)", IDM_LV_SET_LIGHTKEY8B
@@ -138,7 +140,7 @@ END
 
 DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "__COL3TYPEMENU"
+    POPUP "__COL3 TYPE MENU"
     BEGIN
         POPUP "Regulatorer.."
         BEGIN
@@ -172,9 +174,10 @@ BEGIN
         MENUITEM "Regulatorer..",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Knappar..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
+        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
         MENUITEM "Kontroll avser ljudmixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollerna gäller multimediaknappar", IDM_COL4_MEDIAKEY
-        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
+        MENUITEM "Kontroll avser skripthantering", IDM_LV_SET_VMSCRIPT
 	POPUP "Styrning avser ljusstyrning"
 	BEGIN
 	   MENUITEM "Kanal 8 bitar (standard)", IDM_COL4_LIGHTKEY8B
@@ -187,111 +190,142 @@ DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Otilldelad",		   IDM_COL4_NONE
+        MENUITEM "Otilldelad",		      IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ljudkontroll..."
         BEGIN
-            MENUITEM "Tyst (mästare)",		IDM_COL4_MAM
-            MENUITEM "Solo (mästare)",			IDM_COL4_MAS
+            MENUITEM "Tyst (mästare)",	      IDM_COL4_MAM
+            MENUITEM "Solo (mästare)",		      IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Ljudlös.."
             BEGIN
-                MENUITEM "kanal 1",                     IDM_COL4_B21
-                MENUITEM "kanal 2",                     IDM_COL4_B22
-                MENUITEM "kanal 3",                     IDM_COL4_B23
-                MENUITEM "kanal 4",                     IDM_COL4_B24
-                MENUITEM "kanal 5",                     IDM_COL4_B25
-                MENUITEM "kanal 6",                     IDM_COL4_B26
-                MENUITEM "kanal 7",                     IDM_COL4_B27
-                MENUITEM "kanal 8",                     IDM_COL4_B28
-                MENUITEM "kanal 9",                     IDM_COL4_B29
+                MENUITEM "kanal 1",                   IDM_COL4_B21
+                MENUITEM "kanal 2",                   IDM_COL4_B22
+                MENUITEM "kanal 3",                   IDM_COL4_B23
+                MENUITEM "kanal 4",                   IDM_COL4_B24
+                MENUITEM "kanal 5",                   IDM_COL4_B25
+                MENUITEM "kanal 6",                   IDM_COL4_B26
+                MENUITEM "kanal 7",                   IDM_COL4_B27
+                MENUITEM "kanal 8",                   IDM_COL4_B28
+                MENUITEM "kanal 9",                   IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "kanal 1",                     IDM_COL4_B11
-                MENUITEM "kanal 2",                     IDM_COL4_B12
-                MENUITEM "kanal 3",                     IDM_COL4_B13
-                MENUITEM "kanal 4",                     IDM_COL4_B14
-                MENUITEM "kanal 5",                     IDM_COL4_B15
-                MENUITEM "kanal 6",                     IDM_COL4_B16
-                MENUITEM "kanal 7",                     IDM_COL4_B17
-                MENUITEM "kanal 8",                     IDM_COL4_B18
-                MENUITEM "kanal 9",                     IDM_COL4_B19
+                MENUITEM "kanal 1",                   IDM_COL4_B11
+                MENUITEM "kanal 2",                   IDM_COL4_B12
+                MENUITEM "kanal 3",                   IDM_COL4_B13
+                MENUITEM "kanal 4",                   IDM_COL4_B14
+                MENUITEM "kanal 5",                   IDM_COL4_B15
+                MENUITEM "kanal 6",                   IDM_COL4_B16
+                MENUITEM "kanal 7",                   IDM_COL4_B17
+                MENUITEM "kanal 8",                   IDM_COL4_B18
+                MENUITEM "kanal 9",                   IDM_COL4_B19
             END
         END
         POPUP "Multimediaknappar.."
         BEGIN
-            MENUITEM "Spela/Pausa",                IDM_COL4_SYS_Play
-            MENUITEM "Sluta",                        IDM_COL4_SYS_Stop
-            MENUITEM "Tidigare",                  IDM_COL4_SYS_Rewind
-            MENUITEM "Nästa",                   IDM_COL4_SYS_Forward
-            MENUITEM "Spela in",                      IDM_COL4_SYS_Record
-            MENUITEM "Upp (joystick)",            IDM_COL4_SYS_Up
-            MENUITEM "Ner (joystick)",             IDM_COL4_SYS_Down
-            MENUITEM "Höger (joystick)",           IDM_COL4_SYS_Right
-            MENUITEM "Vänster (joystick)",            IDM_COL4_SYS_Left
-            MENUITEM "Zooma in",         IDM_COL4_SYS_Zoom
-            MENUITEM "Skrubbning",               IDM_COL4_SYS_Scrub
+            MENUITEM "Spela/Pausa",                  IDM_COL4_SYS_Play
+            MENUITEM "Sluta",                          IDM_COL4_SYS_Stop
+            MENUITEM "Tidigare",                    IDM_COL4_SYS_Rewind
+            MENUITEM "Nästa",                     IDM_COL4_SYS_Forward
+            MENUITEM "Spela in",                        IDM_COL4_SYS_Record
+            MENUITEM "Upp (joystick)",              IDM_COL4_SYS_Up
+            MENUITEM "Ner (joystick)",               IDM_COL4_SYS_Down
+            MENUITEM "Höger (joystick)",             IDM_COL4_SYS_Right
+            MENUITEM "Vänster (joystick)",              IDM_COL4_SYS_Left
+            MENUITEM "Zooma in",           IDM_COL4_SYS_Zoom
+            MENUITEM "Skrubbning",                 IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro-funktioner..."
         BEGIN
             POPUP "Funktioner för standardknappen..."
             BEGIN
-                MENUITEM "Funktion 1",                   IDM_COL4_FUN11
-                MENUITEM "Funktion 2",                   IDM_COL4_FUN12
-                MENUITEM "Funktion 3",                   IDM_COL4_FUN13
-                MENUITEM "Funktion 4",                   IDM_COL4_FUN14
-                MENUITEM "Funktion 5",                   IDM_COL4_FUN15
-                MENUITEM "Funktion 6",                   IDM_COL4_FUN16
-                MENUITEM "Funktion 7",                   IDM_COL4_FUN17
-                MENUITEM "Funktion 8",                   IDM_COL4_FUN18
+                MENUITEM "Funktion 1",                 IDM_COL4_FUN11
+                MENUITEM "Funktion 2",                 IDM_COL4_FUN12
+                MENUITEM "Funktion 3",                 IDM_COL4_FUN13
+                MENUITEM "Funktion 4",                 IDM_COL4_FUN14
+                MENUITEM "Funktion 5",                 IDM_COL4_FUN15
+                MENUITEM "Funktion 6",                 IDM_COL4_FUN16
+                MENUITEM "Funktion 7",                 IDM_COL4_FUN17
+                MENUITEM "Funktion 8",                 IDM_COL4_FUN18
             END
             POPUP "Funktioner med en knapptryckning..."
             BEGIN
-                MENUITEM "Funktion 1",                   IDM_COL4_FUN21
-                MENUITEM "Funktion 2",                   IDM_COL4_FUN22
-                MENUITEM "Funktion 3",                   IDM_COL4_FUN23
-                MENUITEM "Funktion 4",                   IDM_COL4_FUN24
-                MENUITEM "Funktion 5",                   IDM_COL4_FUN25
-                MENUITEM "Funktion 6",                   IDM_COL4_FUN26
-                MENUITEM "Funktion 7",                   IDM_COL4_FUN27
-                MENUITEM "Funktion 8",                   IDM_COL4_FUN28
+                MENUITEM "Funktion 1",                 IDM_COL4_FUN21
+                MENUITEM "Funktion 2",                 IDM_COL4_FUN22
+                MENUITEM "Funktion 3",                 IDM_COL4_FUN23
+                MENUITEM "Funktion 4",                 IDM_COL4_FUN24
+                MENUITEM "Funktion 5",                 IDM_COL4_FUN25
+                MENUITEM "Funktion 6",                 IDM_COL4_FUN26
+                MENUITEM "Funktion 7",                 IDM_COL4_FUN27
+                MENUITEM "Funktion 8",                 IDM_COL4_FUN28
             END
         END
         POPUP "Knappar i Smart Home-systemet.."
         BEGIN
-                MENUITEM "på/av 1",                 IDM_COL4_B11
-                MENUITEM "på/av 2",                 IDM_COL4_B12
-                MENUITEM "på/av 3",                 IDM_COL4_B13
-                MENUITEM "på/av 4",                 IDM_COL4_B14
-                MENUITEM "på/av 5",                 IDM_COL4_B15
-                MENUITEM "på/av 6",                 IDM_COL4_B16
-                MENUITEM "på/av 7",                 IDM_COL4_B17
-                MENUITEM "på/av 8",                 IDM_COL4_B18
-                MENUITEM "på/av 9",                 IDM_COL4_B19
-                MENUITEM "på/av 10",                 IDM_COL4_B21
-                MENUITEM "på/av 11",                 IDM_COL4_B22
-                MENUITEM "på/av 12",                 IDM_COL4_B23
-                MENUITEM "på/av 13",                 IDM_COL4_B24
-                MENUITEM "på/av 14",                 IDM_COL4_B25
-                MENUITEM "på/av 15",                 IDM_COL4_B26
-                MENUITEM "på/av 16",                 IDM_COL4_B27
-                MENUITEM "på/av 17",                 IDM_COL4_B28
-                MENUITEM "på/av 18",                 IDM_COL4_B29
-                MENUITEM "på/av 19",                 IDM_COL4_B31
-                MENUITEM "på/av 20",                 IDM_COL4_B32
-                MENUITEM "på/av 21",                 IDM_COL4_B33
-                MENUITEM "på/av 22",                 IDM_COL4_B34
-                MENUITEM "på/av 23",                 IDM_COL4_B35
-                MENUITEM "på/av 24",                 IDM_COL4_B36
-                MENUITEM "på/av 25",                 IDM_COL4_B37
-                MENUITEM "på/av 26",                 IDM_COL4_B38
-                MENUITEM "på/av 27",                 IDM_COL4_B39
+                MENUITEM "på/av 1",                IDM_COL4_B11
+                MENUITEM "på/av 2",                IDM_COL4_B12
+                MENUITEM "på/av 3",                IDM_COL4_B13
+                MENUITEM "på/av 4",                IDM_COL4_B14
+                MENUITEM "på/av 5",                IDM_COL4_B15
+                MENUITEM "på/av 6",                IDM_COL4_B16
+                MENUITEM "på/av 7",                IDM_COL4_B17
+                MENUITEM "på/av 8",                IDM_COL4_B18
+                MENUITEM "på/av 9",                IDM_COL4_B19
+                MENUITEM "på/av 10",               IDM_COL4_B21
+                MENUITEM "på/av 11",               IDM_COL4_B22
+                MENUITEM "på/av 12",               IDM_COL4_B23
+                MENUITEM "på/av 13",               IDM_COL4_B24
+                MENUITEM "på/av 14",               IDM_COL4_B25
+                MENUITEM "på/av 15",               IDM_COL4_B26
+                MENUITEM "på/av 16",               IDM_COL4_B27
+                MENUITEM "på/av 17",               IDM_COL4_B28
+                MENUITEM "på/av 18",               IDM_COL4_B29
+                MENUITEM "på/av 19",               IDM_COL4_B31
+                MENUITEM "på/av 20",               IDM_COL4_B32
+                MENUITEM "på/av 21",               IDM_COL4_B33
+                MENUITEM "på/av 22",               IDM_COL4_B34
+                MENUITEM "på/av 23",               IDM_COL4_B35
+                MENUITEM "på/av 24",               IDM_COL4_B36
+                MENUITEM "på/av 25",               IDM_COL4_B37
+                MENUITEM "på/av 26",               IDM_COL4_B38
+                MENUITEM "på/av 27",               IDM_COL4_B39
+        END
+        POPUP "Skripthantering..."
+        BEGIN
+                MENUITEM "manus 1",                  IDM_COL4_B11
+                MENUITEM "manus 2",                  IDM_COL4_B12
+                MENUITEM "manus 3",                  IDM_COL4_B13
+                MENUITEM "manus 4",                  IDM_COL4_B14
+                MENUITEM "manus 5",                  IDM_COL4_B15
+                MENUITEM "manus 6",                  IDM_COL4_B16
+                MENUITEM "manus 7",                  IDM_COL4_B17
+                MENUITEM "manus 8",                  IDM_COL4_B18
+                MENUITEM "manus 9",                  IDM_COL4_B19
+                MENUITEM "manus 10",                 IDM_COL4_B21
+                MENUITEM "manus 11",                 IDM_COL4_B22
+                MENUITEM "manus 12",                 IDM_COL4_B23
+                MENUITEM "manus 13",                 IDM_COL4_B24
+                MENUITEM "manus 14",                 IDM_COL4_B25
+                MENUITEM "manus 15",                 IDM_COL4_B26
+                MENUITEM "manus 16",                 IDM_COL4_B27
+                MENUITEM "manus 17",                 IDM_COL4_B28
+                MENUITEM "manus 18",                 IDM_COL4_B29
+                MENUITEM "manus 19",                 IDM_COL4_B31
+                MENUITEM "manus 20",                 IDM_COL4_B32
+                MENUITEM "manus 21",                 IDM_COL4_B33
+                MENUITEM "manus 22",                 IDM_COL4_B34
+                MENUITEM "manus 23",                 IDM_COL4_B35
+                MENUITEM "manus 24",                 IDM_COL4_B36
+                MENUITEM "manus 25",                 IDM_COL4_B37
+                MENUITEM "manus 26",                 IDM_COL4_B38
+                MENUITEM "manus 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
+        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
         MENUITEM "Kontroll avser ljudmixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollerna gäller multimediaknappar", IDM_COL4_MEDIAKEY
-        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
+	MENUITEM "Kontroll avser skripthantering", IDM_COL4_VMSCRIPT
 	POPUP "Styrning avser ljusstyrning"
 	BEGIN
 	   MENUITEM "Kanal 8 bitar (standard)", IDM_COL4_LIGHTKEY8B
@@ -304,37 +338,37 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "Encoder (bildruta-för-bildruta-visning)", IDM_COL4_JOG
-        MENUITEM "Otilldelad",               IDM_COL4_NONE
+        MENUITEM "Encoder (bildruta-för-bildruta-visning)",  IDM_COL4_JOG
+        MENUITEM "Otilldelad",                 IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ljudkontroll..."
         BEGIN
-            MENUITEM "Volym (master)",          IDM_COL4_MAV
-            MENUITEM "Balans (master)",             IDM_COL4_MAP
+            MENUITEM "Volym (master)",         IDM_COL4_MAV
+            MENUITEM "Balans (master)",            IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Volym.."
             BEGIN
-                MENUITEM "kanal 1",                     IDM_COL4_AV1
-                MENUITEM "kanal 2",                     IDM_COL4_AV2
-                MENUITEM "kanal 3",                     IDM_COL4_AV3
-                MENUITEM "kanal 4",                     IDM_COL4_AV4
-                MENUITEM "kanal 5",                     IDM_COL4_AV5
-                MENUITEM "kanal 6",                     IDM_COL4_AV6
-                MENUITEM "kanal 7",                     IDM_COL4_AV7
-                MENUITEM "kanal 8",                     IDM_COL4_AV8
-                MENUITEM "kanal 9",                     IDM_COL4_XV9
+                MENUITEM "kanal 1",                IDM_COL4_AV1
+                MENUITEM "kanal 2",                IDM_COL4_AV2
+                MENUITEM "kanal 3",                IDM_COL4_AV3
+                MENUITEM "kanal 4",                IDM_COL4_AV4
+                MENUITEM "kanal 5",                IDM_COL4_AV5
+                MENUITEM "kanal 6",                IDM_COL4_AV6
+                MENUITEM "kanal 7",                IDM_COL4_AV7
+                MENUITEM "kanal 8",                IDM_COL4_AV8
+                MENUITEM "kanal 9",                IDM_COL4_XV9
             END
             POPUP "Balans.."
             BEGIN
-                MENUITEM "kanal 1",                     IDM_COL4_AP1
-                MENUITEM "kanal 2",                     IDM_COL4_AP2
-                MENUITEM "kanal 3",                     IDM_COL4_AP3
-                MENUITEM "kanal 4",                     IDM_COL4_AP4
-                MENUITEM "kanal 5",                     IDM_COL4_AP5
-                MENUITEM "kanal 6",                     IDM_COL4_AP6
-                MENUITEM "kanal 7",                     IDM_COL4_AP7
-                MENUITEM "kanal 8",                     IDM_COL4_AP8
-                MENUITEM "kanal 9",                     IDM_COL4_XP9
+                MENUITEM "kanal 1",                IDM_COL4_AP1
+                MENUITEM "kanal 2",                IDM_COL4_AP2
+                MENUITEM "kanal 3",                IDM_COL4_AP3
+                MENUITEM "kanal 4",                IDM_COL4_AP4
+                MENUITEM "kanal 5",                IDM_COL4_AP5
+                MENUITEM "kanal 6",                IDM_COL4_AP6
+                MENUITEM "kanal 7",                IDM_COL4_AP7
+                MENUITEM "kanal 8",                IDM_COL4_AP8
+                MENUITEM "kanal 9",                IDM_COL4_XP9
             END
         END
         POPUP "Regulatorer i “Smart Home”-systemet.."
@@ -348,25 +382,34 @@ BEGIN
                 MENUITEM "nivå 7",              IDM_COL4_AV7
                 MENUITEM "nivå 8",              IDM_COL4_AV8
                 MENUITEM "nivå 9",              IDM_COL4_XV9
-                MENUITEM "nivå 10",              IDM_COL4_AP1
-                MENUITEM "nivå 11",              IDM_COL4_AP2
-                MENUITEM "nivå 12",              IDM_COL4_AP3
-                MENUITEM "nivå 13",              IDM_COL4_AP4
-                MENUITEM "nivå 14",              IDM_COL4_AP5
-                MENUITEM "nivå 15",              IDM_COL4_AP6
-                MENUITEM "nivå 16",              IDM_COL4_AP7
-                MENUITEM "nivå 17",              IDM_COL4_AP8
-                MENUITEM "nivå 18",              IDM_COL4_XP9
+                MENUITEM "nivå 10",             IDM_COL4_AP1
+                MENUITEM "nivå 11",             IDM_COL4_AP2
+                MENUITEM "nivå 12",             IDM_COL4_AP3
+                MENUITEM "nivå 13",             IDM_COL4_AP4
+                MENUITEM "nivå 14",             IDM_COL4_AP5
+                MENUITEM "nivå 15",             IDM_COL4_AP6
+                MENUITEM "nivå 16",             IDM_COL4_AP7
+                MENUITEM "nivå 17",             IDM_COL4_AP8
+                MENUITEM "nivå 18",             IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
+        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
         MENUITEM "Kontroll avser ljudmixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Kontrollerna gäller multimediaknappar", IDM_COL4_MEDIAKEY
-        MENUITEM "Kontroll avser ett smart hem", IDM_COL4_MQTTKEY
+	MENUITEM "Kontroll avser skripthantering", IDM_COL4_VMSCRIPT
 	POPUP "Styrning avser ljusstyrning"
 	BEGIN
 	   MENUITEM "Kanal 8 bitar (standard)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "Kanal 16 bitar (förlängd)", IDM_COL4_LIGHTKEY16B
 	END
+    END
+END
+
+DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU MENU
+BEGIN
+    POPUP "__COLS SLIDER NOSUPPORT MENU"
+    BEGIN
+	MENUITEM "Den valda kontrollgruppen stöder inte skjutreglage", IDM_COL4_NONE
     END
 END
 
@@ -435,57 +478,57 @@ BEGIN
         MENUITEM "Tidigare",                  IDM_COL4_SYS_Rewind
         MENUITEM "Nästa",                   IDM_COL4_SYS_Forward
         MENUITEM "Spela in",                      IDM_COL4_SYS_Record
-        MENUITEM "Upp (joystick)",           IDM_COL4_SYS_Up
-        MENUITEM "Ner (joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "Upp (joystick)",            IDM_COL4_SYS_Up
+        MENUITEM "Ner (joystick)",             IDM_COL4_SYS_Down
         MENUITEM "Höger (joystick)",           IDM_COL4_SYS_Right
-        MENUITEM "Vänster (joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "Vänster (joystick)",            IDM_COL4_SYS_Left
         MENUITEM "Zooma in",         IDM_COL4_SYS_Zoom
         MENUITEM "Skrubbning",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Otilldelad",               IDM_COL4_NONE
+        MENUITEM "Otilldelad",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "nivå 1",                    IDM_COL4_AV1
-        MENUITEM "nivå 2",                    IDM_COL4_AV2
-        MENUITEM "Nivå 3",                    IDM_COL4_AV3
-        MENUITEM "nivå 4",                    IDM_COL4_AV4
-        MENUITEM "nivå 5",                    IDM_COL4_AV5
-        MENUITEM "nivå 6",                    IDM_COL4_AV6
-        MENUITEM "nivå 7",                    IDM_COL4_AV7
-        MENUITEM "nivå 8",                    IDM_COL4_AV8
-        MENUITEM "nivå 9",                    IDM_COL4_XV9
-        MENUITEM "nivå 10",                    IDM_COL4_AP1
-        MENUITEM "nivå 11",                    IDM_COL4_AP2
-        MENUITEM "nivå 12",                    IDM_COL4_AP3
-        MENUITEM "nivå 13",                    IDM_COL4_AP4
-        MENUITEM "nivå 14",                    IDM_COL4_AP5
-        MENUITEM "nivå 15",                    IDM_COL4_AP6
-        MENUITEM "nivå 16",                    IDM_COL4_AP7
-        MENUITEM "nivå 17",                    IDM_COL4_AP8
-        MENUITEM "nivå 18",                    IDM_COL4_XP9
+        MENUITEM "nivå 1",                   IDM_COL4_AV1
+        MENUITEM "nivå 2",                   IDM_COL4_AV2
+        MENUITEM "Nivå 3",                   IDM_COL4_AV3
+        MENUITEM "nivå 4",                   IDM_COL4_AV4
+        MENUITEM "nivå 5",                   IDM_COL4_AV5
+        MENUITEM "nivå 6",                   IDM_COL4_AV6
+        MENUITEM "nivå 7",                   IDM_COL4_AV7
+        MENUITEM "nivå 8",                   IDM_COL4_AV8
+        MENUITEM "nivå 9",                   IDM_COL4_XV9
+        MENUITEM "nivå 10",                  IDM_COL4_AP1
+        MENUITEM "nivå 11",                  IDM_COL4_AP2
+        MENUITEM "nivå 12",                  IDM_COL4_AP3
+        MENUITEM "nivå 13",                  IDM_COL4_AP4
+        MENUITEM "nivå 14",                  IDM_COL4_AP5
+        MENUITEM "nivå 15",                  IDM_COL4_AP6
+        MENUITEM "nivå 16",                  IDM_COL4_AP7
+        MENUITEM "nivå 17",                  IDM_COL4_AP8
+        MENUITEM "nivå 18",                  IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Otilldelad",                 IDM_COL4_NONE
+        MENUITEM "Otilldelad",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-    MENUITEM "på/av 1",                     IDM_COL4_B11
-    MENUITEM "på/av 2",                     IDM_COL4_B12
-    MENUITEM "på/av 3",                     IDM_COL4_B13
-    MENUITEM "på/av 4",                     IDM_COL4_B14
-    MENUITEM "på/av 5",                     IDM_COL4_B15
-    MENUITEM "på/av 6",                     IDM_COL4_B16
-    MENUITEM "på/av 7",                     IDM_COL4_B17
-    MENUITEM "på/av 8",                     IDM_COL4_B18
-    MENUITEM "på/av 9",                     IDM_COL4_B19
+    MENUITEM "på/av 1",                      IDM_COL4_B11
+    MENUITEM "på/av 2",                      IDM_COL4_B12
+    MENUITEM "på/av 3",                      IDM_COL4_B13
+    MENUITEM "på/av 4",                      IDM_COL4_B14
+    MENUITEM "på/av 5",                      IDM_COL4_B15
+    MENUITEM "på/av 6",                      IDM_COL4_B16
+    MENUITEM "på/av 7",                      IDM_COL4_B17
+    MENUITEM "på/av 8",                      IDM_COL4_B18
+    MENUITEM "på/av 9",                      IDM_COL4_B19
     MENUITEM "på/av 10",                     IDM_COL4_B21
     MENUITEM "på/av 11",                     IDM_COL4_B22
     MENUITEM "på/av 12",                     IDM_COL4_B23
@@ -505,7 +548,42 @@ BEGIN
     MENUITEM "på/av 26",                     IDM_COL4_B38
     MENUITEM "på/av 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "Otilldelad",                   IDM_COL4_NONE
+    MENUITEM "Otilldelad",                  IDM_COL4_NONE
     END
 END
 
+DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SCRIPT MENU"
+    BEGIN
+    MENUITEM "manus 1",                  IDM_COL4_B11
+    MENUITEM "manus 2",                  IDM_COL4_B12
+    MENUITEM "manus 3",                  IDM_COL4_B13
+    MENUITEM "manus 4",                  IDM_COL4_B14
+    MENUITEM "manus 5",                  IDM_COL4_B15
+    MENUITEM "manus 6",                  IDM_COL4_B16
+    MENUITEM "manus 7",                  IDM_COL4_B17
+    MENUITEM "manus 8",                  IDM_COL4_B18
+    MENUITEM "manus 9",                  IDM_COL4_B19
+    MENUITEM "manus 10",                 IDM_COL4_B21
+    MENUITEM "manus 11",                 IDM_COL4_B22
+    MENUITEM "manus 12",                 IDM_COL4_B23
+    MENUITEM "manus 13",                 IDM_COL4_B24
+    MENUITEM "manus 14",                 IDM_COL4_B25
+    MENUITEM "manus 15",                 IDM_COL4_B26
+    MENUITEM "manus 16",                 IDM_COL4_B27
+    MENUITEM "manus 17",                 IDM_COL4_B28
+    MENUITEM "manus 18",                 IDM_COL4_B29
+    MENUITEM "manus 19",                 IDM_COL4_B31
+    MENUITEM "manus 20",                 IDM_COL4_B32
+    MENUITEM "manus 21",                 IDM_COL4_B33
+    MENUITEM "manus 22",                 IDM_COL4_B34
+    MENUITEM "manus 23",                 IDM_COL4_B35
+    MENUITEM "manus 24",                 IDM_COL4_B36
+    MENUITEM "manus 25",                 IDM_COL4_B37
+    MENUITEM "manus 26",                 IDM_COL4_B38
+    MENUITEM "manus 27",                 IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Otilldelad",            IDM_COL4_NONE
+    END
+END

@@ -11,7 +11,8 @@
 
 #include "..\..\Common\rc\resource_dll.rc"
 #include "..\..\Common\rc\resource_lang.rc"
-#include "MIDIMT_STRINGxSL.rc"
+
 #include "MIDIMT_MENUxSL.rc"
 #include "MIDIMT_FORMxSL.rc"
+#include "MIDIMT_STRINGxSL.rc"
 #include "RibbonDialogEditxSL.rc"

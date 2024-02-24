@@ -62,7 +62,7 @@ namespace Common {
 
 		template <typename T1>
 		template <typename T2>
-		void RemoteConfig<T1>::Copy(RemoteConfig<T2>& c) {
+		void RemoteConfig<T1>::copy(const RemoteConfig<T2>& c) {
 			enable = c.enable;
 			port = ((c.port > 0) && (c.port < 65536)) ? c.port : port;
 			timeoutreq = c.timeoutreq;
@@ -101,9 +101,9 @@ namespace Common {
 		template std::wstring RemoteConfig<std::wstring>::scnv_(std::string&);
 		template std::wstring RemoteConfig<std::wstring>::scnv_(std::wstring&);
 
-		template FLAG_EXPORT void RemoteConfig<std::string>::Copy(RemoteConfig<std::wstring>&);
-		template FLAG_EXPORT void RemoteConfig<std::string>::Copy(RemoteConfig<std::string>&);
-		template FLAG_EXPORT void RemoteConfig<std::wstring>::Copy(RemoteConfig<std::string>&);
-		template FLAG_EXPORT void RemoteConfig<std::wstring>::Copy(RemoteConfig<std::wstring>&);
+		template FLAG_EXPORT void RemoteConfig<std::string>::copy(const RemoteConfig<std::wstring>&);
+		template FLAG_EXPORT void RemoteConfig<std::string>::copy(const RemoteConfig<std::string>&);
+		template FLAG_EXPORT void RemoteConfig<std::wstring>::copy(const RemoteConfig<std::string>&);
+		template FLAG_EXPORT void RemoteConfig<std::wstring>::copy(const RemoteConfig<std::wstring>&);
 	}
 }

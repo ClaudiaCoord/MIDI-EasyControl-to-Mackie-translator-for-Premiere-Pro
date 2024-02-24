@@ -1,0 +1,24 @@
+
+print("Example: Light RGB led effects...")
+//
+//          CreateRGB(scene, red-key, green-key, blue-key)
+//         CreateRGBW(scene, red-key, green-key, blue-key, white-key)
+//
+var group = CreateRGB(129,10,11,12);
+
+while (!IsCanceled()) {
+
+  for (var color = 0; color <= 255; color += 10) {
+
+    if (IsCanceled()) { break; }
+
+    for (var light = 0; light <= 100; light += 10) {
+
+      group.SetValues(color, light);
+      group.ApplyValues();
+
+      if (IsCanceled()) { break; }
+      sleep(1500);
+    }
+  }
+}

@@ -99,21 +99,21 @@ namespace Common {
 			#pragma endregion
 
 			template<class T1>
-			void ToLog(T1 arg) {
-				if (!arg.empty()) ToLogRef<T1>(std::ref(arg));
+			void ToLog(const T1 a) {
+				if (!a.empty()) ToLogRef<T1>(std::ref(a));
 			}
 
 			template<class T1>
-			void ToLogRef(T1& arg) {
+			void ToLogRef(const T1& a) {
 				try {
-					if (arg.empty()) return;
+					if (a.empty()) return;
 					log_string ls{};
-					ls << L"[" << PluginHelper::GetTologTypes(type_) << L"]:";
+					ls << L"[" << PluginHelper::GetTologTypes(type_) << L"]: ";
 
 					if constexpr (std::is_same_v<std::wstring, T1>)
-						ls << arg;
+						ls << a;
 					else if constexpr (std::is_same_v<log_string, T1>)
-						ls << arg.str();
+						ls << a.str();
 
 					if (logs_cb_) logs_cb_(ls);
 				} catch (...) {}

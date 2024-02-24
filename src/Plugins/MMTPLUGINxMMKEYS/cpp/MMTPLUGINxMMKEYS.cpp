@@ -125,7 +125,7 @@ namespace Common {
 							}
 						);
 						if (is_enable_) load_(mc);
-						if (is_config_ && is_enable_) common_config::Get().GetConfig()->mmkeyconf.Copy(mc);
+						if (is_config_ && is_enable_) common_config::Get().GetConfig()->mmkeyconf.copy(mc);
 
 					} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 				}, s));

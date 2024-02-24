@@ -36,7 +36,7 @@ namespace Common {
 	class FLAG_EXPORT ui_theme
 	{
 	private:
-		handle_ptr<HBRUSH, default_hgdiobj_deleter<HBRUSH>> brushs__[2];
+		handle_ptr<HBRUSH, default_hgdiobj_deleter<HBRUSH>> brushs_[2];
 		void dispose_();
 
 	public:
@@ -81,8 +81,8 @@ namespace Common {
 		};
 
 	private:
-		RECT display__{};
-		ui_theme themes__[6]{};
+		RECT display_{};
+		ui_theme themes_[6]{};
 		
 		ThemeId    CustomTheme = ThemeId::Dark;
 		ThemeId    CurrentTheme = ThemeId::Dark;

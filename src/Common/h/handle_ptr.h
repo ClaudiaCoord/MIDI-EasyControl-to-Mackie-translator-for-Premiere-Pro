@@ -64,6 +64,21 @@ namespace Common {
 			if (h != nullptr) ::DeleteObject(h);
 		}
 	};
+	struct default_handle_deleter {
+		void operator()(HANDLE h) {
+			if (h != nullptr) {
+				::CloseHandle(h);
+			}
+		}
+	};
+	struct default_handleio_deleter {
+		void operator()(HANDLE h) {
+			if (h != nullptr) {
+				::CancelIo(h);
+				::CloseHandle(h);
+			}
+		}
+	};
 
 	template <typename T1, class T2 = default_empty_deleter<T1>>
 	class handle_ptr {

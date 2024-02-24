@@ -31,6 +31,8 @@ namespace Common {
 			static constexpr std::wstring_view TypeClassMediaKey = L"Class Media Key"sv;
 			static constexpr std::wstring_view TypeClassRemote = L"Class Remote controls"sv;
 			static constexpr std::wstring_view TypeClassMidi = L"Class Midi"sv;
+			static constexpr std::wstring_view TypeClassLightKey = L"Class Lights"sv;
+			static constexpr std::wstring_view TypeClassVmScript = L"Class VM Script"sv;
 			static constexpr std::wstring_view TypeClassNone = L"Class None"sv;
 
 			static constexpr std::wstring_view TypeTologIn = L"IO/Input"sv;
@@ -43,6 +45,8 @@ namespace Common {
 			static constexpr std::wstring_view TypeTologMediaKey = L"IO/Media Key"sv;
 			static constexpr std::wstring_view TypeTologRemote = L"IO/Remote"sv;
 			static constexpr std::wstring_view TypeTologMidi = L"IO/MIDI"sv;
+			static constexpr std::wstring_view TypeTologVmScript = L"VM/SCRIPT"sv;
+			static constexpr std::wstring_view TypeTologLights = L"LIGHTS/DMX/ARTNET"sv;
 			#pragma endregion
 		};
 
@@ -77,6 +81,8 @@ namespace Common {
 				case ClassMonitor: return ClassTypeNames::TypeClassMonitor;
 				case ClassMediaKey: return ClassTypeNames::TypeClassMediaKey;
 				case ClassMidi: return ClassTypeNames::TypeClassMidi;
+				case ClassLightKey: return ClassTypeNames::TypeClassLightKey;
+				case ClassVmScript: return ClassTypeNames::TypeClassVmScript;
 				case ClassNone:
 				default: return ClassTypeNames::TypeClassNone;
 			}
@@ -93,6 +99,8 @@ namespace Common {
 				case ClassMediaKey: return ClassTypeNames::TypeTologMediaKey;
 				case ClassRemote: return ClassTypeNames::TypeTologRemote;
 				case ClassMidi: return ClassTypeNames::TypeTologMidi;
+				case ClassLightKey: return ClassTypeNames::TypeTologLights;
+				case ClassVmScript: return ClassTypeNames::TypeTologVmScript;
 				case ClassNone:
 				default: return ClassTypeNames::TypeClassNone;
 			}

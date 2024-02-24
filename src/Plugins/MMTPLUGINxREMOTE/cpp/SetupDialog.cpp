@@ -32,7 +32,7 @@ namespace Common {
 				isload_.store(false);
 				auto f = std::async(std::launch::async, [=]() ->bool {
 					auto& mmt = common_config::Get().GetConfig();
-					config_.Copy(mmt->remoteconf);
+					config_.copy(mmt->remoteconf);
 					return true;
 				});
 				const bool _ = f.get();
@@ -337,7 +337,7 @@ namespace Common {
 				if (!hwnd_) return;
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->remoteconf.Copy(config_);
+				mmt->remoteconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

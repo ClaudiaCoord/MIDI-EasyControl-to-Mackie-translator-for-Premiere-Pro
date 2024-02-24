@@ -58,7 +58,7 @@
     "enable": true,
     "port": 8888,
     "host": "192.168.1.105",
-    "ua": "MIDI-MT, Version 1.0.6.3 (x64) Debug, (Windows 10.0.22621.0)",
+    "ua": "MIDI-MT, Version 1.0.6.3 (x64) Release, (Windows 10.0.22621.0)",
     "tmreq": 5,
     "tmidle": 0,
     "loglevel": 4,
@@ -75,6 +75,12 @@
     "step": 10,
     "polling": 50,
     "type": 6
+  },
+  "vmscript": {
+    "enable": true,
+    "watch": false,
+    "directory": "",
+    "scripts": []
   },
   "config": {
     "name": "MidiController",

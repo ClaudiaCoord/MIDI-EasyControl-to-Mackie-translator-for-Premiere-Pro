@@ -50,6 +50,7 @@ BEGIN
 	MENUITEM "LIGTS კონფიგურაციის ჩვენება",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "დისტანციური კონფიგურაციის ჩვენება",	DLG_LOGVIEW_MENU_CONF_REMOTE
 	MENUITEM "GAMEPAD-ის კონფიგურაციის ჩვენება",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
+	MENUITEM "აჩვენე VMSCRIPT კონფიგურაცია",	DLG_LOGVIEW_MENU_CONF_SCRIPT
         MENUITEM SEPARATOR
 	MENUITEM "აჩვენე DMX512 კონფიგურაცია",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ArtNet კონფიგურაციის ჩვენება",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -120,9 +121,10 @@ BEGIN
         MENUITEM "წაშლა",                     IDM_LV_DELETE
         POPUP "დააინსტალირეთ როგორც.."
         BEGIN
+            MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_LV_SET_MQTT
             MENUITEM "კონტროლი ეხება აუდიო მიქსერს", IDM_LV_SET_MIXER
             MENUITEM "კონტროლი ვრცელდება მულტიმედიის ღილაკებზე", IDM_LV_SET_MMKEY
-            MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_LV_SET_MQTT
+            MENUITEM "კონტროლი ეხება სკრიპტის მართვას", IDM_LV_SET_VMSCRIPT
 	    POPUP "კონტროლი ეხება სინათლის კონტროლს"
 	    BEGIN
 		MENUITEM "არხი 8 ბიტი (სტანდარტული)", IDM_LV_SET_LIGHTKEY8B
@@ -138,7 +140,7 @@ END
 
 DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "__COL3TYPEMENU"
+    POPUP "__COL3 TYPE MENU"
     BEGIN
         POPUP "რეგულატორები.."
         BEGIN
@@ -172,9 +174,10 @@ BEGIN
         MENUITEM "რეგულატორები..",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "ღილაკები..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
+        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
         MENUITEM "კონტროლი ეხება აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
         MENUITEM "კონტროლი ვრცელდება მულტიმედიის ღილაკებზე", IDM_COL4_MEDIAKEY
-        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
+        MENUITEM "კონტროლი ეხება სკრიპტის მართვას", IDM_LV_SET_VMSCRIPT
 	POPUP "კონტროლი ეხება სინათლის კონტროლს"
 	BEGIN
 	   MENUITEM "არხი 8 ბიტი (სტანდარტული)", IDM_COL4_LIGHTKEY8B
@@ -187,111 +190,142 @@ DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "მინიჭებული არ არის",		   IDM_COL4_NONE
+        MENUITEM "მინიჭებული არ არის",		      IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "ხმის კონტროლი..."
         BEGIN
-            MENUITEM "ჩუმად (ოსტატი)",		IDM_COL4_MAM
-            MENUITEM "სოლო (ოსტატი)",			IDM_COL4_MAS
+            MENUITEM "ჩუმად (ოსტატი)",	      IDM_COL4_MAM
+            MENUITEM "სოლო (ოსტატი)",		      IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "უხმოდ.."
             BEGIN
-                MENUITEM "არხი 1",                     IDM_COL4_B21
-                MENUITEM "არხი 2",                     IDM_COL4_B22
-                MENUITEM "არხი 3",                     IDM_COL4_B23
-                MENUITEM "არხი 4",                     IDM_COL4_B24
-                MENUITEM "არხი 5",                     IDM_COL4_B25
-                MENUITEM "არხი 6",                     IDM_COL4_B26
-                MENUITEM "არხი 7",                     IDM_COL4_B27
-                MENUITEM "არხი 8",                     IDM_COL4_B28
-                MENUITEM "არხი 9",                     IDM_COL4_B29
+                MENUITEM "არხი 1",                   IDM_COL4_B21
+                MENUITEM "არხი 2",                   IDM_COL4_B22
+                MENUITEM "არხი 3",                   IDM_COL4_B23
+                MENUITEM "არხი 4",                   IDM_COL4_B24
+                MENUITEM "არხი 5",                   IDM_COL4_B25
+                MENUITEM "არხი 6",                   IDM_COL4_B26
+                MENUITEM "არხი 7",                   IDM_COL4_B27
+                MENUITEM "არხი 8",                   IDM_COL4_B28
+                MENUITEM "არხი 9",                   IDM_COL4_B29
             END
             POPUP "სოლო.."
             BEGIN
-                MENUITEM "არხი 1",                     IDM_COL4_B11
-                MENUITEM "არხი 2",                     IDM_COL4_B12
-                MENUITEM "არხი 3",                     IDM_COL4_B13
-                MENUITEM "არხი 4",                     IDM_COL4_B14
-                MENUITEM "არხი 5",                     IDM_COL4_B15
-                MENUITEM "არხი 6",                     IDM_COL4_B16
-                MENUITEM "არხი 7",                     IDM_COL4_B17
-                MENUITEM "არხი 8",                     IDM_COL4_B18
-                MENUITEM "არხი 9",                     IDM_COL4_B19
+                MENUITEM "არხი 1",                   IDM_COL4_B11
+                MENUITEM "არხი 2",                   IDM_COL4_B12
+                MENUITEM "არხი 3",                   IDM_COL4_B13
+                MENUITEM "არხი 4",                   IDM_COL4_B14
+                MENUITEM "არხი 5",                   IDM_COL4_B15
+                MENUITEM "არხი 6",                   IDM_COL4_B16
+                MENUITEM "არხი 7",                   IDM_COL4_B17
+                MENUITEM "არხი 8",                   IDM_COL4_B18
+                MENUITEM "არხი 9",                   IDM_COL4_B19
             END
         END
         POPUP "მულტიმედიური ღილაკები.."
         BEGIN
-            MENUITEM "დაკვრა/პაუზა",                IDM_COL4_SYS_Play
-            MENUITEM "გაჩერდი",                        IDM_COL4_SYS_Stop
-            MENUITEM "წინა",                  IDM_COL4_SYS_Rewind
-            MENUITEM "შემდეგი",                   IDM_COL4_SYS_Forward
-            MENUITEM "ჩანაწერი",                      IDM_COL4_SYS_Record
-            MENUITEM "ზემოთ (ჯოისტიკი)",            IDM_COL4_SYS_Up
-            MENUITEM "ქვემოთ (ჯოისტიკი)",             IDM_COL4_SYS_Down
-            MENUITEM "მარჯვენა (ჯოისტიკი)",           IDM_COL4_SYS_Right
-            MENUITEM "მარცხენა (ჯოისტიკი)",            IDM_COL4_SYS_Left
-            MENUITEM "Მიახლოება",         IDM_COL4_SYS_Zoom
-            MENUITEM "სკრაბი",               IDM_COL4_SYS_Scrub
+            MENUITEM "დაკვრა/პაუზა",                  IDM_COL4_SYS_Play
+            MENUITEM "გაჩერდი",                          IDM_COL4_SYS_Stop
+            MENUITEM "წინა",                    IDM_COL4_SYS_Rewind
+            MENUITEM "შემდეგი",                     IDM_COL4_SYS_Forward
+            MENUITEM "ჩანაწერი",                        IDM_COL4_SYS_Record
+            MENUITEM "ზემოთ (ჯოისტიკი)",              IDM_COL4_SYS_Up
+            MENUITEM "ქვემოთ (ჯოისტიკი)",               IDM_COL4_SYS_Down
+            MENUITEM "მარჯვენა (ჯოისტიკი)",             IDM_COL4_SYS_Right
+            MENUITEM "მარცხენა (ჯოისტიკი)",              IDM_COL4_SYS_Left
+            MENUITEM "Მიახლოება",           IDM_COL4_SYS_Zoom
+            MENUITEM "სკრაბი",                 IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro მახასიათებლები..."
         BEGIN
             POPUP "სტანდარტული ღილაკის ფუნქციები..."
             BEGIN
-                MENUITEM "ფუნქცია 1",                   IDM_COL4_FUN11
-                MENUITEM "ფუნქცია 2",                   IDM_COL4_FUN12
-                MENUITEM "ფუნქცია 3",                   IDM_COL4_FUN13
-                MENUITEM "ფუნქცია 4",                   IDM_COL4_FUN14
-                MENUITEM "ფუნქცია 5",                   IDM_COL4_FUN15
-                MENUITEM "ფუნქცია 6",                   IDM_COL4_FUN16
-                MENUITEM "ფუნქცია 7",                   IDM_COL4_FUN17
-                MENUITEM "ფუნქცია 8",                   IDM_COL4_FUN18
+                MENUITEM "ფუნქცია 1",                 IDM_COL4_FUN11
+                MENUITEM "ფუნქცია 2",                 IDM_COL4_FUN12
+                MENUITEM "ფუნქცია 3",                 IDM_COL4_FUN13
+                MENUITEM "ფუნქცია 4",                 IDM_COL4_FUN14
+                MENUITEM "ფუნქცია 5",                 IDM_COL4_FUN15
+                MENUITEM "ფუნქცია 6",                 IDM_COL4_FUN16
+                MENUITEM "ფუნქცია 7",                 IDM_COL4_FUN17
+                MENUITEM "ფუნქცია 8",                 IDM_COL4_FUN18
             END
             POPUP "ერთი შეხებით ღილაკის ფუნქციები..."
             BEGIN
-                MENUITEM "ფუნქცია 1",                   IDM_COL4_FUN21
-                MENUITEM "ფუნქცია 2",                   IDM_COL4_FUN22
-                MENUITEM "ფუნქცია 3",                   IDM_COL4_FUN23
-                MENUITEM "ფუნქცია 4",                   IDM_COL4_FUN24
-                MENUITEM "ფუნქცია 5",                   IDM_COL4_FUN25
-                MENUITEM "ფუნქცია 6",                   IDM_COL4_FUN26
-                MENUITEM "ფუნქცია 7",                   IDM_COL4_FUN27
-                MENUITEM "ფუნქცია 8",                   IDM_COL4_FUN28
+                MENUITEM "ფუნქცია 1",                 IDM_COL4_FUN21
+                MENUITEM "ფუნქცია 2",                 IDM_COL4_FUN22
+                MENUITEM "ფუნქცია 3",                 IDM_COL4_FUN23
+                MENUITEM "ფუნქცია 4",                 IDM_COL4_FUN24
+                MENUITEM "ფუნქცია 5",                 IDM_COL4_FUN25
+                MENUITEM "ფუნქცია 6",                 IDM_COL4_FUN26
+                MENUITEM "ფუნქცია 7",                 IDM_COL4_FUN27
+                MENUITEM "ფუნქცია 8",                 IDM_COL4_FUN28
             END
         END
         POPUP "ღილაკები Smart Home სისტემაში.."
         BEGIN
-                MENUITEM "ჩართვა/გამორთვა 1",                 IDM_COL4_B11
-                MENUITEM "ჩართვა/გამორთვა 2",                 IDM_COL4_B12
-                MENUITEM "ჩართვა/გამორთვა 3",                 IDM_COL4_B13
-                MENUITEM "ჩართვა/გამორთვა 4",                 IDM_COL4_B14
-                MENUITEM "ჩართვა/გამორთვა 5",                 IDM_COL4_B15
-                MENUITEM "ჩართვა/გამორთვა 6",                 IDM_COL4_B16
-                MENUITEM "ჩართვა/გამორთვა 7",                 IDM_COL4_B17
-                MENUITEM "ჩართვა/გამორთვა 8",                 IDM_COL4_B18
-                MENUITEM "ჩართვა/გამორთვა 9",                 IDM_COL4_B19
-                MENUITEM "ჩართვა/გამორთვა 10",                 IDM_COL4_B21
-                MENUITEM "ჩართვა/გამორთვა 11",                 IDM_COL4_B22
-                MENUITEM "ჩართვა/გამორთვა 12",                 IDM_COL4_B23
-                MENUITEM "ჩართვა/გამორთვა 13",                 IDM_COL4_B24
-                MENUITEM "ჩართვა/გამორთვა 14",                 IDM_COL4_B25
-                MENUITEM "ჩართვა/გამორთვა 15",                 IDM_COL4_B26
-                MENUITEM "ჩართვა/გამორთვა 16",                 IDM_COL4_B27
-                MENUITEM "ჩართვა/გამორთვა 17",                 IDM_COL4_B28
-                MENUITEM "ჩართვა/გამორთვა 18",                 IDM_COL4_B29
-                MENUITEM "ჩართვა/გამორთვა 19",                 IDM_COL4_B31
-                MENUITEM "ჩართვა/გამორთვა 20",                 IDM_COL4_B32
-                MENUITEM "ჩართვა/გამორთვა 21",                 IDM_COL4_B33
-                MENUITEM "ჩართვა/გამორთვა 22",                 IDM_COL4_B34
-                MENUITEM "ჩართვა/გამორთვა 23",                 IDM_COL4_B35
-                MENUITEM "ჩართვა/გამორთვა 24",                 IDM_COL4_B36
-                MENUITEM "ჩართვა/გამორთვა 25",                 IDM_COL4_B37
-                MENUITEM "ჩართვა/გამორთვა 26",                 IDM_COL4_B38
-                MENUITEM "ჩართვა/გამორთვა 27",                 IDM_COL4_B39
+                MENUITEM "ჩართვა/გამორთვა 1",                IDM_COL4_B11
+                MENUITEM "ჩართვა/გამორთვა 2",                IDM_COL4_B12
+                MENUITEM "ჩართვა/გამორთვა 3",                IDM_COL4_B13
+                MENUITEM "ჩართვა/გამორთვა 4",                IDM_COL4_B14
+                MENUITEM "ჩართვა/გამორთვა 5",                IDM_COL4_B15
+                MENUITEM "ჩართვა/გამორთვა 6",                IDM_COL4_B16
+                MENUITEM "ჩართვა/გამორთვა 7",                IDM_COL4_B17
+                MENUITEM "ჩართვა/გამორთვა 8",                IDM_COL4_B18
+                MENUITEM "ჩართვა/გამორთვა 9",                IDM_COL4_B19
+                MENUITEM "ჩართვა/გამორთვა 10",               IDM_COL4_B21
+                MENUITEM "ჩართვა/გამორთვა 11",               IDM_COL4_B22
+                MENUITEM "ჩართვა/გამორთვა 12",               IDM_COL4_B23
+                MENUITEM "ჩართვა/გამორთვა 13",               IDM_COL4_B24
+                MENUITEM "ჩართვა/გამორთვა 14",               IDM_COL4_B25
+                MENUITEM "ჩართვა/გამორთვა 15",               IDM_COL4_B26
+                MENUITEM "ჩართვა/გამორთვა 16",               IDM_COL4_B27
+                MENUITEM "ჩართვა/გამორთვა 17",               IDM_COL4_B28
+                MENUITEM "ჩართვა/გამორთვა 18",               IDM_COL4_B29
+                MENUITEM "ჩართვა/გამორთვა 19",               IDM_COL4_B31
+                MENUITEM "ჩართვა/გამორთვა 20",               IDM_COL4_B32
+                MENUITEM "ჩართვა/გამორთვა 21",               IDM_COL4_B33
+                MENUITEM "ჩართვა/გამორთვა 22",               IDM_COL4_B34
+                MENUITEM "ჩართვა/გამორთვა 23",               IDM_COL4_B35
+                MENUITEM "ჩართვა/გამორთვა 24",               IDM_COL4_B36
+                MENUITEM "ჩართვა/გამორთვა 25",               IDM_COL4_B37
+                MENUITEM "ჩართვა/გამორთვა 26",               IDM_COL4_B38
+                MENUITEM "ჩართვა/გამორთვა 27",               IDM_COL4_B39
+        END
+        POPUP "სკრიპტების მართვა..."
+        BEGIN
+                MENUITEM "სკრიპტი 1",                  IDM_COL4_B11
+                MENUITEM "სკრიპტი 2",                  IDM_COL4_B12
+                MENUITEM "სკრიპტი 3",                  IDM_COL4_B13
+                MENUITEM "სკრიპტი 4",                  IDM_COL4_B14
+                MENUITEM "სცენარი 5",                  IDM_COL4_B15
+                MENUITEM "სცენარი 6",                  IDM_COL4_B16
+                MENUITEM "სცენარი 7",                  IDM_COL4_B17
+                MENUITEM "სცენარი 8",                  IDM_COL4_B18
+                MENUITEM "სცენარი 9",                  IDM_COL4_B19
+                MENUITEM "სკრიპტი 10",                 IDM_COL4_B21
+                MENUITEM "სცენარი 11",                 IDM_COL4_B22
+                MENUITEM "სცენარი 12",                 IDM_COL4_B23
+                MENUITEM "სცენარი 13",                 IDM_COL4_B24
+                MENUITEM "სცენარი 14",                 IDM_COL4_B25
+                MENUITEM "სცენარი 15",                 IDM_COL4_B26
+                MENUITEM "სცენარი 16",                 IDM_COL4_B27
+                MENUITEM "სცენარი 17",                 IDM_COL4_B28
+                MENUITEM "სცენარი 18",                 IDM_COL4_B29
+                MENUITEM "სცენარი 19",                 IDM_COL4_B31
+                MENUITEM "სცენარი 20",                 IDM_COL4_B32
+                MENUITEM "სცენარი 21",                 IDM_COL4_B33
+                MENUITEM "სცენარი 22",                 IDM_COL4_B34
+                MENUITEM "სცენარი 23",                 IDM_COL4_B35
+                MENUITEM "სცენარი 24",                 IDM_COL4_B36
+                MENUITEM "სცენარი 25",                 IDM_COL4_B37
+                MENUITEM "სცენარი 26",                 IDM_COL4_B38
+                MENUITEM "სცენარი 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
+        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
         MENUITEM "კონტროლი ეხება აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
         MENUITEM "კონტროლი ვრცელდება მულტიმედიის ღილაკებზე", IDM_COL4_MEDIAKEY
-        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
+	MENUITEM "კონტროლი ეხება სკრიპტის მართვას", IDM_COL4_VMSCRIPT
 	POPUP "კონტროლი ეხება სინათლის კონტროლს"
 	BEGIN
 	   MENUITEM "არხი 8 ბიტი (სტანდარტული)", IDM_COL4_LIGHTKEY8B
@@ -304,37 +338,37 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "ენკოდერი (კადრ-კადრის ნახვა)", IDM_COL4_JOG
-        MENUITEM "მინიჭებული არ არის",               IDM_COL4_NONE
+        MENUITEM "ენკოდერი (კადრ-კადრის ნახვა)",  IDM_COL4_JOG
+        MENUITEM "მინიჭებული არ არის",                 IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "ხმის კონტროლი..."
         BEGIN
-            MENUITEM "მოცულობა (მასტერი)",          IDM_COL4_MAV
-            MENUITEM "ბალანსი (ოსტატი)",             IDM_COL4_MAP
+            MENUITEM "მოცულობა (მასტერი)",         IDM_COL4_MAV
+            MENUITEM "ბალანსი (ოსტატი)",            IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "მოცულობა.."
             BEGIN
-                MENUITEM "არხი 1",                     IDM_COL4_AV1
-                MENUITEM "არხი 2",                     IDM_COL4_AV2
-                MENUITEM "არხი 3",                     IDM_COL4_AV3
-                MENUITEM "არხი 4",                     IDM_COL4_AV4
-                MENUITEM "არხი 5",                     IDM_COL4_AV5
-                MENUITEM "არხი 6",                     IDM_COL4_AV6
-                MENUITEM "არხი 7",                     IDM_COL4_AV7
-                MENUITEM "არხი 8",                     IDM_COL4_AV8
-                MENUITEM "არხი 9",                     IDM_COL4_XV9
+                MENUITEM "არხი 1",                IDM_COL4_AV1
+                MENUITEM "არხი 2",                IDM_COL4_AV2
+                MENUITEM "არხი 3",                IDM_COL4_AV3
+                MENUITEM "არხი 4",                IDM_COL4_AV4
+                MENUITEM "არხი 5",                IDM_COL4_AV5
+                MENUITEM "არხი 6",                IDM_COL4_AV6
+                MENUITEM "არხი 7",                IDM_COL4_AV7
+                MENUITEM "არხი 8",                IDM_COL4_AV8
+                MENUITEM "არხი 9",                IDM_COL4_XV9
             END
             POPUP "Ბალანსი.."
             BEGIN
-                MENUITEM "არხი 1",                     IDM_COL4_AP1
-                MENUITEM "არხი 2",                     IDM_COL4_AP2
-                MENUITEM "არხი 3",                     IDM_COL4_AP3
-                MENUITEM "არხი 4",                     IDM_COL4_AP4
-                MENUITEM "არხი 5",                     IDM_COL4_AP5
-                MENUITEM "არხი 6",                     IDM_COL4_AP6
-                MENUITEM "არხი 7",                     IDM_COL4_AP7
-                MENUITEM "არხი 8",                     IDM_COL4_AP8
-                MENUITEM "არხი 9",                     IDM_COL4_XP9
+                MENUITEM "არხი 1",                IDM_COL4_AP1
+                MENUITEM "არხი 2",                IDM_COL4_AP2
+                MENUITEM "არხი 3",                IDM_COL4_AP3
+                MENUITEM "არხი 4",                IDM_COL4_AP4
+                MENUITEM "არხი 5",                IDM_COL4_AP5
+                MENUITEM "არხი 6",                IDM_COL4_AP6
+                MENUITEM "არხი 7",                IDM_COL4_AP7
+                MENUITEM "არხი 8",                IDM_COL4_AP8
+                MENUITEM "არხი 9",                IDM_COL4_XP9
             END
         END
         POPUP "რეგულატორები “ჭკვიანი სახლის” სისტემაში.."
@@ -348,25 +382,34 @@ BEGIN
                 MENUITEM "დონე 7",              IDM_COL4_AV7
                 MENUITEM "დონე 8",              IDM_COL4_AV8
                 MENUITEM "დონე 9",              IDM_COL4_XV9
-                MENUITEM "დონე 10",              IDM_COL4_AP1
-                MENUITEM "დონე 11",              IDM_COL4_AP2
-                MENUITEM "დონე 12",              IDM_COL4_AP3
-                MENUITEM "დონე 13",              IDM_COL4_AP4
-                MENUITEM "დონე 14",              IDM_COL4_AP5
-                MENUITEM "დონე 15",              IDM_COL4_AP6
-                MENUITEM "დონე 16",              IDM_COL4_AP7
-                MENUITEM "დონე 17",              IDM_COL4_AP8
-                MENUITEM "დონე 18",              IDM_COL4_XP9
+                MENUITEM "დონე 10",             IDM_COL4_AP1
+                MENUITEM "დონე 11",             IDM_COL4_AP2
+                MENUITEM "დონე 12",             IDM_COL4_AP3
+                MENUITEM "დონე 13",             IDM_COL4_AP4
+                MENUITEM "დონე 14",             IDM_COL4_AP5
+                MENUITEM "დონე 15",             IDM_COL4_AP6
+                MENUITEM "დონე 16",             IDM_COL4_AP7
+                MENUITEM "დონე 17",             IDM_COL4_AP8
+                MENUITEM "დონე 18",             IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
+        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
         MENUITEM "კონტროლი ეხება აუდიო მიქსერს", IDM_COL4_VOLUMEMIX
         MENUITEM "კონტროლი ვრცელდება მულტიმედიის ღილაკებზე", IDM_COL4_MEDIAKEY
-        MENUITEM "კონტროლი ეხება ჭკვიან სახლს", IDM_COL4_MQTTKEY
+	MENUITEM "კონტროლი ეხება სკრიპტის მართვას", IDM_COL4_VMSCRIPT
 	POPUP "კონტროლი ეხება სინათლის კონტროლს"
 	BEGIN
 	   MENUITEM "არხი 8 ბიტი (სტანდარტული)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "არხი 16 ბიტი (გაფართოებული)", IDM_COL4_LIGHTKEY16B
 	END
+    END
+END
+
+DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU MENU
+BEGIN
+    POPUP "__COLS SLIDER NOSUPPORT MENU"
+    BEGIN
+	MENUITEM "არჩეული საკონტროლო ჯგუფი არ უჭერს მხარს სლაიდერის კონტროლს", IDM_COL4_NONE
     END
 END
 
@@ -435,57 +478,57 @@ BEGIN
         MENUITEM "წინა",                  IDM_COL4_SYS_Rewind
         MENUITEM "შემდეგი",                   IDM_COL4_SYS_Forward
         MENUITEM "ჩანაწერი",                      IDM_COL4_SYS_Record
-        MENUITEM "ზემოთ (ჯოისტიკი)",           IDM_COL4_SYS_Up
-        MENUITEM "ქვემოთ (ჯოისტიკი)",           IDM_COL4_SYS_Down
+        MENUITEM "ზემოთ (ჯოისტიკი)",            IDM_COL4_SYS_Up
+        MENUITEM "ქვემოთ (ჯოისტიკი)",             IDM_COL4_SYS_Down
         MENUITEM "მარჯვენა (ჯოისტიკი)",           IDM_COL4_SYS_Right
-        MENUITEM "მარცხენა (ჯოისტიკი)",           IDM_COL4_SYS_Left
+        MENUITEM "მარცხენა (ჯოისტიკი)",            IDM_COL4_SYS_Left
         MENUITEM "Მიახლოება",         IDM_COL4_SYS_Zoom
         MENUITEM "სკრაბი",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "მინიჭებული არ არის",               IDM_COL4_NONE
+        MENUITEM "მინიჭებული არ არის",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "დონე 1",                    IDM_COL4_AV1
-        MENUITEM "დონე 2",                    IDM_COL4_AV2
-        MENUITEM "დონე 3",                    IDM_COL4_AV3
-        MENUITEM "დონე 4",                    IDM_COL4_AV4
-        MENUITEM "დონე 5",                    IDM_COL4_AV5
-        MENUITEM "დონე 6",                    IDM_COL4_AV6
-        MENUITEM "დონე 7",                    IDM_COL4_AV7
-        MENUITEM "დონე 8",                    IDM_COL4_AV8
-        MENUITEM "დონე 9",                    IDM_COL4_XV9
-        MENUITEM "დონე 10",                    IDM_COL4_AP1
-        MENUITEM "დონე 11",                    IDM_COL4_AP2
-        MENUITEM "დონე 12",                    IDM_COL4_AP3
-        MENUITEM "დონე 13",                    IDM_COL4_AP4
-        MENUITEM "დონე 14",                    IDM_COL4_AP5
-        MENUITEM "დონე 15",                    IDM_COL4_AP6
-        MENUITEM "დონე 16",                    IDM_COL4_AP7
-        MENUITEM "დონე 17",                    IDM_COL4_AP8
-        MENUITEM "დონე 18",                    IDM_COL4_XP9
+        MENUITEM "დონე 1",                   IDM_COL4_AV1
+        MENUITEM "დონე 2",                   IDM_COL4_AV2
+        MENUITEM "დონე 3",                   IDM_COL4_AV3
+        MENUITEM "დონე 4",                   IDM_COL4_AV4
+        MENUITEM "დონე 5",                   IDM_COL4_AV5
+        MENUITEM "დონე 6",                   IDM_COL4_AV6
+        MENUITEM "დონე 7",                   IDM_COL4_AV7
+        MENUITEM "დონე 8",                   IDM_COL4_AV8
+        MENUITEM "დონე 9",                   IDM_COL4_XV9
+        MENUITEM "დონე 10",                  IDM_COL4_AP1
+        MENUITEM "დონე 11",                  IDM_COL4_AP2
+        MENUITEM "დონე 12",                  IDM_COL4_AP3
+        MENUITEM "დონე 13",                  IDM_COL4_AP4
+        MENUITEM "დონე 14",                  IDM_COL4_AP5
+        MENUITEM "დონე 15",                  IDM_COL4_AP6
+        MENUITEM "დონე 16",                  IDM_COL4_AP7
+        MENUITEM "დონე 17",                  IDM_COL4_AP8
+        MENUITEM "დონე 18",                  IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "მინიჭებული არ არის",                 IDM_COL4_NONE
+        MENUITEM "მინიჭებული არ არის",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-    MENUITEM "ჩართვა/გამორთვა 1",                     IDM_COL4_B11
-    MENUITEM "ჩართვა/გამორთვა 2",                     IDM_COL4_B12
-    MENUITEM "ჩართვა/გამორთვა 3",                     IDM_COL4_B13
-    MENUITEM "ჩართვა/გამორთვა 4",                     IDM_COL4_B14
-    MENUITEM "ჩართვა/გამორთვა 5",                     IDM_COL4_B15
-    MENUITEM "ჩართვა/გამორთვა 6",                     IDM_COL4_B16
-    MENUITEM "ჩართვა/გამორთვა 7",                     IDM_COL4_B17
-    MENUITEM "ჩართვა/გამორთვა 8",                     IDM_COL4_B18
-    MENUITEM "ჩართვა/გამორთვა 9",                     IDM_COL4_B19
+    MENUITEM "ჩართვა/გამორთვა 1",                      IDM_COL4_B11
+    MENUITEM "ჩართვა/გამორთვა 2",                      IDM_COL4_B12
+    MENUITEM "ჩართვა/გამორთვა 3",                      IDM_COL4_B13
+    MENUITEM "ჩართვა/გამორთვა 4",                      IDM_COL4_B14
+    MENUITEM "ჩართვა/გამორთვა 5",                      IDM_COL4_B15
+    MENUITEM "ჩართვა/გამორთვა 6",                      IDM_COL4_B16
+    MENUITEM "ჩართვა/გამორთვა 7",                      IDM_COL4_B17
+    MENUITEM "ჩართვა/გამორთვა 8",                      IDM_COL4_B18
+    MENUITEM "ჩართვა/გამორთვა 9",                      IDM_COL4_B19
     MENUITEM "ჩართვა/გამორთვა 10",                     IDM_COL4_B21
     MENUITEM "ჩართვა/გამორთვა 11",                     IDM_COL4_B22
     MENUITEM "ჩართვა/გამორთვა 12",                     IDM_COL4_B23
@@ -505,7 +548,42 @@ BEGIN
     MENUITEM "ჩართვა/გამორთვა 26",                     IDM_COL4_B38
     MENUITEM "ჩართვა/გამორთვა 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "მინიჭებული არ არის",                   IDM_COL4_NONE
+    MENUITEM "მინიჭებული არ არის",                  IDM_COL4_NONE
     END
 END
 
+DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SCRIPT MENU"
+    BEGIN
+    MENUITEM "სკრიპტი 1",                  IDM_COL4_B11
+    MENUITEM "სკრიპტი 2",                  IDM_COL4_B12
+    MENUITEM "სკრიპტი 3",                  IDM_COL4_B13
+    MENUITEM "სკრიპტი 4",                  IDM_COL4_B14
+    MENUITEM "სცენარი 5",                  IDM_COL4_B15
+    MENUITEM "სცენარი 6",                  IDM_COL4_B16
+    MENUITEM "სცენარი 7",                  IDM_COL4_B17
+    MENUITEM "სცენარი 8",                  IDM_COL4_B18
+    MENUITEM "სცენარი 9",                  IDM_COL4_B19
+    MENUITEM "სკრიპტი 10",                 IDM_COL4_B21
+    MENUITEM "სცენარი 11",                 IDM_COL4_B22
+    MENUITEM "სცენარი 12",                 IDM_COL4_B23
+    MENUITEM "სცენარი 13",                 IDM_COL4_B24
+    MENUITEM "სცენარი 14",                 IDM_COL4_B25
+    MENUITEM "სცენარი 15",                 IDM_COL4_B26
+    MENUITEM "სცენარი 16",                 IDM_COL4_B27
+    MENUITEM "სცენარი 17",                 IDM_COL4_B28
+    MENUITEM "სცენარი 18",                 IDM_COL4_B29
+    MENUITEM "სცენარი 19",                 IDM_COL4_B31
+    MENUITEM "სცენარი 20",                 IDM_COL4_B32
+    MENUITEM "სცენარი 21",                 IDM_COL4_B33
+    MENUITEM "სცენარი 22",                 IDM_COL4_B34
+    MENUITEM "სცენარი 23",                 IDM_COL4_B35
+    MENUITEM "სცენარი 24",                 IDM_COL4_B36
+    MENUITEM "სცენარი 25",                 IDM_COL4_B37
+    MENUITEM "სცენარი 26",                 IDM_COL4_B38
+    MENUITEM "სცენარი 27",                 IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "მინიჭებული არ არის",            IDM_COL4_NONE
+    END
+END

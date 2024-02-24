@@ -582,54 +582,25 @@ namespace Common {
 			try {
 				if (!hwnd_) return;
 
-				PWSTR pws = nullptr;
-				IShellItem* item = nullptr;
-				IFileOpenDialog* ptr = nullptr;
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
+						L"*.cnf"
+					}
+				};
+				std::wstring s = UI::UiUtils::OpenFileDialog(hwnd_, filter);
+				if (!s.empty() && std::filesystem::exists(s)) {
+					common_config& cnf = common_config::Get();
 
-				try {
-					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER);
-					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.cnf"}
-					};
-					do {
-						HRESULT h = CoCreateInstance(
-							CLSID_FileOpenDialog,
-							NULL, CLSCTX_ALL,
-							IID_IFileOpenDialog,
-							reinterpret_cast<void**>(&ptr));
+					if (cnf.Load(s)) {
+						auto& cnf = common_config::Get();
+						auto& mmt = cnf.GetConfig();
 
-						if (h != S_OK) break;
-
-						#pragma warning( push )
-						#pragma warning( disable : 4267 )
-						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
-						#pragma warning( pop )
-
-						if (h != S_OK) break;
-						h = ptr->Show(hwnd_);
-						if (h != S_OK) break;
-						h = ptr->GetResult(&item);
-						if (h != S_OK) break;
-						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
-						if (h != S_OK) break;
-
-						common_config& cnf = common_config::Get();
-						std::wstring s = Utils::to_string(pws);
-						if (cnf.Load(s)) {
-							auto& cnf = common_config::Get();
-							auto& mmt = cnf.GetConfig();
-
-							cnf.RecentConfig.Add(s);
-							changeConfigView_(mmt);
-							::EnableWindow(::GetDlgItem(hwnd_, DLG_SAVE), true);
-						}
-					} while (0);
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+						cnf.RecentConfig.Add(s);
+						changeConfigView_(mmt);
+						::EnableWindow(::GetDlgItem(hwnd_, DLG_SAVE), true);
+					}
 				}
-				if (item != nullptr) item->Release();
-				if (ptr != nullptr) ptr->Release();
-				if (pws != nullptr) CoTaskMemFree(pws);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}

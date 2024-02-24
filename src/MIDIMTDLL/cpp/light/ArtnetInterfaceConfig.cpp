@@ -15,8 +15,6 @@
 namespace Common {
 	namespace LIGHT {
 
-        static ArtnetConfig artnetconfig_default{};
-
         ArtnetConfig::ArtnetConfig() : ip(L""), mask(L""), broadcast(L"") {
         }
         ArtnetConfig::ArtnetConfig(std::string i, std::string m, std::string b) {
@@ -42,7 +40,7 @@ namespace Common {
             ls << L"\n";
             return ls;
         }
-        void ArtnetConfig::Copy(ArtnetConfig& c) {
+        void ArtnetConfig::copy(const ArtnetConfig& c) {
             enable = c.enable;
             port = c.port;
             universe = c.universe;
@@ -66,7 +64,7 @@ namespace Common {
         ArtnetConfig& ArtnetConfigs::get(uint16_t i) {
             if (i < interfaces__.size())
                 return std::ref(interfaces__[i]);
-            return std::ref(artnetconfig_default);
+            return std::ref(common_static::artnetconfig_empty);
         }
         void ArtnetConfigs::add(std::string i, std::string m, std::string b) {
             interfaces__.push_back(ArtnetConfig(i, m, b));

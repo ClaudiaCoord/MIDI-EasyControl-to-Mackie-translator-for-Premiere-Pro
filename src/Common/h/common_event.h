@@ -77,7 +77,7 @@ namespace Common {
         const bool empty() {
             return list_.empty();
         }
-        uint32_t add(T1 fn) {
+        const uint32_t add(T1 fn) {
             try {
                 uint32_t id = Utils::random_hash(&fn);
                 add(fn, id);
@@ -85,7 +85,7 @@ namespace Common {
             } catch (...) {}
             return 0U;
         }
-        void add(T1 fn, uint32_t id) {
+        void add(T1 fn, const uint32_t id) {
             try {
                 if (!Utils::random_isvalid(id)) return;
                 locker_auto locker(lock_, locker_auto::LockType::TypeLock);
@@ -97,11 +97,11 @@ namespace Common {
         }
         void remove(T1 fn) {
             try {
-                uint32_t id = Utils::random_hash(&fn);
+                const uint32_t id = Utils::random_hash(&fn);
                 remove(id);
             } catch (...) {}
         }
-        void remove(uint32_t id) {
+        void remove(const uint32_t id) {
             try {
                 if (!Utils::random_isvalid(id)) return;
                 locker_auto locker(lock_, locker_auto::LockType::TypeLock);

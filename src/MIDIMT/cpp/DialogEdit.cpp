@@ -7,8 +7,6 @@
 */
 
 #include "MIDIMT.h"
-#include <shobjidl.h>
-#include <CommCtrl.h>
 
 namespace Common {
 	namespace MIDIMT {
@@ -206,6 +204,9 @@ namespace Common {
 				lv_->ListViewErrorCb(
 					std::bind(static_cast<void(DialogEdit::*)(std::wstring)>(&CbEvent::AddToLog), this, _1)
 				);
+				lv_->ListViewUpdateStatusCb(
+					[=]() { tb_edit_notify_(EditorNotify::EditChangeEnable); }
+				);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -313,56 +314,27 @@ namespace Common {
 			try {
 				if (!hwnd_) return;
 
-				PWSTR pws{ nullptr };
-				IShellItem* item{ nullptr };
-				IFileOpenDialog* ptr{ nullptr };
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MIDIMT_EXEFILTER).c_str(),
+						 L"*.exe"
+					}
+				};
+				std::wstring s = UI::UiUtils::OpenFileDialog(hwnd_, filter);
+				if (!s.empty()) {
+					std::wstring app = Utils::device_out_name(s, L"");
+					if (!app.empty()) {
+						HWND hwcl;
+						if ((hwcl = ::GetDlgItem(hwnd_, DLG_EDIT_SETUP_APPLIST)))
+							(void) ::SendMessageW(hwcl, LB_ADDSTRING, 0, (LPARAM)app.c_str());
 
-				try {
-					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER);
-					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.exe"}
-					};
-					do {
-						HRESULT h = CoCreateInstance(
-							CLSID_FileOpenDialog,
-							NULL, CLSCTX_ALL,
-							IID_IFileOpenDialog,
-							reinterpret_cast<void**>(&ptr));
+						if (last_)
+							last_->unit.apps.push_back(app);
 
-						if (h != S_OK) break;
-
-						#pragma warning( push )
-						#pragma warning( disable : 4267 )
-						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
-						#pragma warning( pop )
-
-						if (h != S_OK) break;
-						h = ptr->Show(hwnd_);
-						if (h != S_OK) break;
-						h = ptr->GetResult(&item);
-						if (h != S_OK) break;
-						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
-						if (h != S_OK) break;
-
-						std::wstring app = Utils::device_out_name(Utils::to_string(pws), L"");
-						if (!app.empty()) {
-							HWND hwcl;
-							if ((hwcl = ::GetDlgItem(hwnd_, DLG_EDIT_SETUP_APPLIST)))
-								(void) ::SendMessageW(hwcl, LB_ADDSTRING, 0, (LPARAM)app.c_str());
-
-							if (last_)
-								last_->unit.appvolume.push_back(app);
-
-							btn_remove_.SetEnable();
-							tb_edit_notify_(EditorNotify::EditChangeEnable);
-						}
-					} while (0);
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+						btn_remove_.SetEnable();
+						tb_edit_notify_(EditorNotify::EditChangeEnable);
+					}
 				}
-				if (item != nullptr) item->Release();
-				if (ptr != nullptr) ptr->Release();
-				if (pws != nullptr) ::CoTaskMemFree(pws);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -383,7 +355,7 @@ namespace Common {
 					if (!app.empty()) {
 						(void) ::SendMessageW(hwcl, LB_ADDSTRING, 0, (LPARAM)app.c_str());
 						if (last_)
-							last_->unit.appvolume.push_back(app);
+							last_->unit.apps.push_back(app);
 					}
 				}
 				btn_remove_.SetEnable();
@@ -405,8 +377,8 @@ namespace Common {
 					ListBox_GetText(hwcl, idx, buf);
 					std::wstring app = Utils::to_string(buf);
 					if (!app.empty())
-						last_->unit.appvolume.erase(
-							std::remove_if(last_->unit.appvolume.begin(), last_->unit.appvolume.end(),
+						last_->unit.apps.erase(
+							std::remove_if(last_->unit.apps.begin(), last_->unit.apps.end(),
 								[app](std::wstring& s) {
 						return app._Equal(s);
 					})
@@ -665,6 +637,10 @@ namespace Common {
 							wn = std::to_wstring(static_cast<uint16_t>(last_->unit.longtarget));
 							switch (last_->unit.target) {
 								using enum MIDI::Mackie::Target;
+								case VMSCRIPT: {
+									ws = lang.GetString(MIDI::MackieHelper::GetScriptTargetID(last_->unit.longtarget));
+									break;
+								}
 								case MEDIAKEY: {
 									ws = MIDI::MackieHelper::GetTranslateMMKey(last_->unit.longtarget);
 									break;
@@ -699,8 +675,8 @@ namespace Common {
 				if (last_->unit.target == MIDI::Mackie::Target::VOLUMEMIX) {
 					(void) ::EnableWindow(hi, true);
 
-					if (!last_->unit.appvolume.empty()) {
-						for (auto& s : last_->unit.appvolume)
+					if (!last_->unit.apps.empty()) {
+						for (auto& s : last_->unit.apps)
 							(void) ::SendMessageW(hi, LB_ADDSTRING, 0, (LPARAM)s.c_str());
 					}
 
@@ -734,7 +710,6 @@ namespace Common {
 					}
 				} else {
 					(void) ::EnableWindow(hi, false);
-
 
 					set_volumeslider_(hwnd_, -1);
 					set_muteimage_(-1);
@@ -882,47 +857,16 @@ namespace Common {
 			try {
 				if (!hwnd_) return;
 
-				PWSTR pws{ nullptr };
-				IShellItem* item{ nullptr };
-				IFileOpenDialog* ptr{ nullptr };
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
+						 L"*.cnf"
+					}
+				};
+				std::wstring s = UI::UiUtils::OpenFileDialog(hwnd_, filter);
+				if (!s.empty() && std::filesystem::exists(s))
+					load_file_(s);
 
-				try {
-					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER);
-					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.cnf"}
-					};
-					do {
-						HRESULT h = CoCreateInstance(
-							CLSID_FileOpenDialog,
-							NULL, CLSCTX_ALL,
-							IID_IFileOpenDialog,
-							reinterpret_cast<void**>(&ptr));
-
-						if (h != S_OK) break;
-
-						#pragma warning( push )
-						#pragma warning( disable : 4267 )
-						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
-						#pragma warning( pop )
-
-						if (h != S_OK) break;
-						h = ptr->Show(hwnd_);
-						if (h != S_OK) break;
-						h = ptr->GetResult(&item);
-						if (h != S_OK) break;
-						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
-						if (h != S_OK) break;
-
-						std::wstring s = Utils::to_string(pws);
-						if (s.empty() || !std::filesystem::exists(s)) break;
-						load_file_(s);
-					} while (0);
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-				}
-				if (item != nullptr) item->Release();
-				if (ptr != nullptr) ptr->Release();
-				if (pws != nullptr) CoTaskMemFree(pws);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -931,53 +875,22 @@ namespace Common {
 			try {
 				if (!hwnd_) return;
 
-				PWSTR pws{ nullptr };
-				IShellItem* item{ nullptr };
-				IFileSaveDialog* ptr{ nullptr };
-
-				try {
-					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER);
-					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.cnf"}
-					};
-					do {
-						HRESULT h = CoCreateInstance(
-							CLSID_FileSaveDialog,
-							NULL, CLSCTX_ALL,
-							IID_IFileSaveDialog,
-							reinterpret_cast<void**>(&ptr));
-
-						if (h != S_OK) break;
-
-						#pragma warning( push )
-						#pragma warning( disable : 4267 )
-						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
-						#pragma warning( pop )
-
-						if (h != S_OK) break;
-						h = ptr->Show(hwnd_);
-						if (h != S_OK) break;
-						h = ptr->GetResult(&item);
-						if (h != S_OK) break;
-						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
-						if (h != S_OK) break;
-
-						auto mmt = std::make_shared<JSON::MMTConfig>();
-						mmt->CopySettings(common_config::Get().GetConfig());
-						if (!lv_->ListViewGetList(mmt)) break;
-
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
+						 L"*.cnf"
+					}
+				};
+				std::wstring s = UI::UiUtils::SaveFileDialog(hwnd_, filter);
+				if (!s.empty()) {
+					auto mmt = std::make_shared<JSON::MMTConfig>();
+					mmt->copy_settings(common_config::Get().GetConfig());
+					if (lv_->ListViewGetList(mmt)) {
 						JSON::json_config json{};
-						std::wstring confpath = Utils::to_string(pws);
-						json.Write(mmt, confpath, false);
-						tb_->AddRecent(confpath);
-
-					} while (0);
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+						json.Write(mmt, s, false);
+						tb_->AddRecent(s);
+					}
 				}
-				if (item != nullptr) item->Release();
-				if (ptr != nullptr) ptr->Release();
-				if (pws != nullptr) CoTaskMemFree(pws);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -1030,12 +943,18 @@ namespace Common {
 					}
 					case IDM_LV_FILTER_MQTT:
 					case IDM_LV_FILTER_MMKEY:
-					case IDM_LV_FILTER_MIXER: {
+					case IDM_LV_FILTER_MIXER:
+					case IDM_LV_FILTER_SCRIPT:
+					case IDM_LV_FILTER_LIGHT8: 
+					case IDM_LV_FILTER_LIGHT16: {
 						MIDI::MixerUnit mu = tb_->GetFilters();
 						switch (id) {
-							case IDM_LV_FILTER_MQTT:	mu.target = MIDI::Mackie::Target::MQTTKEY; break;
-							case IDM_LV_FILTER_MMKEY:	mu.target = MIDI::Mackie::Target::MEDIAKEY; break;
-							case IDM_LV_FILTER_MIXER:	mu.target = MIDI::Mackie::Target::VOLUMEMIX; break;
+							case IDM_LV_FILTER_MQTT:		mu.target = MIDI::Mackie::Target::MQTTKEY; break;
+							case IDM_LV_FILTER_MMKEY:		mu.target = MIDI::Mackie::Target::MEDIAKEY; break;
+							case IDM_LV_FILTER_MIXER:		mu.target = MIDI::Mackie::Target::VOLUMEMIX; break;
+							case IDM_LV_FILTER_SCRIPT:		mu.target = MIDI::Mackie::Target::VMSCRIPT; break;
+							case IDM_LV_FILTER_LIGHT8:		mu.target = MIDI::Mackie::Target::LIGHTKEY8B; break;
+							case IDM_LV_FILTER_LIGHT16:		mu.target = MIDI::Mackie::Target::LIGHTKEY16B; break;
 							default: return;
 						}
 						tb_->SetFilters(mu);
@@ -1258,10 +1177,13 @@ namespace Common {
 							case IDM_LV_FILTER_ON:
 							case IDM_LV_FILTER_OFF:
 							case IDM_LV_FILTER_SET:
+							case IDM_LV_FILTER_CLEAR:
 							case IDM_LV_FILTER_MQTT:
 							case IDM_LV_FILTER_MMKEY:
 							case IDM_LV_FILTER_MIXER:
-							case IDM_LV_FILTER_CLEAR: {
+							case IDM_LV_FILTER_SCRIPT:
+							case IDM_LV_FILTER_LIGHT8:
+							case IDM_LV_FILTER_LIGHT16: {
 								tb_filters_(LOWORD(w));
 								break;
 							}

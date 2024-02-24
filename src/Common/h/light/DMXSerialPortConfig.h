@@ -27,7 +27,7 @@ namespace Common {
 			SerialPortConfig();
 			SerialPortConfig(int32_t, std::string);
 			SerialPortConfig(int32_t, std::wstring);
-			void Copy(SerialPortConfig&);
+			void copy(const SerialPortConfig&);
 
 			const bool empty();
 			std::string GetPort();

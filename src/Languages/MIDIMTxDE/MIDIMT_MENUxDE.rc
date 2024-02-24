@@ -50,6 +50,7 @@ BEGIN
 	MENUITEM "LIGTS-Konfiguration anzeigen",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "REMOTE-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_REMOTE
 	MENUITEM "Zeigt die Gamepad-Konfiguration an",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
+	MENUITEM "VMSCRIPT-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_SCRIPT
         MENUITEM SEPARATOR
 	MENUITEM "DMX512-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ArtNet-Konfiguration anzeigen",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -120,9 +121,10 @@ BEGIN
         MENUITEM "Löschen",                     IDM_LV_DELETE
         POPUP "Installieren als..."
         BEGIN
+            MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_LV_SET_MQTT
             MENUITEM "Steuerung bezieht sich auf den Audiomixer", IDM_LV_SET_MIXER
             MENUITEM "Die Steuerelemente gelten für Multimedia-Tasten", IDM_LV_SET_MMKEY
-            MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_LV_SET_MQTT
+            MENUITEM "Kontrolle bezieht sich auf die Skriptverwaltung", IDM_LV_SET_VMSCRIPT
 	    POPUP "Unter Kontrolle versteht man die Lichtsteuerung"
 	    BEGIN
 		MENUITEM "Kanal 8 Bit (Standard)", IDM_LV_SET_LIGHTKEY8B
@@ -138,7 +140,7 @@ END
 
 DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "__COL3TYPEMENU"
+    POPUP "__COL3 TYPE MENU"
     BEGIN
         POPUP "Aufsichtsbehörden..."
         BEGIN
@@ -172,9 +174,10 @@ BEGIN
         MENUITEM "Aufsichtsbehörden...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Tasten..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
+        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
         MENUITEM "Steuerung bezieht sich auf den Audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Die Steuerelemente gelten für Multimedia-Tasten", IDM_COL4_MEDIAKEY
-        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
+        MENUITEM "Kontrolle bezieht sich auf die Skriptverwaltung", IDM_LV_SET_VMSCRIPT
 	POPUP "Unter Kontrolle versteht man die Lichtsteuerung"
 	BEGIN
 	   MENUITEM "Kanal 8 Bit (Standard)", IDM_COL4_LIGHTKEY8B
@@ -187,111 +190,142 @@ DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Nicht zugewiesen",		   IDM_COL4_NONE
+        MENUITEM "Nicht zugewiesen",		      IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Tonsteuerung..."
         BEGIN
-            MENUITEM "Still (Meister)",		IDM_COL4_MAM
-            MENUITEM "Solo (Meister)",			IDM_COL4_MAS
+            MENUITEM "Still (Meister)",	      IDM_COL4_MAM
+            MENUITEM "Solo (Meister)",		      IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Lautlos.."
             BEGIN
-                MENUITEM "Kanal 1",                     IDM_COL4_B21
-                MENUITEM "Kanal 2",                     IDM_COL4_B22
-                MENUITEM "Kanal 3",                     IDM_COL4_B23
-                MENUITEM "Kanal 4",                     IDM_COL4_B24
-                MENUITEM "Kanal 5",                     IDM_COL4_B25
-                MENUITEM "Kanal 6",                     IDM_COL4_B26
-                MENUITEM "Kanal 7",                     IDM_COL4_B27
-                MENUITEM "Kanal 8",                     IDM_COL4_B28
-                MENUITEM "Kanal 9",                     IDM_COL4_B29
+                MENUITEM "Kanal 1",                   IDM_COL4_B21
+                MENUITEM "Kanal 2",                   IDM_COL4_B22
+                MENUITEM "Kanal 3",                   IDM_COL4_B23
+                MENUITEM "Kanal 4",                   IDM_COL4_B24
+                MENUITEM "Kanal 5",                   IDM_COL4_B25
+                MENUITEM "Kanal 6",                   IDM_COL4_B26
+                MENUITEM "Kanal 7",                   IDM_COL4_B27
+                MENUITEM "Kanal 8",                   IDM_COL4_B28
+                MENUITEM "Kanal 9",                   IDM_COL4_B29
             END
             POPUP "Solo.."
             BEGIN
-                MENUITEM "Kanal 1",                     IDM_COL4_B11
-                MENUITEM "Kanal 2",                     IDM_COL4_B12
-                MENUITEM "Kanal 3",                     IDM_COL4_B13
-                MENUITEM "Kanal 4",                     IDM_COL4_B14
-                MENUITEM "Kanal 5",                     IDM_COL4_B15
-                MENUITEM "Kanal 6",                     IDM_COL4_B16
-                MENUITEM "Kanal 7",                     IDM_COL4_B17
-                MENUITEM "Kanal 8",                     IDM_COL4_B18
-                MENUITEM "Kanal 9",                     IDM_COL4_B19
+                MENUITEM "Kanal 1",                   IDM_COL4_B11
+                MENUITEM "Kanal 2",                   IDM_COL4_B12
+                MENUITEM "Kanal 3",                   IDM_COL4_B13
+                MENUITEM "Kanal 4",                   IDM_COL4_B14
+                MENUITEM "Kanal 5",                   IDM_COL4_B15
+                MENUITEM "Kanal 6",                   IDM_COL4_B16
+                MENUITEM "Kanal 7",                   IDM_COL4_B17
+                MENUITEM "Kanal 8",                   IDM_COL4_B18
+                MENUITEM "Kanal 9",                   IDM_COL4_B19
             END
         END
         POPUP "Multimedia-Tasten."
         BEGIN
-            MENUITEM "Spielpause",                IDM_COL4_SYS_Play
-            MENUITEM "Stoppen",                        IDM_COL4_SYS_Stop
-            MENUITEM "Vorherige",                  IDM_COL4_SYS_Rewind
-            MENUITEM "Nächste",                   IDM_COL4_SYS_Forward
-            MENUITEM "Aufzeichnen",                      IDM_COL4_SYS_Record
-            MENUITEM "Oben (Joystick)",            IDM_COL4_SYS_Up
-            MENUITEM "Unten (Joystick)",             IDM_COL4_SYS_Down
-            MENUITEM "Rechts (Joystick)",           IDM_COL4_SYS_Right
-            MENUITEM "Links (Joystick)",            IDM_COL4_SYS_Left
-            MENUITEM "Hineinzoomen",         IDM_COL4_SYS_Zoom
-            MENUITEM "Schrubben",               IDM_COL4_SYS_Scrub
+            MENUITEM "Spielpause",                  IDM_COL4_SYS_Play
+            MENUITEM "Stoppen",                          IDM_COL4_SYS_Stop
+            MENUITEM "Vorherige",                    IDM_COL4_SYS_Rewind
+            MENUITEM "Nächste",                     IDM_COL4_SYS_Forward
+            MENUITEM "Aufzeichnen",                        IDM_COL4_SYS_Record
+            MENUITEM "Oben (Joystick)",              IDM_COL4_SYS_Up
+            MENUITEM "Unten (Joystick)",               IDM_COL4_SYS_Down
+            MENUITEM "Rechts (Joystick)",             IDM_COL4_SYS_Right
+            MENUITEM "Links (Joystick)",              IDM_COL4_SYS_Left
+            MENUITEM "Hineinzoomen",           IDM_COL4_SYS_Zoom
+            MENUITEM "Schrubben",                 IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro-Funktionen..."
         BEGIN
             POPUP "Funktionen der Standardtaste..."
             BEGIN
-                MENUITEM "Funktion 1",                   IDM_COL4_FUN11
-                MENUITEM "Funktion 2",                   IDM_COL4_FUN12
-                MENUITEM "Funktion 3",                   IDM_COL4_FUN13
-                MENUITEM "Funktion 4",                   IDM_COL4_FUN14
-                MENUITEM "Funktion 5",                   IDM_COL4_FUN15
-                MENUITEM "Funktion 6",                   IDM_COL4_FUN16
-                MENUITEM "Funktion 7",                   IDM_COL4_FUN17
-                MENUITEM "Funktion 8",                   IDM_COL4_FUN18
+                MENUITEM "Funktion 1",                 IDM_COL4_FUN11
+                MENUITEM "Funktion 2",                 IDM_COL4_FUN12
+                MENUITEM "Funktion 3",                 IDM_COL4_FUN13
+                MENUITEM "Funktion 4",                 IDM_COL4_FUN14
+                MENUITEM "Funktion 5",                 IDM_COL4_FUN15
+                MENUITEM "Funktion 6",                 IDM_COL4_FUN16
+                MENUITEM "Funktion 7",                 IDM_COL4_FUN17
+                MENUITEM "Funktion 8",                 IDM_COL4_FUN18
             END
             POPUP "One-Touch-Tastenfunktionen..."
             BEGIN
-                MENUITEM "Funktion 1",                   IDM_COL4_FUN21
-                MENUITEM "Funktion 2",                   IDM_COL4_FUN22
-                MENUITEM "Funktion 3",                   IDM_COL4_FUN23
-                MENUITEM "Funktion 4",                   IDM_COL4_FUN24
-                MENUITEM "Funktion 5",                   IDM_COL4_FUN25
-                MENUITEM "Funktion 6",                   IDM_COL4_FUN26
-                MENUITEM "Funktion 7",                   IDM_COL4_FUN27
-                MENUITEM "Funktion 8",                   IDM_COL4_FUN28
+                MENUITEM "Funktion 1",                 IDM_COL4_FUN21
+                MENUITEM "Funktion 2",                 IDM_COL4_FUN22
+                MENUITEM "Funktion 3",                 IDM_COL4_FUN23
+                MENUITEM "Funktion 4",                 IDM_COL4_FUN24
+                MENUITEM "Funktion 5",                 IDM_COL4_FUN25
+                MENUITEM "Funktion 6",                 IDM_COL4_FUN26
+                MENUITEM "Funktion 7",                 IDM_COL4_FUN27
+                MENUITEM "Funktion 8",                 IDM_COL4_FUN28
             END
         END
         POPUP "Tasten im Smart Home System."
         BEGIN
-                MENUITEM "Ein/Aus 1",                 IDM_COL4_B11
-                MENUITEM "ein/aus 2",                 IDM_COL4_B12
-                MENUITEM "ein/aus 3",                 IDM_COL4_B13
-                MENUITEM "ein/aus 4",                 IDM_COL4_B14
-                MENUITEM "ein/aus 5",                 IDM_COL4_B15
-                MENUITEM "ein/aus 6",                 IDM_COL4_B16
-                MENUITEM "ein/aus 7",                 IDM_COL4_B17
-                MENUITEM "ein/aus 8",                 IDM_COL4_B18
-                MENUITEM "ein/aus 9",                 IDM_COL4_B19
-                MENUITEM "ein/aus 10",                 IDM_COL4_B21
-                MENUITEM "ein/aus 11",                 IDM_COL4_B22
-                MENUITEM "ein/aus 12",                 IDM_COL4_B23
-                MENUITEM "ein/aus 13",                 IDM_COL4_B24
-                MENUITEM "ein/aus 14",                 IDM_COL4_B25
-                MENUITEM "ein/aus 15",                 IDM_COL4_B26
-                MENUITEM "ein/aus 16",                 IDM_COL4_B27
-                MENUITEM "ein/aus 17",                 IDM_COL4_B28
-                MENUITEM "ein/aus 18",                 IDM_COL4_B29
-                MENUITEM "ein/aus 19",                 IDM_COL4_B31
-                MENUITEM "ein/aus 20",                 IDM_COL4_B32
-                MENUITEM "ein/aus 21",                 IDM_COL4_B33
-                MENUITEM "ein/aus 22",                 IDM_COL4_B34
-                MENUITEM "ein/aus 23",                 IDM_COL4_B35
-                MENUITEM "ein/aus 24",                 IDM_COL4_B36
-                MENUITEM "ein/aus 25",                 IDM_COL4_B37
-                MENUITEM "ein/aus 26",                 IDM_COL4_B38
-                MENUITEM "ein/aus 27",                 IDM_COL4_B39
+                MENUITEM "Ein/Aus 1",                IDM_COL4_B11
+                MENUITEM "ein/aus 2",                IDM_COL4_B12
+                MENUITEM "ein/aus 3",                IDM_COL4_B13
+                MENUITEM "ein/aus 4",                IDM_COL4_B14
+                MENUITEM "ein/aus 5",                IDM_COL4_B15
+                MENUITEM "ein/aus 6",                IDM_COL4_B16
+                MENUITEM "ein/aus 7",                IDM_COL4_B17
+                MENUITEM "ein/aus 8",                IDM_COL4_B18
+                MENUITEM "ein/aus 9",                IDM_COL4_B19
+                MENUITEM "ein/aus 10",               IDM_COL4_B21
+                MENUITEM "ein/aus 11",               IDM_COL4_B22
+                MENUITEM "ein/aus 12",               IDM_COL4_B23
+                MENUITEM "ein/aus 13",               IDM_COL4_B24
+                MENUITEM "ein/aus 14",               IDM_COL4_B25
+                MENUITEM "ein/aus 15",               IDM_COL4_B26
+                MENUITEM "ein/aus 16",               IDM_COL4_B27
+                MENUITEM "ein/aus 17",               IDM_COL4_B28
+                MENUITEM "ein/aus 18",               IDM_COL4_B29
+                MENUITEM "ein/aus 19",               IDM_COL4_B31
+                MENUITEM "ein/aus 20",               IDM_COL4_B32
+                MENUITEM "ein/aus 21",               IDM_COL4_B33
+                MENUITEM "ein/aus 22",               IDM_COL4_B34
+                MENUITEM "ein/aus 23",               IDM_COL4_B35
+                MENUITEM "ein/aus 24",               IDM_COL4_B36
+                MENUITEM "ein/aus 25",               IDM_COL4_B37
+                MENUITEM "ein/aus 26",               IDM_COL4_B38
+                MENUITEM "ein/aus 27",               IDM_COL4_B39
+        END
+        POPUP "Skriptverwaltung..."
+        BEGIN
+                MENUITEM "Skript 1",                  IDM_COL4_B11
+                MENUITEM "Skript 2",                  IDM_COL4_B12
+                MENUITEM "Skript 3",                  IDM_COL4_B13
+                MENUITEM "Skript 4",                  IDM_COL4_B14
+                MENUITEM "Skript 5",                  IDM_COL4_B15
+                MENUITEM "Skript 6",                  IDM_COL4_B16
+                MENUITEM "Skript 7",                  IDM_COL4_B17
+                MENUITEM "Skript 8",                  IDM_COL4_B18
+                MENUITEM "Skript 9",                  IDM_COL4_B19
+                MENUITEM "Skript 10",                 IDM_COL4_B21
+                MENUITEM "Skript 11",                 IDM_COL4_B22
+                MENUITEM "Skript 12",                 IDM_COL4_B23
+                MENUITEM "Skript 13",                 IDM_COL4_B24
+                MENUITEM "Skript 14",                 IDM_COL4_B25
+                MENUITEM "Skript 15",                 IDM_COL4_B26
+                MENUITEM "Skript 16",                 IDM_COL4_B27
+                MENUITEM "Skript 17",                 IDM_COL4_B28
+                MENUITEM "Skript 18",                 IDM_COL4_B29
+                MENUITEM "Drehbuch 19",                 IDM_COL4_B31
+                MENUITEM "Skript 20",                 IDM_COL4_B32
+                MENUITEM "Skript 21",                 IDM_COL4_B33
+                MENUITEM "Skript 22",                 IDM_COL4_B34
+                MENUITEM "Skript 23",                 IDM_COL4_B35
+                MENUITEM "Skript 24",                 IDM_COL4_B36
+                MENUITEM "Skript 25",                 IDM_COL4_B37
+                MENUITEM "Skript 26",                 IDM_COL4_B38
+                MENUITEM "Skript 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
+        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
         MENUITEM "Steuerung bezieht sich auf den Audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Die Steuerelemente gelten für Multimedia-Tasten", IDM_COL4_MEDIAKEY
-        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
+	MENUITEM "Kontrolle bezieht sich auf die Skriptverwaltung", IDM_COL4_VMSCRIPT
 	POPUP "Unter Kontrolle versteht man die Lichtsteuerung"
 	BEGIN
 	   MENUITEM "Kanal 8 Bit (Standard)", IDM_COL4_LIGHTKEY8B
@@ -304,37 +338,37 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "Encoder (Bild-für-Bild-Anzeige)", IDM_COL4_JOG
-        MENUITEM "Nicht zugewiesen",               IDM_COL4_NONE
+        MENUITEM "Encoder (Bild-für-Bild-Anzeige)",  IDM_COL4_JOG
+        MENUITEM "Nicht zugewiesen",                 IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Tonsteuerung..."
         BEGIN
-            MENUITEM "Lautstärke (Master)",          IDM_COL4_MAV
-            MENUITEM "Balance (Meister)",             IDM_COL4_MAP
+            MENUITEM "Lautstärke (Master)",         IDM_COL4_MAV
+            MENUITEM "Balance (Meister)",            IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Volumen.."
             BEGIN
-                MENUITEM "Kanal 1",                     IDM_COL4_AV1
-                MENUITEM "Kanal 2",                     IDM_COL4_AV2
-                MENUITEM "Kanal 3",                     IDM_COL4_AV3
-                MENUITEM "Kanal 4",                     IDM_COL4_AV4
-                MENUITEM "Kanal 5",                     IDM_COL4_AV5
-                MENUITEM "Kanal 6",                     IDM_COL4_AV6
-                MENUITEM "Kanal 7",                     IDM_COL4_AV7
-                MENUITEM "Kanal 8",                     IDM_COL4_AV8
-                MENUITEM "Kanal 9",                     IDM_COL4_XV9
+                MENUITEM "Kanal 1",                IDM_COL4_AV1
+                MENUITEM "Kanal 2",                IDM_COL4_AV2
+                MENUITEM "Kanal 3",                IDM_COL4_AV3
+                MENUITEM "Kanal 4",                IDM_COL4_AV4
+                MENUITEM "Kanal 5",                IDM_COL4_AV5
+                MENUITEM "Kanal 6",                IDM_COL4_AV6
+                MENUITEM "Kanal 7",                IDM_COL4_AV7
+                MENUITEM "Kanal 8",                IDM_COL4_AV8
+                MENUITEM "Kanal 9",                IDM_COL4_XV9
             END
             POPUP "Gleichgewicht.."
             BEGIN
-                MENUITEM "Kanal 1",                     IDM_COL4_AP1
-                MENUITEM "Kanal 2",                     IDM_COL4_AP2
-                MENUITEM "Kanal 3",                     IDM_COL4_AP3
-                MENUITEM "Kanal 4",                     IDM_COL4_AP4
-                MENUITEM "Kanal 5",                     IDM_COL4_AP5
-                MENUITEM "Kanal 6",                     IDM_COL4_AP6
-                MENUITEM "Kanal 7",                     IDM_COL4_AP7
-                MENUITEM "Kanal 8",                     IDM_COL4_AP8
-                MENUITEM "Kanal 9",                     IDM_COL4_XP9
+                MENUITEM "Kanal 1",                IDM_COL4_AP1
+                MENUITEM "Kanal 2",                IDM_COL4_AP2
+                MENUITEM "Kanal 3",                IDM_COL4_AP3
+                MENUITEM "Kanal 4",                IDM_COL4_AP4
+                MENUITEM "Kanal 5",                IDM_COL4_AP5
+                MENUITEM "Kanal 6",                IDM_COL4_AP6
+                MENUITEM "Kanal 7",                IDM_COL4_AP7
+                MENUITEM "Kanal 8",                IDM_COL4_AP8
+                MENUITEM "Kanal 9",                IDM_COL4_XP9
             END
         END
         POPUP "Regler im „Smart Home“-System."
@@ -348,25 +382,34 @@ BEGIN
                 MENUITEM "Stufe 7",              IDM_COL4_AV7
                 MENUITEM "Stufe 8",              IDM_COL4_AV8
                 MENUITEM "Stufe 9",              IDM_COL4_XV9
-                MENUITEM "Stufe 10",              IDM_COL4_AP1
-                MENUITEM "Stufe 11",              IDM_COL4_AP2
-                MENUITEM "Stufe 12",              IDM_COL4_AP3
-                MENUITEM "Stufe 13",              IDM_COL4_AP4
-                MENUITEM "Stufe 14",              IDM_COL4_AP5
-                MENUITEM "Stufe 15",              IDM_COL4_AP6
-                MENUITEM "Stufe 16",              IDM_COL4_AP7
-                MENUITEM "Stufe 17",              IDM_COL4_AP8
-                MENUITEM "Stufe 18",              IDM_COL4_XP9
+                MENUITEM "Stufe 10",             IDM_COL4_AP1
+                MENUITEM "Stufe 11",             IDM_COL4_AP2
+                MENUITEM "Stufe 12",             IDM_COL4_AP3
+                MENUITEM "Stufe 13",             IDM_COL4_AP4
+                MENUITEM "Stufe 14",             IDM_COL4_AP5
+                MENUITEM "Stufe 15",             IDM_COL4_AP6
+                MENUITEM "Stufe 16",             IDM_COL4_AP7
+                MENUITEM "Stufe 17",             IDM_COL4_AP8
+                MENUITEM "Stufe 18",             IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
+        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
         MENUITEM "Steuerung bezieht sich auf den Audiomixer", IDM_COL4_VOLUMEMIX
         MENUITEM "Die Steuerelemente gelten für Multimedia-Tasten", IDM_COL4_MEDIAKEY
-        MENUITEM "Unter Steuerung versteht man ein Smart Home", IDM_COL4_MQTTKEY
+	MENUITEM "Kontrolle bezieht sich auf die Skriptverwaltung", IDM_COL4_VMSCRIPT
 	POPUP "Unter Kontrolle versteht man die Lichtsteuerung"
 	BEGIN
 	   MENUITEM "Kanal 8 Bit (Standard)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "Kanal 16 Bit (erweitert)", IDM_COL4_LIGHTKEY16B
 	END
+    END
+END
+
+DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU MENU
+BEGIN
+    POPUP "__COLS SLIDER NOSUPPORT MENU"
+    BEGIN
+	MENUITEM "Die ausgewählte Kontrollgruppe unterstützt keine Schieberegler", IDM_COL4_NONE
     END
 END
 
@@ -435,57 +478,57 @@ BEGIN
         MENUITEM "Vorherige",                  IDM_COL4_SYS_Rewind
         MENUITEM "Nächste",                   IDM_COL4_SYS_Forward
         MENUITEM "Aufzeichnen",                      IDM_COL4_SYS_Record
-        MENUITEM "Oben (Joystick)",           IDM_COL4_SYS_Up
-        MENUITEM "Unten (Joystick)",           IDM_COL4_SYS_Down
+        MENUITEM "Oben (Joystick)",            IDM_COL4_SYS_Up
+        MENUITEM "Unten (Joystick)",             IDM_COL4_SYS_Down
         MENUITEM "Rechts (Joystick)",           IDM_COL4_SYS_Right
-        MENUITEM "Links (Joystick)",           IDM_COL4_SYS_Left
+        MENUITEM "Links (Joystick)",            IDM_COL4_SYS_Left
         MENUITEM "Hineinzoomen",         IDM_COL4_SYS_Zoom
         MENUITEM "Schrubben",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Nicht zugewiesen",               IDM_COL4_NONE
+        MENUITEM "Nicht zugewiesen",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "Level 1",                    IDM_COL4_AV1
-        MENUITEM "Level 2",                    IDM_COL4_AV2
-        MENUITEM "Stufe 3",                    IDM_COL4_AV3
-        MENUITEM "Level 4",                    IDM_COL4_AV4
-        MENUITEM "Level 5",                    IDM_COL4_AV5
-        MENUITEM "Stufe 6",                    IDM_COL4_AV6
-        MENUITEM "Stufe 7",                    IDM_COL4_AV7
-        MENUITEM "Stufe 8",                    IDM_COL4_AV8
-        MENUITEM "Stufe 9",                    IDM_COL4_XV9
-        MENUITEM "Stufe 10",                    IDM_COL4_AP1
-        MENUITEM "Stufe 11",                    IDM_COL4_AP2
-        MENUITEM "Stufe 12",                    IDM_COL4_AP3
-        MENUITEM "Stufe 13",                    IDM_COL4_AP4
-        MENUITEM "Stufe 14",                    IDM_COL4_AP5
-        MENUITEM "Stufe 15",                    IDM_COL4_AP6
-        MENUITEM "Stufe 16",                    IDM_COL4_AP7
-        MENUITEM "Stufe 17",                    IDM_COL4_AP8
-        MENUITEM "Stufe 18",                    IDM_COL4_XP9
+        MENUITEM "Level 1",                   IDM_COL4_AV1
+        MENUITEM "Level 2",                   IDM_COL4_AV2
+        MENUITEM "Stufe 3",                   IDM_COL4_AV3
+        MENUITEM "Level 4",                   IDM_COL4_AV4
+        MENUITEM "Level 5",                   IDM_COL4_AV5
+        MENUITEM "Stufe 6",                   IDM_COL4_AV6
+        MENUITEM "Stufe 7",                   IDM_COL4_AV7
+        MENUITEM "Stufe 8",                   IDM_COL4_AV8
+        MENUITEM "Stufe 9",                   IDM_COL4_XV9
+        MENUITEM "Stufe 10",                  IDM_COL4_AP1
+        MENUITEM "Stufe 11",                  IDM_COL4_AP2
+        MENUITEM "Stufe 12",                  IDM_COL4_AP3
+        MENUITEM "Stufe 13",                  IDM_COL4_AP4
+        MENUITEM "Stufe 14",                  IDM_COL4_AP5
+        MENUITEM "Stufe 15",                  IDM_COL4_AP6
+        MENUITEM "Stufe 16",                  IDM_COL4_AP7
+        MENUITEM "Stufe 17",                  IDM_COL4_AP8
+        MENUITEM "Stufe 18",                  IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Nicht zugewiesen",                 IDM_COL4_NONE
+        MENUITEM "Nicht zugewiesen",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-    MENUITEM "Ein/Aus 1",                     IDM_COL4_B11
-    MENUITEM "ein/aus 2",                     IDM_COL4_B12
-    MENUITEM "ein/aus 3",                     IDM_COL4_B13
-    MENUITEM "ein/aus 4",                     IDM_COL4_B14
-    MENUITEM "ein/aus 5",                     IDM_COL4_B15
-    MENUITEM "ein/aus 6",                     IDM_COL4_B16
-    MENUITEM "ein/aus 7",                     IDM_COL4_B17
-    MENUITEM "ein/aus 8",                     IDM_COL4_B18
-    MENUITEM "ein/aus 9",                     IDM_COL4_B19
+    MENUITEM "Ein/Aus 1",                      IDM_COL4_B11
+    MENUITEM "ein/aus 2",                      IDM_COL4_B12
+    MENUITEM "ein/aus 3",                      IDM_COL4_B13
+    MENUITEM "ein/aus 4",                      IDM_COL4_B14
+    MENUITEM "ein/aus 5",                      IDM_COL4_B15
+    MENUITEM "ein/aus 6",                      IDM_COL4_B16
+    MENUITEM "ein/aus 7",                      IDM_COL4_B17
+    MENUITEM "ein/aus 8",                      IDM_COL4_B18
+    MENUITEM "ein/aus 9",                      IDM_COL4_B19
     MENUITEM "ein/aus 10",                     IDM_COL4_B21
     MENUITEM "ein/aus 11",                     IDM_COL4_B22
     MENUITEM "ein/aus 12",                     IDM_COL4_B23
@@ -505,7 +548,42 @@ BEGIN
     MENUITEM "ein/aus 26",                     IDM_COL4_B38
     MENUITEM "ein/aus 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "Nicht zugewiesen",                   IDM_COL4_NONE
+    MENUITEM "Nicht zugewiesen",                  IDM_COL4_NONE
     END
 END
 
+DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SCRIPT MENU"
+    BEGIN
+    MENUITEM "Skript 1",                  IDM_COL4_B11
+    MENUITEM "Skript 2",                  IDM_COL4_B12
+    MENUITEM "Skript 3",                  IDM_COL4_B13
+    MENUITEM "Skript 4",                  IDM_COL4_B14
+    MENUITEM "Skript 5",                  IDM_COL4_B15
+    MENUITEM "Skript 6",                  IDM_COL4_B16
+    MENUITEM "Skript 7",                  IDM_COL4_B17
+    MENUITEM "Skript 8",                  IDM_COL4_B18
+    MENUITEM "Skript 9",                  IDM_COL4_B19
+    MENUITEM "Skript 10",                 IDM_COL4_B21
+    MENUITEM "Skript 11",                 IDM_COL4_B22
+    MENUITEM "Skript 12",                 IDM_COL4_B23
+    MENUITEM "Skript 13",                 IDM_COL4_B24
+    MENUITEM "Skript 14",                 IDM_COL4_B25
+    MENUITEM "Skript 15",                 IDM_COL4_B26
+    MENUITEM "Skript 16",                 IDM_COL4_B27
+    MENUITEM "Skript 17",                 IDM_COL4_B28
+    MENUITEM "Skript 18",                 IDM_COL4_B29
+    MENUITEM "Drehbuch 19",                 IDM_COL4_B31
+    MENUITEM "Skript 20",                 IDM_COL4_B32
+    MENUITEM "Skript 21",                 IDM_COL4_B33
+    MENUITEM "Skript 22",                 IDM_COL4_B34
+    MENUITEM "Skript 23",                 IDM_COL4_B35
+    MENUITEM "Skript 24",                 IDM_COL4_B36
+    MENUITEM "Skript 25",                 IDM_COL4_B37
+    MENUITEM "Skript 26",                 IDM_COL4_B38
+    MENUITEM "Skript 27",                 IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Nicht zugewiesen",            IDM_COL4_NONE
+    END
+END

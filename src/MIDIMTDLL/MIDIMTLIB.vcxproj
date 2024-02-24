@@ -203,6 +203,8 @@
     <ClInclude Include="..\Common\h\common_error_id.h" />
     <ClInclude Include="..\Common\h\common_error_string.h" />
     <ClInclude Include="..\Common\h\common_event.h" />
+    <ClInclude Include="..\Common\h\common_file_watch.h" />
+    <ClInclude Include="..\Common\h\common_static.h" />
     <ClInclude Include="..\Common\h\common_utils.h" />
     <ClInclude Include="..\Common\h\hwnd_ptr.h" />
     <ClInclude Include="..\Common\h\joystick\JoystickConfig.h" />
@@ -234,6 +236,7 @@
     <ClInclude Include="..\Common\h\plugins\plugin_ui.h" />
     <ClInclude Include="..\Common\h\registry.h" />
     <ClInclude Include="..\Common\h\remote\RemoteConfig.h" />
+    <ClInclude Include="..\Common\h\script\VmScriptConfig.h" />
     <ClInclude Include="..\Common\h\seh_exception.h" />
     <ClInclude Include="..\Common\h\common_timer.h" />
     <ClInclude Include="..\Common\h\ui_themes.h" />
@@ -246,6 +249,8 @@
   <ItemGroup>
     <ClCompile Include="cpp\common_config.cpp" />
     <ClCompile Include="cpp\common_error.cpp" />
+    <ClCompile Include="cpp\common_file_watch.cpp" />
+    <ClCompile Include="cpp\common_static.cpp" />
     <ClCompile Include="cpp\common_utils.cpp" />
     <ClCompile Include="cpp\hwnd_ptr.cpp" />
     <ClCompile Include="cpp\joystick\JoystickConfig.cpp" />
@@ -273,6 +278,7 @@
     <ClCompile Include="cpp\plugins\plugin_info.cpp" />
     <ClCompile Include="cpp\plugins\plugin_ui.cpp" />
     <ClCompile Include="cpp\registry.cpp" />
+    <ClCompile Include="cpp\script\VmScriptConfig.cpp" />
     <ClCompile Include="cpp\seh_exception.cpp" />
     <ClCompile Include="cpp\common_timer.cpp" />
     <ClCompile Include="cpp\dllmain.cpp" />

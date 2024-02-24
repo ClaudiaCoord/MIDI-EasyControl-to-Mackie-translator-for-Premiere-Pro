@@ -11,7 +11,8 @@
 
 #include "..\..\Common\rc\resource_dll.rc"
 #include "..\..\Common\rc\resource_lang.rc"
-#include "MIDIMT_STRINGxCZ.rc"
+
 #include "MIDIMT_MENUxCZ.rc"
 #include "MIDIMT_FORMxCZ.rc"
+#include "MIDIMT_STRINGxCZ.rc"
 #include "RibbonDialogEditxCZ.rc"

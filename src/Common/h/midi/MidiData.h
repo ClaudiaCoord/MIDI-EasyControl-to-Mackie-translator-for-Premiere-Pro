@@ -24,9 +24,12 @@ namespace Common {
 
             MidiUnitValue();
             MidiUnitValue(uint8_t v, uint32_t t);
+            MidiUnitValue(const MidiUnitValue&) = default;
+            ~MidiUnitValue() = default;
+
             const bool empty() const;
-            std::wstring dump();
-            void copy(MidiUnitValue&);
+            std::wstring dump() const;
+            void copy(const MidiUnitValue&);
         };
 
         class FLAG_EXPORT MixerUnit {
@@ -38,16 +41,19 @@ namespace Common {
             Mackie::Target longtarget;
             MidiUnitType type;
             MidiUnitValue value;
-            std::vector<std::wstring> appvolume;
+            std::vector<std::wstring> apps;
 
             MixerUnit();
-            MixerUnit(MidiUnit&);
+            MixerUnit(const MidiUnit&);
+            MixerUnit(const MixerUnit&) = default;
+            ~MixerUnit() = default;
+
             void ToNull(bool = false);
-            bool EqualsOR(MixerUnit&);
-            bool EqualsAND(MixerUnit&);
-            std::wstring dump();
-            void copy(MidiUnit&);
-            void copy(MixerUnit&);
+            bool EqualsOR(const MixerUnit&);
+            bool EqualsAND(const MixerUnit&);
+            std::wstring dump() const;
+            void copy(const MidiUnit&);
+            void copy(const MixerUnit&);
         };
 
         class FLAG_EXPORT MidiUnit {
@@ -58,34 +64,39 @@ namespace Common {
             Mackie::Target target;
             Mackie::Target longtarget;
             MidiUnitValue value;
-            std::vector<std::wstring> appvolume;
+            std::vector<std::wstring> apps;
 
             MidiUnit();
-            MidiUnit(MixerUnit&);
+            MidiUnit(const MixerUnit&);
+            MidiUnit(const MidiUnit&) = default;
             ~MidiUnit() = default;
+
             const bool empty() const;
-            const uint32_t GetMixerId();
-            MixerUnit GetMixerUnit();
-            std::wstring dump();
-            void copy(MidiUnit&);
-            void copy(MixerUnit&);
+            const uint32_t GetMixerId() const;
+            MixerUnit GetMixerUnit() const;
+            std::wstring dump() const;
+            void copy(const MidiUnit&);
+            void copy(const MixerUnit&);
         };
 
         class FLAG_EXPORT MidiUnitRef {
         private:
-            static MidiUnit midiunitdefault_;
             MidiUnit& m_;
             IO::PluginClassTypes type_{ IO::PluginClassTypes::ClassNone };
             bool isbegin_{ false };
 
         public:
+
             MidiUnitRef();
+            MidiUnitRef(const MidiUnitRef&) = default;
+            ~MidiUnitRef() = default;
+
             MidiUnit& get();
             void set(MidiUnit&, IO::PluginClassTypes);
             void begin();
-            const IO::PluginClassTypes type();
-            const bool isbegin();
-            const bool isvalid();
+            const IO::PluginClassTypes type() const;
+            const bool isbegin() const;
+            const bool isvalid() const;
 
             friend void copy_data(MidiUnitRef&, MidiUnit&);
             friend void copy_data(MidiUnitRef&, MixerUnit&);
@@ -93,7 +104,7 @@ namespace Common {
 
         class FLAG_EXPORT MidiConfig {
         private:
-            void copysettings_(MidiConfig&);
+            void copysettings_(const MidiConfig&);
         public:
             bool enable{ false };
             bool out_system_port{ false };
@@ -108,18 +119,18 @@ namespace Common {
             std::chrono::milliseconds get_interval() const;
             std::chrono::milliseconds get_long_interval() const;
 
+            void copy(const MidiConfig&);
             const bool empty() const;
-            void Copy(MidiConfig&);
-            std::wstring dump();
+            std::wstring dump() const;
         };
 
         class FLAG_EXPORT MMKeyConfig {
         public:
             bool enable{ false };
 
+            void copy(const MMKeyConfig&);
             const bool empty() const;
-            void Copy(MMKeyConfig&);
-            std::wstring dump();
+            std::wstring dump() const;
         };
 
         class FLAG_EXPORT MidiSetter {

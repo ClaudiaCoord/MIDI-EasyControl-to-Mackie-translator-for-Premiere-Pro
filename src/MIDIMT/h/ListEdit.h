@@ -96,6 +96,7 @@ namespace Common {
 		class ListEdit {
 			hwnd_ptr<empty_deleter> hwndLv_{};
 			std::function<void(std::wstring)> ErrorFn = [](std::wstring) {};
+			std::function<void()> UpdateSaveStatusFn = []() {};
 			HIMAGELIST icons_{ nullptr };
 
 			std::shared_ptr<LISTVIEWSORT> lvsort{};
@@ -120,8 +121,10 @@ namespace Common {
 			~ListEdit();
 
 			std::atomic<bool> EditAsDigit{ false };
+			
 
 			void ListViewErrorCb(const std::function<void(std::wstring)>);
+			void ListViewUpdateStatusCb(const std::function<void()>);
 
 			void ListViewInit(HWND);
 			void ListViewEnd();

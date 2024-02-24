@@ -18,7 +18,7 @@ namespace Common {
 		AudioSessionUnit::AudioSessionUnit(MIDI::MidiUnit& u, bool isinit)
 			: unit_(u), type_(AudioSessionItemId::normalize_type(u.type)), id_((u.scene * 1000) + u.key) {
 			if (isinit) {
-				for (auto& a : u.appvolume)
+				for (auto& a : u.apps)
 					applist_.push_front(AudioSessionItemApp::hash(a));
 			}
 		}

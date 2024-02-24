@@ -1,0 +1,42 @@
+﻿
+#include <SDKDDKVer.h>
+#include <windows.h>
+#include "..\..\Common\rc\resource_version.h"
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(65001)
+
+100	ICON	"icon\\MMTScriptTester.ico"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
+ PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_SUB,VER_BUILD
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "CompanyName", VER_COPYRIGHT
+            VALUE "FileDescription", "MIDI-MT part: Chai Script tester"
+            VALUE "FileVersion", VER_TXT
+            VALUE "InternalName", "MMTScriptTester.exe"
+            VALUE "LegalCopyright", VER_COPYRIGHT
+            VALUE "OriginalFilename", "MMTScriptTester.exe"
+            VALUE "ProductName", "MIDI-MT is High Level Application Driver for USB MIDI Control Surface."
+            VALUE "ProductVersion", VER_TXT
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END

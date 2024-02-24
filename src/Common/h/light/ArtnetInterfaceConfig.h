@@ -26,7 +26,7 @@ namespace Common {
 
 			ArtnetConfig();
 			ArtnetConfig(std::string, std::string, std::string);
-			void Copy(ArtnetConfig&);
+			void copy(const ArtnetConfig&);
 
 			const bool empty();
 

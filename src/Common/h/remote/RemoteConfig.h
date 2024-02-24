@@ -38,7 +38,7 @@ namespace Common {
 			std::wstring dump();
 
 			template <typename T2>
-			void FLAG_EXPORT Copy(RemoteConfig<T2>&);
+			void FLAG_EXPORT copy(const RemoteConfig<T2>&);
 
 		};
 	}

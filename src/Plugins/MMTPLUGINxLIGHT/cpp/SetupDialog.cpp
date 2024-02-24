@@ -52,7 +52,7 @@ namespace Common {
 			try {
 				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
-				config_.Copy(mmt->lightconf);
+				config_.copy(mmt->lightconf);
 				::CheckDlgButton(hwnd_, DLG_PLUG_LIGHT_POLL, CHECKBTN(config_.ispool));
 
 				buildDmxDevicesComboBox(config_.dmxconf.port);
@@ -224,7 +224,7 @@ namespace Common {
 				if (!hwnd_) return;
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->lightconf.Copy(config_);
+				mmt->lightconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -269,7 +269,7 @@ namespace Common {
 				auto f = std::async(std::launch::async, [=](int32_t idx) -> bool {
 					try {
 						LIGHT::SerialPortConfig& cfg = get_serial_devices_().get(idx);
-						if (!cfg.empty()) config_.dmxconf.Copy(cfg);
+						if (!cfg.empty()) config_.dmxconf.copy(cfg);
 						return !cfg.empty();
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -322,7 +322,7 @@ namespace Common {
 				auto f = std::async(std::launch::async, [=](int32_t idx) -> bool {
 					try {
 						LIGHT::ArtnetConfig& cfg = get_network_interfaces_().get(idx);
-						if (!cfg.empty()) config_.artnetconf.Copy(cfg);
+						if (!cfg.empty()) config_.artnetconf.copy(cfg);
 						return !cfg.empty();
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);

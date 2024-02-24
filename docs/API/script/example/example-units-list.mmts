@@ -1,0 +1,20 @@
+
+	print("* Get all units list, from configuration file: var units_list = MidiUnitsList()")
+	var units_list = MidiUnitsList();
+	print(units_list)
+
+	for (auto i = 0; i < units_list.size(); ++i) {
+		auto unit = units_list[i];
+		// print(unit);
+		// or print variables in 'VOLUMEMIX' group:
+		if (unit.group == TargetIndex.VOLUMEMIX) {
+			print(unit.scene);
+			print(unit.key);
+		}
+		if (unit.group == 254) {
+			print(unit.group);
+			print(unit.target);
+			print(unit.value);
+		}
+	}
+	print("* Macro end..")

@@ -58,6 +58,12 @@
     <Filter Include="Исходные файлы\joystick">
       <UniqueIdentifier>{a6a3b84c-d4d3-4fee-8570-4f459e2f5014}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\script">
+      <UniqueIdentifier>{77bfeb56-79ce-4afb-82bd-3651b4374b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\script">
+      <UniqueIdentifier>{842fc059-78ec-4cd9-bc83-70a1cd5ca7a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -195,6 +201,15 @@
     <ClInclude Include="..\Common\h\joystick\JoystickConfig.h">
       <Filter>Файлы заголовков\joystick</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\script\VmScriptConfig.h">
+      <Filter>Файлы заголовков\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\common_file_watch.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\h\common_static.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -298,6 +313,15 @@
     </ClCompile>
     <ClCompile Include="cpp\joystick\JoystickConfig.cpp">
       <Filter>Исходные файлы\joystick</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\script\VmScriptConfig.cpp">
+      <Filter>Исходные файлы\script</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\common_file_watch.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\common_static.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

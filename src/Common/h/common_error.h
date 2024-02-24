@@ -18,7 +18,7 @@ namespace Common {
 
     class FLAG_EXPORT common_error_code {
     private:
-        std::function<const std::wstring(uint32_t)> cb__;
+        std::function<const std::wstring(uint32_t)> cb_;
     public:
 
         common_error_code();
@@ -27,6 +27,7 @@ namespace Common {
         std::wstring get_error(common_error_id);
         std::wstring get_error(uint32_t);
 
+        static const uint32_t get_size();
         static common_error_code& Get();
         static std::wstring get_local_error(uint32_t);
     };
@@ -34,10 +35,10 @@ namespace Common {
 
     class FLAG_EXPORT common_error {
     private:
-        int line__;
-        uint32_t code__;
-        std::wstring msg__;
-        std::wstring method__;
+        int line_;
+        uint32_t code_;
+        std::wstring msg_;
+        std::wstring method_;
 
         void common_error_copy_(const common_error&);
 

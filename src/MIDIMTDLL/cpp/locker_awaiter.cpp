@@ -30,6 +30,48 @@
 
 namespace Common {
 
+	#pragma region timeout_waiter
+	timeout_waiter::timeout_waiter(const int t)
+		: end_(std::chrono::steady_clock::now() + std::chrono::duration<double, std::milli>(t * 1000)) {
+	}
+	const bool timeout_waiter::check() {
+		return (end_ <= std::chrono::steady_clock::now());
+	}
+	#pragma endregion
+
+	#pragma region awaiter
+	awaiter::awaiter(std::atomic<bool>& a) : alock_(a), isunlock_(!a.load(std::memory_order_acquire)) {
+	}
+	awaiter::~awaiter() {
+		if (isunlock_)
+			alock_.store(false, std::memory_order_release);
+	}
+
+	const bool awaiter::lock_if() {
+		return (isunlock_ = awaiter::lock_if<bool>(alock_));
+	}
+	const bool awaiter::lock_if(const bool b) {
+		return (isunlock_ = awaiter::lock_if<bool>(alock_, b));
+	}
+	void awaiter::lock_wait() {
+		awaiter::lock_wait<15, 8, bool>(alock_);
+	}
+	void awaiter::lock_wait(const std::atomic<bool>& a) {
+		awaiter::lock_wait<15, 8, bool>(a);
+	}
+	void awaiter::lock_wait(const std::atomic<bool>& a, const std::atomic<bool>& b) {
+		awaiter::lock_wait<15, 8, bool>(a, b);
+	}
+	void awaiter::lock() {
+		awaiter::lock<bool>(alock_);
+	}
+	void awaiter::unlock() {
+		awaiter::unlock<bool>(alock_);
+		isunlock_ = false;
+	}
+	#pragma endregion
+
+	#pragma region locker_awaiter
 	void locker_awaiter::wait_() {
 		while (lock_.load(std::memory_order_acquire)) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(25));
@@ -98,4 +140,5 @@ namespace Common {
 	void locker_awaiter::End() {
 		lock_.store(false, std::memory_order_release);
 	}
+	#pragma endregion
 }

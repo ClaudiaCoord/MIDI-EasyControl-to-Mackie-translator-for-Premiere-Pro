@@ -62,7 +62,7 @@ namespace Common {
 				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
 				auto ft = std::async(std::launch::async, [=]() ->bool {
-					config_.Copy(mmt->mqttconf);
+					config_.copy(mmt->mqttconf);
 					return true;
 				});
 				const bool _ = ft.get();
@@ -210,7 +210,7 @@ namespace Common {
 				if (!hwnd_) return;
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->mqttconf.Copy(config_);
+				mmt->mqttconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -311,50 +311,19 @@ namespace Common {
 			try {
 				if (!hwnd_) return;
 
-				PWSTR pws{ nullptr };
-				IShellItem* item{ nullptr };
-				IFileOpenDialog* ptr{ nullptr };
-
-				try {
-					std::wstring filter = common_error_code::Get().get_error(common_error_id::err_MQTT_CA_FILTER);
-					COMDLG_FILTERSPEC extfilter[] = {
-						{ filter.c_str(), L"*.cert;*.pem"}
-					};
-					do {
-						HRESULT h = CoCreateInstance(
-							CLSID_FileOpenDialog,
-							NULL, CLSCTX_ALL,
-							IID_IFileOpenDialog,
-							reinterpret_cast<void**>(&ptr));
-
-						if (h != S_OK) break;
-
-						#pragma warning( push )
-						#pragma warning( disable : 4267 )
-						h = ptr->SetFileTypes(static_cast<UINT>(std::size(extfilter)), extfilter);
-						#pragma warning( pop )
-
-						if (h != S_OK) break;
-						h = ptr->Show(hwnd_);
-						if (h != S_OK) break;
-						h = ptr->GetResult(&item);
-						if (h != S_OK) break;
-						h = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
-						if (h != S_OK) break;
-
-						config_.certcapath = Utils::to_string(pws);
-						std::filesystem::path p(config_.certcapath);
-						::SetDlgItemTextW(hwnd_, DLG_PLUG_MQTT_CA, p.stem().wstring().c_str());
-						UI::UiUtils::SaveDialogEnabled(hwnd_);
-
-					} while (0);
-				} catch (...) {
-					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MQTT_CA_FILTER).c_str(),
+						L"*.cert;*.pem"
+					}
+				};
+				std::wstring s = UI::UiUtils::OpenFileDialog(hwnd_, filter);
+				if (!s.empty() && std::filesystem::exists(s)) {
+					config_.certcapath = s;
+					std::filesystem::path p(config_.certcapath);
+					::SetDlgItemTextW(hwnd_, DLG_PLUG_MQTT_CA, p.stem().wstring().c_str());
+					UI::UiUtils::SaveDialogEnabled(hwnd_);
 				}
-				if (item) item->Release();
-				if (ptr)  ptr->Release();
-				if (pws)  ::CoTaskMemFree(pws);
-				
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}

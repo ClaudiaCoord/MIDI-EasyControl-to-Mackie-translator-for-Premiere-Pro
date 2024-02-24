@@ -19,19 +19,22 @@ namespace Common {
 		class FLAG_EXPORT MackieHelper
 		{
 		public:
-			static int32_t GetSmartHomeTargetID(Common::MIDI::Mackie::Target&);
-			static int32_t GetTargetID(Common::MIDI::Mackie::Target&);
-			static std::wstring_view GetTarget(Common::MIDI::Mackie::Target&);
-			static std::wstring_view GetTarget(uint8_t&);
-			static std::wstring_view GetTarget(uint32_t);
+			static std::wstring GetScriptTarget(const Common::MIDI::Mackie::Target&);
+			static int32_t GetScriptTargetID(const Common::MIDI::Mackie::Target&);
+			static std::wstring GetSmartHomeTarget(const Common::MIDI::Mackie::Target&);
+			static int32_t GetSmartHomeTargetID(const Common::MIDI::Mackie::Target&);
+			static int32_t GetTargetID(const Common::MIDI::Mackie::Target&);
+			static std::wstring_view GetTarget(const Common::MIDI::Mackie::Target&);
+			static std::wstring_view GetTarget(const uint8_t&);
+			static std::wstring_view GetTarget(const uint32_t);
 
-			static std::wstring_view GetClickType(Common::MIDI::Mackie::ClickType&);
-			static std::wstring_view GetClickType(uint8_t&);
-			static std::wstring_view GetClickType(uint32_t);
+			static std::wstring_view GetClickType(const Common::MIDI::Mackie::ClickType&);
+			static std::wstring_view GetClickType(const uint8_t&);
+			static std::wstring_view GetClickType(const uint32_t);
 
-			static std::wstring_view GetTranslateMMKey(Common::MIDI::Mackie::Target&);
-			static std::wstring_view GetTranslateMMKey(uint8_t&);
-			static std::wstring_view GetTranslateMMKey(uint32_t);
+			static std::wstring_view GetTranslateMMKey(const Common::MIDI::Mackie::Target&);
+			static std::wstring_view GetTranslateMMKey(const uint8_t&);
+			static std::wstring_view GetTranslateMMKey(const uint32_t);
 		};
 	}
 }

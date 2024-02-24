@@ -48,5 +48,8 @@ ICON_RB_FILTER_MMKEY		IMAGE		"icon\\ribbon\\RB-Key.ico"
 ICON_RB_FILTER_MIXER		IMAGE		"icon\\ribbon\\RB-Sound-on.ico"
 ICON_RB_FILTER_MQTT		IMAGE		"icon\\ribbon\\RB-Home.ico"
 ICON_RB_FILTER_TYPEBTN		IMAGE		"icon\\ribbon\\RB-Filter.ico"
+ICON_RB_FILTER_LIGHT8		IMAGE		"icon\\ribbon\\RB-Light-8bit.ico"
+ICON_RB_FILTER_LIGHT16		IMAGE		"icon\\ribbon\\RB-Light-16bit.ico"
+ICON_RB_FILTER_SCRIPT		IMAGE		"icon\\ribbon\\RB-Scripts.ico"
 
 CONFIG_EDITOR_RIBBON		UIFILE		"ribbon\\RibbonDialogConfig.bml"

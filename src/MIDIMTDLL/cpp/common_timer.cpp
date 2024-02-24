@@ -15,24 +15,24 @@
 namespace Common {
 
     void common_timer::SetTimeout(int delay_, std::function<void()> f) {
-        active__ = true;
+        active_.store(true);
         delay = delay_;
-        std::thread t([=]() {
-            if (!active__.load()) return;
+        std::jthread t([=]() {
+            if (!active_.load(std::memory_order_acquire)) return;
             std::this_thread::sleep_for(std::chrono::seconds(delay));
-            if (!active__.load()) return;
+            if (!active_.load(std::memory_order_acquire)) return;
             f();
             });
         t.detach();
     }
 
     void common_timer::SetInterval(int interval_, std::function<void()> f) {
-        active__ = true;
+        active_.store(true);
         delay = interval_;
-        std::thread t([=]() {
-            while (active__.load()) {
+        std::jthread t([=]() {
+            while (active_.load(std::memory_order_acquire)) {
                 std::this_thread::sleep_for(std::chrono::seconds(delay));
-                if (!active__.load()) return;
+                if (!active_.load(std::memory_order_acquire)) return;
                 f();
             }
             });
@@ -40,9 +40,9 @@ namespace Common {
     }
 
     void common_timer::Stop() {
-        active__ = false;
+        active_.store(false, std::memory_order_release);
     }
     const bool common_timer::IsActive() const {
-        return active__;
+        return active_.load(std::memory_order_acquire);
     }
 }

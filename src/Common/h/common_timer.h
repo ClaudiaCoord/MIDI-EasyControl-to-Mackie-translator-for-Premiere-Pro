@@ -15,7 +15,7 @@
 namespace Common {
 
     class FLAG_EXPORT common_timer {
-        std::atomic<bool> active__ { true };
+        std::atomic<bool> active_ { true };
 
     public:
         std::atomic<uint32_t> delay{ 5 };

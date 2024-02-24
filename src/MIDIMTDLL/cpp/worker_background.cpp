@@ -17,20 +17,32 @@ namespace Common {
 
 	using namespace std::placeholders;
 
-	static std::atomic<bool> isregistred__{ false };
-	static std::atomic<uint32_t> workerpackid__{ 0U };
-	static std::queue<std::future<void>> asyncreq__{};
-	static std::shared_ptr<locker_awaiter> lock__ = std::make_shared<Common::locker_awaiter>();
-	static worker_background worker_background__{};
+	#pragma region worker background local
+	class wb_local {
+	public:
+		static std::atomic<bool> isregistred_;
+		static std::atomic<uint32_t> workerpackid_;
+		static std::queue<std::future<void>> asyncreq_;
+		static std::shared_ptr<locker_awaiter> lock_;
+		static worker_background worker_background_;
+	};
+
+	std::atomic<bool> wb_local::isregistred_{ false };
+	std::atomic<uint32_t> wb_local::workerpackid_{ 0U };
+	std::queue<std::future<void>> wb_local::asyncreq_{};
+	std::shared_ptr<locker_awaiter> wb_local::lock_ = std::make_shared<Common::locker_awaiter>();
+	worker_background wb_local::worker_background_{};
+
+	#pragma endregion
 
 	#if defined(__SANITIZE_ADDRESS__)
 	__declspec(no_sanitize_address)
 	#endif
 	static void repack_() {
 		try {
-			while (!asyncreq__.empty()) {
+			while (!wb_local::asyncreq_.empty()) {
 				try {
-					std::future<void>& f = asyncreq__.front();
+					std::future<void>& f = wb_local::asyncreq_.front();
 					if (f.valid()) {
 						if (f.wait_for(std::chrono::milliseconds(200)) != std::future_status::ready) {
 							try { (void)f.get(); } catch (...) {
@@ -43,7 +55,7 @@ namespace Common {
 				} catch (...) {
 					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 				}
-				asyncreq__.pop();
+				wb_local::asyncreq_.pop();
 			}
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -52,13 +64,13 @@ namespace Common {
 
 	worker_background::worker_background() {
 		t_.delay = 5;
-		workerpackid__ = add(std::bind(&worker_background::pack_, this));
+		wb_local::workerpackid_ = add(std::bind(&worker_background::pack_, this));
 	}
 	worker_background::~worker_background() {
 		dispose_();
 	}
 	worker_background& worker_background::Get() {
-		return std::ref(worker_background__);
+		return std::ref(wb_local::worker_background_);
 	}
 
 	void	 worker_background::dispose_() {
@@ -85,8 +97,8 @@ namespace Common {
 	}
 	void     worker_background::pack_() {
 		try {
-			locker_auto locker(lock__, locker_auto::LockType::TypeLockOnlyOne);
-			if (!locker.Begin() || asyncreq__.empty()) return;
+			locker_auto locker(wb_local::lock_, locker_auto::LockType::TypeLockOnlyOne);
+			if (!locker.Begin() || wb_local::asyncreq_.empty()) return;
 
 			repack_();
 		} catch (...) {
@@ -110,7 +122,7 @@ namespace Common {
 	void     worker_background::clear() {
 		try {
 			dispose_();
-			workerpackid__ = add(std::bind(&worker_background::pack_, this));
+			wb_local::workerpackid_ = add(std::bind(&worker_background::pack_, this));
 		} catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 		}
@@ -143,7 +155,7 @@ namespace Common {
 	}
 	void     worker_background::to_async(callFutureCb cb) {
 		try {
-			asyncreq__.push(std::move(cb));
+			wb_local::asyncreq_.push(std::move(cb));
 		}
 		catch (...) {
 			Utils::get_exception(std::current_exception(), __FUNCTIONW__);

@@ -36,6 +36,7 @@ class common_event;
 #include "..\..\Common\h\common_timer.h"
 #include "..\..\Common\h\worker_background.h"
 #include "..\..\Common\h\common_event.h"
+#include "..\..\Common\h\common_file_watch.h"
 #include "..\..\Common\h\log_string.h"
 #include "..\..\Common\h\json\tiny_json.h"
 #include "..\..\Common\h\light\DMXPacket.h"
@@ -46,6 +47,7 @@ class common_event;
 #include "..\..\Common\h\mqtt\BrokerConfig.h"
 #include "..\..\Common\h\remote\RemoteConfig.h"
 #include "..\..\Common\h\joystick\JoystickConfig.h"
+#include "..\..\Common\h\script\VmScriptConfig.h"
 #include "..\..\Common\h\midi\Mackie.h"
 #include "..\..\Common\h\midi\MackieHelper.h"
 #include "..\..\Common\h\midi\MidiData.h"
@@ -61,4 +63,4 @@ class common_event;
 #include "..\..\Common\h\plugins\plugin_ui.h"
 #include "..\..\Common\h\plugins\plugin.h"
 #include "..\..\Common\h\common_config.h"
-
+#include "..\..\Common\h\common_static.h"

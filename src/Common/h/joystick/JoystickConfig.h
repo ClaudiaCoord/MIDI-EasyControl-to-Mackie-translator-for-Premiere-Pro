@@ -37,7 +37,7 @@ namespace Common {
 			uint16_t rloglevel{ 0 };
 			JoystickControlsType type{ JoystickControlsType::CTRL_NONE };
 
-			void Copy(JoystickConfig&);
+			void copy(const JoystickConfig&);
 			const bool empty() const;
 			log_string dump();
 		};

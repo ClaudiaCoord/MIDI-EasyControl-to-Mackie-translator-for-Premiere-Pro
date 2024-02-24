@@ -750,7 +750,86 @@
 				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="ICON_RB_FILTER_MIXER" Id="54026" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		
+
+		<Command Name="cmdFilterLight8" Symbol="IDM_LV_FILTER_LIGHT8" Id="55060">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Light Controls 8 bit</String.Content>
+					<String.Id>53115</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8L</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group as light controls 8 bit (Alt+L)</String.Content>
+					<String.Id>53116</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8T</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the light controls 8 bit group</String.Content>
+					<String.Id>53117</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8D</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Light-8bit.ico" Symbol="ICON_RB_FILTER_LIGHT8" Id="54029" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		<Command Name="cmdFilterLight16" Symbol="IDM_LV_FILTER_LIGHT16" Id="55061">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Light Controls 16 bit</String.Content>
+					<String.Id>53118</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16L</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group as light controls 16 bit (Alt+L)</String.Content>
+					<String.Id>53119</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16T</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the light controls 16 bit group</String.Content>
+					<String.Id>53120</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16D</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Light-16bit.ico" Symbol="ICON_RB_FILTER_LIGHT16" Id="54030" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		<Command Name="cmdFilterScript" Symbol="IDM_LV_FILTER_SCRIPT" Id="55062">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Script engine</String.Content>
+					<String.Id>53121</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group as VM Scripts (Alt+S)</String.Content>
+					<String.Id>53122</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the VM Scripts group</String.Content>
+					<String.Id>53123</String.Id>
+					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTD</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Scripts.ico" Symbol="ICON_RB_FILTER_SCRIPT" Id="54031" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>		
+
 		<Command Name="cmdExtMode" Symbol="IDM_LV_EXT_MODE" Id="55023">
 			<Command.LabelTitle>
 				<String>
@@ -1417,6 +1496,22 @@
 														   IsLabelVisible="true" />
 								</Row>
 								<ColumnBreak ShowSeparator="true"/>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight8"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight16"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterScript"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<ColumnBreak ShowSeparator="true"/>
 								<ControlGroup>
 									<ControlSizeDefinition ControlName="cmdFilterType"
 														   ImageSize="Large"
@@ -1475,6 +1570,22 @@
 								</Row>
 								<Row>
 									<ControlSizeDefinition ControlName="cmdFilterMqtt"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<ColumnBreak ShowSeparator="true"/>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight8"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight16"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterScript"
 														   ImageSize="Small"
 														   IsLabelVisible="true" />
 								</Row>
@@ -1541,6 +1652,22 @@
 														   IsLabelVisible="true" />
 								</Row>
 								<ColumnBreak ShowSeparator="true"/>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight8"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterLight16"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<Row>
+									<ControlSizeDefinition ControlName="cmdFilterScript"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</Row>
+								<ColumnBreak ShowSeparator="true"/>
 								<ControlGroup>
 									<ControlSizeDefinition ControlName="cmdFilterType"
 														   ImageSize="Large"
@@ -1559,6 +1686,9 @@
 						<Button CommandName="cmdFilterMix"/>
 						<Button CommandName="cmdFilterMMKey"/>
 						<Button CommandName="cmdFilterMqtt"/>
+						<Button CommandName="cmdFilterLight8"/>
+						<Button CommandName="cmdFilterLight16"/>
+						<Button CommandName="cmdFilterScript"/>
 						<SplitButton CommandName="cmdFilterType">
 							<SplitButton.ButtonItem>
 								<Button CommandName="cmdFilterTypeButton"/>

@@ -1,0 +1,53 @@
+
+	print("* Macro group test")
+
+	var group = uint8_t(176);
+	var key1 = uint8_t(23);
+	var key2 = uint8_t(24);
+	var key3 = uint8_t(25);
+	var key4 = uint8_t(3);
+
+	var slider176_3 = Unit(group, key4, uint8_t(42), UnitTypeIndex.SLIDER);
+
+	var macro_group = Macro();
+
+	macro_group.Add(
+		Unit(group, key1, uint8_t(0), UnitTypeIndex.BTN)
+	);
+	macro_group.Add(
+		Unit(group, key2, uint8_t(0), UnitTypeIndex.BTN)
+	);
+	macro_group.Add(
+		Unit(group, key3, uint8_t(0), UnitTypeIndex.BTN)
+	);
+	macro_group.Add(
+		slider176_3
+	);
+
+	// real time apply values:
+	macro_group.ApplyValues();
+	// -> update values to configuration:
+	macro_group.UpdateValues();
+
+	print("* Wait 2 sec... sleep(2000 milliseconds)")
+	sleep(2000)
+	print("^ The code below is used to check the set values, it is not necessary.")
+
+	print("# Find changed unit ( group:176, key:3 ) from cycle for(...)")
+	auto units_list = MidiUnitsList();
+	for (auto i = 0; i < units_list.size(); ++i) {
+		auto unit = units_list[i];
+
+		if ((unit.scene == slider176_3.GetScene()) && (unit.key == slider176_3.GetKey())) {
+			print(unit);
+			break;
+		}
+	}
+
+	print("# Find changed unit (group:176, key:3 ) from FindMidiUnit()")
+	auto find_unit = FindMidiUnit(slider176_3);
+	if (!find_unit.empty()) { 
+		print(find_unit);
+        }
+
+	print("* Macro end..")

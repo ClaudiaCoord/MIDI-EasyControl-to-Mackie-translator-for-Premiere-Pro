@@ -30,7 +30,7 @@ namespace Common {
 			try {
 				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
-				config_.Copy(mmt->mmkeyconf);
+				config_.copy(mmt->mmkeyconf);
 
 				::CheckDlgButton(hwnd_, DLG_PLUG_MMKEY_ISENABLE, CHECKBTN(config_.enable));
 				isload_.store(true);
@@ -102,7 +102,7 @@ namespace Common {
 				if (!hwnd_) return;
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->mmkeyconf.Copy(config_);
+				mmt->mmkeyconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

@@ -36,6 +36,9 @@ namespace Common {
 
 			static std::wstring GetDragAndDrop(HDROP);
 
+			static std::wstring OpenFileDialog(HWND, COMDLG_FILTERSPEC*, size_t = 1);
+			static std::wstring SaveFileDialog(HWND, COMDLG_FILTERSPEC*, size_t = 1);
+
 			static const bool IsUIThread();
 			static void Post(HWND, const std::function<void()>&);
 			static void PostExec(LPARAM);

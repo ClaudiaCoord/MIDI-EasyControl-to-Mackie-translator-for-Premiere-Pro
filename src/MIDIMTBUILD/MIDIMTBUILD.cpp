@@ -226,6 +226,33 @@ int main() {
 
             w.close();
         }
+        if (w.open(L"Common\\h\\languages\\help_page_index.h", L"")) {
+           
+            std::filesystem::path p(BUILDROOT);
+            p.append(L"..\\..\\MIDI-MT-WEB\\docs\\EN");
+
+            for (const auto& f : std::filesystem::directory_iterator(p)) {
+                if (f.path().extension().wstring()._Equal(L".html")) {
+                    std::wstring stem = f.path().stem().wstring();
+                    std::wstring token(stem);
+
+                    size_t z{ 0 };
+                    while (z != std::wstring::npos) {
+                        z = token.find_first_of(L"-");
+                        if (z == std::wstring::npos) break;
+                        token.replace(z, 1, 1, L'_');
+                    }
+                    std::transform(token.begin(), token.end(), token.begin(),
+                        [](wchar_t c) { return std::tolower(c); }
+                    );
+
+                    std::wstringstream ss{};
+                    ss << L"\t\tstatic constexpr std::wstring_view page_" << token << " = L\"" << stem << L"\"sv;\n";
+                    w.write(ss.str());
+                }
+            }
+            w.close();
+        }
         if (!current_ver.empty()) {
             if (w.open(L"Common\\current_version.txt", L"")) {
                 w.write(current_ver);
@@ -242,6 +269,8 @@ int main() {
                 w.write("MidiMtAppURL", L"https://claudiacoord.github.io/MIDI-MT/");
                 w.write("MidiMtAppAssocExt", L".cnf");
                 w.write("MidiMtAppAssocKey", L"midimt.assoc.extcnf");
+                w.write("MidiMtScriptAssocExt", L".mmts");
+                w.write("MidiMtScriptAssocKey", L"midimt.assoc.extmmts");
                 w.close();
             }
         }

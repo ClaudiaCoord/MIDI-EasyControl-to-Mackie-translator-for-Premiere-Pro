@@ -11,7 +11,8 @@
 
 #include "..\..\Common\rc\resource_dll.rc"
 #include "..\..\Common\rc\resource_lang.rc"
-#include "MIDIMT_STRINGxDA.rc"
+
 #include "MIDIMT_MENUxDA.rc"
 #include "MIDIMT_FORMxDA.rc"
+#include "MIDIMT_STRINGxDA.rc"
 #include "RibbonDialogEditxDA.rc"

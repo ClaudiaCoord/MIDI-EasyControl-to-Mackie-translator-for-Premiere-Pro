@@ -50,6 +50,7 @@ BEGIN
 	MENUITEM "ցույց տալ LIGTS կոնֆիգուրացիան",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "ցույց տալ REMOTE կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_REMOTE
 	MENUITEM "ցույց տալ GAMEPAD-ի կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
+	MENUITEM "ցույց տալ VMSCRIPT կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_SCRIPT
         MENUITEM SEPARATOR
 	MENUITEM "ցույց տալ DMX512 կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "ցույց տալ ArtNet-ի կոնֆիգուրացիան",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -120,9 +121,10 @@ BEGIN
         MENUITEM "Ջնջել",                     IDM_LV_DELETE
         POPUP "Տեղադրեք որպես..."
         BEGIN
+            MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_LV_SET_MQTT
             MENUITEM "Վերահսկումը վերաբերում է աուդիո խառնիչին", IDM_LV_SET_MIXER
             MENUITEM "Վերահսկիչները կիրառվում են մուլտիմեդիա կոճակների վրա", IDM_LV_SET_MMKEY
-            MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_LV_SET_MQTT
+            MENUITEM "Վերահսկումը վերաբերում է սցենարների կառավարմանը", IDM_LV_SET_VMSCRIPT
 	    POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	    BEGIN
 		MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_LV_SET_LIGHTKEY8B
@@ -138,7 +140,7 @@ END
 
 DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "__COL3TYPEMENU"
+    POPUP "__COL3 TYPE MENU"
     BEGIN
         POPUP "Կարգավորող..."
         BEGIN
@@ -172,9 +174,10 @@ BEGIN
         MENUITEM "Կարգավորող...",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "Կոճակներ..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
+        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
         MENUITEM "Վերահսկումը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
         MENUITEM "Վերահսկիչները կիրառվում են մուլտիմեդիա կոճակների վրա", IDM_COL4_MEDIAKEY
-        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
+        MENUITEM "Վերահսկումը վերաբերում է սցենարների կառավարմանը", IDM_LV_SET_VMSCRIPT
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
 	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
@@ -187,111 +190,142 @@ DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "Չնշանակված",		   IDM_COL4_NONE
+        MENUITEM "Չնշանակված",		      IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ձայնային կառավարում..."
         BEGIN
-            MENUITEM "Լուռ (վարպետ)",		IDM_COL4_MAM
-            MENUITEM "Սոլո (վարպետ)",			IDM_COL4_MAS
+            MENUITEM "Լուռ (վարպետ)",	      IDM_COL4_MAM
+            MENUITEM "Սոլո (վարպետ)",		      IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "Անձայն.."
             BEGIN
-                MENUITEM "ալիք 1",                     IDM_COL4_B21
-                MENUITEM "ալիք 2",                     IDM_COL4_B22
-                MENUITEM "ալիք 3",                     IDM_COL4_B23
-                MENUITEM "ալիք 4",                     IDM_COL4_B24
-                MENUITEM "ալիք 5",                     IDM_COL4_B25
-                MENUITEM "ալիք 6",                     IDM_COL4_B26
-                MENUITEM "7-րդ ալիք",                     IDM_COL4_B27
-                MENUITEM "ալիք 8",                     IDM_COL4_B28
-                MENUITEM "ալիք 9",                     IDM_COL4_B29
+                MENUITEM "ալիք 1",                   IDM_COL4_B21
+                MENUITEM "ալիք 2",                   IDM_COL4_B22
+                MENUITEM "ալիք 3",                   IDM_COL4_B23
+                MENUITEM "ալիք 4",                   IDM_COL4_B24
+                MENUITEM "ալիք 5",                   IDM_COL4_B25
+                MENUITEM "ալիք 6",                   IDM_COL4_B26
+                MENUITEM "7-րդ ալիք",                   IDM_COL4_B27
+                MENUITEM "ալիք 8",                   IDM_COL4_B28
+                MENUITEM "ալիք 9",                   IDM_COL4_B29
             END
             POPUP "Մենակ.."
             BEGIN
-                MENUITEM "ալիք 1",                     IDM_COL4_B11
-                MENUITEM "ալիք 2",                     IDM_COL4_B12
-                MENUITEM "ալիք 3",                     IDM_COL4_B13
-                MENUITEM "ալիք 4",                     IDM_COL4_B14
-                MENUITEM "ալիք 5",                     IDM_COL4_B15
-                MENUITEM "ալիք 6",                     IDM_COL4_B16
-                MENUITEM "7-րդ ալիք",                     IDM_COL4_B17
-                MENUITEM "ալիք 8",                     IDM_COL4_B18
-                MENUITEM "ալիք 9",                     IDM_COL4_B19
+                MENUITEM "ալիք 1",                   IDM_COL4_B11
+                MENUITEM "ալիք 2",                   IDM_COL4_B12
+                MENUITEM "ալիք 3",                   IDM_COL4_B13
+                MENUITEM "ալիք 4",                   IDM_COL4_B14
+                MENUITEM "ալիք 5",                   IDM_COL4_B15
+                MENUITEM "ալիք 6",                   IDM_COL4_B16
+                MENUITEM "7-րդ ալիք",                   IDM_COL4_B17
+                MENUITEM "ալիք 8",                   IDM_COL4_B18
+                MENUITEM "ալիք 9",                   IDM_COL4_B19
             END
         END
         POPUP "Մուլտիմեդիա կոճակներ.."
         BEGIN
-            MENUITEM "Նվագարկել/Դադար",                IDM_COL4_SYS_Play
-            MENUITEM "Դադարեցրեք",                        IDM_COL4_SYS_Stop
-            MENUITEM "Նախորդ",                  IDM_COL4_SYS_Rewind
-            MENUITEM "Հաջորդը",                   IDM_COL4_SYS_Forward
-            MENUITEM "Գրառում",                      IDM_COL4_SYS_Record
-            MENUITEM "Վերև (ջոյսթիկ)",            IDM_COL4_SYS_Up
-            MENUITEM "Ներքև (ջոյսթիկ)",             IDM_COL4_SYS_Down
-            MENUITEM "Աջ (ջոյսթիկ)",           IDM_COL4_SYS_Right
-            MENUITEM "Ձախ (ջոյստիկ)",            IDM_COL4_SYS_Left
-            MENUITEM "Խոշորացնել. մոտեցնել",         IDM_COL4_SYS_Zoom
-            MENUITEM "Մաքրում",               IDM_COL4_SYS_Scrub
+            MENUITEM "Նվագարկել/Դադար",                  IDM_COL4_SYS_Play
+            MENUITEM "Դադարեցրեք",                          IDM_COL4_SYS_Stop
+            MENUITEM "Նախորդ",                    IDM_COL4_SYS_Rewind
+            MENUITEM "Հաջորդը",                     IDM_COL4_SYS_Forward
+            MENUITEM "Գրառում",                        IDM_COL4_SYS_Record
+            MENUITEM "Վերև (ջոյսթիկ)",              IDM_COL4_SYS_Up
+            MENUITEM "Ներքև (ջոյսթիկ)",               IDM_COL4_SYS_Down
+            MENUITEM "Աջ (ջոյսթիկ)",             IDM_COL4_SYS_Right
+            MENUITEM "Ձախ (ջոյստիկ)",              IDM_COL4_SYS_Left
+            MENUITEM "Խոշորացնել. մոտեցնել",           IDM_COL4_SYS_Zoom
+            MENUITEM "Մաքրում",                 IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro-ի առանձնահատկությունները..."
         BEGIN
             POPUP "Ստանդարտ կոճակների գործառույթներ..."
             BEGIN
-                MENUITEM "Գործառույթ 1",                   IDM_COL4_FUN11
-                MENUITEM "Գործառույթ 2",                   IDM_COL4_FUN12
-                MENUITEM "Գործառույթ 3",                   IDM_COL4_FUN13
-                MENUITEM "Գործառույթ 4",                   IDM_COL4_FUN14
-                MENUITEM "Գործառույթ 5",                   IDM_COL4_FUN15
-                MENUITEM "Գործառույթ 6",                   IDM_COL4_FUN16
-                MENUITEM "Գործառույթ 7",                   IDM_COL4_FUN17
-                MENUITEM "Գործառույթ 8",                   IDM_COL4_FUN18
+                MENUITEM "Գործառույթ 1",                 IDM_COL4_FUN11
+                MENUITEM "Գործառույթ 2",                 IDM_COL4_FUN12
+                MENUITEM "Գործառույթ 3",                 IDM_COL4_FUN13
+                MENUITEM "Գործառույթ 4",                 IDM_COL4_FUN14
+                MENUITEM "Գործառույթ 5",                 IDM_COL4_FUN15
+                MENUITEM "Գործառույթ 6",                 IDM_COL4_FUN16
+                MENUITEM "Գործառույթ 7",                 IDM_COL4_FUN17
+                MENUITEM "Գործառույթ 8",                 IDM_COL4_FUN18
             END
             POPUP "Մեկ հպումով կոճակի գործառույթներ..."
             BEGIN
-                MENUITEM "Գործառույթ 1",                   IDM_COL4_FUN21
-                MENUITEM "Գործառույթ 2",                   IDM_COL4_FUN22
-                MENUITEM "Գործառույթ 3",                   IDM_COL4_FUN23
-                MENUITEM "Գործառույթ 4",                   IDM_COL4_FUN24
-                MENUITEM "Գործառույթ 5",                   IDM_COL4_FUN25
-                MENUITEM "Գործառույթ 6",                   IDM_COL4_FUN26
-                MENUITEM "Գործառույթ 7",                   IDM_COL4_FUN27
-                MENUITEM "Գործառույթ 8",                   IDM_COL4_FUN28
+                MENUITEM "Գործառույթ 1",                 IDM_COL4_FUN21
+                MENUITEM "Գործառույթ 2",                 IDM_COL4_FUN22
+                MENUITEM "Գործառույթ 3",                 IDM_COL4_FUN23
+                MENUITEM "Գործառույթ 4",                 IDM_COL4_FUN24
+                MENUITEM "Գործառույթ 5",                 IDM_COL4_FUN25
+                MENUITEM "Գործառույթ 6",                 IDM_COL4_FUN26
+                MENUITEM "Գործառույթ 7",                 IDM_COL4_FUN27
+                MENUITEM "Գործառույթ 8",                 IDM_COL4_FUN28
             END
         END
         POPUP "Կոճակներ Smart Home համակարգում.."
         BEGIN
-                MENUITEM "միացնել/անջատել 1",                 IDM_COL4_B11
-                MENUITEM "միացնել/անջատել 2",                 IDM_COL4_B12
-                MENUITEM "միացնել/անջատել 3",                 IDM_COL4_B13
-                MENUITEM "միացնել/անջատել 4",                 IDM_COL4_B14
-                MENUITEM "միացնել/անջատել 5",                 IDM_COL4_B15
-                MENUITEM "միացնել/անջատել 6",                 IDM_COL4_B16
-                MENUITEM "միացնել/անջատել 7",                 IDM_COL4_B17
-                MENUITEM "միացնել/անջատել 8",                 IDM_COL4_B18
-                MENUITEM "միացնել/անջատել 9",                 IDM_COL4_B19
-                MENUITEM "միացնել/անջատել 10",                 IDM_COL4_B21
-                MENUITEM "միացնել/անջատել 11",                 IDM_COL4_B22
-                MENUITEM "միացնել/անջատել 12",                 IDM_COL4_B23
-                MENUITEM "միացնել/անջատել 13",                 IDM_COL4_B24
-                MENUITEM "միացնել/անջատել 14",                 IDM_COL4_B25
-                MENUITEM "միացնել/անջատել 15",                 IDM_COL4_B26
-                MENUITEM "միացնել/անջատել 16",                 IDM_COL4_B27
-                MENUITEM "միացնել/անջատել 17",                 IDM_COL4_B28
-                MENUITEM "միացնել/անջատել 18",                 IDM_COL4_B29
-                MENUITEM "միացնել/անջատել 19",                 IDM_COL4_B31
-                MENUITEM "միացնել/անջատել 20",                 IDM_COL4_B32
-                MENUITEM "միացնել/անջատել 21",                 IDM_COL4_B33
-                MENUITEM "միացնել/անջատել 22",                 IDM_COL4_B34
-                MENUITEM "միացնել/անջատել 23",                 IDM_COL4_B35
-                MENUITEM "միացնել/անջատել 24",                 IDM_COL4_B36
-                MENUITEM "միացնել/անջատել 25",                 IDM_COL4_B37
-                MENUITEM "միացնել/անջատել 26",                 IDM_COL4_B38
-                MENUITEM "միացնել/անջատել 27",                 IDM_COL4_B39
+                MENUITEM "միացնել/անջատել 1",                IDM_COL4_B11
+                MENUITEM "միացնել/անջատել 2",                IDM_COL4_B12
+                MENUITEM "միացնել/անջատել 3",                IDM_COL4_B13
+                MENUITEM "միացնել/անջատել 4",                IDM_COL4_B14
+                MENUITEM "միացնել/անջատել 5",                IDM_COL4_B15
+                MENUITEM "միացնել/անջատել 6",                IDM_COL4_B16
+                MENUITEM "միացնել/անջատել 7",                IDM_COL4_B17
+                MENUITEM "միացնել/անջատել 8",                IDM_COL4_B18
+                MENUITEM "միացնել/անջատել 9",                IDM_COL4_B19
+                MENUITEM "միացնել/անջատել 10",               IDM_COL4_B21
+                MENUITEM "միացնել/անջատել 11",               IDM_COL4_B22
+                MENUITEM "միացնել/անջատել 12",               IDM_COL4_B23
+                MENUITEM "միացնել/անջատել 13",               IDM_COL4_B24
+                MENUITEM "միացնել/անջատել 14",               IDM_COL4_B25
+                MENUITEM "միացնել/անջատել 15",               IDM_COL4_B26
+                MENUITEM "միացնել/անջատել 16",               IDM_COL4_B27
+                MENUITEM "միացնել/անջատել 17",               IDM_COL4_B28
+                MENUITEM "միացնել/անջատել 18",               IDM_COL4_B29
+                MENUITEM "միացնել/անջատել 19",               IDM_COL4_B31
+                MENUITEM "միացնել/անջատել 20",               IDM_COL4_B32
+                MENUITEM "միացնել/անջատել 21",               IDM_COL4_B33
+                MENUITEM "միացնել/անջատել 22",               IDM_COL4_B34
+                MENUITEM "միացնել/անջատել 23",               IDM_COL4_B35
+                MENUITEM "միացնել/անջատել 24",               IDM_COL4_B36
+                MENUITEM "միացնել/անջատել 25",               IDM_COL4_B37
+                MENUITEM "միացնել/անջատել 26",               IDM_COL4_B38
+                MENUITEM "միացնել/անջատել 27",               IDM_COL4_B39
+        END
+        POPUP "Սցենարների կառավարում..."
+        BEGIN
+                MENUITEM "սցենար 1",                  IDM_COL4_B11
+                MENUITEM "սցենար 2",                  IDM_COL4_B12
+                MENUITEM "սցենար 3",                  IDM_COL4_B13
+                MENUITEM "սցենար 4",                  IDM_COL4_B14
+                MENUITEM "սցենար 5",                  IDM_COL4_B15
+                MENUITEM "սցենար 6",                  IDM_COL4_B16
+                MENUITEM "սցենար 7",                  IDM_COL4_B17
+                MENUITEM "սցենար 8",                  IDM_COL4_B18
+                MENUITEM "սցենար 9",                  IDM_COL4_B19
+                MENUITEM "սցենար 10",                 IDM_COL4_B21
+                MENUITEM "սցենար 11",                 IDM_COL4_B22
+                MENUITEM "սցենար 12",                 IDM_COL4_B23
+                MENUITEM "սցենար 13",                 IDM_COL4_B24
+                MENUITEM "սցենար 14",                 IDM_COL4_B25
+                MENUITEM "սցենար 15",                 IDM_COL4_B26
+                MENUITEM "սցենար 16",                 IDM_COL4_B27
+                MENUITEM "սցենար 17",                 IDM_COL4_B28
+                MENUITEM "սցենար 18",                 IDM_COL4_B29
+                MENUITEM "սցենար 19",                 IDM_COL4_B31
+                MENUITEM "սցենար 20",                 IDM_COL4_B32
+                MENUITEM "սցենար 21",                 IDM_COL4_B33
+                MENUITEM "սցենար 22",                 IDM_COL4_B34
+                MENUITEM "սցենար 23",                 IDM_COL4_B35
+                MENUITEM "սցենար 24",                 IDM_COL4_B36
+                MENUITEM "սցենար 25",                 IDM_COL4_B37
+                MENUITEM "սցենար 26",                 IDM_COL4_B38
+                MENUITEM "սցենար 27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
+        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
         MENUITEM "Վերահսկումը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
         MENUITEM "Վերահսկիչները կիրառվում են մուլտիմեդիա կոճակների վրա", IDM_COL4_MEDIAKEY
-        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
+	MENUITEM "Վերահսկումը վերաբերում է սցենարների կառավարմանը", IDM_COL4_VMSCRIPT
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
 	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
@@ -304,37 +338,37 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "Կոդավորիչ (կադր առ կադր դիտում)", IDM_COL4_JOG
-        MENUITEM "Չնշանակված",               IDM_COL4_NONE
+        MENUITEM "Կոդավորիչ (կադր առ կադր դիտում)",  IDM_COL4_JOG
+        MENUITEM "Չնշանակված",                 IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "Ձայնային կառավարում..."
         BEGIN
-            MENUITEM "Ծավալը (գլխավոր)",          IDM_COL4_MAV
-            MENUITEM "Մնացորդ (վարպետ)",             IDM_COL4_MAP
+            MENUITEM "Ծավալը (գլխավոր)",         IDM_COL4_MAV
+            MENUITEM "Մնացորդ (վարպետ)",            IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "Ծավալը.."
             BEGIN
-                MENUITEM "ալիք 1",                     IDM_COL4_AV1
-                MENUITEM "ալիք 2",                     IDM_COL4_AV2
-                MENUITEM "ալիք 3",                     IDM_COL4_AV3
-                MENUITEM "ալիք 4",                     IDM_COL4_AV4
-                MENUITEM "ալիք 5",                     IDM_COL4_AV5
-                MENUITEM "ալիք 6",                     IDM_COL4_AV6
-                MENUITEM "7-րդ ալիք",                     IDM_COL4_AV7
-                MENUITEM "ալիք 8",                     IDM_COL4_AV8
-                MENUITEM "ալիք 9",                     IDM_COL4_XV9
+                MENUITEM "ալիք 1",                IDM_COL4_AV1
+                MENUITEM "ալիք 2",                IDM_COL4_AV2
+                MENUITEM "ալիք 3",                IDM_COL4_AV3
+                MENUITEM "ալիք 4",                IDM_COL4_AV4
+                MENUITEM "ալիք 5",                IDM_COL4_AV5
+                MENUITEM "ալիք 6",                IDM_COL4_AV6
+                MENUITEM "7-րդ ալիք",                IDM_COL4_AV7
+                MENUITEM "ալիք 8",                IDM_COL4_AV8
+                MENUITEM "ալիք 9",                IDM_COL4_XV9
             END
             POPUP "Մնացորդ.."
             BEGIN
-                MENUITEM "ալիք 1",                     IDM_COL4_AP1
-                MENUITEM "ալիք 2",                     IDM_COL4_AP2
-                MENUITEM "ալիք 3",                     IDM_COL4_AP3
-                MENUITEM "ալիք 4",                     IDM_COL4_AP4
-                MENUITEM "ալիք 5",                     IDM_COL4_AP5
-                MENUITEM "ալիք 6",                     IDM_COL4_AP6
-                MENUITEM "7-րդ ալիք",                     IDM_COL4_AP7
-                MENUITEM "ալիք 8",                     IDM_COL4_AP8
-                MENUITEM "ալիք 9",                     IDM_COL4_XP9
+                MENUITEM "ալիք 1",                IDM_COL4_AP1
+                MENUITEM "ալիք 2",                IDM_COL4_AP2
+                MENUITEM "ալիք 3",                IDM_COL4_AP3
+                MENUITEM "ալիք 4",                IDM_COL4_AP4
+                MENUITEM "ալիք 5",                IDM_COL4_AP5
+                MENUITEM "ալիք 6",                IDM_COL4_AP6
+                MENUITEM "7-րդ ալիք",                IDM_COL4_AP7
+                MENUITEM "ալիք 8",                IDM_COL4_AP8
+                MENUITEM "ալիք 9",                IDM_COL4_XP9
             END
         END
         POPUP "Կարգավորիչներ «Խելացի տուն» համակարգում..."
@@ -348,25 +382,34 @@ BEGIN
                 MENUITEM "մակարդակ 7",              IDM_COL4_AV7
                 MENUITEM "մակարդակ 8",              IDM_COL4_AV8
                 MENUITEM "մակարդակ 9",              IDM_COL4_XV9
-                MENUITEM "մակարդակ 10",              IDM_COL4_AP1
-                MENUITEM "մակարդակ 11",              IDM_COL4_AP2
-                MENUITEM "մակարդակ 12",              IDM_COL4_AP3
-                MENUITEM "մակարդակ 13",              IDM_COL4_AP4
-                MENUITEM "մակարդակ 14",              IDM_COL4_AP5
-                MENUITEM "մակարդակ 15",              IDM_COL4_AP6
-                MENUITEM "մակարդակ 16",              IDM_COL4_AP7
-                MENUITEM "մակարդակ 17",              IDM_COL4_AP8
-                MENUITEM "մակարդակ 18",              IDM_COL4_XP9
+                MENUITEM "մակարդակ 10",             IDM_COL4_AP1
+                MENUITEM "մակարդակ 11",             IDM_COL4_AP2
+                MENUITEM "մակարդակ 12",             IDM_COL4_AP3
+                MENUITEM "մակարդակ 13",             IDM_COL4_AP4
+                MENUITEM "մակարդակ 14",             IDM_COL4_AP5
+                MENUITEM "մակարդակ 15",             IDM_COL4_AP6
+                MENUITEM "մակարդակ 16",             IDM_COL4_AP7
+                MENUITEM "մակարդակ 17",             IDM_COL4_AP8
+                MENUITEM "մակարդակ 18",             IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
+        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
         MENUITEM "Վերահսկումը վերաբերում է աուդիո խառնիչին", IDM_COL4_VOLUMEMIX
         MENUITEM "Վերահսկիչները կիրառվում են մուլտիմեդիա կոճակների վրա", IDM_COL4_MEDIAKEY
-        MENUITEM "Վերահսկումը վերաբերում է խելացի տանը", IDM_COL4_MQTTKEY
+	MENUITEM "Վերահսկումը վերաբերում է սցենարների կառավարմանը", IDM_COL4_VMSCRIPT
 	POPUP "Վերահսկումը վերաբերում է լույսի վերահսկմանը"
 	BEGIN
 	   MENUITEM "8-բիթ ալիք (ստանդարտ)", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "16 բիթ ալիք (ընդլայնված)", IDM_COL4_LIGHTKEY16B
 	END
+    END
+END
+
+DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU MENU
+BEGIN
+    POPUP "__COLS SLIDER NOSUPPORT MENU"
+    BEGIN
+	MENUITEM "Ընտրված վերահսկիչ խումբը չի աջակցում սլայդերի կառավարումներին", IDM_COL4_NONE
     END
 END
 
@@ -435,57 +478,57 @@ BEGIN
         MENUITEM "Նախորդ",                  IDM_COL4_SYS_Rewind
         MENUITEM "Հաջորդը",                   IDM_COL4_SYS_Forward
         MENUITEM "Գրառում",                      IDM_COL4_SYS_Record
-        MENUITEM "Վերև (ջոյսթիկ)",           IDM_COL4_SYS_Up
-        MENUITEM "Ներքև (ջոյսթիկ)",           IDM_COL4_SYS_Down
+        MENUITEM "Վերև (ջոյսթիկ)",            IDM_COL4_SYS_Up
+        MENUITEM "Ներքև (ջոյսթիկ)",             IDM_COL4_SYS_Down
         MENUITEM "Աջ (ջոյսթիկ)",           IDM_COL4_SYS_Right
-        MENUITEM "Ձախ (ջոյստիկ)",           IDM_COL4_SYS_Left
+        MENUITEM "Ձախ (ջոյստիկ)",            IDM_COL4_SYS_Left
         MENUITEM "Խոշորացնել. մոտեցնել",         IDM_COL4_SYS_Zoom
         MENUITEM "Մաքրում",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "Չնշանակված",               IDM_COL4_NONE
+        MENUITEM "Չնշանակված",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "մակարդակ 1",                    IDM_COL4_AV1
-        MENUITEM "մակարդակ 2",                    IDM_COL4_AV2
-        MENUITEM "մակարդակ 3",                    IDM_COL4_AV3
-        MENUITEM "մակարդակ 4",                    IDM_COL4_AV4
-        MENUITEM "մակարդակ 5",                    IDM_COL4_AV5
-        MENUITEM "մակարդակ 6",                    IDM_COL4_AV6
-        MENUITEM "մակարդակ 7",                    IDM_COL4_AV7
-        MENUITEM "մակարդակ 8",                    IDM_COL4_AV8
-        MENUITEM "մակարդակ 9",                    IDM_COL4_XV9
-        MENUITEM "մակարդակ 10",                    IDM_COL4_AP1
-        MENUITEM "մակարդակ 11",                    IDM_COL4_AP2
-        MENUITEM "մակարդակ 12",                    IDM_COL4_AP3
-        MENUITEM "մակարդակ 13",                    IDM_COL4_AP4
-        MENUITEM "մակարդակ 14",                    IDM_COL4_AP5
-        MENUITEM "մակարդակ 15",                    IDM_COL4_AP6
-        MENUITEM "մակարդակ 16",                    IDM_COL4_AP7
-        MENUITEM "մակարդակ 17",                    IDM_COL4_AP8
-        MENUITEM "մակարդակ 18",                    IDM_COL4_XP9
+        MENUITEM "մակարդակ 1",                   IDM_COL4_AV1
+        MENUITEM "մակարդակ 2",                   IDM_COL4_AV2
+        MENUITEM "մակարդակ 3",                   IDM_COL4_AV3
+        MENUITEM "մակարդակ 4",                   IDM_COL4_AV4
+        MENUITEM "մակարդակ 5",                   IDM_COL4_AV5
+        MENUITEM "մակարդակ 6",                   IDM_COL4_AV6
+        MENUITEM "մակարդակ 7",                   IDM_COL4_AV7
+        MENUITEM "մակարդակ 8",                   IDM_COL4_AV8
+        MENUITEM "մակարդակ 9",                   IDM_COL4_XV9
+        MENUITEM "մակարդակ 10",                  IDM_COL4_AP1
+        MENUITEM "մակարդակ 11",                  IDM_COL4_AP2
+        MENUITEM "մակարդակ 12",                  IDM_COL4_AP3
+        MENUITEM "մակարդակ 13",                  IDM_COL4_AP4
+        MENUITEM "մակարդակ 14",                  IDM_COL4_AP5
+        MENUITEM "մակարդակ 15",                  IDM_COL4_AP6
+        MENUITEM "մակարդակ 16",                  IDM_COL4_AP7
+        MENUITEM "մակարդակ 17",                  IDM_COL4_AP8
+        MENUITEM "մակարդակ 18",                  IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "Չնշանակված",                 IDM_COL4_NONE
+        MENUITEM "Չնշանակված",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-    MENUITEM "միացնել/անջատել 1",                     IDM_COL4_B11
-    MENUITEM "միացնել/անջատել 2",                     IDM_COL4_B12
-    MENUITEM "միացնել/անջատել 3",                     IDM_COL4_B13
-    MENUITEM "միացնել/անջատել 4",                     IDM_COL4_B14
-    MENUITEM "միացնել/անջատել 5",                     IDM_COL4_B15
-    MENUITEM "միացնել/անջատել 6",                     IDM_COL4_B16
-    MENUITEM "միացնել/անջատել 7",                     IDM_COL4_B17
-    MENUITEM "միացնել/անջատել 8",                     IDM_COL4_B18
-    MENUITEM "միացնել/անջատել 9",                     IDM_COL4_B19
+    MENUITEM "միացնել/անջատել 1",                      IDM_COL4_B11
+    MENUITEM "միացնել/անջատել 2",                      IDM_COL4_B12
+    MENUITEM "միացնել/անջատել 3",                      IDM_COL4_B13
+    MENUITEM "միացնել/անջատել 4",                      IDM_COL4_B14
+    MENUITEM "միացնել/անջատել 5",                      IDM_COL4_B15
+    MENUITEM "միացնել/անջատել 6",                      IDM_COL4_B16
+    MENUITEM "միացնել/անջատել 7",                      IDM_COL4_B17
+    MENUITEM "միացնել/անջատել 8",                      IDM_COL4_B18
+    MENUITEM "միացնել/անջատել 9",                      IDM_COL4_B19
     MENUITEM "միացնել/անջատել 10",                     IDM_COL4_B21
     MENUITEM "միացնել/անջատել 11",                     IDM_COL4_B22
     MENUITEM "միացնել/անջատել 12",                     IDM_COL4_B23
@@ -505,7 +548,42 @@ BEGIN
     MENUITEM "միացնել/անջատել 26",                     IDM_COL4_B38
     MENUITEM "միացնել/անջատել 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "Չնշանակված",                   IDM_COL4_NONE
+    MENUITEM "Չնշանակված",                  IDM_COL4_NONE
     END
 END
 
+DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SCRIPT MENU"
+    BEGIN
+    MENUITEM "սցենար 1",                  IDM_COL4_B11
+    MENUITEM "սցենար 2",                  IDM_COL4_B12
+    MENUITEM "սցենար 3",                  IDM_COL4_B13
+    MENUITEM "սցենար 4",                  IDM_COL4_B14
+    MENUITEM "սցենար 5",                  IDM_COL4_B15
+    MENUITEM "սցենար 6",                  IDM_COL4_B16
+    MENUITEM "սցենար 7",                  IDM_COL4_B17
+    MENUITEM "սցենար 8",                  IDM_COL4_B18
+    MENUITEM "սցենար 9",                  IDM_COL4_B19
+    MENUITEM "սցենար 10",                 IDM_COL4_B21
+    MENUITEM "սցենար 11",                 IDM_COL4_B22
+    MENUITEM "սցենար 12",                 IDM_COL4_B23
+    MENUITEM "սցենար 13",                 IDM_COL4_B24
+    MENUITEM "սցենար 14",                 IDM_COL4_B25
+    MENUITEM "սցենար 15",                 IDM_COL4_B26
+    MENUITEM "սցենար 16",                 IDM_COL4_B27
+    MENUITEM "սցենար 17",                 IDM_COL4_B28
+    MENUITEM "սցենար 18",                 IDM_COL4_B29
+    MENUITEM "սցենար 19",                 IDM_COL4_B31
+    MENUITEM "սցենար 20",                 IDM_COL4_B32
+    MENUITEM "սցենար 21",                 IDM_COL4_B33
+    MENUITEM "սցենար 22",                 IDM_COL4_B34
+    MENUITEM "սցենար 23",                 IDM_COL4_B35
+    MENUITEM "սցենար 24",                 IDM_COL4_B36
+    MENUITEM "սցենար 25",                 IDM_COL4_B37
+    MENUITEM "սցենար 26",                 IDM_COL4_B38
+    MENUITEM "սցենար 27",                 IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "Չնշանակված",            IDM_COL4_NONE
+    END
+END

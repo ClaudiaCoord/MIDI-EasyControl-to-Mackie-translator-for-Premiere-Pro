@@ -33,6 +33,7 @@ namespace Common {
 			void ReadGamepadConfig(Tiny::TinyJson&, GAMEPAD::JoystickConfig&);
 			void ReadLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void ReadLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);
+			void ReadVmScriptConfig(Tiny::TinyJson&, SCRIPT::VmScriptConfig&);
 
 			const bool Write(MMTConfig* md, std::wstring filepath, bool = false);
 			const bool WriteFile(std::wstring filepath, std::function<bool(Tiny::TinyJson&, std::wstring&)>);
@@ -46,6 +47,7 @@ namespace Common {
 			void WriteLightConfig(Tiny::TinyJson&, LIGHT::LightsConfig&);
 			void WriteLightDmxConfig(Tiny::TinyJson&, LIGHT::SerialPortConfig&);
 			void WriteLightArtnetConfig(Tiny::TinyJson&, LIGHT::ArtnetConfig&);
+			void WriteVmScriptConfig(Tiny::TinyJson&, SCRIPT::VmScriptConfig&);
 
 			std::wstring Dump(MMTConfig* md);
 
@@ -59,7 +61,7 @@ namespace Common {
 			}
 			template<class T1>
 			bool Dump(T1& t) {
-				return Dump(t.get());
+				return dump(t.get());
 			}
 		};
 	}

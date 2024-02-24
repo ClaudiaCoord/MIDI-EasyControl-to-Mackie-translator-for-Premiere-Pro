@@ -3,7 +3,7 @@
 	+ In/Out Event bridge.
 	(c) CC 2023-2024, MIT
 
-	MMTPLUGINx* DLL (MultimediaKeysPlugin)
+	MMTPLUGINx* DLL (Remote Controls Plugin)
 
 	See README.md for more details.
 	NOT FOR CHINESE USE FOR SALES! FREE SOFTWARE!

@@ -38,7 +38,7 @@ namespace Common {
 		return reinterpret_cast<const char*>(s);
 	}
 
-	to_log to_log::tolog__;
+	to_log to_log::tolog__{};
 
 	void log_string::to_buffer_() {
 		if (buffer_.empty())
@@ -53,6 +53,12 @@ namespace Common {
 	}
 	void log_string::reset_buffer() {
 		buffer_ = std::wstring();
+	}
+	void log_string::to_buffer() {
+		buffer_ = ss_.str();
+	}
+	void log_string::seekp(std::streamoff off, std::ios_base::seekdir way) {
+		ss_.seekp(off, way);
 	}
 
 	log_string::operator std::wstring() const {
@@ -69,7 +75,10 @@ namespace Common {
 		to_buffer_();
 		return buffer_.c_str();
 	}
-	const bool log_string::empty() {
+	const bool log_string::empty() const {
+		return buffer_.empty() ? ss_.str().empty() : buffer_.empty();
+	}
+	const bool log_string::emptyb() {
 		to_buffer_();
 		return buffer_.empty();
 	}
@@ -203,6 +212,21 @@ namespace Common {
 		ss_ << (unsigned long)static_cast<unsigned long>(u);
 		return *this;
 	}
+	template<>
+	log_string& log_string::operator<< (ULARGE_INTEGER t) {
+		ss_ << Utils::to_string(std::ref(t));
+		return *this;
+	}
+	template<>
+	log_string& log_string::operator<< (SYSTEMTIME t) {
+		ss_ << Utils::to_string(std::ref(t));
+		return *this;
+	}
+	template<>
+	log_string& log_string::operator<< (FILETIME t) {
+		ss_ << Utils::to_string(std::ref(t));
+		return *this;
+	}
 
 	template log_string& log_string::operator<< (std::nullptr_t);
 	template log_string& log_string::operator<< (common_error);
@@ -224,6 +248,10 @@ namespace Common {
 	template log_string& log_string::operator<< (uint8_t);
 	template log_string& log_string::operator<< (uint16_t);
 	template log_string& log_string::operator<< (uint32_t);
+
+	template log_string& log_string::operator<< (ULARGE_INTEGER);
+	template log_string& log_string::operator<< (SYSTEMTIME);
+	template log_string& log_string::operator<< (FILETIME);
 
 	to_log::to_log() : id_(Utils::random_hash(this)) {
 		filelog_fun_ = std::bind(static_cast<void(to_log::*)(const std::wstring&)>(&to_log::logtofile_), this, _1);
@@ -367,8 +395,8 @@ namespace Common {
 		event_.send(s);
 	}
 
-	to_log& to_log::operator<< (std::wstringstream& wss) {
-		if (wss.tellp() != std::streampos(0)) pushlog_(wss.str());
+	to_log& to_log::operator<< (std::wstringstream& w) {
+		if (w.tellp() != std::streampos(0)) pushlog_(w.str());
 		return *this;
 	}
 	to_log& to_log::operator<< (const wchar_t s[]) {
@@ -436,6 +464,21 @@ namespace Common {
 		pushlog_(Utils::to_string(g));
 		return *this;
 	}
+	template<>
+	to_log& to_log::operator<< (const ULARGE_INTEGER& t) {
+		pushlog_(Utils::to_string(t));
+		return *this;
+	}
+	template<>
+	to_log& to_log::operator<< (const SYSTEMTIME& t) {
+		pushlog_(Utils::to_string(t));
+		return *this;
+	}
+	template<>
+	to_log& to_log::operator<< (const FILETIME& t) {
+		pushlog_(Utils::to_string(t));
+		return *this;
+	}
 
 	template to_log& to_log::operator<< (const std::exception&);
 	template to_log& to_log::operator<< (const std::runtime_error&);
@@ -446,6 +489,9 @@ namespace Common {
 	template to_log& to_log::operator<< (const std::wstring&);
 	template to_log& to_log::operator<< (const std::wstring_view&);
 	template to_log& to_log::operator<< (const GUID&);
+	template to_log& to_log::operator<< (const ULARGE_INTEGER&);
+	template to_log& to_log::operator<< (const SYSTEMTIME&);
+	template to_log& to_log::operator<< (const FILETIME&);
 
 	log_auto::log_auto(callFromlog_t fn) : fun_(fn), id_(Utils::random_hash(this)) {
 		to_log::Get().add(fun_, id_);

@@ -10,6 +10,8 @@
 */
 
 #include "global.h"
+#include <Shlobj.h>
+
 #include "../../Common/rc/resource_midimt.h"
 
 namespace Common {
@@ -22,24 +24,8 @@ namespace Common {
 			static const wchar_t* blanks[];
 
 			static constexpr std::wstring_view help_fmt = L"https://claudiacoord.github.io/MIDI-MT/docs/{0}/{1}.html"sv;
-			static constexpr std::wstring_view page_index = L"index"sv;
-			static constexpr std::wstring_view page_mixer = L"Audio-Mixer"sv;
-			static constexpr std::wstring_view page_languages = L"Broadcast-into-different-languages"sv;
-			static constexpr std::wstring_view page_cmdlineopt = L"Command-Line-Options"sv;
-			static constexpr std::wstring_view page_potablev = L"Portable-version"sv;
-			static constexpr std::wstring_view page_dependencies = L"Dependencies"sv;
-			static constexpr std::wstring_view page_installation = L"Installation"sv;
-			static constexpr std::wstring_view page_launch = L"Launch"sv;
-			static constexpr std::wstring_view page_settings = L"Settings"sv;
-			static constexpr std::wstring_view page_settings_config = L"Settings-Configuration-files"sv;
-			static constexpr std::wstring_view page_settings_gamepad = L"Settings-Module-Gamepad"sv;
-			static constexpr std::wstring_view page_settings_midi = L"Settings-Module-MIDI"sv;
-			static constexpr std::wstring_view page_settings_mmkeys = L"Settings-Module-Multimedia-keys"sv;
-			static constexpr std::wstring_view page_settings_remote = L"Settings-Module-Remote"sv;
-			static constexpr std::wstring_view page_settings_smarthouse = L"Settings-Module-Smart-House"sv;
-			static constexpr std::wstring_view page_settings_ppro = L"Settings-Premiere-Pro"sv;
-			static constexpr std::wstring_view page_settings_lights = L"Settings-Module-Lights"sv;
-			static constexpr std::wstring_view page_settings_lights_repeaters = L"Light-Repeaters-DMX512-ARTNET-MQTT"sv;
+
+			#include "..\..\Common\h\languages\help_page_index.h"
 		};
 		const wchar_t* UIValues::blanks[] = {L"", L"  ", L"    "};
 
@@ -80,7 +66,7 @@ namespace Common {
 				case DLG_PLUG_LIGHT_ARTNET_IP:
 				case DLG_PLUG_LIGHT_ARTNET_MASK:
 				case DLG_PLUG_LIGHT_ARTNET_BCAST:
-				case DLG_PLUG_LIGHT_POLL: return UIValues::page_settings_lights;
+				case DLG_PLUG_LIGHT_POLL: return UIValues::page_settings_module_lights;
 				default: return L""sv;
 			}
 		}
@@ -97,7 +83,7 @@ namespace Common {
 				case DLG_PLUG_MQTT_PREFIX:
 				case DLG_PLUG_MQTT_ISENABLE:
 				case DLG_PLUG_MQTT_LOGLEVEL:
-				case DLG_PLUG_MQTT_ISSELFSIGN: return UIValues::page_settings_smarthouse;
+				case DLG_PLUG_MQTT_ISSELFSIGN: return UIValues::page_settings_module_smart_house;
 				default: return L""sv;
 			}
 		}
@@ -119,7 +105,7 @@ namespace Common {
 				case DLG_PLUG_MIDI_SLIDER2_VAL:
 				case DLG_PLUG_MIDI_PROXY_COMBO:
 				case DLG_PLUG_MIDI_ISJOGFILTER:
-				case DLG_PLUG_MIDI_ISOUTSYSPORT: return UIValues::page_settings_midi;
+				case DLG_PLUG_MIDI_ISOUTSYSPORT: return UIValues::page_settings_module_midi;
 				case DLG_PLUG_MIDI_VMDRV_VER:
 				case DLG_PLUG_MIDI_VMDRV_CHECK:
 				case DLG_PLUG_MIDI_INSTALL_VMDRV: return UIValues::page_dependencies;
@@ -139,7 +125,7 @@ namespace Common {
 				case DLG_PLUG_REMOTE_COPY_ADDR:
 				case DLG_PLUG_REMOTE_TMC:
 				case DLG_PLUG_REMOTE_TMI:
-				case DLG_PLUG_REMOTE_UA: return UIValues::page_settings_remote;
+				case DLG_PLUG_REMOTE_UA: return UIValues::page_settings_module_remote;
 				default: return L""sv;
 			}
 		}
@@ -157,7 +143,18 @@ namespace Common {
 				case DLG_PLUG_GAMEPAD_RTYPE_COMBO:
 				case DLG_PLUG_GAMEPAD_POLL:
 				case DLG_PLUG_GAMEPAD_ASBTN:
-				case DLG_PLUG_GAMEPAD_ISJOG: return UIValues::page_settings_gamepad;
+				case DLG_PLUG_GAMEPAD_ISJOG: return UIValues::page_settings_module_gamepad;
+				default: return L""sv;
+			}
+		}
+		static std::wstring_view select_VMScriptPage__(const uint16_t id) {
+			switch (id) {
+				case DLG_PLUG_VMSCRIPT_ISENABLE:
+				case DLG_PLUG_VMSCRIPT_WATCH:
+				case DLG_PLUG_VMSCRIPT_DIR:
+				case DLG_PLUG_VMSCRIPT_DIR_OPEN: return UIValues::page_settings_module_vm_script;
+				case DLG_PLUG_VMSCRIPT_LIST:
+				case DLG_PLUG_VMSCRIPT_TOTAL:  return UIValues::page_vm_script_mmtscripttester;
 				default: return L""sv;
 			}
 		}
@@ -194,8 +191,8 @@ namespace Common {
 		bool UiUtils::GetControlChecked(HWND h, const uint32_t id) {
 			return (::IsDlgButtonChecked(h, static_cast<int>(id)) == BST_CHECKED);
 		}
-		void UiUtils::SetControlEnable(HWND hwnd, const uint32_t id, const bool val) {
-			if (HWND hi; (hi = ::GetDlgItem(hwnd, id)) != nullptr)
+		void UiUtils::SetControlEnable(HWND h, const uint32_t id, const bool val) {
+			if (HWND hi; (hi = ::GetDlgItem(h, id)) != nullptr)
 				::EnableWindow(hi, val);
 		}
 		const bool UiUtils::CheckControlEnable(HWND h, const uint32_t id) {
@@ -228,7 +225,7 @@ namespace Common {
 							case DLG_START_MIXER_DUPLICATE:
 							case DLG_START_MIXER_OLD_VALUE:
 							case DLG_START_MIXER_FAST_VALUE:
-							case DLG_START_MIXER_RIGHT_CLICK: page = UIValues::page_mixer; break;
+							case DLG_START_MIXER_RIGHT_CLICK: page = UIValues::page_audio_mixer; break;
 							case DLG_START_PLACE_PLUGIN: page = UIValues::page_settings; break;
 							case DLG_GO_STOP:
 							case DLG_GO_START: page = UIValues::page_launch; break;
@@ -244,6 +241,8 @@ namespace Common {
 								if (!page.empty()) break;
 								page = select_GamePadPage__(eleid);
 								if (!page.empty()) break;
+								page = select_VMScriptPage__(eleid);
+								if (!page.empty()) break;
 								page = UIValues::page_index; break;
 							}
 						}
@@ -252,41 +251,47 @@ namespace Common {
 					case DLG_PLUG_MQTT_WINDOW: {
 						page = select_MqttPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_settings_smarthouse;
+						page = UIValues::page_settings_module_smart_house;
 						break;
 					}
 					case DLG_PLUG_MIDI_WINDOW: {
 						page = select_MidiPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_settings_midi;
+						page = UIValues::page_settings_module_midi;
 						break;
 					}
 					case DLG_PLUG_MMKEY_WINDOW: {
-						page = UIValues::page_settings_mmkeys;
+						page = UIValues::page_settings_module_multimedia_keys;
 						break;
 					}
 					case DLG_PLUG_LIGHT_WINDOW: {
 						page = select_LightPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_settings_lights;
+						page = UIValues::page_settings_module_lights;
 						break;
 					}
 					case DLG_PLUG_REMOTE_WINDOW: {
 						page = select_RemotePage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_settings_remote;
+						page = UIValues::page_settings_module_remote;
 						break;
 					}
 					case DLG_PLUG_GAMEPAD_WINDOW: {
 						page = select_GamePadPage__(eleid);
 						if (!page.empty()) break;
-						page = UIValues::page_settings_gamepad;
+						page = UIValues::page_settings_module_gamepad;
+						break;
+					}
+					case DLG_PLUG_VMSCRIPT_WINDOW: {
+						page = select_VMScriptPage__(eleid);
+						if (!page.empty()) break;
+						page = UIValues::page_settings_module_vm_script;
 						break;
 					}
 					case DLG_EDIT_WINDOW:
-					case DLG_EDIT_INFO_WINDOW: page = UIValues::page_settings_config; break;
-					case DLG_ABOUT_WINDOW: page = UIValues::page_languages; break;
-					case DLG_COLOR_WINDOW: page = UIValues::page_mixer; break;
+					case DLG_EDIT_INFO_WINDOW: page = UIValues::page_settings_configuration_files; break;
+					case DLG_ABOUT_WINDOW: page = UIValues::page_broadcast_into_different_languages; break;
+					case DLG_COLOR_WINDOW: page = UIValues::page_audio_mixer; break;
 					case DLG_LOGVIEW_WINDOW: page = UIValues::page_settings; break;
 					case DLG_MONITOR_WINDOW: page = UIValues::page_installation; break;
 					default: page = UIValues::page_index; break;
@@ -320,6 +325,106 @@ namespace Common {
 				::DragFinish(h);
 			} catch (...) {}
 			return cnf;
+		}
+		std::wstring UiUtils::OpenFileDialog(HWND h, COMDLG_FILTERSPEC* filter, size_t filter_size) {
+
+			std::wstring s{};
+			try {
+				if (!h) return s;
+
+				PWSTR pws = nullptr;
+				IShellItem* item = nullptr;
+				IFileOpenDialog* ptr = nullptr;
+
+				try {
+					do {
+						HRESULT r = CoCreateInstance(
+							CLSID_FileOpenDialog,
+							NULL, CLSCTX_ALL,
+							IID_IFileOpenDialog,
+							reinterpret_cast<void**>(&ptr));
+
+						if (r != S_OK) break;
+
+						#pragma warning( push )
+						#pragma warning( disable : 4267 )
+						r = ptr->SetFileTypes(static_cast<UINT>(filter_size), filter);
+						#pragma warning( pop )
+
+						if (r != S_OK) break;
+						r = ptr->Show(h);
+						if (r != S_OK) break;
+						r = ptr->GetResult(&item);
+						if (r != S_OK) break;
+						r = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
+						if (r != S_OK) break;
+
+						s = Utils::to_string(pws);
+
+					} while (0);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				if (item != nullptr) item->Release();
+				if (ptr != nullptr) ptr->Release();
+				if (pws != nullptr) CoTaskMemFree(pws);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return s;
+		}
+		std::wstring UiUtils::SaveFileDialog(HWND h, COMDLG_FILTERSPEC* filter, size_t filter_size) {
+
+			std::wstring s{};
+			try {
+				if (!h) return s;
+
+				PWSTR pws{ nullptr };
+				IShellItem* item{ nullptr };
+				IFileSaveDialog* ptr{ nullptr };
+
+				try {
+					COMDLG_FILTERSPEC filter[] = {
+						{
+							common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
+							L"*.cnf"
+						}
+					};
+					do {
+						HRESULT r = CoCreateInstance(
+							CLSID_FileSaveDialog,
+							NULL, CLSCTX_ALL,
+							IID_IFileSaveDialog,
+							reinterpret_cast<void**>(&ptr));
+
+						if (r != S_OK) break;
+
+						#pragma warning( push )
+						#pragma warning( disable : 4267 )
+						r = ptr->SetFileTypes(static_cast<UINT>(filter_size), filter);
+						#pragma warning( pop )
+
+						if (r != S_OK) break;
+						r = ptr->Show(h);
+						if (r != S_OK) break;
+						r = ptr->GetResult(&item);
+						if (r != S_OK) break;
+						r = item->GetDisplayName(SIGDN_FILESYSPATH, &pws);
+						if (r != S_OK) break;
+
+						s = Utils::to_string(pws);
+
+					} while (0);
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+				if (item != nullptr) item->Release();
+				if (ptr != nullptr) ptr->Release();
+				if (pws != nullptr) CoTaskMemFree(pws);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return s;
 		}
 
 		const bool UiUtils::IsUIThread() {

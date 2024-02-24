@@ -46,11 +46,12 @@ namespace Common {
 		static bool is_pid_running(const uint32_t& d);
         static bool is_pid_running(const DWORD d);
         static bool is_guid_equals(const GUID&, const GUID&);
+        static std::wstring NANOSECONDS_to_string(const uint64_t&);
         static std::wstring MILLISECONDS_to_string(const DWORD&);
+        static std::wstring MILLISECONDS_to_string(const uint64_t&);
         static std::wstring MILLISECONDS_to_string(const std::chrono::steady_clock::time_point&);
         static std::wstring MMRESULT_to_string(const MMRESULT&);
         static std::wstring BOOL_to_string(const bool);
-        static std::wstring CHARS_to_string(const char*);
         static std::wstring to_string(const std::wstring_view);
         static std::wstring to_string(const std::string_view);
         static std::wstring to_string(const std::string);
@@ -65,11 +66,15 @@ namespace Common {
         static std::wstring to_string(const char8_t*, std::size_t);
         static std::wstring to_string(std::nullptr_t);
         static std::wstring to_string(unsigned int&);
-        static std::wstring to_string(IO::PluginClassTypes);
-        static std::wstring to_string(MIDI::MidiUnitType);
-        static std::wstring to_string(MIDI::MidiUnitScene);
+        static std::wstring to_string(const IO::PluginClassTypes&);
+        static std::wstring to_string(const MIDI::MidiUnitType&);
+        static std::wstring to_string(const MIDI::MidiUnitScene&);
+        static std::wstring to_string(const ULARGE_INTEGER&);
+        static std::wstring to_string(const SYSTEMTIME&);
+        static std::wstring to_string(const FILETIME&);
 
         static std::string from_string(const std::wstring&);
+        static std::string from_string(const wchar_t*);
         static CLSID       guid_from_string(const char*);
         static CLSID       guid_from_string(const wchar_t*);
 

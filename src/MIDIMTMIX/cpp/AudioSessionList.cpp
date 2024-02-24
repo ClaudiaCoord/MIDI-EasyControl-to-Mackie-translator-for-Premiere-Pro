@@ -447,7 +447,7 @@ namespace Common {
                             ctrlunitlist_.clear();
                             for (auto& u : mmt->units) {
                                 try {
-                                    if ((u.target == MIDI::Mackie::Target::VOLUMEMIX) && (!u.appvolume.empty()))
+                                    if ((u.target == MIDI::Mackie::Target::VOLUMEMIX) && (!u.apps.empty()))
                                         ctrlunitlist_.push_back(std::make_shared<AudioSessionUnit>(u));
                                 } catch (...) {}
                             }

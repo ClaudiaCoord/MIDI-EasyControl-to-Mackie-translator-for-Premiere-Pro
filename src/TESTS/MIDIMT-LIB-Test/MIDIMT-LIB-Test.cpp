@@ -107,5 +107,21 @@ namespace MIDIMTLIBTest
 				Assert::Fail();
 			}
 		}
+		TEST_METHOD(TestMethod6) {
+			try {
+				const uint32_t asz = (Common::common_error_code::get_size() - 1),
+							   esz = static_cast<uint32_t>(Common::common_error_id::err_NONE);
+				if (asz != esz)
+					throw Common::make_common_error((Common::log_string() << L"'error id' size not equals: " << asz << L'/' << esz).str());
+
+				const std::wstring w = Common::common_error_code::get_local_error(esz);
+				if (!w._Equal(L"-"))
+					throw Common::make_common_error((Common::log_string() << L"'error id' bad index: [" << w << L"] = " << esz).str());
+
+			} catch (...) {
+				Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				Assert::Fail();
+			}
+		}
 	};
 }

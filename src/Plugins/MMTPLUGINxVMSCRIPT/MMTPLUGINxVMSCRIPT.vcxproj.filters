@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\VMSCRIPT">
+      <UniqueIdentifier>{0fc1d016-01fa-46bf-862c-8502a92a86ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\VMSCRIPT">
+      <UniqueIdentifier>{ca36570f-7dc7-486a-ae52-8bc878cd607c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\VMSCRIPT\UserData">
+      <UniqueIdentifier>{ea4bc238-540d-4c7c-9ea1-c27655b4fe83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\VMSCRIPT\UserData">
+      <UniqueIdentifier>{bd940e29-f3d9-4433-977c-96ad56af4628}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\global.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\MMTPLUGINxVMSCRIPT.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\plugininfo.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\SetupDialog.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScript.h">
+      <Filter>Файлы заголовков\VMSCRIPT</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScripts.h">
+      <Filter>Файлы заголовков\VMSCRIPT</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptBootstrap.h">
+      <Filter>Файлы заголовков\VMSCRIPT</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptUserUnit.h">
+      <Filter>Файлы заголовков\VMSCRIPT\UserData</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptUserColor.h">
+      <Filter>Файлы заголовков\VMSCRIPT\UserData</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptsTask.h">
+      <Filter>Файлы заголовков\VMSCRIPT</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptUserAction.h">
+      <Filter>Файлы заголовков\VMSCRIPT\UserData</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VmScriptUserMacro.h">
+      <Filter>Файлы заголовков\VMSCRIPT\UserData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\shared\cpp\dllplugin.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\MMTPLUGINxVMSCRIPT.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\SetupDialog.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScript.cpp">
+      <Filter>Исходные файлы\VMSCRIPT</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScripts.cpp">
+      <Filter>Исходные файлы\VMSCRIPT</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptBootstrap.cpp">
+      <Filter>Исходные файлы\VMSCRIPT</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptUserUnit.cpp">
+      <Filter>Исходные файлы\VMSCRIPT\UserData</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptUserColor.cpp">
+      <Filter>Исходные файлы\VMSCRIPT\UserData</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptsTask.cpp">
+      <Filter>Исходные файлы\VMSCRIPT</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptUserAction.cpp">
+      <Filter>Исходные файлы\VMSCRIPT\UserData</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptUserMacro.cpp">
+      <Filter>Исходные файлы\VMSCRIPT\UserData</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Common\rc\resource_plugins.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

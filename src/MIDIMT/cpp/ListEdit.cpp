@@ -11,7 +11,6 @@
 */
 
 #include "MIDIMT.h"
-#include <array>
 
 namespace Common {
 	namespace MIDIMT {
@@ -187,40 +186,49 @@ namespace Common {
 		}
 		static std::tuple<bool, HMENU, std::vector<HMENU>> buildCol4_5Menu(int column, MIDI::MidiUnitType type, MIDI::Mackie::Target target, MIDI::Mackie::Target longtarget) {
 			try {
-				uint32_t cmd = 0, mid = 0;
-				switch (column)
-				{
+				uint32_t cmd = 0U, mid = 0U;
+				switch (column) {
 					case Columns::Target: {
 						switch (type) {
-							case MIDI::MidiUnitType::BTN:
-							case MIDI::MidiUnitType::BTNTOGGLE: /* BUTTONS */ mid = DLG_EDIT_LV_COL4_BTN_TARGET_MENU; break;
-							case MIDI::MidiUnitType::UNITNONE:  /* NONE */    mid = DLG_EDIT_LV_COL4_ALL_TARGET_MENU; break;
-							default:				/* SLISERS */ mid = DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU; break;
+							using enum MIDI::MidiUnitType;
+							case BTN:
+							case BTNTOGGLE: /* BUTTONS */ mid = DLG_EDIT_LV_COL4_BTN_TARGET_MENU; break;
+							case UNITNONE:  /* NONE */    mid = DLG_EDIT_LV_COL4_ALL_TARGET_MENU; break;
+							default:		/* SLISERS */ mid = DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU; break;
 						}
 						cmd = static_cast<uint32_t>(target) + IDM_COL4_BASE;
 						break;
 					}
 					case Columns::LongTarget: {
 						switch (type) {
-							case MIDI::MidiUnitType::BTN:
-							case MIDI::MidiUnitType::BTNTOGGLE: /* BUTTONS */ {
+							using enum MIDI::MidiUnitType;
+							case BTN:
+							case BTNTOGGLE: /* BUTTONS */ {
 								switch (target) {
-									case MIDI::Mackie::Target::MEDIAKEY:  mid = DLG_EDIT_LV_COL5_BTN_MMKEY_MENU; break;
-									case MIDI::Mackie::Target::VOLUMEMIX: mid = DLG_EDIT_LV_COL5_BTN_MIX_MENU; break;
-									case MIDI::Mackie::Target::MQTTKEY:   mid = DLG_EDIT_LV_COL5_BTN_SMH_MENU; break;
-									case MIDI::Mackie::Target::NOTARGET:
-									default: mid = DLG_EDIT_LV_COL4_BTN_TARGET_MENU; break;
+									using enum MIDI::Mackie::Target;
+									case MEDIAKEY:		mid = DLG_EDIT_LV_COL5_BTN_MMKEY_MENU; break;
+									case VMSCRIPT:		mid = DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU; break;
+									case VOLUMEMIX:		mid = DLG_EDIT_LV_COL5_BTN_MIX_MENU; break;
+									case MQTTKEY:
+									case LIGHTKEY8B:
+									case LIGHTKEY16B:	mid = DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU; break;
+									case NOTARGET:
+									default:			mid = DLG_EDIT_LV_COL4_BTN_TARGET_MENU; break;
 								}
 								break;
 							}
 							case MIDI::MidiUnitType::UNITNONE:  mid = DLG_EDIT_LV_COL4_ALL_TARGET_MENU; break;
 							default: /* SLISERS */ {
 								switch (target) {
-									case MIDI::Mackie::Target::VOLUMEMIX: mid = DLG_EDIT_LV_COL5_SLIDER_MIX_MENU; break;
-									case MIDI::Mackie::Target::MQTTKEY:   mid = DLG_EDIT_LV_COL5_SLIDER_SMH_MENU; break;
-									case MIDI::Mackie::Target::MEDIAKEY:
-									case MIDI::Mackie::Target::NOTARGET:
-									default: mid = DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU; break;
+									using enum MIDI::Mackie::Target;
+									case VOLUMEMIX:		mid = DLG_EDIT_LV_COL5_SLIDER_MIX_MENU; break;
+									case MQTTKEY:
+									case LIGHTKEY8B:
+									case LIGHTKEY16B:	mid = DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU; break;
+									case VMSCRIPT:
+									case MEDIAKEY:		mid = DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU; break;
+									case NOTARGET:
+									default:			mid = DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU; break;
 								}
 								break;
 							}
@@ -270,10 +278,11 @@ namespace Common {
 
 		/* Class */
 
+		#pragma region ListEdit
 		ListEdit::ListEdit() {
 			icons_ = ::ImageList_Create(16, 16, ILC_MASK | ILC_ORIGINALSIZE, 1, 1);
 
-			for (int32_t i = ICON_APP_ICON_LV1; i <= ICON_APP_ICON_LV8; i++) {
+			for (int32_t i = ICON_APP_ICON_LV1; i <= ICON_APP_ICON_LV9; i++) {
 				HICON ico = LangInterface::Get().GetIcon16x16(MAKEINTRESOURCE(i));
 				if (ico) {
 					ImageList_AddIcon(icons_, ico);
@@ -301,9 +310,13 @@ namespace Common {
 		size_t ListEdit::ListViewColumns() {
 			return std::size(Columns::Captions);
 		}
-		void ListEdit::ListViewErrorCb(const std::function<void(std::wstring)> fun) {
-			if (fun != nullptr)
-				ErrorFn = fun;
+		void ListEdit::ListViewErrorCb(const std::function<void(std::wstring)> fn) {
+			if (fn != nullptr)
+				ErrorFn = fn;
+		}
+		void ListEdit::ListViewUpdateStatusCb(const std::function<void()> fn) {
+			if (fn != nullptr)
+				UpdateSaveStatusFn = fn;
 		}
 
 		void ListEdit::ListViewEnd() {
@@ -610,14 +623,16 @@ namespace Common {
 					case IDM_LV_SET_MQTT:
 					case IDM_LV_SET_MMKEY:
 					case IDM_LV_SET_MIXER: 
+					case IDM_LV_SET_VMSCRIPT:
 					case IDM_LV_SET_LIGHTKEY8B:
 					case IDM_LV_SET_LIGHTKEY16B: {
 						uint32_t val;
 						switch (id) {
-							case IDM_LV_SET_MQTT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);   break;
-							case IDM_LV_SET_MMKEY:		val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);  break;
-							case IDM_LV_SET_MIXER:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); break;
-							case IDM_LV_SET_LIGHTKEY8B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY8B);  break;
+							case IDM_LV_SET_MQTT:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);   break;
+							case IDM_LV_SET_MMKEY:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);  break;
+							case IDM_LV_SET_MIXER:			val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); break;
+							case IDM_LV_SET_VMSCRIPT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VMSCRIPT); break;
+							case IDM_LV_SET_LIGHTKEY8B:		val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY8B);  break;
 							case IDM_LV_SET_LIGHTKEY16B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY16B);  break;
 							default: return false;
 						}
@@ -681,7 +696,7 @@ namespace Common {
 				int count = ListView_GetItemCount(hwnd);
 				if (count == 0) return false;
 
-				dev->Clear();
+				dev->clear();
 
 				int pos = -1;
 				while ((pos = ListView_GetNextItem(hwnd, pos, LVNI_ALL)) != -1) {
@@ -994,7 +1009,17 @@ namespace Common {
 
 						if (r != 0) {
 							r = (r - IDM_COL4_BASE);
-							if (r >= 0) {
+							if ((r >= 0) && (r <= 255)) {
+								switch (static_cast<MIDI::Mackie::Target>(r)) {
+									using enum MIDI::Mackie::Target;
+									case MQTTKEY:
+									case VMSCRIPT:
+									case MEDIAKEY:
+									case VOLUMEMIX:
+									case LIGHTKEY8B:
+									case LIGHTKEY16B: if (column > Columns::Target) column = Columns::Target; break;
+									default: break;
+								}
 								std::wstring s = std::to_wstring(r);
 								ListView_SetItemText(hwndLv_, item, column, (LPWSTR)s.c_str());
 								ischage = true;
@@ -1003,8 +1028,10 @@ namespace Common {
 						break;
 					}
 				}
-				if (ischage)
+				if (ischage) {
 					listview_updateimage_(hwndLv_, item);
+					UpdateSaveStatusFn();
+				}
 				return true;
 
 			} catch (...) {
@@ -1020,13 +1047,14 @@ namespace Common {
 			else {
 				switch (cont->unit.target) {
 					using enum MIDI::Mackie::Target;
-					case VOLUMEMIX: lvi.iImage = 3; break;
-					case MEDIAKEY:  lvi.iImage = 4; break;
-					case MQTTKEY:   lvi.iImage = 5; break;
-					case LIGHTKEY8B: lvi.iImage = 6; break;
-					case LIGHTKEY16B: lvi.iImage = 7; break;
-					case NOTARGET:  lvi.iImage = 0; break;
-					default:	  lvi.iImage = 2; break;
+					case VOLUMEMIX:		lvi.iImage = 3; break;
+					case MEDIAKEY:		lvi.iImage = 4; break;
+					case MQTTKEY:		lvi.iImage = 5; break;
+					case LIGHTKEY8B:	lvi.iImage = 6; break;
+					case LIGHTKEY16B:	lvi.iImage = 7; break;
+					case VMSCRIPT:		lvi.iImage = 8; break;
+					case NOTARGET:		lvi.iImage = 0; break;
+					default:			lvi.iImage = 2; break;
 				}
 			}
 		}
@@ -1122,5 +1150,6 @@ namespace Common {
 			}
 			return ::DefSubclassProc(hwnd, m, w, l);
 		}
+		#pragma endregion
 	}
 }

@@ -32,6 +32,7 @@ namespace Common {
 					}
 				return TRUE;
 			} __except (EXCEPTION_EXECUTE_HANDLER) {}
+			return FALSE;
 		}
 		HWND WindowToTop::find_app_(const std::wstring& app) {
 			PROCESSENTRY32W e{};
@@ -73,6 +74,7 @@ namespace Common {
 
 				return ::SetForegroundWindow(hwnd);
 			} __except (EXCEPTION_EXECUTE_HANDLER) {}
+			return false;
 		}
 
 		const bool WindowToTop::set(const std::wstring& app) {

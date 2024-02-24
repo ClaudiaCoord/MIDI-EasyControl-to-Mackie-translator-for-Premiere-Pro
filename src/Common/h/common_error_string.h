@@ -149,6 +149,7 @@ namespace Common {
 		L"No modules found, startup impossible."sv,
 		L"Please edit the configuration before starting."sv,
 		L"Configuration file"sv,
+		L"Executable files"sv,
 		L"Configuration loaded from file: {0}"sv,
 		L"Configuration loaded from driver"sv,
 		L"The selected {0} language will be active after the window is restarted."sv,
@@ -175,6 +176,23 @@ namespace Common {
 		L"Link copied to clipboard."sv,
 		L"No network interfaces.."sv,
 		L"Select network interface.."sv,
+		L"Waiting timeout has expired, waiting is terminated..."sv,
+		
+		/* Plugin::Script */
+		L"Script execution error: {0}"sv,
+		L"Script empty!"sv,
+		L"Script modify: {0}"sv,
+		L"Loaded {0} scripts"sv,
+		L"No scripts found in {0} directory"sv,
+		L"The VM scripting engine is running, available scripts: {0}."sv,
+		L"The VM scripting engine has stopped."sv,
+		L"Scripts files"sv,
+
+		/* File Watcher */
+		L"failed to open directory: {0}"sv,
+		L"The directory with the specified parameters cannot be read, I am finishing monitoring the directory."sv,
+		L"Unexpected termination of directory monitoring"sv,
+		L"Problems accessing the directory, possibly incorrect read buffer size"sv,
 
 		/* err_NONE */
 		L"-"sv

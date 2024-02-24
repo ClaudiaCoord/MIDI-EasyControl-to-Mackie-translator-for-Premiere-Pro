@@ -298,7 +298,7 @@ namespace Common {
 											conf->builder
 										)
 									),
-									conf->Dump()
+									conf->dump()
 								);
 								break;
 							}
@@ -358,6 +358,11 @@ namespace Common {
 							case DLG_LOGVIEW_MENU_CONF_GAMEPAD: {
 								auto& conf = common_config::Get().GetConfig();
 								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG8), conf->gamepadconf.dump());
+								break;
+							}
+							case DLG_LOGVIEW_MENU_CONF_SCRIPT: {
+								auto& conf = common_config::Get().GetConfig();
+								event_Config_Show_(LangInterface::Get().GetString(STRING_LOGV_MSG8), conf->vmscript.dump());
 								break;
 							}
 							case DLG_PLUGSTAT_MENU: {

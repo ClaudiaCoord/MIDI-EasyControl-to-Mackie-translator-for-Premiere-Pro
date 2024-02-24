@@ -21,6 +21,8 @@ namespace Common {
 
 			void copy_settings_(MMTConfig*);
 			void copy_units_(MMTConfig*);
+			MIDI::MidiUnit& find_(std::function<bool(const MIDI::MidiUnit&)>);
+
 		public:
 			bool								auto_start{ false };
 			std::wstring						config{};
@@ -32,19 +34,26 @@ namespace Common {
 			MQTT::BrokerConfig<std::wstring>	mqttconf{};
 			REMOTE::RemoteConfig<std::wstring>  remoteconf{};
 			GAMEPAD::JoystickConfig				gamepadconf{};
+			SCRIPT::VmScriptConfig				vmscript{};
 
 			MMTConfig* get();
 
 			MMTConfig();
 			~MMTConfig();
+
 			bool empty();
-			void Init();
-			void Add(MIDI::MidiUnit);
-			void Clear();
-			std::wstring Dump();
+			void init();
+			void add(MIDI::MidiUnit);
+			void clear();
+			std::wstring dump();
+
+			MIDI::MidiUnit& find(const uint8_t);
+			MIDI::MidiUnit& find(const uint8_t, const uint8_t);
+			MIDI::MidiUnit& find(const uint8_t, const uint8_t, const MIDI::MidiUnitType);
+			MIDI::MidiUnit& find(const MIDI::Mackie::Target);
 
 			template <class T1>
-			void CopySettings(T1& ptr) {
+			void copy_settings(T1& ptr) {
 
 				if (!ptr) return;
 				std::unique_lock<std::shared_mutex> lock(mtx_);
@@ -55,7 +64,7 @@ namespace Common {
 				copy_settings_(mmt);
 			}
 			template <class T1>
-			void Copy(T1& ptr) {
+			void copy(T1& ptr) {
 
 				if (!ptr) return;
 				std::unique_lock<std::shared_mutex> lock(mtx_);

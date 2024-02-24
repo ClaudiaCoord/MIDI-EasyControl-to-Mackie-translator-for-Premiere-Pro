@@ -15,8 +15,6 @@
 namespace Common {
 	namespace LIGHT {
 
-        static SerialPortConfig serialportconfig_default{};
-
         const bool SerialPortConfig::empty() {
             return (port <= 0) || (baudrate == 0) || (timeout == 0);
         }
@@ -46,7 +44,7 @@ namespace Common {
             ls << L"\n";
             return ls;
         }
-        void SerialPortConfig::Copy(SerialPortConfig& c) {
+        void SerialPortConfig::copy(const SerialPortConfig& c) {
             enable = c.enable;
             port = c.port;
             baudrate = c.baudrate;
@@ -67,7 +65,7 @@ namespace Common {
         SerialPortConfig& SerialPortConfigs::get(uint16_t i) {
             if (i < devices__.size())
                 return std::ref(devices__[i]);
-            return std::ref(serialportconfig_default);
+            return std::ref(common_static::serialportconfig_empty);
         }
         std::vector<SerialPortConfig>& SerialPortConfigs::get() {
             return std::ref(devices__);

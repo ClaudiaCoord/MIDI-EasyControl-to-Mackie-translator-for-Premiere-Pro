@@ -87,6 +87,7 @@ namespace Common {
 				SYS_Right,
 				SYS_Zoom,
 				SYS_Scrub,
+				VMSCRIPT = 249,
 				LIGHTKEY16B = 250,
 				LIGHTKEY8B = 251,
 				MQTTKEY = 252,
@@ -107,16 +108,19 @@ namespace Common {
 				uint8_t data[4]{};
 				DWORD send;
 
-				void Set(uint8_t sc, uint8_t id, uint8_t val, uint8_t ext = 0x0);
-				void SetValue(bool b);
+				MIDIDATA() = default;
+				MIDIDATA(const MIDIDATA&) = default;
+
+				void Set(const uint8_t sc, const uint8_t id, const uint8_t val, const uint8_t ext = 0x0);
+				void SetValue(const bool b);
 				uint8_t scene() const;
 				uint8_t key() const;
 				uint8_t value() const;
 				Target target() const;
-				std::wstring dump();
-				std::wstring dump_ui();
+				std::wstring dump() const;
+				std::wstring dump_ui() const;
 				const bool empty() const;
-				const bool equals(MIDIDATA&) const;
+				const bool equals(const MIDIDATA&) const;
 				void clear();
 			};
 

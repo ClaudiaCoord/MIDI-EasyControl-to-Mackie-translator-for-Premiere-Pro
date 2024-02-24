@@ -89,6 +89,12 @@ namespace Common {
 			static constexpr std::wstring_view LIGHTS_ARTNET = L"artnet"sv;
 			static constexpr std::wstring_view LIGHTS_ARTNET_UNIVERSE = L"universe"sv;
 			static constexpr std::wstring_view LIGHTS_ARTNET_BROADCAST = L"broadcast"sv;
+
+			static constexpr std::wstring_view VMSCRIPT = L"vmscript"sv;
+			static constexpr std::wstring_view WATCH = L"watch"sv;
+			static constexpr std::wstring_view DIRECTORY = L"directory"sv;
+			static constexpr std::wstring_view SCRIPTS = L"scripts"sv;
+			
 			#pragma endregion
 		};
 
@@ -108,6 +114,7 @@ namespace Common {
 						ReadGamepadConfig(pjson, mmt->gamepadconf);
 						ReadLightConfig(pjson, mmt->lightconf);
 						ReadRemoteConfig(pjson, mmt->remoteconf);
+						ReadVmScriptConfig(pjson, mmt->vmscript);
 
 						if (issetreg)
 							common_config::Get().Registry.SetConfPath(confname);
@@ -208,7 +215,7 @@ namespace Common {
 					return false;
 				}
 
-				mmt->Init();
+				mmt->init();
 
 				for (uint16_t i = 0U; i < cnt; i++) {
 
@@ -237,11 +244,11 @@ namespace Common {
 							for (uint16_t n = 0; n < acnt; n++) {
 								apps.Enter(n);
 								std::wstring a = apps.Get<std::wstring>();
-								if (!a.empty()) mu.appvolume.push_back(a);
+								if (!a.empty()) mu.apps.push_back(a);
 							}
 						}
 					} catch (...) {}
-					mmt->Add(std::move(mu));
+					mmt->add(std::move(mu));
 				}
 				return (!mmt->units.empty());
 			} catch (...) {
@@ -504,6 +511,41 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void json_config::ReadVmScriptConfig(Tiny::TinyJson& root, SCRIPT::VmScriptConfig& cnf) {
+			try {
+				Tiny::xobject mdata = root.Get<Tiny::xobject>(JsonNames::VMSCRIPT.data());
+				if (!mdata.Count()) return;
+
+				mdata.Enter();
+
+				cnf.enable = mdata.Get<bool>(JsonNames::ENABLE.data(), false);
+				cnf.script_watch = mdata.Get<bool>(JsonNames::WATCH.data(), false);
+				cnf.script_directory = mdata.Get<std::wstring>(JsonNames::DIRECTORY.data());
+				cnf.script_list.clear();
+
+				if (cnf.enable) {
+					Tiny::xarray dev = mdata.Get<Tiny::xarray>(JsonNames::SCRIPTS.data());
+					std::size_t cnt = dev.Count();
+
+					if (cnt)
+						for (uint16_t n = 0; n < cnt; n++) {
+							dev.Enter(n);
+							std::wstring s = dev.Get<std::wstring>();
+							if (!s.empty()) cnf.script_list.push_back(s);
+						}
+				}
+
+				if (cnf.empty())
+					to_log::Get() << log_string().to_log_format(
+						__FUNCTIONW__,
+						common_error_code::Get().get_error(common_error_id::err_CONFIG_EMPTY_NAME),
+						JsonNames::VMSCRIPT.data()
+					);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		#pragma endregion
 
 		#pragma region Write
@@ -519,6 +561,7 @@ namespace Common {
 						WriteLightConfig(rjson, mmt->lightconf);
 						WriteRemoteConfig(rjson, mmt->remoteconf);
 						WriteGamepadConfig(rjson, mmt->gamepadconf);
+						WriteVmScriptConfig(rjson, mmt->vmscript);
 						if (!WriteUnitConfig(rjson, mmt)) return false;
 
 						if (issetreg)
@@ -584,9 +627,9 @@ namespace Common {
 					subj[JsonNames::ONOF.data()].Set<bool>(u.value.lvalue);
 					subj[JsonNames::VALUE.data()].Set(static_cast<uint16_t>(u.value.value));
 
-					if (!u.appvolume.empty()) {
+					if (!u.apps.empty()) {
 						Tiny::TinyJson appjson;
-						for (auto& app : u.appvolume)
+						for (auto& app : u.apps)
 							appjson[JsonNames::EMPTY.data()].Set(app);
 
 						Tiny::TinyJson ajson;
@@ -763,6 +806,30 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void json_config::WriteVmScriptConfig(Tiny::TinyJson& root, SCRIPT::VmScriptConfig& cnf) {
+			try {
+				Tiny::TinyJson mjson{};
+				mjson[JsonNames::ENABLE.data()].Set<bool>(cnf.enable);
+				mjson[JsonNames::WATCH.data()].Set<bool>(cnf.script_watch);
+				mjson[JsonNames::DIRECTORY.data()].Set<std::wstring>(cnf.script_directory);
+
+				try {
+					if (!cnf.script_list.empty()) {
+						TinyJson list{};
+						TinyJson arr{};
+						for (auto& s : cnf.script_list)
+							arr[JsonNames::EMPTY.data()].Set(s);
+						list.Push(std::move(arr));
+						mjson[JsonNames::SCRIPTS.data()].Set(std::move(list));
+					}
+				} catch (...) {}
+
+				root[JsonNames::VMSCRIPT.data()].Set(std::move(mjson));
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		#pragma endregion
 
 		std::wstring json_config::Dump(MMTConfig* mmt) {
@@ -792,6 +859,9 @@ namespace Common {
 			ls << L"* " << JsonNames::GAMEPAD << L":\n";
 			ls << mmt->gamepadconf.dump() << L"\n\n";
 
+			ls << L"* " << JsonNames::VMSCRIPT << L":\n";
+			ls << mmt->vmscript.dump() << L"\n\n";
+
 			ls << L"* " << JsonNames::UNITS << L":\n";
 			for (auto& u : mmt->units) {
 				ls << L"\t" << JsonNames::ID << L"=" << static_cast<int>(u.key) << ", ";
@@ -799,9 +869,9 @@ namespace Common {
 				ls << JsonNames::TYPE << L"=" << MIDI::MidiHelper::GetType(u.type) << ", ";
 				ls << JsonNames::TARGET << L"=" << MIDI::MackieHelper::GetTarget(u.target) << ", ";
 				ls << JsonNames::LONGTARGET << L"=" << MIDI::MackieHelper::GetTarget(u.longtarget) << L"\n";
-				if (!u.appvolume.empty()) {
+				if (!u.apps.empty()) {
 					ls << L"\t\t" << JsonNames::APPS << L"=[";
-					for (auto& app : u.appvolume)
+					for (auto& app : u.apps)
 						ls << L"\"" << app << "\", ";
 					ls << L"]";
 				}

@@ -225,7 +225,7 @@ namespace Common {
 						is_config_ = !lc.empty();
 
 						if (is_enable_ && is_config_)
-							common_config::Get().GetConfig()->lightconf.Copy(lc);
+							common_config::Get().GetConfig()->lightconf.copy(lc);
 
 					} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 				}, s));
@@ -290,7 +290,7 @@ namespace Common {
 					if (!artconf.empty()) {
 						auto& ifaces = artnet_->GetInterfaces().get();
 						for (auto& a : ifaces) {
-							if (std::equal(artconf.broadcast.begin(), artconf.broadcast.end(), a.broadcast.begin())) {
+							if (artconf.broadcast._Equal(a.broadcast)) {
 								r[1] = true; break;
 							}
 						}

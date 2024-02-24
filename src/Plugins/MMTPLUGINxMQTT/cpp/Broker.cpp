@@ -262,7 +262,7 @@ namespace Common {
 				mosquitto* m = nullptr;
 				isconnect__ = false;
 				do {
-					config_.Copy(c);
+					config_.copy(c);
 					if (config_.empty()) {
 						to_log::Get() << log_string().to_log_string(
 							__FUNCTIONW__,

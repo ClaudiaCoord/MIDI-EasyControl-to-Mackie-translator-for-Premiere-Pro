@@ -62,7 +62,7 @@ namespace Common {
 
 		template <typename T1>
 		template <typename T2>
-		void BrokerConfig<T1>::Copy(BrokerConfig<T2>& c) {
+		void BrokerConfig<T1>::copy(const BrokerConfig<T2>& c) {
 			enable = c.enable;
 			port = ((c.port > 0) && (c.port < 65536)) ? c.port : port;
 			isssl = c.certcapath.empty() ? false : (c.sslpsk.empty() ? c.isssl : false);
@@ -103,9 +103,9 @@ namespace Common {
 		template std::wstring BrokerConfig<std::wstring>::scnv_(std::string&);
 		template std::wstring BrokerConfig<std::wstring>::scnv_(std::wstring&);
 
-		template FLAG_EXPORT void BrokerConfig<std::string>::Copy(BrokerConfig<std::wstring>&);
-		template FLAG_EXPORT void BrokerConfig<std::string>::Copy(BrokerConfig<std::string>&);
-		template FLAG_EXPORT void BrokerConfig<std::wstring>::Copy(BrokerConfig<std::string>&);
-		template FLAG_EXPORT void BrokerConfig<std::wstring>::Copy(BrokerConfig<std::wstring>&);
+		template FLAG_EXPORT void BrokerConfig<std::string>::copy(const BrokerConfig<std::wstring>&);
+		template FLAG_EXPORT void BrokerConfig<std::string>::copy(const BrokerConfig<std::string>&);
+		template FLAG_EXPORT void BrokerConfig<std::wstring>::copy(const BrokerConfig<std::string>&);
+		template FLAG_EXPORT void BrokerConfig<std::wstring>::copy(const BrokerConfig<std::wstring>&);
 	}
 }

@@ -18,26 +18,56 @@ namespace Common {
 		using namespace Common::MIDI;
 
 		MMTConfig::MMTConfig() {}
-		MMTConfig::~MMTConfig() { Clear(); }
+		MMTConfig::~MMTConfig() { clear(); }
 		bool MMTConfig::empty() { return units.empty(); }
-		void MMTConfig::Init() { Clear(); }
-		void MMTConfig::Clear() {
+		void MMTConfig::init() { clear(); }
+		void MMTConfig::clear() {
 			if (!units.empty()) {
 				std::unique_lock<std::shared_mutex> lock(mtx_);
 				units.clear();
 			}
 		}
-		void MMTConfig::Add(MidiUnit mu) {
+		void MMTConfig::add(MidiUnit mu) {
 			units.push_back(std::move(mu));
 		}
 		MMTConfig* MMTConfig::get() {
 			return this;
 		}
-		std::wstring MMTConfig::Dump() {
+		std::wstring MMTConfig::dump() {
 			JSON::json_config jsc;
 			std::unique_lock<std::shared_mutex> lock(mtx_);
 			return jsc.Dump(this);
 		}
+
+		MIDI::MidiUnit& MMTConfig::find(const uint8_t s) {
+			return find_(
+				[=](const MIDI::MidiUnit& u) {
+					return u.scene == s;
+				}
+			);
+		}
+		MIDI::MidiUnit& MMTConfig::find(const uint8_t s, const uint8_t k) {
+			return find_(
+				[=](const MIDI::MidiUnit& u) {
+					return (u.scene == s) && (u.key == k);
+				}
+			);
+		}
+		MIDI::MidiUnit& MMTConfig::find(const uint8_t s, const uint8_t k, const MIDI::MidiUnitType t) {
+			return find_(
+				[=](const MIDI::MidiUnit& u) {
+					return (u.scene == s) && (u.key == k) && (u.type == t);
+				}
+			);
+		}
+		MIDI::MidiUnit& MMTConfig::find(const MIDI::Mackie::Target t) {
+			return find_(
+				[=](const MIDI::MidiUnit& u) {
+					return u.target == t;
+				}
+			);
+		}
+
 		void MMTConfig::copy_units_(MMTConfig* cnf) {
 			if (!cnf) return;
 			try {
@@ -54,16 +84,33 @@ namespace Common {
 			try {
 				config = std::wstring(cnf->config);
 				auto_start = cnf->auto_start;
-				midiconf.Copy(cnf->midiconf);
-				mqttconf.Copy(cnf->mqttconf);
-				mmkeyconf.Copy(cnf->mmkeyconf);
-				lightconf.Copy(cnf->lightconf);
-				remoteconf.Copy(cnf->remoteconf);
-				gamepadconf.Copy(cnf->gamepadconf);
+				midiconf.copy(cnf->midiconf);
+				mqttconf.copy(cnf->mqttconf);
+				mmkeyconf.copy(cnf->mmkeyconf);
+				lightconf.copy(cnf->lightconf);
+				remoteconf.copy(cnf->remoteconf);
+				gamepadconf.copy(cnf->gamepadconf);
+				vmscript.copy(cnf->vmscript);
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
+		}
+
+		MIDI::MidiUnit& MMTConfig::find_(std::function<bool(const MIDI::MidiUnit&)> f) {
+			try {
+				auto entry = std::find_if(
+					units.begin(),
+					units.end(),
+					f
+				);
+				if (entry != units.end())
+					return reinterpret_cast<MIDI::MidiUnit&>(*entry);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return std::ref(common_static::unit_empty);
 		}
 
 	}

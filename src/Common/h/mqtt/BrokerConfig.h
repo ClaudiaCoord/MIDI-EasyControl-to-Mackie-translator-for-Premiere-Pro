@@ -39,7 +39,7 @@ namespace Common {
 			std::wstring dump();
 
 			template <typename T2>
-			void FLAG_EXPORT Copy(BrokerConfig<T2>&);
+			void FLAG_EXPORT copy(const BrokerConfig<T2>&);
 
 		};
 	}

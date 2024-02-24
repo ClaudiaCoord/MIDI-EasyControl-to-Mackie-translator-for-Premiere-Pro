@@ -127,7 +127,7 @@ namespace Common {
 						);
 						if (is_enable_) load_(bc);
 						if (is_enable_ && is_config_)
-							common_config::Get().GetConfig()->mqttconf.Copy(bc);
+							common_config::Get().GetConfig()->mqttconf.copy(bc);
 
 					} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 				}, s));

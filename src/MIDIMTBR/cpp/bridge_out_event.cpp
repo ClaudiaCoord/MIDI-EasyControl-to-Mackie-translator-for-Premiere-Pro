@@ -145,12 +145,13 @@ namespace Common {
                     PluginClassTypes ctype = pcb->GetType();
                     switch (ctype) {
                         using enum PluginClassTypes;
-                        case ClassRemote:
+                        case ClassMidi:
                         case ClassMixer:
-                        case ClassLightKey:
+                        case ClassRemote:
                         case ClassMqttKey:
+                        case ClassLightKey:
                         case ClassMediaKey:
-                        case ClassMidi: break;
+                        case ClassVmScript: break;
                         default: continue;
                     }
 
@@ -165,7 +166,7 @@ namespace Common {
 
                                 if (u.key == m.key() && u.scene == m.scene()) { // && u.target == m.target()) {
 
-                                    if ((u.target == MIDI::Mackie::Target::VOLUMEMIX) && u.appvolume.empty())
+                                    if ((u.target == MIDI::Mackie::Target::VOLUMEMIX) && u.apps.empty())
                                         continue;
 
                                     if (!MIDI::MidiSetter::ValidTarget(u))
@@ -206,7 +207,7 @@ namespace Common {
 
                                     unitref.begin();
 
-                                    if (u.appvolume.empty())
+                                    if (u.apps.empty())
                                         break;
 
                                     if (!MIDI::MidiSetter::ValidTarget(u))
@@ -371,6 +372,39 @@ namespace Common {
                             }
                             break;
                         }
+                        case ClassVmScript: {
+
+                            for (auto& u : cnf_->units) {
+                                if (u.key == m.key() && u.scene == m.scene()) {
+                                    #if !defined(DEBUG_NO_TARGET)
+                                    if (u.target != MIDI::Mackie::Target::VMSCRIPT) break;
+                                    #endif
+
+                                    #if defined(DEBUG_BRIDGE_OUT)
+                                    to_log::Get() << (log_string() << L"\t\t(ClassVmScript) = " << u.Dump());
+                                    #endif
+
+                                    unitref.begin();
+
+                                    if (!MIDI::MidiSetter::ValidTarget(u))
+                                        break;
+
+                                    if (!MIDI::MidiSetter::ÑhatterButton(u, m, cnf_.get()->midiconf.get_interval()))
+                                        break;
+
+                                    MIDI::MidiSetter::SetButton(u);
+                                    unitref.set(u, pcb->GetType());
+                                    try {
+                                        callOut2Cb_t f = pcb->GetCbOut2();
+                                        if (f) f(u, t);
+                                    } catch (std::bad_function_call& e) {
+                                        to_log__(__FUNCTIONW__, e.what(), EXCEPT_CB2, pcb);
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        }
                         case ClassMidi: {
 
                             for (auto& u : cnf_->units) {
@@ -385,6 +419,7 @@ namespace Common {
                                         case MQTTKEY:
                                         case LIGHTKEY8B:
                                         case LIGHTKEY16B:
+                                        case VMSCRIPT:
                                         case NOTARGET: {
                                             break;
                                         }

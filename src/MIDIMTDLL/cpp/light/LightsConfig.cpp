@@ -18,10 +18,10 @@ namespace Common {
         const bool LightsConfig::empty() {
             return (dmxconf.empty() && artnetconf.empty());
         }
-		void LightsConfig::Copy(LightsConfig& lc) {
+		void LightsConfig::copy(const LightsConfig& lc) {
 			ispool = lc.ispool;
-			dmxconf.Copy(lc.dmxconf);
-			artnetconf.Copy(lc.artnetconf);
+			dmxconf.copy(lc.dmxconf);
+			artnetconf.copy(lc.artnetconf);
 		}
         log_string LightsConfig::dump() {
             log_string ls{};

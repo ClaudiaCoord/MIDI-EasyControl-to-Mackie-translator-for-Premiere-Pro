@@ -1,0 +1,17 @@
+
+print("Example: Light RGB led effects...")
+var group = CreateRGB(129,10,11,12);
+
+while (!IsCanceled()) {
+
+  for (var color = 0; color <= 255; color += 10) {
+
+    if (IsCanceled()) { break; }
+    group.SetColor(color);
+    group.ApplyValues();
+
+    if (IsCanceled()) { break; }
+    sleep(2500);
+  }
+}
+

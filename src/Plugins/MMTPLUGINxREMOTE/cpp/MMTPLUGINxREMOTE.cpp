@@ -365,7 +365,7 @@ namespace Common {
 			if (is_enable_) {
 				loglevel_.store(rc.loglevel);
 				rc.server_ua = (log_string() << VER_GUI_EN << L" " << _PLUGINBUILD << L", (" << _PLUGINWINV << L")").str();
-				ws_.config.cnf.Copy(rc);
+				ws_.config.cnf.copy(rc);
 			}
 		}
 		const std::string RemotePlugin::get_build_config_(std::shared_ptr<JSON::MMTConfig>& mmt) {
@@ -459,7 +459,7 @@ namespace Common {
 							}
 						);
 						if (is_enable_) load_(rc);
-						if (is_config_ && is_enable_) common_config::Get().GetConfig()->remoteconf.Copy(rc);
+						if (is_config_ && is_enable_) common_config::Get().GetConfig()->remoteconf.copy(rc);
 
 					} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
 				}, s));

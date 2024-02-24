@@ -50,6 +50,7 @@ BEGIN
 	MENUITEM "显示 LIGTS 配置",		DLG_LOGVIEW_MENU_CONF_LIGTS
 	MENUITEM "显示远程配置",	DLG_LOGVIEW_MENU_CONF_REMOTE
 	MENUITEM "显示 GAMEPAD 配置",	DLG_LOGVIEW_MENU_CONF_GAMEPAD
+	MENUITEM "显示 VMSCRIPT 配置",	DLG_LOGVIEW_MENU_CONF_SCRIPT
         MENUITEM SEPARATOR
 	MENUITEM "显示DMX512配置",	DLG_LOGVIEW_MENU_CONF_DMX512
 	MENUITEM "显示 ArtNet 配置",	DLG_LOGVIEW_MENU_CONF_ARTNET
@@ -120,9 +121,10 @@ BEGIN
         MENUITEM "删除",                     IDM_LV_DELETE
         POPUP "安装为.."
         BEGIN
+            MENUITEM "控制指的是智能家居", IDM_LV_SET_MQTT
             MENUITEM "控制指的是音频混音器", IDM_LV_SET_MIXER
             MENUITEM "控件适用于多媒体按钮", IDM_LV_SET_MMKEY
-            MENUITEM "控制指的是智能家居", IDM_LV_SET_MQTT
+            MENUITEM "控制指的是脚本管理", IDM_LV_SET_VMSCRIPT
 	    POPUP "控制指的是光的控制"
 	    BEGIN
 		MENUITEM "通道 8 位（标准）", IDM_LV_SET_LIGHTKEY8B
@@ -138,7 +140,7 @@ END
 
 DLG_EDIT_LV_COL3_TYPE_MENU MENU
 BEGIN
-    POPUP "__COL3TYPEMENU"
+    POPUP "__COL3 TYPE MENU"
     BEGIN
         POPUP "监管机构.."
         BEGIN
@@ -172,9 +174,10 @@ BEGIN
         MENUITEM "监管机构..",			IDM_COL5_MENU_REPLACE_FIELD1
         MENUITEM "纽扣..",				IDM_COL5_MENU_REPLACE_FIELD2
         MENUITEM SEPARATOR
+        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
         MENUITEM "控制指的是音频混音器", IDM_COL4_VOLUMEMIX
         MENUITEM "控件适用于多媒体按钮", IDM_COL4_MEDIAKEY
-        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
+        MENUITEM "控制指的是脚本管理", IDM_LV_SET_VMSCRIPT
 	POPUP "控制指的是光的控制"
 	BEGIN
 	   MENUITEM "通道 8 位（标准）", IDM_COL4_LIGHTKEY8B
@@ -187,111 +190,142 @@ DLG_EDIT_LV_COL4_BTN_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 BTN TARGET MENU"
     BEGIN
-        MENUITEM "未分配",		   IDM_COL4_NONE
+        MENUITEM "未分配",		      IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "声音控制..."
         BEGIN
-            MENUITEM "沉默（大师）",		IDM_COL4_MAM
-            MENUITEM "独奏（大师）",			IDM_COL4_MAS
+            MENUITEM "沉默（大师）",	      IDM_COL4_MAM
+            MENUITEM "独奏（大师）",		      IDM_COL4_MAS
             MENUITEM SEPARATOR
             POPUP "无声无息.."
             BEGIN
-                MENUITEM "频道1",                     IDM_COL4_B21
-                MENUITEM "频道2",                     IDM_COL4_B22
-                MENUITEM "频道3",                     IDM_COL4_B23
-                MENUITEM "频道4",                     IDM_COL4_B24
-                MENUITEM "频道5",                     IDM_COL4_B25
-                MENUITEM "频道6",                     IDM_COL4_B26
-                MENUITEM "频道7",                     IDM_COL4_B27
-                MENUITEM "频道8",                     IDM_COL4_B28
-                MENUITEM "频道 9",                     IDM_COL4_B29
+                MENUITEM "频道1",                   IDM_COL4_B21
+                MENUITEM "频道2",                   IDM_COL4_B22
+                MENUITEM "频道3",                   IDM_COL4_B23
+                MENUITEM "频道4",                   IDM_COL4_B24
+                MENUITEM "频道5",                   IDM_COL4_B25
+                MENUITEM "频道6",                   IDM_COL4_B26
+                MENUITEM "频道7",                   IDM_COL4_B27
+                MENUITEM "频道8",                   IDM_COL4_B28
+                MENUITEM "频道 9",                   IDM_COL4_B29
             END
             POPUP "独奏.."
             BEGIN
-                MENUITEM "频道1",                     IDM_COL4_B11
-                MENUITEM "频道2",                     IDM_COL4_B12
-                MENUITEM "频道3",                     IDM_COL4_B13
-                MENUITEM "频道4",                     IDM_COL4_B14
-                MENUITEM "频道5",                     IDM_COL4_B15
-                MENUITEM "频道6",                     IDM_COL4_B16
-                MENUITEM "频道7",                     IDM_COL4_B17
-                MENUITEM "频道8",                     IDM_COL4_B18
-                MENUITEM "频道 9",                     IDM_COL4_B19
+                MENUITEM "频道1",                   IDM_COL4_B11
+                MENUITEM "频道2",                   IDM_COL4_B12
+                MENUITEM "频道3",                   IDM_COL4_B13
+                MENUITEM "频道4",                   IDM_COL4_B14
+                MENUITEM "频道5",                   IDM_COL4_B15
+                MENUITEM "频道6",                   IDM_COL4_B16
+                MENUITEM "频道7",                   IDM_COL4_B17
+                MENUITEM "频道8",                   IDM_COL4_B18
+                MENUITEM "频道 9",                   IDM_COL4_B19
             END
         END
         POPUP "多媒体按钮.."
         BEGIN
-            MENUITEM "播放/暂停",                IDM_COL4_SYS_Play
-            MENUITEM "停止",                        IDM_COL4_SYS_Stop
-            MENUITEM "以前的",                  IDM_COL4_SYS_Rewind
-            MENUITEM "下一个",                   IDM_COL4_SYS_Forward
-            MENUITEM "记录",                      IDM_COL4_SYS_Record
-            MENUITEM "向上（操纵杆）",            IDM_COL4_SYS_Up
-            MENUITEM "向下（操纵杆）",             IDM_COL4_SYS_Down
-            MENUITEM "右（操纵杆）",           IDM_COL4_SYS_Right
-            MENUITEM "左（操纵杆）",            IDM_COL4_SYS_Left
-            MENUITEM "放大",         IDM_COL4_SYS_Zoom
-            MENUITEM "擦洗",               IDM_COL4_SYS_Scrub
+            MENUITEM "播放/暂停",                  IDM_COL4_SYS_Play
+            MENUITEM "停止",                          IDM_COL4_SYS_Stop
+            MENUITEM "以前的",                    IDM_COL4_SYS_Rewind
+            MENUITEM "下一个",                     IDM_COL4_SYS_Forward
+            MENUITEM "记录",                        IDM_COL4_SYS_Record
+            MENUITEM "向上（操纵杆）",              IDM_COL4_SYS_Up
+            MENUITEM "向下（操纵杆）",               IDM_COL4_SYS_Down
+            MENUITEM "右（操纵杆）",             IDM_COL4_SYS_Right
+            MENUITEM "左（操纵杆）",              IDM_COL4_SYS_Left
+            MENUITEM "放大",           IDM_COL4_SYS_Zoom
+            MENUITEM "擦洗",                 IDM_COL4_SYS_Scrub
         END
         POPUP "Premiere Pro 功能..."
         BEGIN
             POPUP "标准按钮的功能..."
             BEGIN
-                MENUITEM "功能1",                   IDM_COL4_FUN11
-                MENUITEM "功能2",                   IDM_COL4_FUN12
-                MENUITEM "功能3",                   IDM_COL4_FUN13
-                MENUITEM "功能4",                   IDM_COL4_FUN14
-                MENUITEM "功能5",                   IDM_COL4_FUN15
-                MENUITEM "功能6",                   IDM_COL4_FUN16
-                MENUITEM "功能7",                   IDM_COL4_FUN17
-                MENUITEM "功能8",                   IDM_COL4_FUN18
+                MENUITEM "功能1",                 IDM_COL4_FUN11
+                MENUITEM "功能2",                 IDM_COL4_FUN12
+                MENUITEM "功能3",                 IDM_COL4_FUN13
+                MENUITEM "功能4",                 IDM_COL4_FUN14
+                MENUITEM "功能5",                 IDM_COL4_FUN15
+                MENUITEM "功能6",                 IDM_COL4_FUN16
+                MENUITEM "功能7",                 IDM_COL4_FUN17
+                MENUITEM "功能8",                 IDM_COL4_FUN18
             END
             POPUP "一键式按钮功能..."
             BEGIN
-                MENUITEM "功能1",                   IDM_COL4_FUN21
-                MENUITEM "功能2",                   IDM_COL4_FUN22
-                MENUITEM "功能3",                   IDM_COL4_FUN23
-                MENUITEM "功能4",                   IDM_COL4_FUN24
-                MENUITEM "功能5",                   IDM_COL4_FUN25
-                MENUITEM "功能6",                   IDM_COL4_FUN26
-                MENUITEM "功能7",                   IDM_COL4_FUN27
-                MENUITEM "功能8",                   IDM_COL4_FUN28
+                MENUITEM "功能1",                 IDM_COL4_FUN21
+                MENUITEM "功能2",                 IDM_COL4_FUN22
+                MENUITEM "功能3",                 IDM_COL4_FUN23
+                MENUITEM "功能4",                 IDM_COL4_FUN24
+                MENUITEM "功能5",                 IDM_COL4_FUN25
+                MENUITEM "功能6",                 IDM_COL4_FUN26
+                MENUITEM "功能7",                 IDM_COL4_FUN27
+                MENUITEM "功能8",                 IDM_COL4_FUN28
             END
         END
         POPUP "智能家居系统中的按钮.."
         BEGIN
-                MENUITEM "开/关 1",                 IDM_COL4_B11
-                MENUITEM "开/关 2",                 IDM_COL4_B12
-                MENUITEM "开/关 3",                 IDM_COL4_B13
-                MENUITEM "开/关 4",                 IDM_COL4_B14
-                MENUITEM "开/关 5",                 IDM_COL4_B15
-                MENUITEM "开/关 6",                 IDM_COL4_B16
-                MENUITEM "开/关 7",                 IDM_COL4_B17
-                MENUITEM "开/关 8",                 IDM_COL4_B18
-                MENUITEM "开/关 9",                 IDM_COL4_B19
-                MENUITEM "开/关 10",                 IDM_COL4_B21
-                MENUITEM "开/关 11",                 IDM_COL4_B22
-                MENUITEM "开/关 12",                 IDM_COL4_B23
-                MENUITEM "开/关 13",                 IDM_COL4_B24
-                MENUITEM "开/关 14",                 IDM_COL4_B25
-                MENUITEM "开/关 15",                 IDM_COL4_B26
-                MENUITEM "开/关 16",                 IDM_COL4_B27
-                MENUITEM "开/关 17",                 IDM_COL4_B28
-                MENUITEM "开/关 18",                 IDM_COL4_B29
-                MENUITEM "开/关 19",                 IDM_COL4_B31
-                MENUITEM "开/关 20",                 IDM_COL4_B32
-                MENUITEM "开/关 21",                 IDM_COL4_B33
-                MENUITEM "开/关 22",                 IDM_COL4_B34
-                MENUITEM "开/关 23",                 IDM_COL4_B35
-                MENUITEM "开/关 24",                 IDM_COL4_B36
-                MENUITEM "开/关 25",                 IDM_COL4_B37
-                MENUITEM "开/关 26",                 IDM_COL4_B38
-                MENUITEM "开/关 27",                 IDM_COL4_B39
+                MENUITEM "开/关 1",                IDM_COL4_B11
+                MENUITEM "开/关 2",                IDM_COL4_B12
+                MENUITEM "开/关 3",                IDM_COL4_B13
+                MENUITEM "开/关 4",                IDM_COL4_B14
+                MENUITEM "开/关 5",                IDM_COL4_B15
+                MENUITEM "开/关 6",                IDM_COL4_B16
+                MENUITEM "开/关 7",                IDM_COL4_B17
+                MENUITEM "开/关 8",                IDM_COL4_B18
+                MENUITEM "开/关 9",                IDM_COL4_B19
+                MENUITEM "开/关 10",               IDM_COL4_B21
+                MENUITEM "开/关 11",               IDM_COL4_B22
+                MENUITEM "开/关 12",               IDM_COL4_B23
+                MENUITEM "开/关 13",               IDM_COL4_B24
+                MENUITEM "开/关 14",               IDM_COL4_B25
+                MENUITEM "开/关 15",               IDM_COL4_B26
+                MENUITEM "开/关 16",               IDM_COL4_B27
+                MENUITEM "开/关 17",               IDM_COL4_B28
+                MENUITEM "开/关 18",               IDM_COL4_B29
+                MENUITEM "开/关 19",               IDM_COL4_B31
+                MENUITEM "开/关 20",               IDM_COL4_B32
+                MENUITEM "开/关 21",               IDM_COL4_B33
+                MENUITEM "开/关 22",               IDM_COL4_B34
+                MENUITEM "开/关 23",               IDM_COL4_B35
+                MENUITEM "开/关 24",               IDM_COL4_B36
+                MENUITEM "开/关 25",               IDM_COL4_B37
+                MENUITEM "开/关 26",               IDM_COL4_B38
+                MENUITEM "开/关 27",               IDM_COL4_B39
+        END
+        POPUP "脚本管理..."
+        BEGIN
+                MENUITEM "脚本1",                  IDM_COL4_B11
+                MENUITEM "脚本2",                  IDM_COL4_B12
+                MENUITEM "脚本3",                  IDM_COL4_B13
+                MENUITEM "脚本4",                  IDM_COL4_B14
+                MENUITEM "脚本5",                  IDM_COL4_B15
+                MENUITEM "脚本6",                  IDM_COL4_B16
+                MENUITEM "脚本7",                  IDM_COL4_B17
+                MENUITEM "脚本8",                  IDM_COL4_B18
+                MENUITEM "脚本9",                  IDM_COL4_B19
+                MENUITEM "脚本10",                 IDM_COL4_B21
+                MENUITEM "脚本11",                 IDM_COL4_B22
+                MENUITEM "脚本12",                 IDM_COL4_B23
+                MENUITEM "脚本13",                 IDM_COL4_B24
+                MENUITEM "脚本14",                 IDM_COL4_B25
+                MENUITEM "脚本15",                 IDM_COL4_B26
+                MENUITEM "脚本16",                 IDM_COL4_B27
+                MENUITEM "脚本17",                 IDM_COL4_B28
+                MENUITEM "脚本18",                 IDM_COL4_B29
+                MENUITEM "脚本19",                 IDM_COL4_B31
+                MENUITEM "脚本20",                 IDM_COL4_B32
+                MENUITEM "脚本21",                 IDM_COL4_B33
+                MENUITEM "脚本22",                 IDM_COL4_B34
+                MENUITEM "脚本23",                 IDM_COL4_B35
+                MENUITEM "脚本24",                 IDM_COL4_B36
+                MENUITEM "脚本25",                 IDM_COL4_B37
+                MENUITEM "脚本26",                 IDM_COL4_B38
+                MENUITEM "脚本27",                 IDM_COL4_B39
         END
         MENUITEM SEPARATOR
+        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
         MENUITEM "控制指的是音频混音器", IDM_COL4_VOLUMEMIX
         MENUITEM "控件适用于多媒体按钮", IDM_COL4_MEDIAKEY
-        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
+	MENUITEM "控制指的是脚本管理", IDM_COL4_VMSCRIPT
 	POPUP "控制指的是光的控制"
 	BEGIN
 	   MENUITEM "通道 8 位（标准）", IDM_COL4_LIGHTKEY8B
@@ -304,37 +338,37 @@ DLG_EDIT_LV_COL4_SLIDER_TARGET_MENU MENU
 BEGIN
     POPUP "__COL4 SLIDER TARGET MENU"
     BEGIN
-        MENUITEM "编码器（逐帧查看）", IDM_COL4_JOG
-        MENUITEM "未分配",               IDM_COL4_NONE
+        MENUITEM "编码器（逐帧查看）",  IDM_COL4_JOG
+        MENUITEM "未分配",                 IDM_COL4_NONE
         MENUITEM SEPARATOR
         POPUP "声音控制..."
         BEGIN
-            MENUITEM "音量（主）",          IDM_COL4_MAV
-            MENUITEM "平衡（主）",             IDM_COL4_MAP
+            MENUITEM "音量（主）",         IDM_COL4_MAV
+            MENUITEM "平衡（主）",            IDM_COL4_MAP
             MENUITEM SEPARATOR
             POPUP "体积.."
             BEGIN
-                MENUITEM "频道1",                     IDM_COL4_AV1
-                MENUITEM "频道2",                     IDM_COL4_AV2
-                MENUITEM "频道3",                     IDM_COL4_AV3
-                MENUITEM "频道4",                     IDM_COL4_AV4
-                MENUITEM "频道5",                     IDM_COL4_AV5
-                MENUITEM "频道6",                     IDM_COL4_AV6
-                MENUITEM "频道7",                     IDM_COL4_AV7
-                MENUITEM "频道8",                     IDM_COL4_AV8
-                MENUITEM "频道 9",                     IDM_COL4_XV9
+                MENUITEM "频道1",                IDM_COL4_AV1
+                MENUITEM "频道2",                IDM_COL4_AV2
+                MENUITEM "频道3",                IDM_COL4_AV3
+                MENUITEM "频道4",                IDM_COL4_AV4
+                MENUITEM "频道5",                IDM_COL4_AV5
+                MENUITEM "频道6",                IDM_COL4_AV6
+                MENUITEM "频道7",                IDM_COL4_AV7
+                MENUITEM "频道8",                IDM_COL4_AV8
+                MENUITEM "频道 9",                IDM_COL4_XV9
             END
             POPUP "平衡.."
             BEGIN
-                MENUITEM "频道1",                     IDM_COL4_AP1
-                MENUITEM "频道2",                     IDM_COL4_AP2
-                MENUITEM "频道3",                     IDM_COL4_AP3
-                MENUITEM "频道4",                     IDM_COL4_AP4
-                MENUITEM "频道5",                     IDM_COL4_AP5
-                MENUITEM "频道6",                     IDM_COL4_AP6
-                MENUITEM "频道7",                     IDM_COL4_AP7
-                MENUITEM "频道8",                     IDM_COL4_AP8
-                MENUITEM "频道 9",                     IDM_COL4_XP9
+                MENUITEM "频道1",                IDM_COL4_AP1
+                MENUITEM "频道2",                IDM_COL4_AP2
+                MENUITEM "频道3",                IDM_COL4_AP3
+                MENUITEM "频道4",                IDM_COL4_AP4
+                MENUITEM "频道5",                IDM_COL4_AP5
+                MENUITEM "频道6",                IDM_COL4_AP6
+                MENUITEM "频道7",                IDM_COL4_AP7
+                MENUITEM "频道8",                IDM_COL4_AP8
+                MENUITEM "频道 9",                IDM_COL4_XP9
             END
         END
         POPUP "“智能家居”系统中的调节器.."
@@ -348,25 +382,34 @@ BEGIN
                 MENUITEM "7级",              IDM_COL4_AV7
                 MENUITEM "8级",              IDM_COL4_AV8
                 MENUITEM "9级",              IDM_COL4_XV9
-                MENUITEM "10级",              IDM_COL4_AP1
-                MENUITEM "11级",              IDM_COL4_AP2
-                MENUITEM "12级",              IDM_COL4_AP3
-                MENUITEM "13级",              IDM_COL4_AP4
-                MENUITEM "14级",              IDM_COL4_AP5
-                MENUITEM "15级",              IDM_COL4_AP6
-                MENUITEM "16级",              IDM_COL4_AP7
-                MENUITEM "17级",              IDM_COL4_AP8
-                MENUITEM "18级",              IDM_COL4_XP9
+                MENUITEM "10级",             IDM_COL4_AP1
+                MENUITEM "11级",             IDM_COL4_AP2
+                MENUITEM "12级",             IDM_COL4_AP3
+                MENUITEM "13级",             IDM_COL4_AP4
+                MENUITEM "14级",             IDM_COL4_AP5
+                MENUITEM "15级",             IDM_COL4_AP6
+                MENUITEM "16级",             IDM_COL4_AP7
+                MENUITEM "17级",             IDM_COL4_AP8
+                MENUITEM "18级",             IDM_COL4_XP9
         END
         MENUITEM SEPARATOR
+        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
         MENUITEM "控制指的是音频混音器", IDM_COL4_VOLUMEMIX
         MENUITEM "控件适用于多媒体按钮", IDM_COL4_MEDIAKEY
-        MENUITEM "控制指的是智能家居", IDM_COL4_MQTTKEY
+	MENUITEM "控制指的是脚本管理", IDM_COL4_VMSCRIPT
 	POPUP "控制指的是光的控制"
 	BEGIN
 	   MENUITEM "通道 8 位（标准）", IDM_COL4_LIGHTKEY8B
 	   MENUITEM "通道 16 位（扩展）", IDM_COL4_LIGHTKEY16B
 	END
+    END
+END
+
+DLG_EDIT_LV_COLS_SLIDER_NOSUPPORT_MENU MENU
+BEGIN
+    POPUP "__COLS SLIDER NOSUPPORT MENU"
+    BEGIN
+	MENUITEM "所选控件组不支持滑块控件", IDM_COL4_NONE
     END
 END
 
@@ -435,57 +478,57 @@ BEGIN
         MENUITEM "以前的",                  IDM_COL4_SYS_Rewind
         MENUITEM "下一个",                   IDM_COL4_SYS_Forward
         MENUITEM "记录",                      IDM_COL4_SYS_Record
-        MENUITEM "向上（操纵杆）",           IDM_COL4_SYS_Up
-        MENUITEM "向下（操纵杆）",           IDM_COL4_SYS_Down
+        MENUITEM "向上（操纵杆）",            IDM_COL4_SYS_Up
+        MENUITEM "向下（操纵杆）",             IDM_COL4_SYS_Down
         MENUITEM "右（操纵杆）",           IDM_COL4_SYS_Right
-        MENUITEM "左（操纵杆）",           IDM_COL4_SYS_Left
+        MENUITEM "左（操纵杆）",            IDM_COL4_SYS_Left
         MENUITEM "放大",         IDM_COL4_SYS_Zoom
         MENUITEM "擦洗",               IDM_COL4_SYS_Scrub
         MENUITEM SEPARATOR
-        MENUITEM "未分配",               IDM_COL4_NONE
+        MENUITEM "未分配",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_SLIDER_SMH_MENU MENU
+DLG_EDIT_LV_COL5_SLIDER_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 SLIDER SMART HOUSE MENU"
     BEGIN
-        MENUITEM "1级",                    IDM_COL4_AV1
-        MENUITEM "2级",                    IDM_COL4_AV2
-        MENUITEM "3级",                    IDM_COL4_AV3
-        MENUITEM "4级",                    IDM_COL4_AV4
-        MENUITEM "5级",                    IDM_COL4_AV5
-        MENUITEM "6级",                    IDM_COL4_AV6
-        MENUITEM "7级",                    IDM_COL4_AV7
-        MENUITEM "8级",                    IDM_COL4_AV8
-        MENUITEM "9级",                    IDM_COL4_XV9
-        MENUITEM "10级",                    IDM_COL4_AP1
-        MENUITEM "11级",                    IDM_COL4_AP2
-        MENUITEM "12级",                    IDM_COL4_AP3
-        MENUITEM "13级",                    IDM_COL4_AP4
-        MENUITEM "14级",                    IDM_COL4_AP5
-        MENUITEM "15级",                    IDM_COL4_AP6
-        MENUITEM "16级",                    IDM_COL4_AP7
-        MENUITEM "17级",                    IDM_COL4_AP8
-        MENUITEM "18级",                    IDM_COL4_XP9
+        MENUITEM "1级",                   IDM_COL4_AV1
+        MENUITEM "2级",                   IDM_COL4_AV2
+        MENUITEM "3级",                   IDM_COL4_AV3
+        MENUITEM "4级",                   IDM_COL4_AV4
+        MENUITEM "5级",                   IDM_COL4_AV5
+        MENUITEM "6级",                   IDM_COL4_AV6
+        MENUITEM "7级",                   IDM_COL4_AV7
+        MENUITEM "8级",                   IDM_COL4_AV8
+        MENUITEM "9级",                   IDM_COL4_XV9
+        MENUITEM "10级",                  IDM_COL4_AP1
+        MENUITEM "11级",                  IDM_COL4_AP2
+        MENUITEM "12级",                  IDM_COL4_AP3
+        MENUITEM "13级",                  IDM_COL4_AP4
+        MENUITEM "14级",                  IDM_COL4_AP5
+        MENUITEM "15级",                  IDM_COL4_AP6
+        MENUITEM "16级",                  IDM_COL4_AP7
+        MENUITEM "17级",                  IDM_COL4_AP8
+        MENUITEM "18级",                  IDM_COL4_XP9
         MENUITEM SEPARATOR
-        MENUITEM "未分配",                 IDM_COL4_NONE
+        MENUITEM "未分配",              IDM_COL4_NONE
     END
 END
 
-DLG_EDIT_LV_COL5_BTN_SMH_MENU MENU
+DLG_EDIT_LV_COL5_BTN_SMH_LIGHT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SMART HOUSE MENU"
     BEGIN
-    MENUITEM "开/关 1",                     IDM_COL4_B11
-    MENUITEM "开/关 2",                     IDM_COL4_B12
-    MENUITEM "开/关 3",                     IDM_COL4_B13
-    MENUITEM "开/关 4",                     IDM_COL4_B14
-    MENUITEM "开/关 5",                     IDM_COL4_B15
-    MENUITEM "开/关 6",                     IDM_COL4_B16
-    MENUITEM "开/关 7",                     IDM_COL4_B17
-    MENUITEM "开/关 8",                     IDM_COL4_B18
-    MENUITEM "开/关 9",                     IDM_COL4_B19
+    MENUITEM "开/关 1",                      IDM_COL4_B11
+    MENUITEM "开/关 2",                      IDM_COL4_B12
+    MENUITEM "开/关 3",                      IDM_COL4_B13
+    MENUITEM "开/关 4",                      IDM_COL4_B14
+    MENUITEM "开/关 5",                      IDM_COL4_B15
+    MENUITEM "开/关 6",                      IDM_COL4_B16
+    MENUITEM "开/关 7",                      IDM_COL4_B17
+    MENUITEM "开/关 8",                      IDM_COL4_B18
+    MENUITEM "开/关 9",                      IDM_COL4_B19
     MENUITEM "开/关 10",                     IDM_COL4_B21
     MENUITEM "开/关 11",                     IDM_COL4_B22
     MENUITEM "开/关 12",                     IDM_COL4_B23
@@ -505,7 +548,42 @@ BEGIN
     MENUITEM "开/关 26",                     IDM_COL4_B38
     MENUITEM "开/关 27",                     IDM_COL4_B39
     MENUITEM SEPARATOR
-    MENUITEM "未分配",                   IDM_COL4_NONE
+    MENUITEM "未分配",                  IDM_COL4_NONE
     END
 END
 
+DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
+BEGIN
+    POPUP "__COL5 BTN SCRIPT MENU"
+    BEGIN
+    MENUITEM "脚本1",                  IDM_COL4_B11
+    MENUITEM "脚本2",                  IDM_COL4_B12
+    MENUITEM "脚本3",                  IDM_COL4_B13
+    MENUITEM "脚本4",                  IDM_COL4_B14
+    MENUITEM "脚本5",                  IDM_COL4_B15
+    MENUITEM "脚本6",                  IDM_COL4_B16
+    MENUITEM "脚本7",                  IDM_COL4_B17
+    MENUITEM "脚本8",                  IDM_COL4_B18
+    MENUITEM "脚本9",                  IDM_COL4_B19
+    MENUITEM "脚本10",                 IDM_COL4_B21
+    MENUITEM "脚本11",                 IDM_COL4_B22
+    MENUITEM "脚本12",                 IDM_COL4_B23
+    MENUITEM "脚本13",                 IDM_COL4_B24
+    MENUITEM "脚本14",                 IDM_COL4_B25
+    MENUITEM "脚本15",                 IDM_COL4_B26
+    MENUITEM "脚本16",                 IDM_COL4_B27
+    MENUITEM "脚本17",                 IDM_COL4_B28
+    MENUITEM "脚本18",                 IDM_COL4_B29
+    MENUITEM "脚本19",                 IDM_COL4_B31
+    MENUITEM "脚本20",                 IDM_COL4_B32
+    MENUITEM "脚本21",                 IDM_COL4_B33
+    MENUITEM "脚本22",                 IDM_COL4_B34
+    MENUITEM "脚本23",                 IDM_COL4_B35
+    MENUITEM "脚本24",                 IDM_COL4_B36
+    MENUITEM "脚本25",                 IDM_COL4_B37
+    MENUITEM "脚本26",                 IDM_COL4_B38
+    MENUITEM "脚本27",                 IDM_COL4_B39
+    MENUITEM SEPARATOR
+    MENUITEM "未分配",            IDM_COL4_NONE
+    END
+END

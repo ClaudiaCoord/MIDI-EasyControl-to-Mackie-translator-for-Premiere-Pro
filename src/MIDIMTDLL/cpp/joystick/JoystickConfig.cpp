@@ -50,7 +50,7 @@ namespace Common {
 			return JoystickHelper::GetJoystickControlsType(t);
 		}
 
-		void JoystickConfig::Copy(JoystickConfig& c) {
+		void JoystickConfig::copy(const JoystickConfig& c) {
 			enable = c.enable;
 			scene = c.scene;
 			step = c.step;

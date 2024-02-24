@@ -21,7 +21,7 @@ namespace Common {
 			LIGHT::ArtnetConfig		artnetconf{};
 			LIGHT::SerialPortConfig	dmxconf{};
 
-			void Copy(LightsConfig&);
+			void copy(const LightsConfig&);
 			const bool empty();
 			log_string dump();
 		};

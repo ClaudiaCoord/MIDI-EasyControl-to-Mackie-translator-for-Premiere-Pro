@@ -19,7 +19,7 @@ namespace Common {
         USE:         to_log & log = Common::to_log::Get();
         REGISTRED MONITOR:    log.registred(std::function<void(const std::wstring&)>); // [=](const std::wstring&) { ... }
         UNREGISTRED MONITOR:  log.unregistred(std::function<void(const std::wstring&)>);
-        // #define TO_f_Fn_log(A) reinterpret_cast<logFnType>(A)
+        // #define TO_f_Fn_log(A) reinterpret_cast<logBaseType>(A)
      */
 
     typedef std::pair<uint32_t, std::function<void(const std::wstring&)>> logBaseType;
@@ -37,10 +37,13 @@ namespace Common {
 
         void reset();
         void reset_buffer();
+        void to_buffer();
+        void seekp(std::streamoff, std::ios_base::seekdir);
         std::wstring get();
         std::wstring str() const;
         const wchar_t* c_str();
-        const bool empty();
+        const bool empty() const;
+        const bool emptyb();
 
         operator std::wstring() const;
 
@@ -86,6 +89,9 @@ namespace Common {
         template<> log_string& operator<< (uint8_t);
         template<> log_string& operator<< (uint16_t);
         template<> log_string& operator<< (uint32_t);
+        template<> log_string& operator<< (ULARGE_INTEGER);
+        template<> log_string& operator<< (SYSTEMTIME);
+        template<> log_string& operator<< (FILETIME);
 
         template<typename... Args>
         static inline std::wstring format(const std::wstring s, Args&&... args) {
@@ -118,6 +124,11 @@ namespace Common {
     extern template FLAG_EXPORT log_string& log_string::operator<< (uint8_t);
     extern template FLAG_EXPORT log_string& log_string::operator<< (uint16_t);
     extern template FLAG_EXPORT log_string& log_string::operator<< (uint32_t);
+
+    extern template FLAG_EXPORT log_string& log_string::operator<< (ULARGE_INTEGER);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (SYSTEMTIME);
+    extern template FLAG_EXPORT log_string& log_string::operator<< (FILETIME);
+
 
     class to_log {
     private:
@@ -175,6 +186,9 @@ namespace Common {
         template<> FLAG_EXPORT to_log& operator<< (const std::string&);
         template<> FLAG_EXPORT to_log& operator<< (const std::wstring&);
         template<> FLAG_EXPORT to_log& operator<< (const GUID&);
+        template<> FLAG_EXPORT to_log& operator<< (const ULARGE_INTEGER&);
+        template<> FLAG_EXPORT to_log& operator<< (const SYSTEMTIME&);
+        template<> FLAG_EXPORT to_log& operator<< (const FILETIME&);
 
         template<typename T1>
         constexpr void tolog(const T1& arg) noexcept {
@@ -201,6 +215,9 @@ namespace Common {
     extern template FLAG_EXPORT to_log& to_log::operator<< (const std::wstring&);
     extern template FLAG_EXPORT to_log& to_log::operator<< (const std::wstring_view&);
     extern template FLAG_EXPORT to_log& to_log::operator<< (const GUID&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const ULARGE_INTEGER&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const SYSTEMTIME&);
+    extern template FLAG_EXPORT to_log& to_log::operator<< (const FILETIME&);
 
     class log_auto {
     private:

@@ -39,7 +39,7 @@ namespace Common {
 			try {
 				isload_.store(false);
 				auto& mmt = common_config::Get().GetConfig();
-				config_.Copy(mmt->gamepadconf);
+				config_.copy(mmt->gamepadconf);
 
 				::CheckDlgButton(hwnd_,  DLG_PLUG_GAMEPAD_ISENABLE, CHECKBTN(config_.enable));
 				::CheckDlgButton(hwnd_,  DLG_PLUG_GAMEPAD_ASBTN, CHECKBTN(config_.directasbutton));
@@ -303,7 +303,7 @@ namespace Common {
 				if (!hwnd_) return;
 
 				auto& mmt = common_config::Get().GetConfig();
-				mmt->gamepadconf.Copy(config_);
+				mmt->gamepadconf.copy(config_);
 				UI::UiUtils::SaveDialogEnabled(hwnd_, false);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
