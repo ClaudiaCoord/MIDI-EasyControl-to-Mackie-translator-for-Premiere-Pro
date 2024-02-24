@@ -47,12 +47,9 @@ x86/*
 x32/*
 
 /_TRASH/*
-/src/.vs/*
-/src/Plugins/*/.vs/*
 /src/MIDIMT*-cache/*
 /src/MIDIMTLauncher/rc/msi/*
 /src/MIDIMTLauncher/cpp/MIDIMT-Launcher.cpp
-/src/MMTScriptViewer/*
 /docs/*.bak
 /docs/*.rtf
 /docs/Releases/*
@@ -68,10 +65,9 @@ x32/*
 /docs/Images/__Libs/*
 /src/*.suo
 /src/.vs/*
-/src/_OLD/*
+/src/Plugins/*/.vs/*
 /src/_TESTS/*
 /src/_BUILD/*
-/src/_ICONS/*
 /src/MIDIMT/rc/*.APS
 /src/MIDIMT/rc/*.aps
 /src/Common/rc/*.APS
@@ -79,16 +75,16 @@ x32/*
 /src/MIDIMTLIGHT/h/ASIO
 !/src/MIDIMTLIGHT/h/ASIO/*.md
 
-/docs/Images/_OLD
 /src/Common/rc/ribbon/*.h
 /src/Common/rc/ribbon/*.rc
 /src/Common/rc/ribbon/*.bml
 /src/Common/rc/ribbon/ico/notused
 
-!/src/MIDIMTVEUI/lib/*/*/Lexilla.lib
-!/src/MIDIMTVEUI/lib/*/*/Scintilla.lib
 /src/MIDIMTVEUI/lib/*
 /src/MIDIMTVEUI/scintilla/*
+!/src/MIDIMTVEUI/lib/*/*/Lexilla.lib
+!/src/MIDIMTVEUI/lib/*/*/Scintilla.lib
 
-/src/MMTScriptViewer/lib/ftxui/.vs/*
-/src/MMTScriptViewer/lib/ftxui/lib/*
+/src/MMTScriptViewer/*
+# /src/MMTScriptViewer/lib/ftxui/.vs/*
+# /src/MMTScriptViewer/lib/ftxui/lib/*
