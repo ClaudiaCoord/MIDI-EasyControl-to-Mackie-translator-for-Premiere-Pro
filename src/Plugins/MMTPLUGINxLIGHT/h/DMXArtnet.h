@@ -24,7 +24,7 @@ namespace Common {
 			std::mutex mutex_{};
 
 			LIGHT::UdpPort udp_{};
-			LIGHT::ArtnetPacket packet_{};
+			LIGHT::ArtnetPacket  packet_{};
 			LIGHT::ArtnetConfigs interfaces_{};
 			LIGHT::ArtnetConfig  config_{};
 
@@ -38,11 +38,11 @@ namespace Common {
 
 			ArtnetPacketType GetPacketType() const;
 			void SetPacketType(ArtnetPacketType);
+			std::vector<byte> CreateArtnetPacket(DMXPacket&);
 
 			bool IsRun() override;
-			bool Send(DMXPacket, bool = false) override;
 			void Send(std::vector<byte>&) override;
-			bool Send_async(DMXPacket, DWORD, bool = false) override;
+			void Send_async(std::vector<byte>&) override;
 			std::vector<byte> Receive() override;
 			void Stop() override;
 			bool Start(ArtnetConfig&);

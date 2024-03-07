@@ -204,7 +204,7 @@ namespace Common {
         } __except (EXCEPTION_EXECUTE_HANDLER) {}
     }
 
-    std::string Utils::trim_(std::string_view& sv) {
+    std::string  Utils::trim_(std::string_view& sv) {
         std::string s(sv);
         static const char* t = " \t\n\r\f\v";
         s.erase(0, s.find_first_not_of(t));

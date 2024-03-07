@@ -170,7 +170,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& MMKeysPlugin::GetDeviceList() {
+		IO::export_list_t& MMKeysPlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(empty_list);
 		}

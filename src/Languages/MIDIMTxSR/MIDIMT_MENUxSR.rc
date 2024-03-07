@@ -556,6 +556,9 @@ DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SCRIPT MENU"
     BEGIN
+    MENUITEM "Зауставите све скрипте",     IDM_COL4_SYS_Stop
+    MENUITEM "Поново прочитајте директоријум скрипте", IDM_COL4_SYS_Rewind
+    MENUITEM SEPARATOR
     MENUITEM "скрипта 1",                  IDM_COL4_B11
     MENUITEM "скрипта 2",                  IDM_COL4_B12
     MENUITEM "скрипта 3",                  IDM_COL4_B13

@@ -34,7 +34,7 @@ namespace Common {
 			bool stop_();
 			void cb_out_call_(MIDI::MidiUnit&, DWORD);
 			void set_config_cb_(std::shared_ptr<JSON::MMTConfig>&);
-			const std::string get_build_config_(std::shared_ptr<JSON::MMTConfig>&);
+			const std::string build_web_config_(std::shared_ptr<JSON::MMTConfig>&);
 
 		public:
 
@@ -47,7 +47,7 @@ namespace Common {
 			bool stop() override;
 			void release() override;
 
-			std::vector<std::pair<uint16_t, std::wstring>>& GetDeviceList() override;
+			IO::export_list_t& GetDeviceList() override;
 			std::any GetDeviceData() override;
 			IO::PluginUi& GetPluginUi() override;
 		};

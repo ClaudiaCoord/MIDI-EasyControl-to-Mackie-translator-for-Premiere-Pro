@@ -222,7 +222,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& MidiCtrlPlugin::GetDeviceList() {
+		IO::export_list_t& MidiCtrlPlugin::GetDeviceList() {
 			TRACE_CALL();
 			try {
 				if (!export_list_.empty())

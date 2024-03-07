@@ -200,7 +200,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& GamePadPlugin::GetDeviceList() {
+		IO::export_list_t& GamePadPlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(devices_list);
 		}

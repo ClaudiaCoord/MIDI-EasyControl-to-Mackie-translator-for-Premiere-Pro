@@ -23,7 +23,7 @@ namespace Common {
 
 		class DialogEdit : public IO::PluginUi, public CbEvent {
 
-			handle_ptr<ListMixerContainer*> last_{};
+			handle_ptr<ListUnitContainer*> last_{};
 			std::unique_ptr<ListEdit> lv_{};
 			std::unique_ptr<RToolBarDialogEdit> tb_{};
 			UI::ImageStateButton<HICON> img_status_{};
@@ -60,6 +60,8 @@ namespace Common {
 			void lv_click_(LPNMHDR);
 			void lv_dbclick_(LPNMHDR);
 			void lv_filter_(LPNMHDR);
+			void lv_filter_dup_();
+			void lv_dup_delete_();
 
 			void tb_sort_(uint32_t);
 			void tb_recent_open_(uint32_t);
@@ -69,6 +71,7 @@ namespace Common {
 			void tb_save_();
 			void tb_import_();
 			void tb_export_();
+			void tb_export_mqtt_conf_();
 			void tb_monitor_();
 			void tb_filter_embed_();
 			void tb_filter_type_(uint32_t);

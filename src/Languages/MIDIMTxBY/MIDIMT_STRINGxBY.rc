@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Канфігурацыя створана нанова і патрабуе запаўнення"
     STRING_EDIT_MSG4	"Пры адкрыцці рэдактара, быў паказаны файл канфігурацыі: '{0}'. Захаваць яго з тым жа імем?"
     STRING_EDIT_MSG5	"Нумар DMX канала"
+    STRING_EDIT_MSG6	"Канфігурацыя MQTT паспяхова экспартавана"
+    STRING_EDIT_MSG7	"Памылка экспарту MQTT канфігурацыі"
+    STRING_EDIT_MSG8	"Дублікаты MIDI ключоў не знойдзены"
+    STRING_EDIT_MSG9	"Знойдзена {0} дублікатаў MIDI ключоў"
 
     STRING_NOTIFY_MSG1	"транслятар спынены:"
     STRING_NOTIFY_MSG2	"транслятар працуе:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"скрыпт 25"
 	IDM_COL5_SCRIPT_B38		"скрыпт 26"
 	IDM_COL5_SCRIPT_B39		"скрыпт 27"
+	IDM_COL5_SCRIPT_STOP		"Спыніць усе сцэнары"
+	IDM_COL5_SCRIPT_RELOAD		"Перачытаць каталог сцэнарыяў"
 	IDM_COL5_SCRIPT_EMPTY		"Не прызначана"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Калі ласка, адрэдагуйце канфігурацыю перад запускам."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Файл канфігурацыі"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Выконваныя файлы"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT файлы канфігурацыі"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Канфігурацыя загружана з файла: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Канфігурацыя загружана з драйвера"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Абраны {0} мова будзе актыўнай пасля перазапуску акна."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Механізм сцэнарыяў запушчаны, даступныя сцэнары: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Механізм сцэнарыяў спынены."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Файлы скрыптоў"
+	IDS_ERRORID_SCRIPT_CALL			"Запуск сцэнара: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Перачытваю каталог сцэнарыяў."
+	IDS_ERRORID_SCRIPT_STOPALL		"Спынена выкананых сцэнарыяў: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"не ўдалося адкрыць каталог: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"нельга прачытаць каталог з паказанымі параметрамі, завяршаю назіранне за каталогам."

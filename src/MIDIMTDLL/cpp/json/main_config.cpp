@@ -34,7 +34,7 @@ namespace Common {
 			return this;
 		}
 		std::wstring MMTConfig::dump() {
-			JSON::json_config jsc;
+			JSON::json_config jsc{};
 			std::unique_lock<std::shared_mutex> lock(mtx_);
 			return jsc.Dump(this);
 		}

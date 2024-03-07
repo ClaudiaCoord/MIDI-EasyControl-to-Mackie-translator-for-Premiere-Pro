@@ -209,7 +209,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& MQTTPlugin::GetDeviceList() {
+		IO::export_list_t& MQTTPlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(export_list_);
 		}

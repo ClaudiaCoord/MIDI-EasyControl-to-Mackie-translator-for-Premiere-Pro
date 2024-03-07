@@ -35,7 +35,8 @@ namespace APP {
                 << style::reset << clr << L'\n' << log_count_++ << L") "
                 << style::reset << fore << back << L" " << t.c_str() << L" " << style::reset << clr << L":"
                 << back << ((d) ? L" (" : L"") << fore << ((d) ? std::to_wstring(d) : L"") << clr << ((d) ? L"), " : L"")
-                << style::reset << sfore << sback << L" " << s.c_str() << L" " << style::reset << L'\n';
+                << style::reset << sfore << sback << L" " << s.c_str() << L" " << style::reset << L"\n";
+            std::wcout.flush();
         }
 
         static void out_list_(const tcolor::fg fore, const tcolor::bg back, const std::wstring& s, uint8_t ident = 0) {
@@ -46,6 +47,7 @@ namespace APP {
                 << style::reset << clr << L"\n*"
                 << ((ident == 1) ? L"\t" : ((ident == 2) ? L"\t\t" : L""))
                 << style::reset << fore << back << s.c_str() << style::reset;
+            std::wcout.flush();
         }
         static void out_help_(const std::wstring& c, const std::wstring& s) {
             Common::awaiter a(std::ref(lock_));
@@ -53,27 +55,31 @@ namespace APP {
             std::wcout
                 << style::reset << L"\n\t'"
                 << tcolor::style::bold << c << style::reset << L"' - " << s;
+            std::wcout.flush();
         }
-        static void out_single_(const tcolor::fg fore, const tcolor::bg back, const std::wstring& s) {
+        static void out_single_(const tcolor::fg fore, const tcolor::bg back, const std::wstring& s, const bool is_newline) {
             Common::awaiter a(std::ref(lock_));
             if (!a.lock_if()) a.lock_wait();
             std::wcout
-                << style::reset << L'\n'
-                << fore << back << L" " << s.c_str() << L" " << style::reset;
+                << style::reset << L"\n"
+                << fore << back << L" " << s.c_str() << L" " << style::reset << (is_newline ? L"\n" : L"");
+            std::wcout.flush();
         }
         static void out_normal_(const tcolor::fg fore, const std::wstring& s) {
             Common::awaiter a(std::ref(lock_));
             if (!a.lock_if()) a.lock_wait();
             std::wcout
-                << style::reset << L'\n'
+                << style::reset << L"\n"
                 << fore << bg::black << s.c_str() << style::reset;
+            std::wcout.flush();
         }
         static void out_source_(const std::wstring& s) {
             Common::awaiter a(std::ref(lock_));
             if (!a.lock_if()) a.lock_wait();
             std::wcout
-                << style::reset << L'\n'
-                << fg::green << bg::black <<  s.c_str() << style::reset;
+                << style::reset << L"\n"
+                << fg::green << bg::black <<  s.c_str() << style::reset << L"\n";
+            std::wcout.flush();
         }
     public:
         static void out_log(const std::wstring& t, const Common::log_string& ls) {
@@ -82,7 +88,7 @@ namespace APP {
         static void out_log(const std::wstring& t, const std::wstring& s) {
             if (s.starts_with(L"[VM/SCRIPT]: # ")) Print::out_(fg::magenta, bg::yellow, tcolor::fg::black, tcolor::bg::yellow, t, s);
             else if (s.starts_with(L"[VM/SCRIPT]: * ")) Print::out_(fg::magenta, bg::yellow, tcolor::fg::black, tcolor::bgB::gray, t, s);
-            else if (s.starts_with(L"[VM/SCRIPT]: ^ ")) Print::out_(fg::magenta, bg::yellow, tcolor::fg::black, tcolor::bg::red, t, s);
+            else if (s.starts_with(L"[VM/SCRIPT]: ^ ") || t.starts_with(L"WARNING")) Print::out_(fg::magenta, bg::yellow, tcolor::fg::black, tcolor::bg::red, t, s);
             else Print::out_(fg::magenta, bg::yellow, fg::gray, bg::black, t, s);
             
         }
@@ -99,22 +105,20 @@ namespace APP {
             Print::out_help_(c, s);
         }
         static void out_call(const std::wstring& s) {
-            Print::out_single_(fg::gray, bg::green, s);
+            Print::out_single_(fg::gray, bg::green, s, true);
         }
         static void out_prompt(const std::wstring& s) {
-            Print::out_single_(fg::black, bg::cyan, s);
+            Print::out_single_(fg::black, bg::cyan, s, false);
         }
         static void out_normal(const std::wstring& s) {
             Print::out_normal_(fg::gray, s);
         }
         static void out_error(const std::wstring& s) {
-            Print::out_single_(fg::gray, bg::red, s);
-            Print::new_line();
+            Print::out_single_(fg::gray, bg::red, s, true);
         }
         static void out_source(const std::wstring& t, const std::wstring& n, const std::wstring& s) {
             Print::out_(fgB::gray, bg::green, fg::gray, bg::black, t, n);
             out_source_(s);
-            Print::new_line();
         }
         static void new_line() {
             Common::awaiter a(std::ref(lock_));

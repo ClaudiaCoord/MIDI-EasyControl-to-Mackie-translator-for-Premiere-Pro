@@ -1,24 +1,41 @@
 
-print("Example: Light RGB led effects...")
+print("* Example: Start Color + Light RGB led effects...")
+
 //
 //          CreateRGB(scene, red-key, green-key, blue-key)
 //         CreateRGBW(scene, red-key, green-key, blue-key, white-key)
 //
-var group = CreateRGB(129,10,11,12);
+var group = CreateRGB(179, 16, 14, 15);
+
+var BRIGHTNES_MAX = 100;
+var BRIGHTNES_MIN = 0;
+var TIMEOUT = 350;
+var COLOR_STEP = 5;
+
+var direction = true;
+var group = CreateRGB(179,16,14,15);
+group.SetColor(ColorsIndex.RED);
 
 while (!IsCanceled()) {
 
-  for (var color = 0; color <= 255; color += 10) {
+  for (var color = 0; color <= 360; color += COLOR_STEP) {
 
     if (IsCanceled()) { break; }
-
-    for (var light = 0; light <= 100; light += 10) {
-
-      group.SetValues(color, light);
-      group.ApplyValues();
-
-      if (IsCanceled()) { break; }
-      sleep(1500);
+    if (direction) {
+       for (var brightnes = BRIGHTNES_MAX; brightnes >= BRIGHTNES_MIN; --brightnes) {
+         group.SetColor(color, 100, brightnes);
+         sleep(TIMEOUT);
+       }
+       direction = false;
+    } else {
+       for (var brightnes = BRIGHTNES_MIN; brightnes <= BRIGHTNES_MAX; ++brightnes) {
+         group.SetColor(color, 100, brightnes);
+         sleep(TIMEOUT);
+       }
+       direction = true;
     }
   }
 }
+
+print("* Light RGB led effects stopped normaly...")
+

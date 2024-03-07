@@ -31,6 +31,10 @@ namespace Common {
             void build_script_list_(SCRIPT::scripts_list_t&);
 
             void changeOnEnable_();
+            void changeOnDebugging_();
+            void changeOnLibMath_();
+            void changeOnLibString_();
+            void changeOnLibWstring_();
             void changeOnWatchDirectory_();
             void changeOnSelectDirectory_();
             void changeOnScriptList_();

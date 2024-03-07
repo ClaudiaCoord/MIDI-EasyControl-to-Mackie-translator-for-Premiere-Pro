@@ -168,16 +168,16 @@ namespace Common {
 
 		log_string AudioSessionItem::to_string() {
 			try {
-				log_string s{};
+				log_string ls{};
 				if (Item.IsEmptyApp()) {
-					s << common_error_code::Get().get_error(common_error_id::err_EMPTY);
+					ls << common_error_code::Get().get_error(common_error_id::err_EMPTY);
 				}
 				else {
-					s << Item.App.to_string();
-					s << L", " << Item.Volume.to_string();
-					if (Item.Id) s << L"\n" << Item.Id.to_string();
+					ls << Item.App.to_string()
+					   << L", " << Item.Volume.to_string();
+					if (Item.Id) ls << L'\n' << Item.Id.to_string();
 				}
-				return s;
+				return ls;
 			} catch (...) {}
 			return log_string();
 		}

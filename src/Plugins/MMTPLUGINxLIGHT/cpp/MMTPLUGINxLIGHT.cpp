@@ -20,6 +20,10 @@ namespace Common {
 		using namespace Common::IO;
 		using namespace std::placeholders;
 
+		#define ALOAD(A) A.load(std::memory_order_acquire)
+		#define ASTORE(A,B) A.store(B, std::memory_order_release)
+		#define TSLEEP(A) std::this_thread::sleep_for(std::chrono::milliseconds(A))
+
 		LightsPlugin::LightsPlugin(std::wstring path, HWND hwnd)
 			: plugin_ui_(
 				*static_cast<PluginCb*>(this),
@@ -43,7 +47,6 @@ namespace Common {
 			PluginCb::cnf_cb_ = std::bind(static_cast<void(LightsPlugin::*)(std::shared_ptr<JSON::MMTConfig>&)>(&LightsPlugin::set_config_cb_), this, _1);
 
 			auto pkt = std::bind(&LightsPlugin::getDMXPacket_, this);
-			lock_ = std::make_shared<locker_awaiter>();
 			dmx_ = std::make_unique<LIGHT::DMXSerial>(pkt);
 			artnet_ = std::make_unique<LIGHT::DMXArtnet>(pkt);
 		}
@@ -54,8 +57,8 @@ namespace Common {
 			TRACE_CALL();
 			try {
 
-				dmx_pause_.store(true, std::memory_order_release);
-				dmx_pool_active_.store(false, std::memory_order_release);
+				ASTORE(dmx_pause_, true);
+				ASTORE(dmx_pool_active_, false);
 
 				if (dmx_->IsRun()) {
 					dmx_->Stop();
@@ -82,30 +85,76 @@ namespace Common {
 			is_enable_ = (is_config_ && (lc.dmxconf.enable || lc.artnetconf.enable));
 		}
 		LIGHT::DMXPacket LightsPlugin::getDMXPacket_() {
-			if (lock_->IsLock()) return LIGHT::DMXPacket();
 			return dmx_packet_;
 		}
 		void LightsPlugin::poolDMXPacket_() {
 			try {
-				std::thread t([=]() {
-					dmx_pool_active_.store(true, std::memory_order_release);
-					const long tm = (dmx_->IsRun() && artnet_->IsRun()) ? 50 : 75;
-					while (dmx_pool_active_.load(std::memory_order_acquire)) {
-						try {
-							if (dmx_pause_.load(std::memory_order_acquire)) {
-								std::this_thread::sleep_for(std::chrono::milliseconds(100));
-								continue;
+				std::jthread t([=]() {
+					try {
+						const long tm = (dmx_->IsRun() && artnet_->IsRun()) ? (ALOAD(dmx_pool_enable_) ? 25 : 10) : (ALOAD(dmx_pool_enable_) ? 50 : 15);
+						const bool is_artnet{ artnet_->IsRun() };
+						const bool is_dmx{ dmx_->IsRun() };
+
+						if (!is_dmx && !is_artnet) return;
+						ASTORE(dmx_pool_active_, true);
+
+						while (ALOAD(dmx_pool_active_)) {
+							try {
+								bool is_resend_packet{ false };
+
+								if (ALOAD(dmx_pause_)) {
+									TSLEEP(100);
+									continue;
+								}
+								if (queue_.empty()) {
+									if (!ALOAD(dmx_pool_enable_)) {
+										TSLEEP(tm);
+										continue;
+									}
+								}
+								else {
+									try {
+										auto& update = queue_.front();
+
+										switch (update[0]) {
+											case 8:		dmx_packet_.set_value8(update[1], static_cast<uint8_t>(update[2])); break;
+											case 16:	dmx_packet_.set_value16(update[1], static_cast<uint8_t>(update[2])); break;
+											default: {
+												queue_.pop();
+												continue;
+											}
+										}
+										queue_.pop();
+										is_resend_packet = (queue_.empty() && ((update[2] == 255) || (update[2] == 0)));
+
+									} catch (...) {}
+								}
+
+								if (is_dmx) {
+									std::vector<byte> v = dmx_packet_.create();
+									std::vector<byte>& ref = std::ref(v);
+
+									(void)dmx_->Send(ref);
+									if (is_resend_packet) (void)dmx_->Send(ref);
+								}
+								if (is_artnet) {
+									std::vector<byte> v = artnet_->CreateArtnetPacket(std::ref(dmx_packet_));
+									std::vector<byte>& ref = std::ref(v);
+
+									(void)artnet_->Send(ref);
+									if (is_resend_packet) (void)artnet_->Send(ref);
+								}
+
+							} catch (...) {
+								Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 							}
-							std::vector<byte> v = dmx_packet_.create();
-							if (!dmx_pool_active_.load(std::memory_order_acquire)) break;
-							if (dmx_->IsRun()) (void) dmx_->Send(v);
-							if (!dmx_pool_active_.load(std::memory_order_acquire)) break;
-							if (artnet_->IsRun()) (void) artnet_->Send(v);
-							if (!dmx_pool_active_.load(std::memory_order_acquire)) break;
-						} catch (...) {
-							Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+
+							if (!ALOAD(dmx_pool_active_)) break;
+							if (queue_.empty())	TSLEEP(tm);
 						}
-						std::this_thread::sleep_for(std::chrono::milliseconds(tm));
+
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
 				});
 				t.detach();
@@ -131,65 +180,27 @@ namespace Common {
 		void LightsPlugin::cb_out_call_(MIDI::MidiUnit& m, DWORD t) {
 			try {
 				if (m.empty() ||
-					dmx_pause_.load(std::memory_order_acquire) ||
-					(packet_id_.load(std::memory_order_acquire) >= t)) return;
+					ALOAD(dmx_pause_) ||
+					(ALOAD(packet_id_) >= t)) return;
 
-				packet_id_ = t;
-				uint8_t val = m.value.value;
-				switch (val) {
-					case 0:
-					case 127: {
-						if (lock_->IsCanceled()) return;
-						break;
-					}
-					default: {
-						if (lock_->IsLock() || lock_->IsOnlyOne() || lock_->IsCanceled()) return;
-						break;
-					}
-				}
-
-				locker_auto locker(lock_, locker_auto::LockType::TypeLockOnlyOne);
-				if (!locker.Begin()) return;
-
-				uint8_t target = m.target;
-				uint16_t did = static_cast<uint16_t>(m.longtarget);
+				ASTORE(packet_id_, t);
+				uint16_t val = m.value.value;
+				uint16_t id = static_cast<uint16_t>(m.longtarget);
 
 				if ((m.type == MIDI::MidiUnitType::BTN) || (m.type == MIDI::MidiUnitType::BTNTOGGLE))
-					val = (dmx_packet_.get_value(did) > 0U) ? 0U : 255U;
+					val = (dmx_packet_.get_value(id) > 0) ? 0 : 255;
 				else
-					val = (val == 127U) ? 255U : ((val <= 127U) ? (val * 2) : val);
-				val = (val <= 4U) ? 0U : val; /* correct end input */
+					val = (val == 127) ? 255 : ((val <= 127) ? (val * 2) : val);
+				val = (val <= 4) ? 0 : val; /* correct light barier, end input */
 
-				switch (target) {
-					using enum MIDI::Mackie::Target;
-					case LIGHTKEY8B: {
-						dmx_packet_.set_value8(did, val);
-						break;
+				queue_.emplace(
+					dmx_update_t{
+						(m.target == MIDI::Mackie::Target::LIGHTKEY8B) ? uint16_t(8) : uint16_t(16),
+						id,
+						val
 					}
-					case LIGHTKEY16B: {
-						dmx_packet_.set_value16(did, val);
-						break;
-					}
-					default: return;
-				}
+				);
 
-				#if defined(_DEBUG_PRINT)
-				{
-					log_string ls{};
-					auto& data = dmx_packet_.get_data();
-					for (uint32_t i = 0; i < 11; i++)
-						ls << data[i] << L"|";
-					ls << L" + " << m.value.value << L"|" << val << L"\n";
-					::OutputDebugStringW(ls.str().c_str());
-				}
-				#endif
-
-				if (dmx_pool_active_.load(std::memory_order_acquire) || dmx_pause_.load(std::memory_order_acquire)) return;
-
-				if (locker.IsCanceled()) return;
-				if (dmx_->IsRun()) (void) dmx_->Send(dmx_packet_, ((val == 255U) || (val == 0U)));
-				if (locker.IsCanceled()) return;
-				if (artnet_->IsRun()) (void) artnet_->Send(dmx_packet_);
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -325,10 +336,11 @@ namespace Common {
 				#pragma endregion
 
 				if (r[0] || r[1]) {
-					if (mmt->lightconf.ispool)
-						poolDMXPacket_();
+					ASTORE(dmx_pool_enable_, mmt->lightconf.ispool);
+					queue_ = {};
+					poolDMXPacket_();
 					is_started_ = true;
-					dmx_pause_.store(false, std::memory_order_release);
+					ASTORE(dmx_pause_, false);
 				}
 				return is_started_;
 
@@ -350,7 +362,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& LightsPlugin::GetDeviceList() {
+		IO::export_list_t& LightsPlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(export_list_);
 		}

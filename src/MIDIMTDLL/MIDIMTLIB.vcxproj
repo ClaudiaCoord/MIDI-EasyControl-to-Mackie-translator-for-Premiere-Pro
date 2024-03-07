@@ -215,6 +215,7 @@
     <ClInclude Include="..\Common\h\light\DMXSerialPortConfig.h" />
     <ClInclude Include="..\Common\h\handle_ptr.h" />
     <ClInclude Include="..\Common\h\light\LightsConfig.h" />
+    <ClInclude Include="..\Common\h\light\utils\ColorControl.h" />
     <ClInclude Include="..\Common\h\locker_auto.h" />
     <ClInclude Include="..\Common\h\locker_awaiter.h" />
     <ClInclude Include="..\Common\h\log_string.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="cpp\light\DMXPacket.cpp" />
     <ClCompile Include="cpp\light\DMXSerialPortConfig.cpp" />
     <ClCompile Include="cpp\light\LightsConfig.cpp" />
+    <ClCompile Include="cpp\light\utils\ColorControl.cpp" />
     <ClCompile Include="cpp\locker_auto.cpp" />
     <ClCompile Include="cpp\locker_awaiter.cpp" />
     <ClCompile Include="cpp\log_string.cpp" />

@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Konfiguracija je bila ustvarjena na novo in jo je treba izpolniti"
     STRING_EDIT_MSG4	"Ob odpiranju urejevalnika je bila navedena konfiguracijska datoteka: '{0}'. Ali ga shranim z istim imenom?"
     STRING_EDIT_MSG5	"Številka kanala DMX"
+    STRING_EDIT_MSG6	"Konfiguracija MQTT je bila uspešno izvožena"
+    STRING_EDIT_MSG7	"Napaka pri izvozu konfiguracije MQTT"
+    STRING_EDIT_MSG8	"Ni podvojenih tipk MIDI"
+    STRING_EDIT_MSG9	"{0} najdenih podvojenih tipk MIDI"
 
     STRING_NOTIFY_MSG1	"prevajalec se ustavi:"
     STRING_NOTIFY_MSG2	"prevajalec dela:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"scenarij 25"
 	IDM_COL5_SCRIPT_B38		"scenarij 26"
 	IDM_COL5_SCRIPT_B39		"scenarij 27"
+	IDM_COL5_SCRIPT_STOP		"Ustavi vse skripte"
+	IDM_COL5_SCRIPT_RELOAD		"Ponovno preberite imenik skriptov"
 	IDM_COL5_SCRIPT_EMPTY		"Ni dodeljena"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Pred začetkom uredite konfiguracijo."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Konfiguracijska datoteka"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Izvršljive datoteke"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"Konfiguracijske datoteke MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Konfiguracija naložena iz datoteke: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Konfiguracija, naložena iz gonilnika"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Izbrani jezik {0} bo aktiven po ponovnem zagonu okna."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Skriptni mehanizem deluje, razpoložljivi skripti: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Skriptni mehanizem se je ustavil."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Skriptne datoteke"
+	IDS_ERRORID_SCRIPT_CALL			"Zaženi skript: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ponovno berem katalog scenarijev ..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Ustavljeno izvajanje skriptov: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Imenika ni bilo mogoče odpreti: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Imenika z navedenimi parametri ni mogoče brati, končujem spremljanje imenika."

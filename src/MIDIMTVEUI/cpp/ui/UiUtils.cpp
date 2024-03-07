@@ -384,12 +384,6 @@ namespace Common {
 				IFileSaveDialog* ptr{ nullptr };
 
 				try {
-					COMDLG_FILTERSPEC filter[] = {
-						{
-							common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
-							L"*.cnf"
-						}
-					};
 					do {
 						HRESULT r = CoCreateInstance(
 							CLSID_FileSaveDialog,

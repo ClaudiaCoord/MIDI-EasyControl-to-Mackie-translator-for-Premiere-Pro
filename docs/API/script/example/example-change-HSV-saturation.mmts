@@ -1,0 +1,14 @@
+
+print("Example: RGB led HSB saturation changer...")
+var rgb = CreateRGB(179, 16, 14, 15);
+
+while (!IsCanceled()) {
+    for (var saturation = 0; saturation < 255; ++saturation) {
+
+        if (IsCanceled()) { break; }
+        rgb.SetColor(180, saturation, 255);
+	sleep(200);
+    }
+}
+
+print("* Light RGB led HSB saturation changer stopped normaly...")

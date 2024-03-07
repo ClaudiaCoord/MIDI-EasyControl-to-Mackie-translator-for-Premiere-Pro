@@ -19,8 +19,8 @@ namespace Common {
 
 		class FLAG_EXPORT DMXPacket {
 		private:
-			DMXData data__{};
-			size_t midx__{ 0 };
+			DMXData data_{};
+			size_t midx_{ 0 };
 			bool blackout{ false };
 
 			#if defined(DEV_DMXUSBPRO_ENABLE)
@@ -29,6 +29,10 @@ namespace Common {
 			#endif
 
 		public:
+
+			DMXPacket() = default;
+			~DMXPacket() = default;
+			DMXPacket(const DMXPacket&);
 
 			const bool empty() const;
 			const size_t size() const;
@@ -39,9 +43,9 @@ namespace Common {
 			DMXData& get_data();
 
 			void set_blackout(bool);
-			void set_index(size_t);
-			void set_value8(uint16_t, uint8_t);
-			void set_value16(uint16_t, uint8_t);
+			void set_index(const size_t);
+			void set_value8(uint16_t, const uint8_t);
+			void set_value16(uint16_t, const uint8_t);
 
 			std::vector<byte> create();
 		};

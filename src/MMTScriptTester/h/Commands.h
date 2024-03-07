@@ -28,6 +28,8 @@ namespace APP {
         scan,
         run,
         stop,
+        debug,
+        terminate,
         // :1
         listscript,
         listrunning,
@@ -147,6 +149,8 @@ namespace APP {
                             else if (word._Equal(L"run")  || word._Equal(L"call") || word._Equal(L"start"))  cmd.set_cmd1(CommandID::run);
                             else if (word._Equal(L"stop") || word._Equal(L"end")) cmd.set_cmd1(CommandID::stop);
                             else if (word._Equal(L"help") || word._Equal(L"?")) cmd.set_cmd1(CommandID::help);
+                            else if (word._Equal(L"debug") || word._Equal(L"debugging")) cmd.set_cmd1(CommandID::debug);
+                            else if (word._Equal(L"term") || word._Equal(L"terminate")) cmd.set_cmd1(CommandID::terminate);
                             break;
                         }
                         case 1U: {
@@ -183,7 +187,9 @@ namespace APP {
                     if (idx == 0U) {
                         if ((cmd.get_cmd1() == CommandID::none) ||
                             (cmd.get_cmd1() == CommandID::scan) ||
-                            (cmd.get_cmd1() == CommandID::help)) break;
+                            (cmd.get_cmd1() == CommandID::help) ||
+                            (cmd.get_cmd1() == CommandID::debug) ||
+                            (cmd.get_cmd1() == CommandID::terminate)) break;
                     }
                     else if (idx == 1U) {
                         if ((cmd.get_cmd1() == CommandID::run) ||

@@ -2,12 +2,12 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 
 	<Application.Commands>
-		<Command Name="listLastItems" Symbol="IDM_DIALOG_LAST_OPEN" Id="55015">
+		<Command Name="listLastItems" Symbol="IDM_DIALOG_LAST_OPEN" Id="55005">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Last edited:</String.Content>
 					<String.Id>53001</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_LAST_OPENL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_LAST_OPENL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
@@ -16,7 +16,7 @@
 				<String>
 					<String.Content>Editing</String.Content>
 					<String.Id>53002</String.Id>
-					<String.Symbol>IDS_RB_TABHOMEL</String.Symbol>
+					<String.Symbol>STR_RB_TABHOMEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
@@ -25,18 +25,21 @@
 				<String>
 					<String.Content>Filter</String.Content>
 					<String.Id>53003</String.Id>
-					<String.Symbol>IDS_RB_TABFILTERL</String.Symbol>
+					<String.Symbol>STR_RB_TABFILTERL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
 		<Command Name="panelEditUpdate" Symbol="IDR_PANEL_EDITUPDATE" Id="55104">
+			<Command.SmallImages>
+				<Image Source="..\\icon\\ribbon\\RB-Save.ico" Symbol="ICON_RB_EDIT_GROUP" Id="54032" MinDPI="96" />
+			</Command.SmallImages>
 		</Command>
 		<Command Name="panelEditMain" Symbol="IDR_PANEL_EDITMAIN" Id="55105">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>edit MIDI key</String.Content>
 					<String.Id>53004</String.Id>
-					<String.Symbol>IDS_RB_PANEL_EDITMAINL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_EDITMAINL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
@@ -45,9 +48,11 @@
 				<String>
 					<String.Content>set MIDI key as..</String.Content>
 					<String.Id>53005</String.Id>
-					<String.Symbol>IDS_RB_PANEL_EDITSETL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_EDITSETL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
+		</Command>
+		<Command Name="panelEditSetMenu" Symbol="IDR_PANEL_EDITSETMENU" Id="55196">
 		</Command>
 		<Command Name="panelEditRead" Symbol="IDR_PANEL_EDITREAD" Id="55107">
 		</Command>
@@ -56,7 +61,16 @@
 				<String>
 					<String.Content>editor options</String.Content>
 					<String.Id>53006</String.Id>
-					<String.Symbol>IDS_RB_PANEL_EDITOPTL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_EDITOPTL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="panelEditUtils" Symbol="IDR_PANEL_EDITUTIL" Id="55066">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>editor options</String.Content>
+					<String.Id>53127</String.Id>
+					<String.Symbol>STR_RB_PANEL_EDITUTILL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
@@ -65,16 +79,19 @@
 				<String>
 					<String.Content>filter selection</String.Content>
 					<String.Id>53007</String.Id>
-					<String.Symbol>IDS_RB_PANEL_FILTERL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_FILTERL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
+			<Command.SmallImages>
+				<Image Source="..\\icon\\ribbon\\RB-Filter.ico" Symbol="ICON_RB_FILTER_GROUP" Id="54033" MinDPI="96" />
+			</Command.SmallImages>
 		</Command>
 		<Command Name="panelSorting" Symbol="IDR_PANEL_SORT" Id="55101">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>sorting</String.Content>
 					<String.Id>53008</String.Id>
-					<String.Symbol>IDS_RB_PANEL_SORTL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_SORTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
@@ -83,14 +100,14 @@
 				<String>
 					<String.Content>&amp;Menu</String.Content>
 					<String.Id>53009</String.Id>
-					<String.Symbol>IDS_RB_MENUL</String.Symbol>
+					<String.Symbol>STR_RB_MENUL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Application Menu</String.Content>
 					<String.Id>53010</String.Id>
-					<String.Symbol>IDS_RB_MENUT</String.Symbol>
+					<String.Symbol>STR_RB_MENUT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 		</Command>
@@ -99,14 +116,14 @@
 				<String>
 					<String.Content>&amp;Quick Access</String.Content>
 					<String.Id>53011</String.Id>
-					<String.Symbol>IDS_RB_PANEL_QATL</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_QATL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Quick Access Toolbar</String.Content>
 					<String.Id>53012</String.Id>
-					<String.Symbol>IDS_RB_PANEL_QATT</String.Symbol>
+					<String.Symbol>STR_RB_PANEL_QATT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 		</Command>
@@ -116,21 +133,21 @@
 				<String>
 					<String.Content>&amp;Save</String.Content>
 					<String.Id>53013</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SAVEL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SAVEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Save (Alt+S)</String.Content>
 					<String.Id>53014</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SAVET</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SAVET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Save to loaded file and update current configuration</String.Content>
 					<String.Id>53015</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SAVED</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SAVED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -142,47 +159,73 @@
 				<String>
 					<String.Content>&amp;Export</String.Content>
 					<String.Id>53016</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXPORTL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXPORTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Export (Alt+E)</String.Content>
 					<String.Id>53017</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXPORTT</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXPORTT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Export edited configuration to file</String.Content>
 					<String.Id>53018</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXPORTD</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXPORTD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Download.ico" Symbol="ICON_RB_EXPORT" Id="54002" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
+		<Command Name="cmdExportMqttConfig" Symbol="IDM_DIALOG_EXPORTMQTT" Id="55065">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Export Mqtt Config</String.Content>
+					<String.Id>53124</String.Id>
+					<String.Symbol>STR_RB_DIALOG_EXPORTMQTTL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Save Mqtt Config (Alt+L)</String.Content>
+					<String.Id>53125</String.Id>
+					<String.Symbol>STR_RB_DIALOG_EXPORTMQTTT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control Mqtt Config group</String.Content>
+					<String.Id>53126</String.Id>
+					<String.Symbol>STR_RB_DIALOG_EXPORTMQTTD</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="ICON_RB_DIALOG_EXPORTMQTT" Id="54034" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>		
 		<Command Name="cmdImport" Symbol="IDM_DIALOG_IMPORT" Id="55004">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>&amp;Import</String.Content>
 					<String.Id>53019</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_IMPORTL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_IMPORTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Import (Alt+I)</String.Content>
 					<String.Id>53020</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_IMPORTT</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_IMPORTT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Import configuration from file</String.Content>
 					<String.Id>53021</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_IMPORTD</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_IMPORTD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -194,126 +237,178 @@
 				<String>
 					<String.Content>E&amp;xit</String.Content>
 					<String.Id>53022</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXITL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXITL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Exit (Alt+X)</String.Content>
 					<String.Id>53023</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXITT</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXITT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Exiting the MIDI key configuration editor</String.Content>
 					<String.Id>53024</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_EXITD</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_EXITD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Sign-out.ico" Symbol="ICON_RB_EXIT" Id="54004" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
+		<Command Name="cmdShowDuplicate" Symbol="IDM_DIALOG_SHOWDUP" Id="55069">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Export Mqtt Config</String.Content>
+					<String.Id>53140</String.Id>
+					<String.Symbol>STR_RB_DIALOG_SHOWDUPL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Save Mqtt Config (Alt+L)</String.Content>
+					<String.Id>53141</String.Id>
+					<String.Symbol>STR_RB_DIALOG_SHOWDUPT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control Mqtt Config group</String.Content>
+					<String.Id>53142</String.Id>
+					<String.Symbol>STR_RB_DIALOG_SHOWDUPD</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Show-Dup.ico" Symbol="ICON_RB_DIALOG_SHOWDUP" Id="54039" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		<Command Name="cmdDelDuplicate" Symbol="IDM_DIALOG_DELDUP" Id="55070">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Export Mqtt Config</String.Content>
+					<String.Id>53143</String.Id>
+					<String.Symbol>STR_RB_DIALOG_DELDUPL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Save Mqtt Config (Alt+L)</String.Content>
+					<String.Id>53144</String.Id>
+					<String.Symbol>STR_RB_DIALOG_DELDUPT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control Mqtt Config group</String.Content>
+					<String.Id>53145</String.Id>
+					<String.Symbol>STR_RB_DIALOG_DELDUPD</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Del-Dup.ico" Symbol="ICON_RB_DIALOG_DELDUP" Id="54040" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
 
-		<Command Name="cmdNew" Symbol="IDM_LV_NEW"  Id="55005">
+		<Command Name="cmdNew" Symbol="IDM_LV_NEW"  Id="55007">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>&amp;New MIDI key</String.Content>
 					<String.Id>53025</String.Id>
-					<String.Symbol>IDS_RB_LV_NEWL</String.Symbol>
+					<String.Symbol>STR_RB_LV_NEWL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>New MIDI key (Alt+N)</String.Content>
 					<String.Id>53026</String.Id>
-					<String.Symbol>IDS_RB_LV_NEWT</String.Symbol>
+					<String.Symbol>STR_RB_LV_NEWT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Create a new MIDI key</String.Content>
 					<String.Id>53027</String.Id>
-					<String.Symbol>IDS_RB_LV_NEWD</String.Symbol>
+					<String.Symbol>STR_RB_LV_NEWD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Edit.ico" Symbol="ICON_RB_EDIT_NEW" Id="54005" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdCopy" Symbol="IDM_LV_COPY" Id="55006">
+		<Command Name="cmdCopy" Symbol="IDM_LV_COPY" Id="55008">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>&amp;Copy</String.Content>
 					<String.Id>53028</String.Id>
-					<String.Symbol>IDS_RB_LV_COPYL</String.Symbol>
+					<String.Symbol>STR_RB_LV_COPYL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Copy MIDI key (Alt+C)</String.Content>
 					<String.Id>53029</String.Id>
-					<String.Symbol>IDS_RB_LV_COPYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_COPYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Copy the selected MIDI key entry</String.Content>
 					<String.Id>53030</String.Id>
-					<String.Symbol>IDS_RB_LV_COPYD</String.Symbol>
+					<String.Symbol>STR_RB_LV_COPYD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Copy.ico" Symbol="ICON_RB_EDIT_COPY" Id="54006" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdPaste" Symbol="IDM_LV_PASTE" Id="55007">
+		<Command Name="cmdPaste" Symbol="IDM_LV_PASTE" Id="55009">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>&amp;Insert</String.Content>
 					<String.Id>53031</String.Id>
-					<String.Symbol>IDS_RB_LV_PASTEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_PASTEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Insert entry (Alt+V)</String.Content>
 					<String.Id>53032</String.Id>
-					<String.Symbol>IDS_RB_LV_PASTET</String.Symbol>
+					<String.Symbol>STR_RB_LV_PASTET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Paste the copied MIDI key entry</String.Content>
 					<String.Id>53033</String.Id>
-					<String.Symbol>IDS_RB_LV_PASTED</String.Symbol>
+					<String.Symbol>STR_RB_LV_PASTED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Clipboard.ico" Symbol="ICON_RB_EDIT_PASTE" Id="54007" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdDelete" Symbol="IDM_LV_DELETE" Id="55008">
+		<Command Name="cmdDelete" Symbol="IDM_LV_DELETE" Id="55010">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>&amp;Delete</String.Content>
 					<String.Id>53034</String.Id>
-					<String.Symbol>IDS_RB_LV_DELETEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_DELETEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Delete entry (Alt+D)</String.Content>
 					<String.Id>53035</String.Id>
-					<String.Symbol>IDS_RB_LV_DELETET</String.Symbol>
+					<String.Symbol>STR_RB_LV_DELETET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Delete the selected MIDI key entry</String.Content>
 					<String.Id>53036</String.Id>
-					<String.Symbol>IDS_RB_LV_DELETED</String.Symbol>
+					<String.Symbol>STR_RB_LV_DELETED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -321,105 +416,184 @@
 			</Command.LargeImages>
 		</Command>
 		
-		<Command Name="cmdSetMqtt" Symbol="IDM_LV_SET_MQTT" Id="55009">
+		<Command Name="cmdSetMqtt" Symbol="IDM_LV_SET_MQTT" Id="55011">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Smart House</String.Content>
 					<String.Id>53037</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MQTTL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MQTTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as 'Smart Home' (Alt+H)</String.Content>
 					<String.Id>53038</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MQTTT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MQTTT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the Smart Home group</String.Content>
 					<String.Id>53039</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MQTTD</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MQTTD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="ICON_RB_EDIT_SETMQTT" Id="54009" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSetMMKey" Symbol="IDM_LV_SET_MMKEY" Id="55010">
+		<Command Name="cmdSetMMKey" Symbol="IDM_LV_SET_MMKEY" Id="55012">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Multimedia buttons</String.Content>
 					<String.Id>53040</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MMKEYL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MMKEYL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as multimedia buttons (Alt+K)</String.Content>
 					<String.Id>53041</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MMKEYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MMKEYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the group of multimedia buttons</String.Content>
 					<String.Id>53042</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MMKEYD</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MMKEYD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="ICON_RB_EDIT_SETMMKEY" Id="54010" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSetMix" Symbol="IDM_LV_SET_MIXER" Id="55011">
+		<Command Name="cmdSetMix" Symbol="IDM_LV_SET_MIXER" Id="55013">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Audio mixer</String.Content>
 					<String.Id>53043</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MIXERL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MIXERL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as audio mixer (Alt+A)</String.Content>
 					<String.Id>53044</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MIXERT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MIXERT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the audio mixer group</String.Content>
 					<String.Id>53045</String.Id>
-					<String.Symbol>IDS_RB_LV_SET_MIXERD</String.Symbol>
+					<String.Symbol>STR_RB_LV_SET_MIXERD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Sound-on.ico" Symbol="ICON_RB_EDIT_SETMIX" Id="54011" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		
-		<Command Name="cmdReadKey" Symbol="IDM_LV_READ_MIDI_CODE" Id="55012">
+
+		<Command Name="cmdSetLight8" Symbol="IDM_LV_SET_LIGHTKEY8B" Id="55050">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Light 8 bit</String.Content>
+					<String.Id>53131</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT8L</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group Light 8 bit (Alt+A)</String.Content>
+					<String.Id>53132</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT8T</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the Light 8 bit group</String.Content>
+					<String.Id>53133</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT8D</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Light-8bit.ico" Symbol="ICON_RB_EDIT_SETLIGHT8" Id="54036" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		<Command Name="cmdSetLight16" Symbol="IDM_LV_SET_LIGHTKEY16B" Id="55051">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Light 8 bit</String.Content>
+					<String.Id>53134</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT16L</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group Light 8 bit (Alt+A)</String.Content>
+					<String.Id>53135</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT16T</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the Light 8 bit group</String.Content>
+					<String.Id>53136</String.Id>
+					<String.Symbol>STR_RB_LV_SET_LIGHT16D</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Light-16bit.ico" Symbol="ICON_RB_EDIT_SETLIGHT16" Id="54037" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		<Command Name="cmdSetScript" Symbol="IDM_LV_SET_VMSCRIPT" Id="55014">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Light 8 bit</String.Content>
+					<String.Id>53137</String.Id>
+					<String.Symbol>STR_RB_LV_SET_SCRIPTL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Set group Light 8 bit (Alt+A)</String.Content>
+					<String.Id>53138</String.Id>
+					<String.Symbol>STR_RB_LV_SET_SCRIPTT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the Light 8 bit group</String.Content>
+					<String.Id>53139</String.Id>
+					<String.Symbol>STR_RB_LV_SET_SCRIPTD</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-Scripts.ico" Symbol="ICON_RB_EDIT_SCRIPT" Id="54038" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+
+		<Command Name="cmdReadKey" Symbol="IDM_LV_READ_MIDI_CODE" Id="55016">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Read MIDI code</String.Content>
 					<String.Id>53046</String.Id>
-					<String.Symbol>IDS_RB_LV_READ_MIDI_CODEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_READ_MIDI_CODEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Read MIDI code (Alt+R)</String.Content>
 					<String.Id>53047</String.Id>
-					<String.Symbol>IDS_RB_LV_READ_MIDI_CODET</String.Symbol>
+					<String.Symbol>STR_RB_LV_READ_MIDI_CODET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Read MIDI code from the control surface</String.Content>
 					<String.Id>53048</String.Id>
-					<String.Symbol>IDS_RB_LV_READ_MIDI_CODED</String.Symbol>
+					<String.Symbol>STR_RB_LV_READ_MIDI_CODED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -427,244 +601,244 @@
 			</Command.LargeImages>
 		</Command>
 
-		<Command Name="cmdEditMode" Symbol="IDM_LV_EDIT_MODE" Id="55013">
+		<Command Name="cmdEditMode" Symbol="IDM_LV_EDIT_MODE" Id="55017">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Digital input only</String.Content>
 					<String.Id>53049</String.Id>
-					<String.Symbol>IDS_RB_LV_EDIT_MODEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_EDIT_MODEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Use digital input only (Alt+M)</String.Content>
 					<String.Id>53050</String.Id>
-					<String.Symbol>IDS_RB_LV_EDIT_MODET</String.Symbol>
+					<String.Symbol>STR_RB_LV_EDIT_MODET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Do not use value selection menu, use digital input only</String.Content>
 					<String.Id>53051</String.Id>
-					<String.Symbol>IDS_RB_LV_EDIT_MODED</String.Symbol>
+					<String.Symbol>STR_RB_LV_EDIT_MODED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdHelpMidi" Symbol="IDM_DIALOG_SHOW_MIDI_KEYS" Id="55014">
+		<Command Name="cmdHelpMidi" Symbol="IDM_DIALOG_SHOW_MIDI_KEYS" Id="55006">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>MIDI control surface</String.Content>
 					<String.Id>53052</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SHOW_MIDI_KEYSL</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SHOW_MIDI_KEYSL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Recommended MIDI control surface layout (Alt+K)</String.Content>
 					<String.Id>53053</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SHOW_MIDI_KEYST</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SHOW_MIDI_KEYST</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Recommended MIDI control surface setting compatible with Adobe Premiere Pro control</String.Content>
 					<String.Id>53054</String.Id>
-					<String.Symbol>IDS_RB_DIALOG_SHOW_MIDI_KEYSD</String.Symbol>
+					<String.Symbol>STR_RB_DIALOG_SHOW_MIDI_KEYSD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
 
-		<Command Name="cmdFilterKey" Symbol="IDM_LV_FILTER_KEY" Id="55016">
+		<Command Name="cmdFilterKey" Symbol="IDM_LV_FILTER_KEY" Id="55018">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Key</String.Content>
 					<String.Id>53055</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_KEYL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_KEYL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Filter by MIDI key (Alt+K)</String.Content>
 					<String.Id>53056</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_KEYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_KEYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Show only MIDI key matches</String.Content>
 					<String.Id>53057</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_KEYD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_KEYD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdFilterScene" Symbol="IDM_LV_FILTER_SCENE" Id="55017">
+		<Command Name="cmdFilterScene" Symbol="IDM_LV_FILTER_SCENE" Id="55019">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Scene</String.Content>
 					<String.Id>53058</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCENEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCENEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Filter by MIDI scene (Alt+K)</String.Content>
 					<String.Id>53059</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCENET</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCENET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Show only MIDI scene matches</String.Content>
 					<String.Id>53060</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCENED</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCENED</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdFilterTarget" Symbol="IDM_LV_FILTER_TARGET" Id="55018">
+		<Command Name="cmdFilterTarget" Symbol="IDM_LV_FILTER_TARGET" Id="55020">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Target 1</String.Content>
 					<String.Id>53061</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Filter by target 1 (Alt+T)</String.Content>
 					<String.Id>53062</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Show only matches by target assignment</String.Content>
 					<String.Id>53063</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdFilterTargetLong" Symbol="IDM_LV_FILTER_TARGETLONG" Id="55019">
+		<Command Name="cmdFilterTargetLong" Symbol="IDM_LV_FILTER_TARGETLONG" Id="55021">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Target 2</String.Content>
 					<String.Id>53064</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETLONGL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETLONGL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Filter by target 2 (Alt+T)</String.Content>
 					<String.Id>53065</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETLONGT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETLONGT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Show only matches by long target assignment</String.Content>
 					<String.Id>53066</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TARGETLONGD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TARGETLONGD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
 		
-		<Command Name="cmdFilterClear" Symbol="IDM_LV_FILTER_CLEAR" Id="55020">
+		<Command Name="cmdFilterClear" Symbol="IDM_LV_FILTER_CLEAR" Id="55022">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Clear filter</String.Content>
 					<String.Id>53067</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_CLEARL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_CLEARL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Clear filter (Alt+C)</String.Content>
 					<String.Id>53068</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_CLEART</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_CLEART</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Clear filter - show all items</String.Content>
 					<String.Id>53069</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_CLEARD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_CLEARD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-X-small.ico" Symbol="ICON_RB_FILTER_CLEAR" Id="54013" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterSet" Symbol="IDM_LV_FILTER_SET" Id="55021">
+		<Command Name="cmdFilterSet" Symbol="IDM_LV_FILTER_SET" Id="55023">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Set filter</String.Content>
 					<String.Id>53070</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SETL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SETL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set filter (Alt+U)</String.Content>
 					<String.Id>53071</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SETT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SETT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Set filter - show all invalid elements</String.Content>
 					<String.Id>53072</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SETD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SETD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Triangle-alert.ico" Symbol="ICON_RB_FILTER_SET" Id="54014" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterOn" Symbol="IDM_LV_FILTER_ON" Id="55022">
+		<Command Name="cmdFilterOn" Symbol="IDM_LV_FILTER_ON" Id="55024">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Apply filter</String.Content>
 					<String.Id>53073</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_ONL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_ONL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Apply filter (Alt+E)</String.Content>
 					<String.Id>53074</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_ONT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_ONT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Apply filter - show selected items</String.Content>
 					<String.Id>53075</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_OND</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_OND</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Zoom-in.ico" Symbol="ICON_RB_FILTER_ON" Id="54015" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterOff" Symbol="IDM_LV_FILTER_OFF" Id="55035">
+		<Command Name="cmdFilterOff" Symbol="IDM_LV_FILTER_OFF" Id="55039">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Remove filter</String.Content>
 					<String.Id>53090</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_OFFL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_OFFL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Remove filter (Alt+R)</String.Content>
 					<String.Id>53091</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_OFFT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_OFFT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Remove filter - show all selected items</String.Content>
 					<String.Id>53092</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_OFFD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_OFFD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -672,78 +846,78 @@
 			</Command.LargeImages>
 		</Command>
 
-		<Command Name="cmdFilterMqtt" Symbol="IDM_LV_FILTER_MQTT" Id="55038">
+		<Command Name="cmdFilterMqtt" Symbol="IDM_LV_FILTER_MQTT" Id="55042">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>View Smart House</String.Content>
 					<String.Id>53099</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MQTTL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MQTTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Show group as 'Smart Home' (Alt+H)</String.Content>
 					<String.Id>53100</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MQTTT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MQTTT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the Smart Home group</String.Content>
 					<String.Id>53101</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MQTTD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MQTTD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Home.ico" Symbol="ICON_RB_FILTER_MQTT" Id="54027" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterMMKey" Symbol="IDM_LV_FILTER_MMKEY" Id="55036">
+		<Command Name="cmdFilterMMKey" Symbol="IDM_LV_FILTER_MMKEY" Id="55040">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Multimedia buttons</String.Content>
 					<String.Id>53093</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MMKEYL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MMKEYL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as multimedia buttons (Alt+K)</String.Content>
 					<String.Id>53094</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MMKEYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MMKEYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the group of multimedia buttons</String.Content>
 					<String.Id>53095</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MMKEYD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MMKEYD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Key.ico" Symbol="ICON_RB_FILTER_MMKEY" Id="54025" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterMix" Symbol="IDM_LV_FILTER_MIXER" Id="55037">
+		<Command Name="cmdFilterMix" Symbol="IDM_LV_FILTER_MIXER" Id="55041">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Audio mixer</String.Content>
 					<String.Id>53096</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MIXERL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MIXERL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as audio mixer (Alt+A)</String.Content>
 					<String.Id>53097</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MIXERT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MIXERT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the audio mixer group</String.Content>
 					<String.Id>53098</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_MIXERD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_MIXERD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -751,78 +925,78 @@
 			</Command.LargeImages>
 		</Command>
 
-		<Command Name="cmdFilterLight8" Symbol="IDM_LV_FILTER_LIGHT8" Id="55060">
+		<Command Name="cmdFilterLight8" Symbol="IDM_LV_FILTER_LIGHT8" Id="55025">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Light Controls 8 bit</String.Content>
 					<String.Id>53115</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8L</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT8L</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as light controls 8 bit (Alt+L)</String.Content>
 					<String.Id>53116</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8T</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT8T</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the light controls 8 bit group</String.Content>
 					<String.Id>53117</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT8D</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT8D</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Light-8bit.ico" Symbol="ICON_RB_FILTER_LIGHT8" Id="54029" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterLight16" Symbol="IDM_LV_FILTER_LIGHT16" Id="55061">
+		<Command Name="cmdFilterLight16" Symbol="IDM_LV_FILTER_LIGHT16" Id="55026">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Light Controls 16 bit</String.Content>
 					<String.Id>53118</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16L</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT16L</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as light controls 16 bit (Alt+L)</String.Content>
 					<String.Id>53119</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16T</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT16T</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the light controls 16 bit group</String.Content>
 					<String.Id>53120</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_LIGHT16D</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_LIGHT16D</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Light-16bit.ico" Symbol="ICON_RB_FILTER_LIGHT16" Id="54030" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdFilterScript" Symbol="IDM_LV_FILTER_SCRIPT" Id="55062">
+		<Command Name="cmdFilterScript" Symbol="IDM_LV_FILTER_SCRIPT" Id="55027">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Script engine</String.Content>
 					<String.Id>53121</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCRIPTL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Set group as VM Scripts (Alt+S)</String.Content>
 					<String.Id>53122</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCRIPTT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the VM Scripts group</String.Content>
 					<String.Id>53123</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_SCRIPTD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_SCRIPTD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -830,56 +1004,57 @@
 			</Command.LargeImages>
 		</Command>		
 
-		<Command Name="cmdExtMode" Symbol="IDM_LV_EXT_MODE" Id="55023">
+		<Command Name="cmdExtMode" Symbol="IDM_LV_EXT_MODE" Id="55028">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Show sorting</String.Content>
 					<String.Id>53076</String.Id>
-					<String.Symbol>IDS_RB_LV_EXT_MODEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_EXT_MODEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
-		<Command Name="cmdFilterEmbed" Symbol="IDM_LV_FILTER_EMBED" Id="55034">
+		<Command Name="cmdFilterEmbed" Symbol="IDM_LV_FILTER_EMBED" Id="55038">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Show embed filters</String.Content>
 					<String.Id>53089</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_EMBEDL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_EMBEDL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
 
-		<Command Name="cmdFilterType" Symbol="IDM_LV_FILTER_TYPE" Id="55039">
+		<Command Name="cmdFilterType" Symbol="IDM_LV_FILTER_TYPE" Id="55043">
 		</Command>
-		<Command Name="cmdFilterTypeGroup" Symbol="IDM_LV_FILTER_TYPEGRP" Id="55040">
+
+		<Command Name="cmdFilterTypeGroup" Symbol="IDM_LV_FILTER_TYPEGRP" Id="55049">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Menu fill</String.Content>
 					<String.Id>53102</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEGRPL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEGRPL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 		</Command>
-		<Command Name="cmdFilterTypeButton" Symbol="IDM_LV_FILTER_TYPEBTN" Id="55041">
+		<Command Name="cmdFilterTypeButton" Symbol="IDM_LV_FILTER_TYPEBTN" Id="55045">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Filter type</String.Content>
 					<String.Id>53103</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEBTNL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEBTNL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Filter type group Button (Alt+x)</String.Content>
 					<String.Id>53104</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEBTNT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEBTNT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Control belongs to the Filter group Button</String.Content>
 					<String.Id>53105</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEBTND</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEBTND</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 			<Command.LargeImages>
@@ -887,146 +1062,146 @@
 			</Command.LargeImages>
 		</Command>
 
-		<Command Name="cmdFilterTypeOr" Symbol="IDM_LV_FILTER_TYPEOR" Id="55042">
+		<Command Name="cmdFilterTypeOr" Symbol="IDM_LV_FILTER_TYPEOR" Id="55046">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Filter OR</String.Content>
 					<String.Id>53106</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEORL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEORL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Use filter OR (Alt+M)</String.Content>
 					<String.Id>53107</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEORT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEORT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Do not use filter OR</String.Content>
 					<String.Id>53108</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEORD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEORD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdFilterTypeAnd" Symbol="IDM_LV_FILTER_TYPEAND" Id="55043">
+		<Command Name="cmdFilterTypeAnd" Symbol="IDM_LV_FILTER_TYPEAND" Id="55047">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Filter OR</String.Content>
 					<String.Id>53109</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEANDL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEANDL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Use filter OR (Alt+M)</String.Content>
 					<String.Id>53110</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEANDT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEANDT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Do not use filter OR</String.Content>
 					<String.Id>53111</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_TYPEANDD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_TYPEANDD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
-		<Command Name="cmdFilterAutoCommit" Symbol="IDM_LV_FILTER_AUTOCOMMIT" Id="55044">
+		<Command Name="cmdFilterAutoCommit" Symbol="IDM_LV_FILTER_AUTOCOMMIT" Id="55048">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>Auto Commit</String.Content>
 					<String.Id>53112</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_AUTOCOMMITL</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_AUTOCOMMITL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Auto Commit (Alt+M)</String.Content>
 					<String.Id>53113</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_AUTOCOMMITT</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_AUTOCOMMITT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.TooltipDescription>
 				<String>
 					<String.Content>Do not use Auto Commit</String.Content>
 					<String.Id>53114</String.Id>
-					<String.Symbol>IDS_RB_LV_FILTER_AUTOCOMMITD</String.Symbol>
+					<String.Symbol>STR_RB_LV_FILTER_AUTOCOMMITD</String.Symbol>
 				</String>
 			</Command.TooltipDescription>
 		</Command>
 
-		<Command Name="cmdSortUpKey" Symbol="IDM_LV_SORTUP_KEY" Id="55024">
+		<Command Name="cmdSortUpKey" Symbol="IDM_LV_SORTUP_KEY" Id="55029">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>by key</String.Content>
 					<String.Id>53077</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_KEYL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_KEYL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by ascending and MIDI key (Alt+s1)</String.Content>
 					<String.Id>53078</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_KEYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_KEYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP" Id="54016" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortUpScene" Symbol="IDM_LV_SORTUP_SCENE" Id="55025">
+		<Command Name="cmdSortUpScene" Symbol="IDM_LV_SORTUP_SCENE" Id="55030">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>by scene</String.Content>
 					<String.Id>53079</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_SCENEL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_SCENEL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by ascending and MIDI scene (Alt+s2)</String.Content>
 					<String.Id>53080</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_SCENET</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_SCENET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP_SCENE" Id="54017" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortUpTarget" Symbol="IDM_LV_SORTUP_TARGET" Id="55026">
+		<Command Name="cmdSortUpTarget" Symbol="IDM_LV_SORTUP_TARGET" Id="55031">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>by target 1</String.Content>
 					<String.Id>53081</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_TARGETL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_TARGETL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by ascending and MIDI target 1 (Alt+s3)</String.Content>
 					<String.Id>53082</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_TARGETT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_TARGETT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-top.ico" Symbol="ICON_RB_SORTUP_TARGET" Id="54018" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortUpTargetLong" Symbol="IDM_LV_SORTUP_TARGETLONG" Id="55027">
+		<Command Name="cmdSortUpTargetLong" Symbol="IDM_LV_SORTUP_TARGETLONG" Id="55032">
 			<Command.LabelTitle>
 				<String>
 					<String.Content>by target 2</String.Content>
 					<String.Id>53083</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_TARGETLONGL</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_TARGETLONGL</String.Symbol>
 				</String>
 			</Command.LabelTitle>
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by ascending and MIDI target 2 (Alt+s4)</String.Content>
 					<String.Id>53084</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTUP_TARGETLONGT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTUP_TARGETLONGT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
@@ -1034,48 +1209,48 @@
 			</Command.LargeImages>
 		</Command>
 
-		<Command Name="cmdSortDownKey" Symbol="IDM_LV_SORTDOWN_KEY" Id="55028">
+		<Command Name="cmdSortDownKey" Symbol="IDM_LV_SORTDOWN_KEY" Id="55033">
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by descending and MIDI key (Alt+s5)</String.Content>
 					<String.Id>53085</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTDOWN_KEYT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTDOWN_KEYT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_KEY" Id="54020" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortDownScene" Symbol="IDM_LV_SORTDOWN_SCENE" Id="55029">
+		<Command Name="cmdSortDownScene" Symbol="IDM_LV_SORTDOWN_SCENE" Id="55034">
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by descending and MIDI scene (Alt+s6)</String.Content>
 					<String.Id>53086</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTDOWN_SCENET</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTDOWN_SCENET</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_SCENE" Id="54021" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortDownTarget" Symbol="IDM_LV_SORTDOWN_TARGET" Id="55030">
+		<Command Name="cmdSortDownTarget" Symbol="IDM_LV_SORTDOWN_TARGET" Id="55035">
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by descending and MIDI target 1 (Alt+s7)</String.Content>
 					<String.Id>53087</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTDOWN_TARGETT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTDOWN_TARGETT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
 				<Image Source="..\\icon\\ribbon\\RB-Align-to-bottom.ico" Symbol="ICON_RB_SORTDOWN_TARGET" Id="54022" MinDPI="96" />
 			</Command.LargeImages>
 		</Command>
-		<Command Name="cmdSortDownTargetLong" Symbol="IDM_LV_SORTDOWN_TARGETLONG" Id="55031">
+		<Command Name="cmdSortDownTargetLong" Symbol="IDM_LV_SORTDOWN_TARGETLONG" Id="55036">
 			<Command.TooltipTitle>
 				<String>
 					<String.Content>Sort by descending and MIDI target 2 (Alt+s8)</String.Content>
 					<String.Id>53088</String.Id>
-					<String.Symbol>IDS_RB_LV_SORTDOWN_TARGETLONGT</String.Symbol>
+					<String.Symbol>STR_RB_LV_SORTDOWN_TARGETLONGT</String.Symbol>
 				</String>
 			</Command.TooltipTitle>
 			<Command.LargeImages>
@@ -1083,6 +1258,35 @@
 			</Command.LargeImages>
 		</Command>
 
+		<Command Name="cmdEditSetSplit" Symbol="IDM_LV_SET_SPLIT" Id="55068">
+		</Command>
+		<Command Name="cmdEditSetButton" Symbol="IDM_LV_SET_BUTTON" Id="55067">
+			<Command.LabelTitle>
+				<String>
+					<String.Content>Set group type</String.Content>
+					<String.Id>53128</String.Id>
+					<String.Symbol>STR_RB_LV_SET_BUTTONL</String.Symbol>
+				</String>
+			</Command.LabelTitle>
+			<Command.TooltipTitle>
+				<String>
+					<String.Content>Filter type group Button (Alt+x)</String.Content>
+					<String.Id>53129</String.Id>
+					<String.Symbol>STR_RB_LV_SET_BUTTONT</String.Symbol>
+				</String>
+			</Command.TooltipTitle>
+			<Command.TooltipDescription>
+				<String>
+					<String.Content>Control belongs to the Filter group Button</String.Content>
+					<String.Id>53130</String.Id>
+					<String.Symbol>STR_RB_LV_SET_BUTTOND</String.Symbol>
+				</String>
+			</Command.TooltipDescription>
+			<Command.LargeImages>
+				<Image Source="..\\icon\\ribbon\\RB-SetType.ico" Symbol="ICON_RB_LV_SET_BUTTON" Id="54035" MinDPI="96" />
+			</Command.LargeImages>
+		</Command>
+		
 	</Application.Commands>
 
 	<Application.Views>
@@ -1123,19 +1327,20 @@
 							<ScalingPolicy.IdealSizes>
 								<Scale Group="panelEditUpdate" Size="Large"/>
 								<Scale Group="panelEditMain" Size="Medium"/>
-								<Scale Group="panelEditSet" Size="Medium"/>
 								<Scale Group="panelEditRead" Size="Large"/>
+								<Scale Group="panelEditUtils" Size="Large"/>
 								<Scale Group="panelEditOptions" Size="Medium"/>
+								<Scale Group="panelEditSet" Size="Medium"/>
 								<Scale Group="panelSorting" Size="Large"/>
 							</ScalingPolicy.IdealSizes>
 							<Scale Group="panelEditMain" Size="Small"/>
 							<Scale Group="panelEditUpdate" Size="Medium"/>
 							<Scale Group="panelEditMain" Size="Popup"/>
 							<Scale Group="panelEditRead" Size="Popup"/>
-							<Scale Group="panelEditSet" Size="Popup"/>
+							<Scale Group="panelEditUtils" Size="Popup"/>
 							<Scale Group="panelEditOptions" Size="Popup"/>
+							<Scale Group="panelEditSet" Size="Popup"/>
 							<Scale Group="panelSorting" Size="Medium"/>
-
 						</ScalingPolicy>
 					</Tab.ScalingPolicy>
 					<Group CommandName="panelEditUpdate">
@@ -1150,14 +1355,14 @@
 							<GroupSizeDefinition Size="Medium">
 								<ControlGroup>
 									<ControlSizeDefinition ControlName="cmdSave"
-														   ImageSize="Large"
+														   ImageSize="Small"
 														   IsLabelVisible="true" />
 								</ControlGroup>
 							</GroupSizeDefinition>
 							<GroupSizeDefinition Size="Small">
 								<ControlGroup>
 									<ControlSizeDefinition ControlName="cmdSave"
-														   ImageSize="Large"
+														   ImageSize="Small"
 														   IsLabelVisible="true" />
 								</ControlGroup>
 							</GroupSizeDefinition>
@@ -1170,63 +1375,54 @@
 						<Button CommandName="cmdPaste" />
 						<Button CommandName="cmdDelete" />
 					</Group>
-					<Group CommandName="panelEditSet">
+					<Group CommandName="panelEditUtils">
 						<SizeDefinition>
 							<GroupSizeDefinition Size="Large">
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdExportMqttConfig"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdShowDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMqtt"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdDelDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 							</GroupSizeDefinition>
 							<GroupSizeDefinition Size="Medium">
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdExportMqttConfig"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdShowDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMqtt"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdDelDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 							</GroupSizeDefinition>
 							<GroupSizeDefinition Size="Small">
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdExportMqttConfig"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMix"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdShowDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 								<Row>
-									<ControlSizeDefinition ControlName="cmdSetMqtt"
-														   ImageSize="Small"
+									<ControlSizeDefinition ControlName="cmdDelDuplicate"
 														   IsLabelVisible="true" />
 								</Row>
 							</GroupSizeDefinition>
-						</SizeDefinition>						
-						<Button CommandName="cmdSetMix" />
-						<Button CommandName="cmdSetMMKey" />
-						<Button CommandName="cmdSetMqtt" />
+						</SizeDefinition>
+						<Button CommandName="cmdExportMqttConfig" />
+						<Button CommandName="cmdShowDuplicate" />
+						<Button CommandName="cmdDelDuplicate" />
 					</Group>
 					<Group CommandName="panelEditRead" SizeDefinition="OneButton">
 						<ToggleButton CommandName="cmdReadKey" />
@@ -1280,6 +1476,46 @@
 						<CheckBox CommandName="cmdExtMode"/>
 						<CheckBox CommandName="cmdFilterEmbed"/>
 					</Group>
+					<Group CommandName="panelEditSet">
+						<SizeDefinition>
+							<GroupSizeDefinition Size="Large">
+								<ControlGroup>
+									<ControlSizeDefinition ControlName="cmdEditSetSplit"
+														   ImageSize="Large"
+														   IsLabelVisible="true" />
+								</ControlGroup>
+							</GroupSizeDefinition>
+							<GroupSizeDefinition Size="Medium">
+								<ControlGroup>
+									<ControlSizeDefinition ControlName="cmdEditSetSplit"
+														   ImageSize="Large"
+														   IsLabelVisible="true" />
+								</ControlGroup>
+							</GroupSizeDefinition>
+							<GroupSizeDefinition Size="Small">
+								<ControlGroup>
+									<ControlSizeDefinition ControlName="cmdEditSetSplit"
+														   ImageSize="Small"
+														   IsLabelVisible="true" />
+								</ControlGroup>
+							</GroupSizeDefinition>
+						</SizeDefinition>
+						<SplitButton CommandName="cmdEditSetSplit">
+							<SplitButton.ButtonItem>
+								<Button CommandName="cmdEditSetButton"/>
+							</SplitButton.ButtonItem>
+							<SplitButton.MenuGroups>
+								<MenuGroup CommandName="panelEditSetMenu" Class="StandardItems">
+									<Button CommandName="cmdSetMix" />
+									<Button CommandName="cmdSetMMKey" />
+									<Button CommandName="cmdSetMqtt" />
+									<Button CommandName="cmdSetScript" />
+									<Button CommandName="cmdSetLight8" />
+									<Button CommandName="cmdSetLight16" />
+								</MenuGroup>
+							</SplitButton.MenuGroups>
+						</SplitButton>						
+					</Group>					
 					<Group CommandName="panelSorting" ApplicationModes='1'>
 						<SizeDefinition>
 							<GroupSizeDefinition Size="Large">

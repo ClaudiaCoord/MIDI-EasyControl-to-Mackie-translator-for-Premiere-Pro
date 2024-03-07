@@ -19,7 +19,7 @@ namespace MIDIMTLIBTest
 	public:
 
 		void print(const std::wstring& w) {
-			Common::log_string ls;
+			Common::log_string ls{};
 			ls << L"*LOG {" << w.c_str() << "}\n";
 			const std::wstring ws = ls.str();
 			Logger::WriteMessage(ws.c_str());
@@ -117,6 +117,32 @@ namespace MIDIMTLIBTest
 				const std::wstring w = Common::common_error_code::get_local_error(esz);
 				if (!w._Equal(L"-"))
 					throw Common::make_common_error((Common::log_string() << L"'error id' bad index: [" << w << L"] = " << esz).str());
+
+			} catch (...) {
+				Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				Assert::Fail();
+			}
+		}
+		TEST_METHOD(TestMethod7) {
+			try {
+				int count{ 0 };
+				std::vector<int> v({ 1,2,3,4,5 });
+				Common::log_string ls{};
+				Common::log_delimeter ld{};
+				Common::log_delimeter ld1{};
+				for (auto& a : v) {
+					print((Common::log_string() << ld.get() << count++).str());
+					ls << ld1 << a;
+				}
+
+				ls << L" | ";
+
+				Common::log_delimeter ld2 = Common::log_delimeter(L" : ");
+				for (auto& a : v) {
+					ls << ld2 << a;
+				}
+
+				print(ls.str());
 
 			} catch (...) {
 				Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);

@@ -22,7 +22,7 @@ namespace Common {
 		using namespace std::placeholders;
 		using WSS = WS::SocketServer<WS::AWS>;
 
-		class Names {
+		class RemoteNames {
 		public:
 			static constexpr std::string_view ENDPOINT = "^/data/?$"sv;
 			static constexpr std::string_view EMPTY =
@@ -67,7 +67,7 @@ namespace Common {
 				IO::PluginClassTypes::ClassRemote,
 				(IO::PluginCbType::In2Cb | IO::PluginCbType::Out2Cb | IO::PluginCbType::LogCb | PluginCbType::LogsCb | IO::PluginCbType::ConfCb),
 				hwnd
-			  ), wse_(ws_.endpoint[Names::ENDPOINT.data()]) {
+			  ), wse_(ws_.endpoint[RemoteNames::ENDPOINT.data()]) {
 			PluginCb::out2_cb_ = std::bind(static_cast<void(RemotePlugin::*)(MIDI::MidiUnit&, DWORD)>(&RemotePlugin::cb_out_call_), this, _1, _2);
 			PluginCb::cnf_cb_ = std::bind(static_cast<void(RemotePlugin::*)(std::shared_ptr<JSON::MMTConfig>&)>(&RemotePlugin::set_config_cb_), this, _1);
 
@@ -93,7 +93,7 @@ namespace Common {
 					if (glob) ::FreeResource(glob);
 
 				} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
-				return std::string(Names::EMPTY.data());
+				return std::string(RemoteNames::EMPTY.data());
 			};
 			wse_.on_message = [=](std::shared_ptr<WSS::Connection> conn, std::shared_ptr<WSS::InMessage> im) {
 				try {
@@ -103,32 +103,43 @@ namespace Common {
 					Tiny::TinyJson root{};
 					if (!root.ReadJson(s)) return;
 
-					auto action = root.Get<std::wstring>(Names::JSON_ACTION.data());
+					auto action = root.Get<std::wstring>(RemoteNames::JSON_ACTION.data());
 					if (action.empty()) return;
-					else if (action._Equal(Names::JSON_CHANGE.data())) {
-						Tiny::xobject cdata = root.Get<Tiny::xobject>(Names::JSON_UNIT.data());
+					else if (action._Equal(RemoteNames::JSON_CHANGE.data())) {
+						Tiny::xobject cdata = root.Get<Tiny::xobject>(RemoteNames::JSON_UNIT.data());
 						if (cdata.Count()) {
 							cdata.Enter();
 
 							MIDI::Mackie::MIDIDATA m{};
-							m.data[0] = static_cast<uint8_t>(cdata.Get<uint16_t>(Names::JSON_SCENE.data(), 255U));
-							m.data[1] = static_cast<uint8_t>(cdata.Get<uint16_t>(Names::JSON_ID.data(), 255U));
-							m.data[2] = static_cast<uint8_t>(cdata.Get<uint16_t>(Names::JSON_VALUE.data(), 255U));
-							m.data[3] = static_cast<uint8_t>(cdata.Get<uint16_t>(Names::JSON_TARGET.data(), 255U));
+							m.data[0] = static_cast<uint8_t>(cdata.Get<uint16_t>(RemoteNames::JSON_SCENE.data(), 255U));
+							m.data[1] = static_cast<uint8_t>(cdata.Get<uint16_t>(RemoteNames::JSON_ID.data(), 255U));
+							m.data[2] = static_cast<uint8_t>(cdata.Get<uint16_t>(RemoteNames::JSON_VALUE.data(), 255U));
+							m.data[3] = static_cast<uint8_t>(cdata.Get<uint16_t>(RemoteNames::JSON_TARGET.data(), 255U));
+
+							#if defined (_DEBUG_INPUT_REMOTEPLUGIN)
+							::OutputDebugStringW(m.dump().c_str());
+							#endif
 
 							if (m.empty() || m_.load(std::memory_order_acquire).equals(m)) return;
 							m_.store(m, std::memory_order_release);
 
-							switch (static_cast<MIDI::MidiUnitType>(cdata.Get<uint16_t>(Names::JSON_TYPE.data(), 255U))) {
-								case MIDI::MidiUnitType::SLIDER: {
+							switch (static_cast<MIDI::MidiUnitType>(cdata.Get<uint16_t>(RemoteNames::JSON_TYPE.data(), 255U))) {
+								using enum MIDI::MidiUnitType;
+								case KNOB:
+								case FADER:
+								case SLIDER:
+								case KNOBINVERT:
+								case FADERINVERT:
+								case SLIDERINVERT: {
 									PluginCb::GetCbIn2()(m, 0);
 									break;
 								}
-								case MIDI::MidiUnitType::BTN: {
-									m.data[2] = 0U;
-									PluginCb::GetCbIn2()(m, 0);
-									std::this_thread::sleep_for(std::chrono::milliseconds(25));
+								case BTN:
+								case BTNTOGGLE: {
 									m.data[2] = 127U;
+									PluginCb::GetCbIn2()(m, 0);
+									std::this_thread::sleep_for(std::chrono::milliseconds(50));
+									m.data[2] = 0U;
 									PluginCb::GetCbIn2()(m, 0);
 									break;
 								}
@@ -140,7 +151,7 @@ namespace Common {
 							#endif
 
 							if (loglevel_.load() > 3)
-								PluginCb::ToLogRef(log_string().to_log_string(Names::SOURCE.data(),
+								PluginCb::ToLogRef(log_string().to_log_string(RemoteNames::SOURCE.data(),
 									(log_string()
 										<< Utils::to_string(conn->remote_endpoint_address()).c_str()
 										<< L" -> " << m.dump().c_str()).str()
@@ -148,13 +159,13 @@ namespace Common {
 						}
 						return;
 					}
-					else if (action._Equal(Names::JSON_CONFIG.data())) {
+					else if (action._Equal(RemoteNames::JSON_CONFIG.data())) {
 						auto& mmt = common_config::Get().GetConfig();
-						const std::string cnf = get_build_config_(mmt);
+						const std::string cnf = build_web_config_(mmt);
 						if (cnf.empty()) return;
 						conn->send(cnf, [=](const WS::error_code& ec) {
 							if (ec && (loglevel_.load() > 0))
-								PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+								PluginCb::ToLogRef(log_string().to_log_format(RemoteNames::SOURCE.data(),
 									common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_ERR),
 									Utils::random_hash(conn.get()),
 									Utils::to_string(conn->remote_endpoint_address()),
@@ -163,37 +174,37 @@ namespace Common {
 								);
 						});
 					}
-					else if (action._Equal(Names::JSON_WAKEUP.data())) {
+					else if (action._Equal(RemoteNames::JSON_WAKEUP.data())) {
 
 						wakepos_.store(!wakepos_.load());
 						::mouse_event(MOUSEEVENTF_MOVE, 0, static_cast<DWORD>(wakepos_.load() ? 1 : -1), 0, 0);
 						/*::PostMessage(IO::Plugin::mhwnd_.get(), WM_SYSCOMMAND, (WPARAM)SC_MONITORPOWER, (LPARAM)-1); // Not property work in w11 */
 
 						if (loglevel_.load() > 1)
-							PluginCb::ToLogRef(log_string().to_log_string(Names::SOURCE.data(),
+							PluginCb::ToLogRef(log_string().to_log_string(RemoteNames::SOURCE.data(),
 								(log_string()
 									<< Utils::to_string(conn->remote_endpoint_address()).c_str()
 									<< L" -> system wake-up!").str()
 							));
 					}
-					else if (action._Equal(Names::JSON_WINTOP.data())) {
+					else if (action._Equal(RemoteNames::JSON_WINTOP.data())) {
 
-						auto name = root.Get<std::wstring>(Names::JSON_NAME.data());
+						auto name = root.Get<std::wstring>(RemoteNames::JSON_NAME.data());
 						if (name.empty()) return;
-						if (!name.ends_with(Names::_EXE))
-							(void) name.append(Names::_EXE);
+						if (!name.ends_with(RemoteNames::_EXE))
+							(void) name.append(RemoteNames::_EXE);
 
 						UI::WindowToTop top{};
 						(void) top.set(name);
 
 						if (loglevel_.load() > 1)
-							PluginCb::ToLogRef(log_string().to_log_string(Names::SOURCE.data(),
+							PluginCb::ToLogRef(log_string().to_log_string(RemoteNames::SOURCE.data(),
 								(log_string()
 									<< Utils::to_string(conn->remote_endpoint_address()).c_str()
 									<< L" -> set application '" << name << L"' to Top window.").str()
 							));
 					}
-					else if (action._Equal(Names::JSON_GETLOG.data())) {
+					else if (action._Equal(RemoteNames::JSON_GETLOG.data())) {
 
 						std::wstring plog{};
 						{
@@ -251,13 +262,13 @@ namespace Common {
 						if (slog.empty()) return;
 
 						Tiny::TinyJson root{};
-						root[Names::JSON_ACTION.data()].Set<std::wstring>(Names::JSON_GETLOG.data());
-						root[Names::JSON_PATH.data()].Set<std::wstring>(WS::AKEY::path_escaped(plog));
-						root[Names::JSON_LOG.data()].Set<std::wstring>(std::wstring(slog.begin(), slog.end()));
+						root[RemoteNames::JSON_ACTION.data()].Set<std::wstring>(RemoteNames::JSON_GETLOG.data());
+						root[RemoteNames::JSON_PATH.data()].Set<std::wstring>(WS::AKEY::path_escaped(plog));
+						root[RemoteNames::JSON_LOG.data()].Set<std::wstring>(std::wstring(slog.begin(), slog.end()));
 
 						conn->send(Utils::from_string(root.WriteJson()), [=](const WS::error_code& ec) {
 							if (ec && (loglevel_.load() > 0))
-								PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+								PluginCb::ToLogRef(log_string().to_log_format(RemoteNames::SOURCE.data(),
 									common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_ERR),
 									Utils::random_hash(conn.get()),
 									Utils::to_string(conn->remote_endpoint_address()),
@@ -269,7 +280,7 @@ namespace Common {
 			};
 			wse_.on_error = [=](std::shared_ptr<WSS::Connection> conn, const WS::error_code& ec) {
 				if (loglevel_.load() > 0)
-					PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+					PluginCb::ToLogRef(log_string().to_log_format(RemoteNames::SOURCE.data(),
 						common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_ERR),
 						Utils::random_hash(conn.get()),
 						Utils::to_string(conn->remote_endpoint_address()).c_str(),
@@ -279,7 +290,7 @@ namespace Common {
 			};
 			wse_.on_open = [=](std::shared_ptr<WSS::Connection> conn) {
 				if (loglevel_.load() > 1)
-					PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+					PluginCb::ToLogRef(log_string().to_log_format(RemoteNames::SOURCE.data(),
 						common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_NEW),
 						Utils::random_hash(conn.get()),
 						Utils::to_string(conn->remote_endpoint_address())
@@ -288,7 +299,7 @@ namespace Common {
 			};
 			wse_.on_close = [=](std::shared_ptr<WSS::Connection> conn, int status, const std::string& s) {
 				if (loglevel_.load() > 1)
-					PluginCb::ToLogRef(log_string().to_log_format(Names::SOURCE.data(),
+					PluginCb::ToLogRef(log_string().to_log_format(RemoteNames::SOURCE.data(),
 						common_error_code::Get().get_error(common_error_id::err_REMOTE_CLIENT_CLOSE),
 						Utils::random_hash(conn.get()),
 						Utils::to_string(conn->remote_endpoint_address()).c_str(),
@@ -368,15 +379,13 @@ namespace Common {
 				ws_.config.cnf.copy(rc);
 			}
 		}
-		const std::string RemotePlugin::get_build_config_(std::shared_ptr<JSON::MMTConfig>& mmt) {
+		const std::string RemotePlugin::build_web_config_(std::shared_ptr<JSON::MMTConfig>& mmt) {
 			TRACE_CALL();
 			try {
 				if (!mmt->empty()) {
 					JSON::json_config jc{};
 					Tiny::TinyJson root{};
-					root[Names::JSON_ACTION.data()].Set<std::wstring>(Names::JSON_CONFIG.data());
-
-					if (jc.WriteUnitConfig(root, mmt.get()))
+					if (jc.WriteRemoteWebConfig(std::ref(root), mmt.get()))
 						return Utils::from_string(root.WriteJson());
 				}
 			} catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
@@ -393,16 +402,16 @@ namespace Common {
 
 				Tiny::TinyJson root{};
 				Tiny::TinyJson mjson{};
-				root[Names::JSON_ACTION.data()].Set<std::wstring>(Names::JSON_CHANGED.data());
+				root[RemoteNames::JSON_ACTION.data()].Set<std::wstring>(RemoteNames::JSON_CHANGED.data());
 
-				mjson[Names::JSON_TYPE.data()].Set<uint16_t>(static_cast<uint16_t>(m.type));
-				mjson[Names::JSON_ID.data()].Set<uint16_t>(static_cast<uint16_t>(m.key));
-				mjson[Names::JSON_SCENE.data()].Set<uint16_t>(static_cast<uint16_t>(m.scene));
-				mjson[Names::JSON_TARGET.data()].Set<uint16_t>(static_cast<uint16_t>(m.target));
-				mjson[Names::JSON_LTARGET.data()].Set<uint16_t>(static_cast<uint16_t>(m.longtarget));
-				mjson[Names::JSON_VALUE.data()].Set<uint16_t>(static_cast<uint16_t>(m.value.value));
-				mjson[Names::JSON_ONOFF.data()].Set<bool>(m.value.lvalue);
-				root[Names::JSON_UNIT.data()].Set(std::move(mjson));
+				mjson[RemoteNames::JSON_TYPE.data()].Set<uint16_t>(static_cast<uint16_t>(m.type));
+				mjson[RemoteNames::JSON_ID.data()].Set<uint16_t>(static_cast<uint16_t>(m.key));
+				mjson[RemoteNames::JSON_SCENE.data()].Set<uint16_t>(static_cast<uint16_t>(m.scene));
+				mjson[RemoteNames::JSON_TARGET.data()].Set<uint16_t>(static_cast<uint16_t>(m.target));
+				mjson[RemoteNames::JSON_LTARGET.data()].Set<uint16_t>(static_cast<uint16_t>(m.longtarget));
+				mjson[RemoteNames::JSON_VALUE.data()].Set<uint16_t>(static_cast<uint16_t>(m.value.value));
+				mjson[RemoteNames::JSON_ONOFF.data()].Set<bool>(m.value.lvalue);
+				root[RemoteNames::JSON_UNIT.data()].Set(std::move(mjson));
 
 				const std::string changed = Utils::from_string(root.WriteJson());
 				for (auto& a : list)
@@ -419,7 +428,7 @@ namespace Common {
 						return;
 					}
 					if (!mmt->empty()) {
-						const std::string cnf = get_build_config_(mmt);
+						const std::string cnf = build_web_config_(mmt);
 						if (cnf.empty()) return;
 						for (auto& a : ws_.get_connections())
 							a->send(cnf);
@@ -511,7 +520,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& RemotePlugin::GetDeviceList() {
+		IO::export_list_t& RemotePlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(export_list_);
 		}

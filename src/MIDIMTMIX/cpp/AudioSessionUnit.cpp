@@ -72,13 +72,14 @@ namespace Common {
 
 		log_string AudioSessionUnit::to_string() {
 			try {
-				log_string s{};
-				s << L"{ id:" << GetId() << L", volume:" << (uint32_t)GetVolume() << L", mute:" << std::boolalpha << GetMute();
-				s << L"\n\t[app:";
+				log_string ls{};
+				log_delimeter ld{};
+				ls << L"{ id:" << GetId() << L", volume:" << (uint32_t)GetVolume() << L", mute:" << std::boolalpha << GetMute();
+				ls << L"\n\t[app:";
 				for (auto& a : applist_)
-					s << a << L", ";
-				s << L"]}\n";
-				return s;
+					ls << ld << a;
+				ls << L"]}\n";
+				return ls;
 			} catch (...) {}
 			return log_string();
 		}

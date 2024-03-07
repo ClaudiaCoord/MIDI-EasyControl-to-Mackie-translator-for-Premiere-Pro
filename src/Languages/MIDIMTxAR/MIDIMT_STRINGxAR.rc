@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Կազմաձևը ստեղծվել է նորովի և պահանջում է լրացում"
     STRING_EDIT_MSG4	"Խմբագրիչը բացելիս նշվել է կազմաձևման ֆայլը՝ «{0}»: Պահե՞լ այն նույն անունով:"
     STRING_EDIT_MSG5	"DMX ալիքի համարը"
+    STRING_EDIT_MSG6	"MQTT կոնֆիգուրացիան հաջողությամբ արտահանվեց"
+    STRING_EDIT_MSG7	"MQTT կոնֆիգուրացիան արտահանելիս սխալ առաջացավ"
+    STRING_EDIT_MSG8	"Կրկնվող MIDI ստեղներ չեն գտնվել"
+    STRING_EDIT_MSG9	"Գտնվել է {0} կրկնօրինակ MIDI բանալի"
 
     STRING_NOTIFY_MSG1	"թարգմանիչը դադարեցված է."
     STRING_NOTIFY_MSG2	"թարգմանիչը աշխատում է."
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"սցենար 25"
 	IDM_COL5_SCRIPT_B38		"սցենար 26"
 	IDM_COL5_SCRIPT_B39		"սցենար 27"
+	IDM_COL5_SCRIPT_STOP		"Դադարեցրեք բոլոր սցենարները"
+	IDM_COL5_SCRIPT_RELOAD		"Կրկին կարդացեք սցենարի գրացուցակը"
 	IDM_COL5_SCRIPT_EMPTY		"Նշանակված չէ"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Խնդրում ենք խմբագրել կազմաձևը սկսելուց առաջ:"
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Կազմաձևման ֆայլը"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Գործարկվող ֆայլեր"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT կազմաձևման ֆայլեր"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Ֆայլից բեռնված կոնֆիգուրացիա՝ {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Կազմաձևը բեռնված է վարորդից"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Ընտրված {0} լեզուն ակտիվ կլինի պատուհանի վերագործարկումից հետո:"
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Սցենարների շարժիչն աշխատում է, հասանելի սկրիպտներ՝ {0}:"
 	IDS_ERRORID_SCRIPT_STOP			"Սցենարավորման շարժիչը կանգ է առել։"
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Սցենարի ֆայլեր"
+	IDS_ERRORID_SCRIPT_CALL			"Գործարկել սկրիպտը՝ {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ես նորից կարդում եմ սցենարի կատալոգը..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Դադարեցվել է սկրիպտների գործարկումը՝ {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Չհաջողվեց բացել գրացուցակը. {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Նշված պարամետրերով գրացուցակը հնարավոր չէ կարդալ, ես ավարտում եմ գրացուցակի մոնիտորինգը:"

@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Konfigurasjonen er opprettet på nytt og krever utfylling"
     STRING_EDIT_MSG4	"Når du åpnet redigeringsprogrammet, ble konfigurasjonsfilen spesifisert: '{0}'. Lagre den med samme navn?"
     STRING_EDIT_MSG5	"DMX kanalnummer"
+    STRING_EDIT_MSG6	"MQTT-konfigurasjonen ble eksportert"
+    STRING_EDIT_MSG7	"Feil ved eksport av MQTT-konfigurasjon"
+    STRING_EDIT_MSG8	"Fant ingen dupliserte MIDI-nøkler"
+    STRING_EDIT_MSG9	"{0} dupliserte MIDI-nøkler funnet"
 
     STRING_NOTIFY_MSG1	"oversetteren er stoppet:"
     STRING_NOTIFY_MSG2	"oversetteren jobber:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"manus 25"
 	IDM_COL5_SCRIPT_B38		"manus 26"
 	IDM_COL5_SCRIPT_B39		"manus 27"
+	IDM_COL5_SCRIPT_STOP		"Stopp alle skript"
+	IDM_COL5_SCRIPT_RELOAD		"Les skriptkatalogen på nytt"
 	IDM_COL5_SCRIPT_EMPTY		"Ikke tildelt"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Rediger konfigurasjonen før du starter."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Konfigurasjonsfilen"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Kjørbare filer"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT-konfigurasjonsfiler"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Konfigurasjon lastet fra fil: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Konfigurasjon lastet fra driveren"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Det valgte {0}-språket vil være aktivt etter at vinduet er startet på nytt."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Skriptmotoren kjører, tilgjengelige skript: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Skriptmotoren har stoppet."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Skriptfiler"
+	IDS_ERRORID_SCRIPT_CALL			"Kjør skript: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Jeg leser manuskatalogen på nytt..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Sluttet å kjøre skript: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Kunne ikke åpne katalogen: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Katalogen med de spesifiserte parameterne kan ikke leses, jeg fullfører overvåkingen av katalogen."

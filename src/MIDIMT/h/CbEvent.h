@@ -70,7 +70,7 @@ namespace Common {
 			void Init(int);
 			void Init(int, int);
 			void Clear();
-			void AddToLog(const std::wstring);
+			void AddToLog(const std::wstring&);
 			static void ToLog(HWND, CbEventData*, bool);
 			static void ToMonitor(HWND, CbEventData*, bool);
 			static std::wstring ToLog(CbEventData*, bool = true);

@@ -84,29 +84,49 @@ namespace Common {
 
 				if (((m.type  != MIDI::MidiUnitType::BTN) &&
 					 (m.type  != MIDI::MidiUnitType::BTNTOGGLE)) ||
-					(m.target != MIDI::Mackie::VMSCRIPT)) return;
+					(m.target != MIDI::Mackie::Target::VMSCRIPT)) return;
 
-				vmscripts_->call_script(m.longtarget);
+				switch (m.longtarget) {
+					using enum MIDI::Mackie::Target;
+					case SYS_Stop: {
+						PluginCb::ToLogRef(log_string().to_log_format(__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_SCRIPT_STOPALL),
+							vmscripts_->get_run().size()));
+
+						vmscripts_->stop_scripts();
+						break;
+					}
+					case SYS_Rewind: {
+						PluginCb::ToLogRef(log_string().to_log_string(__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_SCRIPT_RESCAN)));
+
+						vmscripts_->rescan();
+						break;
+					}
+					default: {
+						PluginCb::ToLogRef(log_string().to_log_format(__FUNCTIONW__,
+							common_error_code::Get().get_error(common_error_id::err_SCRIPT_CALL),
+							MIDI::MackieHelper::GetScriptTarget(m.longtarget)));
+
+						vmscripts_->call_script(m.longtarget);
+						break;
+					}
+				}
 
 			} catch (...) {}
 		}
 		void VmScriptPlugin::build_export_list_(SCRIPT::scripts_list_t& list) {
 			try {
-				awaiter lock(std::ref(build_list_));
-				if (!lock.lock_if()) return;
+				if (build_list_.load(std::memory_order_acquire)) return;
 
 				auto f = std::async(std::launch::async, [&]() -> bool {
 
+					awaiter lock(std::ref(build_list_));
+					if (!lock.lock_if()) return false;
+
 					lock.lock_wait(build_run_);
 
-					if (!export_list_.empty())
-						export_list_.erase(
-							std::remove_if(
-								export_list_.begin(),
-								export_list_.end(),
-								[](std::pair<uint16_t, std::wstring>& a) -> bool { return a.first == 0U; }
-							)
-						);
+					export_list_.clear();
 
 					auto& conf = common_config::Get().GetConfig();
 					conf->vmscript.clear();
@@ -138,20 +158,24 @@ namespace Common {
 		}
 		void VmScriptPlugin::build_export_run_(SCRIPT::scripts_run_t& list) {
 			try {
-				awaiter lock(std::ref(build_run_));
-				if (!lock.lock_if()) return;
+				if (build_run_.load(std::memory_order_acquire)) return;
 
 				auto f = std::async(std::launch::async, [&]() -> bool {
 
-					lock.lock_wait(build_list_);
+					awaiter lock(std::ref(build_run_));
+					if (!lock.lock_if()) return false;
 
-					export_list_.erase(
-						std::remove_if(
+					lock.lock_wait(build_list_);
+					
+					if (!export_list_.empty()) {
+						 auto i = std::remove_if(
 							export_list_.begin(),
 							export_list_.end(),
-							[](std::pair<uint16_t, std::wstring>& a) -> bool { return (a.first == 1U) || (a.first == 2U); }
-						)
-					);
+							[](const std::pair<uint16_t, std::wstring>& a) -> bool { return (a.first == 1U) || (a.first == 2U); }
+						);
+						 if (i != export_list_.end())
+							 export_list_.erase(i);
+					}
 
 					for (auto& a : list)
 						export_list_.push_back(
@@ -278,7 +302,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		std::vector<std::pair<uint16_t, std::wstring>>& VmScriptPlugin::GetDeviceList() {
+		IO::export_list_t& VmScriptPlugin::GetDeviceList() {
 			TRACE_CALL();
 			return std::ref(export_list_);
 		}

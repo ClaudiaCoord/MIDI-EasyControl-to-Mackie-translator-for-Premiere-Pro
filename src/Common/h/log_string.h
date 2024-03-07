@@ -232,4 +232,23 @@ namespace Common {
             to_log::Get() << arg;
         }
     };
+
+    class FLAG_EXPORT log_delimeter {
+    private:
+        static constexpr auto EMPTY = L"";
+        static constexpr auto DEFAULT = L", ";
+        std::wstring DELIM{};
+        bool is_first_{ true };
+    public:
+
+        log_delimeter();
+        log_delimeter(const std::wstring&);
+        ~log_delimeter();
+
+        const wchar_t* get();
+
+        friend FLAG_EXPORT std::wostream& operator<<(std::wostream&, log_delimeter&);
+    };
+    FLAG_EXPORT std::wostream& operator<<(std::wostream&, log_delimeter&);
+
 }

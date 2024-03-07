@@ -91,15 +91,18 @@ namespace Common {
 				try { a->stop(); } catch (...) {
 					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 				}
-				running_.erase(
-					std::remove_if(
-						running_.begin(),
-						running_.end(),
+
+				if (!running_.empty()) {
+					auto i = std::remove_if(
+					   running_.begin(),
+					   running_.end(),
 						[&](std::unique_ptr<VmScript>& aa) -> bool {
 							return a->hash() == aa->hash();
 						}
-					)
-				);
+					);
+					if (i != running_.end())
+						running_.erase(i);
+				}
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

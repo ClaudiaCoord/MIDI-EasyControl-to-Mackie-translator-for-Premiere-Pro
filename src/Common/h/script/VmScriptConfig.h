@@ -19,6 +19,12 @@ namespace Common {
 		public:
 			bool enable{ false };
 			bool script_watch{ false };
+			bool script_debug{ false };
+
+			bool lib_match{ true };
+			bool lib_string{ true };
+			bool lib_wstring{ true };
+			
 			std::wstring script_directory{};
 			std::vector<std::wstring> script_list{};
 

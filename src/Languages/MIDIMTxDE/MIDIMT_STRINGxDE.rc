@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Die Konfiguration wurde neu erstellt und muss ausgefüllt werden"
     STRING_EDIT_MSG4	"Beim Öffnen des Editors wurde die Konfigurationsdatei angegeben: „{0}“. Unter demselben Namen speichern?"
     STRING_EDIT_MSG5	"DMX-Kanalnummer"
+    STRING_EDIT_MSG6	"MQTT-Konfiguration erfolgreich exportiert"
+    STRING_EDIT_MSG7	"Fehler beim Exportieren der MQTT-Konfiguration"
+    STRING_EDIT_MSG8	"Keine doppelten MIDI-Tasten gefunden"
+    STRING_EDIT_MSG9	"{0} doppelte MIDI-Tasten gefunden"
 
     STRING_NOTIFY_MSG1	"Der Übersetzer wird gestoppt:"
     STRING_NOTIFY_MSG2	"Der Übersetzer arbeitet:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"Skript 25"
 	IDM_COL5_SCRIPT_B38		"Skript 26"
 	IDM_COL5_SCRIPT_B39		"Skript 27"
+	IDM_COL5_SCRIPT_STOP		"Stoppen Sie alle Skripte"
+	IDM_COL5_SCRIPT_RELOAD		"Lesen Sie das Skriptverzeichnis erneut"
 	IDM_COL5_SCRIPT_EMPTY		"Nicht zugeordnet"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Bitte bearbeiten Sie die Konfiguration, bevor Sie beginnen."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Die Konfigurationsdatei"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Ausführbare Dateien"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT-Konfigurationsdateien"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Konfiguration aus Datei geladen: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Konfiguration vom Treiber geladen"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Die ausgewählte {0}-Sprache ist nach dem Neustart des Fensters aktiv."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Die Skript-Engine läuft, verfügbare Skripte: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Die Skript-Engine wurde gestoppt."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Skriptdateien"
+	IDS_ERRORID_SCRIPT_CALL			"Skript ausführen: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ich lese den Skriptkatalog noch einmal ..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Die Ausführung von Skripten wurde gestoppt: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Verzeichnis konnte nicht geöffnet werden: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Das Verzeichnis mit den angegebenen Parametern kann nicht gelesen werden, ich beende die Überwachung des Verzeichnisses."

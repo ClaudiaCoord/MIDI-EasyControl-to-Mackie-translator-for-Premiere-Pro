@@ -1,0 +1,14 @@
+
+print("Example: RGB led HSB brightness changer...")
+var rgb = CreateRGB(179, 16, 14, 15);
+
+while (!IsCanceled()) {
+    for (var brightness = 0; brightness <= 255; ++brightness) {
+
+        if (IsCanceled()) { break; }
+        rgb.SetColor(180, 255, brightness);
+	sleep(300);
+    }
+}
+
+print("* Light RGB led HSB brightness changer stopped normaly...")

@@ -22,6 +22,7 @@ namespace Common {
 		class NamesVmScripts {
 		public:
 			static constexpr std::wstring_view empty = L"- empty -"sv;
+			static constexpr std::wstring_view color_black = L"- color black -"sv;
 			static constexpr std::wstring_view directory = L"scripts"sv;
 			#if defined (_DEBUG)
 			static constexpr auto TRACE_HEADER = L"* VmScripts -> ";
@@ -125,10 +126,11 @@ namespace Common {
 					ScriptBootstrap::script_enum_unittype(cs);
 					ScriptBootstrap::script_enum_clicktype(cs);
 					ScriptBootstrap::script_enum_colorgroups(cs);
+					ScriptBootstrap::script_enum_colorsgroups(cs);
 					ScriptBootstrap::script_enum_mackietarget(cs);
-					cs->add(chaiscript::extras::math::bootstrap());
-					cs->add(chaiscript::extras::string_methods::bootstrap());
-					cs->add(chaiscript::extras::wstring_methods::bootstrap());
+					if (config_().lib_match) cs->add(chaiscript::extras::math::bootstrap());
+					if (config_().lib_string) cs->add(chaiscript::extras::string_methods::bootstrap());
+					if (config_().lib_wstring) cs->add(chaiscript::extras::wstring_methods::bootstrap());
 
 					/*
 						add values from class VmScript:
@@ -174,6 +176,8 @@ namespace Common {
 				/* callback */
 				bmod->add(chaiscript::fun(static_cast<std::vector<MIDI::MidiUnit>&(VmScripts::*)()>(&VmScripts::units_), this), "MidiUnitsList");
 				bmod->add(chaiscript::fun([=](const uint8_t s, const uint8_t k, const uint8_t v) -> void { call_update(s, k, v); }), "UpdateControl");
+				bmod->add(chaiscript::fun([=]() -> bool { return script_debug_.is_debug(); }), "IsDebugging");
+
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -288,6 +292,11 @@ namespace Common {
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
+		}
+		void VmScripts::stop_scripts() {
+			TRACE_CALL();
+			if (task_.joinable())
+				script_pack_queue_.push(PoolActions::ActionsPackErase);
 		}
 		void VmScripts::stop() {
 			TRACE_CALL();
@@ -486,8 +495,8 @@ namespace Common {
 
 		#pragma region template puts/print
 		void VmScripts::script_puts_(const std::wstring& s) {
-			if (!pcb_.empty())
-				pcb_.ToLogRef<std::wstring>(s);
+			if (config_().script_debug) script_debug_.puts(s);
+			else if (!pcb_.empty()) pcb_.ToLogRef<std::wstring>(s);
 		}
 
 		template <typename T>
@@ -520,6 +529,22 @@ namespace Common {
 				if (a.empty()) ls << NamesVmScripts::empty.data();
 				else ls << L"RGBW() ->\n" << ((T&)a).dump();
 			}
+			else if constexpr (std::is_same_v<LIGHT::UTILS::RgbwData, T>) {
+				if (a.empty()) ls << NamesVmScripts::color_black.data();
+				else ls << L"RGB/RGBW ->\n" << ((T&)a).dump();
+			}
+			else if constexpr (std::is_same_v<LIGHT::UTILS::HsbData, T>) {
+				if (a.empty()) ls << NamesVmScripts::color_black.data();
+				else ls << L"HSB/HSV ->\n" << ((T&)a).dump();
+			}
+			else if constexpr (std::is_same_v<SCRIPT::ColorCorrector, T>) {
+				if (a.empty()) ls << NamesVmScripts::empty.data();
+				else ls << L"ColorCorrector() ->\n" << ((T&)a).dump();
+			}
+			else if constexpr (std::is_same_v<MIDI::BaseUnit, T>) {
+				if (a.empty()) ls << NamesVmScripts::empty.data();
+				else ls << L"BaseUnit() ->\n" << ((T&)a).dump();
+			}
 			else if constexpr (std::is_same_v<MIDI::MidiUnit, T>) {
 				if (a.empty()) ls << NamesVmScripts::empty.data();
 				else ls << L"MidiUnit() ->\n" << ((T&)a).dump();
@@ -543,10 +568,11 @@ namespace Common {
 				if (a.empty()) ls << NamesVmScripts::empty.data();
 				else {
 					ls << L"MidiUnits() ->\n";
+					log_delimeter ld{};
 					for (auto& u : a)
-						ls << static_cast<uint16_t>(u.scene) << L"/" << static_cast<uint16_t>(u.key) << L"-"
-						   << static_cast<uint16_t>(u.longtarget) << L"/" << static_cast<uint16_t>(u.value.value) << L", ";
-					ls.seekp(-2, std::ios_base::end);
+						ls << ld
+						   << static_cast<uint16_t>(u.scene) << L"/" << static_cast<uint16_t>(u.key) << L"-"
+						   << static_cast<uint16_t>(u.longtarget) << L"/" << static_cast<uint16_t>(u.value.value);
 				}
 			}
 			else if constexpr (std::is_same_v<MIDI::Mackie::Target, T>)
@@ -558,8 +584,11 @@ namespace Common {
 			else if constexpr (std::is_same_v<MIDI::MidiUnitType, T>)
 				ls << L"UnitTypeIndex -> " << static_cast<uint16_t>(a) << L"|" << MIDI::MidiHelper::GetType(a);
 
-			else if constexpr (std::is_same_v<SCRIPT::ColorGroup, T>)
-				ls << L"ColorIndex -> " << static_cast<uint16_t>(a) << L"|" << ColorConstant::ColorHelper(a);
+			else if constexpr (std::is_same_v<LIGHT::UTILS::ColorControl::ColorGroup, T>)
+				ls << L"ColorIndex -> " << static_cast<uint16_t>(a) << L"|" << LIGHT::UTILS::ColorControl::ColorHelper(a);
+
+			else if constexpr (std::is_same_v<LIGHT::UTILS::ColorControl::ColorsGroup, T>)
+				ls << L"ColorsIndex -> " << static_cast<uint16_t>(a) << L"|" << LIGHT::UTILS::ColorControl::ColorHelper(a);
 
 			else if constexpr (std::is_same_v<bool, T>)
 				ls << std::boolalpha << a;
@@ -587,14 +616,21 @@ namespace Common {
 		template void VmScripts::puts<std::wstring_view>(const std::wstring_view&);
 		template void VmScripts::puts<log_string>(const log_string&);
 
+		template void VmScripts::print<MIDI::BaseUnit>(const MIDI::BaseUnit&);
 		template void VmScripts::print<MIDI::MidiUnit>(const MIDI::MidiUnit&);
 		template void VmScripts::print<MIDI::MidiUnitValue>(const MIDI::MidiUnitValue&);
 		template void VmScripts::print<MIDI::Mackie::Target>(const MIDI::Mackie::Target&);
 		template void VmScripts::print<MIDI::Mackie::ClickType>(const MIDI::Mackie::ClickType&);
 		template void VmScripts::print<MIDI::MidiUnitType>(const MIDI::MidiUnitType&);
-		template void VmScripts::print<SCRIPT::ColorGroup>(const SCRIPT::ColorGroup&);
+
+		template void VmScripts::print<LIGHT::UTILS::RgbwData>(const LIGHT::UTILS::RgbwData&);
+		template void VmScripts::print<LIGHT::UTILS::HsbData>(const LIGHT::UTILS::HsbData&);
+
+		template void VmScripts::print<LIGHT::UTILS::ColorControl::ColorGroup>(const LIGHT::UTILS::ColorControl::ColorGroup&);
+		template void VmScripts::print<LIGHT::UTILS::ColorControl::ColorsGroup>(const LIGHT::UTILS::ColorControl::ColorsGroup&);
 		template void VmScripts::print<SCRIPT::UnitDef>(const SCRIPT::UnitDef&);
 		template void VmScripts::print<SCRIPT::RGBWColor>(const SCRIPT::RGBWColor&);
+		template void VmScripts::print<SCRIPT::ColorCorrector>(const SCRIPT::ColorCorrector&);
 
 		template void VmScripts::print<std::string>(const std::string&);
 		template void VmScripts::print<std::wstring>(const std::wstring&);

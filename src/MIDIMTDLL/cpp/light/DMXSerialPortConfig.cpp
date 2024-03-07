@@ -73,8 +73,9 @@ namespace Common {
         log_string SerialPortConfigs::dump() {
             uint32_t i = 0;
             log_string ls{};
+            std::wstring delim = L"";
             for (auto& s : devices__)
-                ls << i++ << L"| " << s.dump().str().c_str();
+                ls << i++ << std::exchange(delim, L" | ") << s.dump().str().c_str();
             return ls;
         }
 	}

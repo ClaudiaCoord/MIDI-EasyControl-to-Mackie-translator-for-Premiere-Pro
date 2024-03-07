@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"De konfiguraasje is oanmakke op 'e nij en fereasket ynfoljen"
     STRING_EDIT_MSG4	"By it iepenjen fan de bewurker waard it konfiguraasjetriem opjûn: '{0}'. Bewarje it mei deselde namme?"
     STRING_EDIT_MSG5	"DMX kanaal nûmer"
+    STRING_EDIT_MSG6	"MQTT-konfiguraasje mei súkses eksportearre"
+    STRING_EDIT_MSG7	"Flater by it eksportearjen fan MQTT-konfiguraasje"
+    STRING_EDIT_MSG8	"Gjin dûbele MIDI-kaaien fûn"
+    STRING_EDIT_MSG9	"{0} dûbele MIDI-kaaien fûn"
 
     STRING_NOTIFY_MSG1	"de oersetter wurdt stoppe:"
     STRING_NOTIFY_MSG2	"de oersetter wurket:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"Skript 25"
 	IDM_COL5_SCRIPT_B38		"Skript 26"
 	IDM_COL5_SCRIPT_B39		"Skript 27"
+	IDM_COL5_SCRIPT_STOP		"Stopje alle skripts"
+	IDM_COL5_SCRIPT_RELOAD		"Lês de skriptmap opnij"
 	IDM_COL5_SCRIPT_EMPTY		"Net tawiisd"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Bewurkje asjebleaft de konfiguraasje foardat jo begjinne."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"De konfiguraasjetriem"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Útfierbere triemmen"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT konfiguraasje triemmen"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Konfiguraasje laden út triem: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Konfiguraasje laden fan bestjoerder"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"De selektearre {0}-taal sil aktyf wêze neidat it finster op 'e nij opstart is."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"De skriptmotor rint, beskikbere skripts: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"De skriptmotor is stoppe."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Skriptbestannen"
+	IDS_ERRORID_SCRIPT_CALL			"Skript útfiere: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ik lês de skriptkatalogus op 'e nij ..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Stoppe mei it útfieren fan skripts: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"It iepenjen fan map mislearre: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"De map mei de oantsjutte parameters kin net lêzen wurde, ik bin klear mei it kontrolearjen fan de map."

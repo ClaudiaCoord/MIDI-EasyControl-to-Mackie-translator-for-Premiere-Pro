@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Конфигурација је креирана изнова и захтева попуњавање"
     STRING_EDIT_MSG4	"Приликом отварања уређивача наведена је конфигурациона датотека: '{0}'. Да га сачувате под истим именом?"
     STRING_EDIT_MSG5	"Број ДМКС канала"
+    STRING_EDIT_MSG6	"МКТТ конфигурација је успешно извезена"
+    STRING_EDIT_MSG7	"Грешка при извозу МКТТ конфигурације"
+    STRING_EDIT_MSG8	"Нису пронађени дупликати МИДИ кључева"
+    STRING_EDIT_MSG9	"Пронађен је {0} дупликат МИДИ кључева"
 
     STRING_NOTIFY_MSG1	"преводилац је заустављен:"
     STRING_NOTIFY_MSG2	"преводилац ради:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"сценарио 25"
 	IDM_COL5_SCRIPT_B38		"сценарио 26"
 	IDM_COL5_SCRIPT_B39		"сценарио 27"
+	IDM_COL5_SCRIPT_STOP		"Зауставите све скрипте"
+	IDM_COL5_SCRIPT_RELOAD		"Поново прочитајте директоријум скрипте"
 	IDM_COL5_SCRIPT_EMPTY		"Не додељен"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Измените конфигурацију пре почетка."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Конфигурациони фајл"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Извршне датотеке"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"МКТТ конфигурационе датотеке"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Конфигурација учитана из датотеке: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Конфигурација је учитана из драјвера"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Изабрани {0} језик ће бити активан након што се прозор поново покрене."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Механизам за скрипте је покренут, доступне скрипте: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Скриптни механизам је заустављен."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Датотеке скрипти"
+	IDS_ERRORID_SCRIPT_CALL			"Покрени скрипту: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Поново читам каталог сценарија..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Заустављено покретање скрипти: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Отварање директоријума није успело: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Директоријум са наведеним параметрима се не може прочитати, завршавам праћење директоријума."

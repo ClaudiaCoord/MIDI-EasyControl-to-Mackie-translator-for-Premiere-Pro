@@ -1,0 +1,32 @@
+
+print("* Start RGB constant color test...")
+
+//
+//          CreateRGB(scene, red-key, green-key, blue-key)
+//         CreateRGBW(scene, red-key, green-key, blue-key, white-key)
+//
+var group = CreateRGB(179, 16, 14, 15);
+var constant_color = ColorsIndex.RED;
+print("Iterate color++: ${constant_color}");
+
+++constant_color; print("Iterate color++: ${constant_color}");
+++constant_color; print("Iterate color++: ${constant_color}");
+++constant_color; print("Iterate color++: ${constant_color}");
+++constant_color; print("Iterate color++: ${constant_color}");
+
+--constant_color; print("Iterate color--: ${constant_color}");
+--constant_color; print("Iterate color--: ${constant_color}");
+--constant_color; print("Iterate color--: ${constant_color}");
+
+while (!IsCanceled()) {
+
+    for (var color = ColorsIndex.RED; color <= ColorsIndex.PURPLE; ++color) {
+        if (IsCanceled()) { break; }
+        print("Change color to: ${color}");
+        group.SetColor(color);
+        sleep(6000);
+    }
+}
+
+print("* RGB constant color test stopped normaly...");
+

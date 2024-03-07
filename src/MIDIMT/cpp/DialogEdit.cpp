@@ -20,6 +20,8 @@ namespace Common {
 			static constexpr std::wstring_view INTERNAL = L"Internal"sv;
 			static constexpr std::wstring_view PREMIEREPRO = L"Premiere Pro"sv;
 			static constexpr std::wstring_view MULTIMEDIAKEY = L"Multimedia Key"sv;
+			static constexpr std::wstring_view JSONEXT = L".json"sv;
+			static constexpr std::wstring_view CNFEXT = L".cnf"sv;
 
 			static const uint16_t IDS[];
 			static const uint16_t IDN[];
@@ -201,8 +203,8 @@ namespace Common {
 					lv_.reset();
 				lv_ = std::make_unique<ListEdit>();
 				lv_->ListViewInit(h);
-				lv_->ListViewErrorCb(
-					std::bind(static_cast<void(DialogEdit::*)(std::wstring)>(&CbEvent::AddToLog), this, _1)
+				lv_->ListViewAddToLogCb(
+					std::bind(static_cast<void(DialogEdit::*)(const std::wstring&)>(&CbEvent::AddToLog), this, _1)
 				);
 				lv_->ListViewUpdateStatusCb(
 					[=]() { tb_edit_notify_(EditorNotify::EditChangeEnable); }
@@ -268,7 +270,7 @@ namespace Common {
 				CbEvent::ToMonitor(::GetDlgItem(hwnd_, DLG_EDIT_LOG), d.GetData(), true);
 
 				std::pair<DWORD, MIDI::Mackie::MIDIDATA> p = data->Get<std::pair<DWORD, MIDI::Mackie::MIDIDATA>>();
-				ListMixerContainer* cont = new ListMixerContainer(p.second, p.first);
+				ListUnitContainer* cont = new ListUnitContainer(p.second, p.first);
 				IO::IOBridge::Get().UnSetCb(*static_cast<CbEvent*>(this));
 				tb_->IsReadMidiCheck(false);
 				tb_->SetEditorNotify(IO::IOBridge::Get().IsStarted() ? EditorNotify::ReadMidiEnable : EditorNotify::ReadMidiDisable);
@@ -376,13 +378,15 @@ namespace Common {
 					wchar_t buf[MAX_PATH]{};
 					ListBox_GetText(hwcl, idx, buf);
 					std::wstring app = Utils::to_string(buf);
-					if (!app.empty())
-						last_->unit.apps.erase(
-							std::remove_if(last_->unit.apps.begin(), last_->unit.apps.end(),
-								[app](std::wstring& s) {
-						return app._Equal(s);
-					})
+					if (!app.empty()) {
+						auto i = std::remove_if(
+							last_->unit.apps.begin(),
+							last_->unit.apps.end(),
+							[app](std::wstring& s) { return app._Equal(s); }
 						);
+						if (i != last_->unit.apps.end())
+							last_->unit.apps.erase(i);
+					}
 				}
 
 				(void)ListBox_DeleteString(hwcl, idx);
@@ -533,7 +537,7 @@ namespace Common {
 		void DialogEdit::print_itemscount_(LONG count) {
 			if (!hwnd_) return;
 			try {
-				if (LOWORD(count) != -1) {
+				if (LOWORD(count) != UINT16_MAX) {
 					log_string ls;
 					ls << LOWORD(count) << L"/" << HIWORD(count);
 					::SetDlgItemTextW(hwnd_, DLG_EDIT_SETUP_COUNT, ls.str().c_str());
@@ -565,9 +569,13 @@ namespace Common {
 							SetDlgItemText(hwnd_, DLG_EDIT_SETUP_COUNT, std::to_wstring(lv_->ListViewCount()).c_str());
 							break;
 						}
+						case IDM_LV_SET_NONE:
 						case IDM_LV_SET_MQTT:
+						case IDM_LV_SET_MIXER:
 						case IDM_LV_SET_MMKEY:
-						case IDM_LV_SET_MIXER: {
+						case IDM_LV_SET_VMSCRIPT:
+						case IDM_LV_SET_LIGHTKEY8B:
+						case IDM_LV_SET_LIGHTKEY16B: {
 							tb_edit_notify_(EditorNotify::EditChangeEnable);
 							break;
 						}
@@ -745,6 +753,22 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void DialogEdit::lv_filter_dup_() {
+			if (!hwnd_ || !lv_) return;
+			try {
+				print_itemscount_(lv_->ListViewFilterDup());
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogEdit::lv_dup_delete_() {
+			if (!hwnd_ || !lv_) return;
+			try {
+				print_itemscount_(lv_->ListViewDeleteDup());
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		#pragma endregion
 
 		#pragma region Tool Bar Control
@@ -860,7 +884,7 @@ namespace Common {
 				COMDLG_FILTERSPEC filter[] = {
 					{
 						common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
-						 L"*.cnf"
+						ConfigName::CNFEXT.data()
 					}
 				};
 				std::wstring s = UI::UiUtils::OpenFileDialog(hwnd_, filter);
@@ -878,11 +902,16 @@ namespace Common {
 				COMDLG_FILTERSPEC filter[] = {
 					{
 						common_error_code::Get().get_error(common_error_id::err_MIDIMT_CONFFILTER).c_str(),
-						 L"*.cnf"
+						ConfigName::CNFEXT.data()
 					}
 				};
 				std::wstring s = UI::UiUtils::SaveFileDialog(hwnd_, filter);
 				if (!s.empty()) {
+
+					std::filesystem::path p(s);
+					if (!p.has_extension())
+						p.replace_extension(ConfigName::CNFEXT.data());
+
 					auto mmt = std::make_shared<JSON::MMTConfig>();
 					mmt->copy_settings(common_config::Get().GetConfig());
 					if (lv_->ListViewGetList(mmt)) {
@@ -891,6 +920,50 @@ namespace Common {
 						tb_->AddRecent(s);
 					}
 				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void DialogEdit::tb_export_mqtt_conf_() {
+			try {
+				if (!hwnd_ || (ConfigDevice != ConfigStatus::LoadFile)) {
+					CbEvent::AddToLog(
+						common_error_code::Get().get_error(common_error_id::err_EMPTY)
+					);
+					return;
+				}
+
+				COMDLG_FILTERSPEC filter[] = {
+					{
+						common_error_code::Get().get_error(common_error_id::err_MIDIMT_JSONFILTER).c_str(),
+						ConfigName::JSONEXT.data()
+					}
+				};
+				std::wstring s = UI::UiUtils::SaveFileDialog(hwnd_, filter);
+				if (!s.empty()) {
+
+					std::filesystem::path p(s);
+					if (!p.has_extension())
+						p.replace_extension(ConfigName::JSONEXT.data());
+
+					JSON::json_config json{};
+					const bool b = json.WriteFile(p.wstring(),
+						[&](Tiny::TinyJson& rjson, std::wstring& confname) -> bool {
+							auto& mmt = common_config::Get().GetConfig();
+							if (mmt->empty()) return false;
+							return json.WriteMqttWebConfig(rjson, mmt.get());
+						}
+					);
+					CbEvent::AddToLog(
+						LangInterface::Get().GetString(b ? STRING_EDIT_MSG6 : STRING_EDIT_MSG7)
+					);
+					return;
+				}
+
+				CbEvent::AddToLog(
+					LangInterface::Get().GetString(STRING_EDIT_MSG7)
+				);
+
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
@@ -915,26 +988,26 @@ namespace Common {
 
 				switch (id) {
 					case IDM_LV_FILTER_ON: {
-						MIDI::MixerUnit mu = tb_->GetFilters();
+						MIDI::MidiUnit mu = tb_->GetFilters();
 						count = lv_->ListViewFilter(mu, static_cast<bool>(mu.id));
 						break;
 					}
 					case IDM_LV_FILTER_OFF: {
-						MIDI::MixerUnit mu{};
-						mu.ToNull(tb_->IsFilterTypeCheck());
+						MIDI::MidiUnit mu{};
+						mu.toNull(tb_->IsFilterTypeCheck());
 						count = lv_->ListViewFilter(mu, static_cast<bool>(mu.id));
 						break;
 					}
 					case IDM_LV_FILTER_SET: {
-						MIDI::MixerUnit mu{};
-						mu.ToNull(tb_->IsFilterTypeCheck());
+						MIDI::MidiUnit mu{};
+						mu.toNull(tb_->IsFilterTypeCheck());
 						mu.target = mu.longtarget = MIDI::Mackie::Target::NOTARGET;
 						tb_->SetFilters(mu);
 						return;
 					}
 					case IDM_LV_FILTER_CLEAR: {
-						MIDI::MixerUnit mu{};
-						mu.ToNull(true);
+						MIDI::MidiUnit mu{};
+						mu.toNull(true);
 						lv_->ListViewFiltersReset();
 						tb_->SetFilters(mu);
 						uint16_t cnt = lv_->ListViewCount();
@@ -947,14 +1020,14 @@ namespace Common {
 					case IDM_LV_FILTER_SCRIPT:
 					case IDM_LV_FILTER_LIGHT8: 
 					case IDM_LV_FILTER_LIGHT16: {
-						MIDI::MixerUnit mu = tb_->GetFilters();
+						MIDI::MidiUnit mu = tb_->GetFilters();
 						switch (id) {
-							case IDM_LV_FILTER_MQTT:		mu.target = MIDI::Mackie::Target::MQTTKEY; break;
-							case IDM_LV_FILTER_MMKEY:		mu.target = MIDI::Mackie::Target::MEDIAKEY; break;
-							case IDM_LV_FILTER_MIXER:		mu.target = MIDI::Mackie::Target::VOLUMEMIX; break;
-							case IDM_LV_FILTER_SCRIPT:		mu.target = MIDI::Mackie::Target::VMSCRIPT; break;
-							case IDM_LV_FILTER_LIGHT8:		mu.target = MIDI::Mackie::Target::LIGHTKEY8B; break;
-							case IDM_LV_FILTER_LIGHT16:		mu.target = MIDI::Mackie::Target::LIGHTKEY16B; break;
+							case IDM_LV_FILTER_MQTT:		mu.target = MIDI::Mackie::Target::MQTTKEY;		break;
+							case IDM_LV_FILTER_MMKEY:		mu.target = MIDI::Mackie::Target::MEDIAKEY;		break;
+							case IDM_LV_FILTER_MIXER:		mu.target = MIDI::Mackie::Target::VOLUMEMIX;	break;
+							case IDM_LV_FILTER_SCRIPT:		mu.target = MIDI::Mackie::Target::VMSCRIPT;		break;
+							case IDM_LV_FILTER_LIGHT8:		mu.target = MIDI::Mackie::Target::LIGHTKEY8B;	break;
+							case IDM_LV_FILTER_LIGHT16:		mu.target = MIDI::Mackie::Target::LIGHTKEY16B;	break;
 							default: return;
 						}
 						tb_->SetFilters(mu);
@@ -1119,9 +1192,11 @@ namespace Common {
 							case IDM_LV_COPY:
 							case IDM_LV_PASTE:
 							case IDM_LV_DELETE:
+							case IDM_LV_SET_NONE:
 							case IDM_LV_SET_MQTT:
 							case IDM_LV_SET_MMKEY:
 							case IDM_LV_SET_MIXER:
+							case IDM_LV_SET_VMSCRIPT:
 							case IDM_LV_SET_LIGHTKEY8B:
 							case IDM_LV_SET_LIGHTKEY16B: {
 								lv_menu_(LOWORD(w));
@@ -1143,6 +1218,14 @@ namespace Common {
 								tb_export_();
 								break;
 							}
+							case IDM_DIALOG_SHOWDUP: {
+								lv_filter_dup_();
+								break;
+							}
+							case IDM_DIALOG_DELDUP: {
+								lv_dup_delete_();
+								break;
+							}
 							case IDM_DIALOG_LAST_OPEN: {
 								tb_recent_open_(HIWORD(w));
 								break;
@@ -1161,6 +1244,10 @@ namespace Common {
 							}
 							case IDM_LV_PASTE_NOTIFY: {
 								tb_edit_notify_(static_cast<Common::MIDIMT::EditorNotify>(HIWORD(w)));
+								break;
+							}
+							case IDM_DIALOG_EXPORTMQTT: {
+								tb_export_mqtt_conf_();
 								break;
 							}
 							case IDM_LV_SORTUP_KEY:
@@ -1216,6 +1303,5 @@ namespace Common {
 			return ::DefSubclassProc(h, m, w, l);
 		}
 		#pragma endregion
-
 	}
 }

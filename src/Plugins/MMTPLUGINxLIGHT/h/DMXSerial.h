@@ -36,9 +36,8 @@ namespace Common {
 			~DMXSerial();
 
 			bool IsRun() override;
-			bool Send(DMXPacket, bool) override;
 			void Send(std::vector<byte>&) override;
-			bool Send_async(DMXPacket, DWORD, bool) override;
+			void Send_async(std::vector<byte>&) override;
 			std::vector<byte> Receive() override;
 			void Stop() override;
 			bool Start(SerialPortConfig&);

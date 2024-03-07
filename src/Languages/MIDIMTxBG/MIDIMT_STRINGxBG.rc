@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Конфигурацията е създадена наново и изисква попълване"
     STRING_EDIT_MSG4	"При отваряне на редактора конфигурационният файл беше посочен: '{0}'. Да го запазя ли със същото име?"
     STRING_EDIT_MSG5	"Номер на DMX канал"
+    STRING_EDIT_MSG6	"MQTT конфигурацията е експортирана успешно"
+    STRING_EDIT_MSG7	"Грешка при експортиране на MQTT конфигурация"
+    STRING_EDIT_MSG8	"Няма открити дублиращи се MIDI ключове"
+    STRING_EDIT_MSG9	"Намерени са {0} дублирани MIDI клавиша"
 
     STRING_NOTIFY_MSG1	"преводачът е спрян:"
     STRING_NOTIFY_MSG2	"преводачът работи:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"сценарий 25"
 	IDM_COL5_SCRIPT_B38		"сценарий 26"
 	IDM_COL5_SCRIPT_B39		"сценарий 27"
+	IDM_COL5_SCRIPT_STOP		"Спрете всички скриптове"
+	IDM_COL5_SCRIPT_RELOAD		"Прочетете отново директорията на скрипта"
 	IDM_COL5_SCRIPT_EMPTY		"Не е зададен"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Моля, редактирайте конфигурацията, преди да започнете."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Конфигурационният файл"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Изпълними файлове"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT конфигурационни файлове"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Конфигурация, заредена от файл: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Конфигурация, заредена от драйвера"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Избраният {0} език ще бъде активен след рестартиране на прозореца."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Скриптовата машина работи, налични скриптове: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Скриптовата машина е спряла."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Скрипт файлове"
+	IDS_ERRORID_SCRIPT_CALL			"Изпълнение на скрипт: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Препрочитам каталога със сценарии..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Спряно изпълнение на скриптове: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Неуспешно отваряне на директорията: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Директорията с посочените параметри не може да бъде прочетена, приключвам наблюдението на директорията."

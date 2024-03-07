@@ -14,65 +14,90 @@ namespace Common {
 	namespace SCRIPT {
 
 		using namespace std::string_view_literals;
-		typedef std::array<uint8_t, 4> color_t;
-		typedef std::array<color_t, 7> colorscale_t;
-
-		enum class ColorGroup : uint16_t {
-			RED = 0,
-			GREEN,
-			BLUE,
-			WHITE
-		};
+		typedef std::array<UnitDef, 4> color_def_t;
 
 		class ColorConstant {
 		private:
-			static color_t colors_black_;
-			static colorscale_t colors_scale_;
 			static uint32_t count_;
 		public:
 			static uint32_t GetNextColorGroup();
-			static void CallcColor(UnitDef[4], const uint8_t);
-			static void CallcLights(UnitDef[4], const uint8_t);
-			static std::wstring ColorHelper(const ColorGroup&);
 		};
 
-		class RGBWColor {
+		class ColorCorrector {
 		private:
-			UnitDef colors_[4];
-			uint32_t group_{ 0 };
-			uint8_t  light_{ 100 };
-
-			void set_groups_(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&);
-			void changed_colors_();
+			LIGHT::UTILS::color_rgbw_corrector_t corrector_{};
+			void copy_(const int8_t, const int8_t, const int8_t, const int8_t);
 
 		public:
 
+			ColorCorrector(const LIGHT::UTILS::color_rgbw_corrector_t&);
+			ColorCorrector(const int8_t, const int8_t, const int8_t, const int8_t);
+			ColorCorrector(const ColorCorrector&) = default;
+			ColorCorrector() = default;
+			~ColorCorrector() = default;
+
+			int8_t operator[](const int);
+
+			void set(const int8_t, const int8_t, const int8_t, const int8_t);
+			LIGHT::UTILS::color_rgbw_corrector_t& get();
+			const bool empty() const;
+			std::wstring dump() const;
+			std::string dump_s() const;
+		};
+
+		class RGBWColor : public LIGHT::UTILS::ColorControl {
+		private:
+
+			uint32_t group_{ 0 };
+			color_def_t units_{};
+			std::mutex mlock_{};
+			ColorCorrector ccr_{};
+
+			void set_groups_(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&);
+			void set_to_base_(const LIGHT::UTILS::color_rgbw_t& c);
+			void set_color_apply_(const LIGHT::UTILS::ColorControl::ColorsGroup&);
+			void set_color_apply_();
+
+			void apply_() const;
+			void update_apply_() const;
+			void update_apply_async_() const;
+
+		public:
+
+			bool is_update_async{ false };
+
 			RGBWColor(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&);
 			RGBWColor(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&);
-			RGBWColor(const RGBWColor&) = default;
+			RGBWColor(const RGBWColor&);
 			~RGBWColor() = default;
 
-			void SetColor(const uint8_t);
-			void SetColor(const uint8_t, const uint8_t, const uint8_t, const uint8_t);
-			void SetColor(const uint8_t, const uint8_t, const uint8_t);
-			[[maybe_unused]] void SetColor(const ColorGroup, const uint8_t);
-			[[maybe_unused]] void SetColor(const std::vector<uint8_t>&);
+			RGBWColor& SetColor(const LIGHT::UTILS::ColorControl::ColorsGroup&);
+			RGBWColor& SetColor(const uint8_t, const uint8_t, const uint8_t, const uint8_t);
+			RGBWColor& SetColor(const uint16_t, const uint8_t, const uint8_t);
 
-			void SetLight();
-			void SetLight(const uint8_t);
-			void SetLight(const uint8_t, const bool);
+			RGBWColor& SetHue(const uint16_t);
+			RGBWColor& SetSaturation(const uint8_t);
+			RGBWColor& SetBrightness(const uint8_t);
 
-			void SetValues(const uint8_t, const uint8_t);
-			void ApplyValues();
+			RGBWColor& SetColorCorrector(ColorCorrector&);
+
+			void FadeIn(const size_t, const size_t, const size_t);
+			void FadeOut(const size_t, const size_t, const size_t);
+			void On();
+			void Off();
+
 			void UpdateValues();
+			void ApplyValues();
 
 			uint8_t R() const;
 			uint8_t G() const;
 			uint8_t B() const;
 			uint8_t W() const;
 
-			uint8_t GetColor(const ColorGroup) const;
-			uint8_t GetLight() const;
+			uint8_t  GetColor(const LIGHT::UTILS::ColorControl::ColorGroup&) const;
+			uint16_t GetHue() const;
+			uint8_t  GetSaturation() const;
+			uint8_t  GetBrightness() const;
 			uint32_t GetGroup() const;
 
 			const bool empty() const;

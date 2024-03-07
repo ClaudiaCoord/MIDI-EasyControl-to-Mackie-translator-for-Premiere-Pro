@@ -185,22 +185,22 @@ namespace Common {
 
 		log_string AudioSessionItemChange::to_string() {
 			try {
-				log_string s;
+				log_string ls{};
 				if (Item.IsEmptyApp()) {
 					if (!Item.App.get<std::wstring>().empty())
-						s << L"*[" << Item.App.get<std::wstring>() << L"], cmd:" << AudioSessionHelper::OnChangeTypeHelper(GetAction()) << L" - ";
-					s << common_error_code::Get().get_error(common_error_id::err_EMPTY) << L"\n";
+						ls << L"*[" << Item.App.get<std::wstring>() << L"], cmd:" << AudioSessionHelper::OnChangeTypeHelper(GetAction()) << L" - ";
+					ls << common_error_code::Get().get_error(common_error_id::err_EMPTY) << L"\n";
 				} else {
-					s << L"*[" << Item.App.get<std::wstring>() << L"/" << Item.App.Pid << L"/" << Utils::to_string(Item.App.Guid) << L"], cmd:["
+					ls << L"*[" << Item.App.get<std::wstring>() << L"/" << Item.App.Pid << L"/" << Utils::to_string(Item.App.Guid) << L"], cmd:["
 						<< AudioSessionHelper::OnChangeTypeHelper(GetAction()) << L"/"
 						<< AudioSessionHelper::TypeItemsHelper(Item.GetType()) << L"]"
 						<< L", callcb=" << std::boolalpha << iscallaudiocb_
 						<< L", init=" << isinit_
 						<< L", " << Item.Volume.to_string();
 					if (Item.Id)
-						s << L",\n" << Item.Id.to_string() << L"\n";
+						ls << L",\n" << Item.Id.to_string() << L"\n";
 				}
-				return s;
+				return ls;
 			} catch (...) {}
 			return log_string();
 		}

@@ -48,17 +48,19 @@ namespace Common {
 			static const int HiddenGroup;
 		};
 
-		class ListMixerContainer {
+		class ListUnitContainer {
 		public:
-			MIDI::MixerUnit unit;
-			ListMixerContainer();
-			ListMixerContainer(ListMixerContainer*);
-			ListMixerContainer(MIDI::MixerUnit);
-			ListMixerContainer(MIDI::MidiUnit&);
-			ListMixerContainer(MIDI::MidiUnit&, DWORD);
-			ListMixerContainer(MIDI::Mackie::MIDIDATA, DWORD);
-			~ListMixerContainer();
-			MIDI::MidiUnit GetMidiUnit();
+			MIDI::MidiUnit unit;
+
+			ListUnitContainer() = default;
+			~ListUnitContainer() = default;
+			ListUnitContainer(ListUnitContainer&&) = default;
+
+			ListUnitContainer(const ListUnitContainer&);
+			ListUnitContainer(ListUnitContainer*);
+			ListUnitContainer(MIDI::MidiUnit&);
+			ListUnitContainer(MIDI::MidiUnit&, DWORD);
+			ListUnitContainer(MIDI::Mackie::MIDIDATA, DWORD);
 		};
 
 		class LISTVIEWSORT {
@@ -69,14 +71,14 @@ namespace Common {
 			const bool CheckColumn(int);
 			bool operator==(const LISTVIEWSORT&);
 			int  Column() const;
-			bool Ascending();
+			bool Ascending() const;
 			void Set(int);
 			void Set(int, bool);
 			void Reset();
 		};
 		class LISTVIEWPASTE {
 			int  item{ -1 }, column{ -1 };
-			ListMixerContainer* cont{ nullptr };
+			ListUnitContainer* cont{ nullptr };
 
 			void sendnotify_(HWND, EditorNotify);
 		public:
@@ -84,19 +86,20 @@ namespace Common {
 			const bool operator==(const LISTVIEWPASTE&);
 			const bool IsValueEmpty();
 			const bool IsValuesEmpty();
-			const bool IsItemEmpty();
+			const bool IsItemEmpty() const;
 			int  Item() const;
 			int  Column() const;
-			ListMixerContainer* Values() const;
+			ListUnitContainer* Values() const;
 			void SetItem(HWND, int, int);
-			void SetValue(HWND, ListMixerContainer*);
+			void SetValue(HWND, ListUnitContainer*);
 			void Reset(HWND);
 		};
 
 		class ListEdit {
 			hwnd_ptr<empty_deleter> hwndLv_{};
-			std::function<void(std::wstring)> ErrorFn = [](std::wstring) {};
-			std::function<void()> UpdateSaveStatusFn = []() {};
+			std::function<void(const std::wstring&)> AddToLog = [](const std::wstring&) {};
+			std::function<void()> UpdateSaveStatus = []() {};
+			std::atomic<bool> is_show_duplicate_{ false };
 			HIMAGELIST icons_{ nullptr };
 
 			std::shared_ptr<LISTVIEWSORT> lvsort{};
@@ -104,14 +107,15 @@ namespace Common {
 
 			void dispose_();
 
-			int  listview_setrow_(ListMixerContainer*, int = -1);
-			ListMixerContainer* listview_getrow_(int);
+			int  listview_setrow_(ListUnitContainer*, int = -1);
+			ListUnitContainer* listview_getrow_(int);
 			bool listview_editlabel_(int, int);
 			void listview_digitallabel_(int, int, RECT&, std::wstring&);
 			void listview_clearlist_(HWND);
 			void listview_deleteitem_(HWND, int);
-			void listview_setimage_(LVITEMW&, ListMixerContainer*);
+			void listview_setimage_(LVITEMW&, ListUnitContainer*);
 			void listview_updateimage_(HWND, int32_t);
+			std::future<std::vector<uint32_t>> listview_select_duplicate_(bool);
 
 			static int CALLBACK listview_sortex_(LPARAM, LPARAM, LPARAM);
 			static LRESULT CALLBACK listview_sub_editproc_(HWND hwnd, UINT m, WPARAM w, LPARAM l, UINT_PTR sc, DWORD_PTR data);
@@ -123,7 +127,7 @@ namespace Common {
 			std::atomic<bool> EditAsDigit{ false };
 			
 
-			void ListViewErrorCb(const std::function<void(std::wstring)>);
+			void ListViewAddToLogCb(const std::function<void(const std::wstring&)>);
 			void ListViewUpdateStatusCb(const std::function<void()>);
 
 			void ListViewInit(HWND);
@@ -131,9 +135,9 @@ namespace Common {
 			void ListViewClear();
 			void ListViewFilterEmbed(bool);
 			void ListViewLoad(std::shared_ptr<JSON::MMTConfig>&);
-			int  ListViewInsertItem(ListMixerContainer*);
+			int  ListViewInsertItem(ListUnitContainer*);
 			bool ListViewGetList(std::shared_ptr<JSON::MMTConfig>&);
-			ListMixerContainer* ListViewGetSelectedRow(LPNMHDR);
+			ListUnitContainer* ListViewGetSelectedRow(LPNMHDR);
 
 			bool ListViewMenu(uint32_t);
 			bool ListViewMenu(LPNMHDR);
@@ -143,7 +147,9 @@ namespace Common {
 			bool ListViewSort(uint32_t, bool);
 			void ListViewFiltersReset();
 			LONG ListViewFilter(bool);
-			LONG ListViewFilter(MIDI::MixerUnit&, bool = false);
+			LONG ListViewFilter(MIDI::MidiUnit&, bool = false);
+			LONG ListViewFilterDup();
+			LONG ListViewDeleteDup();
 			int32_t ListViewCount();
 			size_t ListViewColumns();
 		};

@@ -29,35 +29,26 @@ namespace Common {
 		const int Columns::HiddenGroup = 20;
 		#pragma endregion
 
-		#pragma region ListMixerContainer
-		ListMixerContainer::ListMixerContainer() {
-			unit.key = 255U;
-			unit.scene = 255U;
-			unit.type = MIDI::MidiUnitType::UNITNONE;
-			unit.target = MIDI::Mackie::Target::NOTARGET;
-			unit.longtarget = MIDI::Mackie::Target::NOTARGET;
+		#pragma region ListUnitContainer
+		ListUnitContainer::ListUnitContainer(const ListUnitContainer& c) {
+			unit.copy(c.unit);
 		}
-		ListMixerContainer::ListMixerContainer(ListMixerContainer* c) {
+		ListUnitContainer::ListUnitContainer(ListUnitContainer* c) {
 			if (c) unit.copy(c->unit);
 		}
-		ListMixerContainer::ListMixerContainer(MIDI::Mackie::MIDIDATA m, DWORD t) {
+		ListUnitContainer::ListUnitContainer(MIDI::Mackie::MIDIDATA m, DWORD t) {
 			unit.key = m.key();
 			unit.scene = m.scene();
 			unit.type = (m.value() == 127U) ? MIDI::MidiUnitType::BTN : ((m.value() > 0) ? MIDI::MidiUnitType::SLIDER : MIDI::MidiUnitType::UNITNONE);
 			unit.value.value = m.value();
 			unit.value.time = std::chrono::high_resolution_clock::now();
 		}
-		ListMixerContainer::ListMixerContainer(MIDI::MidiUnit& m, DWORD) {
+		ListUnitContainer::ListUnitContainer(MIDI::MidiUnit& m, DWORD) {
 			unit.copy(m);
 			unit.value.time = std::chrono::high_resolution_clock::now();
 		}
-		ListMixerContainer::ListMixerContainer(MIDI::MidiUnit& m) {
+		ListUnitContainer::ListUnitContainer(MIDI::MidiUnit& m) {
 			unit.copy(m);
-		}
-		ListMixerContainer::~ListMixerContainer() {
-		}
-		MIDI::MidiUnit ListMixerContainer::GetMidiUnit() {
-			return MIDI::MidiUnit(unit);
 		}
 		#pragma endregion
 
@@ -79,7 +70,7 @@ namespace Common {
 			return (column != -1);
 		}
 		int  LISTVIEWSORT::Column() const { return (column == -1) ? 0 : column; }
-		bool LISTVIEWSORT::Ascending() { return (column == -1) ? false : ascending[column]; }
+		bool LISTVIEWSORT::Ascending() const { return (column == -1) ? false : ascending[column]; }
 		void LISTVIEWSORT::Set(int col) {
 			column = CheckColumn(col) ? col : -1;
 			if (column != -1)
@@ -105,15 +96,15 @@ namespace Common {
 		const bool LISTVIEWPASTE::IsValuesEmpty() {
 			return ((cont == nullptr) || (cont->unit.key >= 255) || (cont->unit.scene >= 255U) || (cont->unit.type == MIDI::MidiUnitType::UNITNONE));
 		}
-		const bool LISTVIEWPASTE::IsItemEmpty() { return (item == -1) || (column == -1); }
+		const bool LISTVIEWPASTE::IsItemEmpty() const { return (item == -1) || (column == -1); }
 		int LISTVIEWPASTE::Item() const { return item; }
 		int LISTVIEWPASTE::Column() const { return column; }
-		ListMixerContainer* LISTVIEWPASTE::Values() const { return cont; }
+		ListUnitContainer* LISTVIEWPASTE::Values() const { return cont; }
 		void LISTVIEWPASTE::SetItem(HWND hwnd, int i, int c) {
 			item = i, column = c;
 			sendnotify_(hwnd, EditorNotify::ItemFound);
 		}
-		void LISTVIEWPASTE::SetValue(HWND hwnd, ListMixerContainer* c) {
+		void LISTVIEWPASTE::SetValue(HWND hwnd, ListUnitContainer* c) {
 			cont = c;
 			sendnotify_(hwnd, (c) ? EditorNotify::ValueFound : EditorNotify::ValueEmpty);
 		}
@@ -276,7 +267,7 @@ namespace Common {
 		}
 		#pragma endregion
 
-		/* Class */
+		/* Class ListEdit */
 
 		#pragma region ListEdit
 		ListEdit::ListEdit() {
@@ -310,13 +301,11 @@ namespace Common {
 		size_t ListEdit::ListViewColumns() {
 			return std::size(Columns::Captions);
 		}
-		void ListEdit::ListViewErrorCb(const std::function<void(std::wstring)> fn) {
-			if (fn != nullptr)
-				ErrorFn = fn;
+		void ListEdit::ListViewAddToLogCb(const std::function<void(const std::wstring&)> fn) {
+			if (fn != nullptr) AddToLog = fn;
 		}
 		void ListEdit::ListViewUpdateStatusCb(const std::function<void()> fn) {
-			if (fn != nullptr)
-				UpdateSaveStatusFn = fn;
+			if (fn) UpdateSaveStatus = fn;
 		}
 
 		void ListEdit::ListViewEnd() {
@@ -432,7 +421,7 @@ namespace Common {
 
 				for (auto& a : dev->units) {
 					if (a.key == 255) continue;
-					listview_setrow_(new ListMixerContainer(a));
+					listview_setrow_(new ListUnitContainer(a));
 				}
 				lvsort->Set(Columns::Key, true);
 				ListView_SortItemsEx(hwnd, &listview_sortex_, (LPARAM)this);
@@ -474,7 +463,7 @@ namespace Common {
 				hditem.type = HDFT_ISNUMBER;
 				hditem.pvFilter = &value;
 
-				MIDI::MixerUnit mu{};
+				MIDI::MidiUnit mu{};
 				for (uint32_t i = 1; i <= 5; i++) {
 					value = 0L;
 					if (!Header_GetItem(head, i, &hditem)) continue;
@@ -494,7 +483,7 @@ namespace Common {
 			}
 			return MAKELONG(-1, 0);
 		}
-		LONG ListEdit::ListViewFilter(MIDI::MixerUnit& unit, bool filtermode) {
+		LONG ListEdit::ListViewFilter(MIDI::MidiUnit& unit, bool filtermode) {
 			if (!hwndLv_) return MAKELONG(-1, 0);
 
 			try {
@@ -504,11 +493,11 @@ namespace Common {
 				bool isclean = (unit.key == 0) && (unit.scene == 0) && (unit.target == 0) && (unit.longtarget == 0);
 				while ((pos = ListView_GetNextItem(hwndLv_, pos, LVNI_ALL)) != -1) {
 					try {
-						ListMixerContainer* c = listview_getrow_(pos);
+						ListUnitContainer* c = listview_getrow_(pos);
 						if (c == nullptr) continue;
 
 						bool visible = isclean ? true :
-							(filtermode ? unit.EqualsOR(c->unit) : unit.EqualsAND(c->unit));
+							(filtermode ? unit.equalsOR(c->unit) : unit.equalsAND(c->unit));
 
 						LVITEMW lvi{};
 						lvi.mask = LVIF_GROUPID;
@@ -528,6 +517,167 @@ namespace Common {
 			}
 			return MAKELONG(-1, 0);
 		}
+
+		#pragma region select/show/delete duplicate
+		static inline void check_and_add_duplicate__(std::vector<uint32_t>& v, const uint32_t ihash) {
+			auto it = std::find_if(
+				v.begin(),
+				v.end(),
+				[=](const uint32_t& h) { return h == ihash; }
+			);
+			if (it == v.end()) v.push_back(ihash);
+		}
+
+		std::future<std::vector<uint32_t>> ListEdit::listview_select_duplicate_(bool is_delete) {
+
+			int16_t pos = -1;
+			std::vector<MIDI::MidiUnitRef> list{};
+
+			while ((pos = ListView_GetNextItem(hwndLv_, pos, LVNI_ALL)) != -1) {
+				try {
+					ListUnitContainer* c = listview_getrow_(pos);
+					if (!c) continue;
+					list.push_back(MIDI::MidiUnitRef(std::ref(c->unit)));
+				} catch (...) {
+					Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+				}
+			}
+			return std::async(std::launch::async, [=]() -> std::vector<uint32_t> {
+
+				std::vector<uint32_t> vdup{};
+
+				for (auto i = list.begin(); i != list.end(); i++) {
+					auto& ii = *static_cast<const MIDI::MidiUnitRef*>(&*i);
+
+					for (auto a = i + 1; a != list.end(); a++) {
+						auto& aa = *static_cast<const MIDI::MidiUnitRef*>(&*a);
+						if (ii.get().equalsMIDI(aa.get())) {
+							#if defined (_DEBUG)
+							if (!is_delete)
+								::OutputDebugStringW(ii.get().dump().c_str());
+							::OutputDebugStringW(aa.get().dump().c_str());
+							#endif
+							if (!is_delete)
+								check_and_add_duplicate__(std::ref(vdup), ii.get().getHash());
+							check_and_add_duplicate__(std::ref(vdup), aa.get().getHash());
+						}
+					}
+				}
+				return vdup;
+			});
+		}
+
+		LONG ListEdit::ListViewFilterDup() {
+			if (!hwndLv_) return MAKELONG(-1, 0);
+
+			try {
+				int16_t count = 0, all = 0, pos = -1;
+				if ((all = ListView_GetItemCount(hwndLv_)) == 0) return MAKELONG(-1, 0);
+
+				is_show_duplicate_.store(!is_show_duplicate_.load());
+
+				if (!is_show_duplicate_.load()) {
+					ListViewFiltersReset();
+					return MAKELONG(all, all);
+				}
+
+				auto vdup = listview_select_duplicate_(false).get();
+				if (vdup.empty()) {
+					AddToLog(LangInterface::Get().GetString(STRING_EDIT_MSG8));
+					return MAKELONG(0, all);
+				}
+				AddToLog(
+					log_string::format(
+						LangInterface::Get().GetString(STRING_EDIT_MSG9),
+						vdup.size())
+				);
+
+				while ((pos = ListView_GetNextItem(hwndLv_, pos, LVNI_ALL)) != -1) {
+					try {
+						ListUnitContainer* c = listview_getrow_(pos);
+						if (c == nullptr) continue;
+
+						bool visible;
+						if (!vdup.empty()) {
+
+							auto it = std::find_if(
+								vdup.begin(),
+								vdup.end(),
+								[=](const uint32_t& h) { return c->unit.getHash() == h; }
+							);
+
+							visible = (it != vdup.end());
+							if (visible) vdup.erase(it);
+
+						}
+						else visible = false;
+
+						LVITEMW lvi{};
+						lvi.mask = LVIF_GROUPID;
+						lvi.iItem = pos;
+						lvi.iGroupId = visible ? Columns::ViewGroup : Columns::HiddenGroup;
+						(void)ListView_SetItem(hwndLv_, &lvi);
+
+						count = visible ? (count + 1) : count;
+
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+				}
+				return MAKELONG(count, all);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return MAKELONG(-1, 0);
+		}
+		LONG ListEdit::ListViewDeleteDup() {
+			if (!hwndLv_) return MAKELONG(-1, 0);
+
+			try {
+				int16_t count = 0, pos = -1;
+				if ((count = ListView_GetItemCount(hwndLv_)) == 0) return MAKELONG(-1, 0);
+
+				auto vdup = listview_select_duplicate_(true).get();
+				if (vdup.empty()) {
+					AddToLog(LangInterface::Get().GetString(STRING_EDIT_MSG8));
+					return MAKELONG(-1, 0);
+				}
+				AddToLog(
+					log_string::format(
+						LangInterface::Get().GetString(STRING_EDIT_MSG9),
+						vdup.size())
+				);
+
+				for (const int32_t i : vdup) {
+					try {
+						pos = -1;
+						while ((pos = ListView_GetNextItem(hwndLv_, pos, LVNI_ALL)) != -1) {
+							ListUnitContainer* c = listview_getrow_(pos);
+							if (!c) continue;
+							if (c->unit.getHash() == i) {
+								listview_deleteitem_(hwndLv_, pos);
+								break;
+							}
+						}
+					} catch (...) {
+						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+					}
+				}
+
+				if (vdup.size()) {
+					count -= static_cast<int16_t>(vdup.size());
+					UpdateSaveStatus();
+				}
+				return MAKELONG(count, count);
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return MAKELONG(-1, 0);
+		}
+		#pragma endregion
+
 		bool ListEdit::ListViewSort(LPNMHDR lpmh) {
 			if (!lpmh || !lvsort) return false;
 			NMLISTVIEW* pnm = (NMLISTVIEW*)lpmh;
@@ -583,7 +733,7 @@ namespace Common {
 
 				switch (id) {
 					case IDM_LV_COPY: {
-						ListMixerContainer* cont = listview_getrow_(lvpaste->Item());
+						ListUnitContainer* cont = listview_getrow_(lvpaste->Item());
 						if ((cont == nullptr) || (cont->unit.key >= 255) || (cont->unit.scene >= 255U) || (cont->unit.type == MIDI::MidiUnitType::UNITNONE)) {
 							lvpaste->Reset(dlg);
 							break;
@@ -592,7 +742,7 @@ namespace Common {
 						break;
 					}
 					case IDM_LV_NEW: {
-						ListMixerContainer* cont = new ListMixerContainer();
+						ListUnitContainer* cont = new ListUnitContainer();
 						int32_t item = ListViewInsertItem(cont);
 						if (item != -1) {
 							lvpaste->Reset(dlg);
@@ -606,7 +756,7 @@ namespace Common {
 							lvpaste->Reset(dlg);
 							break;
 						}
-						ListMixerContainer* cont = new ListMixerContainer(lvpaste->Values());
+						ListUnitContainer* cont = new ListUnitContainer(lvpaste->Values());
 						int32_t item = ListViewInsertItem(cont);
 						if (item != -1) {
 							lvpaste->SetItem(dlg, item, 0);
@@ -620,6 +770,7 @@ namespace Common {
 						lvpaste->Reset(dlg);
 						break;
 					}
+					case IDM_LV_SET_NONE:
 					case IDM_LV_SET_MQTT:
 					case IDM_LV_SET_MMKEY:
 					case IDM_LV_SET_MIXER: 
@@ -628,15 +779,18 @@ namespace Common {
 					case IDM_LV_SET_LIGHTKEY16B: {
 						uint32_t val;
 						switch (id) {
-							case IDM_LV_SET_MQTT:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);   break;
-							case IDM_LV_SET_MMKEY:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);  break;
-							case IDM_LV_SET_MIXER:			val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX); break;
-							case IDM_LV_SET_VMSCRIPT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VMSCRIPT); break;
-							case IDM_LV_SET_LIGHTKEY8B:		val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY8B);  break;
-							case IDM_LV_SET_LIGHTKEY16B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY16B);  break;
+							case IDM_LV_SET_NONE:			val = static_cast<uint32_t>(MIDI::Mackie::Target::NOTARGET);	break;
+							case IDM_LV_SET_MQTT:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MQTTKEY);		break;
+							case IDM_LV_SET_MMKEY:			val = static_cast<uint32_t>(MIDI::Mackie::Target::MEDIAKEY);	break;
+							case IDM_LV_SET_MIXER:			val = static_cast<uint32_t>(MIDI::Mackie::Target::VOLUMEMIX);	break;
+							case IDM_LV_SET_VMSCRIPT:		val = static_cast<uint32_t>(MIDI::Mackie::Target::VMSCRIPT);	break;
+							case IDM_LV_SET_LIGHTKEY8B:		val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY8B);	break;
+							case IDM_LV_SET_LIGHTKEY16B:	val = static_cast<uint32_t>(MIDI::Mackie::Target::LIGHTKEY16B); break;
 							default: return false;
 						}
 						std::wstring ws = std::to_wstring(val);
+						if (val == static_cast<uint32_t>(MIDI::Mackie::Target::NOTARGET))
+							ListView_SetItemText(hwndLv_, lvpaste->Item(), Columns::LongTarget, (LPWSTR)ws.c_str());
 						ListView_SetItemText(hwndLv_, lvpaste->Item(), Columns::Target, (LPWSTR)ws.c_str());
 						listview_updateimage_(hwndLv_, lvpaste->Item());
 						break;
@@ -672,7 +826,7 @@ namespace Common {
 			return true;
 		}
 
-		int ListEdit::ListViewInsertItem(ListMixerContainer *cont) {
+		int ListEdit::ListViewInsertItem(ListUnitContainer *cont) {
 			if (!hwndLv_) return -1;
 
 			try {
@@ -701,13 +855,13 @@ namespace Common {
 				int pos = -1;
 				while ((pos = ListView_GetNextItem(hwnd, pos, LVNI_ALL)) != -1) {
 					try {
-						ListMixerContainer* cont = listview_getrow_(pos);
+						ListUnitContainer* cont = listview_getrow_(pos);
 						if ((cont == nullptr) ||
 							(cont->unit.key >= 255) ||
 							(cont->unit.scene >= 255U) ||
 							(cont->unit.type == MIDI::MidiUnitType::UNITNONE)) continue;
 
-						dev->units.push_back(std::move(cont->GetMidiUnit()));
+						dev->units.push_back(MIDI::MidiUnit(std::ref(cont->unit)));
 					} catch (...) {
 						Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 					}
@@ -719,7 +873,7 @@ namespace Common {
 			}
 			return false;
 		}
-		ListMixerContainer* ListEdit::ListViewGetSelectedRow(LPNMHDR lpmh) {
+		ListUnitContainer* ListEdit::ListViewGetSelectedRow(LPNMHDR lpmh) {
 			do {
 				if (!lpmh) break;
 				LPNMITEMACTIVATE pia = reinterpret_cast<LPNMITEMACTIVATE>(lpmh);
@@ -745,7 +899,7 @@ namespace Common {
 				lvi.iItem = pos;
 
 				if (ListView_GetItem(hwnd, &lvi)) {
-					ListMixerContainer* cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
+					ListUnitContainer* cont = reinterpret_cast<ListUnitContainer*>(lvi.lParam);
 					lvi.lParam = (LPARAM)nullptr;
 					(void) ListView_SetItem(hwnd, &lvi);
 					(void) ListView_DeleteItem(hwnd, pos);
@@ -770,7 +924,7 @@ namespace Common {
 						lvi.iItem = pos;
 
 						if (ListView_GetItem(hwnd, &lvi)) {
-							ListMixerContainer* cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
+							ListUnitContainer* cont = reinterpret_cast<ListUnitContainer*>(lvi.lParam);
 
 							lvi.lParam = (LPARAM)nullptr;
 							(void)ListView_SetItem(hwnd, &lvi);
@@ -786,7 +940,7 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
-		int  ListEdit::listview_setrow_(ListMixerContainer* cont, int id) {
+		int  ListEdit::listview_setrow_(ListUnitContainer* cont, int id) {
 			if (!hwndLv_) return -1;
 
 			try {
@@ -829,18 +983,18 @@ namespace Common {
 			}
 			return -1;
 		}
-		ListMixerContainer* ListEdit::listview_getrow_(int item) {
+		ListUnitContainer* ListEdit::listview_getrow_(int item) {
 			if (!hwndLv_) return nullptr;
 
 			try {
-				ListMixerContainer* cont = nullptr;
+				ListUnitContainer* cont = nullptr;
 				wchar_t buf[10]{};
 				LVITEMW lvi{};
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = item;
 
 				if (ListView_GetItem(hwndLv_, &lvi))
-					cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
+					cont = reinterpret_cast<ListUnitContainer*>(lvi.lParam);
 				if (!cont) return nullptr;
 
 				for (size_t i = Columns::Key; i < std::size(Columns::Captions); i++) {
@@ -925,7 +1079,7 @@ namespace Common {
 						lvi.iItem = item;
 
 						if (ListView_GetItem(hwndLv_, &lvi)) {
-							ListMixerContainer* cont = reinterpret_cast<ListMixerContainer*>(lvi.lParam);
+							ListUnitContainer* cont = reinterpret_cast<ListUnitContainer*>(lvi.lParam);
 							if (cont) isdigitedit = ((cont->unit.target == MIDI::Mackie::Target::LIGHTKEY8B) || (cont->unit.target == MIDI::Mackie::Target::LIGHTKEY16B));
 						}
 					} catch (...) {}
@@ -1010,6 +1164,8 @@ namespace Common {
 						if (r != 0) {
 							r = (r - IDM_COL4_BASE);
 							if ((r >= 0) && (r <= 255)) {
+								std::wstring s = std::to_wstring(r);
+
 								switch (static_cast<MIDI::Mackie::Target>(r)) {
 									using enum MIDI::Mackie::Target;
 									case MQTTKEY:
@@ -1017,10 +1173,18 @@ namespace Common {
 									case MEDIAKEY:
 									case VOLUMEMIX:
 									case LIGHTKEY8B:
-									case LIGHTKEY16B: if (column > Columns::Target) column = Columns::Target; break;
+									case LIGHTKEY16B: {
+										if (column > Columns::Target)
+											column = Columns::Target;
+										break;
+									}
+									case NOTARGET: {
+										if (column == Columns::Target)
+											ListView_SetItemText(hwndLv_, item, Columns::LongTarget, (LPWSTR)s.c_str());
+										break;
+									}
 									default: break;
 								}
-								std::wstring s = std::to_wstring(r);
 								ListView_SetItemText(hwndLv_, item, column, (LPWSTR)s.c_str());
 								ischage = true;
 							}
@@ -1030,7 +1194,7 @@ namespace Common {
 				}
 				if (ischage) {
 					listview_updateimage_(hwndLv_, item);
-					UpdateSaveStatusFn();
+					UpdateSaveStatus();
 				}
 				return true;
 
@@ -1040,7 +1204,7 @@ namespace Common {
 			return false;
 		}
 
-		void ListEdit::listview_setimage_(LVITEMW& lvi, ListMixerContainer* cont) {
+		void ListEdit::listview_setimage_(LVITEMW& lvi, ListUnitContainer* cont) {
 			if ((cont->unit.key == 255U) || (cont->unit.scene == 255U)) {
 				lvi.iImage = 1;
 			}
@@ -1060,7 +1224,7 @@ namespace Common {
 		}
 		void ListEdit::listview_updateimage_(HWND hwnd, int32_t item) {
 			try {
-				ListMixerContainer* cont = listview_getrow_(item);
+				ListUnitContainer* cont = listview_getrow_(item);
 				if (cont) {
 					LVITEMW lvi{};
 					lvi.mask = LVIF_IMAGE;

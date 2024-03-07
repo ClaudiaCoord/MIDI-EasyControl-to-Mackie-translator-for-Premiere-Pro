@@ -64,6 +64,12 @@
     <Filter Include="Файлы заголовков\script">
       <UniqueIdentifier>{842fc059-78ec-4cd9-bc83-70a1cd5ca7a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\light\utils">
+      <UniqueIdentifier>{dc5aa3d6-3780-4e30-a062-9e59bf9d71d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\light\utils">
+      <UniqueIdentifier>{f0759a02-0e4f-4c58-9203-9718c75c94e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\h\locker_auto.h">
@@ -210,6 +216,9 @@
     <ClInclude Include="..\Common\h\common_static.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\h\light\utils\ColorControl.h">
+      <Filter>Файлы заголовков\light\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\locker_auto.cpp">
@@ -322,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="cpp\common_static.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\light\utils\ColorControl.cpp">
+      <Filter>Исходные файлы\light\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

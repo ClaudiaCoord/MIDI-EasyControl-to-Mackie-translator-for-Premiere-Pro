@@ -16,13 +16,13 @@
 namespace Common {
 	namespace MIDI {
 
-		class FLAG_EXPORT MackieHelper
-		{
+		class FLAG_EXPORT MackieHelper {
 		public:
 			static std::wstring GetScriptTarget(const Common::MIDI::Mackie::Target&);
 			static int32_t GetScriptTargetID(const Common::MIDI::Mackie::Target&);
 			static std::wstring GetSmartHomeTarget(const Common::MIDI::Mackie::Target&);
 			static int32_t GetSmartHomeTargetID(const Common::MIDI::Mackie::Target&);
+			static std::wstring GetSmartHomeTargetTopic(const Common::MIDI::Mackie::Target&);
 			static int32_t GetTargetID(const Common::MIDI::Mackie::Target&);
 			static std::wstring_view GetTarget(const Common::MIDI::Mackie::Target&);
 			static std::wstring_view GetTarget(const uint8_t&);

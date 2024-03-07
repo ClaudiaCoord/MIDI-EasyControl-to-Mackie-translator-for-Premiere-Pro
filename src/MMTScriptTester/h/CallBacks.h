@@ -161,6 +161,8 @@ namespace APP {
             Print::out_help(L"r", L"show running scripts list");
             Print::out_help(L"c", L"show configuration");
             Print::out_help(L"b", L"show the source code of the last running script");
+            Print::out_help(L"d", L"set script debugging output to a special program");
+            Print::out_help(L"t", L"terminate all running scripts");
             Print::out_help(L"x' or 'q", L"stop and exit");
             Print::new_line();
         }
@@ -175,6 +177,8 @@ namespace APP {
             Print::out_help(L"run|call|start [number|string]", L"call script by number or name");
             Print::out_help(L"stop|end [number|string]", L"stop execute running script by number or name");
             Print::out_help(L"scan|rescan|reload", L"scan scripts directory");
+            Print::out_help(L"terminate|term", L"terminate all running scripts");
+            Print::out_help(L"debug|debugging", L"set script debugging output to a special program");
             Print::new_line();
             print_help();
         }
@@ -209,18 +213,21 @@ namespace APP {
         }
         void setconfig(SCRIPT::VmScriptConfig& c) {
             try {
-                Print::out_prompt(L"Set config...");
+                Print::out_prompt(L"Set configuration...");
                 common_config& conf = common_config::Get();
                 if (!conf.Load()) {
-                    Print::out_error(L" -> error: config not loaded");
+                    Print::out_error(L" -> error: configuration not loaded!");
                     return;
                 }
                 auto& cnf = conf.GetConfig();
+                cnf->vmscript.script_debug = false;
                 vmscripts_->set_config(cnf);
                 if (!c.empty()) vmscripts_->set_config(c);
 
-                Print::out_prompt((Common::log_string() << L" -> end (total controls: " << cnf->units.size() << L")"));
+                Print::out_prompt((Common::log_string() << L" -> end (load total controls: " << cnf->units.size() << L")"));
                 Print::out_dump(L"VM-SCRIPT CONFIG", cnf->vmscript.dump(), 0U);
+                if (vmscripts_->get_config().script_debug)
+                    Print::out_log(L"WARNING, DEBUG OUTPUT ON", L" -> all output script messages send to a special program..");
                 vmscripts_->start();
 
             } catch (...) {
@@ -253,6 +260,17 @@ namespace APP {
         }
         void rescan_scripts() {
             vmscripts_->rescan();
+        }
+        void terminate_scripts() {
+            vmscripts_->stop_scripts();
+        }
+        void output_debug() {
+            auto& c = vmscripts_->get_config();
+            c.script_debug = !c.script_debug;
+            Print::out_log(
+                std::wstring() + L"DEBUG OUTPUT " + (c.script_debug ? L"ON" : L"OFF"),
+                std::wstring() + L" -> all output script messages " + (c.script_debug ? L"send to a special program.." : L"print to local")
+            );
         }
         void command_exec(const Command& cmd) {
             try {
@@ -297,6 +315,10 @@ namespace APP {
                         print_help_full();
                         break;
                     }
+                    case debug: {
+                        output_debug();
+                        break;
+                    }
                     case run:
                     case stop: {
                         if (cmd.get_cmd5() != Common::MIDI::Mackie::Target::NOTARGET)
@@ -321,6 +343,10 @@ namespace APP {
                         rescan_scripts();
                         break;
                     }
+                    case terminate: {
+                        terminate_scripts();
+                        break;
+                    }
                     default: break;
                 }
 
@@ -333,22 +359,26 @@ namespace APP {
                 uint16_t last{ 0U };
                 while (true) {
                     uint16_t c = std::wcin.get();
-                         if (c == 49)  call(Common::MIDI::Mackie::Target::B11);
-                    else if (c == 50)  call(Common::MIDI::Mackie::Target::B12);
-                    else if (c == 51)  call(Common::MIDI::Mackie::Target::B13);
-                    else if (c == 52)  call(Common::MIDI::Mackie::Target::B14);
-                    else if (c == 53)  call(Common::MIDI::Mackie::Target::B15);
-                    else if (c == 54)  call(Common::MIDI::Mackie::Target::B16);
-                    else if (c == 55)  call(Common::MIDI::Mackie::Target::B17);
-                    else if (c == 56)  call(Common::MIDI::Mackie::Target::B18);
-                    else if (c == 57)  call(Common::MIDI::Mackie::Target::B19);
+                    if ((c >= 49) && (c <= 57)) {
+                             if (c == 49)  call(Common::MIDI::Mackie::Target::B11);
+                        else if (c == 50)  call(Common::MIDI::Mackie::Target::B12);
+                        else if (c == 51)  call(Common::MIDI::Mackie::Target::B13);
+                        else if (c == 52)  call(Common::MIDI::Mackie::Target::B14);
+                        else if (c == 53)  call(Common::MIDI::Mackie::Target::B15);
+                        else if (c == 54)  call(Common::MIDI::Mackie::Target::B16);
+                        else if (c == 55)  call(Common::MIDI::Mackie::Target::B17);
+                        else if (c == 56)  call(Common::MIDI::Mackie::Target::B18);
+                        else if (c == 57)  call(Common::MIDI::Mackie::Target::B19);
+                    }
                     else if ((c == 63) || (c == 72) || (c == 104)) print_help();
-                    else if ((c == 83) || (c == 115)) rescan_scripts();
-                    else if ((c == 76) || (c == 108)) print_list_script();
                     else if ((c == 66) || (c == 98))  print_script_source();
-                    else if ((c == 82) || (c == 114)) print_list_run();
                     else if ((c == 67) || (c == 99))  print_config();
+                    else if ((c == 68) || (c == 100)) output_debug();
+                    else if ((c == 76) || (c == 108)) print_list_script();
                     else if ((c == 81) || (c == 88) || (c == 113) || (c == 120)) break;
+                    else if ((c == 82) || (c == 114)) print_list_run();
+                    else if ((c == 83) || (c == 115)) rescan_scripts();
+                    else if ((c == 84) || (c == 116)) terminate_scripts();
                     else if ((c == 10) && (last == 10)) {
                         Print::new_cursor(L" -> enter string command");
                         std::wstring s{};
@@ -371,7 +401,10 @@ namespace APP {
                         }
                     }
                     if (c != 10) Print::new_cursor();
-                    // std::wcout << (uint16_t)c << L"/" << last << L"\n";
+                    // #define DEBUG_INPUT 1
+                    #if defined (DEBUG_INPUT)
+                    std::wcout << (uint16_t)c << L"/" << last << L"\n";
+                    #endif
                     last = c;
                 }
             } catch (...) {

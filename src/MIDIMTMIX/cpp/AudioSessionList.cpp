@@ -168,7 +168,7 @@ namespace Common {
         void AudioSessionList::remove_from_list_(std::function<bool(ASITEM_t&)> cmpcb) {
             try {
                 if (aslist_.empty()) return;
-                auto it = std::remove_if(aslist_.begin(), aslist_.end(), [=](ASITEM_t& a) {
+                auto i = std::remove_if(aslist_.begin(), aslist_.end(), [=](ASITEM_t& a) {
                     bool b = false;
                     try {
                         if (!a) return true;
@@ -180,7 +180,7 @@ namespace Common {
                     } catch (...) {}
                     return b;
                     });
-                if (it != aslist_.end()) aslist_.erase(it);
+                if (i != aslist_.end()) aslist_.erase(i);
 
             } catch (...) { Utils::get_exception(std::current_exception(), __FUNCTIONW__); }
         }

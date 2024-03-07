@@ -150,6 +150,7 @@ namespace Common {
 		L"Please edit the configuration before starting."sv,
 		L"Configuration file"sv,
 		L"Executable files"sv,
+		L"MQTT configuration files"sv,
 		L"Configuration loaded from file: {0}"sv,
 		L"Configuration loaded from driver"sv,
 		L"The selected {0} language will be active after the window is restarted."sv,
@@ -187,6 +188,9 @@ namespace Common {
 		L"The VM scripting engine is running, available scripts: {0}."sv,
 		L"The VM scripting engine has stopped."sv,
 		L"Scripts files"sv,
+		L"Call script: {0}"sv,
+		L"Rescan scripts directory.."sv,
+		L"Stop all running scripts: {0}"sv,
 
 		/* File Watcher */
 		L"failed to open directory: {0}"sv,

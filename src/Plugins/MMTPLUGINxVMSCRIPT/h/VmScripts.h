@@ -25,6 +25,7 @@ namespace Common {
 			std::shared_ptr<JSON::MMTConfig>& mmt_;
 			IO::PluginCb& pcb_;
 			SCRIPT::VmScriptConfig static_config_{};
+			SCRIPT::VmScriptDebug script_debug_{};
 
 			SCRIPT::VmScriptConfig& config_();
 			std::vector<MIDI::MidiUnit>& units_();
@@ -49,6 +50,7 @@ namespace Common {
 			void start(const std::wstring&, const bool);
 			void start();
 			void stop();
+			void stop_scripts();
 			void rescan();
 			void reset();
 
@@ -87,15 +89,21 @@ namespace Common {
 		extern template void VmScripts::puts<std::wstring_view>(const std::wstring_view&);
 		extern template void VmScripts::puts<log_string>(const log_string&);
 
+		extern template void VmScripts::print<MIDI::BaseUnit>(const MIDI::BaseUnit&);
 		extern template void VmScripts::print<MIDI::MidiUnit>(const MIDI::MidiUnit&);
 		extern template void VmScripts::print<MIDI::MidiUnitValue>(const MIDI::MidiUnitValue&);
 		extern template void VmScripts::print<MIDI::Mackie::Target>(const MIDI::Mackie::Target&);
 		extern template void VmScripts::print<MIDI::Mackie::ClickType>(const MIDI::Mackie::ClickType&);
 		extern template void VmScripts::print<MIDI::MidiUnitType>(const MIDI::MidiUnitType&);
 
-		extern template void VmScripts::print<SCRIPT::ColorGroup>(const SCRIPT::ColorGroup&);
+		extern template void VmScripts::print<LIGHT::UTILS::RgbwData>(const LIGHT::UTILS::RgbwData&);
+		extern template void VmScripts::print<LIGHT::UTILS::HsbData>(const LIGHT::UTILS::HsbData&);
+
+		extern template void VmScripts::print<LIGHT::UTILS::ColorControl::ColorGroup>(const LIGHT::UTILS::ColorControl::ColorGroup&);
+		extern template void VmScripts::print<LIGHT::UTILS::ColorControl::ColorsGroup>(const LIGHT::UTILS::ColorControl::ColorsGroup&);
 		extern template void VmScripts::print<SCRIPT::UnitDef>(const SCRIPT::UnitDef&);
 		extern template void VmScripts::print<SCRIPT::RGBWColor>(const SCRIPT::RGBWColor&);
+		extern template void VmScripts::print<SCRIPT::ColorCorrector>(const SCRIPT::ColorCorrector&);
 
 		extern template void VmScripts::print<std::string>(const std::string&);
 		extern template void VmScripts::print<std::wstring>(const std::wstring&);

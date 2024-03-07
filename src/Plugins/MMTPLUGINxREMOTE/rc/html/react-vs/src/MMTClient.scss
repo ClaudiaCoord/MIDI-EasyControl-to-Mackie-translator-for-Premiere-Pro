@@ -2,6 +2,7 @@
 
 $menu-border: 1px solid #5b5753;
 $picker-border: 3px solid #5b5b5b;
+$scrollable-border-color: #593d0e;
 $btn-size: 60px;
 $bloks-margin: 5px 0px 5px 25px;
 $accent-color:  #c58921;
@@ -373,6 +374,35 @@ div {
         padding-left: 50px;
     }
 
+    .scrollable-list {
+        background: linear-gradient(to right, #3b3a3f00 6ch, #39302c 0ch, #493b22 6ch, #323237 16ch);
+        width: 90%;
+        border-right: 1px solid $scrollable-border-color;
+
+        .scrollable-list-items {
+            color: #99763a;
+            padding: 10px;
+            width: 100%;
+            font-variant: small-caps;
+        }
+
+        .scrollable-list-border {
+            border-bottom: 2px solid $scrollable-border-color;
+            width: 90%;
+            position: absolute;
+        }
+
+        div::first-letter {
+            color: #f1984c;
+            font-size: larger;
+        }
+
+        ::selection {
+            color: #e79200;
+            background: #6b5e47;
+        }
+    }
+
     .scrollable-v-picker {
         @extend .scrollable-v;
         padding-left: 10px;
@@ -498,7 +528,7 @@ div {
             }
         }
 
-        .labeled-mmkeys {
+        .labeled-caption {
             margin: -70px 0px 0px -62px !important;
         }
     }

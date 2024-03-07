@@ -1,10 +1,10 @@
 # MIDI EasyControl 9 - MIDI-MT is High Level Application Driver for USB MIDI Control Surface
 
-[![WIKI EN](https://img.shields.io/badge/wiki-EN-success)](https://claudiacoord.github.io/MIDI-MT/docs/EN/)
-[![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://claudiacoord.github.io/MIDI-MT/docs/RU/)
-[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.3/MIDIMT_x64.msi)
-[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.3/MIDIMT_x86.msi)  
-[![Download x64](https://img.shields.io/badge/Download-x64%2Fportable-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.3/MIDIMT_x64_Portable.zip)
+[![WIKI EN](https://img.shields.io/badge/wiki-EN-success)](https://claudiacoord.github.io/MIDI-MT/docs/EN/) 
+[![WIKI RU](https://img.shields.io/badge/wiki-RU-success)](https://claudiacoord.github.io/MIDI-MT/docs/RU/) 
+[![Download x64](https://img.shields.io/badge/Download-x64-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.4/MIDIMT_x64.msi) 
+[![Download x86](https://img.shields.io/badge/Download-x86-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.4/MIDIMT_x86.msi) 
+[![Download x64](https://img.shields.io/badge/Download-x64%2Fportable-brightgreen.svg?style=flat-square)](https://github.com/ClaudiaCoord/MIDI-EasyControl-to-Mackie-translator-for-Premiere-Pro/releases/download/1.0.6.4/MIDIMT_x64_Portable.zip)  
 
 MIDI-MT support x64/x86 Windows 10,11 and any Control Surfaces as **WORDLE**, **Pyle Audio PMIDIPD30**, **LAudio**, **Fegoo** manufacture and other.  
 

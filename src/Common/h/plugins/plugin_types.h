@@ -14,6 +14,8 @@
 namespace Common {
 	namespace IO {
 
+		typedef std::vector<std::pair<uint16_t, std::wstring>> export_list_t;
+
 		typedef std::function<void(std::wstring&)>					callToLog_t;
 		typedef std::function<void(log_string&)>					callToLogS_t;
 		typedef std::function<uint32_t(std::wstring&)>				callGetPid_t;

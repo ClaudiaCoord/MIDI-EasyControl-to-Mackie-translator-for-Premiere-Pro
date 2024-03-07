@@ -29,8 +29,7 @@ namespace Common {
 
 			virtual bool IsRun() = 0;
 			virtual void Send(std::vector<byte>&) = 0;
-			virtual bool Send(DMXPacket, bool) = 0;
-			virtual bool Send_async(DMXPacket, DWORD, bool) = 0;
+			virtual void Send_async(std::vector<byte>&) = 0;
 			virtual std::vector<byte> Receive() = 0;
 			virtual void Stop() = 0;
 		};

@@ -1,0 +1,14 @@
+
+print("Example: RGB led HSB color changer...")
+var rgb = CreateRGB(179, 16, 14, 15);
+
+while (!IsCanceled()) {
+    for (var color = 0; color < 360; ++color) {
+
+        if (IsCanceled()) { break; }
+        rgb.SetColor(color, 255, 255);
+	sleep(250);
+    }
+}
+
+print("* Light RGB led HSB color changer stopped normaly...")

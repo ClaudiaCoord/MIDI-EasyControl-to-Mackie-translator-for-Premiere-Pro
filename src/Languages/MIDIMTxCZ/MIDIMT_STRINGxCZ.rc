@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Konfigurace byla vytvořena znovu a vyžaduje vyplnění"
     STRING_EDIT_MSG4	"Při otevírání editoru byl zadán konfigurační soubor: '{0}'. Uložit to pod stejným názvem?"
     STRING_EDIT_MSG5	"Číslo kanálu DMX"
+    STRING_EDIT_MSG6	"Konfigurace MQTT byla úspěšně exportována"
+    STRING_EDIT_MSG7	"Při exportu konfigurace MQTT došlo k chybě"
+    STRING_EDIT_MSG8	"Nebyly nalezeny žádné duplicitní klíče MIDI"
+    STRING_EDIT_MSG9	"Počet nalezených duplicitních klíčů MIDI: {0}"
 
     STRING_NOTIFY_MSG1	"překladatel je zastaven:"
     STRING_NOTIFY_MSG2	"překladatel funguje:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"scénář 25"
 	IDM_COL5_SCRIPT_B38		"scénář 26"
 	IDM_COL5_SCRIPT_B39		"scénář 27"
+	IDM_COL5_SCRIPT_STOP		"Zastavte všechny skripty"
+	IDM_COL5_SCRIPT_RELOAD		"Znovu si přečtěte adresář skriptu"
 	IDM_COL5_SCRIPT_EMPTY		"Nepřiřazena"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Před zahájením upravte konfiguraci."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Konfigurační soubor"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Spustitelné soubory"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"konfigurační soubory MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Konfigurace načtena ze souboru: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Konfigurace načtena z ovladače"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Vybraný jazyk {0} bude aktivní po restartování okna."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Skriptovací stroj je spuštěn, dostupné skripty: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Skriptovací stroj se zastavil."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Soubory skriptů"
+	IDS_ERRORID_SCRIPT_CALL			"Spustit skript: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Znovu si pročítám katalog skriptů..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Zastaveno spouštění skriptů: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Nepodařilo se otevřít adresář: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Adresář se zadanými parametry nelze přečíst, dokončuji sledování adresáře."

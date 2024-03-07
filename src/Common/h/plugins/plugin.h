@@ -49,7 +49,7 @@ namespace Common {
 			virtual void release() = 0;
 			virtual IO::PluginUi& GetPluginUi() = 0;
 
-			virtual std::vector<std::pair<uint16_t,std::wstring>>& GetDeviceList() = 0;
+			virtual IO::export_list_t& GetDeviceList() = 0;
 			virtual std::any GetDeviceData() = 0;
 
 			const bool configure();

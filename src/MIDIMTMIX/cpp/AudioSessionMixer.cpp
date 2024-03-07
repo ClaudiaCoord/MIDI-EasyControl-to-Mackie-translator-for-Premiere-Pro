@@ -447,7 +447,7 @@ namespace Common {
 			if (!isinit_ || !asList) return;
 
 			try {
-				ASLIST_t items = asList->GetByMidiId(m.GetMixerId());
+				ASLIST_t items = asList->GetByMidiId(m.getMixerId());
 				if (items.empty()) return;
 				for (auto& a : items) {
 					if (a) {

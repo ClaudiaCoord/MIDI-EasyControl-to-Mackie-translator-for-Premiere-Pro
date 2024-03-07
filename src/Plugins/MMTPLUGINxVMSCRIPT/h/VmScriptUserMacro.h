@@ -19,7 +19,12 @@ namespace Common {
 		private:
 			std::vector<UnitDef> macros_{};
 
+			void group_apply_() const;
+			void group_apply_async_() const;
+
 		public:
+
+			bool is_update_async{ false };
 
 			MacroGroup();
 			MacroGroup(const MacroGroup&) = default;

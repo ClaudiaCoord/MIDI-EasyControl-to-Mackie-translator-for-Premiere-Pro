@@ -203,6 +203,7 @@
     <ClInclude Include="h\plugininfo.h" />
     <ClInclude Include="h\SetupDialog.h" />
     <ClInclude Include="h\VmScript.h" />
+    <ClInclude Include="h\VmScriptDebug.h" />
     <ClInclude Include="h\VmScriptsTask.h" />
     <ClInclude Include="h\VmScriptUserAction.h" />
     <ClInclude Include="h\VmScriptUserColor.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="cpp\MMTPLUGINxVMSCRIPT.cpp" />
     <ClCompile Include="cpp\SetupDialog.cpp" />
     <ClCompile Include="cpp\VmScript.cpp" />
+    <ClCompile Include="cpp\VmScriptDebug.cpp" />
     <ClCompile Include="cpp\VmScriptsTask.cpp" />
     <ClCompile Include="cpp\VmScriptUserAction.cpp" />
     <ClCompile Include="cpp\VmScriptUserColor.cpp" />

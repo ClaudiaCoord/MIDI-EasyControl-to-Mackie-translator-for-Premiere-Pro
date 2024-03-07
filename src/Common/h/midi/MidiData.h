@@ -15,6 +15,7 @@
 namespace Common {
     namespace MIDI {
 
+        class FLAG_EXPORT MidiUnit;
         class FLAG_EXPORT MidiUnitValue {
         public:
             bool lvalue{ false };
@@ -30,53 +31,54 @@ namespace Common {
             const bool empty() const;
             std::wstring dump() const;
             void copy(const MidiUnitValue&);
+
+            friend MidiUnit;
         };
 
-        class FLAG_EXPORT MixerUnit {
+        class FLAG_EXPORT BaseUnit {
+        protected:
+            uint32_t hash_{ 0 };
         public:
-            uint32_t id;
-            uint8_t key;
-            uint8_t scene;
-            Mackie::Target target;
-            Mackie::Target longtarget;
-            MidiUnitType type;
-            MidiUnitValue value;
-            std::vector<std::wstring> apps;
+            uint32_t id{ 0 };
+            uint8_t scene{ 0xff };
+            uint8_t key{ 0xff };
+            Mackie::Target target{ Mackie::Target::NOTARGET };
+            Mackie::Target longtarget{ Mackie::Target::NOTARGET };
+            MidiUnitType type{ MidiUnitType::UNITNONE };
+            MidiUnitValue value{};
+            std::vector<std::wstring> apps{};
 
-            MixerUnit();
-            MixerUnit(const MidiUnit&);
-            MixerUnit(const MixerUnit&) = default;
-            ~MixerUnit() = default;
-
-            void ToNull(bool = false);
-            bool EqualsOR(const MixerUnit&);
-            bool EqualsAND(const MixerUnit&);
             std::wstring dump() const;
-            void copy(const MidiUnit&);
-            void copy(const MixerUnit&);
+            void copy(const BaseUnit&);
+            const bool empty() const;
+
+            friend MidiUnit;
         };
 
-        class FLAG_EXPORT MidiUnit {
+        class FLAG_EXPORT MidiUnit : public BaseUnit {
         public:
-            uint8_t key;
-            uint8_t scene;
-            MidiUnitType type;
-            Mackie::Target target;
-            Mackie::Target longtarget;
-            MidiUnitValue value;
-            std::vector<std::wstring> apps;
 
             MidiUnit();
-            MidiUnit(const MixerUnit&);
-            MidiUnit(const MidiUnit&) = default;
             ~MidiUnit() = default;
+            MidiUnit(const MidiUnit&);
 
-            const bool empty() const;
-            const uint32_t GetMixerId() const;
-            MixerUnit GetMixerUnit() const;
-            std::wstring dump() const;
+            bool operator!=(const MidiUnit&);
+            bool operator==(const MidiUnit&);
+
+            void toNull(bool = false);
+            const bool equals(const MidiUnit&) const;
+            const bool equalsOR(const MidiUnit&) const;
+            const bool equalsAND(const MidiUnit&) const;
+            const bool equalsMIDI(const MidiUnit&) const;
+            const bool compareSortLeft(const MidiUnit&) const;
+            const bool compareSortRight(const MidiUnit&) const;
+
             void copy(const MidiUnit&);
-            void copy(const MixerUnit&);
+            std::wstring dump() const;
+            const bool empty() const;
+
+            const uint32_t getHash() const;
+            const uint32_t getMixerId() const;
         };
 
         class FLAG_EXPORT MidiUnitRef {
@@ -89,17 +91,15 @@ namespace Common {
 
             MidiUnitRef();
             MidiUnitRef(const MidiUnitRef&) = default;
+            MidiUnitRef(MidiUnit&);
             ~MidiUnitRef() = default;
 
-            MidiUnit& get();
+            MidiUnit& get() const;
             void set(MidiUnit&, IO::PluginClassTypes);
             void begin();
             const IO::PluginClassTypes type() const;
             const bool isbegin() const;
             const bool isvalid() const;
-
-            friend void copy_data(MidiUnitRef&, MidiUnit&);
-            friend void copy_data(MidiUnitRef&, MixerUnit&);
         };
 
         class FLAG_EXPORT MidiConfig {

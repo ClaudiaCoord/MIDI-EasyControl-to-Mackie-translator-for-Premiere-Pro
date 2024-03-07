@@ -18,32 +18,43 @@ namespace Common {
 		MacroGroup::MacroGroup() {
 		}
 
-		void MacroGroup::ApplyValues() {
+		void MacroGroup::group_apply_() const {
 			try {
 				if (!ActionConstant::IsUpdate()) return;
-
-				worker_background::Get().to_async(std::async(std::launch::async, [=](const std::vector<UnitDef>& v) {
-
-					for (auto& m : v) {
-						if (m.empty()) continue;
-						switch (m.GetType()) {
-							using enum MIDI::MidiUnitType;
-							case BTN:
-							case BTNTOGGLE: {
-								ActionConstant::UpdateButton(m.GetScene(), m.GetKey());
-								break;
-							}
-							default: {
-								ActionConstant::UpdateSlider(m.GetScene(), m.GetKey(), m.GetValue());
-								break;
-							}
+				for (auto& m : macros_) {
+					if (m.empty()) continue;
+					switch (m.GetType()) {
+						using enum MIDI::MidiUnitType;
+						case BTN:
+						case BTNTOGGLE: {
+							ActionConstant::UpdateButton(m.GetScene(), m.GetKey());
+							break;
+						}
+						default: {
+							ActionConstant::UpdateSlider(m.GetScene(), m.GetKey(), m.GetValue());
+							break;
 						}
 					}
-				}, std::ref(macros_)));
+				}
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void MacroGroup::group_apply_async_() const {
+			try {
+				if (!ActionConstant::IsUpdate()) return;
+				worker_background::Get().to_async(std::async(std::launch::async, [=]() {
+					group_apply_();
+				}));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
+		}
+
+		void MacroGroup::ApplyValues() {
+			if (!is_update_async) [[likely]] group_apply_();
+			else [[unlikely]] group_apply_async_();
 		}
 		void MacroGroup::UpdateValues() {
 			try {
@@ -94,9 +105,10 @@ namespace Common {
 		}
 		std::wstring MacroGroup::dump() const {
 			log_string ls{};
+			log_delimeter ld{};
 			ls << L"Macros: ";
 			for (auto& a : macros_)
-				ls << a.dump() << L", ";
+				ls << ld << a.dump();
 			return ls.str();
 		}
 		std::string MacroGroup::dump_s() const {

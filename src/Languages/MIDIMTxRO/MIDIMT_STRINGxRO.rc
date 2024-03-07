@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Configurația a fost creată din nou și necesită completare"
     STRING_EDIT_MSG4	"La deschiderea editorului, a fost specificat fișierul de configurare: „{0}”. Salvați-l cu același nume?"
     STRING_EDIT_MSG5	"Numărul canalului DMX"
+    STRING_EDIT_MSG6	"Configurația MQTT a fost exportată cu succes"
+    STRING_EDIT_MSG7	"Eroare la exportul configurației MQTT"
+    STRING_EDIT_MSG8	"Nu s-au găsit taste MIDI duplicate"
+    STRING_EDIT_MSG9	"S-au găsit {0} taste MIDI duplicat"
 
     STRING_NOTIFY_MSG1	"traducătorul este oprit:"
     STRING_NOTIFY_MSG2	"traducătorul lucrează:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"scenariul 25"
 	IDM_COL5_SCRIPT_B38		"scenariul 26"
 	IDM_COL5_SCRIPT_B39		"scenariul 27"
+	IDM_COL5_SCRIPT_STOP		"Opriți toate scripturile"
+	IDM_COL5_SCRIPT_RELOAD		"Recitiți directorul de scripturi"
 	IDM_COL5_SCRIPT_EMPTY		"Nealocat"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Vă rugăm să editați configurația înainte de a începe."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Fișierul de configurare"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Fișiere executabile"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"Fișierele de configurare MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Configurație încărcată din fișier: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Configurație încărcată din driver"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Limba selectată {0} va fi activă după repornirea ferestrei."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Motorul de script rulează, scripturi disponibile: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Motorul de scripting s-a oprit."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Fișiere script"
+	IDS_ERRORID_SCRIPT_CALL			"Executare script: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Recitesc catalogul de scenarii..."
+	IDS_ERRORID_SCRIPT_STOPALL		"S-a oprit rularea scripturilor: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Nu s-a putut deschide directorul: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Directorul cu parametrii specificati nu poate fi citit, termin monitorizarea directorului."

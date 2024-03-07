@@ -33,7 +33,7 @@ namespace Common {
 			seq__ %= 256;
 			return seq__;
 		}
-		uint16_t ArtnetPacket::build_length_(size_t z) {
+		uint16_t ArtnetPacket::build_length_(size_t z) const {
 			uint16_t length = (PacketType == ArtnetPacketType::DYNAMIC_SIZE) ? static_cast<uint16_t>(z) : 512;
 			length = length + (length % 2);
 			return (length > 512) ? 512 : length;

@@ -556,6 +556,9 @@ DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SCRIPT MENU"
     BEGIN
+    MENUITEM "停止所有脚本",     IDM_COL4_SYS_Stop
+    MENUITEM "重新读取脚本目录", IDM_COL4_SYS_Rewind
+    MENUITEM SEPARATOR
     MENUITEM "脚本1",                  IDM_COL4_B11
     MENUITEM "脚本2",                  IDM_COL4_B12
     MENUITEM "脚本3",                  IDM_COL4_B13

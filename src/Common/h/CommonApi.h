@@ -64,8 +64,12 @@ typedef std::function<void(const std::wstring&)> callFromlog_t;
 #define BOOL_TOLOG_(A,B) " " << A << "=" << (B) << ","
 #define BOOL_TOLOG(A) BOOL_TOLOG_(#A, A ? "yes" : "no")
 
-#define max_(a,b) (((a) > (b)) ? (a) : (b))
-#define min_(a,b) (((a) < (b)) ? (a) : (b))
+#if !defined (max_)
+	#define max_(a,b) (((a) > (b)) ? (a) : (b))
+#endif
+#if !defined (min_)
+	#define min_(a,b) (((a) < (b)) ? (a) : (b))
+#endif
 
 #if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__)
 static_assert(sizeof(void*) == 8, "Error: is not 64 bit platform");

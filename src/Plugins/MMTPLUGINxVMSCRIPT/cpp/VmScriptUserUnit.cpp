@@ -52,7 +52,7 @@ namespace Common {
 			return (c_[0] == 255U) || (c_[1] == 255U);
 		}
 		std::wstring UnitDef::dump() const {
-			return (log_string() << static_cast<uint16_t>(c_[1]) << L"/" << static_cast<uint16_t>(c_[0]) << L"|" << c_[2]);
+			return (log_string() << static_cast<uint16_t>(c_[1]) << L"/" << static_cast<uint16_t>(c_[0]) << L"|" << c_[2] << L"|");
 		}
 		std::string UnitDef::dump_s() const {
 			return Utils::from_string(dump());

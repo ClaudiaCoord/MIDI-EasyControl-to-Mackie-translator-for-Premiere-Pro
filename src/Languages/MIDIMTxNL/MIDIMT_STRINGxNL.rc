@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"De configuratie is opnieuw aangemaakt en moet worden ingevuld"
     STRING_EDIT_MSG4	"Bij het openen van de editor werd het configuratiebestand opgegeven: '{0}'. Opslaan onder dezelfde naam?"
     STRING_EDIT_MSG5	"DMX-kanaalnummer"
+    STRING_EDIT_MSG6	"MQTT-configuratie succesvol geëxporteerd"
+    STRING_EDIT_MSG7	"Fout bij het exporteren van de MQTT-configuratie"
+    STRING_EDIT_MSG8	"Geen dubbele MIDI-sleutels gevonden"
+    STRING_EDIT_MSG9	"{0} dubbele MIDI-sleutels gevonden"
 
     STRING_NOTIFY_MSG1	"de vertaler is gestopt:"
     STRING_NOTIFY_MSG2	"de vertaler werkt:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"schrift 25"
 	IDM_COL5_SCRIPT_B38		"schrift 26"
 	IDM_COL5_SCRIPT_B39		"schrift 27"
+	IDM_COL5_SCRIPT_STOP		"Stop alle scripts"
+	IDM_COL5_SCRIPT_RELOAD		"Lees de scriptmap opnieuw"
 	IDM_COL5_SCRIPT_EMPTY		"Niet toegekend"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Bewerk de configuratie voordat u begint."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Het configuratiebestand"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Uitvoerbare bestanden"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT-configuratiebestanden"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Configuratie geladen uit bestand: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Configuratie geladen vanuit stuurprogramma"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"De geselecteerde taal {0} zal actief zijn nadat het venster opnieuw is opgestart."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"De scriptengine is actief, beschikbare scripts: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"De scriptengine is gestopt."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Scriptbestanden"
+	IDS_ERRORID_SCRIPT_CALL			"Script uitvoeren: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ik herlees de scriptcatalogus..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Gestopt met het uitvoeren van scripts: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Kan map niet openen: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"De map met de opgegeven parameters kan niet worden gelezen. Ik ben bezig met het monitoren van de map."

@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"Ukucushwa kudalwe kabusha futhi kudinga ukugcwalisa"
     STRING_EDIT_MSG4	"Lapho uvula umhleli, ifayela lokumisa lashiwo: '{0}'. Ilondoloze ngegama elifanayo?"
     STRING_EDIT_MSG5	"Inombolo yesiteshi se-DMX"
+    STRING_EDIT_MSG6	"Ukucushwa kwe-MQTT kuthunyelwe ngempumelelo"
+    STRING_EDIT_MSG7	"Iphutha ekukhipheni ukulungiselelwa kwe-MQTT"
+    STRING_EDIT_MSG8	"Abekho okhiye abayimpinda be-MIDI abatholiwe"
+    STRING_EDIT_MSG9	"{0} phinda okhiye be-MIDI abatholiwe"
 
     STRING_NOTIFY_MSG1	"umhumushi umisiwe:"
     STRING_NOTIFY_MSG2	"umhumushi usebenza:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"iskripthi 25"
 	IDM_COL5_SCRIPT_B38		"iskripthi 26"
 	IDM_COL5_SCRIPT_B39		"iskripthi 27"
+	IDM_COL5_SCRIPT_STOP		"Misa yonke imibhalo"
+	IDM_COL5_SCRIPT_RELOAD		"Phinda ufunde uhla lwemibhalo"
 	IDM_COL5_SCRIPT_EMPTY		"Akunikezwanga"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Sicela uhlele ukucushwa ngaphambi kokuqala."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"Ifayela lokumisa"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Amafayela asebenzisekayo"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"Amafayela wokumisa we-MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Ukucushwa kulayishwe kufayela: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Ukucushwa kulayishwe kumshayeli"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"Ulimi {0} olukhethiwe luzosebenza ngemva kokuthi iwindi liqalwe kabusha."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"Injini yombhalo iyasebenza, imibhalo etholakalayo: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"Injini yokubhala imile."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Amafayela ombhalo"
+	IDS_ERRORID_SCRIPT_CALL			"Qalisa umbhalo: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Ngiphinda ngifunda ikhathalogi yombhalo..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Kumiswe imibhalo esebenzayo: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Yehlulekile ukuvula umkhombandlela: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"Uhla lwemibhalo olunamapharamitha ashiwo alukwazi ukufundwa, ngiqedela ukuqapha uhla lwemibhalo."

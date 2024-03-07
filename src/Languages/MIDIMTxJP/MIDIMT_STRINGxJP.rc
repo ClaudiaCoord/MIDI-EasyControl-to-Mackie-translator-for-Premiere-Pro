@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"構成が新しく作成されたため、入力する必要があります"
     STRING_EDIT_MSG4	"エディターを開くときに、構成ファイルが指定されました: '{0}'。同じ名前で保存しますか?"
     STRING_EDIT_MSG5	"DMXチャンネル番号"
+    STRING_EDIT_MSG6	"MQTT 構成が正常にエクスポートされました"
+    STRING_EDIT_MSG7	"MQTT 構成のエクスポートでエラーが発生しました"
+    STRING_EDIT_MSG8	"重複する MIDI キーが見つかりませんでした"
+    STRING_EDIT_MSG9	"{0} 個の重複した MIDI キーが見つかりました"
 
     STRING_NOTIFY_MSG1	"トランスレータは停止しています:"
     STRING_NOTIFY_MSG2	"翻訳者は次のように動作します。"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"スクリプト 25"
 	IDM_COL5_SCRIPT_B38		"スクリプト 26"
 	IDM_COL5_SCRIPT_B39		"スクリプト 27"
+	IDM_COL5_SCRIPT_STOP		"すべてのスクリプトを停止します"
+	IDM_COL5_SCRIPT_RELOAD		"スクリプトディレクトリを再読み込みします"
 	IDM_COL5_SCRIPT_EMPTY		"割り当てられていない"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"開始する前に構成を編集してください。"
 	IDS_ERRORID_MIDIMT_CONFFILTER		"設定ファイル"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"実行可能ファイル"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT 構成ファイル"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"ファイルからロードされた構成: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"ドライバーからロードされた設定"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"選択した {0} 言語は、ウィンドウの再起動後に有効になります。"
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"スクリプト エンジンが実行中です。利用可能なスクリプト: {0}。"
 	IDS_ERRORID_SCRIPT_STOP			"スクリプト エンジンが停止しました。"
 	IDS_ERRORID_SCRIPT_DIRFILTER		"スクリプトファイル"
+	IDS_ERRORID_SCRIPT_CALL			"スクリプトを実行します: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"脚本カタログを読み返してます…"
+	IDS_ERRORID_SCRIPT_STOPALL		"実行中のスクリプトが停止されました: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"ディレクトリを開けませんでした: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"指定されたパラメータを持つディレクトリを読み取ることができません。ディレクトリの監視を終了します。"

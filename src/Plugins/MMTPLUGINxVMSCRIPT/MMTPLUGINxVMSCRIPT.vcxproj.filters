@@ -63,6 +63,9 @@
     <ClInclude Include="h\VmScriptUserMacro.h">
       <Filter>Файлы заголовков\VMSCRIPT\UserData</Filter>
     </ClInclude>
+    <ClInclude Include="h\VmScriptDebug.h">
+      <Filter>Файлы заголовков\VMSCRIPT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\shared\cpp\dllplugin.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="cpp\VmScriptUserMacro.cpp">
       <Filter>Исходные файлы\VMSCRIPT\UserData</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VmScriptDebug.cpp">
+      <Filter>Исходные файлы\VMSCRIPT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,7 @@ namespace Common {
 			bool stop() override;
 			void release() override;
 
-			std::vector<std::pair<uint16_t, std::wstring>>& GetDeviceList() override;
+			IO::export_list_t& GetDeviceList() override;
 			std::any GetDeviceData() override;
 			IO::PluginUi& GetPluginUi() override;
 		};

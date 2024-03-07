@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"La configuración se ha creado de nuevo y requiere completarse"
     STRING_EDIT_MSG4	"Al abrir el editor se especificó el archivo de configuración: '{0}'. ¿Guardarlo con el mismo nombre?"
     STRING_EDIT_MSG5	"número de canal DMX"
+    STRING_EDIT_MSG6	"Configuración MQTT exportada exitosamente"
+    STRING_EDIT_MSG7	"Error al exportar la configuración MQTT"
+    STRING_EDIT_MSG8	"No se encontraron claves MIDI duplicadas"
+    STRING_EDIT_MSG9	"{0} claves MIDI duplicadas encontradas"
 
     STRING_NOTIFY_MSG1	"el traductor se detiene:"
     STRING_NOTIFY_MSG2	"el traductor trabaja:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"guión 25"
 	IDM_COL5_SCRIPT_B38		"guión 26"
 	IDM_COL5_SCRIPT_B39		"guión 27"
+	IDM_COL5_SCRIPT_STOP		"Detener todos los scripts"
+	IDM_COL5_SCRIPT_RELOAD		"Vuelva a leer el directorio del script"
 	IDM_COL5_SCRIPT_EMPTY		"No asignado"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Edite la configuración antes de comenzar."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"El archivo de configuración"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Archivos ejecutables"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"Archivos de configuración MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Configuración cargada desde el archivo: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Configuración cargada desde el controlador"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"El idioma {0} seleccionado estará activo después de que se reinicie la ventana."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"El motor de secuencias de comandos se está ejecutando, secuencias de comandos disponibles: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"El motor de secuencias de comandos se ha detenido."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Archivos de script"
+	IDS_ERRORID_SCRIPT_CALL			"Ejecutar script: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Estoy releyendo el catálogo de guiones..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Se detuvieron la ejecución de scripts: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"No se pudo abrir el directorio: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"El directorio con los parámetros especificados no se puede leer, estoy terminando de monitorear el directorio."

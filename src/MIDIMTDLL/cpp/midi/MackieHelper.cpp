@@ -123,6 +123,9 @@ namespace Common {
 			static constexpr std::wstring_view TargetMMKLeft = L"VOLUME MUTE"sv;
 			static constexpr std::wstring_view TargetMMKRight = L"PAUSE"sv;
 
+			static constexpr std::wstring_view TargetVMScriptStop = L"STOP ALL SCRIPTS"sv;
+			static constexpr std::wstring_view TargetVMScriptReload = L"RE-READ THE SCRIPT DIRECTORY"sv;
+
 			static constexpr std::wstring_view TargetVmScript = L"VM Script"sv;
 			static constexpr std::wstring_view TargetLightKey8 = L"Lighting DMX controls (8 bits)"sv;
 			static constexpr std::wstring_view TargetLightKey16 = L"Lighting DMX controls (16 bits)"sv;
@@ -189,6 +192,8 @@ namespace Common {
 				case B37:
 				case B38:
 				case B39: return (log_string() << L"Script " << (static_cast<uint16_t>(t) - 22)).str();
+				case SYS_Stop: return NamesMackieHelper::TargetVMScriptStop.data();
+				case SYS_Rewind: return NamesMackieHelper::TargetVMScriptReload.data();
 				default: return L"-";
 			}
 		}
@@ -222,6 +227,8 @@ namespace Common {
 				case B37: return IDM_COL5_SCRIPT_B37;
 				case B38: return IDM_COL5_SCRIPT_B38;
 				case B39: return IDM_COL5_SCRIPT_B39;
+				case SYS_Stop: return IDM_COL5_SCRIPT_STOP;
+				case SYS_Rewind: return IDM_COL5_SCRIPT_RELOAD;
 				default:  return IDM_COL5_SCRIPT_EMPTY;
 			}
 		}
@@ -274,6 +281,57 @@ namespace Common {
 				case AP8:
 				case XP9: return (log_string() << L"level " << (static_cast<uint16_t>(t) - 4)).str();
 				default: return L"-";
+			}
+		}
+		std::wstring MackieHelper::GetSmartHomeTargetTopic(const Common::MIDI::Mackie::Target& t) {
+			switch (t) {
+				using enum MIDI::Mackie::Target;
+				case AV1: return L"av1";
+				case AV2: return L"av2";
+				case AV3: return L"av3";
+				case AV4: return L"av4";
+				case AV5: return L"av5";
+				case AV6: return L"av6";
+				case AV7: return L"av7";
+				case AV8: return L"av8";
+				case XV9: return L"xv9";
+				case AP1: return L"ap1";
+				case AP2: return L"ap2";
+				case AP3: return L"ap3";
+				case AP4: return L"ap4";
+				case AP5: return L"ap5";
+				case AP6: return L"ap6";
+				case AP7: return L"ap7";
+				case AP8: return L"ap8";
+				case XP9: return L"xp9";
+				case B11: return L"b11";
+				case B12: return L"b12";
+				case B13: return L"b13";
+				case B14: return L"b14";
+				case B15: return L"b15";
+				case B16: return L"b16";
+				case B17: return L"b17";
+				case B18: return L"b18";
+				case B19: return L"b19";
+				case B21: return L"b21";
+				case B22: return L"b22";
+				case B23: return L"b23";
+				case B24: return L"b24";
+				case B25: return L"b25";
+				case B26: return L"b26";
+				case B27: return L"b27";
+				case B28: return L"b28";
+				case B29: return L"b29";
+				case B31: return L"b31";
+				case B32: return L"b32";
+				case B33: return L"b33";
+				case B34: return L"b34";
+				case B35: return L"b35";
+				case B36: return L"b36";
+				case B37: return L"b37";
+				case B38: return L"b38";
+				case B39: return L"b39";
+				default: return L"default";
 			}
 		}
 		int32_t MackieHelper::GetSmartHomeTargetID(const Mackie::Target& t) {

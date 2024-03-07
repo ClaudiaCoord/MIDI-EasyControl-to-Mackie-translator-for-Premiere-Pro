@@ -15,24 +15,7 @@
 namespace Common {
 	namespace MIDI {
 
-		template<class T1, class T2>
-		static inline void copy_data__(T1& s, T2& m) {
-			if constexpr (std::is_same_v<MixerUnit, T1> && std::is_same_v<MidiUnit, T2>)
-				s.id = m.GetMixerId();
-			else if constexpr (std::is_same_v<MixerUnit, T1> && std::is_same_v<MixerUnit, T2>)
-				s.id = m.id;
-			s.key = m.key;
-			s.scene = m.scene;
-			s.type = m.type;
-			s.target = m.target;
-			s.longtarget = m.longtarget;
-			s.apps.assign(
-				m.apps.begin(),
-				m.apps.end()
-			);
-			s.value.copy(m.value);
-		}
-
+		#pragma region MidiUnitValue
 		MidiUnitValue::MidiUnitValue()
 			: value(255), time({}), lvalue(false), type(Mackie::ClickType::ClickUnknown) {}
 		MidiUnitValue::MidiUnitValue(uint8_t v, uint32_t)
@@ -51,32 +34,34 @@ namespace Common {
 		void MidiUnitValue::copy(const MidiUnitValue& m) {
 			value = m.value; time = m.time; lvalue = m.lvalue; type = m.type;
 		}
+		#pragma endregion
 
-		MidiUnit::MidiUnit()
-			: scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
-		MidiUnit::MidiUnit(const MixerUnit& m)
-			: scene(255), key(255), type(MidiUnitType::UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {
-			copy_data__(*this, m);
+		#pragma region BaseUnit
+		void BaseUnit::copy(const BaseUnit& u) {
+			id = u.id;
+			key = u.key;
+			scene = u.scene;
+			type = u.type;
+			target = u.target;
+			longtarget = u.longtarget;
+			apps.assign(
+				u.apps.begin(),
+				u.apps.end()
+			);
+			value.copy(u.value);
 		}
-		const bool MidiUnit::empty() const {
-			return ((scene == 255U) && (key == 255U)) || (type == MidiUnitType::UNITNONE) ||
-				((target == Mackie::Target::NOTARGET) || (longtarget == Mackie::Target::NOTARGET));
-		}
-		const uint32_t MidiUnit::GetMixerId() const {
-			return (scene * 1000U) + key;
-		}
-		MixerUnit MidiUnit::GetMixerUnit() const {
-			return MixerUnit(*this);
-		}
-		std::wstring MidiUnit::dump() const {
-			std::wstringstream ws;
+		std::wstring BaseUnit::dump() const {
+			log_delimeter ld{};
+			log_string ls_apps{};
 			for (auto& s : apps)
-				ws << s << L", ";
+				ls_apps << ld << s;
 
 			log_string ls;
-			ls << L"\tscene:" << MidiHelper::GetScene(scene) << L"/" << scene << L", key:" << key
-			   << L", control: |" << MidiHelper::GetType(type) << "|";
-				
+			ls 
+				<< L"\n\thash:" << hash_
+				<< L"\n\tscene:" << MidiHelper::GetScene(scene) << L"/" << scene << L", key:" << key
+				<< L", control: |" << MidiHelper::GetType(type) << "|";
+
 			switch (target) {
 				using enum Mackie::Target;
 				case MQTTKEY:
@@ -122,23 +107,91 @@ namespace Common {
 				}
 			}
 
-			ls  << L"\n\t\tclick type: " << MackieHelper::GetClickType(value.type)
+			ls << L"\n\t\tclick type: " << MackieHelper::GetClickType(value.type)
 				<< L"\n\t\tvalue: " << static_cast<int>(value.value)
 				<< L", flag value: " << Utils::BOOL_to_string(value.lvalue)
 				<< L"\n\t\ttime: " << Utils::MILLISECONDS_to_string(value.time)
-				<< L"\n\t\tapps: [" << ws.str().c_str() << L"]";
+				<< L"\n\t\tapps: [" << ls_apps.str() << L"]";
 			return ls.str();
 		}
-		void MidiUnit::copy(const MidiUnit& m) {
-			copy_data__(*this, m);
+		const bool BaseUnit::empty() const {
+			return ((scene == 255U) && (key == 255U)) || (type == MidiUnitType::UNITNONE) ||
+				((target == Mackie::Target::NOTARGET) || (longtarget == Mackie::Target::NOTARGET));
 		}
-		void MidiUnit::copy(const MixerUnit& m) {
-			copy_data__(*this, m);
+		#pragma endregion
+
+		#pragma region MidiUnit
+		MidiUnit::MidiUnit() {
+			hash_ = Utils::random_hash(this);
+		}
+		MidiUnit::MidiUnit(const MidiUnit& m) {
+			copy(m);
+			hash_ = m.hash_;
 		}
 
-		MidiUnitRef::MidiUnitRef()
-			: isbegin_(false), type_(IO::PluginClassTypes::ClassNone), m_(common_static::unit_empty) {}
-		MidiUnit& MidiUnitRef::get() {
+		bool MidiUnit::operator!=(const MidiUnit& m) {
+			return !equals(m);
+		}
+		bool MidiUnit::operator==(const MidiUnit& m) {
+			return equals(m);
+		}
+
+		void MidiUnit::toNull(bool b) {
+			key = scene = 0U;
+			target = longtarget = static_cast<Mackie::Target>(0U);
+			id = static_cast<uint32_t>(b);
+		}
+		const bool MidiUnit::equals(const MidiUnit& u) const {
+			return (scene == u.scene) && (key == u.key) && (target == u.target) && (longtarget == u.longtarget);
+		}
+		const bool MidiUnit::equalsOR(const MidiUnit& u) const {
+			if ((key > 0U) && (u.key == key)) return true;
+			else if ((scene > 0U) && (u.scene == scene)) return true;
+			else if ((target > Mackie::Target::MAV) && (u.target == target)) return true;
+			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget == longtarget)) return true;
+			return false;
+		}
+		const bool MidiUnit::equalsAND(const MidiUnit& u) const {
+			if ((key > 0U) && (u.key != key)) return false;
+			else if ((scene > 0U) && (u.scene != scene)) return false;
+			else if ((target > Mackie::Target::MAV) && (u.target != target)) return false;
+			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget != longtarget)) return false;
+			return true;
+		}
+		const bool MidiUnit::equalsMIDI(const MidiUnit& u) const {
+			return (scene == u.scene) && (key == u.key);
+		}
+		const bool MidiUnit::compareSortLeft(const MidiUnit& a) const {
+			return (scene < a.scene) ? true : (((scene == a.scene) && (key < a.key)) ? true : false);
+		}
+		const bool MidiUnit::compareSortRight(const MidiUnit& a) const {
+			return (a.scene < scene) ? true : (((a.scene == scene) && (a.key < key)) ? true : false);
+		}
+
+		const uint32_t MidiUnit::getHash() const {
+			return hash_;
+		}
+		const uint32_t MidiUnit::getMixerId() const {
+			return (scene * 1000U) + key;
+		}
+
+		const bool MidiUnit::empty() const {
+			return BaseUnit::empty();
+		}
+		void MidiUnit::copy(const MidiUnit& m) {
+			BaseUnit::copy(static_cast<const BaseUnit&>(m));
+		}
+		std::wstring MidiUnit::dump() const {
+			return BaseUnit::dump();
+		}
+		#pragma endregion
+
+		#pragma region MidiUnitRef
+		MidiUnitRef::MidiUnitRef() : m_(common_static::unit_empty) {}
+		MidiUnitRef::MidiUnitRef(MidiUnit& m) : m_(m) {
+		}
+
+		MidiUnit& MidiUnitRef::get() const {
 			return m_;
 		}
 		void MidiUnitRef::set(MidiUnit& m, IO::PluginClassTypes t) {
@@ -157,54 +210,9 @@ namespace Common {
 		const bool MidiUnitRef::isvalid() const {
 			return isbegin_ && !m_.empty();
 		}
+		#pragma endregion
 
-		MixerUnit::MixerUnit()
-			: id(0U), key(255U), scene(255U), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {}
-		MixerUnit::MixerUnit(const MidiUnit& m)
-			: id(0U), key(255U), scene(255U), type(UNITNONE), target(Mackie::Target::NOTARGET), longtarget(Mackie::Target::NOTARGET) {
-			copy_data__(*this, m);
-		}
-		void MixerUnit::ToNull(bool b) {
-			key = scene = 0U;
-			target = longtarget = static_cast<Mackie::Target>(0U);
-			id = static_cast<uint32_t>(b);
-		}
-		bool MixerUnit::EqualsOR(const MixerUnit& u) {
-			if ((key > 0U) && (u.key == key)) return true;
-			else if ((scene > 0U) && (u.scene == scene)) return true;
-			else if ((target > Mackie::Target::MAV) && (u.target == target)) return true;
-			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget == longtarget)) return true;
-			return false;
-		}
-		bool MixerUnit::EqualsAND(const MixerUnit& u) {
-			if ((key > 0U) && (u.key != key)) return false;
-			else if ((scene > 0U) && (u.scene != scene)) return false;
-			else if ((target > Mackie::Target::MAV) && (u.target != target)) return false;
-			else if ((longtarget > Mackie::Target::MAV) && (u.longtarget != longtarget)) return false;
-			return true;
-		}
-		std::wstring MixerUnit::dump() const {
-			std::wstringstream ws;
-			for (auto& s : apps)
-				ws << s << L", ";
-
-			return (log_string() << L"\tid:" << id
-				<< L"\n\t\ttype: " << MidiHelper::GetType(type)
-				<< L"\n\t\ttarget type: |" << MackieHelper::GetTarget(target) << L"|"
-				<< L", target: |" << MackieHelper::GetTarget(longtarget) << L"|"
-				<< L"\n\t\tvalue - click type: " << MackieHelper::GetClickType(value.type)
-				<< L"\n\t\tvalue - values: " << static_cast<int>(value.value)
-				<< L", flag value: " << Utils::BOOL_to_string(value.lvalue)
-				<< L"\n\t\tvalue - time: " << Utils::MILLISECONDS_to_string(value.time)
-				<< L"\n\t\tapps: [" << ws.str() << L"]");
-		}
-		void MixerUnit::copy(const MidiUnit& m) {
-			copy_data__(*this, m);
-		}
-		void MixerUnit::copy(const MixerUnit& m) {
-			copy_data__(*this, m);
-		}
-
+		#pragma region MidiConfig
 		const bool MidiConfig::empty() const {
 			return midi_in_devices.empty();
 		}
@@ -227,16 +235,20 @@ namespace Common {
 		std::wstring MidiConfig::dump() const {
 			std::wstring s_in{}, s_out{};
 			{
-				std::wstringstream w_in{}, w_out{};
-				for (auto& s : midi_in_devices)
-					w_in << s << L", ";
-				s_in = w_in.str();
-				if (!s_in.empty()) s_in.resize(s_in.length() - 2);
-
-				for (auto& s : midi_out_devices)
-					w_out << s << L", ";
-				s_out = w_out.str();
-				if (!s_out.empty()) s_out.resize(s_out.length() - 2);
+				{
+					log_delimeter ld{};
+					log_string ls{};
+					for (auto& s : midi_in_devices)
+						ls << ld << s;
+					s_in = ls.str();
+				}
+				{
+					log_delimeter ld{};
+					log_string ls{};
+					for (auto& s : midi_out_devices)
+						ls << ld << s;
+					s_out = ls.str();
+				}
 			}
 
 			return (log_string() << L"\tenable module:" << Utils::BOOL_to_string(enable)
@@ -255,7 +267,9 @@ namespace Common {
 		std::chrono::milliseconds MidiConfig::get_long_interval() const {
 			return std::chrono::milliseconds(btn_long_interval);
 		}
+		#pragma endregion
 
+		#pragma region MMKeyConfig
 		const bool MMKeyConfig::empty() const {
 			return !enable;
 		}
@@ -265,7 +279,9 @@ namespace Common {
 		std::wstring MMKeyConfig::dump() const {
 			return (log_string() << L"\tenable module:" << Utils::BOOL_to_string(enable));
 		}
+		#pragma endregion
 
+		#pragma region MidiSetter
 		bool MidiSetter::ÑhatterButton(MidiUnit& u, Mackie::MIDIDATA& m, const std::chrono::milliseconds& btninterval) {
 			return ÑhatterButton(u, m, std::chrono::high_resolution_clock::now(), btninterval);
 		}
@@ -433,7 +449,9 @@ namespace Common {
 							case B36:
 							case B37:
 							case B38:
-							case B39: return true;
+							case B39:
+							case SYS_Stop:
+							case SYS_Rewind: return true;
 							default: break;
 						}
 					}
@@ -442,6 +460,6 @@ namespace Common {
 			}
 			return false;
 		}
-
+		#pragma endregion
 	}
 }

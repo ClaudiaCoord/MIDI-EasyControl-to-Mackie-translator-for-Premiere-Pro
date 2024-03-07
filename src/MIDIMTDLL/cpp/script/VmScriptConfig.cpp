@@ -21,9 +21,14 @@ namespace Common {
             return script_directory.empty();
         }
         log_string VmScriptConfig::dump() {
+            log_delimeter ld{};
             log_string ls{};
-            ls << L"\tenable module:" << Utils::BOOL_to_string(enable);
-            ls << L"\n\twatch: " << Utils::BOOL_to_string(script_watch);
+            ls << L"\tenable module:" << Utils::BOOL_to_string(enable)
+               << L"\n\twatch: " << Utils::BOOL_to_string(script_watch)
+               << L"\n\tdebug: " << Utils::BOOL_to_string(script_debug)
+               << L"\n\tlib match: " << Utils::BOOL_to_string(lib_match)
+               << L"\n\tlib string: " << Utils::BOOL_to_string(lib_string)
+               << L"\n\tlib wstring: " << Utils::BOOL_to_string(lib_wstring);
 
             if (!script_directory.empty())
                 ls << L"\n\tscript directory: " << script_directory.c_str();
@@ -31,7 +36,7 @@ namespace Common {
             if (!script_list.empty()) {
                 ls << L"\n\tscripts count: " << script_list.size();
                 for (auto& a : script_list)
-                    ls << L"\n\t\t- " << a << L",";
+                    ls << ld << L"\n\t\t- " << a;
                 ls.seekp(-1, std::ios_base::end);
             }
             ls << L"\n";
@@ -39,7 +44,11 @@ namespace Common {
         }
         void VmScriptConfig::copy(const VmScriptConfig& c) {
             enable = c.enable;
+            lib_match = c.lib_match;
+            lib_string = c.lib_string;
+            lib_wstring = c.lib_wstring;
             script_watch = c.script_watch;
+            script_debug = c.script_debug;
             script_directory = c.script_directory;
             script_list.clear();
             script_list.assign_range(c.script_list);

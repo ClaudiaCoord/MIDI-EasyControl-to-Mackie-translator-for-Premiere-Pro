@@ -24,7 +24,7 @@ namespace Common {
 		private:
 			uint8_t seq__{ 0 };
 			uint8_t build_seq_();
-			uint16_t build_length_(size_t);
+			uint16_t build_length_(size_t) const;
 
 		public:
 

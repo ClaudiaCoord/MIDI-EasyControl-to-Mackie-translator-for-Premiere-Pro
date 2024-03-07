@@ -65,7 +65,10 @@ namespace Common {
 						case IDM_LV_DELETE:
 						case IDM_LV_SET_MQTT:
 						case IDM_LV_SET_MMKEY:
-						case IDM_LV_SET_MIXER: {
+						case IDM_LV_SET_MIXER:
+						case IDM_LV_SET_VMSCRIPT:
+						case IDM_LV_SET_LIGHTKEY8B:
+						case IDM_LV_SET_LIGHTKEY16B: {
 							::UIInitPropertyFromBoolean(UI_PKEY_Enabled, ispaste_.load(), nval);
 							break;
 						}
@@ -192,8 +195,8 @@ namespace Common {
 			}
 			return L"";
 		}
-		MIDI::MixerUnit RToolBarDialogEdit::GetFilters() {
-			MIDI::MixerUnit mu{};
+		MIDI::MidiUnit RToolBarDialogEdit::GetFilters() {
+			MIDI::MidiUnit mu{};
 			try {
 				mu.key = static_cast<uint8_t>(itemgetintvalue_(IDM_LV_FILTER_KEY));
 				mu.scene = static_cast<uint8_t>(itemgetintvalue_(IDM_LV_FILTER_SCENE));
@@ -272,7 +275,7 @@ namespace Common {
 		void RToolBarDialogEdit::IsReadMidiCheck(bool b) {
 			itemsetboolvalue_(IDM_LV_READ_MIDI_CODE, b);
 		}
-		void RToolBarDialogEdit::SetFilters(MIDI::MixerUnit& mu) {
+		void RToolBarDialogEdit::SetFilters(MIDI::MidiUnit& mu) {
 			try {
 				itemsetintvalue_(IDM_LV_FILTER_KEY, static_cast<uint32_t>(mu.key));
 				itemsetintvalue_(IDM_LV_FILTER_SCENE, static_cast<uint32_t>(mu.scene));
@@ -306,7 +309,10 @@ namespace Common {
 				IDM_LV_DELETE,
 				IDM_LV_SET_MQTT,
 				IDM_LV_SET_MMKEY,
-				IDM_LV_SET_MIXER
+				IDM_LV_SET_MIXER,
+				IDM_LV_SET_VMSCRIPT,
+				IDM_LV_SET_LIGHTKEY8B,
+				IDM_LV_SET_LIGHTKEY16B
 			};
 			for (uint32_t i : list) ItemEnable(i);
 		}

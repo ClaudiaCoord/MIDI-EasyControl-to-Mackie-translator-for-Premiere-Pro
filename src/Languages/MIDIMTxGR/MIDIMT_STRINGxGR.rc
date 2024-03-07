@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"კონფიგურაცია ხელახლა შეიქმნა და საჭიროებს შევსებას"
     STRING_EDIT_MSG4	"რედაქტორის გახსნისას მითითებული იყო კონფიგურაციის ფაილი: „{0}“. შეინახოთ იგივე სახელით?"
     STRING_EDIT_MSG5	"DMX არხის ნომერი"
+    STRING_EDIT_MSG6	"MQTT კონფიგურაცია წარმატებით იქნა ექსპორტირებული"
+    STRING_EDIT_MSG7	"MQTT კონფიგურაციის ექსპორტის შეცდომა"
+    STRING_EDIT_MSG8	"დუბლიკატი MIDI გასაღებები ვერ მოიძებნა"
+    STRING_EDIT_MSG9	"ნაპოვნია {0} დუბლიკატი MIDI გასაღები"
 
     STRING_NOTIFY_MSG1	"მთარგმნელი გაჩერებულია:"
     STRING_NOTIFY_MSG2	"თარჯიმანი მუშაობს:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"სცენარი 25"
 	IDM_COL5_SCRIPT_B38		"სცენარი 26"
 	IDM_COL5_SCRIPT_B39		"სცენარი 27"
+	IDM_COL5_SCRIPT_STOP		"შეაჩერე ყველა სკრიპტი"
+	IDM_COL5_SCRIPT_RELOAD		"ხელახლა წაიკითხეთ სკრიპტის დირექტორია"
 	IDM_COL5_SCRIPT_EMPTY		"Არ არის დანიშნული"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"გთხოვთ, შეცვალოთ კონფიგურაცია დაწყებამდე."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"კონფიგურაციის ფაილი"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"შესრულებადი ფაილები"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT კონფიგურაციის ფაილები"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"ფაილიდან ჩატვირთული კონფიგურაცია: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"კონფიგურაცია ჩატვირთულია დრაივერისგან"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"არჩეული {0} ენა აქტიური იქნება ფანჯრის გადატვირთვის შემდეგ."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"სკრიპტის ძრავა მუშაობს, ხელმისაწვდომია სკრიპტები: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"სკრიპტის ძრავა გაჩერდა."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"სკრიპტის ფაილები"
+	IDS_ERRORID_SCRIPT_CALL			"სკრიპტის გაშვება: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"ხელახლა ვკითხულობ სცენარის კატალოგს..."
+	IDS_ERRORID_SCRIPT_STOPALL		"შეწყდა სკრიპტების გაშვება: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"დირექტორია ვერ გაიხსნა: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"დირექტორია მითითებული პარამეტრებით ვერ იკითხება, ვამთავრებ დირექტორიას მონიტორინგს."

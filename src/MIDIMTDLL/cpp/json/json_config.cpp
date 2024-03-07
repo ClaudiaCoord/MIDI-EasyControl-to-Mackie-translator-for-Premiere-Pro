@@ -44,6 +44,7 @@ namespace Common {
 			static constexpr std::wstring_view LOGLEVEL = L"loglevel"sv;
 			static constexpr std::wstring_view POLLING = L"polling"sv;
 			static constexpr std::wstring_view STEP = L"step"sv;
+			static constexpr std::wstring_view ACTION = L"action"sv;
 
 			static constexpr std::wstring_view MIDI = L"midi"sv;
 			static constexpr std::wstring_view MIDICTRL = L"midictrl"sv;
@@ -70,6 +71,9 @@ namespace Common {
 			static constexpr std::wstring_view MQTT_PREF = L"prefix"sv;
 			static constexpr std::wstring_view MQTT_CAPATH = L"certcapath"sv;
 			static constexpr std::wstring_view MQTT_SSIGN = L"selfsigned"sv;
+			static constexpr std::wstring_view MQTT_SUB = L"sub"sv;
+			static constexpr std::wstring_view MQTT_SENSOR = L"sensor"sv;
+			static constexpr std::wstring_view MQTT_SLIDER = L"slider"sv;
 
 			static constexpr std::wstring_view REMOTE = L"remote"sv;
 			static constexpr std::wstring_view NET_UA = L"ua"sv;
@@ -94,7 +98,11 @@ namespace Common {
 			static constexpr std::wstring_view WATCH = L"watch"sv;
 			static constexpr std::wstring_view DIRECTORY = L"directory"sv;
 			static constexpr std::wstring_view SCRIPTS = L"scripts"sv;
-			
+			static constexpr std::wstring_view DEBUGS = L"debug"sv;
+			static constexpr std::wstring_view STRINGLIB = L"stringlib"sv;
+			static constexpr std::wstring_view WSTRINGLIB = L"wstringlib"sv;
+			static constexpr std::wstring_view MATCHLIB = L"matchlib"sv;
+	
 			#pragma endregion
 		};
 
@@ -519,6 +527,12 @@ namespace Common {
 				mdata.Enter();
 
 				cnf.enable = mdata.Get<bool>(JsonNames::ENABLE.data(), false);
+
+				cnf.lib_match = mdata.Get<bool>(JsonNames::MATCHLIB.data(), false);
+				cnf.lib_string = mdata.Get<bool>(JsonNames::STRINGLIB.data(), false);
+				cnf.lib_wstring = mdata.Get<bool>(JsonNames::WSTRINGLIB.data(), false);
+
+				cnf.script_debug = mdata.Get<bool>(JsonNames::DEBUGS.data(), false);
 				cnf.script_watch = mdata.Get<bool>(JsonNames::WATCH.data(), false);
 				cnf.script_directory = mdata.Get<std::wstring>(JsonNames::DIRECTORY.data());
 				cnf.script_list.clear();
@@ -578,7 +592,7 @@ namespace Common {
 		const bool json_config::WriteFile(std::wstring filepath, std::function<bool(Tiny::TinyJson&, std::wstring&)> f) {
 			try {
 				TinyJson rjson{};
-				bool b = f(rjson, filepath);
+				bool b = f(std::ref(rjson), filepath);
 				if (!b) return false;
 
 				std::wofstream cnf(filepath, std::ios::trunc);
@@ -592,6 +606,91 @@ namespace Common {
 				}
 				cnf << rjson.WriteJson();
 				cnf.close();
+				return true;
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return false;
+		}
+		const bool json_config::WriteRemoteWebConfig(Tiny::TinyJson& root, MMTConfig* mmt) {
+			try {
+				if (!mmt || mmt->empty())
+					return false;
+
+				root[JsonNames::ACTION.data()].Set<std::wstring>(JsonNames::CONF.data());
+				if (!WriteUnitConfig(root, mmt))
+					return false;
+
+				try {
+					auto& slist = mmt->vmscript.script_list;
+					if (!slist.empty()) {
+						TinyJson list{};
+						TinyJson arr{};
+						for (auto& s : slist)
+							arr[JsonNames::EMPTY.data()].Set(s);
+						list.Push(std::move(arr));
+						root[JsonNames::SCRIPTS.data()].Set(std::move(list));
+					}
+				} catch (...) {}
+				return true;
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+			return false;
+		}
+		const bool json_config::WriteMqttWebConfig(Tiny::TinyJson& root, MMTConfig* mmt) {
+			try {
+				if (!mmt || mmt->empty() || mmt->mqttconf.login.empty())
+					return false;
+
+				TinyJson list{};
+
+				uint16_t b_idx{ static_cast<uint16_t>(MIDI::Mackie::Target::B11) };
+				uint16_t v_idx{ static_cast<uint16_t>(MIDI::Mackie::Target::AP1) };
+				std::wstring dev{ mmt->mqttconf.login };
+
+				for (auto& u : mmt->units) {
+					if (u.empty() ||
+						((u.target != MIDI::Mackie::Target::LIGHTKEY8B) &&
+							(u.target != MIDI::Mackie::Target::LIGHTKEY16B))) continue;
+
+					Tiny::TinyJson item{};
+					std::wstring ctrl{};
+					std::wstring topic{};
+
+					switch (u.type) {
+						using enum MIDI::MidiUnitType;
+						case FADER:
+						case SLIDER:
+						case KNOB:
+						case KNOBINVERT:
+						case FADERINVERT:
+						case SLIDERINVERT: {
+							ctrl = JsonNames::MQTT_SLIDER;
+							topic = MIDI::MackieHelper::GetSmartHomeTargetTopic(static_cast<MIDI::Mackie::Target>(v_idx++));
+							break;
+						}
+						case BTN:
+						case BTNTOGGLE: {
+							ctrl = JsonNames::ONOF;
+							topic = MIDI::MackieHelper::GetSmartHomeTargetTopic(static_cast<MIDI::Mackie::Target>(b_idx++));
+							break;
+						}
+						case UNITNONE:
+						default: continue;
+					}
+					item[JsonNames::MQTT_SUB.data()].Set<std::wstring>(
+						(log_string()
+							<< JsonNames::MQTT_SENSOR << L"/"
+							<< dev << "/" << topic << L"/" << ctrl)
+					);
+					item[JsonNames::LIGHTS_DMX.data()].Set<uint32_t>(static_cast<uint16_t>(u.longtarget));
+					list.Push(std::move(item));
+				}
+
+				root[JsonNames::MQTT.data()].Set(std::move(list));
 				return true;
 
 			} catch (...) {
@@ -810,6 +909,10 @@ namespace Common {
 			try {
 				Tiny::TinyJson mjson{};
 				mjson[JsonNames::ENABLE.data()].Set<bool>(cnf.enable);
+				mjson[JsonNames::MATCHLIB.data()].Set<bool>(cnf.lib_match);
+				mjson[JsonNames::STRINGLIB.data()].Set<bool>(cnf.lib_string);
+				mjson[JsonNames::WSTRINGLIB.data()].Set<bool>(cnf.lib_wstring);
+				mjson[JsonNames::DEBUGS.data()].Set<bool>(cnf.script_debug);
 				mjson[JsonNames::WATCH.data()].Set<bool>(cnf.script_watch);
 				mjson[JsonNames::DIRECTORY.data()].Set<std::wstring>(cnf.script_directory);
 
@@ -863,16 +966,21 @@ namespace Common {
 			ls << mmt->vmscript.dump() << L"\n\n";
 
 			ls << L"* " << JsonNames::UNITS << L":\n";
+			
 			for (auto& u : mmt->units) {
-				ls << L"\t" << JsonNames::ID << L"=" << static_cast<int>(u.key) << ", ";
-				ls << JsonNames::SCENE << L"=" << MIDI::MidiHelper::GetScene(u.scene) << L"/" << static_cast<int>(u.scene) << ", ";
-				ls << JsonNames::TYPE << L"=" << MIDI::MidiHelper::GetType(u.type) << ", ";
-				ls << JsonNames::TARGET << L"=" << MIDI::MackieHelper::GetTarget(u.target) << ", ";
+				log_delimeter ld1{};
+				ls << ld1 << L"\t" << JsonNames::ID << L"=" << static_cast<int>(u.key) << ld1;
+				ls << JsonNames::SCENE << L"=" << MIDI::MidiHelper::GetScene(u.scene) << L"/" << static_cast<int>(u.scene) << ld1;
+				ls << JsonNames::TYPE << L"=" << MIDI::MidiHelper::GetType(u.type) << ld1;
+				ls << JsonNames::TARGET << L"=" << MIDI::MackieHelper::GetTarget(u.target) << ld1;
 				ls << JsonNames::LONGTARGET << L"=" << MIDI::MackieHelper::GetTarget(u.longtarget) << L"\n";
+				
 				if (!u.apps.empty()) {
 					ls << L"\t\t" << JsonNames::APPS << L"=[";
+
+					log_delimeter ld2{};
 					for (auto& app : u.apps)
-						ls << L"\"" << app << "\", ";
+						ls << ld2 << L"\"" << app << "\"";
 					ls << L"]";
 				}
 				ls << L"\n";

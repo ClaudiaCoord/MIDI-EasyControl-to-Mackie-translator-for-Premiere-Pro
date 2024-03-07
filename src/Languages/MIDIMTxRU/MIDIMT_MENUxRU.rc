@@ -555,6 +555,9 @@ DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SCRIPT MENU"
     BEGIN
+    MENUITEM "Остановить все сценарии",     IDM_COL4_SYS_Stop
+    MENUITEM "Перечитать каталог сценариев", IDM_COL4_SYS_Rewind
+    MENUITEM SEPARATOR
     MENUITEM "скрипт 1",                  IDM_COL4_B11
     MENUITEM "скрипт 2",                  IDM_COL4_B12
     MENUITEM "скрипт 3",                  IDM_COL4_B13

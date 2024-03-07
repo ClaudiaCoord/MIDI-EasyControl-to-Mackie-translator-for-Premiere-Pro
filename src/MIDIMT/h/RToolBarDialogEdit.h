@@ -47,8 +47,8 @@ namespace Common {
 			const bool IsFilterTypeCheck() const;
 			const bool IsFilterAutoCommitCheck() const ;
 
-			MIDI::MixerUnit GetFilters();
-			void SetFilters(MIDI::MixerUnit&);
+			MIDI::MidiUnit GetFilters();
+			void SetFilters(MIDI::MidiUnit&);
 
 			void EnableRefresh();
 

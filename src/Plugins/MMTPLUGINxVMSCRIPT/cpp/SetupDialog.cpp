@@ -41,8 +41,13 @@ namespace Common {
 				});
 				const bool _ = f.get();
 
-				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_ISENABLE, CHECKBTN(config_.enable));
-				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_WATCH, CHECKBTN(config_.script_watch));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_ISENABLE,CHECKBTN(config_.enable));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_WATCH,	CHECKBTN(config_.script_watch));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_DEBUG,	CHECKBTN(config_.script_debug));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_LIBMATH,	CHECKBTN(!config_.lib_match));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_LIBSTR,	CHECKBTN(!config_.lib_string));
+				::CheckDlgButton(hwnd_,  DLG_PLUG_VMSCRIPT_LIBWSTR,	CHECKBTN(!config_.lib_wstring));
+
 				::SetDlgItemTextW(hwnd_, DLG_PLUG_VMSCRIPT_DIR, config_.script_directory.c_str());
 
 				isload_.store(true);
@@ -131,6 +136,42 @@ namespace Common {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
+		void VmScriptSetupDialog::changeOnDebugging_() {
+			try {
+				if (!hwnd_) return;
+				config_.script_debug = UI::UiUtils::GetControlChecked(hwnd_, DLG_PLUG_VMSCRIPT_DEBUG);
+				UI::UiUtils::SaveDialogEnabled(hwnd_);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void VmScriptSetupDialog::changeOnLibMath_() {
+			try {
+				if (!hwnd_) return;
+				config_.lib_match = !UI::UiUtils::GetControlChecked(hwnd_, DLG_PLUG_VMSCRIPT_LIBMATH);
+				UI::UiUtils::SaveDialogEnabled(hwnd_);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void VmScriptSetupDialog::changeOnLibString_() {
+			try {
+				if (!hwnd_) return;
+				config_.lib_string = !UI::UiUtils::GetControlChecked(hwnd_, DLG_PLUG_VMSCRIPT_LIBSTR);
+				UI::UiUtils::SaveDialogEnabled(hwnd_);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void VmScriptSetupDialog::changeOnLibWstring_() {
+			try {
+				if (!hwnd_) return;
+				config_.lib_wstring = !UI::UiUtils::GetControlChecked(hwnd_, DLG_PLUG_VMSCRIPT_LIBWSTR);
+				UI::UiUtils::SaveDialogEnabled(hwnd_);
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
 		void VmScriptSetupDialog::changeOnScriptList_() {
 			try {
 				if (!hwnd_ || !isload_.load(std::memory_order_acquire)) return;
@@ -195,6 +236,22 @@ namespace Common {
 							}
 							case DLG_PLUG_VMSCRIPT_WATCH: {
 								changeOnWatchDirectory_();
+								return static_cast<INT_PTR>(1);
+							}
+							case DLG_PLUG_VMSCRIPT_DEBUG: {
+								changeOnDebugging_();
+								return static_cast<INT_PTR>(1);
+							}
+							case DLG_PLUG_VMSCRIPT_LIBMATH: {
+								changeOnLibMath_();
+								return static_cast<INT_PTR>(1);
+							}
+							case DLG_PLUG_VMSCRIPT_LIBSTR: {
+								changeOnLibString_();
+								return static_cast<INT_PTR>(1);
+							}
+							case DLG_PLUG_VMSCRIPT_LIBWSTR: {
+								changeOnLibWstring_();
 								return static_cast<INT_PTR>(1);
 							}
 							case DLG_PLUG_VMSCRIPT_LIST_CHANGE: {

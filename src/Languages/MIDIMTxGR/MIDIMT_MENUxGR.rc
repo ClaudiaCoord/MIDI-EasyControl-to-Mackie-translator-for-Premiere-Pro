@@ -556,6 +556,9 @@ DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SCRIPT MENU"
     BEGIN
+    MENUITEM "შეაჩერე ყველა სკრიპტი",     IDM_COL4_SYS_Stop
+    MENUITEM "ხელახლა წაიკითხეთ სკრიპტის დირექტორია", IDM_COL4_SYS_Rewind
+    MENUITEM SEPARATOR
     MENUITEM "სკრიპტი 1",                  IDM_COL4_B11
     MENUITEM "სკრიპტი 2",                  IDM_COL4_B12
     MENUITEM "სკრიპტი 3",                  IDM_COL4_B13

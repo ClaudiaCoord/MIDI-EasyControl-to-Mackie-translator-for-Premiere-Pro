@@ -499,4 +499,23 @@ namespace Common {
 	log_auto::~log_auto() {
 		if (id_) to_log::Get().remove(id_);
 	}
+
+	log_delimeter::log_delimeter() {
+	}
+	log_delimeter::log_delimeter(const std::wstring& s) : DELIM(s) {
+	}
+	log_delimeter::~log_delimeter() {
+	}
+	const wchar_t* log_delimeter::get() {
+		if (is_first_) {
+			is_first_ = false;
+			return EMPTY;
+		}
+		return (DELIM.empty() ? DEFAULT : DELIM.c_str());
+	}
+
+	std::wostream& operator<<(std::wostream& os, log_delimeter& d) {
+		os << d.get();
+		return os;
+	}
 }

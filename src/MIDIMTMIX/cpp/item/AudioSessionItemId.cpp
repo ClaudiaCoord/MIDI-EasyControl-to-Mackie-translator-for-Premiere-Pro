@@ -65,7 +65,7 @@ namespace Common {
 		}
 
 		const bool AudioSessionItemId::add(MIDI::MidiUnit& m) {
-			return add(m.type, m.GetMixerId());
+			return add(m.type, m.getMixerId());
 		}
 		const bool AudioSessionItemId::add(MIDI::MidiUnitType t, uint32_t k) {
 			try {

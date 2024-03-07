@@ -37,6 +37,8 @@ namespace Common {
 
 			const bool Write(MMTConfig* md, std::wstring filepath, bool = false);
 			const bool WriteFile(std::wstring filepath, std::function<bool(Tiny::TinyJson&, std::wstring&)>);
+			const bool WriteRemoteWebConfig(Tiny::TinyJson&, MMTConfig*);
+			const bool WriteMqttWebConfig(Tiny::TinyJson&, MMTConfig*);
 
 			const bool WriteUnitConfig(Tiny::TinyJson&, MMTConfig*);
 			void WriteMidiConfig(Tiny::TinyJson&, MIDI::MidiConfig&);

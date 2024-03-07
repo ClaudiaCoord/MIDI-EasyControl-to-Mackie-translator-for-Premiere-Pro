@@ -51,6 +51,9 @@
     <ClCompile Include="..\Plugins\MMTPLUGINxVMSCRIPT\cpp\VmScriptUserUnit.cpp">
       <Filter>Исходные файлы\UserData</Filter>
     </ClCompile>
+    <ClCompile Include="..\Plugins\MMTPLUGINxVMSCRIPT\cpp\VmScriptDebug.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\global.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="..\Plugins\MMTPLUGINxVMSCRIPT\h\VmScriptUserUnit.h">
       <Filter>Файлы заголовков\UserData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Plugins\MMTPLUGINxVMSCRIPT\h\VmScriptDebug.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

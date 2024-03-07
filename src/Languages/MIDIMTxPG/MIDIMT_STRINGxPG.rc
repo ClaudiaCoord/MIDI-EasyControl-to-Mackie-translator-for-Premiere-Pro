@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"A configuração foi criada novamente e requer preenchimento"
     STRING_EDIT_MSG4	"Ao abrir o editor, foi especificado o arquivo de configuração: '{0}'. Salvá-lo com o mesmo nome?"
     STRING_EDIT_MSG5	"Número do canal DMX"
+    STRING_EDIT_MSG6	"Configuração MQTT exportada com sucesso"
+    STRING_EDIT_MSG7	"Erro ao exportar a configuração MQTT"
+    STRING_EDIT_MSG8	"Nenhuma chave MIDI duplicada encontrada"
+    STRING_EDIT_MSG9	"{0} chaves MIDI duplicadas encontradas"
 
     STRING_NOTIFY_MSG1	"o tradutor está parado:"
     STRING_NOTIFY_MSG2	"o tradutor trabalha:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"roteiro 25"
 	IDM_COL5_SCRIPT_B38		"roteiro 26"
 	IDM_COL5_SCRIPT_B39		"roteiro 27"
+	IDM_COL5_SCRIPT_STOP		"Pare todos os scripts"
+	IDM_COL5_SCRIPT_RELOAD		"Releia o diretório do script"
 	IDM_COL5_SCRIPT_EMPTY		"Não atribuído"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Edite a configuração antes de começar."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"O arquivo de configuração"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Arquivos executáveis"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"Arquivos de configuração MQTT"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Configuração carregada do arquivo: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Configuração carregada do driver"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"O idioma {0} selecionado ficará ativo depois que a janela for reiniciada."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"O mecanismo de script está em execução, scripts disponíveis: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"O mecanismo de script foi interrompido."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Arquivos de script"
+	IDS_ERRORID_SCRIPT_CALL			"Execute o script: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Estou relendo o catálogo de roteiros..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Scripts foram interrompidos: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Falha ao abrir o diretório: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"O diretório com os parâmetros especificados não pode ser lido, estou terminando de monitorar o diretório."

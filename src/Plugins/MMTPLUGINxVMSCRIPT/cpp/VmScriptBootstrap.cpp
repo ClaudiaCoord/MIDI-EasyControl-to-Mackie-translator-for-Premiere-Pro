@@ -19,6 +19,44 @@ namespace Common {
 			return t1 == static_cast<T1>(t2);
 		}
 
+		template<typename T1, T1 ENUM_MIN, T1 ENUM_MAX>
+		inline T1 enum_increment_(const T1& t) {
+			const auto val = std::to_underlying(t);
+			return (val > std::to_underlying(ENUM_MAX)) ? ENUM_MIN : static_cast<T1>(val + 1);
+		}
+
+		template<typename T1, T1 ENUM_MIN, T1 ENUM_MAX>
+		inline T1 enum_decrement_(const T1& t) {
+			const auto val = std::to_underlying(t);
+			return (val > static_cast<std::underlying_type_t<T1>>(ENUM_MIN)) ? static_cast<T1>(val - 1) : ENUM_MIN;
+		}
+
+		template<typename T1, T1 ENUM_MIN, T1 ENUM_MAX>
+		inline void build_enum_(std::shared_ptr<chaiscript::Module>& m, const std::string& name) {
+
+			m->add(chaiscript::user_type<T1>(), name);
+			m->add(chaiscript::constructor<T1()>(), name);
+			if (std::is_enum_v<T1>)
+				m->add(chaiscript::constructor<T1(const T1&)>(), name);
+
+			m->add(chaiscript::fun([](const T1& t1, const T1& t2) -> bool { return t1 > t2; }), ">");
+			m->add(chaiscript::fun([](const T1& t1, const T1& t2) -> bool { return t1 < t2; }), "<");
+			m->add(chaiscript::fun([](const T1& t1, const T1& t2) -> bool { return t1 >= t2; }), ">=");
+			m->add(chaiscript::fun([](const T1& t1, const T1& t2) -> bool { return t1 <= t2; }), "<=");
+			m->add(chaiscript::fun([](const T1& t1, const T1& t2) -> bool { return t1 == t2; }), "==");
+			m->add(chaiscript::fun([](const T1& t1, const std::underlying_type_t<T1>& ut) -> bool { return enum_compare_<T1, std::underlying_type_t<T1>>(t1, ut); }), "==");
+			m->add(chaiscript::fun([](const std::underlying_type_t<T1>& ut, const T1& t1) -> bool { return enum_compare_<T1, std::underlying_type_t<T1>>(t1, ut); }), "==");
+
+			m->add(chaiscript::fun([](T1& v, const T1& t) -> void { v = t; }), "=");
+			m->add(chaiscript::fun([](T1& t) -> void {
+				t = enum_increment_<T1, ENUM_MIN, ENUM_MAX>(t);
+			}), "++");
+			m->add(chaiscript::fun([](T1& t) -> void {
+				t = enum_decrement_<T1, ENUM_MIN, ENUM_MAX>(t);
+			}), "--");
+			m->add(chaiscript::fun([](const T1& t) -> std::underlying_type_t<T1> { return std::to_underlying(t); }), "to_int");
+		}
+
 		ScriptEntry::ScriptEntry(const std::string& n, const std::string& b, uint32_t h, uint64_t t)
 			: name(n), body(b), hash(h), time(t) {
 			if (!hash) hash = static_cast<uint32_t>(std::hash<std::string>{}(n));
@@ -34,35 +72,29 @@ namespace Common {
 
 				/* MidiUnit + MixerUnit + MidiUnitValue + MidiUnitType + Mackie::Target + Mackie::ClickType */
 				#pragma region EnumTarget
-				bmod->add(chaiscript::user_type<MIDI::Mackie::Target>(), "EnumTarget");
-				bmod->add(chaiscript::constructor<MIDI::Mackie::Target()>(), "EnumTarget");
-				bmod->add(chaiscript::constructor<MIDI::Mackie::Target(const MIDI::Mackie::Target&)>(), "EnumTarget");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::Target& mt1, const MIDI::Mackie::Target& mt2) -> bool { return mt1 == mt2; }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::Target& mt, const int& i) -> bool { return enum_compare_<MIDI::Mackie::Target, int>(mt, i); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::Target& mt, const uint8_t& u) -> bool { return enum_compare_<MIDI::Mackie::Target, uint8_t>(mt, u); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::Target& mt) -> uint8_t { return static_cast<uint8_t>(mt); }), "to_int");
+				build_enum_<
+					MIDI::Mackie::Target,
+					MIDI::Mackie::Target::MAV,
+					MIDI::Mackie::Target::SYS_Scrub>(std::ref(bmod), "EnumTarget");
+
 				bmod->add(chaiscript::fun([](const MIDI::Mackie::Target& mt) -> std::string { return Utils::from_string(MIDI::MackieHelper::GetTarget(mt).data()); }), "to_string");
 				#pragma endregion
 
 				#pragma region EnumClickType
-				bmod->add(chaiscript::user_type<MIDI::Mackie::ClickType>(), "EnumClickType");
-				bmod->add(chaiscript::constructor<MIDI::Mackie::ClickType()>(), "EnumClickType");
-				bmod->add(chaiscript::constructor<MIDI::Mackie::ClickType(const MIDI::Mackie::ClickType&)>(), "EnumClickType");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::ClickType& ct1, const MIDI::Mackie::ClickType& ct2) -> bool { return ct1 == ct2; }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::ClickType& ct, const int& i) -> bool { return enum_compare_<MIDI::Mackie::ClickType, int>(ct, i); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::ClickType& ct, const uint8_t& u) -> bool { return enum_compare_<MIDI::Mackie::ClickType, uint8_t>(ct, u); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::Mackie::ClickType& ct) -> uint8_t { return static_cast<uint8_t>(ct); }), "to_int");
+				build_enum_<
+					MIDI::Mackie::ClickType,
+					MIDI::Mackie::ClickType::ClickOnce,
+					MIDI::Mackie::ClickType::ClickSlider>(std::ref(bmod), "EnumClickType");
+
 				bmod->add(chaiscript::fun([](const MIDI::Mackie::ClickType& ct) -> std::string { return Utils::from_string(MIDI::MackieHelper::GetClickType(ct).data()); }), "to_string");
 				#pragma endregion
 
 				#pragma region EnumUnitType
-				bmod->add(chaiscript::user_type<MIDI::MidiUnitType>(), "EnumUnitType");
-				bmod->add(chaiscript::constructor<MIDI::MidiUnitType()>(), "EnumUnitType");
-				bmod->add(chaiscript::constructor<MIDI::MidiUnitType(const MIDI::Mackie::ClickType&)>(), "EnumUnitType");
-				bmod->add(chaiscript::fun([](const MIDI::MidiUnitType& ut1, const MIDI::Mackie::ClickType& ut2) -> bool { return ut1 == ut2; }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::MidiUnitType& ut, const int& i) -> bool { return enum_compare_<MIDI::MidiUnitType, int>(ut, i); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::MidiUnitType& ut, const uint8_t& u) -> bool { return enum_compare_<MIDI::MidiUnitType, uint8_t>(ut, u); }), "==");
-				bmod->add(chaiscript::fun([](const MIDI::MidiUnitType& ut) -> uint8_t { return static_cast<uint8_t>(ut); }), "to_int");
+				build_enum_<
+					MIDI::MidiUnitType,
+					MIDI::MidiUnitType::FADER,
+					MIDI::MidiUnitType::SLIDERINVERT>(std::ref(bmod), "EnumUnitType");
+
 				bmod->add(chaiscript::fun([](const MIDI::MidiUnitType& ut) -> std::string { return Utils::from_string(MIDI::MidiHelper::GetType(ut).data()); }), "to_string");
 				#pragma endregion
 
@@ -78,29 +110,42 @@ namespace Common {
 				bmod->add(chaiscript::fun([](const MIDI::MidiUnitValue& mu) -> std::string { return Utils::from_string(mu.dump()); }), "to_string");
 				#pragma endregion
 
-				#pragma region MixerUnit
-				bmod->add(chaiscript::user_type<MIDI::MixerUnit>(), "MixerUnit");
-				bmod->add(chaiscript::constructor<MIDI::MixerUnit()>(), "MixerUnit");
-				bmod->add(chaiscript::constructor<MIDI::MixerUnit(const MIDI::MixerUnit&)>(), "MixerUnit");
-				bmod->add(chaiscript::fun(&MIDI::MixerUnit::ToNull), "ToNull");
-				bmod->add(chaiscript::fun(&MIDI::MixerUnit::EqualsOR), "EqualsOR");
-				bmod->add(chaiscript::fun(&MIDI::MixerUnit::EqualsAND), "EqualsAND");
-				bmod->add(chaiscript::fun(&MIDI::MixerUnit::dump), "dump");
-				bmod->add(chaiscript::fun([](const MIDI::MixerUnit& mu) -> std::string { return Utils::from_string(mu.dump()); }), "to_string");
+				#pragma region BaseUnit
+				bmod->add(chaiscript::user_type<MIDI::BaseUnit>(), "BaseUnit");
+				bmod->add(chaiscript::constructor<MIDI::BaseUnit()>(), "BaseUnit");
+				bmod->add(chaiscript::constructor<MIDI::BaseUnit(const MIDI::BaseUnit&)>(), "BaseUnit");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::id), "id");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::key), "key");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::scene), "scene");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::target), "group");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::longtarget), "target");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::value), "value");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::type), "type");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::empty), "empty");
+				bmod->add(chaiscript::fun(&MIDI::BaseUnit::dump), "dump");
+				bmod->add(chaiscript::fun([](const MIDI::BaseUnit& mu) -> std::string { return Utils::from_string(mu.dump()); }), "to_string");
 				#pragma endregion
 
 				#pragma region MidiUnit
 				bmod->add(chaiscript::user_type<MIDI::MidiUnit>(), "MidiUnit");
+				bmod->add(chaiscript::base_class<MIDI::BaseUnit, MIDI::MidiUnit>());
 				bmod->add(chaiscript::constructor<MIDI::MidiUnit()>(), "MidiUnit");
 				bmod->add(chaiscript::constructor<MIDI::MidiUnit(const MIDI::MidiUnit&)>(), "MidiUnit");
-				bmod->add(chaiscript::fun(&MIDI::MidiUnit::GetMixerId), "GetMixerId");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::id), "id");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::key), "key");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::scene), "scene");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::target), "group");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::longtarget), "target");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::value), "value");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::type), "type");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::getMixerId), "GetMixerId");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::getHash), "GetHash");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::equalsMIDI), "EqualsGroup");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::equals), "Equals");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::empty), "empty");
 				bmod->add(chaiscript::fun(&MIDI::MidiUnit::dump), "dump");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::operator==), "==");
+				bmod->add(chaiscript::fun(&MIDI::MidiUnit::operator!=), "!=");
 				bmod->add(chaiscript::fun([](const MIDI::MidiUnit& mu) -> std::string { return Utils::from_string(mu.dump()); }), "to_string");
 				#pragma endregion
 
@@ -121,7 +166,9 @@ namespace Common {
 				bmod->add(chaiscript::fun(&JSON::MMTConfig::clear), "clear");
 				bmod->add(chaiscript::fun(&JSON::MMTConfig::empty), "empty");
 				bmod->add(chaiscript::fun(&JSON::MMTConfig::dump), "dump");
-				bmod->add(chaiscript::fun([](const JSON::MMTConfig& cnf) -> std::string { return Utils::from_string(const_cast<JSON::MMTConfig&>(cnf).dump()); }), "to_string");
+				bmod->add(chaiscript::fun([](const JSON::MMTConfig& cnf) -> std::string {
+					return Utils::from_string(cnf.builder);
+				}), "to_string");
 				#pragma endregion
 
 				/* MIDI::Mackie::MIDIDATA */
@@ -164,19 +211,33 @@ namespace Common {
 				bmod->add(chaiscript::vector_conversion<std::vector<std::wstring>>());
 				#pragma endregion
 
+				/* ColorControl */
+				#pragma region base class LIGHT::UTILS::ColorControl (to EnumColorIndex, RGBWColor)
+				bmod->add(chaiscript::user_type<LIGHT::UTILS::ColorControl>(), "ColorControlBase");
+				bmod->add(chaiscript::constructor<LIGHT::UTILS::ColorControl(const LIGHT::UTILS::ColorControl&)>(), "ColorControlBase");
+				bmod->add(chaiscript::fun([](const LIGHT::UTILS::ColorControl& c) -> std::string { return "ColorControlBase"; }), "to_string");
+				#pragma endregion
+
 				/* ColorGroup */
-				#pragma region EnumColorIndex
-				bmod->add(chaiscript::user_type<SCRIPT::ColorGroup>(), "EnumColorIndex");
-				bmod->add(chaiscript::constructor<SCRIPT::ColorGroup(const SCRIPT::ColorGroup&)>(), "EnumColorIndex");
-				bmod->add(chaiscript::fun([](const SCRIPT::ColorGroup& cg1, const SCRIPT::ColorGroup& cg2) -> bool { return cg1 == cg2; }), "==");
-				bmod->add(chaiscript::fun([](const SCRIPT::ColorGroup& cg, const int& i) -> bool { return enum_compare_<SCRIPT::ColorGroup, int>(cg, i); }), "==");
-				bmod->add(chaiscript::fun([](const SCRIPT::ColorGroup& cg, const uint8_t& u) -> bool { return enum_compare_<SCRIPT::ColorGroup, uint8_t>(cg, u); }), "==");
-				bmod->add(chaiscript::fun([](const SCRIPT::ColorGroup& cg) -> uint16_t { return static_cast<uint16_t>(cg); }), "to_int");
-				bmod->add(chaiscript::fun([](const SCRIPT::ColorGroup& cg) -> std::string { return Utils::from_string(ColorConstant::ColorHelper(cg)); }), "to_string");
+				#pragma region EnumColorIndex (LIGHT::UTILS::ColorControl::ColorGroup)
+				build_enum_<
+					LIGHT::UTILS::ColorControl::ColorGroup,
+					LIGHT::UTILS::ColorControl::ColorGroup::RED,
+					LIGHT::UTILS::ColorControl::ColorGroup::WHITE>(std::ref(bmod), "EnumColorIndex");
+				bmod->add(chaiscript::fun([](const LIGHT::UTILS::ColorControl::ColorGroup& cg) -> std::string { return Utils::from_string(LIGHT::UTILS::ColorControl::ColorHelper(cg)); }), "to_string");
+				#pragma endregion
+
+				/* ColorsGroup */
+				#pragma region EnumColorsIndex (LIGHT::UTILS::ColorControl::ColorsGroup)
+				build_enum_<
+					LIGHT::UTILS::ColorControl::ColorsGroup,
+					LIGHT::UTILS::ColorControl::ColorsGroup::RED,
+					LIGHT::UTILS::ColorControl::ColorsGroup::PURPLE>(std::ref(bmod), "EnumColorsIndex");
+				bmod->add(chaiscript::fun([](const LIGHT::UTILS::ColorControl::ColorsGroup& cg) -> std::string { return Utils::from_string(LIGHT::UTILS::ColorControl::ColorHelper(cg)); }), "to_string");
 				#pragma endregion
 
 				/* UnitDef */
-				#pragma region Unit (UnitDef)
+				#pragma region Unit (SCRIPT::UnitDef)
 				bmod->add(chaiscript::user_type<SCRIPT::UnitDef>(), "Unit");
 				bmod->add(chaiscript::constructor<SCRIPT::UnitDef()>(), "Unit");
 				bmod->add(chaiscript::constructor<SCRIPT::UnitDef(const UnitDef&)>(), "Unit");
@@ -194,29 +255,49 @@ namespace Common {
 				bmod->add(chaiscript::fun([](const SCRIPT::UnitDef& u) -> std::string { return u.dump_s(); }), "to_string");
 				#pragma endregion
 
+				/* ColorCorrector */
+				#pragma region ColorCorrector (SCRIPT::ColorCorrector)
+				bmod->add(chaiscript::user_type<ColorCorrector>(), "ColorCorrector");
+				bmod->add(chaiscript::constructor<ColorCorrector(const ColorCorrector&)>(), "ColorCorrector");
+				bmod->add(chaiscript::constructor<ColorCorrector(const LIGHT::UTILS::color_rgbw_corrector_t&)>(), "ColorCorrector");
+				bmod->add(chaiscript::constructor<ColorCorrector(const int8_t, const int8_t, const int8_t, const int8_t)>(), "ColorCorrector");
+				bmod->add(chaiscript::fun(static_cast<LIGHT::UTILS::color_rgbw_corrector_t& (ColorCorrector::*)()>(&ColorCorrector::get)), "Get");
+				bmod->add(chaiscript::fun(&ColorCorrector::empty), "empty");
+				bmod->add(chaiscript::fun(&ColorCorrector::dump), "dump");
+				bmod->add(chaiscript::fun([](const SCRIPT::ColorCorrector& c) -> std::string { return c.dump_s(); }), "to_string");
+				#pragma endregion
+
 				/* RGBWColor */
-				#pragma region RGBW (RGBWColor)
+				#pragma region RGBW (SCRIPT::RGBWColor)
 				bmod->add(chaiscript::user_type<RGBWColor>(), "RGBW");
+				bmod->add(chaiscript::base_class<LIGHT::UTILS::ColorControl, RGBWColor>());
 				bmod->add(chaiscript::constructor<RGBWColor(const RGBWColor&)>(), "RGBW");
 				bmod->add(chaiscript::constructor<RGBWColor(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&)>(), "RGBW");
 				bmod->add(chaiscript::constructor<RGBWColor(const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&, const std::vector<uint8_t>&)>(), "RGBW");
 
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t, const uint8_t, const uint8_t, const uint8_t)>(&RGBWColor::SetColor)), "SetColor");
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t, const uint8_t, const uint8_t)>(&RGBWColor::SetColor)), "SetColor");
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t)>(&RGBWColor::SetColor)), "SetColor");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const uint8_t, const uint8_t, const uint8_t, const uint8_t)>(&RGBWColor::SetColor)), "SetColor");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const LIGHT::UTILS::ColorControl::ColorsGroup&)>(&RGBWColor::SetColor)), "SetColor");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const uint16_t, const uint8_t, const uint8_t)>(&RGBWColor::SetColor)), "SetColor");
 
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)()>(&RGBWColor::SetLight)), "SetLight");
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t)>(&RGBWColor::SetLight)), "SetLight");
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t, const bool)>(&RGBWColor::SetLight)), "SetLight");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const uint16_t)>(&RGBWColor::SetHue)), "SetHue");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const uint8_t)>(&RGBWColor::SetSaturation)), "SetSaturation");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(const uint8_t)>(&RGBWColor::SetBrightness)), "SetBrightness");
 
-				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const uint8_t, const uint8_t)>(&RGBWColor::SetValues)), "SetValues");
+				bmod->add(chaiscript::fun(static_cast<RGBWColor& (RGBWColor::*)(ColorCorrector&)>(&RGBWColor::SetColorCorrector)), "SetColorCorrector");
+				
+				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const size_t, const size_t, const size_t)>(&RGBWColor::FadeIn)), "FadeIn");
+				bmod->add(chaiscript::fun(static_cast<void(RGBWColor::*)(const size_t, const size_t, const size_t)>(&RGBWColor::FadeOut)), "FadeOut");
 
 				bmod->add(chaiscript::fun(&RGBWColor::R), "R");
 				bmod->add(chaiscript::fun(&RGBWColor::G), "G");
 				bmod->add(chaiscript::fun(&RGBWColor::B), "B");
 				bmod->add(chaiscript::fun(&RGBWColor::W), "W");
+				bmod->add(chaiscript::fun(&RGBWColor::On), "On");
+				bmod->add(chaiscript::fun(&RGBWColor::Off), "Off");
 				bmod->add(chaiscript::fun(&RGBWColor::GetColor), "GetColor");
-				bmod->add(chaiscript::fun(&RGBWColor::GetLight), "GetLight");
+				bmod->add(chaiscript::fun(&RGBWColor::GetHue), "GetHue");
+				bmod->add(chaiscript::fun(&RGBWColor::GetSaturation), "GetSaturation");
+				bmod->add(chaiscript::fun(&RGBWColor::GetBrightness), "GetBrightness");
 				bmod->add(chaiscript::fun(&RGBWColor::GetGroup), "GetGroup");
 				bmod->add(chaiscript::fun(&RGBWColor::ApplyValues), "ApplyValues");
 				bmod->add(chaiscript::fun(&RGBWColor::UpdateValues), "UpdateValues");
@@ -226,7 +307,7 @@ namespace Common {
 				#pragma endregion
 
 				/* Macro */
-				#pragma region Macro (MacroGroup)
+				#pragma region Macro (SCRIPT::MacroGroup)
 				bmod->add(chaiscript::user_type<MacroGroup>(), "Macro");
 				bmod->add(chaiscript::constructor<MacroGroup()>(), "Macro");
 				bmod->add(chaiscript::constructor<MacroGroup(const MacroGroup&)>(), "Macro");
@@ -243,17 +324,17 @@ namespace Common {
 				/* callback + utils */
 				#pragma region callback + utils
 				bmod->add(chaiscript::fun([](const uint8_t grp, const uint8_t r, const uint8_t g, const uint8_t b) -> RGBWColor {
-					std::vector<uint8_t> vr{ grp, r };
-					std::vector<uint8_t> vg{ grp, g };
-					std::vector<uint8_t> vb{ grp, b };
-					return RGBWColor(vr, vg, vb);
+					return RGBWColor(
+						std::vector<uint8_t>{ grp, r },
+						std::vector<uint8_t>{ grp, g },
+						std::vector<uint8_t>{ grp, b });
 				}), "CreateRGB");
 				bmod->add(chaiscript::fun([](const uint8_t grp, const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t w) -> RGBWColor {
-					std::vector<uint8_t> vr{ grp, r };
-					std::vector<uint8_t> vg{ grp, g };
-					std::vector<uint8_t> vb{ grp, b };
-					std::vector<uint8_t> vw{ grp, w };
-					return RGBWColor(vr, vg, vb, vw);
+					return RGBWColor(
+						std::vector<uint8_t>{ grp, r },
+						std::vector<uint8_t>{ grp, g },
+						std::vector<uint8_t>{ grp, b },
+						std::vector<uint8_t>{ grp, w });
 				}), "CreateRGBW");
 				bmod->add(chaiscript::fun([](const int ms) { std::this_thread::sleep_for(std::chrono::milliseconds(ms)); }), "sleep");
 
@@ -314,12 +395,36 @@ namespace Common {
 		void ScriptBootstrap::script_enum_colorgroups(std::shared_ptr<chaiscript::ChaiScript>& cs) {
 			try {
 				chaiscript::dispatch::Dynamic_Object eclr{};
-				eclr["RED"] = chaiscript::const_var(ColorGroup::RED);
-				eclr["GREEN"] = chaiscript::const_var(ColorGroup::GREEN);
-				eclr["BLUE"] = chaiscript::const_var(ColorGroup::BLUE);
-				eclr["WHITE"] = chaiscript::const_var(ColorGroup::WHITE);
+				eclr["RED"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorGroup::RED);
+				eclr["GREEN"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorGroup::GREEN);
+				eclr["BLUE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorGroup::BLUE);
+				eclr["WHITE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorGroup::WHITE);
 
 				cs->add_global(chaiscript::var(std::move(eclr)), "ColorIndex");
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void ScriptBootstrap::script_enum_colorsgroups(std::shared_ptr<chaiscript::ChaiScript>& cs) {
+			try {
+				chaiscript::dispatch::Dynamic_Object eclr{};
+				eclr["OFF"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::OFF);
+				eclr["ON"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::ON);
+				eclr["RED"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::RED);
+				eclr["MAROON"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::MAROON);
+				eclr["ORANGE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::ORANGE);
+				eclr["YELLOW"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::YELLOW);
+				eclr["OLIVE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::OLIVE);
+				eclr["LIME"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::LIME);
+				eclr["GREEN"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::GREEN);
+				eclr["AQUA"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::AQUA);
+				eclr["TEAL"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::TEAL);
+				eclr["BLUE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::BLUE);
+				eclr["MAGENTA"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::MAGENTA);
+				eclr["PURPLE"] = chaiscript::const_var(LIGHT::UTILS::ColorControl::ColorsGroup::PURPLE);
+
+				cs->add_global(chaiscript::var(std::move(eclr)), "ColorsIndex");
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);

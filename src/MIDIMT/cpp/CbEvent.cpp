@@ -111,7 +111,7 @@ namespace Common {
 		void CbEvent::Clear() {
 			GetHwndCb = []() { return nullptr; };
 		}
-		void CbEvent::AddToLog(const std::wstring s) {
+		void CbEvent::AddToLog(const std::wstring& s) {
 			log_cb_(s);
 		}
 

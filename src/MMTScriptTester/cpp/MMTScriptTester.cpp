@@ -17,6 +17,12 @@
 #include "CallBacks.h"
 #include "..\..\Common\rc\resource_version.h"
 
+    LONG WINAPI uexception_handler(PEXCEPTION_POINTERS ep) {
+        if ((ep) && (ep->ExceptionRecord))
+            Common::to_log::Get() << (Common::log_string() << __FUNCTIONW__ << L", Unhandled exception: " << std::hex << ep->ExceptionRecord->ExceptionCode);
+        return EXCEPTION_CONTINUE_SEARCH;
+    }
+
     void print_header() {
         Common::log_string ls{};
         ls << L"VM Chai sript tester, part of " << VER_GUI_EN << L'\n'
@@ -26,6 +32,18 @@
 
     int wmain(int argc, const wchar_t* argv[]) {
         
+        ::SetUnhandledExceptionFilter(uexception_handler);
+        std::set_terminate([]() {
+            try {
+                Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+            } catch (...) {
+                Common::Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+            }
+            #if defined(_DEBUG)
+            std::abort();
+            #endif
+        });
+
         APP::CallBacks pcb{};
 
         try {
@@ -49,6 +67,22 @@
             args.add_argument()
                 .names({ L"-w", L"--watch" })
                 .description(L"Set scripts watcher enable");
+
+            args.add_argument()
+                .names({ L"-b", L"--debug" })
+                .description(L"Set script debugging output to a special program");
+
+            args.add_argument()
+                .names({ L"-s", L"--no-string-lib" })
+                .description(L"Disable using string libraries");
+
+            args.add_argument()
+                .names({ L"-u", L"--no-wstring-lib" })
+                .description(L"Disable using wide string libraries");
+
+            args.add_argument()
+                .names({ L"-m", L"--no-math-lib" })
+                .description(L"Disable using math libraries");
 
             args.enable_help();
             auto err = args.parse(argc, argv);
@@ -85,6 +119,10 @@
             }
             else if (args.exists(L"d")) {
                 config.enable = true;
+                config.lib_match = !args.exists(L"m");
+                config.lib_string = !args.exists(L"s");
+                config.lib_wstring = !args.exists(L"u");
+                config.script_debug = args.exists(L"b");
                 config.script_watch = args.exists(L"w");
                 config.script_directory = args.get<std::wstring>(L"d");
             }

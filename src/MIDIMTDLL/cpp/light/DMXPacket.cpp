@@ -36,38 +36,46 @@ namespace Common {
 		}
 		#endif
 
+		DMXPacket::DMXPacket(const DMXPacket& p) {
+			data_ = p.data_;
+			midx_ = p.midx_;
+			blackout = p.blackout;
+		}
+
 		const bool DMXPacket::empty() const {
-			return midx__ == 0U;
+			return midx_ == 0U;
 		}
 		const size_t DMXPacket::size() const {
-			return (midx__ == 0U) ? data__.size() : ((midx__ > 512) ? 512 : (midx__ + 1));
+			return (midx_ == 0U) ? data_.size() : ((midx_ > 512) ? 512 : (midx_ + 1));
 		}
 		DMXData& DMXPacket::get_data() {
-			return std::ref(data__);
+			return std::ref(data_);
 		}
 		size_t DMXPacket::get_index() {
-			return midx__;
+			return midx_;
 		}
 		uint8_t DMXPacket::get_value(uint16_t idx) {
 			if ((idx > 512U) || (idx == 0U)) return 0U;
-			return data__[--idx];
+			return data_[--idx];
 		}
-		void DMXPacket::set_value8(uint16_t idx, uint8_t val) {
+		void DMXPacket::set_value8(uint16_t idx, const uint8_t val) {
 			if ((idx > 512U) || (idx == 0U)) return;
+
 			--idx;
-			data__[idx] = val;
-			midx__ = (midx__ < idx) ? idx : midx__;
+			data_[idx] = val;
+			midx_ = (midx_ < idx) ? idx : midx_;
 		}
-		void DMXPacket::set_value16(uint16_t idx, uint8_t val) {
+		void DMXPacket::set_value16(uint16_t idx, const uint8_t val) {
 			if ((idx > 511U) || (idx == 0U)) return;
+
 			uint16_t v = (UINT16_MAX / 256) * val;
-			data__[(idx - 1)] = (v & 0xff);
-			data__[idx] = (v >> 8);
-			midx__ = (midx__ < idx) ? idx : midx__;
+			data_[(idx - 1)] = (v & 0xff);
+			data_[idx] = (v >> 8);
+			midx_ = (midx_ < idx) ? idx : midx_;
 		}
-		void DMXPacket::set_index(size_t val) {
-			if (midx__ > 0) return;
-			midx__ = (val >= 513) ? midx__ : val;
+		void DMXPacket::set_index(const size_t val) {
+			if (midx_ > 0) return;
+			midx_ = (val >= 513) ? midx_ : val;
 		}
 		void DMXPacket::set_blackout(bool b) {
 			blackout = b;
@@ -76,27 +84,8 @@ namespace Common {
 			return blackout;
 		}
 		std::vector<byte> DMXPacket::create() {
-			#if defined(DEV_DMXUSBPRO_ENABLE)
-			/*
-			 * DmxUsbPro device scheme (NOT TESTED)
-			*/
-			size_t szp = size(),
-				   szv = build_size_(szp);
-			uint16_t length = build_length_(szp);
-
-			std::vector<byte> data(szv + 1);
-			data.assign(&dmxhead[0], &dmxhead[5]);
-			data[2] = (length & 0xff);
-			data[3] = (length >> 8);
-			data.insert(data.end(), &data__[0], &data__[szp]);
-			data.push_back(0xe7);
-			return data;
-			#else
-			//return std::vector<byte>(&data__[0], &data__[midx__]);
-			if (blackout)
-				return std::vector<byte>(512);
-			return std::vector<byte>(data__.begin(), data__.end());
-			#endif
+			if (blackout) return std::vector<byte>(512);
+			return std::vector<byte>(data_.begin(), data_.end());
 		}
 	}
 }

@@ -15,17 +15,19 @@ namespace Common {
 	namespace PLUGINS {
 
 		using namespace std::string_view_literals;
+		typedef std::array<uint16_t, 3> dmx_update_t;
 
 		class FLAG_EXPORT LightsPlugin : public IO::Plugin {
 		private:
 			std::atomic<DWORD> time_{ 0U };
 			std::atomic<DWORD> packet_id_{ 0U };
+			std::atomic<bool> dmx_pool_enable_{ false };
 			std::atomic<bool> dmx_pool_active_{ false };
 			std::atomic<bool> dmx_pause_{ false };
+			std::queue<dmx_update_t> queue_{};
 
-			std::unique_ptr<LIGHT::DMXSerial> dmx_;
-			std::unique_ptr<LIGHT::DMXArtnet> artnet_;
-			std::shared_ptr<locker_awaiter> lock_{};
+			std::unique_ptr<LIGHT::DMXSerial> dmx_{};
+			std::unique_ptr<LIGHT::DMXArtnet> artnet_{};
 			LIGHT::DMXPacket dmx_packet_{};
 
 			std::vector<std::pair<uint16_t, std::wstring>> export_list_{};
@@ -50,7 +52,7 @@ namespace Common {
 			bool stop() override;
 			void release() override;
 
-			std::vector<std::pair<uint16_t, std::wstring>>& GetDeviceList() override;
+			IO::export_list_t& GetDeviceList() override;
 			std::any GetDeviceData() override;
 			IO::PluginUi& GetPluginUi() override;
 		};

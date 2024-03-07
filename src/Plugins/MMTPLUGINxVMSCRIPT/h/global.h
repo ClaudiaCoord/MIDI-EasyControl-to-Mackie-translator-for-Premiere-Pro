@@ -23,6 +23,7 @@
 #include "VmScriptUserUnit.h"
 #include "VmScriptUserColor.h"
 #include "VmScriptUserMacro.h"
+#include "VmScriptDebug.h"
 #include "VmScriptsTask.h"
 #include "VmScript.h"
 #include "VmScripts.h"

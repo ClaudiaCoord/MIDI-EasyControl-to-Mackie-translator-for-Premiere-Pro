@@ -72,20 +72,6 @@ namespace Common {
         bool DMXSerial::IsRun() {
             return isrun_.load() && isready_.load();
         }
-        bool DMXSerial::Send(DMXPacket p, bool dup) {
-            if (!IsRun()) return false;
-            try {
-                std::vector<byte> v = p.create();
-                bool b = sp_.send(&v[0], v.size());
-                if (b && dup)
-                    b = sp_.send(&v[0], v.size());
-                if (!b) return reconnect_();
-                return b;
-            } catch (...) {
-                Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-            }
-            return reconnect_();
-        }
         void DMXSerial::Send(std::vector<byte>& v) {
             if (!IsRun()) return;
             try {
@@ -97,20 +83,19 @@ namespace Common {
             }
             reconnect_();
         }
-        bool DMXSerial::Send_async(DMXPacket p, DWORD id, bool dup) {
-            if (!IsRun() || (pkt_id_ >= id)) return false;
+        void DMXSerial::Send_async(std::vector<byte>& v) {
+            if (!IsRun()) return;
             try {
-                pkt_id_ = id;
-                auto f = std::async(std::launch::async, [=](DMXPacket p_) -> bool {
+                auto f = std::async(std::launch::async, [&]() -> void {
                     std::unique_lock<std::mutex> lock(mutex_);
-                    if (pkt_id_ >= id) return true;
-                    return Send(p_, dup);
-                }, p);
-                return f.get();
+                    Send(v);
+                });
+                (void) f.get();
+                return;
             } catch (...) {
                 Utils::get_exception(std::current_exception(), __FUNCTIONW__);
             }
-            return reconnect_();
+            reconnect_();
         }
         std::vector<byte> DMXSerial::Receive() {
             if (!IsRun()) return std::vector<byte>();

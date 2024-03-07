@@ -39,6 +39,7 @@ namespace Common {
 			static void script_enum_unittype(std::shared_ptr<chaiscript::ChaiScript>&);
 			static void script_enum_clicktype(std::shared_ptr<chaiscript::ChaiScript>&);
 			static void script_enum_colorgroups(std::shared_ptr<chaiscript::ChaiScript>&);
+			static void script_enum_colorsgroups(std::shared_ptr<chaiscript::ChaiScript>&);
 			static void script_enum_mackietarget(std::shared_ptr<chaiscript::ChaiScript>&);
 		};
 	}

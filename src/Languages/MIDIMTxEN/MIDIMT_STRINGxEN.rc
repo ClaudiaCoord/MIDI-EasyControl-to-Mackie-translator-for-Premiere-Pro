@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"The configuration has been created anew and requires filling out"
     STRING_EDIT_MSG4	"When opening the editor, the configuration file was specified: '{0}'. Save it with the same name?"
     STRING_EDIT_MSG5	"DMX channel number"
+    STRING_EDIT_MSG6	"MQTT configuration exported successfully"
+    STRING_EDIT_MSG7	"Error exporting MQTT configuration"
+    STRING_EDIT_MSG8	"No duplicate MIDI keys found"
+    STRING_EDIT_MSG9	"{0} duplicate MIDI keys found"
 
     STRING_NOTIFY_MSG1	"the translator is stopped:"
     STRING_NOTIFY_MSG2	"the translator works:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"script 25"
 	IDM_COL5_SCRIPT_B38		"script 26"
 	IDM_COL5_SCRIPT_B39		"script 27"
+	IDM_COL5_SCRIPT_STOP		"Stop all scripts"
+	IDM_COL5_SCRIPT_RELOAD		"Re-read the script directory"
 	IDM_COL5_SCRIPT_EMPTY		"Not assigned"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Please edit the configuration before starting."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"The configuration file"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Executable files"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT configuration files"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"Configuration loaded from file: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"Configuration loaded from driver"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"The selected {0} language will be active after the window is restarted."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"The script engine is running, available scripts: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"The scripting engine has stopped."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Script files"
+	IDS_ERRORID_SCRIPT_CALL			"Run script: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"I'm re-reading the script catalog..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Stopped running scripts: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Failed to open directory: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"The directory with the specified parameters cannot be read, I am finishing monitoring the directory."

@@ -32,9 +32,11 @@ namespace Common {
 		}
 
 		DWORD bridge_in_event::get_timeid_() {
-			if (tmid_ == ULONG_MAX - 1) tmid_ = 1U;
-			else tmid_ += 1U;
-			return static_cast<DWORD>(tmid_.load());
+			DWORD d = static_cast<DWORD>(tmid_.load(std::memory_order_acquire));
+			if (d == ULONG_MAX - 1) d = 1U;
+			else d += 1U;
+			tmid_.store(d, std::memory_order_release);
+			return d;
 		}
 		void bridge_in_event::set_config_cb_(std::shared_ptr<JSON::MMTConfig>& cnf) {
 			try {
@@ -60,8 +62,7 @@ namespace Common {
 		}
 		void bridge_in_event::cbincall2_(MIDI::Mackie::MIDIDATA m, DWORD d2) {
 			wb_.to_async(std::async(std::launch::async, [=](MIDI::Mackie::MIDIDATA m_) {
-				DWORD tmid = get_timeid_();
-				outevent_->CbInCall(m_, tmid);
+				outevent_->CbInCall(m_, get_timeid_());
 			}, std::move(m)));
 		}
 		void bridge_in_event::cbin_(DWORD& d1, DWORD&) {
@@ -114,8 +115,7 @@ namespace Common {
 						static_cast<uint8_t>((d1 & 0x00ff0000) >> 16)
 					);
 				}
-				DWORD tmid = get_timeid_();
-				outevent_->CbInCall(std::move(m), tmid);
+				outevent_->CbInCall(std::move(m), get_timeid_());
 			} catch (...) {}
         }
 	}

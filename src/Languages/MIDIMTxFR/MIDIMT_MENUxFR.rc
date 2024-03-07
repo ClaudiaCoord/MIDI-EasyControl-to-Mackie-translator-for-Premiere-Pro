@@ -556,6 +556,9 @@ DLG_EDIT_LV_COL5_BTN_SCRIPT_MENU MENU
 BEGIN
     POPUP "__COL5 BTN SCRIPT MENU"
     BEGIN
+    MENUITEM "Arrêtez tous les scripts",     IDM_COL4_SYS_Stop
+    MENUITEM "Relisez le répertoire du script", IDM_COL4_SYS_Rewind
+    MENUITEM SEPARATOR
     MENUITEM "scénario 1",                  IDM_COL4_B11
     MENUITEM "scénario 2",                  IDM_COL4_B12
     MENUITEM "scénario 3",                  IDM_COL4_B13

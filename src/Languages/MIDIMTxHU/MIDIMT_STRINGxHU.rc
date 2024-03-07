@@ -31,6 +31,10 @@ BEGIN
     STRING_EDIT_MSG3	"A konfigurációt újra létrehozták, és ki kell tölteni"
     STRING_EDIT_MSG4	"A szerkesztő megnyitásakor a konfigurációs fájl megadva: '{0}'. Elmenti ugyanazzal a névvel?"
     STRING_EDIT_MSG5	"DMX csatorna száma"
+    STRING_EDIT_MSG6	"Az MQTT konfiguráció sikeresen exportálva"
+    STRING_EDIT_MSG7	"Hiba az MQTT konfiguráció exportálása során"
+    STRING_EDIT_MSG8	"Nem található duplikált MIDI-kulcs"
+    STRING_EDIT_MSG9	"{0} ismétlődő MIDI-kulcs található"
 
     STRING_NOTIFY_MSG1	"a fordító leáll:"
     STRING_NOTIFY_MSG2	"a fordító dolgozik:"
@@ -226,6 +230,8 @@ BEGIN
 	IDM_COL5_SCRIPT_B37		"forgatókönyv 25"
 	IDM_COL5_SCRIPT_B38		"forgatókönyv 26"
 	IDM_COL5_SCRIPT_B39		"forgatókönyv 27"
+	IDM_COL5_SCRIPT_STOP		"Állítsa le az összes szkriptet"
+	IDM_COL5_SCRIPT_RELOAD		"Olvassa el újra a script könyvtárat"
 	IDM_COL5_SCRIPT_EMPTY		"Nem kijelölt"
 END
 
@@ -339,6 +345,7 @@ BEGIN
 	IDS_ERRORID_MIDIMT_CONFEDIT		"Mielőtt elkezdené, módosítsa a konfigurációt."
 	IDS_ERRORID_MIDIMT_CONFFILTER		"A konfigurációs fájl"
 	IDS_ERRORID_MIDIMT_EXEFILTER		"Futtatható fájlok"
+	IDS_ERRORID_MIDIMT_JSONFILTER		"MQTT konfigurációs fájlok"
 	IDS_ERRORID_MIDIMT_CONFFROMFILE		"A konfiguráció betöltve a következő fájlból: {0}"
 	IDS_ERRORID_MIDIMT_CONFFROMDRV		"A konfiguráció betöltve az illesztőprogramból"
 	IDS_ERRORID_MIDIMT_LANG_ACTIVE		"A kiválasztott {0} nyelv az ablak újraindítása után lesz aktív."
@@ -371,6 +378,9 @@ BEGIN
 	IDS_ERRORID_SCRIPT_START		"A szkriptmotor fut, elérhető szkriptek: {0}."
 	IDS_ERRORID_SCRIPT_STOP			"A szkriptmotor leállt."
 	IDS_ERRORID_SCRIPT_DIRFILTER		"Script fájlok"
+	IDS_ERRORID_SCRIPT_CALL			"Szkript futtatása: {0}"
+	IDS_ERRORID_SCRIPT_RESCAN		"Újraolvasom a forgatókönyv-katalógust..."
+	IDS_ERRORID_SCRIPT_STOPALL		"Leállított szkriptek: {0}"
 
 	IDS_ERRORID_FILEWATCH_OPEN		"Nem sikerült megnyitni a következő könyvtárat: {0}"
 	IDS_ERRORID_FILEWATCH_PARAM		"A megadott paraméterekkel rendelkező könyvtár nem olvasható, befejezem a könyvtár figyelését."

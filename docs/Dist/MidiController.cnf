@@ -58,7 +58,7 @@
     "enable": true,
     "port": 8888,
     "host": "192.168.1.105",
-    "ua": "MIDI-MT, Version 1.0.6.3 (x64) Release, (Windows 10.0.22621.0)",
+    "ua": "MIDI-MT, Version 1.0.6.4 (x64) Release, (Windows 10.0.22621.0)",
     "tmreq": 5,
     "tmidle": 0,
     "loglevel": 4,
@@ -78,16 +78,56 @@
   },
   "vmscript": {
     "enable": true,
-    "watch": false,
+    "matchlib": true,
+    "stringlib": true,
+    "wstringlib": true,
+    "debug": false,
+    "watch": true,
     "directory": "",
-    "scripts": []
+    "scripts": [
+      "example-change-HSV-color-constant.mmts",
+      "example-change-HSV-color.mmts",
+      "example-change-HSV-brightness.mmts",
+      "example-change-HSV-saturation.mmts",
+      "api-example"
+    ]
   },
   "config": {
     "name": "MidiController",
     "autostart": true,
-    "build": "1.0.6.3"
+    "build": "1.0.6.4"
   },
   "units": [
+    {
+      "scene": 179,
+      "id": 1,
+      "type": 3,
+      "target": 249,
+      "longtarget": 27,
+      "onoff": true,
+      "value": 127,
+      "apps": [
+        "6-0-change-HSB-constant-color"
+      ]
+    },
+    {
+      "scene": 178,
+      "id": 1,
+      "type": 3,
+      "target": 252,
+      "longtarget": 32,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 176,
+      "id": 1,
+      "type": 3,
+      "target": 252,
+      "longtarget": 33,
+      "onoff": false,
+      "value": 64
+    },
     {
       "scene": 177,
       "id": 1,
@@ -99,28 +139,31 @@
     },
     {
       "scene": 179,
-      "id": 1,
+      "id": 2,
       "type": 3,
-      "target": 251,
-      "longtarget": 10,
+      "target": 249,
+      "longtarget": 28,
       "onoff": false,
-      "value": 64
+      "value": 0,
+      "apps": [
+        "7-0-change-HSB-color"
+      ]
     },
     {
       "scene": 176,
-      "id": 1,
+      "id": 2,
       "type": 3,
       "target": 252,
-      "longtarget": 33,
+      "longtarget": 32,
       "onoff": false,
       "value": 64
     },
     {
       "scene": 178,
-      "id": 1,
+      "id": 2,
       "type": 3,
       "target": 252,
-      "longtarget": 32,
+      "longtarget": 33,
       "onoff": false,
       "value": 64
     },
@@ -130,42 +173,6 @@
       "type": 3,
       "target": 51,
       "longtarget": 55,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 179,
-      "id": 2,
-      "type": 3,
-      "target": 251,
-      "longtarget": 11,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 176,
-      "id": 2,
-      "type": 3,
-      "target": 252,
-      "longtarget": 32,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 178,
-      "id": 2,
-      "type": 3,
-      "target": 252,
-      "longtarget": 33,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 177,
-      "id": 3,
-      "type": 1,
-      "target": 14,
-      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -180,9 +187,9 @@
     },
     {
       "scene": 177,
-      "id": 4,
+      "id": 3,
       "type": 1,
-      "target": 15,
+      "target": 14,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -198,9 +205,9 @@
     },
     {
       "scene": 177,
-      "id": 5,
+      "id": 4,
       "type": 1,
-      "target": 16,
+      "target": 15,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -216,9 +223,9 @@
     },
     {
       "scene": 177,
-      "id": 6,
+      "id": 5,
       "type": 1,
-      "target": 17,
+      "target": 16,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -234,9 +241,9 @@
     },
     {
       "scene": 177,
-      "id": 7,
+      "id": 6,
       "type": 1,
-      "target": 18,
+      "target": 17,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -252,12 +259,21 @@
     },
     {
       "scene": 177,
-      "id": 8,
+      "id": 7,
       "type": 1,
-      "target": 19,
+      "target": 18,
       "longtarget": 255,
       "onoff": false,
       "value": 64
+    },
+    {
+      "scene": 179,
+      "id": 8,
+      "type": 1,
+      "target": 251,
+      "longtarget": 10,
+      "onoff": false,
+      "value": 0
     },
     {
       "scene": 176,
@@ -269,29 +285,24 @@
       "value": 64
     },
     {
-      "scene": 176,
-      "id": 9,
-      "type": 7,
-      "target": 254,
-      "longtarget": 13,
+      "scene": 177,
+      "id": 8,
+      "type": 1,
+      "target": 19,
+      "longtarget": 255,
       "onoff": false,
-      "value": 85,
-      "apps": [
-        "master",
-        "ShellExperienceHost"
-      ]
+      "value": 64
     },
     {
-      "scene": 177,
+      "scene": 179,
       "id": 9,
       "type": 7,
       "target": 254,
       "longtarget": 13,
-      "onoff": false,
-      "value": 85,
+      "onoff": true,
+      "value": 127,
       "apps": [
-        "master",
-        "ShellExperienceHost"
+        "master"
       ]
     },
     {
@@ -308,7 +319,20 @@
       ]
     },
     {
-      "scene": 179,
+      "scene": 177,
+      "id": 9,
+      "type": 7,
+      "target": 254,
+      "longtarget": 13,
+      "onoff": false,
+      "value": 85,
+      "apps": [
+        "master",
+        "ShellExperienceHost"
+      ]
+    },
+    {
+      "scene": 176,
       "id": 9,
       "type": 7,
       "target": 254,
@@ -330,13 +354,13 @@
       "value": 64
     },
     {
-      "scene": 177,
+      "scene": 179,
       "id": 11,
       "type": 1,
-      "target": 20,
-      "longtarget": 255,
+      "target": 251,
+      "longtarget": 15,
       "onoff": false,
-      "value": 64
+      "value": 0
     },
     {
       "scene": 176,
@@ -349,9 +373,9 @@
     },
     {
       "scene": 177,
-      "id": 12,
+      "id": 11,
       "type": 1,
-      "target": 21,
+      "target": 20,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -367,18 +391,18 @@
     },
     {
       "scene": 177,
-      "id": 13,
+      "id": 12,
       "type": 1,
-      "target": 1,
+      "target": 21,
       "longtarget": 255,
       "onoff": false,
       "value": 64
     },
     {
       "scene": 177,
-      "id": 14,
+      "id": 13,
       "type": 1,
-      "target": 5,
+      "target": 1,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -393,15 +417,6 @@
       "value": 47
     },
     {
-      "scene": 178,
-      "id": 14,
-      "type": 1,
-      "target": 252,
-      "longtarget": 5,
-      "onoff": false,
-      "value": 64
-    },
-    {
       "scene": 176,
       "id": 14,
       "type": 1,
@@ -411,10 +426,19 @@
       "value": 64
     },
     {
-      "scene": 177,
-      "id": 15,
+      "scene": 178,
+      "id": 14,
       "type": 1,
-      "target": 6,
+      "target": 252,
+      "longtarget": 5,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 177,
+      "id": 14,
+      "type": 1,
+      "target": 5,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -425,17 +449,8 @@
       "type": 1,
       "target": 251,
       "longtarget": 2,
-      "onoff": true,
-      "value": 75
-    },
-    {
-      "scene": 178,
-      "id": 15,
-      "type": 1,
-      "target": 252,
-      "longtarget": 6,
       "onoff": false,
-      "value": 64
+      "value": 0
     },
     {
       "scene": 176,
@@ -450,10 +465,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 16,
+      "scene": 178,
+      "id": 15,
       "type": 1,
-      "target": 7,
+      "target": 252,
+      "longtarget": 6,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 177,
+      "id": 15,
+      "type": 1,
+      "target": 6,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -464,17 +488,8 @@
       "type": 1,
       "target": 251,
       "longtarget": 3,
-      "onoff": true,
-      "value": 75
-    },
-    {
-      "scene": 178,
-      "id": 16,
-      "type": 1,
-      "target": 252,
-      "longtarget": 7,
       "onoff": false,
-      "value": 64
+      "value": 0
     },
     {
       "scene": 176,
@@ -489,10 +504,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 17,
+      "scene": 178,
+      "id": 16,
       "type": 1,
-      "target": 8,
+      "target": 252,
+      "longtarget": 7,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 177,
+      "id": 16,
+      "type": 1,
+      "target": 7,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -502,18 +526,9 @@
       "id": 17,
       "type": 1,
       "target": 251,
-      "longtarget": 6,
-      "onoff": true,
-      "value": 20
-    },
-    {
-      "scene": 178,
-      "id": 17,
-      "type": 1,
-      "target": 252,
-      "longtarget": 8,
+      "longtarget": 7,
       "onoff": false,
-      "value": 64
+      "value": 0
     },
     {
       "scene": 176,
@@ -530,10 +545,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 18,
+      "scene": 178,
+      "id": 17,
       "type": 1,
-      "target": 9,
+      "target": 252,
+      "longtarget": 8,
+      "onoff": false,
+      "value": 64
+    },
+    {
+      "scene": 177,
+      "id": 17,
+      "type": 1,
+      "target": 8,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -543,16 +567,7 @@
       "id": 18,
       "type": 1,
       "target": 251,
-      "longtarget": 7,
-      "onoff": false,
-      "value": 60
-    },
-    {
-      "scene": 178,
-      "id": 18,
-      "type": 1,
-      "target": 252,
-      "longtarget": 9,
+      "longtarget": 8,
       "onoff": false,
       "value": 0
     },
@@ -570,10 +585,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 19,
+      "scene": 178,
+      "id": 18,
       "type": 1,
-      "target": 10,
+      "target": 252,
+      "longtarget": 9,
+      "onoff": false,
+      "value": 0
+    },
+    {
+      "scene": 177,
+      "id": 18,
+      "type": 1,
+      "target": 9,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -583,16 +607,7 @@
       "id": 19,
       "type": 1,
       "target": 251,
-      "longtarget": 8,
-      "onoff": true,
-      "value": 77
-    },
-    {
-      "scene": 178,
-      "id": 19,
-      "type": 1,
-      "target": 252,
-      "longtarget": 10,
+      "longtarget": 11,
       "onoff": false,
       "value": 0
     },
@@ -609,10 +624,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 20,
+      "scene": 178,
+      "id": 19,
       "type": 1,
-      "target": 11,
+      "target": 252,
+      "longtarget": 10,
+      "onoff": false,
+      "value": 0
+    },
+    {
+      "scene": 177,
+      "id": 19,
+      "type": 1,
+      "target": 10,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -622,16 +646,7 @@
       "id": 20,
       "type": 1,
       "target": 251,
-      "longtarget": 9,
-      "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 178,
-      "id": 20,
-      "type": 1,
-      "target": 252,
-      "longtarget": 11,
+      "longtarget": 12,
       "onoff": false,
       "value": 0
     },
@@ -648,10 +663,19 @@
       ]
     },
     {
-      "scene": 177,
-      "id": 21,
+      "scene": 178,
+      "id": 20,
       "type": 1,
-      "target": 12,
+      "target": 252,
+      "longtarget": 11,
+      "onoff": false,
+      "value": 0
+    },
+    {
+      "scene": 177,
+      "id": 20,
+      "type": 1,
+      "target": 11,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -661,18 +685,9 @@
       "id": 21,
       "type": 1,
       "target": 251,
-      "longtarget": 5,
+      "longtarget": 13,
       "onoff": false,
-      "value": 64
-    },
-    {
-      "scene": 178,
-      "id": 21,
-      "type": 1,
-      "target": 252,
-      "longtarget": 12,
-      "onoff": false,
-      "value": 0
+      "value": 5
     },
     {
       "scene": 176,
@@ -688,13 +703,34 @@
       ]
     },
     {
+      "scene": 178,
+      "id": 21,
+      "type": 1,
+      "target": 252,
+      "longtarget": 12,
+      "onoff": false,
+      "value": 0
+    },
+    {
       "scene": 177,
-      "id": 22,
-      "type": 0,
-      "target": 0,
+      "id": 21,
+      "type": 1,
+      "target": 12,
       "longtarget": 255,
       "onoff": false,
       "value": 64
+    },
+    {
+      "scene": 179,
+      "id": 22,
+      "type": 1,
+      "target": 254,
+      "longtarget": 13,
+      "onoff": false,
+      "value": 108,
+      "apps": [
+        "master"
+      ]
     },
     {
       "scene": 176,
@@ -702,8 +738,8 @@
       "type": 1,
       "target": 254,
       "longtarget": 13,
-      "onoff": false,
-      "value": 85,
+      "onoff": true,
+      "value": 127,
       "apps": [
         "master",
         "ShellExperienceHost"
@@ -711,10 +747,10 @@
     },
     {
       "scene": 177,
-      "id": 23,
-      "type": 3,
-      "target": 23,
-      "longtarget": 32,
+      "id": 22,
+      "type": 0,
+      "target": 0,
+      "longtarget": 255,
       "onoff": false,
       "value": 64
     },
@@ -747,10 +783,10 @@
     },
     {
       "scene": 177,
-      "id": 24,
+      "id": 23,
       "type": 3,
-      "target": 24,
-      "longtarget": 33,
+      "target": 23,
+      "longtarget": 32,
       "onoff": false,
       "value": 64
     },
@@ -786,10 +822,10 @@
     },
     {
       "scene": 177,
-      "id": 25,
+      "id": 24,
       "type": 3,
-      "target": 25,
-      "longtarget": 34,
+      "target": 24,
+      "longtarget": 33,
       "onoff": false,
       "value": 64
     },
@@ -817,18 +853,18 @@
       "type": 3,
       "target": 254,
       "longtarget": 34,
-      "onoff": true,
-      "value": 127,
+      "onoff": false,
+      "value": 0,
       "apps": [
         "cohost"
       ]
     },
     {
       "scene": 177,
-      "id": 26,
+      "id": 25,
       "type": 3,
-      "target": 26,
-      "longtarget": 35,
+      "target": 25,
+      "longtarget": 34,
       "onoff": false,
       "value": 64
     },
@@ -837,7 +873,7 @@
       "id": 26,
       "type": 3,
       "target": 251,
-      "longtarget": 6,
+      "longtarget": 7,
       "onoff": false,
       "value": 64
     },
@@ -866,10 +902,10 @@
     },
     {
       "scene": 177,
-      "id": 27,
+      "id": 26,
       "type": 3,
-      "target": 27,
-      "longtarget": 36,
+      "target": 26,
+      "longtarget": 35,
       "onoff": false,
       "value": 64
     },
@@ -878,7 +914,7 @@
       "id": 27,
       "type": 3,
       "target": 251,
-      "longtarget": 7,
+      "longtarget": 8,
       "onoff": false,
       "value": 64
     },
@@ -905,10 +941,10 @@
     },
     {
       "scene": 177,
-      "id": 28,
+      "id": 27,
       "type": 3,
-      "target": 28,
-      "longtarget": 37,
+      "target": 27,
+      "longtarget": 36,
       "onoff": false,
       "value": 64
     },
@@ -917,9 +953,9 @@
       "id": 28,
       "type": 3,
       "target": 251,
-      "longtarget": 8,
+      "longtarget": 16,
       "onoff": false,
-      "value": 64
+      "value": 0
     },
     {
       "scene": 178,
@@ -944,10 +980,10 @@
     },
     {
       "scene": 177,
-      "id": 29,
+      "id": 28,
       "type": 3,
-      "target": 29,
-      "longtarget": 38,
+      "target": 28,
+      "longtarget": 37,
       "onoff": false,
       "value": 64
     },
@@ -983,10 +1019,10 @@
     },
     {
       "scene": 177,
-      "id": 30,
+      "id": 29,
       "type": 3,
-      "target": 30,
-      "longtarget": 39,
+      "target": 29,
+      "longtarget": 38,
       "onoff": false,
       "value": 64
     },
@@ -1023,10 +1059,10 @@
     },
     {
       "scene": 177,
-      "id": 31,
+      "id": 30,
       "type": 3,
-      "target": 3,
-      "longtarget": 255,
+      "target": 30,
+      "longtarget": 39,
       "onoff": false,
       "value": 64
     },
@@ -1045,9 +1081,9 @@
     },
     {
       "scene": 177,
-      "id": 33,
+      "id": 31,
       "type": 3,
-      "target": 57,
+      "target": 3,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1062,6 +1098,15 @@
       "value": 64
     },
     {
+      "scene": 179,
+      "id": 33,
+      "type": 3,
+      "target": 249,
+      "longtarget": 66,
+      "onoff": false,
+      "value": 127
+    },
+    {
       "scene": 176,
       "id": 33,
       "type": 3,
@@ -1072,9 +1117,9 @@
     },
     {
       "scene": 177,
-      "id": 34,
+      "id": 33,
       "type": 3,
-      "target": 66,
+      "target": 57,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1090,9 +1135,9 @@
     },
     {
       "scene": 177,
-      "id": 35,
+      "id": 34,
       "type": 3,
-      "target": 67,
+      "target": 66,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1108,9 +1153,9 @@
     },
     {
       "scene": 177,
-      "id": 36,
+      "id": 35,
       "type": 3,
-      "target": 68,
+      "target": 67,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1125,10 +1170,19 @@
       "value": 64
     },
     {
-      "scene": 177,
-      "id": 37,
+      "scene": 179,
+      "id": 36,
       "type": 3,
-      "target": 69,
+      "target": 249,
+      "longtarget": 68,
+      "onoff": false,
+      "value": 127
+    },
+    {
+      "scene": 177,
+      "id": 36,
+      "type": 3,
+      "target": 68,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1144,9 +1198,9 @@
     },
     {
       "scene": 177,
-      "id": 38,
+      "id": 37,
       "type": 3,
-      "target": 54,
+      "target": 69,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1162,9 +1216,9 @@
     },
     {
       "scene": 177,
-      "id": 64,
+      "id": 38,
       "type": 3,
-      "target": 53,
+      "target": 54,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1173,22 +1227,25 @@
       "scene": 179,
       "id": 64,
       "type": 3,
-      "target": 251,
-      "longtarget": 12,
+      "target": 249,
+      "longtarget": 29,
       "onoff": false,
-      "value": 64
+      "value": 64,
+      "apps": [
+        "7-1-change-HSB-brightness"
+      ]
     },
     {
-      "scene": 176,
+      "scene": 178,
       "id": 64,
       "type": 3,
       "target": 252,
       "longtarget": 34,
       "onoff": false,
-      "value": 64
+      "value": 24
     },
     {
-      "scene": 178,
+      "scene": 176,
       "id": 64,
       "type": 3,
       "target": 252,
@@ -1198,9 +1255,9 @@
     },
     {
       "scene": 177,
-      "id": 67,
+      "id": 64,
       "type": 3,
-      "target": 52,
+      "target": 53,
       "longtarget": 255,
       "onoff": false,
       "value": 64
@@ -1209,8 +1266,20 @@
       "scene": 179,
       "id": 67,
       "type": 3,
-      "target": 251,
-      "longtarget": 13,
+      "target": 249,
+      "longtarget": 30,
+      "onoff": false,
+      "value": 64,
+      "apps": [
+        "7-2-change-HSB-saturation"
+      ]
+    },
+    {
+      "scene": 178,
+      "id": 67,
+      "type": 3,
+      "target": 252,
+      "longtarget": 35,
       "onoff": false,
       "value": 64
     },
@@ -1224,11 +1293,11 @@
       "value": 64
     },
     {
-      "scene": 178,
+      "scene": 177,
       "id": 67,
       "type": 3,
-      "target": 252,
-      "longtarget": 35,
+      "target": 52,
+      "longtarget": 255,
       "onoff": false,
       "value": 64
     }

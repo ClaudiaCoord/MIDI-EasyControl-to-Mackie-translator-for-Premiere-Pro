@@ -15,87 +15,60 @@ namespace Common {
 	namespace SCRIPT {
 
 		#pragma region Color Constant
-		constexpr size_t IDX_POSITION{ 3U };
-
 		uint32_t ColorConstant::count_{ 0U };
-		color_t  ColorConstant::colors_black_ = {
-			0, 0, 0, 255
-		};
-		colorscale_t ColorConstant::colors_scale_ = {
-			color_t { 255, 0,   0,   0   }, /* red */
-			color_t { 255, 0,   255, 42  }, /* yellow */
-			color_t { 0,   0,   255, 84  }, /* lime */
-			color_t { 0,   255, 255, 126 }, /* aqua */
-			color_t { 0,   255, 0,   168 }, /* blue */
-			color_t { 255, 255, 0,   210 }, /* magenta */
-			color_t { 255, 0,   0,   255 }  /* red */
-		};
-
-		static inline const bool color_t_equals__(const color_t& c1, const color_t& c2) {
-			return (c1.at(0) == c2.at(0)) && (c1.at(1) == c2.at(1)) && (c1.at(2) == c2.at(2));
+		static inline size_t index_color__(const LIGHT::UTILS::ColorControl::ColorGroup& t) {
+			return static_cast<size_t>(std::to_underlying(t));
 		}
-		static inline uint16_t color_index__(const ColorGroup& t) {
-			return static_cast<uint16_t>(t);
-		}
-		static inline void calc_colors__(UnitDef c[4], color_t& left, color_t& right, double weight = 0.0, double weightneg = 0.0) {
-			c[0].SetValue(static_cast<uint8_t>(std::round(left[0] * weightneg + right[0] * weight)));
-			c[1].SetValue(static_cast<uint8_t>(std::round(left[1] * weightneg + right[1] * weight)));
-			c[2].SetValue(static_cast<uint8_t>(std::round(left[2] * weightneg + right[2] * weight)));
-		}
-		static inline void calc_lights__(UnitDef& c, double l) {
-			if (c.empty()) return;
-			c.SetValue(static_cast<uint8_t>(max_(0.0, std::round(c.GetValue() - l)) ));
-		}
-
 		uint32_t ColorConstant::GetNextColorGroup() {
 			return ++ColorConstant::count_;
 		}
-		void ColorConstant::CallcColor(UnitDef c[4], const uint8_t pos) {
-			size_t	id{ 0 },
-					sz{ ColorConstant::colors_scale_.size() - 1 };
-			color_t& left{ ColorConstant::colors_scale_.at(0) },
-					 right{ ColorConstant::colors_black_ };
+		#pragma endregion
 
-			for (size_t i = 0U; i < ColorConstant::colors_scale_.size(); i++) {
-				if ((pos >= ColorConstant::colors_scale_.at(i).at(IDX_POSITION)) && (pos > left.at(IDX_POSITION))) {
-					left = ColorConstant::colors_scale_.at(i);
-					id = i;
-				}
-			}
-			if (sz == id)
-				right = ColorConstant::colors_scale_.at(id);
-			else if (sz > id)
-				right = ColorConstant::colors_scale_.at(id + 1);
-			else if (sz < id)
-				right = ColorConstant::colors_scale_.at(sz);
+		#pragma region ColorCorrector
+		ColorCorrector::ColorCorrector(const LIGHT::UTILS::color_rgbw_corrector_t& r) : corrector_(r) {
+		}
+		ColorCorrector::ColorCorrector(const int8_t r, const int8_t g, const int8_t b, const int8_t w) {
+			copy_(r, g, b, w);
+		}
 
-			if (color_t_equals__(left, right))
-				calc_colors__(c, left, left);
-			else {
-				double	offset = pos - left.at(IDX_POSITION),
-						weight = (offset > 0) ? (offset / (offset + right.at(IDX_POSITION) - pos)) : 0.0,
-						weightneg = 1.0 - weight;
-				calc_colors__(c, left, right, weight, weightneg);
+		int8_t ColorCorrector::operator[](const int i) {
+			switch (i) {
+				case 0: return corrector_[0];
+				case 1: return corrector_[1];
+				case 2: return corrector_[2];
+				case 3: return corrector_[3];
+				default: return 0;
 			}
 		}
-		void ColorConstant::CallcLights(UnitDef c[4], const uint8_t light) {
-			double l = std::floor(double(light / 100.0) * 255.0);
-			calc_lights__(c[0], l);
-			calc_lights__(c[1], l);
-			calc_lights__(c[2], l);
-			calc_lights__(c[3], l);
+
+		void ColorCorrector::copy_(const int8_t r, const int8_t g, const int8_t b, const int8_t w) {
+			corrector_[0] = r;
+			corrector_[1] = g;
+			corrector_[2] = b;
+			corrector_[3] = w;
 		}
-		std::wstring ColorConstant::ColorHelper(const ColorGroup& t) {
-			switch (t) {
-				using enum ColorGroup;
-				case RED: return L"RED";
-				case BLUE: return L"BLUE";
-				case GREEN: return L"GREEN";
-				case WHITE: return L"WHITE";
-				default: return L"-";
-			}
+		void ColorCorrector::set(const int8_t r, const int8_t g, const int8_t b, const int8_t w) {
+			copy_(r, g, b, w);
+		}
+		LIGHT::UTILS::color_rgbw_corrector_t& ColorCorrector::get() {
+			return std::ref(corrector_);
+		}
+		const bool ColorCorrector::empty() const {
+			return !corrector_[0] && !corrector_[1] && !corrector_[2] && !corrector_[3];
+		}
+		std::wstring ColorCorrector::dump() const {
+			return (log_string()
+				<< L"[ r:" << (int16_t)corrector_[0]
+				<< L", g:" << (int16_t)corrector_[1]
+				<< L", b:" << (int16_t)corrector_[2]
+				<< L", w:" << (int16_t)corrector_[3]
+				<< L" ]\n");
+		}
+		std::string  ColorCorrector::dump_s() const {
+			return Utils::from_string(dump());
 		}
 		#pragma endregion
+
 
 		#pragma region RGBWColor
 		RGBWColor::RGBWColor(const std::vector<uint8_t>& r, const std::vector<uint8_t>& g, const std::vector<uint8_t>& b)
@@ -108,24 +81,83 @@ namespace Common {
 
 			set_groups_(r, g, b, w);
 		}
+		RGBWColor::RGBWColor(const RGBWColor& c) {
+			group_ = c.group_;
+			units_ = c.units_;
+			rgbw = c.rgbw;
+			hsb = c.hsb;
+		}
 
 		#pragma region private
-		void RGBWColor::set_groups_(const std::vector<uint8_t>& r, const std::vector<uint8_t>& g, const std::vector<uint8_t>& b, const std::vector<uint8_t>& w) {
-			colors_[0] = UnitDef(r, 0U);
-			colors_[1] = UnitDef(g, 0U);
-			colors_[2] = UnitDef(b, 0U);
-			colors_[3] = (w.size() > 1) ? UnitDef(w, 0U) : UnitDef();
+		#define _CORRECT_COLOR_GET(A,B,C) (A[C]) ? static_cast<uint8_t>(A[C] + ((A[C] / 255) * B[C])) : 0
+		#define _CORRECT_COLOR_SET(A,C) (A[C]) ? static_cast<int8_t>(std::floor(A[C] / 100)) : 0
+
+		void RGBWColor::set_to_base_(const LIGHT::UTILS::color_rgbw_t& c) {
+			if (ccr_.empty()) {
+				units_[0].SetValue(c[0]);
+				units_[1].SetValue(c[1]);
+				units_[2].SetValue(c[2]);
+				units_[3].SetValue(c[3]);
+				return;
+			}
+			units_[0].SetValue(_CORRECT_COLOR_GET(c, ccr_, 0));
+			units_[1].SetValue(_CORRECT_COLOR_GET(c, ccr_, 1));
+			units_[2].SetValue(_CORRECT_COLOR_GET(c, ccr_, 2));
+			units_[2].SetValue(_CORRECT_COLOR_GET(c, ccr_, 3));
 		}
-		void RGBWColor::changed_colors_() {
+
+		void RGBWColor::set_groups_(const std::vector<uint8_t>& r, const std::vector<uint8_t>& g, const std::vector<uint8_t>& b, const std::vector<uint8_t>& w) {
+			units_[0] = (r.size() > 1) ? UnitDef(r, 0U) : UnitDef();
+			units_[1] = (g.size() > 1) ? UnitDef(g, 0U) : UnitDef();
+			units_[2] = (b.size() > 1) ? UnitDef(b, 0U) : UnitDef();
+			units_[3] = (w.size() > 1) ? UnitDef(w, 0U) : UnitDef();
+		}
+		void RGBWColor::set_color_apply_(const LIGHT::UTILS::ColorControl::ColorsGroup& t) {
+			try {
+				const LIGHT::UTILS::color_hsv_t& ref = ColorControl::get_color(t);
+
+				std::lock_guard<std::mutex> lock(mlock_);
+				ColorControl::set_HSB_color(ref);
+				set_to_base_(rgbw.GetRef());
+				apply_();
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void RGBWColor::set_color_apply_() {
+			try {
+				std::lock_guard<std::mutex> lock(mlock_);
+				ColorControl::set_HSB_color();
+				set_to_base_(rgbw.GetRef());
+				apply_();
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void RGBWColor::apply_() const {
+			if (!is_update_async) [[likely]] update_apply_();
+			else [[unlikely]] update_apply_async_();
+		}
+		void RGBWColor::update_apply_() const {
 			try {
 				if (!ActionConstant::IsUpdate()) return;
+				for (auto& u : units_)
+					if (!u.empty())
+						ActionConstant::UpdateSlider(u.GetScene(), u.GetKey(), u.GetValue());
 
-				worker_background::Get().to_async(std::async(std::launch::async, [=](const UnitDef clr[4], const size_t sz) {
-
-					for (size_t i = 0U; i < sz; i++)
-						if (!clr[i].empty())
-							ActionConstant::UpdateSlider(clr[i].GetScene(), clr[i].GetKey(), clr[i].GetValue());
-				}, std::ref(colors_), std::size(colors_)));
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void RGBWColor::update_apply_async_() const {
+			try {
+				if (!ActionConstant::IsUpdate()) return;
+				worker_background::Get().to_async(std::async(std::launch::async, [=]() {
+					update_apply_();
+				}));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
@@ -134,147 +166,211 @@ namespace Common {
 		#pragma endregion
 
 		void RGBWColor::ApplyValues() {
-			changed_colors_();
-		}
-		void RGBWColor::SetValues(const uint8_t pos, const uint8_t light) {
 			if (empty()) return;
-
-			ColorConstant::CallcColor(colors_, pos);
-			SetLight(light);
+			apply_();
 		}
 		void RGBWColor::UpdateValues() {
 			try {
 				if (empty()) return;
 
 				worker_background::Get().to_async(
-					std::async(std::launch::async, [=](UnitDef clr[4], const size_t sz) {
+					std::async(std::launch::async, [=]() {
 					try {
-						uint8_t found{ 0 }, count{ 0 };
-						for (auto& c : colors_)
+						uint8_t count{ 0U };
+						for (const auto& c : units_)
 							count += (c.empty() ? 0 : 1U);
 
 						if (!count) return;
 
 						auto& mmt = common_config::Get().GetConfig();
-						for (auto& a : mmt->units) {
-							if (a.target == MIDI::Mackie::Target::VMSCRIPT) {
-								for (size_t i = 0U; i < sz; i++) {
-									UnitDef& ud = clr[i];
-									if (!ud.empty()) {
-										if ((a.scene == ud.GetScene()) && (a.key == ud.GetKey())) {
-											ud.SetValue(a.value.value);
-											found++;
-											break;
-										}
-									}
+						if (mmt->empty()) return;
+
+						std::lock_guard<std::mutex> lock(mlock_);
+
+						for (const auto& a : mmt->units) {
+							for (auto& u : units_) {
+								if (u.empty()) continue;
+								if ((a.scene == u.GetScene()) && (a.key == u.GetKey()) && (a.type == u.GetType())) {
+									u.SetValue(a.value.value);
+									break;
 								}
-								if (found == count) break;
 							}
 						}
 					} catch (...) {}
 
-				}, std::ref(colors_), std::size(colors_)));
+				}));
 
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
 		}
 
-		[[maybe_unused]] void RGBWColor::SetColor(const std::vector<uint8_t>& v) {
-			if (empty() || v.empty()) return;
+		RGBWColor& RGBWColor::SetColor(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t w) {
+			if (empty()) return reinterpret_cast<RGBWColor&>(*this);
+			try {
+				std::lock_guard<std::mutex> lock(mlock_);
 
-			if (v.size())
-				colors_[0].SetValue(v[0]);
-			if (v.size() > 1)
-				colors_[1].SetValue(v[1]);
-			if (v.size() > 2)
-				colors_[2].SetValue(v[2]);
-			if (v.size() > 3)
-				colors_[3].SetValue(v[3]);
-			ColorConstant::CallcLights(colors_, light_);
-			changed_colors_();
-		}
-		[[maybe_unused]] void RGBWColor::SetColor(const ColorGroup t, const uint8_t c) {
-			if (empty()) return;
+				ColorControl::set_RGB_color(r, g, b, w);
+				set_to_base_(rgbw.GetRef());
+				apply_();
 
-			colors_[static_cast<uint16_t>(t)].SetValue(c);
-			ColorConstant::CallcLights(colors_, light_);
-			changed_colors_();
-		}
-
-		void RGBWColor::SetColor(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t w) {
-			if (empty()) return;
-
-			colors_[0].SetValue(r);
-			colors_[1].SetValue(g);
-			colors_[2].SetValue(b);
-			colors_[3].SetValue(w);
-			ColorConstant::CallcLights(colors_, light_);
-			changed_colors_();
-		}
-		void RGBWColor::SetColor(const uint8_t r, const uint8_t g, const uint8_t b) {
-			SetColor(r, g, b, 0);
-		}
-		void RGBWColor::SetColor(const uint8_t pos) {
-			if (empty()) return;
-			ColorConstant::CallcColor(colors_, pos);
-		}
-
-		void RGBWColor::SetLight() {
-			if (empty()) return;
-			ColorConstant::CallcLights(colors_, light_);
-		}
-		void RGBWColor::SetLight(const uint8_t light) {
-			if (empty()) return;
-
-			uint8_t l_ = (light > 100) ? 100 : light;
-			if (light_ == l_) {
-				if (light_)	ColorConstant::CallcLights(colors_, light_);
-				return;
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			light_ = l_;
-			if (light_)	ColorConstant::CallcLights(colors_, light_);
+			return reinterpret_cast<RGBWColor&>(*this);
 		}
-		void RGBWColor::SetLight(const uint8_t light, const bool isup) {
+		RGBWColor& RGBWColor::SetColor(const LIGHT::UTILS::ColorControl::ColorsGroup& t) {
+			if (empty()) return reinterpret_cast<RGBWColor&>(*this);
+			set_color_apply_(t);
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+		RGBWColor& RGBWColor::SetColorCorrector(ColorCorrector& c) {
+			ccr_.set(
+				_CORRECT_COLOR_SET(c, 0),
+				_CORRECT_COLOR_SET(c, 1),
+				_CORRECT_COLOR_SET(c, 2),
+				_CORRECT_COLOR_SET(c, 3)
+			);
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+
+		/* HSB-HSV */
+		RGBWColor& RGBWColor::SetColor(const uint16_t h, const uint8_t s, const uint8_t b) {
+			if (!empty()) {
+				hsb.Set(h, s, b);
+				set_color_apply_();
+			}
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+		RGBWColor& RGBWColor::SetHue(const uint16_t hue) {
+			if (!empty()) {
+				hsb.SetHue(hue);
+				set_color_apply_();
+			}
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+		RGBWColor& RGBWColor::SetSaturation(const uint8_t saturation) {
+			if (!empty()) {
+				hsb.SetSaturation(saturation);
+				set_color_apply_();
+			}
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+		RGBWColor& RGBWColor::SetBrightness(const uint8_t brightness) {
+			if (!empty()) {
+				hsb.SetBrightness(brightness);
+				set_color_apply_();
+			}
+			return reinterpret_cast<RGBWColor&>(*this);
+		}
+		
+		void RGBWColor::FadeIn(const size_t begin, const size_t end, const size_t wait) {
+			try {
+				if (empty() || (begin > end)) return;
+
+				int32_t end_ = static_cast<int32_t>(min_(end, LIGHT::UTILS::HsbData::MAX_BRIGHTNESS));
+				int32_t n_ = static_cast<int32_t>(min_(begin, LIGHT::UTILS::HsbData::MAX_BRIGHTNESS)),
+					    x_ = static_cast<int32_t>(hsb.GetBrightness());
+				n_ = (x_ > n_) ? x_ : n_;
+
+				if (n_ >= end_) return;
+
+				std::lock_guard<std::mutex> lock(mlock_);
+				for (; n_ <= end_; n_++) {
+					hsb.SetBrightness(static_cast<uint8_t>(n_));
+					ColorControl::set_HSB_color();
+					set_to_base_(rgbw.GetRef());
+					apply_();
+					std::this_thread::sleep_for(std::chrono::milliseconds(wait));
+				}
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+		void RGBWColor::FadeOut(const size_t begin, const size_t end, const size_t wait) {
+			try {
+				if (empty() || (begin < end)) return;
+
+				int32_t end_ = static_cast<int32_t>(min_(end, LIGHT::UTILS::HsbData::MAX_BRIGHTNESS));
+				int32_t x_ = static_cast<int32_t>(hsb.GetBrightness());
+				int32_t n_ = (x_) ? x_ : static_cast<int32_t>(min_(begin, LIGHT::UTILS::HsbData::MAX_BRIGHTNESS));
+
+				if (n_ <= end_) return;
+
+				std::lock_guard<std::mutex> lock(mlock_);
+				for (; n_ >= end_; n_--) {
+
+					hsb.SetBrightness(static_cast<uint8_t>(n_));
+					ColorControl::set_HSB_color();
+					set_to_base_(rgbw.GetRef());
+					apply_();
+					std::this_thread::sleep_for(std::chrono::milliseconds(wait));
+				}
+
+			} catch (...) {
+				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
+			}
+		}
+
+		void RGBWColor::On() {
 			if (empty()) return;
-			SetLight(light);
-			if (isup) changed_colors_();
+			set_color_apply_(LIGHT::UTILS::ColorControl::ColorsGroup::ON);
+		}
+		void RGBWColor::Off() {
+			if (empty()) return;
+			set_color_apply_(LIGHT::UTILS::ColorControl::ColorsGroup::OFF);
 		}
 
 		uint8_t RGBWColor::R() const {
-			return colors_[color_index__(ColorGroup::RED)].GetValue();
+			return rgbw.colors[index_color__(ColorGroup::RED)];
 		}
 		uint8_t RGBWColor::G() const {
-			return colors_[color_index__(ColorGroup::GREEN)].GetValue();
+			return rgbw.colors[index_color__(ColorGroup::GREEN)];
 		}
 		uint8_t RGBWColor::B() const {
-			return colors_[color_index__(ColorGroup::BLUE)].GetValue();
+			return rgbw.colors[index_color__(ColorGroup::BLUE)];
 		}
 		uint8_t RGBWColor::W() const {
-			return colors_[color_index__(ColorGroup::WHITE)].GetValue();
+			return rgbw.colors[index_color__(ColorGroup::WHITE)];
 		}
 
-		uint8_t RGBWColor::GetColor(const ColorGroup t) const {
-			return colors_[color_index__(t)].GetValue();
+		uint8_t  RGBWColor::GetColor(const LIGHT::UTILS::ColorControl::ColorGroup& t) const {
+			return units_[index_color__(t)].GetValue();
 		}
-		uint8_t RGBWColor::GetLight() const {
-			return light_;
+		uint16_t RGBWColor::GetHue() const {
+			return hsb.GetHue();
+		}
+		uint8_t  RGBWColor::GetSaturation() const {
+			return hsb.GetSaturation();
+		}
+		uint8_t  RGBWColor::GetBrightness() const {
+			return hsb.GetBrightness();
 		}
 		uint32_t RGBWColor::GetGroup() const {
 			return group_;
 		}
 
-		const bool RGBWColor::empty() const {
-			return colors_[0].empty() && colors_[1].empty() && colors_[2].empty();
+		const bool   RGBWColor::empty() const {
+			return units_[0].empty() && units_[1].empty() && units_[2].empty();
 		}
 		std::wstring RGBWColor::dump() const {
 			log_string ls{};
-			ls << L"RGBW Color: ";
-			for (size_t i = 0U; i < std::size(colors_); i++)
-				ls << colors_[i].dump() << L", ";
+			log_delimeter ld{};
+			ls << L"RGBWColor ->\n"
+				<< L"\t" << hsb.dump() << L",\n"
+				<< L"\t" << rgbw.dump() << L",\n"
+				<< L"\tColor current: [ ";
+
+			for (auto& a : units_)
+				ls << ld << a.dump();
+
+			ls << L" ]\n";
+			if (!ccr_.empty())
+				ls << L"\tColor corrector: " << ccr_.dump() << L"\n";
 			return ls.str();
 		}
-		std::string RGBWColor::dump_s() const {
+		std::string  RGBWColor::dump_s() const {
 			return Utils::from_string(dump());
 		}
 		#pragma endregion

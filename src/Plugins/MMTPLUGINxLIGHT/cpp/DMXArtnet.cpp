@@ -54,6 +54,9 @@ namespace Common {
 		void DMXArtnet::SetPacketType(ArtnetPacketType t) {
 			packet_.PacketType = t;
 		}
+		std::vector<byte> DMXArtnet::CreateArtnetPacket(DMXPacket& p) {
+			return packet_.create(p, config_.universe);
+		}
 
 		bool DMXArtnet::IsRun() {
 			return isrun_.load() && isready_.load();
@@ -84,18 +87,6 @@ namespace Common {
 		void DMXArtnet::Stop() {
 			dispose_();
 		}
-		bool DMXArtnet::Send(DMXPacket p, bool) {
-			if (!IsRun()) return false;
-			try {
-				std::vector<byte> v = packet_.create(p, config_.universe);
-				bool b = udp_.send(&v[0], v.size());
-				if (!b) return reconnect_();
-				return b;
-			} catch (...) {
-				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
-			}
-			return reconnect_();
-		}
 		void DMXArtnet::Send(std::vector<byte>& v) {
 			if (!IsRun()) return;
 			try {
@@ -107,20 +98,19 @@ namespace Common {
 			}
 			reconnect_();
 		}
-		bool DMXArtnet::Send_async(DMXPacket p, DWORD id, bool dup) {
-			if (!IsRun() || (pkt_id_ >= id)) return false;
+		void DMXArtnet::Send_async(std::vector<byte>& v) {
+			if (!IsRun()) return;
 			try {
-				pkt_id_ = id;
-				auto f = std::async(std::launch::async, [=](DMXPacket p_) -> bool {
+				auto f = std::async(std::launch::async, [&]() -> void {
 					std::unique_lock<std::mutex> lock(mutex_);
-					if (pkt_id_ >= id) return true;
-					return Send(p_, dup);
-				}, p);
-				return f.get();
+					Send(v);
+				});
+				(void)f.get();
+				return;
 			} catch (...) {
 				Utils::get_exception(std::current_exception(), __FUNCTIONW__);
 			}
-			return reconnect_();
+			reconnect_();
 		}
 		std::vector<byte> DMXArtnet::Receive() {
 			throw make_common_error(L"Not implemented yet!");

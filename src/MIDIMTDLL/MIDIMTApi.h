@@ -46,6 +46,7 @@ class common_event;
 #include "..\Common\h\light\DMXSerialPortConfig.h"
 #include "..\Common\h\light\ArtnetInterfaceConfig.h"
 #include "..\Common\h\light\LightsConfig.h"
+#include "..\Common\h\light\utils\ColorControl.h"
 #include "..\Common\h\mqtt\BrokerConfig.h"
 #include "..\Common\h\remote\RemoteConfig.h"
 #include "..\Common\h\joystick\JoystickConfig.h"
